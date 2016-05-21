@@ -1,12 +1,9 @@
 package am2.blocks;
 
 import am2.AMCore;
-// import am2.api.blocks.IKeystoneLockable;
-// import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityArmorImbuer;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.texture.ResourceManager;
-import am2.utility.KeystoneUtilities;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +18,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.Random;
+// import am2.api.blocks.IKeystoneLockable;
+// import am2.api.items.KeystoneAccessType;
 
 public class BlockArmorInfuser extends PoweredBlock{
 

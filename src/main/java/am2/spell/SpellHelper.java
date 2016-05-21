@@ -40,7 +40,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class SpellHelper{
 

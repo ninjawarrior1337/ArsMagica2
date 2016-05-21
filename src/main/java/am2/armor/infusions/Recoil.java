@@ -37,7 +37,7 @@ public class Recoil implements IArmorImbuement{
 	@Override
 	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		LivingHurtEvent event = (LivingHurtEvent)params[0];
-		Entity e = event.source.getSourceOfDamage();
+		Entity e = event.getSource().getSourceOfDamage();
 		if (e != null && e instanceof EntityLivingBase){
 			((EntityLivingBase)e).knockBack(player, 10, player.posX - e.posX, player.posZ - e.posZ);
 		}

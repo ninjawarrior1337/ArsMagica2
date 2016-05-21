@@ -8,6 +8,7 @@ import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.EntityUtilities;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -173,15 +174,15 @@ public class ArmorHelper{
 		return null;
 	}
 
-	public static IArmorImbuement[] getInfusionsOnArmor(EntityPlayer player, int armorSlot){
-		ItemStack stack = player.getCurrentArmor(armorSlot);
+	public static IArmorImbuement[] getInfusionsOnArmor(EntityPlayer player, EntityEquipmentSlot armorSlot){
+		ItemStack stack = player.getItemStackFromSlot(armorSlot);
 		return getInfusionsOnArmor(stack);
 	}
 
 	public static IArmorImbuement[] getInfusionsOnArmor(ItemStack stack){
 		if (stack == null || !stack.hasTagCompound() || !(stack.getItem() instanceof ItemArmor))
 			return new IArmorImbuement[0];
-		NBTTagCompound armorProps = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+		NBTTagCompound armorProps = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 			if (infusionList != null && infusionList != ""){
@@ -199,7 +200,7 @@ public class ArmorHelper{
 	public static boolean isInfusionPreset(ItemStack stack, String id){
 		if (stack == null || !stack.hasTagCompound())
 			return false;
-		NBTTagCompound armorProps = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+		NBTTagCompound armorProps = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 			if (infusionList != null){
@@ -216,11 +217,11 @@ public class ArmorHelper{
 			if (!ignoreLevelRequirement && getArmorLevel(armorStack) < getImbueCost(imbuement.getTier()))
 				return;
 
-			for (int i : imbuement.getValidSlots()){
-				if (i == ((ItemArmor)armorStack.getItem()).armorType){
+			for (EntityEquipmentSlot i : imbuement.getValidSlots()){
+				if (i.equals(((ItemArmor)armorStack.getItem()).getEquipmentSlot())){
 					if (!armorStack.hasTagCompound())
 						armorStack.setTagCompound(new NBTTagCompound());
-					NBTTagCompound armorProps = (NBTTagCompound)armorStack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+					NBTTagCompound armorProps = (NBTTagCompound)armorStack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 					if (armorProps == null)
 						armorProps = new NBTTagCompound();
 					String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
@@ -229,7 +230,7 @@ public class ArmorHelper{
 					else
 						infusionList += "|" + id;
 					armorProps.setString(AMArmor.NBT_KEY_EFFECTS, infusionList);
-					armorStack.stackTagCompound.setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
+					armorStack.getTagCompound().setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 
 					deductXPFromArmor(EntityUtilities.getXPFromLevel(getImbueCost(imbuement.getTier())), armorStack);
 					break;
@@ -241,7 +242,7 @@ public class ArmorHelper{
 	public static int getArmorLevel(ItemStack stack){
 		if (stack == null || !stack.hasTagCompound())
 			return 0;
-		NBTTagCompound armorProps = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+		NBTTagCompound armorProps = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			return armorProps.getInteger(AMArmor.NBT_KEY_ARMORLEVEL);
 		}
@@ -254,12 +255,15 @@ public class ArmorHelper{
 
 	public static void addXPToArmor(float totalAmt, EntityPlayer player){
 		int numPieces = 0;
-		for (int i = 0; i < 4; ++i)
-			if (player.getCurrentArmor(i) != null)
+		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+            if (slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR))
+			if (player.getItemStackFromSlot(slot) != null)
 				numPieces++;
+		}
 		float xpPerPiece = totalAmt / numPieces;
-		for (int i = 0; i < 4; ++i){
-			addXPToArmor(xpPerPiece, player.getCurrentArmor(i));
+        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+            if (slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR))
+			    addXPToArmor(xpPerPiece, player.getItemStackFromSlot(slot));
 		}
 	}
 
@@ -267,12 +271,12 @@ public class ArmorHelper{
 		if (armor != null && armor.getItem() instanceof ItemArmor){
 			if (!armor.hasTagCompound())
 				armor.setTagCompound(new NBTTagCompound());
-			NBTTagCompound armorProps = (NBTTagCompound)armor.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+			NBTTagCompound armorProps = (NBTTagCompound)armor.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 			if (armorProps == null)
 				armorProps = new NBTTagCompound();
 			armorProps.setDouble(AMArmor.NBT_KEY_TOTALXP, Math.max(armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) - amt, 0));
 			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtilities.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
-			armor.stackTagCompound.setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
+			armor.getTagCompound().setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 		}
 	}
 
@@ -280,12 +284,12 @@ public class ArmorHelper{
 		if (armor != null && armor.getItem() instanceof ItemArmor){
 			if (!armor.hasTagCompound())
 				armor.setTagCompound(new NBTTagCompound());
-			NBTTagCompound armorProps = (NBTTagCompound)armor.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+			NBTTagCompound armorProps = (NBTTagCompound)armor.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 			if (armorProps == null)
 				armorProps = new NBTTagCompound();
 			armorProps.setDouble(AMArmor.NBT_KEY_TOTALXP, armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) + amt);
 			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtilities.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
-			armor.stackTagCompound.setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
+			armor.getTagCompound().setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 		}
 	}
 }

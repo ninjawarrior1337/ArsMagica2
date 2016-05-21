@@ -27,10 +27,6 @@ import am2.spell.SpellUnlockManager;
 import am2.utility.ProxyUtilitiesCommon;
 import am2.worldgen.AM2WorldDecorator;
 import am2.worldgen.RetroactiveWorldgenerator;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.server.FMLServerHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -38,14 +34,19 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -180,7 +181,7 @@ public class CommonProxy{
 	public void flashManaBar(){
 	}
 
-	public void blackoutArmorPiece(EntityPlayerMP player, int slot, int cooldown){
+	public void blackoutArmorPiece(EntityPlayerMP player, EntityEquipmentSlot slot, int cooldown){
 		serverTickHandler.blackoutArmorPiece(player, slot, cooldown);
 	}
 
@@ -361,7 +362,7 @@ public class CommonProxy{
 
 	}
 
-	public void drawPowerOnBlockHighlight(EntityPlayer player, MovingObjectPosition target, float partialTicks){
+	public void drawPowerOnBlockHighlight(EntityPlayer player, RayTraceResult target, float partialTicks){
 
 	}
 

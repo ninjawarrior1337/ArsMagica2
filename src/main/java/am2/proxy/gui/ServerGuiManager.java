@@ -5,22 +5,21 @@ import am2.blocks.tileentities.*;
 import am2.containers.*;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.*;
-import am2.network.AMNetHandler;
-import am2.network.AMPacketIDs;
 import am2.playerextensions.RiftStorage;
 import am2.utility.InventoryUtilities;
-import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class ServerGuiManager implements IGuiHandler{
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		if (te == null && ID != ArsMagicaGuiIdList.GUI_SPELL_BOOK && ID != ArsMagicaGuiIdList.GUI_KEYSTONE && ID != ArsMagicaGuiIdList.GUI_ESSENCE_BAG && ID != ArsMagicaGuiIdList.GUI_RUNE_BAG && ID != ArsMagicaGuiIdList.GUI_RIFT && ID != ArsMagicaGuiIdList.GUI_SPELL_CUSTOMIZATION){
 			return null;
 		}
@@ -31,12 +30,12 @@ public class ServerGuiManager implements IGuiHandler{
 			}
 			return new ContainerEssenceRefiner(player.inventory, (TileEntityEssenceRefiner)te);
 		case ArsMagicaGuiIdList.GUI_SPELL_BOOK:
-			ItemStack bookStack = player.getCurrentEquippedItem();
+			ItemStack bookStack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 			if (bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
 				return null;
 			}
 			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
-			return new ContainerSpellBook(player.inventory, player.getCurrentEquippedItem(), item.ConvertToInventory(bookStack));
+			return new ContainerSpellBook(player.inventory, player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND), item.ConvertToInventory(bookStack));
 		case ArsMagicaGuiIdList.GUI_CALEFACTOR:
 			if (!(te instanceof TileEntityCalefactor)){
 				return null;
@@ -63,7 +62,7 @@ public class ServerGuiManager implements IGuiHandler{
 			}
 			return new ContainerKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
 		case ArsMagicaGuiIdList.GUI_KEYSTONE:
-			ItemStack keystoneStack = player.getCurrentEquippedItem();
+			ItemStack keystoneStack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 			if (keystoneStack.getItem() == null || !(keystoneStack.getItem() instanceof ItemKeystone)){
 				return null;
 			}
@@ -74,21 +73,21 @@ public class ServerGuiManager implements IGuiHandler{
 			if (runeBagSlot > -1)
 				runeBag = player.inventory.getStackInSlot(runeBagSlot);
 
-			return new ContainerKeystone(player.inventory, player.getCurrentEquippedItem(), runeBag, keystone.ConvertToInventory(keystoneStack), runeBag == null ? null : ItemsCommonProxy.runeBag.ConvertToInventory(runeBag), runeBagSlot);
+			return new ContainerKeystone(player.inventory, player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND), runeBag, keystone.ConvertToInventory(keystoneStack), runeBag == null ? null : ItemsCommonProxy.runeBag.ConvertToInventory(runeBag), runeBagSlot);
 		case ArsMagicaGuiIdList.GUI_ESSENCE_BAG:
-			ItemStack bagStack = player.getCurrentEquippedItem();
+			ItemStack bagStack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemEssenceBag)){
 				return null;
 			}
 			ItemEssenceBag bag = (ItemEssenceBag)bagStack.getItem();
-			return new ContainerEssenceBag(player.inventory, player.getCurrentEquippedItem(), bag.ConvertToInventory(bagStack));
+			return new ContainerEssenceBag(player.inventory, player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND), bag.ConvertToInventory(bagStack));
 		case ArsMagicaGuiIdList.GUI_RUNE_BAG:
-			bagStack = player.getCurrentEquippedItem();
+			bagStack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
 				return null;
 			}
 			ItemRuneBag runebag = (ItemRuneBag)bagStack.getItem();
-			return new ContainerRuneBag(player.inventory, player.getCurrentEquippedItem(), runebag.ConvertToInventory(bagStack));
+			return new ContainerRuneBag(player.inventory, player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND), runebag.ConvertToInventory(bagStack));
 		case ArsMagicaGuiIdList.GUI_ARCANE_RECONSTRUCTOR:
 			if (!(te instanceof TileEntityArcaneReconstructor)){
 				return null;

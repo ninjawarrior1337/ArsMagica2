@@ -35,7 +35,7 @@ public class MiningSpeed implements IArmorImbuement{
 	@Override
 	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		BreakSpeed event = (BreakSpeed)params[0];
-		event.newSpeed = event.originalSpeed * 1.5f;
+		event.setNewSpeed(event.getOriginalSpeed() * 1.5f);
 		return true;
 	}
 

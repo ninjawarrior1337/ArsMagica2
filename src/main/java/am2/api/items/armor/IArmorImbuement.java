@@ -1,6 +1,7 @@
 package am2.api.items.armor;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -46,7 +47,7 @@ public interface IArmorImbuement{
 	/**
 	 * Gets all armor slots that this effect can be applied to
 	 */
-	int[] getValidSlots();
+	EntityEquipmentSlot[] getValidSlots();
 
 	/**
 	 * If the slot is on cooldown, can the effect still apply?

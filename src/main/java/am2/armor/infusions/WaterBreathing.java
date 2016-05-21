@@ -39,7 +39,7 @@ public class WaterBreathing implements IArmorImbuement{
 			return false;
 
 		if (player.getAir() < 10){
-			if (!player.isPotionActive(BuffList.waterBreathing.id)){
+			if (!player.isPotionActive(BuffList.waterBreathing)){
 				BuffEffectWaterBreathing wb = new BuffEffectWaterBreathing(200, 0);
 				player.addPotionEffect(wb);
 				return true;

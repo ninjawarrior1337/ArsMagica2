@@ -6,8 +6,6 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
 
-import java.util.Random;
-
 public abstract class BuffEffect extends PotionEffect{
 	protected boolean InitialApplication;
 	protected boolean HasNotified;

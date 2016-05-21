@@ -3,7 +3,6 @@ package am2.armor.infusions;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -43,16 +42,16 @@ public class Dispelling implements IArmorImbuement{
 		if (player.worldObj.isRemote)
 			return false;
 
-		ArrayList<Integer> effectsToRemove = new ArrayList<Integer>();
+		ArrayList<Potion> effectsToRemove = new ArrayList<Potion>();
 		Object[] safeCopy = player.getActivePotionEffects().toArray();
 		for (Object o : safeCopy){
 			PotionEffect pe = (PotionEffect)o;
-			boolean badEffect = ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[pe.getPotionID()], 35);
+			boolean badEffect = pe.getPotion().isBadEffect();
 			if (pe.getIsAmbient() || !badEffect) continue;
-			effectsToRemove.add(pe.getPotionID());
+			effectsToRemove.add(pe.getPotion());
 		}
 
-		for (Integer i : effectsToRemove){
+		for (Potion i : effectsToRemove){
 			player.removePotionEffect(i);
 		}
 		return effectsToRemove.size() > 0;

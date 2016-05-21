@@ -5,78 +5,81 @@ import am2.api.items.armor.ArmorTextureEvent;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.playerextensions.ExtendedProperties;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ArmorEventHandler{
 
 	@SubscribeEvent
 	public void onEntityLiving(LivingUpdateEvent event){
-		if (!(event.entityLiving instanceof EntityPlayer))
+		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (EntityPlayer)event.entityLiving);
+		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (EntityPlayer)event.getEntityLiving());
 	}
 
 	@SubscribeEvent
 	public void onEntityHurt(LivingHurtEvent event){
-		if (!(event.entityLiving instanceof EntityPlayer))
+		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_HIT, event, (EntityPlayer)event.entityLiving);
+		doInfusions(ImbuementApplicationTypes.ON_HIT, event, (EntityPlayer)event.getEntityLiving());
 
-		if (event.entityLiving instanceof EntityPlayer)
-			doXPInfusion((EntityPlayer)event.entityLiving, 0.01f, Math.max(0.05f, Math.min(event.ammount, 5)));
+		if (event.getEntityLiving() instanceof EntityPlayer)
+			doXPInfusion((EntityPlayer)event.getEntityLiving(), 0.01f, Math.max(0.05f, Math.min(event.getAmount(), 5)));
 	}
 
 	@SubscribeEvent
 	public void onEntityJump(LivingJumpEvent event){
-		if (!(event.entityLiving instanceof EntityPlayer))
+		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_JUMP, event, (EntityPlayer)event.entityLiving);
+		doInfusions(ImbuementApplicationTypes.ON_JUMP, event, (EntityPlayer)event.getEntityLiving());
 	}
 
 	@SubscribeEvent
 	public void onMiningSpeed(BreakSpeed event){
-		doInfusions(ImbuementApplicationTypes.ON_MINING_SPEED, event, (EntityPlayer)event.entityPlayer);
+		doInfusions(ImbuementApplicationTypes.ON_MINING_SPEED, event, (EntityPlayer)event.getEntityPlayer());
 	}
 
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event){
-		if (event.source.getSourceOfDamage() instanceof EntityPlayer)
-			doXPInfusion((EntityPlayer)event.source.getSourceOfDamage(), 1, Math.min(20, event.entityLiving.getMaxHealth()));
+		if (event.getSource().getSourceOfDamage() instanceof EntityPlayer)
+			doXPInfusion((EntityPlayer)event.getSource().getSourceOfDamage(), 1, Math.min(20, event.getEntityLiving().getMaxHealth()));
 
-		if (!(event.entityLiving instanceof EntityPlayer))
+		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_DEATH, event, (EntityPlayer)event.entityLiving);
+		doInfusions(ImbuementApplicationTypes.ON_DEATH, event, (EntityPlayer)event.getEntityLiving());
 	}
 
 	private void doInfusions(ImbuementApplicationTypes type, Event event, EntityPlayer player){
 		ExtendedProperties props = ExtendedProperties.For(player);
 
-		for (int i = 0; i < 4; ++i){
-			IArmorImbuement[] infusions = ArmorHelper.getInfusionsOnArmor(player, i);
-			int cd = props.armorProcCooldowns[i];
+		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+			if (!slot.getSlotType().equals(EntityEquipmentSlot.Type.ARMOR))
+				continue;
+			IArmorImbuement[] infusions = ArmorHelper.getInfusionsOnArmor(player, slot);
+			int cd = props.armorProcCooldowns[slot.getIndex()];
 			for (IArmorImbuement inf : infusions){
 				if (inf == null)
 					continue;
 				if (inf.getApplicationTypes().contains(type)){
 					if (cd == 0 || inf.canApplyOnCooldown()){
-						if (inf.applyEffect(player, player.worldObj, player.getCurrentArmor(i), type, event)){
+						if (inf.applyEffect(player, player.worldObj, player.getItemStackFromSlot(slot), type, event)){
 							if (inf.getCooldown() > 0){
-								if (props.armorProcCooldowns[i] < inf.getCooldown()){
-									props.armorProcCooldowns[i] = inf.getCooldown();
+								if (props.armorProcCooldowns[slot.getIndex()] < inf.getCooldown()){
+									props.armorProcCooldowns[slot.getIndex()] = inf.getCooldown();
 									if (player instanceof EntityPlayerMP)
-										AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)player, i, inf.getCooldown());
+										AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)player, slot, inf.getCooldown());
 								}
 							}
 						}

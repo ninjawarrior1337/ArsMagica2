@@ -4,6 +4,7 @@ import am2.api.items.armor.ArmorTextureEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,7 +17,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 	private static final int maxDamageArray[] = {
 			11, 16, 15, 13
 	};
-	public final int armorType;
+	public final EntityEquipmentSlot armorType;
 	public final int damageReduceAmount;
 	private final ArsMagicaArmorMaterial material;
 	private final int damageReduction;
@@ -29,21 +30,20 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 	public static final String NBT_KEY_ARMORLEVEL = "XPLevel";
 	public static final String INFUSION_DELIMITER = "\\|";
 
-	public AMArmor(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, int par4){
+	public AMArmor(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, EntityEquipmentSlot par4){
 		super(inheritFrom, par3, par4);
 		material = enumarmormaterial;
 		armorType = par4;
 		damageReduceAmount = 0;
-		setMaxDamage(enumarmormaterial.func_40576_a(par4));
+		setMaxDamage(enumarmormaterial.func_40576_a(par4.getIndex()));
 		maxStackSize = 1;
-		damageReduction = enumarmormaterial.getDamageReductionAmount(par4);
+		damageReduction = enumarmormaterial.getDamageReductionAmount(par4.getIndex());
 		infusionCost = enumarmormaterial.getInfusionCost();
 		infusionRepair = enumarmormaterial.getInfusionRepair();
 	}
 
 	public AMArmor setUnlocalizedAndTextureName(String name){
 		this.setUnlocalizedName(name);
-		setTextureName(name);
 		return this;
 	}
 
@@ -103,7 +103,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type){
+	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type){
 		int armorType = -1;
 		if (stack.getItem() instanceof AMArmor){
 			armorType = ((AMArmor)stack.getItem()).renderIndex;
@@ -116,9 +116,9 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack, int pass){
-		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(NBT_KEY_AMPROPS)){
-			String s = ((NBTTagCompound)stack.stackTagCompound.getTag(NBT_KEY_AMPROPS)).getString(NBT_KEY_EFFECTS);
+	public boolean hasEffect(ItemStack stack){
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(NBT_KEY_AMPROPS)){
+			String s = ((NBTTagCompound)stack.getTagCompound().getTag(NBT_KEY_AMPROPS)).getString(NBT_KEY_EFFECTS);
 			return s != null && s.length() > 0;
 		}
 		return false;

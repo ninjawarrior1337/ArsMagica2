@@ -61,12 +61,12 @@ public class DamageReductionImbuement implements IArmorImbuement{
 	@Override
 	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		LivingHurtEvent event = (LivingHurtEvent)params[0];
-		if (event.source.damageType.equals(dmgType) ||
-				(dmgType.equals("fire") && event.source.isFireDamage()) ||
-				(dmgType.equals("magic") && event.source.isMagicDamage()) ||
-				(dmgType.equals("explosion") && event.source.isExplosion())
+		if (event.getSource().damageType.equals(dmgType) ||
+				(dmgType.equals("fire") && event.getSource().isFireDamage()) ||
+				(dmgType.equals("magic") && event.getSource().isMagicDamage()) ||
+				(dmgType.equals("explosion") && event.getSource().isExplosion())
 				){
-			event.ammount *= 0.85f;
+			event.setAmount(event.getAmount() * 0.85f);
 			return true;
 		}
 		return false;

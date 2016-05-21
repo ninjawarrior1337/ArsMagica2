@@ -1,7 +1,6 @@
 package am2;
 
 import am2.preloader.AM2PreloaderContainer;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

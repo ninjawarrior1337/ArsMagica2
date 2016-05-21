@@ -6,6 +6,7 @@ import am2.api.items.armor.ImbuementTiers;
 import am2.blocks.BlocksCommonProxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -40,12 +41,9 @@ public class Lightstep implements IArmorImbuement{
 
 		if (player.isSneaking())
 			return false;
-		int x = (int)Math.floor(player.posX);
-		int y = (int)Math.floor(player.posY) + 1;
-		int z = (int)Math.floor(player.posZ);
-		int ll = world.getBlockLightValue(x, y, z);
-		if (ll < 7 && world.isAirBlock(x, y, z)){
-			world.setBlock(x, y, z, BlocksCommonProxy.blockMageTorch, 15, 2);
+		int ll = world.getLightFor(EnumSkyBlock.BLOCK, player.getPosition().up());
+		if (ll < 7 && world.isAirBlock(player.getPosition().up())){
+			world.setBlockState(player.getPosition().up(), BlocksCommonProxy.blockMageTorch.getDefaultState());
 			return true;
 		}
 		return false;

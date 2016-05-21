@@ -30,6 +30,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -49,14 +52,25 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 	private static int baseTicksForFullRegen = 2400;
 	private int ticksForFullRegen = baseTicksForFullRegen;
 
+
+
+	//private float currentMana;
+	//private float maxMana;
+	//private float currentFatigue;
+	//private float maxFatigue;
+
+	//private int magicLevel;
+	//private float magicXP;
+
+
 	private ArrayList<Integer> summon_ent_ids = new ArrayList<Integer>();
 
-	private double markX;
-	private double markY;
-	private double markZ;
-	private int markDimension;
+//	private double markX;
+//	private double markY;
+//	private double markZ;
+//	private int markDimension;
 
-	private int healCooldown;
+//	private int healCooldown;
 
 	private float flipRotation;
 	private float prevFlipRotation;
@@ -67,13 +81,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 	public AMVector2 originalSize;
 	public float yOffsetOrig = 0.75f;
 
-	private float currentMana;
-	private float maxMana;
-	private float currentFatigue;
-	private float maxFatigue;
 
-	private int magicLevel;
-	private float magicXP;
 
 	private int numSummons;
 	private ArrayList<ManaLinkEntry> manaLinks;

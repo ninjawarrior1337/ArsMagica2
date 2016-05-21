@@ -3,8 +3,9 @@ package am2.api.math;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class AMVector3{
 	public float x;
@@ -18,12 +19,12 @@ public class AMVector3{
 	}
 
 	public AMVector3(TileEntity tile){
-		this.x = (tile.xCoord);
-		this.y = (tile.yCoord);
-		this.z = (tile.zCoord);
+		this.x = (tile.getPos().getX());
+		this.y = (tile.getPos().getX());
+		this.z = (tile.getPos().getZ());
 	}
 
-	public AMVector3(Vec3 vec){
+	public AMVector3(Vec3d vec){
 		this.x = (float)vec.xCoord;
 		this.y = (float)vec.yCoord;
 		this.z = (float)vec.zCoord;
@@ -131,8 +132,8 @@ public class AMVector3{
 		return "[" + this.x + "," + this.y + "," + this.z + "]";
 	}
 
-	public Vec3 toVec3D(){
-		return Vec3.createVectorHelper(this.x, this.y, this.z);
+	public Vec3d toVec3D(){
+		return new Vec3d(this.x, this.y, this.z);
 	}
 
 	public static AMVector3 getPerpendicular(AMVector3 vec){
@@ -213,6 +214,10 @@ public class AMVector3{
 			return (comp.x == this.x && comp.y == this.y && comp.z == this.z);
 		}
 		return false;
+	}
+
+	public BlockPos toBlockPos () {
+		return new BlockPos(x, y, z);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package am2.api.spell;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -25,5 +25,5 @@ public abstract class ItemSpellBase extends Item{
 	 * @param targetWater    Stop at collision with any non-solid block
 	 * @return A MovingObjectPosition instance if a collision was found, null otherwise
 	 */
-	public abstract MovingObjectPosition getMovingObjectPosition(EntityLivingBase caster, World world, double range, boolean targetEntities, boolean targetWater);
+	public abstract RayTraceResult getMovingObjectPosition(EntityLivingBase caster, World world, double range, boolean targetEntities, boolean targetWater);
 }

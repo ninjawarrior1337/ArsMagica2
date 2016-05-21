@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -50,24 +51,25 @@ public class FireProtection implements IArmorImbuement{
 			int y = (int)Math.floor(player.posY);
 			int z = (int)Math.floor(player.posZ);
 
-			if (player.isInsideOfMaterial(Material.lava)){
+			if (player.isInsideOfMaterial(Material.LAVA)){
 				player.motionY = 0;
 				player.fallDistance = 0;
 				for (int i = -1; i <= 1; ++i){
 					for (int j = -2; j <= 2; ++j){
 						for (int k = -1; k <= 1; ++k){
-							Block block = world.getBlock(x + i, y + j, z + k);
-							if (block == Blocks.flowing_lava){
+							BlockPos pos = new BlockPos(x + i, y + j, z + k);
+							Block block = world.getBlockState(pos).getBlock();
+							if (block == Blocks.FLOWING_LAVA){
 								if (i == 0 && k == 0 && j != -2){
-									world.setBlockToAir(x + i, y + j, z + k);
+									world.setBlockToAir(pos);
 								}else{
-									world.setBlock(x + i, y + j, z + k, Blocks.cobblestone);
+									world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState());
 								}
-							}else if (block == Blocks.lava){
+							}else if (block == Blocks.LAVA){
 								if (i == 0 && k == 0 && j != -2){
-									world.setBlockToAir(x + i, y + j, z + k);
+									world.setBlockToAir(pos);
 								}else{
-									world.setBlock(x + i, y + j, z + k, Blocks.obsidian);
+									world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
 								}
 							}
 						}

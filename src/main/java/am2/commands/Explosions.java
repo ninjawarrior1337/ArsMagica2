@@ -8,8 +8,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.Explosion;
 
-import java.util.Random;
-
 public class Explosions extends CommandBase{
 
 	@Override

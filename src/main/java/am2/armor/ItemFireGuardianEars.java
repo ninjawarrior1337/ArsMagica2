@@ -3,17 +3,17 @@ package am2.armor;
 import am2.items.ItemsCommonProxy;
 import am2.proxy.gui.ModelLibrary;
 import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class ItemFireGuardianEars extends AMArmor{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot){
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
 		return ModelLibrary.instance.fireEars;
 	}
 
@@ -36,7 +36,7 @@ public class ItemFireGuardianEars extends AMArmor{
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
-		par3List.add(StatCollector.translateToLocal("am2.tooltip.fire_ears"));
+		par3List.add(I18n.translateToLocal("am2.tooltip.fire_ears"));
 	}
 
 	@Override
@@ -47,9 +47,5 @@ public class ItemFireGuardianEars extends AMArmor{
 	@Override
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		par3List.add(ItemsCommonProxy.fireEarsEnchanted.copy());
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
 	}
 }

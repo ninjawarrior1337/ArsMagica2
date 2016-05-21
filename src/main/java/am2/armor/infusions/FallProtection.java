@@ -43,7 +43,7 @@ public class FallProtection implements IArmorImbuement{
 		int distanceToGround = MathUtilities.getDistanceToGround(player, world);
 		ExtendedProperties extendedProperties = ExtendedProperties.For(player);
 		if (player.fallDistance >= extendedProperties.getFallProtection() + 4f && distanceToGround < -8 * player.motionY){
-			if (!player.isPotionActive(BuffList.slowfall.id) && !player.capabilities.isFlying){
+			if (!player.isPotionActive(BuffList.slowfall) && !player.capabilities.isFlying){
 
 				BuffEffectSlowfall sf = new BuffEffectSlowfall(distanceToGround * 3, 1);
 				player.addPotionEffect(sf);

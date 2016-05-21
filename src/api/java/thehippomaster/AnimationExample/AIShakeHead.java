@@ -1,8 +1,8 @@
 package thehippomaster.AnimationExample;
 
+import net.minecraft.entity.EntityLiving;
 import thehippomaster.AnimationAPI.AIAnimation;
 import thehippomaster.AnimationAPI.IAnimatedEntity;
-import net.minecraft.entity.EntityLiving;
 
 public class AIShakeHead extends AIAnimation {
 	

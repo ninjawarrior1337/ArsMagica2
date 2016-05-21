@@ -1,19 +1,14 @@
 package thehippomaster.AnimationExample;
 
-import thehippomaster.AnimationAPI.AnimationAPI;
-import thehippomaster.AnimationAPI.IAnimatedEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import thehippomaster.AnimationAPI.AnimationAPI;
+import thehippomaster.AnimationAPI.IAnimatedEntity;
 
 public class EntityTest extends EntityCreature implements IAnimals, IAnimatedEntity {
 	

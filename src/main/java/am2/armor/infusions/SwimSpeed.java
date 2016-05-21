@@ -39,7 +39,7 @@ public class SwimSpeed implements IArmorImbuement{
 		if (world.isRemote)
 			return false;
 
-		if (player.isInsideOfMaterial(Material.water) && !player.isPotionActive(BuffList.swiftSwim.id)){
+		if (player.isInsideOfMaterial(Material.WATER) && !player.isPotionActive(BuffList.swiftSwim)){
 			player.addPotionEffect(new BuffEffectSwiftSwim(10, 1));
 			return true;
 		}

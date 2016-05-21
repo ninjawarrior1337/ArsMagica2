@@ -6,7 +6,7 @@ import am2.api.items.armor.ImbuementTiers;
 import am2.playerextensions.ExtendedProperties;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -36,7 +36,7 @@ public class JumpBoost implements IArmorImbuement{
 	@Override
 	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		if (matchedType == ImbuementApplicationTypes.ON_JUMP){
-			Vec3 vec = player.getLookVec().normalize();
+			Vec3d vec = player.getLookVec().normalize();
 			double yVelocity = 1;
 			double xVelocity = player.motionX * 3.5 * Math.abs(vec.xCoord);
 			double zVelocity = player.motionZ * 3.5 * Math.abs(vec.zCoord);

@@ -2,12 +2,12 @@ package am2.preloader;
 
 import am2.LogHelper;
 import net.minecraft.launchwrapper.IClassTransformer;
-
 import org.apache.logging.log4j.Level;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
+
 import java.lang.reflect.Field;
 import java.util.Iterator;
 

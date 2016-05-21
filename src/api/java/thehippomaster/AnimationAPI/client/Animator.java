@@ -1,16 +1,14 @@
 package thehippomaster.AnimationAPI.client;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import thehippomaster.AnimationAPI.AnimationAPI;
-import thehippomaster.AnimationAPI.IAnimatedEntity;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.MathHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import thehippomaster.AnimationAPI.AnimationAPI;
+import thehippomaster.AnimationAPI.IAnimatedEntity;
+
+import java.util.HashMap;
 
 @SideOnly(Side.CLIENT)
 public class Animator {

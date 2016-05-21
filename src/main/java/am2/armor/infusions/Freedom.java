@@ -39,11 +39,11 @@ public class Freedom implements IArmorImbuement{
 
 	@Override
 	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
-		ModifiableAttributeInstance instance = (ModifiableAttributeInstance)player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
+		ModifiableAttributeInstance instance = (ModifiableAttributeInstance)player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
 
 		ArrayList<AttributeModifier> toRemove = new ArrayList<AttributeModifier>();
 
-		Collection c = instance.func_111122_c();
+		Collection c = instance.getModifiers();
 		ArrayList arraylist = new ArrayList(c);
 		Iterator iterator = arraylist.iterator();
 

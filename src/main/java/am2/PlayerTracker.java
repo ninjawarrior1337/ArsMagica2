@@ -13,7 +13,6 @@ import am2.proxy.tick.ServerTickHandler;
 import am2.spell.SkillTreeManager;
 import am2.utility.EntityUtilities;
 import am2.utility.WebRequestUtils;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;

@@ -1,8 +1,8 @@
 package thehippomaster.AnimationExample;
 
-import thehippomaster.AnimationAPI.AIAnimation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
+import thehippomaster.AnimationAPI.AIAnimation;
 
 public class AIHeadBang extends AIAnimation {
 	
