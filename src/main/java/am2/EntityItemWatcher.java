@@ -1,14 +1,14 @@
 package am2;
 
-import am2.blocks.BlocksCommonProxy;
-import am2.bosses.BossSpawnHelper;
-import am2.items.ItemsCommonProxy;
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-
-import java.util.ArrayList;
+import am2.blocks.BlocksCommonProxy;
+import am2.bosses.BossSpawnHelper;
+import am2.items.ItemsCommonProxy;
 
 public class EntityItemWatcher{
 	private final ArrayList<EntityItem> watchedItems;

@@ -70,7 +70,7 @@ public class ParticleLeaveParticleTrail extends ParticleController{
 		updateTicks++;
 		if (updateTicks == ticksBetweenSpawns){
 			updateTicks = 0;
-			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(particle.worldObj, particleName, particle.posX, particle.posY, particle.posZ);
+			AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(particle.worldObj, particleName, particle.posX, particle.posY, particle.posZ);
 			if (effect != null){
 				effect.setMaxAge(this.maxAge);
 				effect.setIgnoreMaxAge(this.ignoreMaxAge);

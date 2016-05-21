@@ -7,6 +7,7 @@ import am2.api.spell.enums.SpellCastResult;
 import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
 import am2.entities.EntitySpellEffect;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
@@ -46,8 +47,8 @@ public class Zone implements ISpellShape{
 	public Object[] getRecipeItems(){
 		return new Object[]{
 				BlocksCommonProxy.tarmaRoot,
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_MOONSTONE),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_MOONSTONE),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_SUNSTONE),
 				Items.diamond
 		};
 	}

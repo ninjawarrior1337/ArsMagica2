@@ -6,6 +6,7 @@ import am2.api.items.armor.ImbuementTiers;
 import am2.buffs.BuffEffectWaterBreathing;
 import am2.buffs.BuffList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -49,8 +50,8 @@ public class WaterBreathing implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots(){
-		return new int[]{ImbuementRegistry.SLOT_HELM};
+	public EntityEquipmentSlot[] getValidSlots(){
+		return new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD};
 	}
 
 	@Override

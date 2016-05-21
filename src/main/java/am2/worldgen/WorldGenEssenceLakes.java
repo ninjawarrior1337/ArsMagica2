@@ -20,7 +20,6 @@ public class WorldGenEssenceLakes extends WorldGenerator{
 		par3 -= 8;
 
 		for (par5 -= 8; par4 > 5 && par1World.isAirBlock(par3, par4, par5); --par4){
-			;
 		}
 
 		if (par4 <= 4){

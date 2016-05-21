@@ -5,6 +5,7 @@ import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
 import am2.entities.SpawnBlacklists;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -93,7 +94,7 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 				Character.valueOf('F'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.FIRE.ordinal()),
 				Character.valueOf('G'), new ItemStack(Items.golden_sword),
 				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIFE.ordinal()),
-				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_RED),
+				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_RED),
 				Character.valueOf('E'), new ItemStack(ItemsCommonProxy.evilBook)
 		};
 	}

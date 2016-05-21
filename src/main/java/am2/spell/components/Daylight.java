@@ -2,6 +2,8 @@ package am2.spell.components;
 
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemEssence;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,9 +20,9 @@ public class Daylight implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_SUNSTONE),
 				Items.clock,
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_PURE)
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_PURE)
 		};
 	}
 
@@ -33,9 +35,9 @@ public class Daylight implements ISpellComponent{
 		if (world.isDaytime())
 			return false;
 		if (!world.isRemote){
-			long curTime = ((WorldServer)world).getWorldTime();
+			long curTime = world.getWorldTime();
 			int day = (int)Math.ceil((curTime / 24000));
-			((WorldServer)world).setWorldTime(day * 24000);
+			world.setWorldTime(day * 24000);
 		}
 		return true;
 	}

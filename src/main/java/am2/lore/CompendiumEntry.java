@@ -1,6 +1,6 @@
 package am2.lore;
 
-import am2.guis.GuiArcaneCompendium;
+import am2.client.guis.GuiArcaneCompendium;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -108,10 +108,10 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 		this.order = orderNode != null ? Integer.parseInt(orderNode.getNodeValue()) : -1;
 
 		Node lockableNode = node.getAttributes().getNamedItem("unlocked");
-		this.isLocked = lockableNode != null ? !Boolean.parseBoolean(lockableNode.getNodeValue()) : true;
+		this.isLocked = lockableNode == null || !Boolean.parseBoolean(lockableNode.getNodeValue());
 
 		Node newNode = node.getAttributes().getNamedItem("new");
-		this.isNew = newNode != null ? Boolean.parseBoolean(newNode.getNodeValue()) : true;
+		this.isNew = newNode == null || Boolean.parseBoolean(newNode.getNodeValue());
 
 		NodeList childNodes = node.getChildNodes();
 

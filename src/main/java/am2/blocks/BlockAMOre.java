@@ -1,7 +1,8 @@
 package am2.blocks;
 
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockOre;
@@ -80,13 +81,13 @@ public class BlockAMOre extends BlockOre{
 	public int damageDropped(int meta){
 		switch (meta){
 		case META_CHIMERITE_ORE:
-			return ItemsCommonProxy.itemOre.META_CHIMERITE;
+			return ItemOre.META_CHIMERITE;
 		case META_MOONSTONE_ORE:
-			return ItemsCommonProxy.itemOre.META_MOONSTONE;
+			return ItemOre.META_MOONSTONE;
 		case META_SUNSTONE_ORE:
-			return ItemsCommonProxy.itemOre.META_SUNSTONE;
+			return ItemOre.META_SUNSTONE;
 		case META_BLUE_TOPAZ_ORE:
-			return ItemsCommonProxy.itemOre.META_BLUETOPAZ;
+			return ItemOre.META_BLUETOPAZ;
 		}
 		return meta;
 	}
@@ -96,19 +97,19 @@ public class BlockAMOre extends BlockOre{
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		switch (meta){
 		case META_VINTEUM_ORE:
-			drops.add(new ItemStack(this, 1, this.META_VINTEUM_ORE));
+			drops.add(new ItemStack(this, 1, META_VINTEUM_ORE));
 			break;
 		case META_CHIMERITE_ORE:
-			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(4) + 1 + fortune, ItemsCommonProxy.itemOre.META_CHIMERITE));
+			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(4) + 1 + fortune, ItemOre.META_CHIMERITE));
 			break;
 		case META_MOONSTONE_ORE:
-			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(2) + 1 + fortune, ItemsCommonProxy.itemOre.META_MOONSTONE));
+			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(2) + 1 + fortune, ItemOre.META_MOONSTONE));
 			break;
 		case META_SUNSTONE_ORE:
-			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(3) + 2 + fortune, ItemsCommonProxy.itemOre.META_SUNSTONE));
+			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(3) + 2 + fortune, ItemOre.META_SUNSTONE));
 			break;
 		case META_BLUE_TOPAZ_ORE:
-			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(4) + 1 + fortune, ItemsCommonProxy.itemOre.META_BLUETOPAZ));
+			drops.add(new ItemStack(ItemsCommonProxy.itemOre, world.rand.nextInt(4) + 1 + fortune, ItemOre.META_BLUETOPAZ));
 			break;
 		default:
 			drops.add(new ItemStack(this, 1, meta));

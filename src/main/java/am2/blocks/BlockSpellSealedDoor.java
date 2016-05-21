@@ -5,9 +5,10 @@ import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.blocks.tileentities.TileEntitySpellSealedDoor;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
+import am2.items.ItemKeystoneDoor;
 import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -228,7 +229,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 
 	@Override
 	public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_){
-		return ItemsCommonProxy.itemKeystoneDoor.SPELL_SEALED_DOOR;
+		return ItemKeystoneDoor.SPELL_SEALED_DOOR;
 	}
 
 	@Override

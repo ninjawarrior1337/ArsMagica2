@@ -1,21 +1,23 @@
 package am2;
 
-import am2.guis.AuraCustomizationMenu;
-import am2.items.ItemSpellBook;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMNetHandler;
-import am2.playerextensions.AffinityData;
-import am2.spell.SpellUtils;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+
 import org.lwjgl.input.Keyboard;
+
+import am2.client.guis.AuraCustomizationMenu;
+import am2.items.ItemSpellBook;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMNetHandler;
+import am2.playerextensions.AffinityData;
+import am2.spell.SpellUtils;
 
 public class AMKeyBindings{
 
@@ -69,7 +71,7 @@ public class AMKeyBindings{
 
 			AMNetHandler.INSTANCE.sendShapeGroupChangePacket(shapeGroup, clientPlayer.getEntityId());
 
-		}else if (this.SpellBookNextSpellKey.isPressed()){
+		}else if (SpellBookNextSpellKey.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ItemStack curItem = player.inventory.getStackInSlot(player.inventory.currentItem);
 			if (curItem == null){
@@ -79,7 +81,7 @@ public class AMKeyBindings{
 				//send packet to server
 				AMNetHandler.INSTANCE.sendSpellbookSlotChange(player, player.inventory.currentItem, ItemSpellBook.ID_NEXT_SPELL);
 			}
-		}else if (this.SpellBookPrevSpellKey.isPressed()){
+		}else if (SpellBookPrevSpellKey.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ItemStack curItem = player.inventory.getStackInSlot(player.inventory.currentItem);
 			if (curItem == null){

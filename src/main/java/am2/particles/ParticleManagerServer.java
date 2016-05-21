@@ -157,7 +157,7 @@ public class ParticleManagerServer{
 	}
 
 	public Object BeamFromEntityToPoint(World world, Entity source, double endX, double endY, double endZ, int color){
-		if (!(source instanceof EntityPlayer) || source == AMCore.instance.proxy.getLocalPlayer()){
+		if (!(source instanceof EntityPlayer) || source == AMCore.proxy.getLocalPlayer()){
 			return BeamFromPointToPoint(world, source.posX, source.posY, source.posZ, endX, endY, endZ, color);
 		}else{
 			return BeamFromPointToPoint(world, source.posX, source.posY + source.getEyeHeight() - 0.2f, source.posZ, endX, endY, endZ, color);

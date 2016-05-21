@@ -8,7 +8,7 @@ import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleMoveOnHeading;
 import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityGolem;
@@ -209,7 +209,7 @@ public class EntityHecate extends EntityZombie{
 				yPos += 0.3;
 			}
 
-			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "smoke",
+			AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "smoke",
 					this.posX + ((rand.nextFloat() * 0.2) - 0.1f),
 					yPos,
 					this.posZ + ((rand.nextFloat() * 0.4) - 0.2f));

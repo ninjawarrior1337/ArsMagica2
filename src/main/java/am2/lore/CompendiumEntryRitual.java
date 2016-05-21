@@ -4,7 +4,7 @@ import am2.RitualShapeHelper;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.spell.component.interfaces.IRitualInteraction;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
-import am2.guis.GuiArcaneCompendium;
+import am2.client.guis.GuiArcaneCompendium;
 import am2.spell.SkillManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

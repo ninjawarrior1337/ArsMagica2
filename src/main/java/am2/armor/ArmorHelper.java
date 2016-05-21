@@ -27,7 +27,7 @@ public class ArmorHelper{
 		if (armorRenderPrefixes.containsKey(armorName)){
 			return armorRenderPrefixes.get(armorName);
 		}
-		int newPrefix = AMCore.instance.proxy.getArmorRenderIndex(armorName);
+		int newPrefix = AMCore.proxy.getArmorRenderIndex(armorName);
 		armorRenderPrefixes.put(armorName, newPrefix);
 
 		return newPrefix;

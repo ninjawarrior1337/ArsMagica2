@@ -9,6 +9,9 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectCharmed;
 import am2.buffs.BuffList;
+import am2.items.ItemCrystalPhylactery;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -39,9 +42,9 @@ public class Charm implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_RED),
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_LIFE),
-				new ItemStack(ItemsCommonProxy.crystalPhylactery, 1, ItemsCommonProxy.crystalPhylactery.META_EMPTY)
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_RED),
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_LIFE),
+				new ItemStack(ItemsCommonProxy.crystalPhylactery, 1, ItemCrystalPhylactery.META_EMPTY)
 		};
 	}
 

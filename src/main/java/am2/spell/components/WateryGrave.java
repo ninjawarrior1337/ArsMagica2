@@ -10,6 +10,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectWateryGrave;
 import am2.buffs.BuffList;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.*;
 import am2.spell.SpellUtils;
@@ -58,7 +59,7 @@ public class WateryGrave implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
@@ -100,7 +101,7 @@ public class WateryGrave implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE),
 				Blocks.stone,
 				Items.leather_boots
 		};

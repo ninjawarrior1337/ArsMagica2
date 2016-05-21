@@ -8,6 +8,8 @@ import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachEntity;
@@ -117,7 +119,7 @@ public class LifeTap implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK),
 				BlocksCommonProxy.aum
 		};
 	}
@@ -136,7 +138,7 @@ public class LifeTap implements ISpellComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemsCommonProxy.mobFocus),
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ENDER)
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_ENDER)
 		};
 	}
 

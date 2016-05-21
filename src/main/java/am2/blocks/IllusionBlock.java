@@ -2,8 +2,10 @@ package am2.blocks;
 
 import am2.api.math.AMVector3;
 import am2.buffs.BuffList;
+import am2.items.ItemOre;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -249,15 +251,15 @@ public class IllusionBlock extends AMBlock{
 		if (alwaysPassable){
 			return new Object[]{
 					"BRB", "RGR", "BRB",
-					Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK),
+					Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK),
 					Character.valueOf('G'), Blocks.glass,
-					Character.valueOf('B'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE)
+					Character.valueOf('B'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_CHIMERITE)
 			};
 		}else{
 			return new Object[]{
 					"BRB", "R R", "BRB",
-					Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK),
-					Character.valueOf('B'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE)
+					Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK),
+					Character.valueOf('B'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_CHIMERITE)
 			};
 		}
 	}

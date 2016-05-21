@@ -10,7 +10,7 @@ import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
 import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.containers.ContainerMagiciansWorkbench;
 import am2.containers.ContainerSpellCustomization;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.items.ContainerKeystone;
 import am2.items.ItemSpellBook;
 import am2.items.ItemsCommonProxy;
@@ -53,61 +53,61 @@ public class AMPacketProcessorServer{
 
 			switch (packetID){
 			case AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE:
-				handleCastingModeChange(remaining, (EntityPlayerMP)player);
+				handleCastingModeChange(remaining, player);
 				break;
 			case AMPacketIDs.MAGIC_LEVEL_UP:
-				handleMagicLevelUp(remaining, (EntityPlayerMP)player);
+				handleMagicLevelUp(remaining, player);
 				break;
 			case AMPacketIDs.SYNC_BETA_PARTICLES:
-				handleSyncBetaParticles(remaining, (EntityPlayerMP)player);
+				handleSyncBetaParticles(remaining, player);
 				break;
 			case AMPacketIDs.POSSIBLE_CLIENT_EXPROP_DESYNC:
 				handlePossibleClientExpropDesync(remaining);
 				break;
 			case AMPacketIDs.REQUEST_BETA_PARTICLES:
-				handleRequestBetaParticles(remaining, (EntityPlayerMP)player);
+				handleRequestBetaParticles(remaining, player);
 				break;
 			case AMPacketIDs.SPELL_CUSTOMIZE:
-				handleSpellCustomize(remaining, (EntityPlayerMP)player);
+				handleSpellCustomize(remaining, player);
 				break;
 			case AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT:
-				handleSpellBookChangeActiveSlot(remaining, (EntityPlayerMP)player);
+				handleSpellBookChangeActiveSlot(remaining, player);
 				break;
 			case AMPacketIDs.SYNC_SPELL_KNOWLEDGE:
-				handleSyncSpellKnowledge(remaining, (EntityPlayerMP)player);
+				handleSyncSpellKnowledge(remaining, player);
 				break;
 			case AMPacketIDs.DECO_BLOCK_UPDATE:
-				handleDecoBlockUpdate(remaining, (EntityPlayerMP)player);
+				handleDecoBlockUpdate(remaining, player);
 				break;
 			case AMPacketIDs.INSCRIPTION_TABLE_UPDATE:
-				handleInscriptionTableUpdate(remaining, (EntityPlayerMP)player);
+				handleInscriptionTableUpdate(remaining, player);
 				break;
 			case AMPacketIDs.TK_DISTANCE_SYNC:
-				ExtendedProperties.For((EntityPlayerMP)player).TK_Distance = new AMDataReader(remaining).getFloat();
+				ExtendedProperties.For(player).TK_Distance = new AMDataReader(remaining).getFloat();
 				break;
 			case AMPacketIDs.SAVE_KEYSTONE_COMBO:
-				handleSaveKeystoneCombo(remaining, (EntityPlayerMP)player);
+				handleSaveKeystoneCombo(remaining, player);
 				break;
 			case AMPacketIDs.SET_KEYSTONE_COMBO:
-				handleSetKeystoneCombo(remaining, (EntityPlayerMP)player);
+				handleSetKeystoneCombo(remaining, player);
 				break;
 			case AMPacketIDs.SET_MAG_WORK_REC:
-				handleSetMagiciansWorkbenchRecipe(remaining, (EntityPlayerMP)player);
+				handleSetMagiciansWorkbenchRecipe(remaining, player);
 				break;
 			case AMPacketIDs.RUNE_BAG_GUI_OPEN:
-				handleRuneBagGUIOpen(remaining, (EntityPlayerMP)player);
+				handleRuneBagGUIOpen(remaining, player);
 				break;
 			case AMPacketIDs.M_BENCH_LOCK_RECIPE:
-				handleMBenchLockRecipe(remaining, (EntityPlayerMP)player);
+				handleMBenchLockRecipe(remaining, player);
 				break;
 			case AMPacketIDs.IMBUE_ARMOR:
-				handleImbueArmor(remaining, (EntityPlayerMP)player);
+				handleImbueArmor(remaining, player);
 				break;
 			case AMPacketIDs.REQUEST_PWR_PATHS:
-				handlePowerPathSync(remaining, (EntityPlayerMP)player);
+				handlePowerPathSync(remaining, player);
 				break;
 			case AMPacketIDs.SYNC_EXTENDED_PROPS:
-				handleExpropOperation(remaining, (EntityPlayerMP)player);
+				handleExpropOperation(remaining, player);
 				break;
 			case AMPacketIDs.AFFINITY_ACTIVATE:
 				handleAffinityActivate(remaining, player);
@@ -221,7 +221,7 @@ public class AMPacketProcessorServer{
 		AMDataReader rdr = new AMDataReader(data, false);
 		TileEntity te = world.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
 		if (te == null || !(te instanceof TileEntityParticleEmitter)) return;
-		((TileEntityParticleEmitter)te).readFromNBT(rdr.getNBTTagCompound());
+		te.readFromNBT(rdr.getNBTTagCompound());
 
 		world.markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
 	}

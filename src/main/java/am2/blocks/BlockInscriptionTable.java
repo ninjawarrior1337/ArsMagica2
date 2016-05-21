@@ -2,9 +2,9 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityInscriptionTable;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

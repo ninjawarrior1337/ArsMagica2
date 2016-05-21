@@ -30,8 +30,8 @@ public class ContainerSpellCustomization extends Container{
 		this.name = name;
 		this.iconIndex = index;
 
-		((Slot)this.inventorySlots.get(0)).getStack().setItemDamage(this.iconIndex);
-		((Slot)this.inventorySlots.get(0)).getStack().setStackDisplayName("\247b" + this.name);
+		this.inventorySlots.get(0).getStack().setItemDamage(this.iconIndex);
+		this.inventorySlots.get(0).getStack().setStackDisplayName("\247b" + this.name);
 
 		if (inventoryPlayer.player.worldObj.isRemote){
 			sendPacketToServer();
@@ -63,7 +63,7 @@ public class ContainerSpellCustomization extends Container{
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2){
-		Slot slot = (Slot)this.inventorySlots.get(par2);
+		Slot slot = this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack = slot.getStack();
@@ -73,7 +73,7 @@ public class ContainerSpellCustomization extends Container{
 	}
 
 	public String getInitialSuggestedName(){
-		Slot slot = (Slot)this.inventorySlots.get(0);
+		Slot slot = this.inventorySlots.get(0);
 		if (slot == null || !slot.getHasStack()) return "";
 		ItemStack stack = slot.getStack();
 		if (!stack.hasTagCompound()) return "";

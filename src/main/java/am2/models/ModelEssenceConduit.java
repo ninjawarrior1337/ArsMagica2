@@ -1,6 +1,6 @@
 package am2.models;
 
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

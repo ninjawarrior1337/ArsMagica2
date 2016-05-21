@@ -1,5 +1,25 @@
 package am2.playerextensions;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.Callable;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.Capability.IStorage;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.IExtendedProperties;
@@ -14,7 +34,8 @@ import am2.armor.infusions.GenericImbuement;
 import am2.armor.infusions.ImbuementRegistry;
 import am2.bosses.EntityLifeGuardian;
 import am2.buffs.BuffList;
-import am2.guis.AMGuiHelper;
+import am2.client.AMSounds;
+import am2.client.guis.AMGuiHelper;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
@@ -24,27 +45,11 @@ import am2.particles.AMLineArc;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.spell.SpellHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
-import net.minecraftforge.common.MinecraftForge;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-public class ExtendedProperties implements IExtendedProperties, IExtendedEntityProperties{
+public class ExtendedProperties implements IExtendedProperties, ICapabilityProvider{
 	private EntityLivingBase entity;
 
-	public static final String identifier = "ArsMagicaExProps";
+	public static final ResourceLocation identifier = new ResourceLocation("arsmagica2:ExProps");
 	public static final int maxMagicLevel = 99;
 
 	private static float magicRegenPerLevelPerTick = 0.15f;
@@ -52,25 +57,23 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 	private static int baseTicksForFullRegen = 2400;
 	private int ticksForFullRegen = baseTicksForFullRegen;
 
+	private float currentMana;
+	private float maxMana;
+	private float currentFatigue;
+	private float maxFatigue;
 
-
-	//private float currentMana;
-	//private float maxMana;
-	//private float currentFatigue;
-	//private float maxFatigue;
-
-	//private int magicLevel;
-	//private float magicXP;
+	private int magicLevel;
+	private float magicXP;
 
 
 	private ArrayList<Integer> summon_ent_ids = new ArrayList<Integer>();
 
-//	private double markX;
-//	private double markY;
-//	private double markZ;
-//	private int markDimension;
+	private double markX;
+	private double markY;
+	private double markZ;
+	private int markDimension;
 
-//	private int healCooldown;
+	private int healCooldown;
 
 	private float flipRotation;
 	private float prevFlipRotation;
@@ -380,8 +383,8 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 			return false;
 		}
 		this.ticksToSync--;
-		if (this.ticksToSync <= 0) this.ticksToSync = this.syncTickDelay;
-		return this.updateFlags != 0 && this.ticksToSync == this.syncTickDelay;
+		if (this.ticksToSync <= 0) this.ticksToSync = syncTickDelay;
+		return this.updateFlags != 0 && this.ticksToSync == syncTickDelay;
 	}
 
 	public boolean getCanHaveMoreSummons(){
@@ -665,21 +668,21 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 		if (isCritical){
 			if (armorProcCooldowns[3] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 3, armorProcCooldowns[3]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 3, armorProcCooldowns[3]);
 			}
 			if (armorProcCooldowns[1] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 1, armorProcCooldowns[1]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 1, armorProcCooldowns[1]);
 			}
 			if (armorProcCooldowns[2] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 2, armorProcCooldowns[2]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 2, armorProcCooldowns[2]);
 			}
 			if (armorProcCooldowns[0] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 0, armorProcCooldowns[0]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 0, armorProcCooldowns[0]);
 			}
 		}
 
 		if (entity.worldObj != null && entity.worldObj.isRemote && entity instanceof EntityPlayer && AMCore.proxy.playerTracker.hasAA((EntityPlayer)entity)){
-			EntityLivingBase localPlayer = AMCore.instance.proxy.getLocalPlayer();
+			EntityLivingBase localPlayer = AMCore.proxy.getLocalPlayer();
 			if (entity != localPlayer)
 				AMNetHandler.INSTANCE.requestAuras((EntityPlayer)entity);
 		}
@@ -690,16 +693,16 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 		if (needsArmorTickCounterSync && entity instanceof EntityPlayerMP){
 			needsArmorTickCounterSync = false;
 			if (armorProcCooldowns[3] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 3, armorProcCooldowns[3]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 3, armorProcCooldowns[3]);
 			}
 			if (armorProcCooldowns[1] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 1, armorProcCooldowns[1]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 1, armorProcCooldowns[1]);
 			}
 			if (armorProcCooldowns[2] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 2, armorProcCooldowns[2]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 2, armorProcCooldowns[2]);
 			}
 			if (armorProcCooldowns[0] > 0){
-				AMCore.instance.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 0, armorProcCooldowns[0]);
+				AMCore.proxy.blackoutArmorPiece((EntityPlayerMP)entity, 0, armorProcCooldowns[0]);
 			}
 		}
 	}
@@ -881,82 +884,6 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 	}
 
 	@Override
-	public void saveNBTData(NBTTagCompound compound){
-		compound.setFloat("curMana", getCurrentMana());
-		compound.setFloat("curFatigue", getCurrentFatigue());
-		compound.setShort("magicLevel", (short)getMagicLevel());
-		compound.setBoolean("hasUnlockedAugmented", getHasUnlockedAugmented());
-
-		compound.setIntArray("armorCooldowns", armorProcCooldowns);
-		//compound.setBoolean("isFlipped", this.getIsFlipped());
-		compound.setBoolean("isShrunk", this.getIsShrunk());
-
-		compound.setBoolean("isCritical", isCritical);
-
-		compound.setFloat("magicXP", magicXP);
-
-		if (contingencyType != ContingencyTypes.NONE){
-			compound.setInteger("contingency_type", contingencyType.ordinal());
-			NBTTagCompound effectSave = contingencyStack.writeToNBT(new NBTTagCompound());
-			compound.setTag("contingency_effect", effectSave);
-		}
-
-		//mark location
-		if (getMarkSet()){
-			compound.setDouble("marklocationx", this.getMarkX());
-			compound.setDouble("marklocationy", this.getMarkY());
-			compound.setDouble("marklocationz", this.getMarkZ());
-			compound.setInteger("markdimension", this.getMarkDimension());
-		}
-	}
-
-	@Override
-	public void loadNBTData(NBTTagCompound compound){
-		setMagicLevelWithMana(compound.getShort("magicLevel"));
-		setCurrentMana(compound.getFloat("curMana"));
-		setCurrentFatigue(compound.getFloat("curFatigue"));
-
-		armorProcCooldowns = compound.getIntArray("armorCooldowns");
-		if (armorProcCooldowns == null)
-			armorProcCooldowns = new int[4];
-		else if (armorProcCooldowns.length != 4){
-			int[] tmp = armorProcCooldowns;
-			armorProcCooldowns = new int[4];
-			for (int i = 0; i < Math.min(tmp.length, 4); ++i){
-				armorProcCooldowns[i] = tmp[i];
-			}
-		}
-
-		//setIsFlipped(compound.getBoolean("isFlipped"));
-		setIsShrunk(compound.getBoolean("isShrunk"));
-		//flipRotation = getIsFlipped() ? 0 : 180;
-
-		isCritical = compound.getBoolean("isCritical");
-
-		magicXP = compound.getFloat("magicXP");
-
-		for (int i = 0; i < 4; ++i){
-			if (armorProcCooldowns[i] > 0){
-				needsArmorTickCounterSync = true;
-				break;
-			}
-		}
-
-		if (compound.hasKey("marklocationx")){
-			setMarkX(compound.getDouble("marklocationx"));
-			setMarkY(compound.getDouble("marklocationy"));
-			setMarkZ(compound.getDouble("marklocationz"));
-			setMarkDimension(compound.getInteger("markdimension"));
-			this.setMarkSet(true);
-		}
-
-		if (compound.hasKey("contingency_type")){
-			this.contingencyType = ContingencyTypes.values()[compound.getInteger("contingency_type")];
-			this.contingencyStack = ItemStack.loadItemStackFromNBT((NBTTagCompound)compound.getTag("contingency_effect"));
-		}
-	}
-
-	@Override
 	public void init(Entity entity, World world){
 		if (world == null || entity == null || !(entity instanceof EntityLivingBase)) return;
 
@@ -1004,7 +931,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 	public void toggleFlipped(){
 		if (entity.worldObj.isRemote){
-			AMNetHandler.INSTANCE.sendExPropCommandToServer(this.BIT_FLIPPED);
+			AMNetHandler.INSTANCE.sendExPropCommandToServer(BIT_FLIPPED);
 		}
 		if (this.getIsFlipped())
 			this.setIsFlipped(false);
@@ -1085,7 +1012,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 					SkillData.For(ent).incrementSpellPoints(SkillPointTypes.RED);
 
 			}
-			this.entity.worldObj.playSoundAtEntity(entity, "arsmagica2:misc.event.magic_level_up", 1, 1);
+			this.entity.worldObj.playSound(entity.posX, entity.posY, entity.posZ, AMSounds.MAGIC_LEVEL_UP, SoundCategory.MASTER, 1F, 1F, false);
 		}
 		setUpdateFlag(UPD_MAGIC_LEVEL);
 		forceSync();
@@ -1121,7 +1048,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 					int regenTicks = (int)Math.ceil(ticksForFullRegen * entity.getAttributeMap().getAttributeInstance(ArsMagicaApi.manaRegenTimeModifier).getAttributeValue());
 
 					//mana regen buff
-					if (entity.isPotionActive(BuffList.manaRegen.id)){
+					if (entity.isPotionActive(BuffList.manaRegen)){
 						PotionEffect pe = entity.getActivePotionEffect(BuffList.manaRegen);
 						regenTicks *= (1.0f - Math.max(0.9f, (0.25 * (pe.getAmplifier() + 1))));
 					}
@@ -1281,6 +1208,108 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 			forceSync();
 			break;
 		}
+	}
+	
+	public static class ExtendedPropertiesStorage implements IStorage<ExtendedProperties> {
+
+		@Override
+		public NBTBase writeNBT(Capability<ExtendedProperties> capability, ExtendedProperties instance, EnumFacing side) {
+			NBTTagCompound compound = new NBTTagCompound();
+			compound.setFloat("curMana", instance.getCurrentMana());
+			compound.setFloat("curFatigue", instance.getCurrentFatigue());
+			compound.setShort("magicLevel", (short)instance.getMagicLevel());
+			compound.setBoolean("hasUnlockedAugmented", instance.getHasUnlockedAugmented());
+
+			compound.setIntArray("armorCooldowns", instance.armorProcCooldowns);
+			//compound.setBoolean("isFlipped", this.getIsFlipped());
+			compound.setBoolean("isShrunk", instance.getIsShrunk());
+
+			compound.setBoolean("isCritical", instance.isCritical);
+
+			compound.setFloat("magicXP", instance.magicXP);
+
+			if (instance.contingencyType != ContingencyTypes.NONE){
+				compound.setInteger("contingency_type", instance.contingencyType.ordinal());
+				NBTTagCompound effectSave = instance.contingencyStack.writeToNBT(new NBTTagCompound());
+				compound.setTag("contingency_effect", effectSave);
+			}
+
+			//mark location
+			if (instance.getMarkSet()){
+				compound.setDouble("marklocationx", instance.getMarkX());
+				compound.setDouble("marklocationy", instance.getMarkY());
+				compound.setDouble("marklocationz", instance.getMarkZ());
+				compound.setInteger("markdimension", instance.getMarkDimension());
+			}
+		
+			return compound;
+		}
+
+		@Override
+		public void readNBT(Capability<ExtendedProperties> capability, ExtendedProperties instance, EnumFacing side, NBTBase nbt) {
+			NBTTagCompound compound = (NBTTagCompound)nbt;
+			instance.setMagicLevelWithMana(compound.getShort("magicLevel"));
+			instance.setCurrentMana(compound.getFloat("curMana"));
+			instance.setCurrentFatigue(compound.getFloat("curFatigue"));
+
+			instance.armorProcCooldowns = compound.getIntArray("armorCooldowns");
+			if (instance.armorProcCooldowns == null)
+				instance.armorProcCooldowns = new int[4];
+			else if (instance.armorProcCooldowns.length != 4){
+				int[] tmp = instance.armorProcCooldowns;
+				instance.armorProcCooldowns = new int[4];
+				for (int i = 0; i < Math.min(tmp.length, 4); ++i){
+					instance.armorProcCooldowns[i] = tmp[i];
+				}
+			}
+
+			//setIsFlipped(compound.getBoolean("isFlipped"));
+			instance.setIsShrunk(compound.getBoolean("isShrunk"));
+			//flipRotation = getIsFlipped() ? 0 : 180;
+
+			instance.isCritical = compound.getBoolean("isCritical");
+
+			instance.magicXP = compound.getFloat("magicXP");
+
+			for (int i = 0; i < 4; ++i){
+				if (instance.armorProcCooldowns[i] > 0){
+					instance.needsArmorTickCounterSync = true;
+					break;
+				}
+			}
+
+			if (compound.hasKey("marklocationx")){
+				instance.setMarkX(compound.getDouble("marklocationx"));
+				instance.setMarkY(compound.getDouble("marklocationy"));
+				instance.setMarkZ(compound.getDouble("marklocationz"));
+				instance.setMarkDimension(compound.getInteger("markdimension"));
+				instance.setMarkSet(true);
+			}
+
+			if (compound.hasKey("contingency_type")){
+				instance.contingencyType = ContingencyTypes.values()[compound.getInteger("contingency_type")];
+				instance.contingencyStack = ItemStack.loadItemStackFromNBT((NBTTagCompound)compound.getTag("contingency_effect"));
+			}
+		}
+	}
+	
+	public static class Factory implements Callable<ExtendedProperties> {
+
+		@Override
+		public ExtendedProperties call() throws Exception {
+			return new ExtendedProperties();
+		}
+		
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability.equals(this);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		return capability.equals(this) ? (T)this : null;
 	}
 }
 

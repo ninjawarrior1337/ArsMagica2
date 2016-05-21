@@ -5,6 +5,7 @@ import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.blocks.BlocksCommonProxy;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -50,8 +51,8 @@ public class Lightstep implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots(){
-		return new int[]{ImbuementRegistry.SLOT_BOOTS};
+	public EntityEquipmentSlot[] getValidSlots(){
+		return new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET};
 	}
 
 	@Override

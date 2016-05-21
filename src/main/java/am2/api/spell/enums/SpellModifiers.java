@@ -24,7 +24,7 @@ public enum SpellModifiers{
 	public double defaultValue = 0D;
 	public int defaultValueInt = 0;
 
-	private SpellModifiers(double defaultValue){
+	SpellModifiers(double defaultValue){
 		this.defaultValue = defaultValue;
 		this.defaultValueInt = (int)defaultValue;
 	}

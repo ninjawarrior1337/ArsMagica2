@@ -5,6 +5,7 @@ import am2.api.ArsMagicaApi;
 import am2.api.math.AMVector3;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachPoint;
@@ -102,7 +103,7 @@ public class Attract implements ISpellComponent{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
@@ -112,7 +113,7 @@ public class Attract implements ISpellComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-		AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "arcane", x, y, z);
+		AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(world, "arcane", x, y, z);
 		if (effect != null){
 			effect.addRandomOffset(1, 1, 1);
 			effect.AddParticleController(new ParticleApproachPoint(effect, x, y, z, 0.025f, 0.025f, 1, false));
@@ -136,7 +137,7 @@ public class Attract implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK),
 				Items.iron_ingot
 		};
 	}

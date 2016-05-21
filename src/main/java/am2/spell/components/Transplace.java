@@ -9,6 +9,8 @@ import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
 import am2.blocks.tileentities.TileEntityOtherworldAura;
+import am2.items.ItemOre;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleArcToPoint;
@@ -59,7 +61,7 @@ public class Transplace implements ISpellComponent, IRitualInteraction{
 
 			caster.setPositionAndUpdate(tPosX, tPosY, tPosZ);
 			if (target instanceof EntityLiving)
-				((EntityLiving)target).setPositionAndUpdate(cPosX, cPosY, cPosZ);
+				target.setPositionAndUpdate(cPosX, cPosY, cPosZ);
 			else
 				target.setPosition(cPosX, cPosY, cPosZ);
 
@@ -128,9 +130,9 @@ public class Transplace implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_RED),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_RED),
 				Items.compass,
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE),
 				Items.ender_pearl
 		};
 	}
@@ -148,7 +150,7 @@ public class Transplace implements ISpellComponent, IRitualInteraction{
 	@Override
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_PURIFIEDVINTEUM),
 				new ItemStack(ItemsCommonProxy.mageArmor),
 				new ItemStack(ItemsCommonProxy.mageBoots),
 				new ItemStack(ItemsCommonProxy.mageHood),

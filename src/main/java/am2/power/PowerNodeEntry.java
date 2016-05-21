@@ -212,7 +212,7 @@ public class PowerNodeEntry{
 			//spin through nodes
 			for (int i = 0; i < powerAmountStore.tagCount(); ++i){
 				//reference current node
-				NBTTagCompound powerType = (NBTTagCompound)powerAmountStore.getCompoundTagAt(i);
+				NBTTagCompound powerType = powerAmountStore.getCompoundTagAt(i);
 				//resolve power type
 				PowerTypes type = PowerTypes.getByID(powerType.getInteger("powerType"));
 				//resolve power amount
@@ -230,7 +230,7 @@ public class PowerNodeEntry{
 			//spin through list
 			for (int i = 0; i < powerPathList.tagCount(); ++i){
 				//reference current node
-				NBTTagCompound powerPathEntry = (NBTTagCompound)powerPathList.getCompoundTagAt(i);
+				NBTTagCompound powerPathEntry = powerPathList.getCompoundTagAt(i);
 				//get the power type
 				PowerTypes type = PowerTypes.getByID(powerPathEntry.getInteger("powerType"));
 				//get the list of node paths for this power type
@@ -250,7 +250,7 @@ public class PowerNodeEntry{
 							//spin through node list
 							for (int b = 0; b < nodeList.tagCount(); ++b){
 								//reference current node
-								NBTTagCompound node = (NBTTagCompound)nodeList.getCompoundTagAt(b);
+								NBTTagCompound node = nodeList.getCompoundTagAt(b);
 								//resolve AMVector3 from node values								
 								AMVector3 nodeLocation = AMVector3.readFromNBT(node);
 								//tack the node on to the power path

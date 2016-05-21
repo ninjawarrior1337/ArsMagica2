@@ -4,6 +4,7 @@ import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.SpellModifiers;
+import am2.blocks.BlockAMOre;
 import am2.blocks.BlocksCommonProxy;
 import am2.damage.DamageSources;
 import am2.items.ItemsCommonProxy;
@@ -330,7 +331,7 @@ public class EntityThrownRock extends EntityLiving{
 			y++;
 
 		if (rand.nextInt(4) < 2 || force)
-			world.setBlock(x, y, z, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_MOONSTONE_ORE, 2);
+			world.setBlock(x, y, z, BlocksCommonProxy.AMOres, BlockAMOre.META_MOONSTONE_ORE, 2);
 		else
 			world.setBlock(x, y, z, Blocks.stone);
 	}

@@ -41,7 +41,7 @@ public class DumpNBT extends CommandBase{
 			return;
 		}
 
-		AMNetHandler.INSTANCE.sendPacketToClientPlayer((EntityPlayerMP)player, AMPacketIDs.NBT_DUMP, new byte[0]);
+		AMNetHandler.INSTANCE.sendPacketToClientPlayer(player, AMPacketIDs.NBT_DUMP, new byte[0]);
 	}
 
 	@Override

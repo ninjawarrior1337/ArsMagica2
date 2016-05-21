@@ -11,7 +11,7 @@ import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -227,11 +227,8 @@ public class ItemSpellStaff extends ArsMagicaItem{
 
 	@Override
 	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int X, int Y, int Z, int side, float par8, float par9, float par10){
-		if (isMagiTechStaff()){
-			return true;
-		}
+		return isMagiTechStaff();
 
-		return false;
 	}
 
 	@Override

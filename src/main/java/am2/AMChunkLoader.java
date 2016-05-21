@@ -1,5 +1,8 @@
 package am2;
 
+import java.util.HashMap;
+import java.util.List;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -8,9 +11,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class AMChunkLoader implements LoadingCallback{
 

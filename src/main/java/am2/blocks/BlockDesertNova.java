@@ -70,7 +70,7 @@ public class BlockDesertNova extends AMFlower{
 			double posZ = z + 0.5 + Math.sin(angle) * 3;
 			double posY = y + 0.6 + par5Random.nextFloat() * 0.2f;
 
-			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "explosion_2", x + 0.5, posY, z + 0.5);
+			AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(world, "explosion_2", x + 0.5, posY, z + 0.5);
 			if (effect != null){
 				effect.setIgnoreMaxAge(true);
 				effect.AddParticleController(new ParticleExpandingCollapsingRingAtPoint(effect, posX, posY, posZ, 0.3, 3, 0.2, 1, false).setExpanding());

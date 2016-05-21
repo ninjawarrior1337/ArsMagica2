@@ -1,9 +1,9 @@
 package am2.blocks.renderers;
 
 import am2.blocks.tileentities.TileEntityCalefactor;
-import am2.guis.AMGuiHelper;
+import am2.client.guis.AMGuiHelper;
 import am2.models.ModelCalefactor;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

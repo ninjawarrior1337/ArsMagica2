@@ -1,6 +1,6 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 
@@ -14,9 +14,9 @@ public class ItemFocusGreater extends ItemFocus implements ISpellFocus{
 	public Object[] getRecipeItems(){
 		return new Object[]{
 				"A A", "PFP", "A A",
-				'A', new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANEASH),
+				'A', new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_ARCANEASH),
 				'F', ItemsCommonProxy.standardFocus,
-				'P', new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM)
+				'P', new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_PURIFIEDVINTEUM)
 		};
 	}
 

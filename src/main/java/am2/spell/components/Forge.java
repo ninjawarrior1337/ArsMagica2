@@ -4,6 +4,7 @@ import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleHoldPosition;
@@ -128,10 +129,7 @@ public class Forge implements ISpellComponent{
 
 		int meta = world.getBlockMetadata(x, y, z);
 		ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block, 1, meta));
-		if (smelted == null){
-			return false;
-		}
-		return true;
+		return smelted != null;
 	}
 
 	public boolean ItemIsBlock(Item smelted){
@@ -146,7 +144,7 @@ public class Forge implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_RED),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_RED),
 				Blocks.furnace
 		};
 	}

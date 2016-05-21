@@ -2,7 +2,7 @@ package am2.armor;
 
 import am2.items.ItemsCommonProxy;
 import am2.proxy.gui.ModelLibrary;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ItemWaterGuardianOrbs extends AMArmor{
 
-	public ItemWaterGuardianOrbs(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, int par4){
+	public ItemWaterGuardianOrbs(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, EntityEquipmentSlot par4){
 		super(inheritFrom, enumarmormaterial, par3, par4);
 	}
 
@@ -40,7 +40,7 @@ public class ItemWaterGuardianOrbs extends AMArmor{
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type){
+	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type){
 		return "arsmagica2:" + ResourceManager.getMobTexturePath("bosses/water_guardian.png");
 	}
 

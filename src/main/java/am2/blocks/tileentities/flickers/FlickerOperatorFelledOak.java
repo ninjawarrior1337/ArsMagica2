@@ -5,6 +5,8 @@ import am2.api.flickers.IFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemBindingCatalyst;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
@@ -270,11 +272,11 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 				"NCL",
 				" OW",
 				Character.valueOf('W'), BlocksCommonProxy.witchwoodLog,
-				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_GREEN),
+				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_GREEN),
 				Character.valueOf('N'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.NATURE.ordinal()),
 				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIGHTNING.ordinal()),
-				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_ORANGE),
-				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.bindingCatalyst, 1, ItemsCommonProxy.bindingCatalyst.META_AXE)
+				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_ORANGE),
+				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE)
 		};
 	}
 }

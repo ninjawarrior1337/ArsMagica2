@@ -2,7 +2,7 @@ package am2.spell;
 
 import am2.AMCore;
 import am2.LogHelper;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;

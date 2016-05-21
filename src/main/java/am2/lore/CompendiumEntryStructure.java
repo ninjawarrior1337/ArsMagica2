@@ -1,6 +1,6 @@
 package am2.lore;
 
-import am2.guis.GuiArcaneCompendium;
+import am2.client.guis.GuiArcaneCompendium;
 import am2.multiblock.IMultiblockStructureController;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;

@@ -28,7 +28,7 @@ public class IllEffectSparkStorm extends IllEffectBase{
 		if (players.length == 0) return toReturn;
 
 		for (EntityPlayer unlucky : players){
-			AMCore.instance.proxy.particleManager.BoltFromPointToPoint(world, x, y, z, unlucky.posX, unlucky.posY, unlucky.posZ, 4, -1);
+			AMCore.proxy.particleManager.BoltFromPointToPoint(world, x, y, z, unlucky.posX, unlucky.posY, unlucky.posZ, 4, -1);
 			unlucky.attackEntityFrom(DamageSource.generic, 1);
 			toReturn.put(unlucky, null);
 		}

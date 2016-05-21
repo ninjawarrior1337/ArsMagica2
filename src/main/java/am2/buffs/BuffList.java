@@ -5,7 +5,7 @@ import am2.LogHelper;
 import am2.api.potion.IBuffHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleLiveForBuffDuration;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.potion.Potion;
@@ -221,7 +221,6 @@ public class BuffList implements IBuffHelper{
 		manaRegen.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_1.png"));
 		entangled.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_1.png"));
 		wateryGrave.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_1.png"));
-		;
 		spellReflect.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_1.png"));
 		silence.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_1.png"));
 		swiftSwim.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_1.png"));

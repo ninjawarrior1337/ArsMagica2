@@ -1,5 +1,6 @@
 package am2.api.items.armor;
 
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 
@@ -18,7 +19,7 @@ public interface IImbuementRegistry{
 	/**
 	 * Returns all imbuements registered into the specified tier for the given armor type (slot).
 	 */
-	IArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, int armorType);
+	IArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, EntityEquipmentSlot armorType);
 
 	/**
 	 * Is the given imbuement instance present on the passed-in item stack?

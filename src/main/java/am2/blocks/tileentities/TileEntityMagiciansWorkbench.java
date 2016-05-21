@@ -246,9 +246,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
-		if (i > getStorageStart())
-			return true;
-		return false;
+		return i > getStorageStart();
 	}
 
 	public class RememberedRecipe{
@@ -325,7 +323,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
@@ -335,13 +333,13 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 		NBTTagList recall = nbttagcompound.getTagList("rememberedRecipes", Constants.NBT.TAG_COMPOUND);
 		rememberedRecipes.clear();
 		for (int i = 0; i < recall.tagCount(); ++i){
-			NBTTagCompound rememberedRecipe = (NBTTagCompound)recall.getCompoundTagAt(i);
+			NBTTagCompound rememberedRecipe = recall.getCompoundTagAt(i);
 			ItemStack output = ItemStack.loadItemStackFromNBT(rememberedRecipe);
 			boolean is2x2 = rememberedRecipe.getBoolean("is2x2");
 			NBTTagList componentNBT = rememberedRecipe.getTagList("components", Constants.NBT.TAG_COMPOUND);
 			ItemStack[] components = new ItemStack[componentNBT.tagCount()];
 			for (int n = 0; n < componentNBT.tagCount(); ++n){
-				NBTTagCompound componentTAG = (NBTTagCompound)componentNBT.getCompoundTagAt(n);
+				NBTTagCompound componentTAG = componentNBT.getCompoundTagAt(n);
 				if (componentTAG.getBoolean("componentExisted")){
 					ItemStack component = ItemStack.loadItemStackFromNBT(componentTAG);
 					components[n] = component;
@@ -434,16 +432,12 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j){
-		if (i > getStorageStart())
-			return true;
-		return false;
+		return i > getStorageStart();
 	}
 
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, int j){
-		if (i > getStorageStart())
-			return true;
-		return false;
+		return i > getStorageStart();
 	}
 }

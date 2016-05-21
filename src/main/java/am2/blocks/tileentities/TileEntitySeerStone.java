@@ -292,7 +292,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 					break;
 				}
 
-				AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", x, y, z);
+				AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "sparkle2", x, y, z);
 				if (effect != null){
 					effect.setIgnoreMaxAge(false);
 					effect.setMaxAge(35);
@@ -479,7 +479,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

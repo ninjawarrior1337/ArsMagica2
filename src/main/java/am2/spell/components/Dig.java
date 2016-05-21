@@ -8,6 +8,7 @@ import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellUtils;
@@ -81,7 +82,7 @@ public class Dig implements ISpellComponent{
 		EntityPlayer casterPlayer = DummyEntityPlayer.fromEntityLiving(caster);
 		if (ForgeEventFactory.doPlayerHarvestCheck(casterPlayer, block, true)){
 			float xMana = block.getBlockHardness(world, blockx, blocky, blockz) * hardnessManaFactor;
-			float xBurnout = ArsMagicaApi.instance.getBurnoutFromMana(xMana);
+			float xBurnout = ArsMagicaApi.getBurnoutFromMana(xMana);
 
 			if (!world.isRemote){
 				BreakEvent event = ForgeHooks.onBlockBreakEvent(world, ((EntityPlayerMP)casterPlayer).theItemInWorldManager.getGameType(), (EntityPlayerMP)casterPlayer, blockx, blocky, blockz);
@@ -144,7 +145,7 @@ public class Dig implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_ORANGE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_ORANGE),
 				Items.iron_shovel,
 				Items.iron_pickaxe
 		};

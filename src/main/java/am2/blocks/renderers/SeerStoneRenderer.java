@@ -3,7 +3,7 @@ package am2.blocks.renderers;
 import am2.api.power.PowerTypes;
 import am2.blocks.tileentities.TileEntitySeerStone;
 import am2.models.ModelSeerStone;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

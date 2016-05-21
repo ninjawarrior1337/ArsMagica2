@@ -1,6 +1,6 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 
@@ -14,7 +14,7 @@ public class ItemFocusMana extends ItemFocus{
 	public Object[] getRecipeItems(){
 		return new Object[]{
 				"P", "F", "P",
-				'P', new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST),
+				'P', new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_VINTEUMDUST),
 				'F', ItemsCommonProxy.standardFocus
 		};
 	}

@@ -7,16 +7,21 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
 
-public class RiftStorage implements IExtendedEntityProperties, IInventory{
+public class RiftStorage implements ICapabilityProvider, IInventory{
 
 	private ItemStack[] inventory;
 	private EntityRiftStorage accessEntity;
 
-	public static final String identifier = "ArsMagicaVoidStorage";
+	public static final ResourceLocation identifier = new ResourceLocation("arsmagica2:VoidStorage");
 
 	public static RiftStorage For(EntityPlayer player){
 		return (RiftStorage)player.getExtendedProperties(identifier);
@@ -53,7 +58,7 @@ public class RiftStorage implements IExtendedEntityProperties, IInventory{
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte index = nbttagcompound1.getByte(tag);
 			if (index >= 0 && index < inventory.length){
 				inventory[index] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
@@ -153,6 +158,76 @@ public class RiftStorage implements IExtendedEntityProperties, IInventory{
 
 	@Override
 	public void markDirty(){
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ITextComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability.equals(this);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		return capability.equals(this) ? (T)this : null;
 	}
 
 }

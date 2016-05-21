@@ -356,7 +356,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			NBTTagList inItems = nbttagcompound.getTagList("InList", Constants.NBT.TAG_COMPOUND);
 
 			for (int i = 0; i < inItems.tagCount(); ++i){
-				NBTTagCompound inItem = (NBTTagCompound)inItems.getCompoundTagAt(i);
+				NBTTagCompound inItem = inItems.getCompoundTagAt(i);
 				if (inItem == null){
 					continue;
 				}
@@ -439,7 +439,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 				int secondColor = affinities.get((colorCounter + 1) % affinities.size()).color;
 				if (firstColor == secondColor)
 					return firstColor;
-				if (this.fadeCounter > this.MAX_SHIFT_TICKS)
+				if (this.fadeCounter > MAX_SHIFT_TICKS)
 					return secondColor;
 				return colorShift(firstColor, secondColor);
 			}

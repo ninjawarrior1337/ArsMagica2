@@ -13,15 +13,19 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import java.util.*;
 import java.util.Map.Entry;
 
-public class AffinityData implements IExtendedEntityProperties, IAffinityData{
-	public static final String identifier = "AffinityData";
+public class AffinityData implements ICapabilityProvider, IAffinityData{
+	public static final ResourceLocation identifier = new ResourceLocation("arsmagica2:AffinityData");
 
 	private HashMap<Integer, Float> affinityDepths;
 	public static final float MAX_DEPTH = 100;
@@ -490,5 +494,15 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 
 	public boolean isAbilityReady(){
 		return this.abilityCooldown == 0;
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability.equals(this);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		return capability.equals(this) ? (T)this : null;
 	}
 }

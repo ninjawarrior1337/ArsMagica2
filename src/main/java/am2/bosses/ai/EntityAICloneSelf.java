@@ -19,8 +19,7 @@ public class EntityAICloneSelf extends EntityAIBase{
 		if (cooldownTicks-- > 0 || host.getCurrentAction() != BossActions.IDLE || !host.isActionValid(BossActions.CLONE))
 			return false;
 		EntityLivingBase AITarget = host.getAttackTarget();
-		if (AITarget == null || AITarget.isDead) return false;
-		return true;
+		return !(AITarget == null || AITarget.isDead);
 	}
 
 	@Override

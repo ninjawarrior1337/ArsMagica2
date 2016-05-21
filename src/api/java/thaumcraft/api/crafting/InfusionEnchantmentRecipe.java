@@ -85,7 +85,7 @@ public class InfusionEnchantmentRecipe
 			if (!b) return false;
 		}
 //		System.out.println(ii.size());
-		return ii.size()==0?true:false;
+		return ii.size() == 0;
     }
 	
 	private boolean areItemStacksEqual(ItemStack stack0, ItemStack stack1, boolean fuzzy)
@@ -105,7 +105,7 @@ public class InfusionEnchantmentRecipe
 		}
 		else
 			t1=ItemStack.areItemStackTagsEqual(stack0, stack1);		
-        return stack0.getItem() != stack1.getItem() ? false : (stack0.getItemDamage() != stack1.getItemDamage() ? false : (stack0.stackSize > stack0.getMaxStackSize() ? false : t1));
+        return stack0.getItem() == stack1.getItem() && (stack0.getItemDamage() == stack1.getItemDamage() && (stack0.stackSize <= stack0.getMaxStackSize() && t1));
     }
 	
    

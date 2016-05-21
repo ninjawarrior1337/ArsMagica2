@@ -41,14 +41,14 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 		world = playerInventory.player.worldObj;
 
 		INVENTORY_STORAGE_START = tileEntity.getStorageStart() - 3;
-		if (tileEntity.getUpgradeStatus(tileEntity.UPG_CRAFT))
+		if (tileEntity.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT))
 			INVENTORY_STORAGE_START += 5;
 		PLAYER_INVENTORY_START = INVENTORY_STORAGE_START + tileEntity.getStorageSize();
 		PLAYER_ACTION_BAR_START = PLAYER_INVENTORY_START + 27;
 		PLAYER_ACTION_BAR_END = PLAYER_ACTION_BAR_START + 9;
 
 		firstCraftMatrix = new InventoryCrafting(this, 3, 3);
-		secondCraftMatrix = tileEntity.getUpgradeStatus(tileEntity.UPG_CRAFT) ? new InventoryCrafting(this, 3, 3) : new InventoryCrafting(this, 2, 2);
+		secondCraftMatrix = tileEntity.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT) ? new InventoryCrafting(this, 3, 3) : new InventoryCrafting(this, 2, 2);
 
 		updateCraftingMatrices();
 
@@ -64,7 +64,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 
 		//second crafting grid
 		index = 0;
-		if (tileEntity.getUpgradeStatus(tileEntity.UPG_CRAFT)){
+		if (tileEntity.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT)){
 			for (int i = 0; i < 3; i++){
 				for (int k = 0; k < 3; k++){
 					addSlotToContainer(new Slot(secondCraftMatrix, index++, 93 + k * 18, 29 + i * 18));
@@ -115,7 +115,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 			firstCraftMatrix.setInventorySlotContents(i, workbenchInventory.getStackInSlot(i));
 		}
 
-		if (workbenchInventory.getUpgradeStatus(workbenchInventory.UPG_CRAFT)){
+		if (workbenchInventory.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT)){
 			for (int i = 9; i < 18; ++i){
 				secondCraftMatrix.setInventorySlotContents(i - 9, workbenchInventory.getStackInSlot(i));
 			}
@@ -159,7 +159,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -192,7 +192,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 			}
 
 			if (itemstack1.stackSize == 0){
-				slot.putStack((ItemStack)null);
+				slot.putStack(null);
 			}else{
 				slot.onSlotChanged();
 			}
@@ -264,7 +264,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 	private void decrementStoredComponent(ItemStack component, int qty){
 		int qtyLeft = qty;
 		for (int i = INVENTORY_STORAGE_START; i < PLAYER_INVENTORY_START - 1; ++i){
-			Slot slot = ((Slot)this.inventorySlots.get(i));
+			Slot slot = this.inventorySlots.get(i);
 			ItemStack stack = slot.getStack();
 			if (stack != null && stack.isItemEqual(component)){
 				if (stack.stackSize > qtyLeft){
@@ -284,7 +284,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 	private void setRecipeItemsToGrid(int recipeIndex){
 		RememberedRecipe recipe = this.workbenchInventory.getRememberedRecipeItems().get(recipeIndex);
 		int count = 0;
-		if ((recipe.is2x2 || getWorkbench().getUpgradeStatus(getWorkbench().UPG_CRAFT)) && craftingGridIsEmpty(true)){
+		if ((recipe.is2x2 || getWorkbench().getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT)) && craftingGridIsEmpty(true)){
 			for (ItemStack stack : recipe.components){
 				Slot slot = this.getSlot(10 + count);
 				if (stack != null){
@@ -315,7 +315,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 
 	public boolean gridIsFreeFor(int recipeIndex){
 		RememberedRecipe recipe = this.workbenchInventory.getRememberedRecipeItems().get(recipeIndex);
-		if (recipe.components.length > 4 && !this.workbenchInventory.getUpgradeStatus(this.workbenchInventory.UPG_CRAFT)){
+		if (recipe.components.length > 4 && !this.workbenchInventory.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT)){
 			return craftingGridIsEmpty(false);
 		}
 
@@ -359,8 +359,6 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 		RememberedRecipe recipe = this.workbenchInventory.getRememberedRecipeItems().get(recipeIndex);
 		if (getWorkbench().firstCraftResult.getStackInSlot(0) != null && getWorkbench().firstCraftResult.getStackInSlot(0).isItemEqual(recipe.output))
 			return true;
-		if (getWorkbench().secondCraftResult.getStackInSlot(0) != null && getWorkbench().secondCraftResult.getStackInSlot(0).isItemEqual(recipe.output))
-			return true;
-		return false;
+		return getWorkbench().secondCraftResult.getStackInSlot(0) != null && getWorkbench().secondCraftResult.getStackInSlot(0).isItemEqual(recipe.output);
 	}
 }

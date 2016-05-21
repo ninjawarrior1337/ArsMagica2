@@ -81,7 +81,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 		if (worldObj.isRemote){
 			if (IsActive()){
 				if (displayAura){
-					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "symbols", xCoord, yCoord + 0.5, zCoord);
+					AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "symbols", xCoord, yCoord + 0.5, zCoord);
 					if (effect != null){
 						effect.setIgnoreMaxAge(false);
 						effect.setMaxAge(100);
@@ -97,7 +97,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 					particleTickCounter = 0;
 
 					String particleName = "";
-					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5, yCoord + 0.1 + worldObj.rand.nextDouble() * 0.5, zCoord + 0.5);
+					AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5, yCoord + 0.1 + worldObj.rand.nextDouble() * 0.5, zCoord + 0.5);
 					if (effect != null){
 						effect.setIgnoreMaxAge(false);
 						effect.setMaxAge(100);
@@ -203,7 +203,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

@@ -7,6 +7,7 @@ import am2.buffs.BuffEffectSwiftSwim;
 import am2.buffs.BuffList;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -47,8 +48,8 @@ public class SwimSpeed implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots(){
-		return new int[]{ImbuementRegistry.SLOT_LEGS};
+	public EntityEquipmentSlot[] getValidSlots(){
+		return new EntityEquipmentSlot[]{EntityEquipmentSlot.LEGS};
 	}
 
 	@Override

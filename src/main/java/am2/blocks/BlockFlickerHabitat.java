@@ -2,7 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

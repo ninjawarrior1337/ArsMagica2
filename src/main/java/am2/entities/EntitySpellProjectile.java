@@ -311,9 +311,9 @@ public class EntitySpellProjectile extends Entity{
 
 					if (worldObj.isRemote){
 						for (int i = 0; i < 13; ++i){
-							AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "hr_lensflare", ent.posX + rand.nextDouble() - 0.5, ent.posY + ent.getEyeHeight() + rand.nextDouble() - 0.5, ent.posZ + rand.nextDouble() - 0.5);
+							AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "hr_lensflare", ent.posX + rand.nextDouble() - 0.5, ent.posY + ent.getEyeHeight() + rand.nextDouble() - 0.5, ent.posZ + rand.nextDouble() - 0.5);
 							if (effect != null){
-								EntityPlayer player = AMCore.instance.proxy.getLocalPlayer();
+								EntityPlayer player = AMCore.proxy.getLocalPlayer();
 								effect.setIgnoreMaxAge(true);
 								if (player != null && ent != player){
 									effect.setParticleScale(1.5f);

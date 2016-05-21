@@ -4,7 +4,7 @@ import am2.AMCore;
 import am2.blocks.tileentities.TileEntityEverstone;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

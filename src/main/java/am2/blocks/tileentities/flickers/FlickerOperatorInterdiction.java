@@ -2,6 +2,7 @@ package am2.blocks.tileentities.flickers;
 
 import am2.api.flickers.IFlickerController;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -82,7 +83,7 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 				Character.valueOf('F'), Blocks.fence,
 				Character.valueOf('W'), Blocks.cobblestone_wall,
 				Character.valueOf('A'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.ARCANE.ordinal()),
-				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_PURPLE),
+				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_PURPLE),
 				Character.valueOf('N'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.AIR.ordinal()),
 				Character.valueOf('I'), Blocks.iron_bars
 

@@ -4,9 +4,9 @@ import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.items.ItemKeystone;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
@@ -91,7 +91,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 			byte0 = 2;
 		}
 
-		AMCore.instance.proxy.blocks.registerKeystonePortal(par2, par3, par4, par1World.provider.dimensionId);
+		AMCore.proxy.blocks.registerKeystonePortal(par2, par3, par4, par1World.provider.dimensionId);
 
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, byte0, 2);
 

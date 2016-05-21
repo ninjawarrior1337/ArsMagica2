@@ -43,7 +43,7 @@ public class SetMagicLevelCommand extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender var1, String[] var2){
 		if (var2.length != 2 && var2.length != 1){
-			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
+			throw new WrongUsageException(this.getCommandUsage(var1));
 		}
 		EntityPlayer player = null;
 		int targetLevel = 0;

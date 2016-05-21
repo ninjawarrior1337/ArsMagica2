@@ -1,6 +1,6 @@
 package am2.lore;
 
-import am2.guis.GuiArcaneCompendium;
+import am2.client.guis.GuiArcaneCompendium;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;

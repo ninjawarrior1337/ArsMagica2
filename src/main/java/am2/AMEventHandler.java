@@ -1,27 +1,15 @@
 package am2;
 
-import am2.api.events.ManaCostEvent;
-import am2.api.spell.enums.Affinity;
-import am2.api.spell.enums.BuffPowerLevel;
-import am2.api.spell.enums.ContingencyTypes;
-import am2.armor.ArmorHelper;
-import am2.armor.infusions.GenericImbuement;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.TileEntityAstralBarrier;
-import am2.bosses.BossSpawnHelper;
-import am2.buffs.BuffEffectTemporalAnchor;
-import am2.buffs.BuffList;
-import am2.buffs.BuffStatModifiers;
-import am2.damage.DamageSources;
-import am2.entities.EntityFlicker;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMNetHandler;
-import am2.playerextensions.AffinityData;
-import am2.playerextensions.ExtendedProperties;
-import am2.playerextensions.SkillData;
-import am2.utility.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
@@ -46,20 +34,54 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.AchievementEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import am2.api.ArsMagicaApi;
+import am2.api.events.ManaCostEvent;
+import am2.api.spell.enums.Affinity;
+import am2.api.spell.enums.BuffPowerLevel;
+import am2.api.spell.enums.ContingencyTypes;
+import am2.armor.ArmorHelper;
+import am2.armor.infusions.GenericImbuement;
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.TileEntityAstralBarrier;
+import am2.bosses.BossSpawnHelper;
+import am2.buffs.BuffEffectTemporalAnchor;
+import am2.buffs.BuffList;
+import am2.buffs.BuffStatModifiers;
+import am2.damage.DamageSources;
+import am2.entities.EntityFlicker;
+import am2.items.ItemOre;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMNetHandler;
+import am2.playerextensions.AffinityData;
+import am2.playerextensions.ExtendedProperties;
+import am2.playerextensions.RiftStorage;
+import am2.playerextensions.SkillData;
+import am2.utility.DimensionUtilities;
+import am2.utility.EntityUtilities;
+import am2.utility.InventoryUtilities;
+import am2.utility.KeystoneUtilities;
+import am2.utility.MathUtilities;
 
 public class AMEventHandler {
 
@@ -114,22 +136,41 @@ public class AMEventHandler {
 
     @SubscribeEvent
     public void onEntityConstructing(EntityEvent.EntityConstructing event) {
-        /*if (event.getEntity() instanceof EntityLivingBase) {
-            event.getEntity().registerExtendedProperties(ExtendedProperties.identifier, new ExtendedProperties());
-            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.maxManaBonus);
-            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.maxBurnoutBonus);
-            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.xpGainModifier);
-            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.burnoutReductionRate);
-            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.manaRegenTimeModifier);
-
-            if (event.getEntity() instanceof EntityPlayer) {
-                event.getEntity().registerExtendedProperties(RiftStorage.identifier, new RiftStorage());
-                event.getEntity().registerExtendedProperties(AffinityData.identifier, new AffinityData());
-                event.getEntity().registerExtendedProperties(SkillData.identifier, new SkillData((EntityPlayer) event.getEntity()));
-            }
-        } else if (event.getEntity() instanceof EntityItemFrame) {
-            AMCore.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame) event.getEntity());
-        }*/
+//        if (event.getEntity() instanceof EntityLivingBase) {
+//            event.getEntity().registerExtendedProperties(ExtendedProperties.identifier, new ExtendedProperties());
+//            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.maxManaBonus);
+//            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.maxBurnoutBonus);
+//            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.xpGainModifier);
+//            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.burnoutReductionRate);
+//            ((EntityLivingBase) event.getEntity()).getAttributeMap().registerAttribute(ArsMagicaApi.manaRegenTimeModifier);
+//
+//            if (event.getEntity() instanceof EntityPlayer) {
+//                event.getEntity().registerExtendedProperties(RiftStorage.identifier, new RiftStorage());
+//                event.getEntity().registerExtendedProperties(AffinityData.identifier, new AffinityData());
+//                event.getEntity().registerExtendedProperties(SkillData.identifier, new SkillData((EntityPlayer) event.getEntity()));
+//            }
+//        } else if (event.getEntity() instanceof EntityItemFrame) {
+//            AMCore.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame) event.getEntity());
+//        }
+    }
+    
+    public void attachCapabilities (AttachCapabilitiesEvent.Entity event) {
+    	if (event.getEntity() instanceof EntityLivingBase) {
+    		ExtendedProperties extendedProps = new ExtendedProperties();
+    		extendedProps.init(event.getEntity(), event.getEntity().getEntityWorld());
+    		event.addCapability(ExtendedProperties.identifier, extendedProps);
+    		if (event.getEntity() instanceof EntityPlayer) {
+    			RiftStorage rs = new RiftStorage();
+    			AffinityData affdata = new AffinityData();
+    			SkillData sd = new SkillData((EntityPlayer) event.getEntity());
+    			rs.init(event.getEntity(), event.getEntity().getEntityWorld());
+    			affdata.init(event.getEntity(), event.getEntity().getEntityWorld());
+    			sd.init(event.getEntity(), event.getEntity().getEntityWorld());
+        		event.addCapability(RiftStorage.identifier, rs);
+        		event.addCapability(AffinityData.identifier, affdata);
+        		event.addCapability(SkillData.identifier, sd);
+	    	}
+    	}
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -167,7 +208,7 @@ public class AMEventHandler {
             }
         }
 
-        if (soonToBeDead instanceof EntityVillager && ((EntityVillager) soonToBeDead).isChild()) {
+        if (soonToBeDead instanceof EntityVillager && soonToBeDead.isChild()) {
             BossSpawnHelper.instance.onVillagerChildKilled((EntityVillager) soonToBeDead);
         }
     }
@@ -175,7 +216,7 @@ public class AMEventHandler {
     @SubscribeEvent
     public void onPlayerGetAchievement(AchievementEvent event) {
         if (!event.getEntityPlayer().worldObj.isRemote && event.getAchievement() == AchievementList.THE_END2) {
-            AMCore.instance.proxy.playerTracker.storeExtendedPropertiesForRespawn(event.getEntityPlayer());
+            PlayerTracker.storeExtendedPropertiesForRespawn(event.getEntityPlayer());
             // AMCore.instance.proxy.playerTracker.storeSoulboundItemsForRespawn(event.getEntityPlayer());
         }
     }
@@ -190,7 +231,7 @@ public class AMEventHandler {
         }
         if (!event.getEntityLiving().worldObj.isRemote && event.getEntityLiving() instanceof EntityPig && event.getEntityLiving().getRNG().nextDouble() < 0.3f) {
             EntityItem animalFat = new EntityItem(event.getEntityLiving().worldObj);
-            ItemStack stack = new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ANIMALFAT);
+            ItemStack stack = new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_ANIMALFAT);
             animalFat.setPosition(event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ);
             animalFat.setEntityItemStack(stack);
             event.getDrops().add(animalFat);
@@ -275,7 +316,7 @@ public class AMEventHandler {
             }
 
             if (ExtendedProperties.For(event.getEntityLiving()).getFlipRotation() > 0)
-                ((EntityPlayer) event.getEntityLiving()).addVelocity(0, -2 * event.getEntityLiving().motionY, 0);
+                event.getEntityLiving().addVelocity(0, -2 * event.getEntityLiving().motionY, 0);
         }
     }
 
@@ -328,7 +369,7 @@ public class AMEventHandler {
             if (ent.worldObj.isRemote) {
                 int divisor = extendedProperties.getAuraDelay() > 0 ? extendedProperties.getAuraDelay() : 1;
                 if (ent.ticksExisted % divisor == 0)
-                    AMCore.instance.proxy.particleManager.spawnAuraParticles(ent);
+                    AMCore.proxy.particleManager.spawnAuraParticles(ent);
                 AMCore.proxy.setViewSettings();
             }
 
@@ -366,14 +407,14 @@ public class AMEventHandler {
                 }
             }
 
-            if (ArmorHelper.isInfusionPreset(((EntityPlayer) ent).getItemStackFromSlot(EntityEquipmentSlot.LEGS), GenericImbuement.stepAssist)) {
+            if (ArmorHelper.isInfusionPreset(ent.getItemStackFromSlot(EntityEquipmentSlot.LEGS), GenericImbuement.stepAssist)) {
                 ent.stepHeight = 1.0111f;
             } else if (ent.stepHeight == 1.0111f) {
                 ent.stepHeight = 0.5f;
             }
 
             IAttributeInstance attr = ent.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-            if (ArmorHelper.isInfusionPreset(((EntityPlayer) ent).getItemStackFromSlot(EntityEquipmentSlot.FEET), GenericImbuement.runSpeed)) {
+            if (ArmorHelper.isInfusionPreset(ent.getItemStackFromSlot(EntityEquipmentSlot.FEET), GenericImbuement.runSpeed)) {
                 if (attr.getModifier(GenericImbuement.imbuedHasteID) == null) {
                     attr.applyModifier(GenericImbuement.imbuedHaste);
                 }
@@ -439,7 +480,7 @@ public class AMEventHandler {
                 ent.attackEntityFrom(DamageSources.unsummon, 5000);
             }
             if (owner == -1 || ownerEnt == null || ownerEnt.isDead || ownerEnt.getDistanceSqToEntity(ent) > 900) {
-                if (ent instanceof EntityLiving && !((EntityLiving) ent).getCustomNameTag().equals("")) {
+                if (ent instanceof EntityLiving && !ent.getCustomNameTag().equals("")) {
                     EntityUtilities.setOwner(ent, null);
                     EntityUtilities.setSummonDuration(ent, -1);
                     EntityUtilities.revertAI((EntityCreature) ent);
@@ -615,8 +656,8 @@ public class AMEventHandler {
             double deltaZ = event.getEntityLiving().posZ - entitySource.posZ;
             double deltaX = event.getEntityLiving().posX - entitySource.posX;
             double angle = Math.atan2(deltaZ, deltaX);
-            double speed = ((EntityPlayer) entitySource).isSprinting() ? 3 : 2;
-            double vertSpeed = ((EntityPlayer) entitySource).isSprinting() ? 0.5 : 0.325;
+            double speed = entitySource.isSprinting() ? 3 : 2;
+            double vertSpeed = entitySource.isSprinting() ? 0.5 : 0.325;
 
             if (event.getEntityLiving() instanceof EntityPlayer) {
                 AMNetHandler.INSTANCE.sendVelocityAddPacket(event.getEntityLiving().worldObj, event.getEntityLiving(), speed * Math.cos(angle), vertSpeed, speed * Math.sin(angle));

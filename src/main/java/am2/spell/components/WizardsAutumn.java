@@ -4,6 +4,7 @@ import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
 import am2.utility.DummyEntityPlayer;
@@ -24,7 +25,7 @@ public class WizardsAutumn implements ISpellComponent{
 	public Object[] getRecipeItems(){
 		return new Object[]{
 				Blocks.sapling,
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_GREEN),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_GREEN),
 				Items.stick,
 				Items.iron_ingot
 		};

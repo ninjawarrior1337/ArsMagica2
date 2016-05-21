@@ -121,7 +121,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public void invalidate(){
-		AMCore.instance.proxy.blocks.removeKeystonePortal(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+		AMCore.proxy.blocks.removeKeystonePortal(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 		if (!worldObj.isRemote){
 			AMChunkLoader.INSTANCE.releaseStaticChunkLoad(this.getClass(), this.xCoord, this.yCoord, this.zCoord, this.worldObj);
@@ -237,7 +237,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	private void doTeleport(Entity entity){
 		deactivate();
 
-		AMVector3 newLocation = AMCore.instance.proxy.blocks.getNextKeystonePortalLocation(this.worldObj, xCoord, yCoord, zCoord, false, this.key);
+		AMVector3 newLocation = AMCore.proxy.blocks.getNextKeystonePortalLocation(this.worldObj, xCoord, yCoord, zCoord, false, this.key);
 		AMVector3 myLocation = new AMVector3(xCoord, yCoord, zCoord);
 
 		double distance = myLocation.distanceTo(newLocation);
@@ -397,13 +397,13 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-		AMCore.instance.proxy.blocks.registerKeystonePortal(xCoord, yCoord, zCoord, nbttagcompound.getInteger("keystone_receptacle_dimension_id"));
+		AMCore.proxy.blocks.registerKeystonePortal(xCoord, yCoord, zCoord, nbttagcompound.getInteger("keystone_receptacle_dimension_id"));
 
 		this.isActive = nbttagcompound.getBoolean("isActive");
 	}

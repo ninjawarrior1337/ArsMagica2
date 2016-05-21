@@ -10,6 +10,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectLeap;
 import am2.buffs.BuffList;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.spell.SpellUtils;
@@ -97,7 +98,7 @@ public class Leap implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_WHITE),
 				Blocks.hopper
 		};
 	}

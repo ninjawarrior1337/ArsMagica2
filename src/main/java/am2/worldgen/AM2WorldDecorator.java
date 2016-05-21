@@ -1,6 +1,7 @@
 package am2.worldgen;
 
 import am2.AMCore;
+import am2.blocks.BlockAMOre;
 import am2.blocks.BlocksCommonProxy;
 import am2.entities.SpawnBlacklists;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -53,10 +54,10 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			dimensionBlacklist.add(i);
 		}
 
-		vinteum = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_VINTEUM_ORE, 4, Blocks.stone);
-		chimerite = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_ORE, 6, Blocks.stone);
-		blueTopaz = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_BLUE_TOPAZ_ORE, 6, Blocks.stone);
-		sunstone = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_ORE, 3, Blocks.lava);
+		vinteum = new WorldGenMinable(BlocksCommonProxy.AMOres, BlockAMOre.META_VINTEUM_ORE, 4, Blocks.stone);
+		chimerite = new WorldGenMinable(BlocksCommonProxy.AMOres, BlockAMOre.META_CHIMERITE_ORE, 6, Blocks.stone);
+		blueTopaz = new WorldGenMinable(BlocksCommonProxy.AMOres, BlockAMOre.META_BLUE_TOPAZ_ORE, 6, Blocks.stone);
+		sunstone = new WorldGenMinable(BlocksCommonProxy.AMOres, BlockAMOre.META_SUNSTONE_ORE, 3, Blocks.lava);
 
 		blueOrchid = new AM2FlowerGen(BlocksCommonProxy.cerublossom, 0);
 		desertNova = new AM2FlowerGen(BlocksCommonProxy.desertNova, 0);

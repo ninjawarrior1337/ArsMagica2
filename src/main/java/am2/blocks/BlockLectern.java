@@ -1,7 +1,7 @@
 package am2.blocks;
 
 import am2.blocks.tileentities.TileEntityLectern;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

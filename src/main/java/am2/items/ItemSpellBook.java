@@ -5,11 +5,11 @@ import am2.api.spell.ItemSpellBase;
 import am2.containers.InventorySpellBook;
 import am2.enchantments.AMEnchantmentHelper;
 import am2.enchantments.AMEnchantments;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -355,7 +355,7 @@ public class ItemSpellBook extends ArsMagicaItem{
 
 		NBTTagList list = itemStack.stackTagCompound.getTagList("spell_book_inventory", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < list.tagCount(); ++i){
-			NBTTagCompound spell = (NBTTagCompound)list.getCompoundTagAt(i);
+			NBTTagCompound spell = list.getCompoundTagAt(i);
 			int meta = spell.getInteger("meta");
 			NBTTagCompound tag = spell.getCompoundTag("data");
 			int index = spell.getInteger("index");
@@ -414,7 +414,7 @@ public class ItemSpellBook extends ArsMagicaItem{
 		Map enchantMap = EnchantmentHelper.getEnchantments(enchantBook);
 		for (Object o : enchantMap.keySet()){
 			if (o instanceof Integer){
-				if ((Integer)o == AMCore.proxy.enchantments.soulbound.effectId){
+				if (o == AMEnchantments.soulbound.effectId){
 					return true;
 				}
 			}

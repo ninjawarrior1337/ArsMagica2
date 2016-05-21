@@ -5,6 +5,8 @@ import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.damage.DamageSources;
+import am2.items.ItemOre;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.spell.SpellHelper;
@@ -83,11 +85,11 @@ public class Drown implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE),
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK),
 				Items.water_bucket,
 				Items.string,
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ)
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_BLUETOPAZ)
 		};
 	}
 

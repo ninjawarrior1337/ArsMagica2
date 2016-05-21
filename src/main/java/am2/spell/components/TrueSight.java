@@ -10,6 +10,8 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectTrueSight;
 import am2.buffs.BuffList;
+import am2.items.ItemOre;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
@@ -58,7 +60,7 @@ public class TrueSight implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
@@ -98,8 +100,8 @@ public class TrueSight implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_CHIMERITE),
 				Blocks.glass_pane
 		};
 	}
@@ -117,7 +119,7 @@ public class TrueSight implements ISpellComponent, IRitualInteraction{
 	@Override
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST)
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_VINTEUMDUST)
 		};
 	}
 

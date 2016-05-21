@@ -29,6 +29,16 @@ public class EntityDataParameters {
     public static final DataParameter<Float> MAGIC_XP = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
     public static final DataParameter<MarkData> MARK_DATA = EntityDataManager.createKey(EntityLivingBase.class, MARK_DATA_SERIALIZER);
     public static final DataParameter<Integer> HEAL_COOLDOWN = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.VARINT);
+    public static final DataParameter<Float> FLIP_ROTATION = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> PREV_FLIP_ROTATION = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> SHRINK_PCT = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> PREV_SHRINK_PCT = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> SHRINK_AMOUNT = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> ORIGINAL_SIZE_W = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> ORIGINAL_SIZE_H = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    @Deprecated
+    public static final DataParameter<Float> ORIGINAL_Y_OFFSET = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<Integer> NUM_SUMMONS = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.VARINT);
 
     public static class MarkData {
 

@@ -4,6 +4,7 @@ import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.utility.DummyEntityPlayer;
@@ -116,7 +117,7 @@ public class Plant implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_GREEN),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_GREEN),
 				Items.wheat_seeds,
 				new ItemStack(Blocks.sapling, 1, Short.MAX_VALUE),
 				Items.wheat_seeds

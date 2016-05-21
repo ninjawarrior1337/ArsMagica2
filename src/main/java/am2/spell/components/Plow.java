@@ -4,6 +4,7 @@ import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import net.minecraft.block.Block;
@@ -88,7 +89,7 @@ public class Plow implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_GREEN),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_GREEN),
 				Items.stone_hoe
 		};
 	}

@@ -26,7 +26,6 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 	protected EntityDragonPart[] parts;
 
 	public boolean playerCanSee = false;
-	;
 
 	public AM2Boss(World par1World){
 		super(par1World);

@@ -17,7 +17,7 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 
 	public TileEntityManaBattery(){
 		super(250000);
-		this.storageCapacity = 250000;
+		storageCapacity = 250000;
 		active = false;
 	}
 

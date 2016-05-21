@@ -2,6 +2,7 @@ package am2.armor;
 
 import am2.playerextensions.ExtendedProperties;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class ItemEnderBoots extends AMArmor{
 
-	public ItemEnderBoots(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, int par4){
+	public ItemEnderBoots(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, EntityEquipmentSlot par4){
 		super(inheritFrom, enumarmormaterial, par3, par4);
 	}
 

@@ -9,6 +9,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellCastResult;
 import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMBeam;
 import am2.particles.AMParticle;
@@ -109,11 +110,11 @@ public class Beam implements ISpellShape{
 				}
 			}else{
 				if (affinity == Affinity.LIGHTNING){
-					AMCore.instance.proxy.particleManager.BoltFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, 1, color == -1 ? affinity.color : color);
+					AMCore.proxy.particleManager.BoltFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, 1, color == -1 ? affinity.color : color);
 				}else{
-					beam = (AMBeam)AMCore.instance.proxy.particleManager.BeamFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, color == -1 ? affinity.color : color);
+					beam = (AMBeam) AMCore.proxy.particleManager.BeamFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, color == -1 ? affinity.color : color);
 					if (beam != null){
-						if (AMCore.instance.proxy.getProxyUtils().isLocalPlayerInFirstPerson())
+						if (AMCore.proxy.getProxyUtils().isLocalPlayerInFirstPerson())
 							beam.setFirstPersonPlayerCast();
 						beams.put(caster.getEntityId(), beam);
 					}
@@ -149,9 +150,9 @@ public class Beam implements ISpellShape{
 	public Object[] getRecipeItems(){
 		return new Object[]{
 				ItemsCommonProxy.standardFocus,
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_BLUETOPAZ),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_BLUETOPAZ),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_PURIFIEDVINTEUM),
 				BlocksCommonProxy.aum,
 				String.format("E:%d", PowerTypes.NEUTRAL.ID()), 500
 		};

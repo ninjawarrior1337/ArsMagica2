@@ -10,38 +10,38 @@ import thaumcraft.api.aspects.AspectList;
 
 public interface IWandFocus  {
 	
-	public enum WandFocusAnimation {
-		WAVE, CHARGE;
+	enum WandFocusAnimation {
+		WAVE, CHARGE
 	}
 
 	/**
 	 * @return The color the focus should be changed to.
 	 */
-	public int getFocusColor();
+	int getFocusColor();
 		
 	/**
 	 * @return An IIcon that will be drawn as a block inside the focus "block".
 	 */
 	IIcon getFocusDepthLayerIcon();
 	
-	public IIcon getOrnament();
+	IIcon getOrnament();
 	
-	public WandFocusAnimation getAnimation();
+	WandFocusAnimation getAnimation();
 	
 	/**
 	 * Gets the amount of vis used per aspect per click or tick. This cost is actually listed as
 	 * a hundredth of a single point of vis, so a cost of 100 will equal one vis per tick/click.
 	 * It is returned as an AspectList to allow for multiple vis types in different ratios.
 	 */
-	public AspectList getVisCost();
+	AspectList getVisCost();
 	
-	public boolean isVisCostPerTick();
+	boolean isVisCostPerTick();
 
-	public ItemStack onFocusRightClick(ItemStack itemstack, World world, EntityPlayer player, MovingObjectPosition movingobjectposition);
+	ItemStack onFocusRightClick(ItemStack itemstack, World world, EntityPlayer player, MovingObjectPosition movingobjectposition);
 	
-	public void onUsingFocusTick(ItemStack itemstack, EntityPlayer player, int count);
+	void onUsingFocusTick(ItemStack itemstack, EntityPlayer player, int count);
 	
-	public void onPlayerStoppedUsingFocus(ItemStack itemstack, World world, EntityPlayer player, int count);
+	void onPlayerStoppedUsingFocus(ItemStack itemstack, World world, EntityPlayer player, int count);
 		
 	/**
 	 * Helper method to determine in what order foci should be iterated through when 
@@ -51,11 +51,11 @@ public interface IWandFocus  {
 	 * <br>As a guide build the sort string from two alphanumeric characters followed by 
 	 * two numeric characters based on... whatever. 
 	 */
-	public String getSortingHelper(ItemStack itemstack);
+	String getSortingHelper(ItemStack itemstack);
 
 	boolean onFocusBlockStartBreak(ItemStack itemstack, int x, int y, int z, EntityPlayer player);
 
-	public boolean acceptsEnchant(int id);
+	boolean acceptsEnchant(int id);
 
 	
 

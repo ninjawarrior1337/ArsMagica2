@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -98,8 +99,8 @@ public class WaterWalking implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots(){
-		return new int[]{ImbuementRegistry.SLOT_BOOTS};
+	public EntityEquipmentSlot[] getValidSlots(){
+		return new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET};
 	}
 
 	@Override

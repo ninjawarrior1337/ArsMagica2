@@ -122,15 +122,15 @@ public class AMNetHandler{
 	}
 
 	public void requestClientAuras(EntityPlayerMP player){
-		sendPacketToClientPlayer((EntityPlayerMP)player, AMPacketIDs.SYNC_BETA_PARTICLES, new byte[0]);
+		sendPacketToClientPlayer(player, AMPacketIDs.SYNC_BETA_PARTICLES, new byte[0]);
 	}
 
 	public void syncWorldName(EntityPlayerMP player, String name){
-		sendPacketToClientPlayer((EntityPlayerMP)player, AMPacketIDs.SYNC_WORLD_NAME, new AMDataWriter().add(name).generate());
+		sendPacketToClientPlayer(player, AMPacketIDs.SYNC_WORLD_NAME, new AMDataWriter().add(name).generate());
 	}
 
 	public void syncLoginData(EntityPlayerMP player, byte[] data){
-		sendPacketToClientPlayer((EntityPlayerMP)player, AMPacketIDs.PLAYER_LOGIN_DATA, data);
+		sendPacketToClientPlayer(player, AMPacketIDs.PLAYER_LOGIN_DATA, data);
 	}
 
 	public void sendSpellbookSlotChange(EntityPlayer player, int inventoryIndex, byte subID){

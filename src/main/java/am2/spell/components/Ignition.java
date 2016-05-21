@@ -4,6 +4,7 @@ import am2.AMCore;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.spell.SpellUtils;
@@ -112,7 +113,7 @@ public class Ignition implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_ORANGE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_ORANGE),
 				Items.flint_and_steel
 		};
 	}

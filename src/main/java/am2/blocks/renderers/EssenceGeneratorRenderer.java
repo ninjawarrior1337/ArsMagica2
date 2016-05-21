@@ -3,7 +3,7 @@ package am2.blocks.renderers;
 import am2.blocks.tileentities.TileEntityBlackAurem;
 import am2.blocks.tileentities.TileEntityCelestialPrism;
 import am2.blocks.tileentities.TileEntityObelisk;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;

@@ -5,6 +5,8 @@ import am2.api.spell.component.interfaces.ISpellShape;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellCastResult;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemEssence;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
@@ -44,8 +46,8 @@ public class Channel implements ISpellShape{
 	public Object[] getRecipeItems(){
 		//Arcane Ash, Arcane Essence, Tarma Root, 500 any power
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANEASH),
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ARCANE),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_ARCANEASH),
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_ARCANE),
 				BlocksCommonProxy.tarmaRoot,
 				"E:*", 500
 		};

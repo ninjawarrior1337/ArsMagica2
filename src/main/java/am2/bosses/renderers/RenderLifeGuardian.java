@@ -1,7 +1,7 @@
 package am2.bosses.renderers;
 
 import am2.bosses.models.ModelLifeGuardian;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 

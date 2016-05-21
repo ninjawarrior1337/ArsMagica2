@@ -1,16 +1,15 @@
 package am2.blocks.renderers;
 
 import am2.blocks.tileentities.TileEntityLectern;
-import am2.guis.AMGuiHelper;
+import am2.client.guis.AMGuiHelper;
 import am2.models.ModelArchmagePodium;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -168,7 +167,6 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 		float f2;
 
 		for (f2 = p_147539_1_.field_145928_o - p_147539_1_.field_145925_p; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)){
-			;
 		}
 
 		while (f2 < -(float)Math.PI){
@@ -208,7 +206,7 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 		}
 
 		float var14 = p_147539_1_.field_145927_n + (p_147539_1_.field_145930_m - p_147539_1_.field_145927_n) * p_147539_8_;
-		this.enchantmentBook.setRotationAngles(var9, var12, var13, 1f, 0.0F, 0.0625F, (Entity)null);
+		this.enchantmentBook.setRotationAngles(var9, var12, var13, 1f, 0.0F, 0.0625F, null);
 		this.enchantmentBook.coverRight.render(0.0625F);
 		this.enchantmentBook.coverLeft.render(0.0625F);
 		this.enchantmentBook.bookSpine.render(0.0625F);

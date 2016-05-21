@@ -39,9 +39,7 @@ public class AMPlane{
 				(vNormal.y * p2.y) +                    // Bx +
 				(vNormal.z * p2.z)) + originDistance;    // Cz + D
 
-		if (distance1 * distance2 >= 0)            // Check to see if both point's distances are both negative or both positive
-			return false;                        // Return false if each point has the same sign.  -1 and 1 would mean each point is on either side of the plane.  -1 -2 or 3 4 wouldn't...
+		return distance1 * distance2 < 0;
 
-		return true;                            // The line intersected the plane, Return TRUE
 	}
 }

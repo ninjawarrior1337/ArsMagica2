@@ -38,9 +38,8 @@ public class WandTriggerRegistry {
 	private static HashMap<List,List> triggers = new  HashMap<List,List>();
 	
 	public static boolean hasTrigger(Block block, int meta) {
-		if (triggers.containsKey(Arrays.asList(block,meta)) ||
-			triggers.containsKey(Arrays.asList(block,-1))) return true;
-		return false;
+		return triggers.containsKey(Arrays.asList(block, meta)) ||
+				triggers.containsKey(Arrays.asList(block, -1));
 	}
 	
 	/**

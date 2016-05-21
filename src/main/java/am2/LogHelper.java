@@ -1,9 +1,10 @@
 package am2;
 
-import am2.preloader.AM2PreloaderContainer;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import am2.preloader.AM2PreloaderContainer;
 
 public class LogHelper{
 	private static Logger logger = LogManager.getLogger("ArsMagica2");

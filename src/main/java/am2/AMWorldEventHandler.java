@@ -1,13 +1,13 @@
 package am2;
 
-import am2.entities.EntityFlicker;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.util.List;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
-
-import java.util.List;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import am2.entities.EntityFlicker;
 
 public class AMWorldEventHandler{
 

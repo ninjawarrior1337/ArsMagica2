@@ -90,7 +90,7 @@ public enum Affinity{
 	public int representMeta;
 	public final int color;
 
-	private Affinity(int ID, int color, int directOppositeAffinity, int[] majorOppositions, int[] minorOppositions, int[] adjacentAffinities){
+	Affinity(int ID, int color, int directOppositeAffinity, int[] majorOppositions, int[] minorOppositions, int[] adjacentAffinities){
 		this.ID = ID;
 		this.directOpposingAffinity = directOppositeAffinity;
 		this.majorOppositions = majorOppositions;

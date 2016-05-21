@@ -109,7 +109,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		if (worldObj.isRemote){
 			updateRotations();
 			if (shouldRenderItemStack()){
-				AMParticle p = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", xCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6), yCoord + 0.4, zCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6));
+				AMParticle p = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "sparkle2", xCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6), yCoord + 0.4, zCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6));
 				if (p != null){
 					p.AddParticleController(new ParticleFloatUpward(p, 0.0f, 0.02f, 1, false));
 					p.setIgnoreMaxAge(true);
@@ -380,7 +380,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

@@ -13,10 +13,7 @@ public class SlotFocusOnly extends Slot{
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack){
-		if (itemstack.getItem() instanceof ItemFocus){
-			return true;
-		}
-		return false;
+		return itemstack.getItem() instanceof ItemFocus;
 	}
 
 }

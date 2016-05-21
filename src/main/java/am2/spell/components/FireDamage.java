@@ -12,6 +12,8 @@ import am2.blocks.BlocksCommonProxy;
 import am2.damage.DamageSources;
 import am2.entities.EntityDarkling;
 import am2.entities.EntityFireElemental;
+import am2.items.ItemOre;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.power.PowerNodeRegistry;
@@ -113,9 +115,9 @@ public class FireDamage implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_RED),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_RED),
 				Items.flint_and_steel,
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_VINTEUMDUST),
 		};
 	}
 
@@ -134,7 +136,7 @@ public class FireDamage implements ISpellComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemsCommonProxy.mobFocus),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE)
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_SUNSTONE)
 		};
 	}
 

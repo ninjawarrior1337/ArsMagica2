@@ -4,6 +4,7 @@ import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -16,7 +17,7 @@ public class DamageReductionImbuement implements IArmorImbuement{
 	private String dmgType = "";
 	private int iconIndex = 0;
 	private ImbuementTiers tier;
-	int[] allArmor = new int[]{ImbuementRegistry.SLOT_BOOTS, ImbuementRegistry.SLOT_LEGS, ImbuementRegistry.SLOT_CHEST, ImbuementRegistry.SLOT_HELM};
+	EntityEquipmentSlot[] allArmor = new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.HEAD};
 
 	private DamageReductionImbuement(String id, String dmgType, int IIconIndex, ImbuementTiers tier){
 		this.id = id;
@@ -73,7 +74,7 @@ public class DamageReductionImbuement implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots(){
+	public EntityEquipmentSlot[] getValidSlots(){
 		return allArmor;
 	}
 

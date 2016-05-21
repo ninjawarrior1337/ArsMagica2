@@ -2,7 +2,7 @@ package am2.blocks.renderers;
 
 import am2.blocks.tileentities.TileEntityOcculus;
 import am2.models.ModelOcculus;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

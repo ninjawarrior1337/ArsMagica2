@@ -60,7 +60,7 @@ public class EntityWaterElemental extends EntityMob{
 	private void spawnLivingParticles(){
 		if (rand.nextBoolean()){
 			double yPos = this.posY + 1.1;
-			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "water_ball",
+			AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "water_ball",
 					this.posX + ((rand.nextFloat() * 0.2) - 0.1f),
 					yPos,
 					this.posZ + ((rand.nextFloat() * 0.4) - 0.2f));

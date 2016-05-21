@@ -9,6 +9,8 @@ import am2.api.spell.component.interfaces.IRitualInteraction;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.buffs.BuffList;
+import am2.items.ItemOre;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleExpandingCollapsingRingAtPoint;
@@ -73,7 +75,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 			return false;
 		}
 		if (!world.isRemote){
-			((EntityLivingBase)target).setPositionAndUpdate(casterProperties.getMarkX(), casterProperties.getMarkY(), casterProperties.getMarkZ());
+			target.setPositionAndUpdate(casterProperties.getMarkX(), casterProperties.getMarkY(), casterProperties.getMarkZ());
 		}
 		return true;
 	}
@@ -82,7 +84,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 
 		boolean hasVinteumDust = false;
 		for (ItemStack stack : ritualRunes){
-			if (stack.getItem() == ItemsCommonProxy.itemOre && stack.getItemDamage() == ItemsCommonProxy.itemOre.META_VINTEUMDUST){
+			if (stack.getItem() == ItemsCommonProxy.itemOre && stack.getItemDamage() == ItemOre.META_VINTEUMDUST){
 				hasVinteumDust = true;
 				break;
 			}
@@ -98,7 +100,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 			}else{
 				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
 				RitualShapeHelper.instance.consumeRitualShape(this, world, x, y, z);
-				((EntityLivingBase)target).setPositionAndUpdate(vector.x, vector.y - target.height, vector.z);
+				target.setPositionAndUpdate(vector.x, vector.y - target.height, vector.z);
 				return true;
 			}
 		}else if (hasVinteumDust){
@@ -124,7 +126,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 				if (target.worldObj.provider.dimensionId != caster.worldObj.provider.dimensionId){
 					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.dimensionId);
 				}
-				((EntityLivingBase)target).setPositionAndUpdate(x, y, z);
+				target.setPositionAndUpdate(x, y, z);
 				return true;
 			}
 		}
@@ -175,7 +177,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_ORANGE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_ORANGE),
 				Items.compass,
 				new ItemStack(Items.map, 1, Short.MAX_VALUE),
 				Items.ender_pearl

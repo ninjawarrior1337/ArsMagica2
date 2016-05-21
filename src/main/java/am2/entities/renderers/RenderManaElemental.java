@@ -2,7 +2,7 @@ package am2.entities.renderers;
 
 import am2.entities.EntityManaElemental;
 import am2.entities.models.ModelManaElemental;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

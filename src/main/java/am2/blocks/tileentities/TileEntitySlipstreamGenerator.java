@@ -94,7 +94,7 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 		if (player == null || player.isDead)
 			return false;
 		float tolerance = 0.2f;
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(xCoord - tolerance, yCoord + 1, zCoord - tolerance, xCoord + 1 + tolerance, yCoord + 1 + this.EFFECT_HEIGHT, zCoord + 1 + tolerance);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(xCoord - tolerance, yCoord + 1, zCoord - tolerance, xCoord + 1 + tolerance, yCoord + 1 + EFFECT_HEIGHT, zCoord + 1 + tolerance);
 		Vec3 myLoc = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
 		Vec3 playerLoc = Vec3.createVectorHelper(player.posX, player.posY, player.posZ);
 		return bb.intersectsWith(player.boundingBox) && worldObj.rayTraceBlocks(myLoc, playerLoc, true) == null;
@@ -104,7 +104,7 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 		levitatingEntities.clear();
 
 		for (int i = 0; i < worldObj.playerEntities.size(); ++i){
-			EntityPlayer player = (EntityPlayer)worldObj.playerEntities.get(i);
+			EntityPlayer player = worldObj.playerEntities.get(i);
 			if (playerIsValid(player) && !levitatingEntities.contains(player))
 				levitatingEntities.add(player);
 		}

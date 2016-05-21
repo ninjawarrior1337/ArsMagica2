@@ -3,7 +3,7 @@ package am2.proxy.gui;
 import am2.api.blocks.IKeystoneLockable;
 import am2.blocks.tileentities.*;
 import am2.containers.*;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.items.*;
 import am2.playerextensions.RiftStorage;
 import am2.utility.InventoryUtilities;

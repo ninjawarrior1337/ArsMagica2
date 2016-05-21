@@ -8,6 +8,7 @@ import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
 import am2.buffs.BuffEffectSpellReflect;
 import am2.buffs.BuffList;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleHoldPosition;
@@ -52,7 +53,7 @@ public class Reflect implements ISpellComponent{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
@@ -90,7 +91,7 @@ public class Reflect implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_WHITE),
 				Blocks.glass,
 				Blocks.iron_block,
 				BlocksCommonProxy.witchwoodLog

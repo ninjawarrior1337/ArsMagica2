@@ -3,6 +3,8 @@ package am2.blocks.tileentities.flickers;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.utility.InventoryUtilities;
 import net.minecraft.block.Block;
@@ -89,8 +91,8 @@ public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
 				"RFR",
 				" E ",
 				Character.valueOf('D'), Blocks.dirt,
-				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK),
-				Character.valueOf('E'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH),
+				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK),
+				Character.valueOf('E'), new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_EARTH),
 				Character.valueOf('F'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.EARTH.ordinal())
 
 		};

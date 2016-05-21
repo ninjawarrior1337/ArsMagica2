@@ -41,7 +41,7 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 		int meta = par1World.getBlockMetadata(par2, par3, par4);
 		int color = ItemDye.field_150922_c[meta];
 
-		AMParticle particle = (AMParticle)AMCore.instance.proxy.particleManager.spawn(par1World, "sparkle", par2 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f), par3 + 0.5, par4 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f));
+		AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(par1World, "sparkle", par2 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f), par3 + 0.5, par4 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f));
 		if (particle != null){
 			particle.setIgnoreMaxAge(false);
 			particle.setMaxAge(10 + rand.nextInt(20));

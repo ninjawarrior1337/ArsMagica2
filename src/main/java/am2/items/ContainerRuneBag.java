@@ -54,7 +54,7 @@ public class ContainerRuneBag extends Container{
 	public ItemStack[] GetFullInventory(){
 		ItemStack[] stack = new ItemStack[InventoryRuneBag.inventorySize];
 		for (int i = 0; i < InventoryRuneBag.inventorySize; ++i){
-			stack[i] = ((Slot)inventorySlots.get(i)).getStack();
+			stack[i] = inventorySlots.get(i).getStack();
 		}
 		return stack;
 	}
@@ -82,7 +82,7 @@ public class ContainerRuneBag extends Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
@@ -125,7 +125,7 @@ public class ContainerRuneBag extends Container{
 	private boolean mergeRunes(ItemStack itemstack1, Slot slot){
 		if (itemstack1.getItem() == ItemsCommonProxy.rune){
 			for (int j = 0; j < InventoryRuneBag.inventorySize; ++j){
-				Slot runeSlot = ((Slot)inventorySlots.get(j));
+				Slot runeSlot = inventorySlots.get(j);
 				if (runeSlot.getHasStack()) continue;
 
 				ItemStack rune = new ItemStack(ItemsCommonProxy.rune, 1, itemstack1.getItemDamage());

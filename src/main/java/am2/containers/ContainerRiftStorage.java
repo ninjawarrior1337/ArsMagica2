@@ -62,7 +62,7 @@ public class ContainerRiftStorage extends Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();

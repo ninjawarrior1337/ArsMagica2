@@ -7,6 +7,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
 import am2.damage.DamageSources;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.*;
 import am2.playerextensions.AffinityData;
@@ -55,7 +56,7 @@ public class Heal implements ISpellComponent{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
@@ -108,7 +109,7 @@ public class Heal implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_GREEN),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_GREEN),
 				BlocksCommonProxy.aum
 		};
 	}

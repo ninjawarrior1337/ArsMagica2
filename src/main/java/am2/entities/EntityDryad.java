@@ -63,7 +63,7 @@ public class EntityDryad extends EntityCreature{
 			return;
 		}
 		if (worldObj.rand.nextInt(100) == 3){
-			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "hr_sparkles_1", this.posX, this.posY + 2, this.posZ);
+			AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(world, "hr_sparkles_1", this.posX, this.posY + 2, this.posZ);
 			if (effect != null){
 				effect.AddParticleController(new ParticleOrbitEntity(effect, this, worldObj.rand.nextDouble() * 0.2 + 0.2, 1, false));
 				effect.setIgnoreMaxAge(false);
@@ -107,5 +107,4 @@ public class EntityDryad extends EntityCreature{
 		return super.getCanSpawnHere();
 	}
 
-	;
 }

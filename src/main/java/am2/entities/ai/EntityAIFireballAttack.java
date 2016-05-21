@@ -56,8 +56,7 @@ public class EntityAIFireballAttack extends EntityAIBase{
 			return false;
 		}else{
 			attackTarget = entityliving;
-			if (this.entityHost.getDistanceSqToEntity(attackTarget) < 4) return false;
-			return true;
+			return this.entityHost.getDistanceSqToEntity(attackTarget) >= 4;
 		}
 	}
 

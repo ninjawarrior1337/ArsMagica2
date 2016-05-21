@@ -3,6 +3,7 @@ package am2.blocks.tileentities;
 import am2.api.math.AMVector3;
 import am2.api.power.PowerTypes;
 import am2.entities.EntityShadowHelper;
+import am2.items.ItemEssence;
 import am2.items.ItemsCommonProxy;
 import am2.power.PowerNodeRegistry;
 import am2.utility.InventoryUtilities;
@@ -146,7 +147,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 						return;
 					}
 
-					if (next.getItem() == ItemsCommonProxy.essence && next.getItemDamage() > ItemsCommonProxy.essence.META_MAX){
+					if (next.getItem() == ItemsCommonProxy.essence && next.getItemDamage() > ItemEssence.META_MAX){
 						if (!this.helper.hasSearchLocation())
 							this.helper.setSearchLocationAndItem(new AMVector3(1, 1, 1), next);
 						delayCounter = 100;

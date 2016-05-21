@@ -3,6 +3,8 @@ package am2.bosses;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.ISpellCastCallback;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
 import am2.utility.NPCSpells;
@@ -194,12 +196,12 @@ public class EntityArcaneGuardian extends AM2Boss{
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_GREEN), 0.0f);
+			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_INF_ORB_GREEN), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ARCANE), 0.0f);
+			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_ARCANE), 0.0f);
 		}
 
 		i = rand.nextInt(10);

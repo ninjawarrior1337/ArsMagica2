@@ -53,7 +53,7 @@ public class ContainerEssenceBag extends Container{
 	public ItemStack[] GetFullInventory(){
 		ItemStack[] stack = new ItemStack[12];
 		for (int i = 0; i < 12; ++i){
-			stack[i] = ((Slot)inventorySlots.get(i)).getStack();
+			stack[i] = inventorySlots.get(i).getStack();
 		}
 		return stack;
 	}
@@ -81,7 +81,7 @@ public class ContainerEssenceBag extends Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();

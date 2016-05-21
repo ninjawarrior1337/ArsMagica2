@@ -8,6 +8,7 @@ import am2.blocks.BlocksCommonProxy;
 import am2.entities.EntityBattleChicken;
 import am2.entities.EntityHellCow;
 import am2.items.ItemCrystalPhylactery;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellHelper;
@@ -77,17 +78,17 @@ public class Summon implements ISpellComponent{
 	public Object[] getRecipeItems(){
 		//Chimerite, purified vinteum, blue orchid, monster focus, any filled crystal phylactery, 1500 dark power
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_CHIMERITE),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_PURIFIEDVINTEUM),
 				BlocksCommonProxy.cerublossom,
 				ItemsCommonProxy.mobFocus,
-				new ItemStack(ItemsCommonProxy.crystalPhylactery, 1, ItemsCommonProxy.crystalPhylactery.META_FULL),
+				new ItemStack(ItemsCommonProxy.crystalPhylactery, 1, ItemCrystalPhylactery.META_FULL),
 				String.format("E:%d", PowerTypes.DARK.ID()), 1500
 		};
 	}
 
 	public void setSummonType(ItemStack stack, ItemStack phylacteryStack){
-		if (phylacteryStack.getItemDamage() == ItemsCommonProxy.crystalPhylactery.META_FULL && phylacteryStack.getItem() instanceof ItemCrystalPhylactery){
+		if (phylacteryStack.getItemDamage() == ItemCrystalPhylactery.META_FULL && phylacteryStack.getItem() instanceof ItemCrystalPhylactery){
 			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
 

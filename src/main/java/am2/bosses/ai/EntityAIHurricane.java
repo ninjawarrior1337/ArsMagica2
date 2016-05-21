@@ -31,24 +31,24 @@ public class EntityAIHurricane extends EntityAIBase{
 
 	@Override
 	public boolean shouldExecute(){
-		if (cooldownTicks-- > 0 || ((IArsMagicaBoss)host).getCurrentAction() != BossActions.IDLE || !((IArsMagicaBoss)host).isActionValid(BossActions.SPINNING))
+		if (cooldownTicks-- > 0 || host.getCurrentAction() != BossActions.IDLE || !host.isActionValid(BossActions.SPINNING))
 			return false;
 		EntityLivingBase AITarget = host.getAttackTarget();
 		if (AITarget == null || AITarget.isDead || AITarget.getDistanceSqToEntity(host) > 25) return false;
 		this.target = AITarget;
-		((IArsMagicaBoss)host).setCurrentAction(BossActions.SPINNING);
+		host.setCurrentAction(BossActions.SPINNING);
 		return true;
 	}
 
 	@Override
 	public boolean continueExecuting(){
-		EntityLivingBase AITarget = ((EntityLiving)host).getAttackTarget();
+		EntityLivingBase AITarget = host.getAttackTarget();
 		if (host.hitCount >= 10){
-			((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
+			host.setCurrentAction(BossActions.IDLE);
 			cooldownTicks = 20;
 			return false;
 		}
-		if (AITarget == null || AITarget.isDead || ((IArsMagicaBoss)host).getTicksInCurrentAction() > BossActions.SPINNING.getMaxActionTime()){
+		if (AITarget == null || AITarget.isDead || host.getTicksInCurrentAction() > BossActions.SPINNING.getMaxActionTime()){
 
 			if (!host.worldObj.isRemote){
 				int y = (int)host.posY + 1;
@@ -81,7 +81,7 @@ public class EntityAIHurricane extends EntityAIBase{
 				}
 				ent.fallDistance = 0f;
 			}
-			((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
+			host.setCurrentAction(BossActions.IDLE);
 			cooldownTicks = 20;
 			return false;
 		}

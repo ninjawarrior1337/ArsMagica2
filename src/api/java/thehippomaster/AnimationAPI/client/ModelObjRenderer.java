@@ -65,7 +65,7 @@ public class ModelObjRenderer extends ModelRenderer {
 						{
 							for (i = 0; i < this.childModels.size(); ++i)
 							{
-								((ModelRenderer)this.childModels.get(i)).render(scale);
+								this.childModels.get(i).render(scale);
 							}
 						}
 					}
@@ -81,7 +81,7 @@ public class ModelObjRenderer extends ModelRenderer {
 						{
 							for (i = 0; i < this.childModels.size(); ++i)
 							{
-								((ModelRenderer)this.childModels.get(i)).render(scale);
+								this.childModels.get(i).render(scale);
 							}
 						}
 
@@ -117,7 +117,7 @@ public class ModelObjRenderer extends ModelRenderer {
 					{
 						for (i = 0; i < this.childModels.size(); ++i)
 						{
-							((ModelRenderer)this.childModels.get(i)).render(scale);
+							this.childModels.get(i).render(scale);
 						}
 					}
 

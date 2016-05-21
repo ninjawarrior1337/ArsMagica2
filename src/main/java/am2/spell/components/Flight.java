@@ -11,6 +11,8 @@ import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
 import am2.buffs.BuffEffectFlight;
 import am2.buffs.BuffList;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
@@ -59,7 +61,7 @@ public class Flight implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
@@ -96,7 +98,7 @@ public class Flight implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_WHITE),
 				Items.nether_star,
 				Items.ghast_tear
 		};
@@ -116,7 +118,7 @@ public class Flight implements ISpellComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.feather),
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_AIR),
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_AIR),
 				new ItemStack(BlocksCommonProxy.tarmaRoot)
 		};
 	}

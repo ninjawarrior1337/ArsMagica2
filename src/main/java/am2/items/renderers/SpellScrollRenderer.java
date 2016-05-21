@@ -103,7 +103,7 @@ public class SpellScrollRenderer implements IItemRenderer{
 
 			GL11.glPushMatrix();
 
-			if (((EntityPlayer)entity).getItemInUseCount() > 0){
+			if (entity.getItemInUseCount() > 0){
 				GL11.glRotatef(120, 1, 0, 1);
 				GL11.glRotatef(-10, 0, 1, 0);
 				GL11.glTranslatef(2f, 0f, 0.8f);
@@ -119,7 +119,7 @@ public class SpellScrollRenderer implements IItemRenderer{
 			GL11.glPopMatrix();
 
 			if (includeArm){
-				if (entity instanceof EntityPlayer && ((EntityPlayer)entity).getItemInUseCount() > 0){
+				if (entity instanceof EntityPlayer && entity.getItemInUseCount() > 0){
 					GL11.glRotatef(-130, 0, 1, 0);
 					GL11.glTranslatef(-1f, 0.2f, -2.5f);
 				}
@@ -131,7 +131,7 @@ public class SpellScrollRenderer implements IItemRenderer{
 				renderFirstPersonArm(mc.thePlayer);
 			}
 		}else{
-			if (entity instanceof EntityPlayer && ((EntityPlayer)entity).getItemInUseCount() > 0){
+			if (entity instanceof EntityPlayer && entity.getItemInUseCount() > 0){
 				GL11.glTranslatef(0.0f, 0.0f, 1.0f);
 			}else{
 				GL11.glTranslatef(0.0f, 0.0f, 1.6f);

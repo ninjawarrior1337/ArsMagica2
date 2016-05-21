@@ -1,28 +1,5 @@
 package am2;
 
-import am2.api.math.AMVector3;
-import am2.api.power.IPowerNode;
-import am2.api.power.PowerTypes;
-import am2.armor.AMArmor;
-import am2.armor.ArmorHelper;
-import am2.armor.infusions.GenericImbuement;
-import am2.blocks.BlockCrystalMarker;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.TileEntityCrystalMarker;
-import am2.blocks.tileentities.TileEntityParticleEmitter;
-import am2.buffs.BuffList;
-import am2.entities.EntityShadowHelper;
-import am2.guis.AMGuiHelper;
-import am2.items.ItemsCommonProxy;
-import am2.playerextensions.ExtendedProperties;
-import am2.power.PowerNodeEntry;
-import am2.utility.CloakUtils;
-import am2.utility.EntityUtilities;
-import am2.utility.RenderUtilities;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -34,8 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Facing;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -46,8 +21,31 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+
+import am2.api.math.AMVector3;
+import am2.api.power.IPowerNode;
+import am2.api.power.PowerTypes;
+import am2.armor.AMArmor;
+import am2.armor.ArmorHelper;
+import am2.armor.infusions.GenericImbuement;
+import am2.blocks.BlockCrystalMarker;
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.TileEntityCrystalMarker;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
+import am2.buffs.BuffList;
+import am2.client.guis.AMGuiHelper;
+import am2.entities.EntityShadowHelper;
+import am2.items.ItemsCommonProxy;
+import am2.playerextensions.ExtendedProperties;
+import am2.power.PowerNodeEntry;
+import am2.utility.CloakUtils;
+import am2.utility.EntityUtilities;
+import am2.utility.RenderUtilities;
 
 public class AMClientEventHandler{
 	@SubscribeEvent

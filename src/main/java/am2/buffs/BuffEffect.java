@@ -14,7 +14,7 @@ public abstract class BuffEffect extends PotionEffect{
 	public BuffEffect(int buffID, int duration, int amplifier){
 		super(buffID, duration, amplifier > 0 ? amplifier - 1 : amplifier);
 		InitialApplication = true;
-		HasNotified = ((duration / 20) > 5) ? false : true; //disable notification for effects that last less than 5 seconds
+		HasNotified = (duration / 20) <= 5; //disable notification for effects that last less than 5 seconds
 	}
 
 	public static boolean SetAmplifier(PotionEffect pe, int amplifier){
@@ -69,7 +69,7 @@ public abstract class BuffEffect extends PotionEffect{
 			HasNotified = true;
 		}
 		performEffect(entityliving);
-		if (AMCore.instance.proxy instanceof CommonProxy){
+		if (AMCore.proxy instanceof CommonProxy){
 			//run the base
 			return super.onUpdate(entityliving);
 		}else{

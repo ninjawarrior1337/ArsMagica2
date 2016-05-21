@@ -6,5 +6,5 @@ public interface ISkillTreeEntry{
 	 *
 	 * @return The ID of the part.
 	 */
-	public int getID();
+	int getID();
 }

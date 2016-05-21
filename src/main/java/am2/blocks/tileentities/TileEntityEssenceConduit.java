@@ -33,11 +33,7 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 			rotationIncrementZ = worldObj.rand.nextFloat() * 0.002f + 0.005f;
 			isFirstTick = false;
 		}
-		if (worldObj != null && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
-			redstonePowered = true;
-		}else{
-			redstonePowered = false;
-		}
+		redstonePowered = worldObj != null && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 		super.updateEntity();
 	}
 

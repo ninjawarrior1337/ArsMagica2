@@ -1,6 +1,6 @@
 package am2.commands;
 
-import am2.guis.GuiHudCustomization;
+import am2.client.guis.GuiHudCustomization;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;

@@ -387,7 +387,7 @@ public class ModelWinterGuardian extends ModelBase{
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				left_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
-				float pct = ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
+				float pct = ((guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
 				float degrees = -max_degrees_x + (final_degrees * pct);
 				left_arm_rotation_x = (float)Math.toRadians(degrees);
 				GL11.glRotatef((max_degrees_x + degrees) / 2, 1, 0, 0);
@@ -397,7 +397,7 @@ public class ModelWinterGuardian extends ModelBase{
 				GL11.glRotatef(final_degrees / 2, 1, 0, 0);
 				GL11.glTranslatef(0, 1f, 0);
 			}else{
-				float pct = 1.0f - ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks - fast_action_ticks - hold_ticks) / rise_ticks);
+				float pct = 1.0f - ((guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks - fast_action_ticks - hold_ticks) / rise_ticks);
 				float degrees = -max_degrees_x + (final_degrees * pct);
 				float degrees2 = -max_degrees_x + (final_degrees * (1.0f - pct));
 				left_arm_rotation_x = (float)Math.toRadians(degrees2);
@@ -413,7 +413,7 @@ public class ModelWinterGuardian extends ModelBase{
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				left_arm_rotation_x = (float)Math.toRadians(max_degrees_x * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
-				float pct = ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
+				float pct = ((guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
 				float degrees = max_degrees_x + (-max_degrees_x * pct);
 				left_arm_rotation_x = (float)Math.toRadians(degrees);
 				GL11.glRotatef(40 * pct, 1, 0, 0);
@@ -434,7 +434,7 @@ public class ModelWinterGuardian extends ModelBase{
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				left_arm_rotation_x = (float)Math.toRadians(max_degrees_x * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
-				float pct = ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
+				float pct = ((guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
 				if (guardian.hasLeftArm()){
 					GL11.glRotatef(-40 * pct, 0, 1, 0);
 				}else{
@@ -442,7 +442,7 @@ public class ModelWinterGuardian extends ModelBase{
 				}
 				left_arm_rotation_x = (float)Math.toRadians(max_degrees_x);
 			}else{
-				float pct = ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks - fast_action_ticks) / fast_action_ticks);
+				float pct = ((guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks - fast_action_ticks) / fast_action_ticks);
 				if (guardian.hasLeftArm()){
 					GL11.glRotatef(-40 + (40 * pct), 0, 1, 0);
 				}else{
@@ -462,7 +462,7 @@ public class ModelWinterGuardian extends ModelBase{
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				left_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * (((float)guardian.getTicksInCurrentAction() + (f2 -  guardian.ticksExisted)) / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
-				float pct = ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
+				float pct = ((guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks);
 				float degrees = -max_degrees_x + (max_degrees_x * pct);
 				left_arm_rotation_x = (float)Math.toRadians(degrees);
 				GL11.glRotatef(guardian.hasLeftArm() ? 360 * pct : -360 * pct, 0, 1, 0);

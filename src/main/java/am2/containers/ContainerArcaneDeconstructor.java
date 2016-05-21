@@ -66,7 +66,7 @@ public class ContainerArcaneDeconstructor extends AM2Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -113,7 +113,7 @@ public class ContainerArcaneDeconstructor extends AM2Container{
 	private boolean mergeSpecialItems(ItemStack stack, Slot slot){
 		if (stack.getItem() instanceof ItemFocusCharge){
 			for (int b = 0; b < 3; ++b){
-				Slot focusSlot = (Slot)inventorySlots.get(b);
+				Slot focusSlot = inventorySlots.get(b);
 				if (focusSlot.getHasStack()) continue;
 
 				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));

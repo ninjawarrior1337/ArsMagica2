@@ -5,6 +5,7 @@ import am2.api.blocks.IKeystoneLockable;
 import am2.api.power.PowerTypes;
 import am2.items.ItemFocusCharge;
 import am2.items.ItemFocusMana;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
@@ -164,7 +165,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 				if (Math.random() <= 0.25){
 					if (calefactorItemStacks[5] == null){
-						calefactorItemStacks[5] = new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST);
+						calefactorItemStacks[5] = new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_VINTEUMDUST);
 					}else{
 						calefactorItemStacks[5].stackSize++;
 						if (calefactorItemStacks[5].stackSize > calefactorItemStacks[5].getMaxStackSize()){
@@ -255,14 +256,14 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 					AMCore.proxy.particleManager.BeamFromPointToPoint(worldObj, rStartX, rStartY, rStartZ, endX, endY, endZ, 0xFF8811);
 					if (worldObj.rand.nextBoolean()){
-						AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "smoke", endX, endY, endZ);
+						AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "smoke", endX, endY, endZ);
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
 							effect.setMaxAge(60);
 							effect.AddParticleController(new ParticleFloatUpward(effect, 0.02f, 0.01f, 1, false));
 						}
 					}else{
-						AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "explosion_2", endX, endY, endZ);
+						AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "explosion_2", endX, endY, endZ);
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
 							effect.setMaxAge(10);
@@ -418,7 +419,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		calefactorItemStacks = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < calefactorItemStacks.length){
 				calefactorItemStacks[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

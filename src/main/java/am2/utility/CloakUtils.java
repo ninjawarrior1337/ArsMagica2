@@ -61,7 +61,7 @@ public class CloakUtils{
 
 		if (data == null){
 			TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-			Object object = new ThreadDownloadImageData((File)null, AMCore.proxy.playerTracker.getCLF(uuid), null, null);
+			Object object = new ThreadDownloadImageData(null, AMCore.proxy.playerTracker.getCLF(uuid), null, null);
 			texturemanager.loadTexture(resourceLocation, (ITextureObject)object);
 			data = (ThreadDownloadImageData)object;
 			downloadedCloaks.put(uuid, data);

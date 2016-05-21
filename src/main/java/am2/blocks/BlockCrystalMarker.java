@@ -5,7 +5,7 @@ import am2.api.math.AMVector3;
 import am2.blocks.tileentities.TileEntityCrystalMarker;
 import am2.blocks.tileentities.TileEntityCrystalMarkerSpellExport;
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -116,11 +116,8 @@ public class BlockCrystalMarker extends BlockContainer{
 		if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.crystalWrench){
 			player.swingItem();
 
-			if (world.isRemote){
-				return true;
-			}
+			return world.isRemote;
 
-			return false;
 		}else if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.spellStaffMagitech){
 			//if we're here, we are changing the crystal's priority level
 			//swing the item, first off.
@@ -169,7 +166,7 @@ public class BlockCrystalMarker extends BlockContainer{
 			}
 
 			return false;
-		}else if (operandType == this.META_SET_EXPORT || operandType == this.META_REGULATE_EXPORT || operandType == this.META_REGULATE_MULTI || operandType == this.META_SET_IMPORT){
+		}else if (operandType == META_SET_EXPORT || operandType == META_REGULATE_EXPORT || operandType == META_REGULATE_MULTI || operandType == META_SET_IMPORT){
 			FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_CRYSTAL_MARKER, world, x, y, z);
 			return true;
 		}

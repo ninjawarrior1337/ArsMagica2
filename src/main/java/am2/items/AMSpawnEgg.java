@@ -2,7 +2,7 @@ package am2.items;
 
 import am2.bosses.*;
 import am2.entities.*;
-import am2.guis.AMGuiIcons;
+import am2.client.guis.AMGuiIcons;
 import am2.particles.AMParticleIcons;
 import am2.spell.SpellTextureHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -228,7 +228,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 
 			if (entity != null){
 				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName()){
-					((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayName());
+					entity.setCustomNameTag(par1ItemStack.getDisplayName());
 				}
 
 				if (!par2EntityPlayer.capabilities.isCreativeMode){
@@ -250,7 +250,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 
 			if (entity != null){
 				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName()){
-					((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayName());
+					entity.setCustomNameTag(par1ItemStack.getDisplayName());
 				}
 
 				if (!par3EntityPlayer.capabilities.isCreativeMode){

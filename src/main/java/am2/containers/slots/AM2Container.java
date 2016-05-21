@@ -14,7 +14,7 @@ public abstract class AM2Container extends Container{
 
 	@Override
 	public ItemStack slotClick(int slotNum, int mouseButton, int modifier, EntityPlayer player){
-		Slot slot = slotNum < 0 ? null : (Slot)this.inventorySlots.get(slotNum);
+		Slot slot = slotNum < 0 ? null : this.inventorySlots.get(slotNum);
 		if (slot instanceof SlotGhostItem){
 			return slotClickGhost(slot, mouseButton, modifier, player);
 		}
@@ -77,7 +77,7 @@ public abstract class AM2Container extends Container{
 		stackSlot.stackSize = stackSize;
 
 		if (stackSlot.stackSize <= 0){
-			slot.putStack((ItemStack)null);
+			slot.putStack(null);
 		}
 	}
 
@@ -100,7 +100,7 @@ public abstract class AM2Container extends Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex){
 		ItemStack originalStack = null;
-		Slot slot = (Slot)inventorySlots.get(slotIndex);
+		Slot slot = inventorySlots.get(slotIndex);
 		int numSlots = inventorySlots.size();
 		if (slot != null && slot.getHasStack()){
 			ItemStack stackInSlot = slot.getStack();
@@ -138,7 +138,7 @@ public abstract class AM2Container extends Container{
 		boolean changed = false;
 		if (stackToShift.isStackable()){
 			for (int slotIndex = start; stackToShift.stackSize > 0 && slotIndex < end; slotIndex++){
-				Slot slot = (Slot)inventorySlots.get(slotIndex);
+				Slot slot = inventorySlots.get(slotIndex);
 				ItemStack stackInSlot = slot.getStack();
 				if (stackInSlot != null && InventoryUtilities.canStacksMerge(stackInSlot, stackToShift)){
 					int resultingStackSize = stackInSlot.stackSize + stackToShift.stackSize;
@@ -160,7 +160,7 @@ public abstract class AM2Container extends Container{
 
 		if (stackToShift.stackSize > 0){
 			for (int slotIndex = start; stackToShift.stackSize > 0 && slotIndex < end; slotIndex++){
-				Slot slot = (Slot)inventorySlots.get(slotIndex);
+				Slot slot = inventorySlots.get(slotIndex);
 				ItemStack stackInSlot = slot.getStack();
 				if (stackInSlot == null){
 					int max = Math.min(stackToShift.getMaxStackSize(), slot.getSlotStackLimit());
@@ -179,7 +179,7 @@ public abstract class AM2Container extends Container{
 
 	private boolean tryShiftItem(ItemStack stackToShift, int numSlots){
 		for (int machineIndex = 0; machineIndex < numSlots - 9 * 4; machineIndex++){
-			Slot slot = (Slot)inventorySlots.get(machineIndex);
+			Slot slot = inventorySlots.get(machineIndex);
 			if (slot instanceof IGhostSlot){
 				continue;
 			}

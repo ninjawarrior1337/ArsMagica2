@@ -56,7 +56,7 @@ public class EntityAIShadowstep extends AIAnimation{
 			guardian.lastTickPosX = x;
 			guardian.lastTickPosY = y;
 			guardian.lastTickPosZ = z;
-			guardian.worldObj.playSoundAtEntity(guardian, ((IArsMagicaBoss)guardian).getAttackSound(), 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f));
+			guardian.worldObj.playSoundAtEntity(guardian, guardian.getAttackSound(), 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f));
 		}
 		super.resetTask();
 	}

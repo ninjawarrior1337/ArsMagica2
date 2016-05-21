@@ -178,7 +178,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 
 	public void handlePacket(byte[] data){
 		AMDataReader rdr = new AMDataReader(data);
-		if (rdr.ID == this.PK_BURNTIME_CHANGE)
+		if (rdr.ID == PK_BURNTIME_CHANGE)
 			this.burnTimeRemaining = rdr.getInt();
 	}
 
@@ -284,7 +284,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 			inventory = new ItemStack[getSizeInventory()];
 			for (int i = 0; i < nbttaglist.tagCount(); i++){
 				String tag = String.format("ArrayIndex", i);
-				NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+				NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 				byte byte0 = nbttagcompound1.getByte(tag);
 				if (byte0 >= 0 && byte0 < inventory.length){
 					inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

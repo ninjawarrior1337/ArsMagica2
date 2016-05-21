@@ -1,32 +1,9 @@
 package am2.proxy;
 
-import am2.*;
-import am2.affinity.AffinityHelper;
-import am2.api.math.AMVector3;
-import am2.api.power.IPowerNode;
-import am2.api.power.PowerTypes;
-import am2.armor.ArmorEventHandler;
-import am2.armor.infusions.*;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.TileEntityParticleEmitter;
-import am2.buffs.BuffList;
-import am2.enchantments.AMEnchantments;
-import am2.entities.EntityManager;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMNetHandler;
-import am2.network.AMPacketProcessorServer;
-import am2.particles.ParticleManagerServer;
-import am2.playerextensions.ExtendedProperties;
-import am2.power.PowerNodeCache;
-import am2.power.PowerNodeEntry;
-import am2.proxy.gui.ServerGuiManager;
-import am2.proxy.tick.ServerTickHandler;
-import am2.spell.SkillManager;
-import am2.spell.SkillTreeManager;
-import am2.spell.SpellUnlockManager;
-import am2.utility.ProxyUtilitiesCommon;
-import am2.worldgen.AM2WorldDecorator;
-import am2.worldgen.RetroactiveWorldgenerator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -47,10 +24,58 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.server.FMLServerHandler;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import am2.AMCore;
+import am2.AMEventHandler;
+import am2.AMWorldEventHandler;
+import am2.EntityItemWatcher;
+import am2.ItemFrameWatcher;
+import am2.ObeliskFuelHelper;
+import am2.PlayerTracker;
+import am2.ShrinkHandler;
+import am2.affinity.AffinityHelper;
+import am2.api.math.AMVector3;
+import am2.api.power.IPowerNode;
+import am2.api.power.PowerTypes;
+import am2.armor.ArmorEventHandler;
+import am2.armor.infusions.DamageReductionImbuement;
+import am2.armor.infusions.Dispelling;
+import am2.armor.infusions.FallProtection;
+import am2.armor.infusions.FireProtection;
+import am2.armor.infusions.Freedom;
+import am2.armor.infusions.GenericImbuement;
+import am2.armor.infusions.Healing;
+import am2.armor.infusions.HungerBoost;
+import am2.armor.infusions.ImbuementRegistry;
+import am2.armor.infusions.JumpBoost;
+import am2.armor.infusions.LifeSaving;
+import am2.armor.infusions.Lightstep;
+import am2.armor.infusions.MiningSpeed;
+import am2.armor.infusions.Recoil;
+import am2.armor.infusions.SwimSpeed;
+import am2.armor.infusions.WaterBreathing;
+import am2.armor.infusions.WaterWalking;
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
+import am2.buffs.BuffList;
+import am2.enchantments.AMEnchantments;
+import am2.entities.EntityManager;
+import am2.items.ItemOre;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMNetHandler;
+import am2.network.AMPacketProcessorServer;
+import am2.particles.ParticleManagerServer;
+import am2.playerextensions.ExtendedProperties;
+import am2.power.PowerNodeCache;
+import am2.power.PowerNodeEntry;
+import am2.proxy.gui.ServerGuiManager;
+import am2.proxy.tick.ServerTickHandler;
+import am2.spell.SkillManager;
+import am2.spell.SkillTreeManager;
+import am2.spell.SpellUnlockManager;
+import am2.utility.ProxyUtilitiesCommon;
+import am2.worldgen.AM2WorldDecorator;
+import am2.worldgen.RetroactiveWorldgenerator;
+import am2.ItemFrameWatcher;
 
 public class CommonProxy{
 	private ArrayList<AMVector3> pendingFlickerLinks;
@@ -123,7 +148,7 @@ public class CommonProxy{
 		blocks.InstantiateBlocks();
 		items.InstantiateItems();
 
-		ObeliskFuelHelper.instance.registerFuelType(new ItemStack(ItemsCommonProxy.itemOre, 0, ItemsCommonProxy.itemOre.META_VINTEUMDUST), 200);
+		ObeliskFuelHelper.instance.registerFuelType(new ItemStack(ItemsCommonProxy.itemOre, 0, ItemOre.META_VINTEUMDUST), 200);
 		ObeliskFuelHelper.instance.registerFuelType(new ItemStack(ItemsCommonProxy.itemAMBucket, 0, Short.MAX_VALUE), 2000);
 
 		registerInfusions();
@@ -175,7 +200,7 @@ public class CommonProxy{
 		}
 
 		chunks.add(pair);
-		RetroactiveWorldgenerator.instance.deferredChunkGeneration.put(dimensionID, chunks);
+		RetroactiveWorldgenerator.deferredChunkGeneration.put(dimensionID, chunks);
 	}
 
 	public void flashManaBar(){

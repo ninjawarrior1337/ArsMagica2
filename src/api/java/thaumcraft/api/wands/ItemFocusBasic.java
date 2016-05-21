@@ -154,9 +154,8 @@ public class ItemFocusBasic extends Item  implements IWandFocus {
 	 **/
 	@Override
 	public boolean acceptsEnchant(int id) {
-		if (id==ThaumcraftApi.enchantFrugal||
-			id==ThaumcraftApi.enchantPotency) return true;
-		return false;
+		return id == ThaumcraftApi.enchantFrugal ||
+				id == ThaumcraftApi.enchantPotency;
 	}
 
 	

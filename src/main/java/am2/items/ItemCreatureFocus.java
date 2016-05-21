@@ -1,6 +1,6 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.init.Blocks;

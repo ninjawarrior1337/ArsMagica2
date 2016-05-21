@@ -4,7 +4,7 @@ import am2.entities.ai.EntityAIRangedAttackSpell;
 import am2.entities.ai.selectors.DarkMageEntitySelector;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import am2.utility.NPCSpells;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -57,9 +57,9 @@ public class EntityDarkMage extends EntityMob{
 		if (cm == 0)
 			return diminishedHeldItem;
 		else if (cm == 1)
-			return this.normalHeldItem;
+			return normalHeldItem;
 		else
-			return this.augmentedHeldItem;
+			return augmentedHeldItem;
 	}
 
 	private void initAI(){

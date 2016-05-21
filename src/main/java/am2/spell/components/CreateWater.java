@@ -2,6 +2,7 @@ package am2.spell.components;
 
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
@@ -98,7 +99,7 @@ public class CreateWater implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE),
 				Items.water_bucket
 		};
 	}

@@ -1,9 +1,7 @@
 package am2;
 
-import am2.api.math.AMVector3;
-import am2.blocks.tileentities.flickers.FlickerOperatorMoonstoneAttractor;
-import am2.entities.EntityThrownRock;
-import am2.playerextensions.ExtendedProperties;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,8 +9,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
-
-import java.util.Random;
+import am2.api.math.AMVector3;
+import am2.blocks.tileentities.flickers.FlickerOperatorMoonstoneAttractor;
+import am2.entities.EntityThrownRock;
+import am2.playerextensions.ExtendedProperties;
 
 public class MeteorSpawnHelper{
 	private final Random rand = new Random();
@@ -50,7 +50,7 @@ public class MeteorSpawnHelper{
 			if (ws.playerEntities.size() < 1) return;
 
 			int playerID = rand.nextInt(ws.playerEntities.size());
-			EntityPlayer player = (EntityPlayer)ws.playerEntities.get(playerID);
+			EntityPlayer player = ws.playerEntities.get(playerID);
 
 			if (ExtendedProperties.For(player).getMagicLevel() < AMCore.config.getMeteorMinSpawnLevel()) return;
 

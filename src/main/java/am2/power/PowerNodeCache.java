@@ -35,7 +35,7 @@ public class PowerNodeCache{
 		if (saveFolder == null){
 			ISaveHandler handler = world.getSaveHandler();
 			if (handler instanceof SaveHandler){
-				saveFolder = new File(((SaveHandler)handler).getWorldDirectory(), folder);
+				saveFolder = new File(handler.getWorldDirectory(), folder);
 				saveFolder.mkdirs();
 				saveFolder = new File(saveFolder, String.format("DIM%d", world.provider.dimensionId));
 				saveFolder.mkdirs();

@@ -136,7 +136,7 @@ public class EntityFireElemental extends EntityMob{
 			}
 
 			if (inanimate != null && worldObj.isRemote){
-				AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "fire", posX, posY + getEyeHeight(), posZ);
+				AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "fire", posX, posY + getEyeHeight(), posZ);
 				if (effect != null){
 					effect.setIgnoreMaxAge(true);
 					effect.AddParticleController(new ParticleApproachPoint(effect, inanimate.posX + (rand.nextFloat() - 0.5), inanimate.posY + (rand.nextFloat() - 0.5), inanimate.posZ + (rand.nextFloat() - 0.5), 0.1f, 0.1f, 1, false).setKillParticleOnFinish(true));

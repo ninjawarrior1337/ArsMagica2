@@ -4,6 +4,7 @@ import am2.api.blocks.MultiblockStructureDefinition.BlockCoord;
 import am2.api.math.AMVector3;
 import am2.blocks.tileentities.TileEntityCraftingAltar;
 import am2.entities.EntityShadowHelper;
+import am2.items.ItemEssence;
 import am2.items.ItemsCommonProxy;
 import am2.utility.InventoryUtilities;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -48,7 +49,7 @@ public class EntityAISpellmaking extends EntityAIBase{
 		AMVector3 hostLocation = new AMVector3(host);
 
 		ItemStack searchItem = host.getSearchItem();
-		if (searchItem.getItem() == ItemsCommonProxy.essence && searchItem.getItemDamage() > ItemsCommonProxy.essence.META_MAX){
+		if (searchItem.getItem() == ItemsCommonProxy.essence && searchItem.getItemDamage() > ItemEssence.META_MAX){
 			TileEntityCraftingAltar altar = host.getAltarTarget();
 			if (altar.switchIsOn())
 				return;

@@ -40,7 +40,7 @@ public interface IBuffHelper{
 	 *
 	 * @param name The name of the potion to find.  Case sensitive.
 	 */
-	public int getPotionID(String name);
+	int getPotionID(String name);
 
 	/**
 	 * Adds a potion to the dispel blacklist, essentially making it un-dispellable.
@@ -48,5 +48,5 @@ public interface IBuffHelper{
 	 * @param id The id to cause dispel to ignore.
 	 * @return True on success, otherwise false.
 	 */
-	public void addDispelExclusion(int id);
+	void addDispelExclusion(int id);
 }

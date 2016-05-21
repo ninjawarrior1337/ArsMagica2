@@ -3,7 +3,7 @@ package am2.blocks.renderers;
 import am2.blocks.BlockEssenceConduit;
 import am2.blocks.BlocksClientProxy;
 import am2.blocks.BlocksCommonProxy;
-import am2.guis.GuiBlockAccess;
+import am2.client.guis.GuiBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

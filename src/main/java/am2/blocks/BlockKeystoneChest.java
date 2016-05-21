@@ -3,7 +3,7 @@ package am2.blocks;
 import am2.AMCore;
 import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneChest;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.utility.KeystoneUtilities;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

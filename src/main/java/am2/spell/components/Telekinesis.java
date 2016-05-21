@@ -5,6 +5,7 @@ import am2.api.ArsMagicaApi;
 import am2.api.math.AMVector3;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachPoint;
@@ -108,7 +109,7 @@ public class Telekinesis implements ISpellComponent{
 		}
 
 
-		AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "arcane", x - 0.5 + rand.nextDouble(), y - 0.5 + rand.nextDouble(), z - 0.5 + rand.nextDouble());
+		AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(world, "arcane", x - 0.5 + rand.nextDouble(), y - 0.5 + rand.nextDouble(), z - 0.5 + rand.nextDouble());
 		if (effect != null){
 			effect.AddParticleController(new ParticleApproachPoint(effect, x, y, z, 0.025f, 0.025f, 1, false));
 			effect.setRGBColorF(0.8f, 0.3f, 0.7f);
@@ -131,7 +132,7 @@ public class Telekinesis implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_PURPLE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_PURPLE),
 				Blocks.sticky_piston,
 				Blocks.chest
 		};

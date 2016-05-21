@@ -4,7 +4,7 @@ import am2.AMCore;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticlePendulum;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockLeaves;

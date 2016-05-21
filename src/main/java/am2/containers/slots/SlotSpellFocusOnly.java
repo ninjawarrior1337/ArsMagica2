@@ -13,10 +13,7 @@ public class SlotSpellFocusOnly extends Slot{
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack){
-		if (itemstack.getItem() instanceof ISpellFocus){
-			return true;
-		}
-		return false;
+		return itemstack.getItem() instanceof ISpellFocus;
 	}
 
 }

@@ -4,7 +4,7 @@ import am2.AMCore;
 import am2.blocks.tileentities.TileEntityBlackAurem;
 import am2.blocks.tileentities.TileEntityCelestialPrism;
 import am2.blocks.tileentities.TileEntityObelisk;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

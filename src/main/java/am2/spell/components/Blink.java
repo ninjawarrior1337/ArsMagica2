@@ -7,6 +7,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.tileentities.TileEntityAstralBarrier;
 import am2.buffs.BuffList;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
@@ -248,7 +249,7 @@ public class Blink implements ISpellComponent{
 		}
 
 		if (!world.isRemote){
-			((EntityLivingBase)target).setPositionAndUpdate(newX, newY, newZ);
+			target.setPositionAndUpdate(newX, newY, newZ);
 		}
 
 		return true;
@@ -309,10 +310,7 @@ public class Blink implements ISpellComponent{
 			secondBlockBB = secondBlock.getCollisionBoundingBoxFromPool(world, x, y, z);
 		}
 
-		if ((firstBlockBB == null && secondBlockBB == null)){
-			return true;
-		}
-		return false;
+		return (firstBlockBB == null && secondBlockBB == null);
 	}
 
 	protected double GetTeleportDistance(ItemStack stack, EntityLivingBase caster, Entity target){
@@ -328,7 +326,7 @@ public class Blink implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_PURPLE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_PURPLE),
 				Items.ender_pearl
 		};
 	}

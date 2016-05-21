@@ -52,7 +52,7 @@ public class ContainerInscriptionTable extends Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -98,7 +98,7 @@ public class ContainerInscriptionTable extends Container{
 
 	private boolean mergeSpecialItems(ItemStack stack, Slot slot){
 		if (stack.getItem() instanceof ItemWritableBook){
-			Slot bookSlot = (Slot)inventorySlots.get(0);
+			Slot bookSlot = inventorySlots.get(0);
 			if (bookSlot.getHasStack()) return false;
 
 			ItemStack newStack = stack.copy();
@@ -177,14 +177,14 @@ public class ContainerInscriptionTable extends Container{
 	}
 
 	public boolean slotHasStack(int slot){
-		return ((Slot)this.inventorySlots.get(slot)).getHasStack();
+		return this.inventorySlots.get(slot).getHasStack();
 	}
 
 	public boolean slotIsBook(int slot){
 		return slotHasStack(slot) &&
-				((Slot)this.inventorySlots.get(slot)).getStack().getItem() == Items.written_book &&
-				((Slot)this.inventorySlots.get(slot)).getStack().getTagCompound() != null &&
-				!((Slot)this.inventorySlots.get(slot)).getStack().getTagCompound().getBoolean("spellFinalized");
+				this.inventorySlots.get(slot).getStack().getItem() == Items.written_book &&
+				this.inventorySlots.get(slot).getStack().getTagCompound() != null &&
+				!this.inventorySlots.get(slot).getStack().getTagCompound().getBoolean("spellFinalized");
 	}
 
 	public SpellValidator.ValidationResult validateCurrentDefinition(){
@@ -205,10 +205,10 @@ public class ContainerInscriptionTable extends Container{
 	}
 
 	public void resetSpellNameAndIcon(){
-		ItemStack stack = ((Slot)this.inventorySlots.get(0)).getStack();
+		ItemStack stack = this.inventorySlots.get(0).getStack();
 		if (stack != null)
 			table.resetSpellNameAndIcon(stack, inventoryPlayer.player);
-		((Slot)(this.inventorySlots.get(0))).onSlotChanged();
+		this.inventorySlots.get(0).onSlotChanged();
 		detectAndSendChanges();
 	}
 }

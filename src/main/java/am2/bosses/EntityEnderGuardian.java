@@ -5,6 +5,8 @@ import am2.api.math.AMVector3;
 import am2.bosses.ai.*;
 import am2.buffs.BuffList;
 import am2.damage.DamageSources;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -130,7 +132,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		int cheater = 0;
 
 		if (par1DamageSource.getSourceOfDamage() instanceof EntityEnderman){
-			((EntityEnderman)par1DamageSource.getSourceOfDamage()).attackEntityFrom(DamageSources.wtfBoom, 5000);
+			par1DamageSource.getSourceOfDamage().attackEntityFrom(DamageSources.wtfBoom, 5000);
 			this.heal(10);
 			return false;
 		}
@@ -243,12 +245,12 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_RED), 0.0f);
+			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_INF_ORB_RED), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ENDER), 0.0f);
+			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_ENDER), 0.0f);
 		}
 
 		i = rand.nextInt(10);

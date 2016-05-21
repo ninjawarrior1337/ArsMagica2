@@ -183,11 +183,11 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 		super.updateEntity();
 
 		if (!worldObj.isRemote && phylactery != null && ((ItemCrystalPhylactery)phylactery.getItem()).isFull(phylactery) && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
-			if (this.powerConsumed < this.SUMMON_REQ){
+			if (this.powerConsumed < SUMMON_REQ){
 				this.powerConsumed += PowerNodeRegistry.For(worldObj).consumePower(
 						this,
 						PowerTypes.DARK,
-						Math.min(this.getCapacity(), this.SUMMON_REQ - this.powerConsumed)
+						Math.min(this.getCapacity(), SUMMON_REQ - this.powerConsumed)
 				);
 			}else{
 				this.powerConsumed = 0;

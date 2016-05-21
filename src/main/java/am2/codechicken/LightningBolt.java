@@ -1,7 +1,7 @@
 package am2.codechicken;
 
 import am2.api.math.AMVector3;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -317,7 +317,6 @@ public class LightningBolt extends EntityFX{
 			tessellator.startDrawingQuads();
 		}catch (Throwable t){
 		}
-		;
 		tessellator.setBrightness(brightness);
 		renderBolt(tessellator, partialframe, cosyaw, cospitch, sinyaw, cossinpitch, 1);
 		try{

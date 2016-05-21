@@ -134,9 +134,9 @@ public class SpellRecipeManager{
 				if (o instanceof ItemStack){
 					matches = compareItemStacks(((ItemStack)o), recipeItem);
 				}else if (o instanceof Item){
-					matches = ((Item)o) == recipeItem.getItem();
+					matches = o == recipeItem.getItem();
 				}else if (o instanceof Block){
-					matches = ((Block)o) == Block.getBlockFromItem(recipeItem.getItem());
+					matches = o == Block.getBlockFromItem(recipeItem.getItem());
 				}else if (o instanceof String){
 					if (((String)o).startsWith("P:")){
 						//potion
@@ -263,9 +263,9 @@ public class SpellRecipeManager{
 	}
 
 	private boolean compareItemStacks(ItemStack target, ItemStack input){
-		if (target.getItem() == ItemsCommonProxy.essence && target.getItemDamage() > ItemsCommonProxy.essence.META_MAX){
-			int targetMetaMask = target.getItemDamage() - ItemsCommonProxy.essence.META_MAX;
-			int inputMetaMask = input.getItemDamage() - ItemsCommonProxy.essence.META_MAX;
+		if (target.getItem() == ItemsCommonProxy.essence && target.getItemDamage() > ItemEssence.META_MAX){
+			int targetMetaMask = target.getItemDamage() - ItemEssence.META_MAX;
+			int inputMetaMask = input.getItemDamage() - ItemEssence.META_MAX;
 
 			return target.getItem() == input.getItem() && (targetMetaMask & inputMetaMask) != 0;
 		}else{

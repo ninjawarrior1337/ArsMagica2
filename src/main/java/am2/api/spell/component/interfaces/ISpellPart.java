@@ -24,5 +24,5 @@ public interface ISpellPart extends ISkillTreeEntry{
 	 *     etc.
 	 * </pre>
 	 */
-	public Object[] getRecipeItems();
+	Object[] getRecipeItems();
 }

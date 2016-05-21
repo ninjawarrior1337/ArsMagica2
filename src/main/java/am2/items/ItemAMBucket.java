@@ -1,7 +1,7 @@
 package am2.items;
 
 import am2.blocks.BlocksCommonProxy;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;

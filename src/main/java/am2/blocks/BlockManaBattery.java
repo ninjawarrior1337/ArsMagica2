@@ -5,7 +5,7 @@ import am2.api.power.PowerTypes;
 import am2.blocks.tileentities.TileEntityManaBattery;
 import am2.entities.EntityDummyCaster;
 import am2.power.PowerNodeRegistry;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;

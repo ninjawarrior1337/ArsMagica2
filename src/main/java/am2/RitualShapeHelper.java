@@ -1,16 +1,20 @@
 package am2;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.MultiblockStructureDefinition.StructureGroup;
 import am2.api.spell.component.interfaces.IRitualInteraction;
 import am2.blocks.BlocksCommonProxy;
 import am2.utility.InventoryUtilities;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-
-import java.util.*;
 
 public class RitualShapeHelper{
 	public MultiblockStructureDefinition ringedCross;

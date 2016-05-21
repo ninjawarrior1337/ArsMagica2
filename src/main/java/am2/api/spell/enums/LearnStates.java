@@ -6,4 +6,4 @@ public enum LearnStates{
 	CANNOT_LEARN,
 	LOCKED,
 	DISABLED
-};
+}

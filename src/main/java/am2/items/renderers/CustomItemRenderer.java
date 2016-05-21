@@ -4,7 +4,7 @@ import am2.api.spell.enums.Affinity;
 import am2.bosses.models.ModelPlantGuardianSickle;
 import am2.items.ItemsCommonProxy;
 import am2.proxy.gui.ModelLibrary;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

@@ -5,6 +5,7 @@ import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.MultiblockStructureDefinition.StructureGroup;
 import am2.api.math.AMVector3;
 import am2.api.power.PowerTypes;
+import am2.blocks.BlockAMOre;
 import am2.blocks.BlocksCommonProxy;
 import am2.buffs.BuffEffectManaRegen;
 import am2.buffs.BuffList;
@@ -63,27 +64,27 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 
 		structure.addAllowedBlock(pillars, -2, 0, -2, Blocks.nether_brick);
 		structure.addAllowedBlock(pillars, -2, 1, -2, Blocks.nether_brick);
-		structure.addAllowedBlock(chimerite, -2, 2, -2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_BLOCK);
+		structure.addAllowedBlock(chimerite, -2, 2, -2, BlocksCommonProxy.AMOres, BlockAMOre.META_CHIMERITE_BLOCK);
 		structure.addAllowedBlock(obsidian, -2, 2, -2, Blocks.obsidian);
-		structure.addAllowedBlock(sunstone, -2, 2, -2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_BLOCK);
+		structure.addAllowedBlock(sunstone, -2, 2, -2, BlocksCommonProxy.AMOres, BlockAMOre.META_SUNSTONE_BLOCK);
 
 		structure.addAllowedBlock(pillars, 2, 0, -2, Blocks.nether_brick);
 		structure.addAllowedBlock(pillars, 2, 1, -2, Blocks.nether_brick);
-		structure.addAllowedBlock(chimerite, 2, 2, -2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_BLOCK);
+		structure.addAllowedBlock(chimerite, 2, 2, -2, BlocksCommonProxy.AMOres, BlockAMOre.META_CHIMERITE_BLOCK);
 		structure.addAllowedBlock(obsidian, 2, 2, -2, Blocks.obsidian);
-		structure.addAllowedBlock(sunstone, 2, 2, -2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_BLOCK);
+		structure.addAllowedBlock(sunstone, 2, 2, -2, BlocksCommonProxy.AMOres, BlockAMOre.META_SUNSTONE_BLOCK);
 
 		structure.addAllowedBlock(pillars, -2, 0, 2, Blocks.nether_brick);
 		structure.addAllowedBlock(pillars, -2, 1, 2, Blocks.nether_brick);
-		structure.addAllowedBlock(chimerite, -2, 2, 2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_BLOCK);
+		structure.addAllowedBlock(chimerite, -2, 2, 2, BlocksCommonProxy.AMOres, BlockAMOre.META_CHIMERITE_BLOCK);
 		structure.addAllowedBlock(obsidian, -2, 2, 2, Blocks.obsidian);
-		structure.addAllowedBlock(sunstone, -2, 2, 2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_BLOCK);
+		structure.addAllowedBlock(sunstone, -2, 2, 2, BlocksCommonProxy.AMOres, BlockAMOre.META_SUNSTONE_BLOCK);
 
 		structure.addAllowedBlock(pillars, 2, 0, 2, Blocks.nether_brick);
 		structure.addAllowedBlock(pillars, 2, 1, 2, Blocks.nether_brick);
-		structure.addAllowedBlock(chimerite, 2, 2, 2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_BLOCK);
+		structure.addAllowedBlock(chimerite, 2, 2, 2, BlocksCommonProxy.AMOres, BlockAMOre.META_CHIMERITE_BLOCK);
 		structure.addAllowedBlock(obsidian, 2, 2, 2, Blocks.obsidian);
-		structure.addAllowedBlock(sunstone, 2, 2, 2, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_BLOCK);
+		structure.addAllowedBlock(sunstone, 2, 2, 2, BlocksCommonProxy.AMOres, BlockAMOre.META_SUNSTONE_BLOCK);
 
 		wizardChalkCircle = addWizChalkGroupToStructure(structure, 1);
 	}

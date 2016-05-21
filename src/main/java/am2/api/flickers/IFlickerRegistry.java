@@ -8,5 +8,5 @@ public interface IFlickerRegistry{
 	 * @param mask      The bit mask representing the flicker combination.  These are ORed affinity masks.  @see am2.api.spell.enums.Affinity.getMask for specific mask flags (flickers represent an affinity)
 	 * @return True if registered, false if the mask is already in use.
 	 */
-	public boolean registerFlickerOperator(IFlickerFunctionality singleton, int mask);
+	boolean registerFlickerOperator(IFlickerFunctionality singleton, int mask);
 }

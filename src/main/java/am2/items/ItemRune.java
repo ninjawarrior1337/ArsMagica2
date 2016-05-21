@@ -9,7 +9,7 @@ import am2.particles.AMLineArc;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
 import am2.spell.SpellUtils;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

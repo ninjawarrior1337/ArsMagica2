@@ -24,11 +24,8 @@ public abstract class PoweredBlock extends AMBlockContainer{
 			return false;
 		}
 
-		if (player.getCurrentEquippedItem() != null && (player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.spellStaffMagitech || player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.crystalWrench)){
-			return true;
-		}
+		return player.getCurrentEquippedItem() != null && (player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.spellStaffMagitech || player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.crystalWrench);
 
-		return false;
 	}
 
 	protected String getColorNameFromPowerType(PowerTypes type){
@@ -39,10 +36,7 @@ public abstract class PoweredBlock extends AMBlockContainer{
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
 
-		if (HandleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
-			return false;
-		}
-		return true;
+		return !HandleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4);
 	}
 
 	@Override

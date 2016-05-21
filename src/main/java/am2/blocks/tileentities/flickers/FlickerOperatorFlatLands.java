@@ -4,6 +4,8 @@ import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.utility.DummyEntityPlayer;
 import net.minecraft.block.Block;
@@ -95,9 +97,9 @@ public class FlickerOperatorFlatLands implements IFlickerFunctionality{
 				Character.valueOf('S'), Items.iron_shovel,
 				Character.valueOf('P'), Items.iron_pickaxe,
 				Character.valueOf('E'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.EARTH.ordinal()),
-				Character.valueOf('N'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH),
+				Character.valueOf('N'), new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_EARTH),
 				Character.valueOf('I'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.ICE.ordinal()),
-				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK)
+				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK)
 		};
 	}
 }

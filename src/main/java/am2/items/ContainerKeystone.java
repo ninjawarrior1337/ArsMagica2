@@ -93,17 +93,17 @@ public class ContainerKeystone extends Container{
 	}
 
 	public ItemStack[] GetFullKeystoneInventory(){
-		ItemStack[] stack = new ItemStack[keyStoneInventory.inventorySize];
-		for (int i = 0; i < keyStoneInventory.inventorySize; ++i){
-			stack[i] = ((Slot)inventorySlots.get(i)).getStack();
+		ItemStack[] stack = new ItemStack[InventoryKeyStone.inventorySize];
+		for (int i = 0; i < InventoryKeyStone.inventorySize; ++i){
+			stack[i] = inventorySlots.get(i).getStack();
 		}
 		return stack;
 	}
 
 	public ItemStack[] GetFullRuneBagInventory(){
-		ItemStack[] stack = new ItemStack[runeBag.inventorySize];
-		for (int i = keyStoneInventory.inventorySize; i < keyStoneInventory.inventorySize + runeBag.inventorySize; ++i){
-			stack[i - keyStoneInventory.inventorySize] = ((Slot)inventorySlots.get(i)).getStack();
+		ItemStack[] stack = new ItemStack[InventoryRuneBag.inventorySize];
+		for (int i = InventoryKeyStone.inventorySize; i < InventoryKeyStone.inventorySize + InventoryRuneBag.inventorySize; ++i){
+			stack[i - InventoryKeyStone.inventorySize] = inventorySlots.get(i).getStack();
 		}
 		return stack;
 	}
@@ -139,7 +139,7 @@ public class ContainerKeystone extends Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
@@ -148,7 +148,7 @@ public class ContainerKeystone extends Container{
 				if (PLAYER_INVENTORY_START > InventoryKeyStone.inventorySize){
 					if (i > InventoryKeyStone.inventorySize){
 						for (int n = 0; n < InventoryKeyStone.inventorySize; n++){
-							Slot runeSlot = (Slot)inventorySlots.get(n);
+							Slot runeSlot = inventorySlots.get(n);
 							if (runeSlot.getHasStack()) continue;
 
 							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
@@ -162,7 +162,7 @@ public class ContainerKeystone extends Container{
 						}
 					}else{
 						for (int n = InventoryKeyStone.inventorySize; n < PLAYER_INVENTORY_START; n++){
-							Slot runeSlot = (Slot)inventorySlots.get(n);
+							Slot runeSlot = inventorySlots.get(n);
 							if (runeSlot.getHasStack()) continue;
 
 							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
@@ -183,7 +183,7 @@ public class ContainerKeystone extends Container{
 			{
 				if (itemstack.getItem() instanceof ItemRune){
 					for (int n = 0; n < PLAYER_INVENTORY_START; n++){
-						Slot runeSlot = (Slot)inventorySlots.get(n);
+						Slot runeSlot = inventorySlots.get(n);
 						if (runeSlot.getHasStack()) continue;
 
 						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
@@ -203,7 +203,7 @@ public class ContainerKeystone extends Container{
 			{
 				if (itemstack.getItem() instanceof ItemRune){
 					for (int n = 0; n < PLAYER_INVENTORY_START; n++){
-						Slot runeSlot = (Slot)inventorySlots.get(n);
+						Slot runeSlot = inventorySlots.get(n);
 						if (runeSlot.getHasStack()) continue;
 
 						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));

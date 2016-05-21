@@ -11,6 +11,8 @@ import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.BlocksCommonProxy;
 import am2.buffs.BuffEffectAstralDistortion;
 import am2.buffs.BuffList;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -77,7 +79,7 @@ public class AstralDistortion implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
@@ -114,7 +116,7 @@ public class AstralDistortion implements ISpellComponent, IRitualInteraction{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_PURPLE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_PURPLE),
 				Items.ender_eye
 		};
 	}
@@ -133,7 +135,7 @@ public class AstralDistortion implements ISpellComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemsCommonProxy.mobFocus),
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ENDER)
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_ENDER)
 		};
 	}
 

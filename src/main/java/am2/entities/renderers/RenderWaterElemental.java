@@ -1,7 +1,7 @@
 package am2.entities.renderers;
 
 import am2.entities.EntityWaterElemental;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;

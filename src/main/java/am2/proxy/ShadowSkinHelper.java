@@ -43,7 +43,7 @@ public class ShadowSkinHelper{
 		Object object = texturemanager.getTexture(par0ResourceLocation);
 
 		if (object == null){
-			object = new ThreadDownloadImageData((File)null, par1Str, par2ResourceLocation, par3IImageBuffer);
+			object = new ThreadDownloadImageData(null, par1Str, par2ResourceLocation, par3IImageBuffer);
 			texturemanager.loadTexture(par0ResourceLocation, (ITextureObject)object);
 		}
 
@@ -51,7 +51,7 @@ public class ShadowSkinHelper{
 	}
 
 	public static String getSkinUrl(String par0Str){
-		return String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", new Object[]{StringUtils.stripControlCodes(par0Str)});
+		return String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", StringUtils.stripControlCodes(par0Str));
 	}
 
 	public static ResourceLocation getLocationSkin(String par0Str){

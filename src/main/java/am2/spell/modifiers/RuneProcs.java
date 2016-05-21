@@ -2,6 +2,8 @@ package am2.spell.modifiers;
 
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.SpellModifiers;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,11 +31,11 @@ public class RuneProcs implements ISpellModifier{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ARCANE),
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE),
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE),
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_PURPLE),
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLACK)
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_ARCANE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_WHITE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_PURPLE),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLACK)
 		};
 	}
 

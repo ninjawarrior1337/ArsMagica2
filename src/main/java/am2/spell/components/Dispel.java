@@ -6,6 +6,8 @@ import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.buffs.BuffEffect;
 import am2.buffs.BuffList;
+import am2.items.ItemOre;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
@@ -51,7 +53,7 @@ public class Dispel implements ISpellComponent{
 
 		while (iter.hasNext()){
 			Integer potionID = ((PotionEffect)iter.next()).getPotionID();
-			if (BuffList.instance.isDispelBlacklisted(potionID)){
+			if (BuffList.isDispelBlacklisted(potionID)){
 				continue;
 			}
 			PotionEffect pe = ((EntityLivingBase)target).getActivePotionEffect(Potion.potionTypes[potionID]);
@@ -150,9 +152,9 @@ public class Dispel implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_PURPLE),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANEASH),
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_PURPLE),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_ARCANEASH),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_BLUETOPAZ),
 				Items.milk_bucket
 		};
 	}

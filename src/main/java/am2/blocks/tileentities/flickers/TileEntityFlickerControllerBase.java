@@ -171,7 +171,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 
 		NBTTagList sigilMetaStore = par1nbtTagCompound.getTagList("sigil_metadata_collection", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < sigilMetaStore.tagCount(); ++i){
-			NBTTagCompound sigilMetaEntry = (NBTTagCompound)sigilMetaStore.getCompoundTagAt(i);
+			NBTTagCompound sigilMetaEntry = sigilMetaStore.getCompoundTagAt(i);
 			Integer mask = sigilMetaEntry.getInteger("sigil_mask");
 			byte[] meta = sigilMetaEntry.getByteArray("sigil_meta");
 			sigilMetadata.put(mask, meta);

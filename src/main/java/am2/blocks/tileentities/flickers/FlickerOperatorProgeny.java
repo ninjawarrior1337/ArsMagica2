@@ -5,6 +5,8 @@ import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
 import am2.entities.SpawnBlacklists;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -110,9 +112,9 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 				"EFE",
 				"EWE",
 				Character.valueOf('E'), Items.egg,
-				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_LIFE),
+				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_LIFE),
 				Character.valueOf('F'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIFE.ordinal()),
-				Character.valueOf('W'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE)
+				Character.valueOf('W'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_WHITE)
 
 		};
 	}

@@ -5,6 +5,7 @@ import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import net.minecraft.block.Block;
@@ -93,7 +94,7 @@ public class FlickerOperatorGentleRains implements IFlickerFunctionality{
 				Character.valueOf('C'), BlocksCommonProxy.essenceConduit,
 				Character.valueOf('T'), BlocksCommonProxy.tarmaRoot,
 				Character.valueOf('W'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.WATER.ordinal()),
-				Character.valueOf('B'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE)
+				Character.valueOf('B'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE)
 		};
 	}
 

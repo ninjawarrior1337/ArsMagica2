@@ -4,6 +4,7 @@ import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
@@ -161,7 +162,7 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 				Character.valueOf('F'), Blocks.fence,
 				Character.valueOf('W'), Blocks.cobblestone_wall,
 				Character.valueOf('A'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.AIR.ordinal()),
-				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLUE),
+				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLUE),
 				Character.valueOf('N'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.ENDER.ordinal()),
 				Character.valueOf('I'), Blocks.iron_bars
 

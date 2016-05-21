@@ -5,6 +5,7 @@ import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.playerextensions.ExtendedProperties;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -54,8 +55,8 @@ public class JumpBoost implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots(){
-		return new int[]{ImbuementRegistry.SLOT_LEGS};
+	public EntityEquipmentSlot[] getValidSlots(){
+		return new EntityEquipmentSlot[]{EntityEquipmentSlot.LEGS};
 	}
 
 	@Override

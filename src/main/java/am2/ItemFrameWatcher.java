@@ -1,20 +1,19 @@
 package am2;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemBook;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleArcToEntity;
 import am2.particles.ParticleColorShift;
 import am2.particles.ParticleHoldPosition;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBook;
-import net.minecraft.item.ItemStack;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ItemFrameWatcher{
 

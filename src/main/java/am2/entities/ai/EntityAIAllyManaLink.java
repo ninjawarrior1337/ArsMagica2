@@ -30,9 +30,7 @@ public class EntityAIAllyManaLink extends EntityAIBase{
 		if (!isSummon)
 			return false;
 		EntityPlayer owner = getHostOwner();
-		if (owner == null || !SkillData.For(owner).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("MageBandII"))) || host.getDistanceSqToEntity(host) > 64D || ExtendedProperties.For(owner).isManaLinkedTo(host))
-			return false;
-		return true;
+		return !(owner == null || !SkillData.For(owner).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("MageBandII"))) || host.getDistanceSqToEntity(host) > 64D || ExtendedProperties.For(owner).isManaLinkedTo(host));
 	}
 
 	private EntityPlayer getHostOwner(){

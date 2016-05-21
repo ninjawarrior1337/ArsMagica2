@@ -1,6 +1,6 @@
 package am2.entities.renderers;
 
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.entity.RenderCreeper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

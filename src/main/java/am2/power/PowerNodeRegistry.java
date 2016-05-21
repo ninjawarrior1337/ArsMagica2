@@ -415,7 +415,7 @@ public class PowerNodeRegistry{
 		NBTTagList powerNodeTagList = compound.getTagList("AM2PowerData", Constants.NBT.TAG_COMPOUND);
 		HashMap<AMVector3, PowerNodeEntry> chunkPowerData = new HashMap<AMVector3, PowerNodeEntry>();
 		for (int i = 0; i < powerNodeTagList.tagCount(); ++i){
-			NBTTagCompound nodeCompound = (NBTTagCompound)powerNodeTagList.getCompoundTagAt(i);
+			NBTTagCompound nodeCompound = powerNodeTagList.getCompoundTagAt(i);
 			AMVector3 nodeLocation = new AMVector3(nodeCompound.getInteger("xCoord"), nodeCompound.getInteger("yCoord"), nodeCompound.getInteger("zCoord"));
 			PowerNodeEntry pnd = new PowerNodeEntry();
 			pnd.readFromNBT(nodeCompound.getCompoundTag("nodeData"));

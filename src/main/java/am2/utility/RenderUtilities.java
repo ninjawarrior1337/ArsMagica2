@@ -1,6 +1,6 @@
 package am2.utility;
 
-import am2.guis.AMGuiHelper;
+import am2.client.guis.AMGuiHelper;
 import am2.playerextensions.ExtendedProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

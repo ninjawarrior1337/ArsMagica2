@@ -1,7 +1,7 @@
 package am2.lore;
 
 import am2.AMCore;
-import am2.guis.GuiArcaneCompendium;
+import am2.client.guis.GuiArcaneCompendium;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,7 +58,7 @@ public class CompendiumEntryItem extends CompendiumEntry{
 					return new GuiArcaneCompendium(searchID + "@" + meta, item, meta);
 			}
 		}else{
-			for (Item item : AMCore.instance.proxy.items.getArsMagicaItems()){
+			for (Item item : AMCore.proxy.items.getArsMagicaItems()){
 				if (item.getUnlocalizedName() == null) continue;
 				String itemID = item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");
 				if (itemID.equals(searchID)){
@@ -79,7 +79,7 @@ public class CompendiumEntryItem extends CompendiumEntry{
 		if (split.length == 2){
 			return GameRegistry.findItemStack(split[0], split[1], 1);
 		}else{
-			for (Item item : AMCore.instance.proxy.items.getArsMagicaItems()){
+			for (Item item : AMCore.proxy.items.getArsMagicaItems()){
 				if (item.getUnlocalizedName() == null) continue;
 				String itemID = item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");
 				if (itemID.equals(searchID)){

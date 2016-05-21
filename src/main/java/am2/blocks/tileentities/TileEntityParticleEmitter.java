@@ -57,7 +57,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 			spawnTicks = 0;
 		}
 
-		if (!show && worldObj.isRemote && ((forceShow && showTicks++ > 100) || !forceShow)){
+		if (!show && worldObj.isRemote && (!forceShow || showTicks++ > 100)){
 			showTicks = 0;
 			forceShow = false;
 			EntityPlayer localPlayer = AMCore.proxy.getLocalPlayer();

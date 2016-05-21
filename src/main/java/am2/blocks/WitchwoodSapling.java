@@ -1,6 +1,6 @@
 package am2.blocks;
 
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import am2.worldgen.AM2FlowerGen;
 import am2.worldgen.WitchwoodTreeHuge;
 import net.minecraft.block.Block;

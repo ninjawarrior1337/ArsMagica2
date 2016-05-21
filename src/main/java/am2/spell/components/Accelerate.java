@@ -3,6 +3,7 @@ package am2.spell.components;
 import am2.AMCore;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
@@ -76,7 +77,7 @@ public class Accelerate implements ISpellComponent{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_YELLOW),
+				new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_YELLOW),
 				Items.leather_boots,
 				Items.redstone
 		};

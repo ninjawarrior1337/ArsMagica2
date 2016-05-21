@@ -1,13 +1,67 @@
 package am2;
 
+import java.io.File;
+
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.ServerCommandManager;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.enums.Affinity;
 import am2.armor.infusions.ImbuementRegistry;
 import am2.blocks.RecipesEssenceRefiner;
 import am2.blocks.liquid.BlockLiquidEssence;
-import am2.blocks.tileentities.flickers.*;
+import am2.blocks.tileentities.flickers.FlickerOperatorButchery;
+import am2.blocks.tileentities.flickers.FlickerOperatorContainment;
+import am2.blocks.tileentities.flickers.FlickerOperatorFelledOak;
+import am2.blocks.tileentities.flickers.FlickerOperatorFishing;
+import am2.blocks.tileentities.flickers.FlickerOperatorFlatLands;
+import am2.blocks.tileentities.flickers.FlickerOperatorGentleRains;
+import am2.blocks.tileentities.flickers.FlickerOperatorInterdiction;
+import am2.blocks.tileentities.flickers.FlickerOperatorItemTransport;
+import am2.blocks.tileentities.flickers.FlickerOperatorLight;
+import am2.blocks.tileentities.flickers.FlickerOperatorMoonstoneAttractor;
+import am2.blocks.tileentities.flickers.FlickerOperatorNaturesBounty;
+import am2.blocks.tileentities.flickers.FlickerOperatorPackedEarth;
+import am2.blocks.tileentities.flickers.FlickerOperatorProgeny;
+import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
 import am2.buffs.BuffList;
-import am2.commands.*;
+import am2.commands.ClearKnownSpellParts;
+import am2.commands.DumpNBT;
+import am2.commands.Explosions;
+import am2.commands.FillManaBarCommand;
+import am2.commands.GiveSkillPoints;
+import am2.commands.RecoverKeystoneCommand;
+import am2.commands.RegisterTeamHostilityCommand;
+import am2.commands.ReloadSkillTree;
+import am2.commands.Respec;
+import am2.commands.SetAffinityCommand;
+import am2.commands.SetMagicLevelCommand;
+import am2.commands.ShiftAffinityCommand;
+import am2.commands.TakeSkillPoints;
+import am2.commands.UnlockAugmentedCastingCommand;
+import am2.commands.UnlockCompendiumEntry;
 import am2.configuration.AMConfig;
 import am2.configuration.SkillConfiguration;
 import am2.enchantments.AMEnchantmentHelper;
@@ -28,28 +82,6 @@ import am2.spell.SkillTreeManager;
 import am2.spell.SpellUtils;
 import am2.utility.KeystoneUtilities;
 import am2.worldgen.BiomeWitchwoodForest;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeEntry;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
-import net.minecraftforge.fluids.FluidRegistry;
-
-import java.io.File;
 
 @Mod(modid = "arsmagica2", modLanguage = "java", name = "Ars Magica 2", version = "1.4.0.009", dependencies = "required-after:AnimationAPI")
 public class AMCore{
@@ -57,7 +89,7 @@ public class AMCore{
 	@Instance(value = "arsmagica2")
 	public static AMCore instance;
 
-	@SidedProxy(clientSide = "am2.proxy.ClientProxy", serverSide = "am2.proxy.CommonProxy")
+	@SidedProxy(clientSide = "am2.client.ClientProxy", serverSide = "am2.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	public static AMConfig config;
@@ -107,7 +139,7 @@ public class AMCore{
 
 		if (AMCore.config.getEnableWitchwoodForest()){
 			BiomeDictionary.registerBiomeType(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
-			BiomeManager.warmBiomes.add(new BiomeEntry(BiomeWitchwoodForest.instance, 6));
+			//BiomeManager.warm.add(new BiomeEntry(BiomeWitchwoodForest.instance, 6));
 		}
 	}
 

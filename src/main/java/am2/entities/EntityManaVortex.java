@@ -74,7 +74,7 @@ public class EntityManaVortex extends Entity{
 				}
 			}else{
 				for (int i = 0; i < 360; i += AMCore.config.FullGFX() ? 5 : AMCore.config.LowGFX() ? 10 : 20){
-					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "ember", this.posX, this.posY, this.posZ);
+					AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "ember", this.posX, this.posY, this.posZ);
 					if (effect != null){
 						effect.setIgnoreMaxAge(true);
 						effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, 0.7f, 1, false));
@@ -115,7 +115,7 @@ public class EntityManaVortex extends Entity{
 					if (AMCore.config.LowGFX() && (this.ticksExisted % 4) != 0){
 						break;
 					}
-					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "ember", e.posX, e.posY + (e.getEyeHeight() / 2), e.posZ);
+					AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "ember", e.posX, e.posY + (e.getEyeHeight() / 2), e.posZ);
 					if (effect != null){
 						effect.AddParticleController(new ParticleArcToEntity(effect, 1, this, false).generateControlPoints().setKillParticleOnFinish(true));
 						effect.setRGBColorF(0.24f, 0.24f, 0.8f);

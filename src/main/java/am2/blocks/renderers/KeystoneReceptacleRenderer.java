@@ -1,9 +1,9 @@
 package am2.blocks.renderers;
 
 import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
-import am2.guis.AMGuiIcons;
+import am2.client.guis.AMGuiIcons;
 import am2.models.ModelKeystoneRecepticle;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -94,7 +94,7 @@ public class KeystoneReceptacleRenderer extends TileEntitySpecialRenderer{
 
 	private void renderSprite(Tessellator tessellator){
 
-		IIcon IIcon = AMGuiIcons.instance.gatewayPortal;
+		IIcon IIcon = AMGuiIcons.gatewayPortal;
 
 		float min_u = IIcon.getMinU();
 		float max_u = IIcon.getMaxU();

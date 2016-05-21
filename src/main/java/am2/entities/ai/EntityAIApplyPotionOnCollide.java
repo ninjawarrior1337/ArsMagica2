@@ -64,7 +64,7 @@ public class EntityAIApplyPotionOnCollide extends EntityAIBase{
 	 */
 	public boolean continueExecuting(){
 		EntityLivingBase var1 = this.attacker.getAttackTarget();
-		return var1 == null ? false : (!this.entityTarget.isEntityAlive() ? false : (!this.field_75437_f ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistance(MathHelper.floor_double(this.entityTarget.posX), MathHelper.floor_double(this.entityTarget.posY), MathHelper.floor_double(this.entityTarget.posZ))));
+		return var1 != null && (this.entityTarget.isEntityAlive() && (!this.field_75437_f ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistance(MathHelper.floor_double(this.entityTarget.posX), MathHelper.floor_double(this.entityTarget.posY), MathHelper.floor_double(this.entityTarget.posZ))));
 	}
 
 	/**

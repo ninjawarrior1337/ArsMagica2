@@ -60,7 +60,7 @@ public class ParticleArcToEntity extends ParticleController{
 	}
 
 	private void addParticleAtPoint(AMVector3 point){
-		AMParticle p = (AMParticle)AMCore.instance.proxy.particleManager.spawn(particle.worldObj, "hr_smoke", point.x, point.y, point.z);
+		AMParticle p = (AMParticle) AMCore.proxy.particleManager.spawn(particle.worldObj, "hr_smoke", point.x, point.y, point.z);
 		if (p != null){
 			p.setIgnoreMaxAge(false);
 			p.setMaxAge(200);

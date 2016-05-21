@@ -30,7 +30,7 @@ public class EntityAISummonAllies extends EntityAIBase{
 	@Override
 	public boolean shouldExecute(){
 		cooldownTicks--;
-		boolean execute = ((IArsMagicaBoss)host).getCurrentAction() != BossActions.CASTING && cooldownTicks <= 0;
+		boolean execute = host.getCurrentAction() != BossActions.CASTING && cooldownTicks <= 0;
 		if (execute) hasCasted = false;
 		return execute;
 	}
@@ -42,7 +42,7 @@ public class EntityAISummonAllies extends EntityAIBase{
 
 	@Override
 	public void resetTask(){
-		((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
+		host.setCurrentAction(BossActions.IDLE);
 		cooldownTicks = 200;
 		hasCasted = true;
 		actionTicks = 0;
@@ -50,8 +50,8 @@ public class EntityAISummonAllies extends EntityAIBase{
 
 	@Override
 	public void updateTask(){
-		if (((IArsMagicaBoss)host).getCurrentAction() != BossActions.CASTING)
-			((IArsMagicaBoss)host).setCurrentAction(BossActions.CASTING);
+		if (host.getCurrentAction() != BossActions.CASTING)
+			host.setCurrentAction(BossActions.CASTING);
 
 		actionTicks++;
 		if (actionTicks == 16){

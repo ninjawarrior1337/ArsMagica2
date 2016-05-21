@@ -8,6 +8,8 @@ import am2.api.spell.component.interfaces.*;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.containers.ContainerInscriptionTable;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.lore.Story;
 import am2.network.AMDataReader;
@@ -276,9 +278,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		if (inscriptionTableItemStacks[index] == null) return false;
 		if (inscriptionTableItemStacks[index].getItem() == null) return false;
 		if (inscriptionTableItemStacks[index].getItem() != item) return false;
-		if (meta > -1 && inscriptionTableItemStacks[index].getItemDamage() != meta) return false;
+		return !(meta > -1 && inscriptionTableItemStacks[index].getItemDamage() != meta);
 
-		return true;
 	}
 
 	private ItemStack[] getCraftingGridContents(){
@@ -321,7 +322,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		inscriptionTableItemStacks = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inscriptionTableItemStacks.length){
 				inscriptionTableItemStacks[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
@@ -620,7 +621,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 			LinkedHashMap<String, Integer> materialsList = new LinkedHashMap<String, Integer>();
 
-			materialsList.put(ItemsCommonProxy.rune.getItemStackDisplayName(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_BLANK)), 1);
+			materialsList.put(ItemsCommonProxy.rune.getItemStackDisplayName(new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_BLANK)), 1);
 
 			ArrayList<ItemStack> componentRecipeList = new ArrayList<ItemStack>();
 			int count = 0;
@@ -693,7 +694,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 									flag |= f;
 								}
 
-								recipeStack = new ItemStack(ItemsCommonProxy.essence, qty, ItemsCommonProxy.essence.META_MAX + flag);
+								recipeStack = new ItemStack(ItemsCommonProxy.essence, qty, ItemEssence.META_MAX + flag);
 							}
 
 						}else{

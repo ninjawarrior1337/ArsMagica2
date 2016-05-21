@@ -4,10 +4,10 @@ public interface IAMEnchantmentHelper{
 	/**
 	 * Gets the current ID for soulbound enchantment
 	 */
-	public int getSoulboundID();
+	int getSoulboundID();
 
 	/**
 	 * Gets the current ID for magic resist enchantment
 	 */
-	public int getMagicResistID();
+	int getMagicResistID();
 }

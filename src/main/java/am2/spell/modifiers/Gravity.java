@@ -2,6 +2,7 @@ package am2.spell.modifiers;
 
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.SpellModifiers;
+import am2.items.ItemEssence;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +32,7 @@ public class Gravity implements ISpellModifier{
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH),
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_EARTH),
 				Items.compass
 		};
 	}

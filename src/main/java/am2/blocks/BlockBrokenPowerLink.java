@@ -3,7 +3,7 @@ package am2.blocks;
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityBrokenPowerLink;
 import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

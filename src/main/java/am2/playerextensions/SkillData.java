@@ -22,13 +22,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import java.util.ArrayList;
 
-public class SkillData implements IExtendedEntityProperties, ISkillData{
+public class SkillData implements ICapabilityProvider, ISkillData{
 	private Entity entity;
 
 	private static final byte SPELL_LEARNED = 0x01;
@@ -57,7 +61,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 
 	private int[] spellPoints;
 
-	public static final String identifier = "SpellKnowledgeData";
+	public static final ResourceLocation identifier = new ResourceLocation("arsmagica2:SpellKnowledgeData");
 
 	public static SkillData For(EntityPlayer player){
 		return (SkillData)player.getExtendedProperties(identifier);
@@ -97,11 +101,11 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	public boolean isEntryKnown(SkillTreeEntry entry){
 		if (player.capabilities.isCreativeMode) return true;
 		if (entry.registeredItem instanceof ISpellShape)
-			return isShapeKnown(((ISpellShape)entry.registeredItem).getID());
+			return isShapeKnown(entry.registeredItem.getID());
 		else if (entry.registeredItem instanceof ISpellComponent)
-			return isComponentKnown(((ISpellComponent)entry.registeredItem).getID() + SkillManager.COMPONENT_OFFSET);
+			return isComponentKnown(entry.registeredItem.getID() + SkillManager.COMPONENT_OFFSET);
 		else if (entry.registeredItem instanceof ISpellModifier)
-			return isModifierKnown(((ISpellModifier)entry.registeredItem).getID() + SkillManager.MODIFIER_OFFSET);
+			return isModifierKnown(entry.registeredItem.getID() + SkillManager.MODIFIER_OFFSET);
 		else if (entry.registeredItem instanceof ISkillTreeEntry)
 			return isTalentKnown(entry.registeredItem.getID() + SkillManager.TALENT_OFFSET);
 		return false;
@@ -185,9 +189,9 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	private void learnInternal(ISkillTreeEntry entry){
-		if (entry instanceof ISpellShape) setShapeKnown(((ISpellShape)entry).getID());
-		else if (entry instanceof ISpellComponent) setComponentKnown(((ISpellComponent)entry).getID());
-		else if (entry instanceof ISpellModifier) setModifierKnown(((ISpellModifier)entry).getID());
+		if (entry instanceof ISpellShape) setShapeKnown(entry.getID());
+		else if (entry instanceof ISpellComponent) setComponentKnown(entry.getID());
+		else if (entry instanceof ISpellModifier) setModifierKnown(entry.getID());
 		else if (entry instanceof ISkillTreeEntry) setTalentKnown(entry.getID());
 	}
 
@@ -199,11 +203,11 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 			writer.add(this.entity.getEntityId());
 			int id = entry.getID();
 			if (entry instanceof ISpellComponent)
-				id += SkillManager.instance.COMPONENT_OFFSET;
+				id += SkillManager.COMPONENT_OFFSET;
 			else if (entry instanceof ISpellModifier)
-				id += SkillManager.instance.MODIFIER_OFFSET;
+				id += SkillManager.MODIFIER_OFFSET;
 			else if (!(entry instanceof ISpellShape))
-				id += SkillManager.instance.TALENT_OFFSET;
+				id += SkillManager.TALENT_OFFSET;
 			writer.add(id);
 			if (entry instanceof ISpellShape) writer.add(0);
 			else if (entry instanceof ISpellComponent) writer.add(1);
@@ -214,11 +218,11 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		}else{
 			int id = entry.getID();
 			if (entry instanceof ISpellComponent)
-				id += SkillManager.instance.COMPONENT_OFFSET;
+				id += SkillManager.COMPONENT_OFFSET;
 			else if (entry instanceof ISpellModifier)
-				id += SkillManager.instance.MODIFIER_OFFSET;
+				id += SkillManager.MODIFIER_OFFSET;
 			else if (!(entry instanceof ISpellShape))
-				id += SkillManager.instance.TALENT_OFFSET;
+				id += SkillManager.TALENT_OFFSET;
 
 			int type = 3;
 			if (entry instanceof ISpellShape) type = 0;
@@ -618,5 +622,15 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		this.spellPoints[0] = addPoints[0];
 		this.spellPoints[1] = addPoints[1];
 		this.spellPoints[2] = addPoints[2];
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability.equals(this);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		return capability.equals(this) ? (T)this : null;
 	}
 }

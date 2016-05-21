@@ -55,7 +55,7 @@ public class ContainerCalefactor extends AM2Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -102,7 +102,7 @@ public class ContainerCalefactor extends AM2Container{
 	private boolean mergeSpecialItems(ItemStack stack, Slot slot){
 		if (stack.getItem() instanceof ItemFocusCharge || stack.getItem() instanceof ItemFocusMana){
 			for (int b = 2; b < 5; ++b){
-				Slot focusSlot = (Slot)inventorySlots.get(b);
+				Slot focusSlot = inventorySlots.get(b);
 				if (focusSlot.getHasStack()) continue;
 
 				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
@@ -115,7 +115,7 @@ public class ContainerCalefactor extends AM2Container{
 				return true;
 			}
 		}else if (FurnaceRecipes.smelting().getSmeltingResult(stack) != null){
-			Slot focusSlot = (Slot)inventorySlots.get(0);
+			Slot focusSlot = inventorySlots.get(0);
 			boolean b = mergeItemStack(stack, 0, 1, false);
 			if (stack.stackSize == 0){
 				slot.putStack(null);

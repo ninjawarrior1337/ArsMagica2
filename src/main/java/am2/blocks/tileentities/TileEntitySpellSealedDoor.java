@@ -144,7 +144,7 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
@@ -207,8 +207,7 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 
 	private boolean checkKey(){
 		if (key.size() != appliedParts.size()) return false;
-		if (key.equals(appliedParts)) return true;
-		return false;
+		return key.equals(appliedParts);
 	}
 
 	private void clearAppliedParts(){

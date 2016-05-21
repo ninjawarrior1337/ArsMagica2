@@ -8,6 +8,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectManaShield;
 import am2.buffs.BuffList;
+import am2.items.ItemEssence;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -97,7 +98,7 @@ public class ManaShield implements ISpellComponent, IRitualInteraction{
 	@Override
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
-				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ARCANE),
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_ARCANE),
 				new ItemStack(ItemsCommonProxy.manaPotionBundle, 1, 1027)
 		};
 	}

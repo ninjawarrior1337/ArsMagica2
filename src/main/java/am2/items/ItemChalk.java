@@ -1,7 +1,7 @@
 package am2.items;
 
 import am2.blocks.BlocksCommonProxy;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -52,10 +52,7 @@ public class ItemChalk extends ArsMagicaItem{
 		if (world.getBlock(x, y - 1, z) == BlocksCommonProxy.wizardChalk){
 			return false;
 		}
-		if (!world.isAirBlock(x, y, z)){
-			return false;
-		}
-		return true;
+		return world.isAirBlock(x, y, z);
 	}
 
 	@Override

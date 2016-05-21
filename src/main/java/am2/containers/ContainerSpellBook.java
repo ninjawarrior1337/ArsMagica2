@@ -64,7 +64,7 @@ public class ContainerSpellBook extends Container{
 	public ItemStack[] GetFullInventory(){
 		ItemStack[] stack = new ItemStack[40];
 		for (int i = 0; i < 40; ++i){
-			stack[i] = ((Slot)inventorySlots.get(i)).getStack();
+			stack[i] = inventorySlots.get(i).getStack();
 		}
 		return stack;
 	}
@@ -92,7 +92,7 @@ public class ContainerSpellBook extends Container{
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -104,7 +104,7 @@ public class ContainerSpellBook extends Container{
 			{
 				if (itemstack.getItem() instanceof ItemSpellBase){
 					for (int n = 0; n < 40; n++){
-						Slot scrollSlot = (Slot)inventorySlots.get(n);
+						Slot scrollSlot = inventorySlots.get(n);
 						if (scrollSlot.getHasStack()) continue;
 
 						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage());
@@ -127,7 +127,7 @@ public class ContainerSpellBook extends Container{
 			{
 				if (itemstack.getItem() instanceof ItemSpellBase){
 					for (int n = 0; n < 40; n++){
-						Slot scrollSlot = (Slot)inventorySlots.get(n);
+						Slot scrollSlot = inventorySlots.get(n);
 						if (scrollSlot.getHasStack()) continue;
 
 						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage());

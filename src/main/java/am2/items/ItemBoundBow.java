@@ -1,7 +1,7 @@
 package am2.items;
 
 import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import am2.utility.InventoryUtilities;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

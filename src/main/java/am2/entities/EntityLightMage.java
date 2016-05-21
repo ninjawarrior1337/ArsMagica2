@@ -8,7 +8,7 @@ import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import am2.utility.EntityUtilities;
 import am2.utility.NPCSpells;
 import cpw.mods.fml.relauncher.Side;
@@ -69,9 +69,9 @@ public class EntityLightMage extends EntityCreature{
 		if (cm == 0)
 			return diminishedHeldItem;
 		else if (cm == 1)
-			return this.normalHeldItem;
+			return normalHeldItem;
 		else
-			return this.augmentedHeldItem;
+			return augmentedHeldItem;
 	}
 
 	private void initAI(){

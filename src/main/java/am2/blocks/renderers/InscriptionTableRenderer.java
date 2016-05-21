@@ -3,7 +3,7 @@ package am2.blocks.renderers;
 import am2.blocks.tileentities.TileEntityInscriptionTable;
 import am2.models.ModelInscriptionTableLeft;
 import am2.models.ModelInscriptionTableRight;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

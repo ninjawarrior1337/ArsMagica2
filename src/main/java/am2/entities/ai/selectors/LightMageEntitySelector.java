@@ -14,9 +14,7 @@ public class LightMageEntitySelector implements IEntitySelector{
 
 	@Override
 	public boolean isEntityApplicable(Entity entity){
-		if (entity instanceof EntityCreeper || entity instanceof EntityLightMage)
-			return false;
-		return true;
+		return !(entity instanceof EntityCreeper || entity instanceof EntityLightMage);
 	}
 
 }

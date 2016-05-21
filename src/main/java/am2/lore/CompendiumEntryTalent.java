@@ -1,7 +1,7 @@
 package am2.lore;
 
 import am2.api.SkillTreeEntry;
-import am2.guis.GuiArcaneCompendium;
+import am2.client.guis.GuiArcaneCompendium;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;

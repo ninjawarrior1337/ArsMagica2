@@ -32,14 +32,14 @@ public class ContainerArmorInfuser extends Container{
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index){
-		Slot slot = (Slot)this.inventorySlots.get(index);
+		Slot slot = this.inventorySlots.get(index);
 		ItemStack stack = slot.getStack();
 		if (stack == null)
 			return null;
 		if (stack.getItem() instanceof ItemArmor){
 			ItemArmor armor = (ItemArmor)stack.getItem();
 			if (index == 0){
-				Slot playerSlot = (Slot)inventorySlots.get(armor.armorType + 1);
+				Slot playerSlot = inventorySlots.get(armor.armorType + 1);
 				if (!playerSlot.getHasStack()){
 					ItemStack clone = stack.copy();
 					playerSlot.putStack(clone);
@@ -49,7 +49,7 @@ public class ContainerArmorInfuser extends Container{
 					return clone;
 				}
 			}else{
-				Slot armorSlot = (Slot)this.inventorySlots.get(0);
+				Slot armorSlot = this.inventorySlots.get(0);
 				if (!armorSlot.getHasStack()){
 					ItemStack clone = stack.copy();
 					armorSlot.putStack(clone);

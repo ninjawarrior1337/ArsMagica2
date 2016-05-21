@@ -15,9 +15,7 @@ public class DarkMageEntitySelector implements IEntitySelector{
 
 	@Override
 	public boolean isEntityApplicable(Entity entity){
-		if (entity instanceof EntityDarkMage || (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD))
-			return false;
-		return true;
+		return !(entity instanceof EntityDarkMage || (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD));
 	}
 
 }

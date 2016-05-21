@@ -1,6 +1,7 @@
 package am2.entities.ai;
 
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 import net.minecraft.entity.passive.EntityVillager;
@@ -46,7 +47,7 @@ public class MageVillagerTrade implements IVillageTradeHandler{
 
 		if (itemSeed < 150){
 			//essence
-			weightedRandomChoices.put(new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANEASH), 1000);
+			weightedRandomChoices.put(new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_ARCANEASH), 1000);
 			for (int i = 0; i < 13; ++i)
 				if (i == 11)
 					weightedRandomChoices.put(new ItemStack(ItemsCommonProxy.essence, 1, i), 250);

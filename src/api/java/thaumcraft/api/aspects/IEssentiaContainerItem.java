@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
  *
  */
 public interface IEssentiaContainerItem {
-	public AspectList getAspects(ItemStack itemstack);
-	public void setAspects(ItemStack itemstack, AspectList aspects);
+	AspectList getAspects(ItemStack itemstack);
+	void setAspects(ItemStack itemstack, AspectList aspects);
 }
 
 //Example implementation

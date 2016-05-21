@@ -2,7 +2,7 @@ package am2.particles;
 
 import am2.AMCore;
 import am2.api.particles.IBeamParticle;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;

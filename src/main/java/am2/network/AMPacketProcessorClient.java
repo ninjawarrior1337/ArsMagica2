@@ -13,9 +13,9 @@ import am2.bosses.BossActions;
 import am2.bosses.IArsMagicaBoss;
 import am2.buffs.BuffList;
 import am2.containers.ContainerMagiciansWorkbench;
-import am2.guis.AMGuiHelper;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.guis.GuiHudCustomization;
+import am2.client.guis.AMGuiHelper;
+import am2.client.guis.ArsMagicaGuiIdList;
+import am2.client.guis.GuiHudCustomization;
 import am2.lore.ArcaneCompendium;
 import am2.particles.*;
 import am2.playerextensions.AffinityData;
@@ -77,7 +77,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				handleMagicLevelUpResponse(remaining);
 				break;
 			case AMPacketIDs.PARTICLE_SPAWN_SPECIAL:
-				AMCore.instance.proxy.particleManager.handleClientPacketData(Minecraft.getMinecraft().theWorld, remaining);
+				AMCore.proxy.particleManager.handleClientPacketData(Minecraft.getMinecraft().theWorld, remaining);
 				break;
 			case AMPacketIDs.PLAYER_VELOCITY_ADD:
 				handleVelocityAdd(remaining);
@@ -292,7 +292,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		}
 
 		for (int i = 0; i < 360; i += AMCore.config.FullGFX() ? 5 : AMCore.config.LowGFX() ? 10 : 20){
-			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
+			AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
 			if (effect != null){
 				effect.setIgnoreMaxAge(true);
 				effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, 0.7f, 1, false));
@@ -342,7 +342,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 	private void handleSetMagicicansWorkbenchRecipe(EntityPlayer player){
 		if (player.openContainer != null && player.openContainer instanceof ContainerMagiciansWorkbench){
 			((ContainerMagiciansWorkbench)player.openContainer).updateCraftingMatrices();
-			((ContainerMagiciansWorkbench)player.openContainer).onCraftMatrixChanged(((ContainerMagiciansWorkbench)player.openContainer).getWorkbench());
+			player.openContainer.onCraftMatrixChanged(((ContainerMagiciansWorkbench)player.openContainer).getWorkbench());
 		}
 	}
 

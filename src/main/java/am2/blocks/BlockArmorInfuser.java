@@ -2,8 +2,8 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityArmorImbuer;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.texture.ResourceManager;
+import am2.client.guis.ArsMagicaGuiIdList;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

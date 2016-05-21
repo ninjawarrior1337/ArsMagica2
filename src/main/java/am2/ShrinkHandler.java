@@ -1,14 +1,14 @@
 package am2;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import am2.api.math.AMVector2;
 import am2.buffs.BuffList;
 import am2.playerextensions.ExtendedProperties;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.utility.EntityUtilities;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class ShrinkHandler{
 

@@ -57,7 +57,7 @@ public class EntityAIEnderwave extends AIAnimation{
 			guardian.getLookHelper().setLookPositionWithEntity(guardian.getAttackTarget(), 30, 30);
 			if (guardian.getTicksInCurrentAction() == 7){
 				guardian.faceEntity(guardian.getAttackTarget(), 180, 180);
-				guardian.worldObj.playSoundAtEntity(guardian, ((IArsMagicaBoss)guardian).getAttackSound(), 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f));
+				guardian.worldObj.playSoundAtEntity(guardian, guardian.getAttackSound(), 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f));
 				SpellHelper.instance.applyStackStage(NPCSpells.instance.enderGuardian_enderWave, guardian, guardian, guardian.posX, guardian.posY + 0.5f, guardian.posZ, 0, guardian.worldObj, false, false, 0);
 			}else{
 				guardian.faceEntity(guardian.getAttackTarget(), 180, 180);

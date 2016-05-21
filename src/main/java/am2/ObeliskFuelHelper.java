@@ -1,9 +1,9 @@
 package am2;
 
-import am2.api.power.IObeliskFuelHelper;
-import net.minecraft.item.ItemStack;
-
 import java.util.HashMap;
+
+import net.minecraft.item.ItemStack;
+import am2.api.power.IObeliskFuelHelper;
 
 public class ObeliskFuelHelper implements IObeliskFuelHelper{
 	private HashMap<ItemStack, Integer> validFuels;

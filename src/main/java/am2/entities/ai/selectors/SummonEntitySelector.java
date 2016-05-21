@@ -15,9 +15,7 @@ public class SummonEntitySelector implements IEntitySelector{
 	@Override
 	public boolean isEntityApplicable(Entity entity){
 		if (entity instanceof EntityLivingBase){
-			if (EntityUtilities.isSummon((EntityLivingBase)entity))
-				return false;
-			return true;
+			return !EntityUtilities.isSummon((EntityLivingBase) entity);
 		}
 		return false;
 	}

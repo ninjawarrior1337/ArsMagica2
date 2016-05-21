@@ -114,7 +114,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 				EntityUtilities.setGuardSpawnLocation((EntityCreature)summon, xCoord, yCoord, zCoord);
 			this.summonEntityID = summon.getEntityId();
 			PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), summonCost);
-			this.summonCooldown = this.maxSummonCooldown;
+			this.summonCooldown = maxSummonCooldown;
 			EntityUtilities.setTileSpawned(summon, this);
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
@@ -245,7 +245,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

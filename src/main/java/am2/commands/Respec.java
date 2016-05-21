@@ -25,7 +25,7 @@ public class Respec extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring){
 		if (astring.length != 1 && astring.length != 0){
-			throw new WrongUsageException(this.getCommandUsage(icommandsender), new Object[0]);
+			throw new WrongUsageException(this.getCommandUsage(icommandsender));
 		}
 		EntityPlayer player = null;
 

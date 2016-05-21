@@ -41,10 +41,8 @@ public class SpawnBlacklists{
 		if (blacklistedDimensionSpawns.containsEntry(world.provider.dimensionId, entity.getClass()))
 			return false;
 		BiomeGenBase biome = world.getBiomeGenForCoords((int)x, (int)z);
-		if (blacklistedBiomeSpawns.containsEntry(biome.biomeID, entity.getClass()))
-			return false;
+		return !blacklistedBiomeSpawns.containsEntry(biome.biomeID, entity.getClass());
 
-		return true;
 	}
 
 	public static void addBlacklistedDimensionForWorldgen(int dimensionID){

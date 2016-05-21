@@ -1,6 +1,6 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import am2.utility.EntityUtilities;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -199,7 +199,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 						for (Object info : EntityList.entityEggs.values()){
 							EntityEggInfo eei = (EntityEggInfo)info;
 							Class spawnClass = EntityList.getClassFromID(eei.spawnedID);
-							if (spawnClass == (Class)clazz){
+							if (spawnClass == clazz){
 								color = eei.primaryColor;
 								found = true;
 								break;

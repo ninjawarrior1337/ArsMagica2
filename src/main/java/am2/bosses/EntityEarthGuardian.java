@@ -7,6 +7,8 @@ import am2.bosses.ai.EntityAIThrowRock;
 import am2.damage.DamageSourceFrost;
 import am2.damage.DamageSourceLightning;
 import am2.damage.DamageSources;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -85,12 +87,12 @@ public class EntityEarthGuardian extends AM2Boss{
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_BLUE), 0.0f);
+			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_INF_ORB_BLUE), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH), 0.0f);
+			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_EARTH), 0.0f);
 		}
 
 		i = rand.nextInt(10);

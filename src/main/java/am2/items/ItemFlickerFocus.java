@@ -2,7 +2,7 @@ package am2.items;
 
 import am2.api.flickers.IFlickerFunctionality;
 import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;

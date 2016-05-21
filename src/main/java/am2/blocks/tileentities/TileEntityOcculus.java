@@ -135,10 +135,7 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		//TODO: validate new spell item
-		if (i == 1 && itemstack.getItem() instanceof ItemWritableBook){
-			return true;
-		}
-		return false;
+		return i == 1 && itemstack.getItem() instanceof ItemWritableBook;
 	}
 
 	@Override
@@ -148,7 +145,7 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

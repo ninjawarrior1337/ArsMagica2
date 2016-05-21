@@ -16,5 +16,5 @@ public interface ISkillTreeManager{
 	 * @param tree          The skill tree to register the shape into
 	 * @param prerequisites The prerequisite skills needed for the shape.
 	 */
-	public void RegisterPart(ISkillTreeEntry part, int x, int y, SkillTrees tree, SkillPointTypes requiredPoint, ISkillTreeEntry... prerequisites);
+	void RegisterPart(ISkillTreeEntry part, int x, int y, SkillTrees tree, SkillPointTypes requiredPoint, ISkillTreeEntry... prerequisites);
 }

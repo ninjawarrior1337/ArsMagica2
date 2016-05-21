@@ -252,7 +252,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 			filterItems = new ItemStack[getSizeInventory()];
 			for (int i = 0; i < filterItemsList.tagCount(); i++){
 				String tag = String.format("ArrayIndex", i);
-				NBTTagCompound nbttagcompound1 = (NBTTagCompound)filterItemsList.getCompoundTagAt(i);
+				NBTTagCompound nbttagcompound1 = filterItemsList.getCompoundTagAt(i);
 				byte byte0 = nbttagcompound1.getByte(tag);
 				if (byte0 >= 0 && byte0 < filterItems.length){
 					filterItems[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);

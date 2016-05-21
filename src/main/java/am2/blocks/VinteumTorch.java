@@ -3,7 +3,7 @@ package am2.blocks;
 import am2.AMCore;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockTorch;
@@ -66,7 +66,7 @@ public class VinteumTorch extends BlockTorch{
 
 	@SideOnly(Side.CLIENT)
 	private void spawnParticle(World world, double x, double y, double z){
-		AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "light", x, y, z);
+		AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(world, "light", x, y, z);
 		if (effect != null){
 			effect.setMaxAge(3);
 			effect.setIgnoreMaxAge(false);

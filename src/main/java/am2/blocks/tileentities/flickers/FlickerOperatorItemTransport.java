@@ -7,6 +7,7 @@ import am2.api.spell.enums.Affinity;
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.tileentities.TileEntityCrystalMarker;
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.utility.GetFirstStackStartingFromSlotResult;
 import am2.utility.InventoryUtilities;
@@ -441,8 +442,8 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 				"CAC",
 				" B ",
 				Character.valueOf('A'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.AIR.ordinal()),
-				Character.valueOf('C'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE),
-				Character.valueOf('B'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ)
+				Character.valueOf('C'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_CHIMERITE),
+				Character.valueOf('B'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_BLUETOPAZ)
 		};
 	}
 

@@ -18,7 +18,7 @@ public interface IIllEffect extends Comparable{
 	 *
 	 * @return One of the values in the IllEffectSeverity enum.
 	 */
-	public IllEffectSeverity GetSeverity();
+	IllEffectSeverity GetSeverity();
 
 	/**
 	 * Callback to actually apply the ill effect.
@@ -29,11 +29,11 @@ public interface IIllEffect extends Comparable{
 	 * @param z     The z coordinate of the vinteum crystal
 	 * @return A map of entity players affected, as well as any metadata relevant to the effect applied on that player.
 	 */
-	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z);
+	Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z);
 
 	/**
 	 * Gets the localized description of this ill effect as pertains to the affected entity player.
 	 * This will only be called based on your own class, so you can assume the metadata matches your metadata output from ApplyIllEffect.
 	 */
-	public String getDescription(EntityPlayer player, Object metadata);
+	String getDescription(EntityPlayer player, Object metadata);
 }

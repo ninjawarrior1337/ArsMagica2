@@ -9,6 +9,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectFury;
 import am2.buffs.BuffList;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -42,7 +43,7 @@ public class Fury implements ISpellComponent, IRitualInteraction{
 				Items.fish,
 				Items.fish,
 				Items.fish,
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE)
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_SUNSTONE)
 		};
 	}
 

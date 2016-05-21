@@ -18,6 +18,6 @@ public class SlotSpellCustomization extends Slot{
 
 	@Override
 	public boolean isItemValid(ItemStack par1ItemStack){
-		return (par1ItemStack != null) ? par1ItemStack.getItem() instanceof ItemSpellBase : false;
+		return (par1ItemStack != null) && par1ItemStack.getItem() instanceof ItemSpellBase;
 	}
 }

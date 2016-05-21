@@ -4,7 +4,7 @@
 package am2.blocks.renderers;
 
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

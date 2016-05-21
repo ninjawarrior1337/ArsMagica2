@@ -5,6 +5,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectSilence;
 import am2.buffs.BuffList;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -23,7 +24,7 @@ public class Silence implements ISpellComponent{
 	public Object[] getRecipeItems(){
 		return new Object[]{
 				Blocks.wool,
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANEASH),
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_ARCANEASH),
 				Blocks.jukebox,
 				Blocks.wool
 		};
@@ -62,7 +63,7 @@ public class Silence implements ISpellComponent{
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){
 		return new ItemStack[]{
-				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM)
+				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_PURIFIEDVINTEUM)
 		};
 	}
 

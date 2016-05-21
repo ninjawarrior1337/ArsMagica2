@@ -284,10 +284,8 @@ public class InventoryUtilities{
 		if (stack1 == null || stack2 == null)
 			return false;
 
-		if (!compareItemStacks(stack1, stack2, true, false, true, true))
-			return false;
+		return compareItemStacks(stack1, stack2, true, false, true, true);
 
-		return true;
 	}
 
 	public static int getLikeItemCount(IInventory inventory, ItemStack stack){
@@ -320,7 +318,7 @@ public class InventoryUtilities{
 	}
 
 	public static boolean canInsertItemToInventory(IInventory inventory, ItemStack itemStack, int slot, int side){
-		return !inventory.isItemValidForSlot(slot, itemStack) ? false : !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canInsertItem(slot, itemStack, side);
+		return inventory.isItemValidForSlot(slot, itemStack) && (!(inventory instanceof ISidedInventory) || ((ISidedInventory) inventory).canInsertItem(slot, itemStack, side));
 	}
 
 	private static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, int side){
@@ -394,9 +392,7 @@ public class InventoryUtilities{
 		if (matchStackSize && a.stackSize != b.stackSize)
 			return false;
 
-		if (matchNBT && !ItemStack.areItemStackTagsEqual(a, b))
-			return false;
+		return !(matchNBT && !ItemStack.areItemStackTagsEqual(a, b));
 
-		return true;
 	}
 }

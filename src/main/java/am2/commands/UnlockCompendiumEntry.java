@@ -21,7 +21,7 @@ public class UnlockCompendiumEntry extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender sender, String[] args){
 		if (args.length < 1 || args.length > 2){
-			throw new WrongUsageException(getCommandUsage(sender), new Object[0]);
+			throw new WrongUsageException(getCommandUsage(sender));
 		}
 
 		EntityPlayerMP player;

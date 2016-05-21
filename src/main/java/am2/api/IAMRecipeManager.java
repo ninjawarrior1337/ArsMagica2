@@ -9,5 +9,5 @@ public interface IAMRecipeManager{
 	 * @param output     The output created
 	 * @param components The components required.  Must be a length of 5.
 	 */
-	public void addRefinerRecipe(ItemStack output, ItemStack[] components);
+	void addRefinerRecipe(ItemStack output, ItemStack[] components);
 }

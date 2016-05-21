@@ -299,7 +299,7 @@ public class ModelEarthGuardian extends ModelBase{
 			float hold_ticks = 10;
 			float rise_ticks = 10;
 			if (ticksInCurrentAction < action_ticks){
-				left_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)ticksInCurrentAction / action_ticks));
+				left_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * (ticksInCurrentAction / action_ticks));
 			}else if (ticksInCurrentAction < (action_ticks + fast_action_ticks)){
 				float pct = ((ticksInCurrentAction - action_ticks) / fast_action_ticks);
 				float degrees = -max_degrees_x + (final_degrees * pct);
@@ -328,7 +328,7 @@ public class ModelEarthGuardian extends ModelBase{
 			action_ticks = 4;
 			fast_action_ticks = 11;
 			if (ticksInCurrentAction < action_ticks){
-				left_arm_rotation_z = (float)Math.toRadians(-max_degrees_x * ((float)ticksInCurrentAction / action_ticks));
+				left_arm_rotation_z = (float)Math.toRadians(-max_degrees_x * (ticksInCurrentAction / action_ticks));
 			}else if (ticksInCurrentAction < (action_ticks + fast_action_ticks)){
 				float pct = ((ticksInCurrentAction - action_ticks) / fast_action_ticks);
 				float degrees = -max_degrees_x + (max_degrees_x * pct);

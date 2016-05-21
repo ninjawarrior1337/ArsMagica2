@@ -107,7 +107,6 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 		float f2;
 
 		for (f2 = this.field_145924_q - this.field_145928_o; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)){
-			;
 		}
 
 		while (f2 < -(float)Math.PI){

@@ -27,8 +27,7 @@ public class EntityAIChaosWaterBolt extends EntityAIBase{
 
 	@Override
 	public boolean shouldExecute(){
-		if (host.getCurrentAction() == BossActions.IDLE && host.isActionValid(BossActions.CASTING)) return true;
-		return false;
+		return host.getCurrentAction() == BossActions.IDLE && host.isActionValid(BossActions.CASTING);
 	}
 
 	@Override

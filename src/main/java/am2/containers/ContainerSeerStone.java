@@ -51,7 +51,7 @@ public class ContainerSeerStone extends AM2Container{
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
 
-		Slot slot = (Slot)inventorySlots.get(i);
+		Slot slot = inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
@@ -97,7 +97,7 @@ public class ContainerSeerStone extends AM2Container{
 
 	private boolean mergeSpecialItems(ItemStack stack, Slot slot){
 		if (stack.getItem() instanceof ItemFilterFocus){
-			Slot filterSlot = (Slot)inventorySlots.get(1);
+			Slot filterSlot = inventorySlots.get(1);
 			if (!filterSlot.getHasStack()){
 				filterSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
 				filterSlot.onSlotChanged();
@@ -109,7 +109,7 @@ public class ContainerSeerStone extends AM2Container{
 				return true;
 			}
 		}else if (stack.getItem() instanceof ISpellFocus){
-			Slot focusSlot = (Slot)inventorySlots.get(0);
+			Slot focusSlot = inventorySlots.get(0);
 			if (!focusSlot.getHasStack()){
 				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
 				focusSlot.onSlotChanged();

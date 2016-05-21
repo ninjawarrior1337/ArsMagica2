@@ -63,7 +63,7 @@ public enum ArsMagicaArmorMaterial{
 	private float[] damageReductionRatios;
 	private float[] protectionCooldownModifiers;
 
-	private ArsMagicaArmorMaterial(String identifier, int durability, int armorValueArray[], int enchantability, float infusionCost, float infusionRepair, float[] damageReductionRatios, float[] protectionCooldown){
+	ArsMagicaArmorMaterial(String identifier, int durability, int armorValueArray[], int enchantability, float infusionCost, float infusionRepair, float[] damageReductionRatios, float[] protectionCooldown){
 		this.maxDamageFactor = durability;
 		this.damageReductionAmountArray = armorValueArray;
 		this.enchantability = enchantability;

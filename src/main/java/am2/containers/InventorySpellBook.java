@@ -14,7 +14,7 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	public void SetInventoryContents(ItemStack[] inventoryContents){
-		int loops = (int)Math.min(inventorySize, inventoryContents.length);
+		int loops = Math.min(inventorySize, inventoryContents.length);
 		for (int i = 0; i < loops; ++i){
 			inventoryItems[i] = inventoryContents[i];
 		}

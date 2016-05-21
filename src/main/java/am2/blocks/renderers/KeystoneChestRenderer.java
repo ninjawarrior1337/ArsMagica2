@@ -1,7 +1,7 @@
 package am2.blocks.renderers;
 
 import am2.blocks.tileentities.TileEntityKeystoneChest;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

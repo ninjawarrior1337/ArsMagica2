@@ -5,6 +5,7 @@ import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemOre;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
@@ -134,7 +135,7 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 				"F L",
 				"ISI",
 				Character.valueOf('F'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.FIRE.ordinal()),
-				Character.valueOf('S'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE),
+				Character.valueOf('S'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemOre.META_SUNSTONE),
 				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIGHTNING.ordinal()),
 				Character.valueOf('I'), ItemsCommonProxy.liquidEssenceBottle
 

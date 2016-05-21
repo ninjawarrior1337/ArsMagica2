@@ -2,7 +2,7 @@ package am2.entities.models;
 
 import am2.entities.EntityHecate;
 import am2.models.ModelSantaHat;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;

@@ -47,7 +47,7 @@ public class ArmorEventHandler{
 
 	@SubscribeEvent
 	public void onMiningSpeed(BreakSpeed event){
-		doInfusions(ImbuementApplicationTypes.ON_MINING_SPEED, event, (EntityPlayer)event.getEntityPlayer());
+		doInfusions(ImbuementApplicationTypes.ON_MINING_SPEED, event, event.getEntityPlayer());
 	}
 
 	@SubscribeEvent
@@ -97,19 +97,19 @@ public class ArmorEventHandler{
 	@SubscribeEvent
 	public void onArmorTexture(ArmorTextureEvent event){
 		if (event.renderIndex == ArmorHelper.getArmorRenderIndex("mage")){
-			if (event.slot == 2){
+			if (event.slot.equals(EntityEquipmentSlot.LEGS)){
 				event.texture = "arsmagica2:textures/models/mage_2.png";
 			}else{
 				event.texture = "arsmagica2:textures/models/mage_1.png";
 			}
 		}else if (event.renderIndex == ArmorHelper.getArmorRenderIndex("battlemage")){
-			if (event.slot == 2){
+			if (event.slot.equals(EntityEquipmentSlot.LEGS)){
 				event.texture = "arsmagica2:textures/models/battlemage_2.png";
 			}else{
 				event.texture = "arsmagica2:textures/models/battlemage_1.png";
 			}
 		}else if (event.renderIndex == ArmorHelper.getArmorRenderIndex("archmage")){
-			if (event.slot == 2){
+			if (event.slot.equals(EntityEquipmentSlot.LEGS)){
 				event.texture = "arsmagica2:textures/models/archmage_2.png";
 			}else{
 				event.texture = "arsmagica2:textures/models/archmage_1.png";

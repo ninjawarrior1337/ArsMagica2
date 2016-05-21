@@ -42,11 +42,7 @@ public class EntityAIGuardSpawnLocation extends EntityAIBase{
 	 */
 	@Override
 	public boolean shouldExecute(){
-		if (getDistanceSqToSpawnXZ() < minDist * minDist){
-			return false;
-		}else{
-			return true;
-		}
+		return getDistanceSqToSpawnXZ() >= minDist * minDist;
 	}
 
 	/**

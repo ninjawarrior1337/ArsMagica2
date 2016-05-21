@@ -4,6 +4,8 @@ import am2.AMCore;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
+import am2.items.ItemEssence;
+import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -108,8 +110,8 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 				"LNW",
 				"BGB",
 				Character.valueOf('B'), new ItemStack(Items.dye, 1, 15),
-				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_GREEN),
-				Character.valueOf('N'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_NATURE),
+				Character.valueOf('G'), new ItemStack(ItemsCommonProxy.rune, 1, ItemRune.META_GREEN),
+				Character.valueOf('N'), new ItemStack(ItemsCommonProxy.essence, 1, ItemEssence.META_NATURE),
 				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIFE.ordinal()),
 				Character.valueOf('A'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.NATURE.ordinal()),
 				Character.valueOf('W'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.WATER.ordinal())

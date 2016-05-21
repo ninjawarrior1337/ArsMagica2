@@ -1,7 +1,7 @@
 package am2.entities;
 
 import am2.AMCore;
-import am2.guis.ArsMagicaGuiIdList;
+import am2.client.guis.ArsMagicaGuiIdList;
 import am2.playerextensions.RiftStorage;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.entity.EntityLiving;

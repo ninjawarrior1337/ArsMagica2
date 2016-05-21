@@ -1,9 +1,9 @@
 package am2.items;
 
-import am2.guis.AMGuiHelper;
+import am2.client.guis.AMGuiHelper;
 import am2.lore.Story;
 import am2.lore.StoryManager;
-import am2.texture.ResourceManager;
+import am2.client.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
