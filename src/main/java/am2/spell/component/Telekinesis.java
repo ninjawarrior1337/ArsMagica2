@@ -110,7 +110,7 @@ public class Telekinesis implements IComponent{
 		}
 
 
-		AMParticle effect = (AMParticle)ArsMagica2.instance.proxy.particleManager.spawn(world, "arcane", x - 0.5 + rand.nextDouble(), y - 0.5 + rand.nextDouble(), z - 0.5 + rand.nextDouble());
+		AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "arcane", x - 0.5 + rand.nextDouble(), y - 0.5 + rand.nextDouble(), z - 0.5 + rand.nextDouble());
 		if (effect != null){
 			effect.AddParticleController(new ParticleApproachPoint(effect, x, y, z, 0.025f, 0.025f, 1, false));
 			effect.setRGBColorF(0.8f, 0.3f, 0.7f);
