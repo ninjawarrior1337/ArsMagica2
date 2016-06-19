@@ -8,23 +8,35 @@ import am2.spell.component.AstralDistortion;
 import am2.spell.component.Attract;
 import am2.spell.component.BanishRain;
 import am2.spell.component.Blind;
+import am2.spell.component.Blizzard;
 import am2.spell.component.ChronoAnchor;
 import am2.spell.component.Dig;
+import am2.spell.component.Dispel;
 import am2.spell.component.Drown;
+import am2.spell.component.Entangle;
+import am2.spell.component.FallingStar;
 import am2.spell.component.FireDamage;
+import am2.spell.component.FireRain;
+import am2.spell.component.Flight;
 import am2.spell.component.Fling;
 import am2.spell.component.Forge;
 import am2.spell.component.Freeze;
 import am2.spell.component.FrostDamage;
 import am2.spell.component.Fury;
+import am2.spell.component.GravityWell;
 import am2.spell.component.Haste;
 import am2.spell.component.Heal;
 import am2.spell.component.Ignition;
 import am2.spell.component.Knockback;
 import am2.spell.component.Leap;
+import am2.spell.component.Levitation;
+import am2.spell.component.LifeDrain;
 import am2.spell.component.LifeTap;
 import am2.spell.component.LightningDamage;
 import am2.spell.component.MagicDamage;
+import am2.spell.component.ManaDrain;
+import am2.spell.component.ManaLink;
+import am2.spell.component.ManaShield;
 import am2.spell.component.Mark;
 import am2.spell.component.PhysicalDamage;
 import am2.spell.component.Recall;
@@ -147,9 +159,9 @@ public class SpellDefs {
 		SpellRegistry.registerSpellComponent("fury", getComponentTexture("Fury"), SkillDefs.SKILL_POINT_2, new Fury(), SkillDefs.TREE_OFFENSE, 255, 315, "beam", "storm");
 		SpellRegistry.registerSpellShape("wave", getShapeTexture("Wave"), SkillDefs.SKILL_POINT_2, new Wave(), SkillDefs.TREE_OFFENSE, 367, 315, "beam", "fling");	
 		
-		//TODO SpellRegistry.registerSpellComponent("blizzard", getComponentTexture("Blizzard"), SkillDefs.SILVER_POINT, new Blizzard(), SkillDefs.TREE_OFFENSE, 75, 45);
-		//TODO SpellRegistry.registerSpellComponent("falling_star", getComponentTexture("FallingStar"), SkillDefs.SILVER_POINT, new FallingStar(), SkillDefs.TREE_OFFENSE, 75, 90);
-		//TODO SpellRegistry.registerSpellComponent("fire_rain", getComponentTexture("FireRain"), SkillDefs.SILVER_POINT, new FireRain(), SkillDefs.TREE_OFFENSE, 75, 135);
+		SpellRegistry.registerSpellComponent("blizzard", getComponentTexture("Blizzard"), SkillDefs.SILVER_POINT, new Blizzard(), SkillDefs.TREE_OFFENSE, 75, 45);
+		SpellRegistry.registerSpellComponent("falling_star", getComponentTexture("FallingStar"), SkillDefs.SILVER_POINT, new FallingStar(), SkillDefs.TREE_OFFENSE, 75, 90);
+		SpellRegistry.registerSpellComponent("fire_rain", getComponentTexture("FireRain"), SkillDefs.SILVER_POINT, new FireRain(), SkillDefs.TREE_OFFENSE, 75, 135);
 		SpellRegistry.registerSpellModifier("dismembering", getModifierTexture("Dismembering"), SkillDefs.SILVER_POINT, new Dismembering(), SkillDefs.TREE_OFFENSE, 75, 180);
 	}
 	
@@ -172,25 +184,25 @@ public class SpellDefs {
 		SpellRegistry.registerSpellComponent("haste", getComponentTexture("Haste"), SkillDefs.SKILL_POINT_0, new Haste(), SkillDefs.TREE_DEFENSE, 177, 155, "slowfall");
 		SpellRegistry.registerSpellComponent("slow", getComponentTexture("Slow"), SkillDefs.SKILL_POINT_0, new Slow(), SkillDefs.TREE_DEFENSE, 132, 155, "slowfall");
 
-		//TODO SpellRegistry.registerSpellComponent("gravity_well", getComponentTexture("GravityWell"), SkillDefs.SKILL_POINT_1, new GravityWell(), SkillDefs.TREE_DEFENSE, 222, 180, "slowfall");
-		//TODO SpellRegistry.registerSpellComponent("life_drain", getComponentTexture("LifeDrain"), SkillDefs.SKILL_POINT_1, new LifeDrain(), SkillDefs.TREE_DEFENSE, 312, 180, "life_tap");
-		//TODO SpellRegistry.registerSpellComponent("dispel", getComponentTexture("Dispel"), SkillDefs.SKILL_POINT_1, new Dispel(), SkillDefs.TREE_DEFENSE, 357, 180, "Heal");
+		SpellRegistry.registerSpellComponent("gravity_well", getComponentTexture("GravityWell"), SkillDefs.SKILL_POINT_1, new GravityWell(), SkillDefs.TREE_DEFENSE, 222, 180, "slowfall");
+		SpellRegistry.registerSpellComponent("life_drain", getComponentTexture("LifeDrain"), SkillDefs.SKILL_POINT_1, new LifeDrain(), SkillDefs.TREE_DEFENSE, 312, 180, "life_tap");
+		SpellRegistry.registerSpellComponent("dispel", getComponentTexture("Dispel"), SkillDefs.SKILL_POINT_1, new Dispel(), SkillDefs.TREE_DEFENSE, 357, 180, "Heal");
 
 		SpellRegistry.registerSpellShape("contingency_fall", getShapeTexture("Contingency_Fall"), SkillDefs.SKILL_POINT_1, new Contingency_Fall(), SkillDefs.TREE_DEFENSE, 267, 180, "gravity_well");
 
 		SpellRegistry.registerSpellComponent("swift_swim", getComponentTexture("SwiftSwim"), SkillDefs.SKILL_POINT_0, new SwiftSwim(), SkillDefs.TREE_DEFENSE, 177, 200, "haste");
 		SpellRegistry.registerSpellComponent("repel", getComponentTexture("Repel"), SkillDefs.SKILL_POINT_1, new Repel(), SkillDefs.TREE_DEFENSE, 132, 200, "slow");
 
-		//TODO SpellRegistry.registerSpellComponent("levitate", getComponentTexture("Levitate"), SkillDefs.SKILL_POINT_1, new Levitate(), SkillDefs.TREE_DEFENSE, 222, 225, "gravity_well");
-		//TODO SpellRegistry.registerSpellComponent("mana_drain", getComponentTexture("ManaDrain"), SkillDefs.SKILL_POINT_1, new ManaDrain(), SkillDefs.TREE_DEFENSE, 312, 225, "life_drain");
+		SpellRegistry.registerSpellComponent("levitate", getComponentTexture("Levitate"), SkillDefs.SKILL_POINT_1, new Levitation(), SkillDefs.TREE_DEFENSE, 222, 225, "gravity_well");
+		SpellRegistry.registerSpellComponent("mana_drain", getComponentTexture("ManaDrain"), SkillDefs.SKILL_POINT_1, new ManaDrain(), SkillDefs.TREE_DEFENSE, 312, 225, "life_drain");
 		SpellRegistry.registerSpellShape("zone", getShapeTexture("Zone"), SkillDefs.SKILL_POINT_2, new Zone(), SkillDefs.TREE_DEFENSE, 357, 225, "dispel");
 
 		SpellRegistry.registerSpellShape("wall", getShapeTexture("Wall"), SkillDefs.SKILL_POINT_1, new Wall(), SkillDefs.TREE_DEFENSE, 87, 200, "repel");
 		SpellRegistry.registerSpellComponent("accelerate", getComponentTexture("Accelerate"), SkillDefs.SKILL_POINT_1, new Accelerate(), SkillDefs.TREE_DEFENSE, 177, 245, "swift_swim");
-		//TODO SpellRegistry.registerSpellComponent("entangle", getComponentTexture("Entangle"), SkillDefs.SKILL_POINT_1, new Entangle(), SkillDefs.TREE_DEFENSE, 132, 245, "repel");
+		SpellRegistry.registerSpellComponent("entangle", getComponentTexture("Entangle"), SkillDefs.SKILL_POINT_1, new Entangle(), SkillDefs.TREE_DEFENSE, 132, 245, "repel");
 		SpellRegistry.registerSpellComponent("appropriation", getComponentTexture("Appropriation"), SkillDefs.SKILL_POINT_2, new Appropriation(), SkillDefs.TREE_DEFENSE, 87, 245, "entangle");
 
-		//TODO SpellRegistry.registerSpellComponent("flight", getComponentTexture("Flight"), SkillDefs.SKILL_POINT_2, new Flight(), SkillDefs.TREE_DEFENSE, 222, 270, "levitate");
+		SpellRegistry.registerSpellComponent("flight", getComponentTexture("Flight"), SkillDefs.SKILL_POINT_2, new Flight(), SkillDefs.TREE_DEFENSE, 222, 270, "levitate");
 		SpellRegistry.registerSpellComponent("shield", getComponentTexture("Shield"), SkillDefs.SKILL_POINT_0, new Shield(), SkillDefs.TREE_DEFENSE, 357, 270, "zone");
 
 		SpellRegistry.registerSpellShape("contingency_health", getShapeTexture("Contingency_Health"), SkillDefs.SKILL_POINT_2, new Contingency_Health(), SkillDefs.TREE_DEFENSE, 402, 270, "shield");
@@ -206,8 +218,8 @@ public class SpellDefs {
 
 		SpellRegistry.registerSpellModifier("duration", getModifierTexture("Duration"), SkillDefs.SKILL_POINT_2, new Duration(), SkillDefs.TREE_DEFENSE, 312, 360, "chrono_anchor");
 
-		//TODO SpellRegistry.registerSpellComponent("mana_link", getComponentTexture("ManaLink"), SkillDefs.SILVER_POINT, new ManaLink(), SkillDefs.TREE_DEFENSE, 30, 45);
-		//TODO SpellRegistry.registerSpellComponent("mana_shield", getComponentTexture("ManaShield"), SkillDefs.SILVER_POINT, new ManaShield(), SkillDefs.TREE_DEFENSE, 30, 90);
+		SpellRegistry.registerSpellComponent("mana_link", getComponentTexture("ManaLink"), SkillDefs.SILVER_POINT, new ManaLink(), SkillDefs.TREE_DEFENSE, 30, 45);
+		SpellRegistry.registerSpellComponent("mana_shield", getComponentTexture("ManaShield"), SkillDefs.SILVER_POINT, new ManaShield(), SkillDefs.TREE_DEFENSE, 30, 90);
 		SpellRegistry.registerSpellModifier("buff_power", getModifierTexture("BuffPower"), SkillDefs.SILVER_POINT, new BuffPower(), SkillDefs.TREE_DEFENSE, 30, 135);
 		
 	}/*

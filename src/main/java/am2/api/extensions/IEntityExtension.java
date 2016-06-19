@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -180,5 +181,21 @@ public interface IEntityExtension {
 	public boolean addSummon(EntityCreature entityliving);
 
 	public boolean getCanHaveMoreSummons();
+
+	public void updateManaLink(EntityLivingBase caster);
+
+	public void deductMana(float amt);
+
+	public void spawnManaLinkParticles();
+
+	public boolean removeSummon();
+
+	public boolean isManaLinkedTo(EntityLivingBase entity);
+
+	public void cleanupManaLinks();
+
+	public float getBonusMaxMana();
+
+	public float getBonusCurrentMana();
 
 }

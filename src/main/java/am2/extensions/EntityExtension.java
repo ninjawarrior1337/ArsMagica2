@@ -20,12 +20,15 @@ import static am2.extensions.DataDefinitions.MAX_MANA;
 import static am2.extensions.DataDefinitions.MAX_MANA_FATIGUE;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.common.base.Optional;
 
+import am2.ArsMagica2;
 import am2.api.extensions.IEntityExtension;
 import am2.config.AM2Config;
 import am2.defs.SkillDefs;
+import am2.particles.AMLineArc;
 import am2.spell.ContingencyType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -35,6 +38,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -52,6 +56,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float TK_Distance = 8;
 	
 	private Entity entity;
+
+	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
 		
 	public boolean hasEnoughtMana(int cost) {
 		if (getCurrentMana() < cost)
@@ -342,6 +348,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		}
 	}
 	
+	@Override
 	public boolean removeSummon(){
 		if (getCurrentSummons() == 0){
 			return false;
@@ -351,4 +358,133 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		}
 		return true;
 	}
+	
+	@Override
+	public void updateManaLink(EntityLivingBase entity){
+		ManaLinkEntry mle = new ManaLinkEntry(entity.getEntityId(), 20);
+		if (!this.manaLinks .contains(mle))
+			this.manaLinks.add(mle);
+		else
+			this.manaLinks.remove(mle);
+	}
+	
+	@Override
+	public void deductMana(float manaCost){
+		float leftOver = manaCost - getCurrentMana();
+		this.setCurrentMana(getCurrentMana() - manaCost);
+		if (leftOver > 0){
+			for (ManaLinkEntry entry : this.manaLinks){
+				leftOver -= entry.deductMana(entity.worldObj, entity, leftOver);
+				if (leftOver <= 0)
+					break;
+			}
+		}
+	}
+	
+	@Override
+	public void cleanupManaLinks(){
+		Iterator<ManaLinkEntry> it = this.manaLinks.iterator();
+		while (it.hasNext()){
+			ManaLinkEntry entry = it.next();
+			Entity e = this.entity.worldObj.getEntityByID(entry.entityID);
+			if (e == null)
+				it.remove();
+		}
+	}
+	
+	@Override
+	public float getBonusCurrentMana(){
+		float bonus = 0;
+		for (ManaLinkEntry entry : this.manaLinks){
+			bonus += entry.getAdditionalCurrentMana(entity.worldObj, entity);
+		}
+		return bonus;
+	}
+
+	@Override
+	public float getBonusMaxMana(){
+		float bonus = 0;
+		for (ManaLinkEntry entry : this.manaLinks){
+			bonus += entry.getAdditionalMaxMana(entity.worldObj, entity);
+		}
+		return bonus;
+	}
+	
+	@Override
+	public boolean isManaLinkedTo(EntityLivingBase entity){
+		for (ManaLinkEntry entry : manaLinks){
+			if (entry.entityID == entity.getEntityId())
+				return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public void spawnManaLinkParticles(){
+		if (entity.worldObj != null && entity.worldObj.isRemote){
+			for (ManaLinkEntry entry : this.manaLinks){
+				Entity e = entity.worldObj.getEntityByID(entry.entityID);
+				if (e != null && e.getDistanceSqToEntity(entity) < entry.range && e.ticksExisted % 90 == 0){
+					AMLineArc arc = (AMLineArc)ArsMagica2.proxy.particleManager.spawn(entity.worldObj, "textures/blocks/oreblockbluetopaz.png", e, entity);
+					if (arc != null){
+						arc.setIgnoreAge(false);
+						arc.setRBGColorF(0.17f, 0.88f, 0.88f);
+					}
+				}
+			}
+		}
+	}
+	
+	private class ManaLinkEntry{
+		private final int entityID;
+		private final int range;
+
+		public ManaLinkEntry(int entityID, int range){
+			this.entityID = entityID;
+			this.range = range * range;
+		}
+
+		private EntityLivingBase getEntity(World world){
+			Entity e = world.getEntityByID(entityID);
+			if (e == null || !(e instanceof EntityLivingBase))
+				return null;
+			return (EntityLivingBase)e;
+		}
+
+		public float getAdditionalCurrentMana(World world, Entity host){
+			EntityLivingBase e = getEntity(world);
+			if (e == null || e.getDistanceSqToEntity(host) > range)
+				return 0;
+			return For(e).getCurrentMana();
+		}
+
+		public float getAdditionalMaxMana(World world, Entity host){
+			EntityLivingBase e = getEntity(world);
+			if (e == null || e.getDistanceSqToEntity(host) > range)
+				return 0;
+			return For(e).getMaxMana();
+		}
+
+		public float deductMana(World world, Entity host, float amt){
+			EntityLivingBase e = getEntity(world);
+			if (e == null || e.getDistanceSqToEntity(host) > range)
+				return 0;
+			amt = Math.min(For(e).getCurrentMana(), amt);
+			For(e).deductMana(amt);
+			return amt;
+		}
+
+		@Override
+		public int hashCode(){
+			return entityID;
+		}
+
+		@Override
+		public boolean equals(Object obj){
+			if (obj instanceof ManaLinkEntry)
+				return ((ManaLinkEntry)obj).entityID == this.entityID;
+			return false;
+		}
+	}
+
 }

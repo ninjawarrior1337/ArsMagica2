@@ -31,6 +31,7 @@ public class ItemDefs {
 	public static final Item mobFocus = new ItemArsMagica2().registerAndName("mobFocus");
 	public static final Item lesserFocus = new ItemArsMagica2().registerAndName("lesserFocuse");
 	public static final Item standardFocus = new ItemArsMagica2().registerAndName("standardFocus");
+	public static final Item manaFocus = new ItemArsMagica2().registerAndName("manaFocus");
 	
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	
