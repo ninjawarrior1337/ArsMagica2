@@ -1,0 +1,33 @@
+affinity.air=Air
+affinity.fire=Fire
+affinity.arcane=Arcane
+affinity.life=Life
+affinity.nature=Nature
+affinity.lightning=Lightning
+affinity.water=Water
+affinity.none=None
+affinity.earth=Earth
+affinity.ice=Ice
+affinity.ender=Ender
+
+item.tome.name=§eTome of affinity : §f
+item.essence.name= Essence
+item.ore.vinteum.name=Vinteum Dust
+item.ore.purified_vinteum.name=Purified Vinteum Dust
+item.ore.chimerite.name=Chimerite
+item.ore.moonstone.name=Moonstone
+item.ore.sunstone.name=Sunstone
+item.spell_parchment.name=Spell Parchment
+
+keybindings.am2=Ars Magica 2
+key.bridge=Toggle Ice Bridge
+
+skill.manaregen1.name=Mana Regen I
+skill.manaregen1.occulusdesc=Improve your mana regeneration a little
+skill.manaregen2.name=Mana Regen II
+skill.manaregen2.occulusdesc=Improve your mana regeneration a bit more
+skill.manaregen3.name=Mana Regen III
+skill.manaregen3.occulusdesc=Improve your mana regeneration a lot
+
+arsmagica2:agility=Agility
+arsmagica2:temporalAnchor=Chrono Anchor

@@ -1,0 +1,145 @@
+package am2.spell.component;
+
+import java.util.Random;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
+import am2.affinity.Affinity;
+import am2.api.AffinityRegistry;
+import am2.buffs.BuffEffectAstralDistortion;
+import am2.defs.ItemDefs;
+import am2.defs.PotionEffectsDefs;
+import am2.defs.SkillDefs;
+import am2.multiblock.MultiblockStructureDefinition;
+import am2.rituals.IRitualInteraction;
+import am2.rituals.RitualShapeHelper;
+import am2.spell.IComponent;
+import am2.spell.SpellModifiers;
+import am2.utils.SpellUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+public class AstralDistortion implements IComponent, IRitualInteraction{
+
+	@Override
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+
+		if (world.getBlockState(pos).getBlock().equals(Blocks.MOB_SPAWNER)){
+			boolean hasMatch = RitualShapeHelper.instance.matchesRitual(this, world, pos);
+			if (hasMatch){
+				if (!world.isRemote){
+					world.setBlockToAir(pos);
+					RitualShapeHelper.instance.consumeReagents(this, world, pos);
+					RitualShapeHelper.instance.consumeShape(this, world, pos);
+					EntityItem item = new EntityItem(world);
+					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+					//TODO item.setEntityItemStack(new ItemStack(BlocksCommonProxy.inertSpawner));
+					world.spawnEntityInWorld(item);
+				}else{
+
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+		if (target instanceof EntityLivingBase){
+			int duration = (int) SpellUtils.getModifiedInt_Mul(PotionEffectsDefs.default_buff_duration, stack, caster, target, world, SpellModifiers.DURATION);
+			//duration = SpellUtils.modifyDurationBasedOnArmor(caster, duration);
+
+			if (!world.isRemote)
+				((EntityLivingBase)target).addPotionEffect(new BuffEffectAstralDistortion(duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public float manaCost(EntityLivingBase caster){
+		return 80;
+	}
+
+	@Override
+	public ItemStack[] reagents(EntityLivingBase caster){
+		return null;
+	}
+
+	@Override
+	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
+//		for (int i = 0; i < 10; ++i){
+//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "pulse"blockPos);
+//			if (particle != null){
+//				particle.addRandomOffset(5, 4, 5);
+//				particle.AddParticleController(new ParticleFloatUpward(particle, 0.2f, 0, 1, false));
+//				particle.setMaxAge(25 + rand.nextInt(10));
+//				particle.setRGBColorF(0.7f, 0.2f, 0.9f);
+//				if (colorModifier > -1){
+//					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+//				}
+//			}
+//		}
+	}
+
+	@Override
+	public Set<Affinity> getAffinity(){
+		return Sets.newHashSet(SkillDefs.ENDER);
+	}
+
+	@Override
+	public Object[] getRecipe(){
+		return new Object[]{
+				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()),
+				Items.ENDER_EYE
+		};
+	}
+
+	@Override
+	public float getAffinityShift(Affinity affinity){
+		return 0.05f;
+	}
+
+	@Override
+	public MultiblockStructureDefinition getRitualShape(){
+		return RitualShapeHelper.instance.corruption;
+	}
+
+	@Override
+	public ItemStack[] getReagents(){
+		int enderMeta = 0;
+		for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
+			if (aff.equals(SkillDefs.NONE))
+				continue;				
+			if (aff.equals(SkillDefs.ENDER))
+				break;
+			enderMeta++;
+		}
+		return new ItemStack[]{
+				new ItemStack(ItemDefs.mobFocus),
+				new ItemStack(ItemDefs.essence, 1, enderMeta)
+		};
+	}
+
+	@Override
+	public int getReagentSearchRadius(){
+		return 3;
+	}
+
+	@Override
+	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
+	}
+}
