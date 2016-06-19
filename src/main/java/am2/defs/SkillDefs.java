@@ -21,6 +21,7 @@ public class SkillDefs {
 	public static final SkillTree TREE_TALENT = new SkillTree("talent", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/talent.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/talent.png"));
 	public static final SkillTree TREE_AFFINITY = new SkillTree("affinity", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/affinity.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/affinity.png"));
 	
+	public static final SkillPoint SILVER_POINT = new SkillPoint("Silver", TextFormatting.GRAY, 0x999999, -1, -1).disableRender();
 	public static final SkillPoint SKILL_POINT_0 = new SkillPoint("Blue", TextFormatting.BLUE, 0x0000ff, 0, 1);
 	public static final SkillPoint SKILL_POINT_1 = new SkillPoint("Green", TextFormatting.GREEN, 0x00ff00, 20, 2);
 	public static final SkillPoint SKILL_POINT_2 = new SkillPoint("Red", TextFormatting.RED, 0xff0000, 30, 2);	
@@ -36,7 +37,7 @@ public class SkillDefs {
 	public static final Skill SPELL_MOTION = new Skill("spellMotion", ResourceUtils.getSkillIcon("SpellMotion"), SKILL_POINT_1, 230, 120, TREE_TALENT, "manaRegen2");
 	public static final Skill AUGMENTED_CASTING = new Skill("augmentedCasting", ResourceUtils.getSkillIcon("AugmentedCasting"), SKILL_POINT_2, 230, 165, TREE_TALENT, "spellMotion");
 	public static final Skill AFFINITY_GAINS = new Skill("affinityGains", ResourceUtils.getSkillIcon("AffinityGains"), SKILL_POINT_0, 365, 120, TREE_TALENT, "manaRegen1");
-	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SKILL_POINT_0, 230, 165, TREE_TALENT, "augmentedCasting");
+	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SKILL_POINT_2, 230, 210, TREE_TALENT, "augmentedCasting");
 	
 	
 	public static final Affinity NONE = new Affinity("none", 0xFFFFFF);
@@ -59,6 +60,7 @@ public class SkillDefs {
 		SkillTreeRegistry.registerSkillTree(TREE_TALENT);
 		SkillTreeRegistry.registerSkillTree(TREE_AFFINITY);
 		
+		SkillPointRegistry.registerSkillPoint(-1, SILVER_POINT);
 		SkillPointRegistry.registerSkillPoint(0, SKILL_POINT_0);
 		SkillPointRegistry.registerSkillPoint(1, SKILL_POINT_1);
 		SkillPointRegistry.registerSkillPoint(2, SKILL_POINT_2);

@@ -5,10 +5,14 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFadeOut;
+import am2.particles.ParticleMoveOnHeading;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
@@ -258,18 +262,18 @@ public class Blink implements IComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		for (int i = 0; i < 25; ++i){
-//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "sparkle"blockPos);
-//			if (particle != null){
-//				particle.addRandomOffset(1, 2, 1);
-//				particle.AddParticleController(new ParticleMoveOnHeading(particle, MathHelper.wrapAngleTo180_double((target instanceof EntityLivingBase ? ((EntityLivingBase)target).rotationYawHead : target.rotationYaw) + 90), MathHelper.wrapAngleTo180_double(target.rotationPitch), 0.1 + rand.nextDouble() * 0.5, 1, false));
-//				particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.05f));
-//				particle.setMaxAge(20);
-//				if (colorModifier > -1){
-//					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//				}
-//			}
-//		}
+		for (int i = 0; i < 25; ++i){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", x, y, z);
+			if (particle != null){
+				particle.addRandomOffset(1, 2, 1);
+				particle.AddParticleController(new ParticleMoveOnHeading(particle, MathHelper.wrapDegrees((target instanceof EntityLivingBase ? ((EntityLivingBase)target).rotationYawHead : target.rotationYaw) + 90), MathHelper.wrapDegrees(target.rotationPitch), 0.1 + rand.nextDouble() * 0.5, 1, false));
+				particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.05f));
+				particle.setMaxAge(20);
+				if (colorModifier > -1){
+					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+				}
+			}
+		}
 	}
 
 	@Override

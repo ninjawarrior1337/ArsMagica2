@@ -155,10 +155,15 @@ public class GuiOcculus extends GuiScreen {
 			RenderUtils.drawBox(posX + 7, posY + 7, 196, 196, zLevel, calcXOffest, calcYOffest, renderRatio + calcXOffest, renderRatio + calcYOffest);
 			ArrayList<Skill> skills = SkillRegistry.getSkillsForTree(currentTree);
 			zLevel = 1F;
+			ISkillData data = SkillData.For(player);
 			for (Skill s : skills) {
+				if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
+					continue;
 				for (String p : s.getParents()) {
 		        	Skill parent = SkillRegistry.getSkillFromName(p);
 		        	if (parent == null || !skills.contains(parent)) continue;
+					if (!parent.getPoint().canRender() && !data.hasSkill(parent.getID()))
+						continue;
 					int offsetX = calcXOffset(posX, s) + 16;
 					int offsetY = calcYOffset(posY, s) + 16;
 					int offsetX2 = calcXOffset(posX, parent) + 16;
@@ -167,7 +172,6 @@ public class GuiOcculus extends GuiScreen {
 					offsetY = MathHelper.clamp_int(offsetY, posY + 7, posY + 203);
 					offsetX2 = MathHelper.clamp_int(offsetX2, posX + 7, posX + 203);
 					offsetY2 = MathHelper.clamp_int(offsetY2, posY + 7, posY + 203);
-					ISkillData data = SkillData.For(player);
 					boolean hasPrereq = true;
 					for (String subParent : s.getParents()) {
 						hasPrereq &= data.hasSkill(subParent);
@@ -212,6 +216,8 @@ public class GuiOcculus extends GuiScreen {
 			}
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			for (Skill s : skills) {
+				if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
+					continue;
 				GlStateManager.color(1, 1, 1, 1.0F);
 				List<String> parents = Lists.newArrayList(s.getParents());
 				ISkillData skillData = SkillData.For(player);
@@ -274,11 +280,12 @@ public class GuiOcculus extends GuiScreen {
 				boolean flag = false;
 				zLevel = 0F;
 				for (Skill s : skills) {
+					if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
+						continue;
 					int offsetX = calcXOffset(posX, s);
 					int offsetY = calcYOffset(posY, s);
 					if (offsetX > mouseX || offsetX < mouseX - renderSize|| offsetY > mouseY || offsetY < mouseY - renderSize)
 						continue;
-					ISkillData data = SkillData.For(player);
 					boolean hasPrereq = true;
 					for (String subParent : s.getParents()) {
 						hasPrereq &= data.hasSkill(subParent);

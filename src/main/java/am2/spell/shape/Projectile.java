@@ -51,7 +51,7 @@ public class Projectile implements IShape {
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
 		if (!world.isRemote) {
-			double projectileSpeed = SpellUtils.getModifiedDouble_Mul(stack, caster, target, world, SpellModifiers.VELOCITY_ADDED);
+			double projectileSpeed = SpellUtils.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.SPEED);
 			float projectileGravity = (float) SpellUtils.getModifiedDouble_Mul(stack, caster, target, world, SpellModifiers.GRAVITY);
 			int projectileBounce = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.GRAVITY);
 			int pierces = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.PIERCING);

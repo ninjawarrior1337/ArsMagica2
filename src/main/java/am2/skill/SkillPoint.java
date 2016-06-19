@@ -8,6 +8,8 @@ public class SkillPoint {
 	private final String name;
 	private final TextFormatting chatColor;
 	
+	private boolean render = true;
+	
 	public SkillPoint(String name, TextFormatting chatColor, int color, int minEarnLevel, int levelsForPoint) {
 		this.color = color;
 		this.name = name;
@@ -39,5 +41,14 @@ public class SkillPoint {
 	
 	public TextFormatting getChatColor() {
 		return chatColor;
+	}
+	
+	public boolean canRender() {
+		return render;
+	}
+	
+	public SkillPoint disableRender() {
+		render = false;
+		return this;
 	}
 }

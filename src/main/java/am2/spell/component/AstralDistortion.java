@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.api.AffinityRegistry;
 import am2.buffs.BuffEffectAstralDistortion;
@@ -12,6 +13,8 @@ import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.multiblock.MultiblockStructureDefinition;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFloatUpward;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
 import am2.spell.IComponent;
@@ -81,18 +84,18 @@ public class AstralDistortion implements IComponent, IRitualInteraction{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		for (int i = 0; i < 10; ++i){
-//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "pulse"blockPos);
-//			if (particle != null){
-//				particle.addRandomOffset(5, 4, 5);
-//				particle.AddParticleController(new ParticleFloatUpward(particle, 0.2f, 0, 1, false));
-//				particle.setMaxAge(25 + rand.nextInt(10));
-//				particle.setRGBColorF(0.7f, 0.2f, 0.9f);
-//				if (colorModifier > -1){
-//					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//				}
-//			}
-//		}
+		for (int i = 0; i < 10; ++i){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "pulse", x, y, z);
+			if (particle != null){
+				particle.addRandomOffset(5, 4, 5);
+				particle.AddParticleController(new ParticleFloatUpward(particle, 0.2f, 0, 1, false));
+				particle.setMaxAge(25 + rand.nextInt(10));
+				particle.setRGBColorF(0.7f, 0.2f, 0.9f);
+				if (colorModifier > -1){
+					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+				}
+			}
+		}
 	}
 
 	@Override

@@ -5,11 +5,14 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.multiblock.MultiblockStructureDefinition;
+import am2.particles.AMParticle;
+import am2.particles.ParticleArcToPoint;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
 import am2.spell.IComponent;
@@ -79,33 +82,33 @@ public class Transplace implements IComponent, IRitualInteraction{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		for (int i = 0; i < 15; ++i){
-//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "sparkle2", caster.posX, caster.posY + caster.getEyeHeight(), caster.posZ);
-//			if (particle != null){
-//				particle.addRandomOffset(1, 1, 1);
-//				particle.AddParticleController(new ParticleArcToPoint(particle, 1, target.posX, target.posY + target.getEyeHeight(), target.posZ, false).SetSpeed(0.05f).generateControlPoints());
-//				particle.setMaxAge(40);
-//				particle.setParticleScale(0.2f);
-//				particle.setRGBColorF(1, 0, 0);
-//				if (colorModifier > -1){
-//					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//				}
-//			}
-//		}
-//
-//		for (int i = 0; i < 15; ++i){
-//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "sparkle2", target.posX, target.posY + target.getEyeHeight(), target.posZ);
-//			if (particle != null){
-//				particle.addRandomOffset(1, 1, 1);
-//				particle.AddParticleController(new ParticleArcToPoint(particle, 1, caster.posX, caster.posY + caster.getEyeHeight(), caster.posZ, false).SetSpeed(0.05f).generateControlPoints());
-//				particle.setMaxAge(40);
-//				particle.setParticleScale(0.2f);
-//				particle.setRGBColorF(0, 0, 1);
-//				if (colorModifier > -1){
-//					particle.setRGBColorF((0xFF - ((colorModifier >> 16) & 0xFF)) / 255.0f, (0xFF - ((colorModifier >> 8) & 0xFF)) / 255.0f, (0xFF - (colorModifier & 0xFF)) / 255.0f);
-//				}
-//			}
-//		}
+		for (int i = 0; i < 15; ++i){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle2", caster.posX, caster.posY + caster.getEyeHeight(), caster.posZ);
+			if (particle != null){
+				particle.addRandomOffset(1, 1, 1);
+				particle.AddParticleController(new ParticleArcToPoint(particle, 1, target.posX, target.posY + target.getEyeHeight(), target.posZ, false).SetSpeed(0.05f).generateControlPoints());
+				particle.setMaxAge(40);
+				particle.setParticleScale(0.2f);
+				particle.setRGBColorF(1, 0, 0);
+				if (colorModifier > -1){
+					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+				}
+			}
+		}
+
+		for (int i = 0; i < 15; ++i){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle2", target.posX, target.posY + target.getEyeHeight(), target.posZ);
+			if (particle != null){
+				particle.addRandomOffset(1, 1, 1);
+				particle.AddParticleController(new ParticleArcToPoint(particle, 1, caster.posX, caster.posY + caster.getEyeHeight(), caster.posZ, false).SetSpeed(0.05f).generateControlPoints());
+				particle.setMaxAge(40);
+				particle.setParticleScale(0.2f);
+				particle.setRGBColorF(0, 0, 1);
+				if (colorModifier > -1){
+					particle.setRGBColorF((0xFF - ((colorModifier >> 16) & 0xFF)) / 255.0f, (0xFF - ((colorModifier >> 8) & 0xFF)) / 255.0f, (0xFF - (colorModifier & 0xFF)) / 255.0f);
+				}
+			}
+		}
 	}
 
 	@Override

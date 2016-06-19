@@ -60,12 +60,12 @@ public class RenderSpellProjectile extends Render<EntitySpellProjectile>{
 		float f1 = 0.5F;
 		float f2 = 0.25F;
 
-		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-		RenderHelper.disableStandardItemLighting(); //.color((renderColor & 0xFF0000) >> 16, (renderColor & 0x00FF00) >> 8, renderColor & 0x0000FF, 255)
-		tessellator.getBuffer().pos(0.0F - f1, 0.0F - f2, 0.0D).tex( sprite.getMinU(), sprite.getMaxV()).endVertex();
-		tessellator.getBuffer().pos(f - f1, 0.0F - f2, 0.0D).tex( sprite.getMaxU(), sprite.getMaxV()).endVertex();
-		tessellator.getBuffer().pos(f - f1, f - f2, 0.0D).tex( sprite.getMaxU(), sprite.getMinV()).endVertex();
-		tessellator.getBuffer().pos(0.0F - f1, f - f2, 0.0D).tex( sprite.getMinU(), sprite.getMinV()).endVertex();
+		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+		RenderHelper.disableStandardItemLighting();
+		tessellator.getBuffer().pos(0.0F - f1, 0.0F - f2, 0.0D).tex( sprite.getMinU(), sprite.getMaxV()).color((renderColor & 0xFF0000) >> 16, (renderColor & 0x00FF00) >> 8, renderColor & 0x0000FF, 255).endVertex();
+		tessellator.getBuffer().pos(f - f1, 0.0F - f2, 0.0D).tex( sprite.getMaxU(), sprite.getMaxV()).color((renderColor & 0xFF0000) >> 16, (renderColor & 0x00FF00) >> 8, renderColor & 0x0000FF, 255).endVertex();
+		tessellator.getBuffer().pos(f - f1, f - f2, 0.0D).tex( sprite.getMaxU(), sprite.getMinV()).color((renderColor & 0xFF0000) >> 16, (renderColor & 0x00FF00) >> 8, renderColor & 0x0000FF, 255).endVertex();
+		tessellator.getBuffer().pos(0.0F - f1, f - f2, 0.0D).tex( sprite.getMinU(), sprite.getMinV()).color((renderColor & 0xFF0000) >> 16, (renderColor & 0x00FF00) >> 8, renderColor & 0x0000FF, 255).endVertex();
 		tessellator.draw();
 		RenderHelper.enableStandardItemLighting();
 	}

@@ -160,6 +160,7 @@ public class SpellBase extends ItemSpellBase{
 		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("heal")));
 		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("rift")));
 		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("slowfall"), SpellRegistry.getComponentFromName("heal")));
+		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("blink")));
 	}
 
 	@Override

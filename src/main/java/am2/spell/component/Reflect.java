@@ -5,11 +5,14 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.buffs.BuffEffectSpellReflect;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
+import am2.particles.AMParticle;
+import am2.particles.ParticleHoldPosition;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
@@ -59,19 +62,19 @@ public class Reflect implements IComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		for (int i = 0; i < 25; ++i){
-//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "lens_flare", x, y, z);
-//			if (particle != null){
-//				particle.addRandomOffset(1, 2, 1);
-//				particle.AddParticleController(new ParticleHoldPosition(particle, 20, 1, false));
-//				particle.setMaxAge(20);
-//				particle.setParticleScale(0.2f);
-//				particle.setRGBColorF(0.5f + rand.nextFloat() * 0.5f, 0.1f, 0.5f + rand.nextFloat() * 0.5f);
-//				if (colorModifier > -1){
-//					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//				}
-//			}
-//		}
+		for (int i = 0; i < 25; ++i){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "lens_flare", x, y, z);
+			if (particle != null){
+				particle.addRandomOffset(1, 2, 1);
+				particle.AddParticleController(new ParticleHoldPosition(particle, 20, 1, false));
+				particle.setMaxAge(20);
+				particle.setParticleScale(0.2f);
+				particle.setRGBColorF(0.5f + rand.nextFloat() * 0.5f, 0.1f, 0.5f + rand.nextFloat() * 0.5f);
+				if (colorModifier > -1){
+					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+				}
+			}
+		}
 	}
 
 	@Override

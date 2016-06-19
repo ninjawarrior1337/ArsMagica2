@@ -6,9 +6,13 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFadeOut;
+import am2.particles.ParticleMoveOnHeading;
 import am2.spell.IComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -82,19 +86,19 @@ public class Repel implements IComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "sparkle", x, y, z);
-//		if (particle != null){
-//			particle.addRandomOffset(1, 2, 1);
-//			double dx = caster.posX - target.posX;
-//			double dz = caster.posZ - target.posZ;
-//			double angle = Math.toDegrees(Math.atan2(-dz, -dx));
-//			particle.AddParticleController(new ParticleMoveOnHeading(particle, angle, 0, 0.1 + rand.nextDouble() * 0.5, 1, false));
-//			particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.05f));
-//			particle.setMaxAge(20);
-//			if (colorModifier > -1){
-//				particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//			}
-//		}
+		AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", x, y, z);
+		if (particle != null){
+			particle.addRandomOffset(1, 2, 1);
+			double dx = caster.posX - target.posX;
+			double dz = caster.posZ - target.posZ;
+			double angle = Math.toDegrees(Math.atan2(-dz, -dx));
+			particle.AddParticleController(new ParticleMoveOnHeading(particle, angle, 0, 0.1 + rand.nextDouble() * 0.5, 1, false));
+			particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.05f));
+			particle.setMaxAge(20);
+			if (colorModifier > -1){
+				particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+			}
+		}
 	}
 
 	@Override

@@ -6,10 +6,13 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.items.ItemOre;
+import am2.particles.AMParticle;
+import am2.particles.ParticleOrbitEntity;
 import am2.spell.IComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -94,15 +97,15 @@ public class Storm implements IComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "symbols", x, y - 1, z);
-//		if (particle != null){
-//			particle.AddParticleController(new ParticleOrbitEntity(particle, target, 0.2f, 2, false).SetTargetDistance(1));
-//			particle.setMaxAge(40);
-//			particle.setParticleScale(0.1f);
-//			if (colorModifier > -1){
-//				particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//			}
-//		}
+		AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "symbols", x, y - 1, z);
+		if (particle != null){
+			particle.AddParticleController(new ParticleOrbitEntity(particle, target, 0.2f, 2, false).SetTargetDistance(1));
+			particle.setMaxAge(40);
+			particle.setParticleScale(0.1f);
+			if (colorModifier > -1){
+				particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+			}
+		}
 	}
 
 	@Override

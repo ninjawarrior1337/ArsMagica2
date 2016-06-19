@@ -7,9 +7,12 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
+import am2.particles.AMParticle;
+import am2.particles.ParticleApproachPoint;
 import am2.spell.IComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -96,25 +99,25 @@ public class Telekinesis implements IComponent{
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 
-//		if (caster instanceof EntityPlayer){
-//			double range = ExtendedProperties.For(caster).TK_Distance;
-//			MovingObjectPosition mop = ItemDefs.spell.getMovingObjectPosition(caster, world, range, false, false);
-//			if (mop == null){
-//				x = caster.posX + (Math.cos(Math.toRadians(caster.rotationYaw + 90)) * range);
-//				z = caster.posZ + (Math.sin(Math.toRadians(caster.rotationYaw + 90)) * range);
-//				y = caster.posY + (-Math.sin(Math.toRadians(caster.rotationPitch)) * range);
-//			}
-//		}
-//
-//
-//		AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "arcane", x - 0.5 + rand.nextDouble(), y - 0.5 + rand.nextDouble(), z - 0.5 + rand.nextDouble());
-//		if (effect != null){
-//			effect.AddParticleController(new ParticleApproachPoint(effect, x, y, z, 0.025f, 0.025f, 1, false));
-//			effect.setRGBColorF(0.8f, 0.3f, 0.7f);
-//			if (colorModifier > -1){
-//				effect.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//			}
-//		}
+		if (caster instanceof EntityPlayer){
+			double range = 8; //ExtendedProperties.For(caster).TK_Distance;
+			RayTraceResult mop = ItemDefs.spell.getMovingObjectPosition(caster, world, range, false, false);
+			if (mop == null){
+				x = caster.posX + (Math.cos(Math.toRadians(caster.rotationYaw + 90)) * range);
+				z = caster.posZ + (Math.sin(Math.toRadians(caster.rotationYaw + 90)) * range);
+				y = caster.posY + (-Math.sin(Math.toRadians(caster.rotationPitch)) * range);
+			}
+		}
+
+
+		AMParticle effect = (AMParticle)ArsMagica2.instance.proxy.particleManager.spawn(world, "arcane", x - 0.5 + rand.nextDouble(), y - 0.5 + rand.nextDouble(), z - 0.5 + rand.nextDouble());
+		if (effect != null){
+			effect.AddParticleController(new ParticleApproachPoint(effect, x, y, z, 0.025f, 0.025f, 1, false));
+			effect.setRGBColorF(0.8f, 0.3f, 0.7f);
+			if (colorModifier > -1){
+				effect.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+			}
+		}
 	}
 
 	@Override

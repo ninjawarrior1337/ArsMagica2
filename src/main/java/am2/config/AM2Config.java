@@ -39,8 +39,7 @@ public class AM2Config extends Configuration{
 	}
 
 	public int getGFXLevel() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	public float getDamageMultiplier() {

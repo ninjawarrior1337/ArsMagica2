@@ -5,12 +5,16 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.buffs.BuffEffectFrostSlowed;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.multiblock.MultiblockStructureDefinition;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFloatUpward;
+import am2.particles.ParticleOrbitEntity;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
 import am2.spell.IComponent;
@@ -63,19 +67,19 @@ public class Slow implements IComponent, IRitualInteraction{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		for (int i = 0; i < 25; ++i){
-//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "sparkle", x, y + 1, z);
-//			if (particle != null){
-//				particle.addRandomOffset(1, 2, 1);
-//				particle.AddParticleController(new ParticleFloatUpward(particle, 0, -0.1f, 1, false));
-//				particle.AddParticleController(new ParticleOrbitEntity(particle, target, 0.2f, 2, false).setIgnoreYCoordinate(true).SetTargetDistance(0.3f + rand.nextDouble() * 0.3));
-//				particle.setMaxAge(20);
-//				particle.setParticleScale(0.2f);
-//				if (colorModifier > -1){
-//					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
-//				}
-//			}
-//		}
+		for (int i = 0; i < 25; ++i){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", x, y + 1, z);
+			if (particle != null){
+				particle.addRandomOffset(1, 2, 1);
+				particle.AddParticleController(new ParticleFloatUpward(particle, 0, -0.1f, 1, false));
+				particle.AddParticleController(new ParticleOrbitEntity(particle, target, 0.2f, 2, false).setIgnoreYCoordinate(true).SetTargetDistance(0.3f + rand.nextDouble() * 0.3));
+				particle.setMaxAge(20);
+				particle.setParticleScale(0.2f);
+				if (colorModifier > -1){
+					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+				}
+			}
+		}
 	}
 
 	@Override

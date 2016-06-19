@@ -6,10 +6,13 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.defs.BlockDefs;
 import am2.defs.SkillDefs;
+import am2.particles.AMParticle;
+import am2.particles.ParticleOrbitPoint;
 import am2.spell.IComponent;
 import am2.utils.DummyEntityPlayer;
 import net.minecraft.block.Block;
@@ -183,15 +186,15 @@ public class Appropriation implements IComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-//		for (int i = 0; i < 5 + 5 * AMCore.config.getGFXLevel(); ++i){
-//			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "water_ball"blockPos);
-//			if (particle != null){
-//				particle.addRandomOffset(1, 1, 1);
-//				particle.setMaxAge(10);
-//				particle.setParticleScale(0.1f);
-//				particle.AddParticleController(new ParticleOrbitPoint(particleblockPos, 1, false).SetTargetDistance(world.rand.nextDouble() + 0.1f).SetOrbitSpeed(0.2f));
-//			}
-//		}
+		for (int i = 0; i < 5 + 5 * ArsMagica2.config.getGFXLevel(); ++i){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "water_ball", x, y, z);
+			if (particle != null){
+				particle.addRandomOffset(1, 1, 1);
+				particle.setMaxAge(10);
+				particle.setParticleScale(0.1f);
+				particle.AddParticleController(new ParticleOrbitPoint(particle, x, y, z, 1, false).SetTargetDistance(world.rand.nextDouble() + 0.1f).SetOrbitSpeed(0.2f));
+			}
+		}
 	}
 
 	@Override

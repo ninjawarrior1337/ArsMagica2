@@ -12,10 +12,14 @@ import am2.spell.component.ChronoAnchor;
 import am2.spell.component.Dig;
 import am2.spell.component.Drown;
 import am2.spell.component.FireDamage;
+import am2.spell.component.Fling;
 import am2.spell.component.Forge;
+import am2.spell.component.Freeze;
 import am2.spell.component.FrostDamage;
+import am2.spell.component.Fury;
 import am2.spell.component.Heal;
 import am2.spell.component.Ignition;
+import am2.spell.component.Knockback;
 import am2.spell.component.LightningDamage;
 import am2.spell.component.MagicDamage;
 import am2.spell.component.Mark;
@@ -40,13 +44,20 @@ import am2.spell.component.WateryGrave;
 import am2.spell.component.WizardsAutumn;
 import am2.spell.modifier.Bounce;
 import am2.spell.modifier.Colour;
+import am2.spell.modifier.Damage;
+import am2.spell.modifier.Dismembering;
 import am2.spell.modifier.Gravity;
+import am2.spell.modifier.Piercing;
+import am2.spell.modifier.Solar;
+import am2.spell.modifier.VelocityAdded;
 import am2.spell.shape.AoE;
+import am2.spell.shape.Beam;
 import am2.spell.shape.Contingency_Death;
 import am2.spell.shape.Contingency_Fire;
 import am2.spell.shape.MissingShape;
 import am2.spell.shape.Projectile;
 import am2.spell.shape.Self;
+import am2.spell.shape.Wave;
 import net.minecraft.util.ResourceLocation;
 
 public class SpellDefs {
@@ -99,21 +110,40 @@ public class SpellDefs {
 		
 		SpellRegistry.registerSpellComponent("blind", getComponentTexture("Blind"), SkillDefs.SKILL_POINT_1, new Blind(), SkillDefs.TREE_OFFENSE, 233, 180, "fire_damage", "lightning_damage");
 		SpellRegistry.registerSpellShape("aoe", getShapeTexture("AoE"), SkillDefs.SKILL_POINT_1, new AoE(), SkillDefs.TREE_OFFENSE, 300, 180, "frost_damage", "physical_damage", "fire_damage", "lightning_damage", "magic_damage");
-		//TODO SpellRegistry.registerSpellComponent("freeze", getComponentTexture("Freeze"), SkillDefs.SKILL_POINT_1, new Freeze(), SkillDefs.TREE_OFFENSE, 345, 180, "frost_damage");
-		//TODO SpellRegistry.registerSpellComponent("knockback", getComponentTexture("Knockback"), SkillDefs.SKILL_POINT_1, new Knockback(), SkillDefs.TREE_OFFENSE, 345, 180, "magic_damage");
-		
+		SpellRegistry.registerSpellComponent("freeze", getComponentTexture("Freeze"), SkillDefs.SKILL_POINT_1, new Freeze(), SkillDefs.TREE_OFFENSE, 345, 180, "frost_damage");
+		SpellRegistry.registerSpellComponent("knockback", getComponentTexture("Knockback"), SkillDefs.SKILL_POINT_1, new Knockback(), SkillDefs.TREE_OFFENSE, 390, 180, "magic_damage");
 		
 		SpellRegistry.registerSpellShape("contingency_fire", getShapeTexture("Contingency_Fire"), SkillDefs.SKILL_POINT_1, new Contingency_Fire(), SkillDefs.TREE_OFFENSE, 165, 190, "ignition");
+		SpellRegistry.registerSpellModifier("solar", getModifierTexture("Solar"), SkillDefs.SKILL_POINT_2, new Solar(), SkillDefs.TREE_OFFENSE, 210, 255, "blind");
+		
+		SpellRegistry.registerSpellComponent("storm", getComponentTexture("Storm"), SkillDefs.SKILL_POINT_2, new Storm(), SkillDefs.TREE_OFFENSE, 255, 225, "lightning_damage");
+		SpellRegistry.registerSpellComponent("astral_distortion", getComponentTexture("AstralDistortion"), SkillDefs.SKILL_POINT_1, new AstralDistortion(), SkillDefs.TREE_OFFENSE, 367, 215, "magic_damage", "frost_damage");
+		SpellRegistry.registerSpellComponent("silence", getComponentTexture("Silence"), SkillDefs.SKILL_POINT_2, new Silence(), SkillDefs.TREE_OFFENSE, 345, 245, "astral_distortion");
+		
+		SpellRegistry.registerSpellComponent("fling", getComponentTexture("Fling"), SkillDefs.SKILL_POINT_1, new Fling(), SkillDefs.TREE_OFFENSE, 390, 245, "knockback");
+		SpellRegistry.registerSpellModifier("velocity_added", getModifierTexture("VelocityAdded"), SkillDefs.SKILL_POINT_2, new VelocityAdded(), SkillDefs.TREE_OFFENSE, 390, 290, "fling");
+		SpellRegistry.registerSpellComponent("watery_grave", getComponentTexture("WateryGrave"), SkillDefs.SKILL_POINT_1, new WateryGrave(), SkillDefs.TREE_OFFENSE, 435, 245, "drown");
+		
+		SpellRegistry.registerSpellModifier("piercing", getModifierTexture("Piercing"), SkillDefs.SKILL_POINT_2, new Piercing(), SkillDefs.TREE_OFFENSE, 323, 215, "freeze");
+		
+		SpellRegistry.registerSpellShape("beam", getShapeTexture("Beam"), SkillDefs.SKILL_POINT_2, new Beam(), SkillDefs.TREE_OFFENSE, 300, 270, "aoe");	
+		SpellRegistry.registerSpellModifier("damage", getModifierTexture("Damage"), SkillDefs.SKILL_POINT_2, new Damage(), SkillDefs.TREE_OFFENSE, 300, 315, "beam");
+		SpellRegistry.registerSpellComponent("fury", getComponentTexture("Fury"), SkillDefs.SKILL_POINT_2, new Fury(), SkillDefs.TREE_OFFENSE, 255, 315, "beam", "storm");
+		SpellRegistry.registerSpellShape("wave", getShapeTexture("Wave"), SkillDefs.SKILL_POINT_2, new Wave(), SkillDefs.TREE_OFFENSE, 367, 315, "beam", "fling");	
+		
+		//TODO SpellRegistry.registerSpellComponent("blizzard", getComponentTexture("Blizzard"), SkillDefs.SILVER_POINT, new Blizzard(), SkillDefs.TREE_OFFENSE, 75, 45);
+		//TODO SpellRegistry.registerSpellComponent("falling_star", getComponentTexture("FallingStar"), SkillDefs.SILVER_POINT, new FallingStar(), SkillDefs.TREE_OFFENSE, 75, 90);
+		//TODO SpellRegistry.registerSpellComponent("fire_rain", getComponentTexture("FireRain"), SkillDefs.SILVER_POINT, new FireRain(), SkillDefs.TREE_OFFENSE, 75, 135);
+		SpellRegistry.registerSpellModifier("dismembering", getModifierTexture("Dismembering"), SkillDefs.SILVER_POINT, new Dismembering(), SkillDefs.TREE_OFFENSE, 75, 180);
+		
 		
 		SpellRegistry.registerSpellShape("self", getShapeTexture("Self"), SkillDefs.SKILL_POINT_0, new Self(), SkillDefs.TREE_DEFENSE, 0, 0);
 		SpellRegistry.registerSpellShape("contingency_death", getShapeTexture("Contingency_Death"), SkillDefs.SKILL_POINT_0, new Contingency_Death(), SkillDefs.TREE_DEFENSE, 0, 0);
 		
 		SpellRegistry.registerSpellComponent("accelerate", getComponentTexture("Accelerate"), SkillDefs.SKILL_POINT_0, new Accelerate(), SkillDefs.TREE_UTILITY, 4, 4);
 		SpellRegistry.registerSpellComponent("appropriation", getComponentTexture("Appropriation"), SkillDefs.SKILL_POINT_0, new Appropriation(), SkillDefs.TREE_UTILITY, 4, 4);
-		SpellRegistry.registerSpellComponent("astral_distortion", getComponentTexture("AstralDistortion"), SkillDefs.SKILL_POINT_0, new AstralDistortion(), SkillDefs.TREE_UTILITY, 4, 4);
 		SpellRegistry.registerSpellComponent("attract", getComponentTexture("Attract"), SkillDefs.SKILL_POINT_0, new Attract(), SkillDefs.TREE_UTILITY, 4, 4);
 		SpellRegistry.registerSpellComponent("banish_rain", getComponentTexture("BanishRain"), SkillDefs.SKILL_POINT_0, new BanishRain(), SkillDefs.TREE_UTILITY, 4, 4);
-		SpellRegistry.registerSpellComponent("blind", getComponentTexture("Blind"), SkillDefs.SKILL_POINT_0, new Blind(), SkillDefs.TREE_UTILITY, 4, 4);
 		SpellRegistry.registerSpellComponent("chrono_anchor", getComponentTexture("ChronoAnchor"), SkillDefs.SKILL_POINT_0, new ChronoAnchor(), SkillDefs.TREE_UTILITY, 4, 4);
 		SpellRegistry.registerSpellComponent("dig", getComponentTexture("Dig"), SkillDefs.SKILL_POINT_0, new Dig(), SkillDefs.TREE_UTILITY, 0, 1);
 		
@@ -130,17 +160,14 @@ public class SpellDefs {
 		SpellRegistry.registerSpellComponent("rift", getComponentTexture("Rift"), SkillDefs.SKILL_POINT_1, new Rift(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("scramble_synapses", getComponentTexture("ScrambleSynapses"), SkillDefs.SKILL_POINT_1, new ScrambleSynapses(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("shield", getComponentTexture("Shield"), SkillDefs.SKILL_POINT_1, new Shield(), SkillDefs.TREE_UTILITY, 0, 3);
-		SpellRegistry.registerSpellComponent("silence", getComponentTexture("Silence"), SkillDefs.SKILL_POINT_1, new Silence(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("slow", getComponentTexture("Slow"), SkillDefs.SKILL_POINT_1, new Slow(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("slowfall", getComponentTexture("Slowfall"), SkillDefs.SKILL_POINT_1, new Slowfall(), SkillDefs.TREE_UTILITY, 0, 3);
-		SpellRegistry.registerSpellComponent("storm", getComponentTexture("Storm"), SkillDefs.SKILL_POINT_1, new Storm(), SkillDefs.TREE_UTILITY, 0, 3);
 		//TODO SpellRegistry.registerSpellComponent("summon", getComponentTexture("Summon"), SkillDefs.SKILL_POINT_1, new Summon(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("swiftswim", getComponentTexture("SwiftSwim"), SkillDefs.SKILL_POINT_1, new SwiftSwim(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("telekinesis", getComponentTexture("Telekinesis"), SkillDefs.SKILL_POINT_1, new Telekinesis(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("transplace", getComponentTexture("Transplace"), SkillDefs.SKILL_POINT_1, new Transplace(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("true_sight", getComponentTexture("TrueSight"), SkillDefs.SKILL_POINT_1, new TrueSight(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("water_breathing", getComponentTexture("WaterBreathing"), SkillDefs.SKILL_POINT_1, new WaterBreathing(), SkillDefs.TREE_UTILITY, 0, 3);
-		SpellRegistry.registerSpellComponent("watery_grave", getComponentTexture("WateryGrave"), SkillDefs.SKILL_POINT_1, new WateryGrave(), SkillDefs.TREE_UTILITY, 0, 3);
 		SpellRegistry.registerSpellComponent("wizards_autumn", getComponentTexture("WizardsAutumn"), SkillDefs.SKILL_POINT_1, new WizardsAutumn(), SkillDefs.TREE_UTILITY, 0, 3);
 		
 	}
