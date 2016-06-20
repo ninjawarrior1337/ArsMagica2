@@ -1,10 +1,13 @@
 package am2.spell.shape;
 
 import am2.defs.ItemDefs;
+import am2.entity.EntitySpellEffect;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
+import am2.spell.SpellModifiers;
+import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -17,16 +20,16 @@ public class Zone implements IShape{
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (world.isRemote) return SpellCastResult.SUCCESS;
-//		int radius = SpellUtils.getModifiedInt_Add(2, stack, caster, target, world, SpellModifiers.RADIUS);
-//		double gravity = SpellUtils.getModifiedDouble_Add(0, stack, caster, target, world, SpellModifiers.GRAVITY);
-//		int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
-//		EntitySpellEffect zone = new EntitySpellEffect(world);
-//		zone.setRadius(radius);
-//		zone.setTicksToExist(duration);
-//		zone.setGravity(gravity);
-//		zone.SetCasterAndStack(caster, SpellUtils.instance.popStackStage(stack));
-//		zone.setPosition(x, y, z);
-//		world.spawnEntityInWorld(zone);
+		int radius = SpellUtils.getModifiedInt_Add(2, stack, caster, target, world, SpellModifiers.RADIUS);
+		double gravity = SpellUtils.getModifiedDouble_Add(0, stack, caster, target, world, SpellModifiers.GRAVITY);
+		int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
+		EntitySpellEffect zone = new EntitySpellEffect(world);
+		zone.setRadius(radius);
+		zone.setTicksToExist(duration);
+		zone.setGravity(gravity);
+		zone.SetCasterAndStack(caster, SpellUtils.popStackStage(stack));
+		zone.setPosition(x, y, z);
+		world.spawnEntityInWorld(zone);
 		return SpellCastResult.SUCCESS;
 	}
 

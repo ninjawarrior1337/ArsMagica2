@@ -2,10 +2,13 @@ package am2.spell.shape;
 
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
+import am2.entity.EntitySpellEffect;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
+import am2.spell.SpellModifiers;
+import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -30,18 +33,18 @@ public class Wall implements IShape{
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (world.isRemote) return SpellCastResult.SUCCESS;
-//		int radius = SpellUtils.getModifiedInt_Mul(3, stack, caster, target, world, SpellModifiers.RADIUS);
-//		double gravity = SpellUtils.getModifiedDouble_Add(0, stack, caster, target, world, SpellModifiers.GRAVITY);
-//		int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
+		int radius = SpellUtils.getModifiedInt_Mul(3, stack, caster, target, world, SpellModifiers.RADIUS);
+		double gravity = SpellUtils.getModifiedDouble_Add(0, stack, caster, target, world, SpellModifiers.GRAVITY);
+		int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
 
-//		EntitySpellEffect wall = new EntitySpellEffect(world);
-//		wall.setRadius(radius);
-//		wall.setTicksToExist(duration);
-//		wall.setGravity(gravity);
-//		wall.SetCasterAndStack(caster, SpellUtils.instance.popStackStage(stack));
-//		wall.setPosition(x, y, z);
-//		wall.setWall(caster.rotationYaw);
-//		world.spawnEntityInWorld(wall);
+		EntitySpellEffect wall = new EntitySpellEffect(world);
+		wall.setRadius(radius);
+		wall.setTicksToExist(duration);
+		wall.setGravity(gravity);
+		wall.SetCasterAndStack(caster, SpellUtils.popStackStage(stack));
+		wall.setPosition(x, y, z);
+		wall.setWall(caster.rotationYaw);
+		world.spawnEntityInWorld(wall);
 		return SpellCastResult.SUCCESS;
 	}
 

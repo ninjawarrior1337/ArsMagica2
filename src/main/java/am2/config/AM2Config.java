@@ -50,6 +50,16 @@ public class AM2Config extends Configuration{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public boolean NoGFX() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean moonstoneMeteorsDestroyTerrain() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 }

@@ -40,6 +40,14 @@ public class MathUtilities{
 		retValue.scale(scaler);
 		return retValue;
 	}
+	
+	public static Vec3d floorToI(Vec3d old){
+		return new Vec3d((float)Math.floor(old.xCoord), (float)Math.floor(old.yCoord), (float)Math.floor(old.zCoord));
+	}
+	
+	public static Vec3d roundToI(Vec3d old){
+		return new Vec3d((float)Math.round(old.xCoord), (float)Math.round(old.yCoord), (float)Math.round(old.zCoord));
+	}
 
 	public static Vec3d[] GetHorizontalBlocksInFrontOfCharacter(EntityLivingBase entity, int numBlocks, int x, int y, int z){
 		float speed = 0.1F;

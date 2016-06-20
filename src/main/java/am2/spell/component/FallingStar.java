@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -8,15 +9,19 @@ import com.google.common.collect.Sets;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
+import am2.entity.EntityThrownRock;
 import am2.items.ItemOre;
 import am2.spell.IComponent;
+import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
+import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -35,23 +40,23 @@ public class FallingStar implements IComponent{
 
 	private boolean spawnStar(ItemStack spellStack, EntityLivingBase caster, Entity target, World world, double x, double y, double z){
 
-//		List<EntityThrownRock> rocks = world.getEntitiesWithinAABB(EntityThrownRock.class, AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
-//
-//		int damageMultitplier = SpellUtils.instance.getModifiedInt_Mul(15, spellStack, caster, target, world, 0, SpellModifiers.DAMAGE);
-//
-//		for (EntityThrownRock rock : rocks){
-//			if (rock.getIsShootingStar())
-//				return false;
-//		}
-//
-//		if (!world.isRemote){
-//			EntityThrownRock star = new EntityThrownRock(world);
-//			star.setPosition(x, world.getActualHeight(), z);
-//			star.setShootingStar(2 * damageMultitplier);
-//			star.setThrowingEntity(caster);
-//			star.setSpellStack(spellStack.copy());
-//			world.spawnEntityInWorld(star);
-//		}
+		List<EntityThrownRock> rocks = world.getEntitiesWithinAABB(EntityThrownRock.class, new AxisAlignedBB(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
+
+		int damageMultitplier = SpellUtils.getModifiedInt_Mul(15, spellStack, caster, target, world, SpellModifiers.DAMAGE);
+
+		for (EntityThrownRock rock : rocks){
+			if (rock.getIsShootingStar())
+				return false;
+		}
+
+		if (!world.isRemote){
+			EntityThrownRock star = new EntityThrownRock(world);
+			star.setPosition(x, world.getActualHeight(), z);
+			star.setShootingStar(2 * damageMultitplier);
+			star.setThrowingEntity(caster);
+			star.setSpellStack(spellStack.copy());
+			world.spawnEntityInWorld(star);
+		}
 		return true;
 	}
 
