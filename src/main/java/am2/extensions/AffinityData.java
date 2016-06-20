@@ -1,6 +1,7 @@
 package am2.extensions;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import am2.affinity.Affinity;
 import am2.api.AffinityRegistry;
@@ -104,6 +105,24 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public void deserializeNBT(NBTBase nbt) {
 		new IAffinityData.Storage().readNBT(INSTANCE, this, null, nbt);
+	}
+
+	@Override
+	public Affinity[] getHighestAffinities() {
+		float max1 = 0;
+		float max2 = 0;
+		Affinity maxAff1 = SkillDefs.NONE;
+		Affinity maxAff2 = SkillDefs.NONE;
+		for (Entry<Affinity, Float> entry : getAffinities().entrySet()) {
+			if (entry.getValue() > max1) {
+				max1 = entry.getValue();
+				maxAff1 = entry.getKey();
+			} else if (entry.getValue() > max2) {
+				max2 = entry.getValue();
+				maxAff2 = entry.getKey();
+			}
+		}
+		return new Affinity[] {maxAff1, maxAff2};
 	}
 
 }

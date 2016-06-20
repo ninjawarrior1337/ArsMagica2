@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 public class CraftingAltar extends MultiblockStructureDefinition{
 	
 	public CraftingAltar() {
+		super("crafting_altar");
 		MultiblockGroup groupMain = new MultiblockGroup(Lists.newArrayList(Blocks.QUARTZ_BLOCK.getDefaultState()), false);
 		for (int x = -2; x <= 2; x++) {
 			for (int z = -2; z <= 2; z++) {

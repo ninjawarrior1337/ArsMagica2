@@ -43,7 +43,6 @@ public class SpellModel implements IModel {
 
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		long time = System.nanoTime();
 		ImmutableMap<TransformType, TRSRTransformation> map = IPerspectiveAwareModel.MapWrapper.getTransforms(state);
 		IBakedModel model = new ItemLayerModel(textures).bake(state, format, bakedTextureGetter);
 		if (handRender == null) {
@@ -53,7 +52,6 @@ public class SpellModel implements IModel {
 				handRender.addPart(affinity, subModel);
 			}
 		}
-		System.out.println("Baking Took " + ((System.nanoTime() - time) / 1000000F) + " ms");
 		return new SpellBakedModel(model, handRender, map);
 	}
 

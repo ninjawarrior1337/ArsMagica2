@@ -93,5 +93,9 @@ public class ArsMagica2 {
 	@EventHandler
 	public void postInit (FMLPostInitializationEvent e) {
 	}
+
+	public String getVersion() {
+		return VERSION;
+	}
 	
 }

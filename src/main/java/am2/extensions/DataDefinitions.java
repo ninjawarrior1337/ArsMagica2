@@ -66,7 +66,15 @@ public class DataDefinitions {
 	static final DataParameter<Boolean> ICE_BRIDGE_STATE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
 	static final DataParameter<Integer> ICE_SPEED = EntityDataManager.createKey(Entity.class, DataSerializers.VARINT);
 	static final DataParameter<Integer> NATURE_SPEED = EntityDataManager.createKey(Entity.class, DataSerializers.VARINT);
+
+	static final DataParameter<Boolean> REVERSE_INPUT = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
+	static final DataParameter<Boolean> IS_FLIPPED = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
 	
+	static final DataParameter<Float> SHRINK_PCT = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+	static final DataParameter<Float> PREV_SHRINK_PCT = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+	static final DataParameter<Float> FLIP_ROTATION = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+	static final DataParameter<Float> PREV_FLIP_ROTATION = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+
 	static {
 		ArsMagica2.LOGGER.info("Current Mana ID : " + CURRENT_MANA.getId());
 		ArsMagica2.LOGGER.info("Max Mana ID : " + MAX_MANA.getId());

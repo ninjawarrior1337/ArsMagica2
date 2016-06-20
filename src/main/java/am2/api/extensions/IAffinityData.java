@@ -62,4 +62,6 @@ public interface IAffinityData {
 			return new AffinityData();
 		}
 	}
+
+	public Affinity[] getHighestAffinities();
 }

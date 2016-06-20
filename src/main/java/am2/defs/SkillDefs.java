@@ -18,8 +18,8 @@ public class SkillDefs {
 	public static final SkillTree TREE_OFFENSE = new SkillTree("offense", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/offense.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/offense.png"));
 	public static final SkillTree TREE_DEFENSE = new SkillTree("defense", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/defense.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/defense.png"));
 	public static final SkillTree TREE_UTILITY = new SkillTree("utility", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/utility.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/utility.png"));
+	public static final SkillTree TREE_AFFINITY = new SkillTree("affinity", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/affinity.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/affinity.png")).disableRender("affinity");
 	public static final SkillTree TREE_TALENT = new SkillTree("talent", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/talent.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/talent.png"));
-	public static final SkillTree TREE_AFFINITY = new SkillTree("affinity", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/affinity.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/affinity.png"));
 	
 	public static final SkillPoint SILVER_POINT = new SkillPoint("Silver", TextFormatting.GRAY, 0x999999, -1, -1).disableRender();
 	public static final SkillPoint SKILL_POINT_0 = new SkillPoint("Blue", TextFormatting.BLUE, 0x0000ff, 0, 1);
@@ -57,8 +57,8 @@ public class SkillDefs {
 		SkillTreeRegistry.registerSkillTree(TREE_OFFENSE);
 		SkillTreeRegistry.registerSkillTree(TREE_DEFENSE);
 		SkillTreeRegistry.registerSkillTree(TREE_UTILITY);
-		SkillTreeRegistry.registerSkillTree(TREE_TALENT);
 		SkillTreeRegistry.registerSkillTree(TREE_AFFINITY);
+		SkillTreeRegistry.registerSkillTree(TREE_TALENT);
 		
 		SkillPointRegistry.registerSkillPoint(-1, SILVER_POINT);
 		SkillPointRegistry.registerSkillPoint(0, SKILL_POINT_0);

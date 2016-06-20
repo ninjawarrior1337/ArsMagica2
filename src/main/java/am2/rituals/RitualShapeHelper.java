@@ -17,10 +17,10 @@ public class RitualShapeHelper {
 	
 	public static final RitualShapeHelper instance = new RitualShapeHelper();
 	
-	public MultiblockStructureDefinition corruption = new MultiblockStructureDefinition();
-	public MultiblockStructureDefinition purification = new MultiblockStructureDefinition();
-	public MultiblockStructureDefinition hourglass = new MultiblockStructureDefinition();
-	public MultiblockStructureDefinition ringedCross = new MultiblockStructureDefinition();
+	public MultiblockStructureDefinition corruption = new MultiblockStructureDefinition("corruption");
+	public MultiblockStructureDefinition purification = new MultiblockStructureDefinition("purification");
+	public MultiblockStructureDefinition hourglass = new MultiblockStructureDefinition("hourglass");
+	public MultiblockStructureDefinition ringedCross = new MultiblockStructureDefinition("ringedCross");
 	
 	public boolean matchesRitual(IRitualInteraction ritual, World world, BlockPos pos) {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius()));

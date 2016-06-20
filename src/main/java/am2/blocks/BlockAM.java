@@ -1,5 +1,6 @@
 package am2.blocks;
 
+import am2.defs.CreativeTabsDefs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -11,7 +12,7 @@ public class BlockAM extends Block {
 
 	public BlockAM(Material materialIn) {
 		super(materialIn);
-		// TODO Auto-generated constructor stub
+		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
 	}
 
 	public BlockAM(Material blockMaterialIn, MapColor blockMapColorIn) {

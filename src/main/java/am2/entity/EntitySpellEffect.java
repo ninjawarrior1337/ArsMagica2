@@ -133,7 +133,7 @@ public class EntitySpellEffect extends Entity{
 
 	@Override
 	public void onUpdate(){
-
+		
 		if (dummycaster != null && dummycaster instanceof DummyEntityPlayer)
 			dummycaster.onUpdate();
 
@@ -198,7 +198,6 @@ public class EntitySpellEffect extends Entity{
 						_rotation = (rotation + (90 * i)) % 360;
 						double x = this.posX - Math.cos(3.141 / 180 * (_rotation)) * dist;
 						double z = this.posZ - Math.sin(3.141 / 180 * (_rotation)) * dist;
-
 						AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleIcons.instance.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
@@ -212,7 +211,6 @@ public class EntitySpellEffect extends Entity{
 						}
 					}
 				}
-
 			}
 		}
 

@@ -2,6 +2,9 @@ package am2.api;
 
 import java.util.HashMap;
 
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
+
 import am2.skill.SkillPoint;
 import am2.skill.SkillTree;
 import am2.spell.IComponent;
@@ -103,6 +106,18 @@ public class SpellRegistry {
 	 */
 	public static SpellData<IShape> getShapeFromName (String name) {
 		return shapeMap.get(name.toLowerCase());
+	}
+	
+	public static ImmutableMap<String, SpellData<IComponent>> getComponentMap() {
+		return ImmutableMap.copyOf(componentMap);
+	}
+	
+	public static ImmutableMap<String, SpellData<IModifier>> getModifierMap() {
+		return ImmutableMap.copyOf(modifierMap);
+	}
+	
+	public static ImmutableMap<String, SpellData<IShape>> getShapeMap() {
+		return ImmutableMap.copyOf(shapeMap);
 	}
 
 	public static class SpellData<K extends ISpellPart> {

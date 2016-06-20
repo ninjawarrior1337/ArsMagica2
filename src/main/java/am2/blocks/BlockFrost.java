@@ -2,7 +2,6 @@ package am2.blocks;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
@@ -23,7 +22,7 @@ public class BlockFrost extends BlockIce {
 		worldIn.setBlockToAir(pos);
 	}
 
-	public Block registerAndName(ResourceLocation rl) {
+	public BlockFrost registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlock(this), rl);

@@ -10,7 +10,14 @@ import am2.defs.CreativeTabsDefs;
 
 public class ItemOre extends ItemArsMagica2 {
 	
-	private final String[] names = {"vinteum", "purified_vinteum", "chimerite", "moonstone", "sunstone", "bluetopaz", "arcaneash"};
+	public static final String[] names = {
+			"vinteum",
+			"purified_vinteum",
+			"chimerite",
+			"moonstone",
+			"sunstone",
+			"bluetopaz",
+			"arcaneash"};
 	public static final int META_VINTEUM = 0;
 	public static final int META_PURIFIED_VINTEUM = 1;
 	public static final int META_CHIMERITE = 2;

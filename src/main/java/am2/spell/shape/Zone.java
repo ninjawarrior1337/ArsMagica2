@@ -27,7 +27,7 @@ public class Zone implements IShape{
 		zone.setRadius(radius);
 		zone.setTicksToExist(duration);
 		zone.setGravity(gravity);
-		zone.SetCasterAndStack(caster, SpellUtils.popStackStage(stack));
+		zone.SetCasterAndStack(caster, stack);
 		zone.setPosition(x, y, z);
 		world.spawnEntityInWorld(zone);
 		return SpellCastResult.SUCCESS;

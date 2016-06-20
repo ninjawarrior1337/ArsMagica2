@@ -7,6 +7,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.affinity.Affinity;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.entity.EntityThrownRock;
@@ -33,7 +34,7 @@ public class FallingStar implements IComponent{
 				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ARCANE),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
 				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ARCANE),
-				//TODO BlocksCommonProxy.manaBattery,
+				BlockDefs.manaBattery,
 				Items.LAVA_BUCKET
 		};
 	}

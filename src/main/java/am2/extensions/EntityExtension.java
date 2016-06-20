@@ -487,4 +487,34 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		}
 	}
 
+	@Override
+	public boolean shouldReverseInput() {
+		return entity.getDataManager().get(DataDefinitions.REVERSE_INPUT);
+	}
+
+	@Override
+	public boolean getIsFlipped() {
+		return entity.getDataManager().get(DataDefinitions.IS_FLIPPED);
+	}
+
+	@Override
+	public float getFlipRotation() {
+		return entity.getDataManager().get(DataDefinitions.FLIP_ROTATION);
+	}
+
+	@Override
+	public float getPrevFlipRotation() {
+		return entity.getDataManager().get(DataDefinitions.PREV_FLIP_ROTATION);
+	}
+
+	@Override
+	public float getShrinkPct() {
+		return entity.getDataManager().get(DataDefinitions.SHRINK_PCT);
+	}
+
+	@Override
+	public float getPrevShrinkPct() {
+		return entity.getDataManager().get(DataDefinitions.PREV_SHRINK_PCT);
+	}
+
 }

@@ -97,4 +97,16 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		new ISkillData.Storage().readNBT(INSTANCE, this, null, nbt);
 	}
 
+	@Override
+	public boolean canLearn(String name) {
+		if (SkillRegistry.getSkillFromName(name) == null) return false;
+		for (String skill : SkillRegistry.getSkillFromName(name).getParents()) {
+			Skill s = SkillRegistry.getSkillFromName(skill);
+			if (s == null) continue;
+			if (hasSkill(skill)) continue;
+			return false;
+		}
+		return true;
+	}
+
 }

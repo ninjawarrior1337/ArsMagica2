@@ -1,6 +1,9 @@
 package am2.blocks;
 
-import net.minecraft.block.Block;
+import am2.ArsMagica2;
+import am2.blocks.tileentity.TileEntityOcculus;
+import am2.defs.CreativeTabsDefs;
+import am2.defs.IDDefs;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -21,10 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import am2.ArsMagica2;
-import am2.blocks.tileentity.TileEntityOcculus;
-import am2.defs.CreativeTabsDefs;
-import am2.defs.IDDefs;
 
 public class BlockOcculus extends BlockContainer {
 	
@@ -58,7 +57,7 @@ public class BlockOcculus extends BlockContainer {
 		return true;
 	}
 
-	public Block registerAndName(ResourceLocation rl) {
+	public BlockOcculus registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlock(this), rl);

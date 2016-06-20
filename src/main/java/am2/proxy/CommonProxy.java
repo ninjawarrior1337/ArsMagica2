@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import am2.ArsMagica2;
 import am2.container.ContainerRiftStorage;
 import am2.entity.EntityRiftStorage;
+import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
 import am2.extensions.RiftStorage;
 import am2.particles.ParticleManagerServer;
@@ -18,6 +19,7 @@ import am2.proxy.tick.ServerTickHandler;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,6 +33,7 @@ public class CommonProxy implements IGuiHandler{
 	private ServerTickHandler serverTickHandler;
 	private HashMap<EntityLivingBase, ArrayList<PotionEffect>> deferredPotionEffects;
 	private HashMap<EntityLivingBase, Integer> deferredDimensionTransfers;
+	public ArrayList<Item> items;
 
 
 	@Override
@@ -54,6 +57,7 @@ public class CommonProxy implements IGuiHandler{
 		particleManager = new ParticleManagerServer();
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 80, 1, false);
+		EntityRegistry.registerModEntity(EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 80, 1, false);
 	}
 	
 	public void addDeferredTargetSet(EntityLiving ent, EntityLivingBase target){
@@ -74,6 +78,14 @@ public class CommonProxy implements IGuiHandler{
 
 	public ImmutableMap<EntityLivingBase, Integer> getDeferredDimensionTransfers(){
 		return ImmutableMap.copyOf(deferredDimensionTransfers);
+	}
+
+	public void unlockCompendiumEntry(String id) {
+		
+	}
+
+	public void unlockCompendiumCategory(String id) {
+		
 	}
 
 

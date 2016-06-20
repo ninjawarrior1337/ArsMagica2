@@ -30,6 +30,8 @@ public interface ISkillData {
 	
 	public void setSkillPoint(SkillPoint point, int num);
 
+	public boolean canLearn(String name);
+	
 	
 	public static class Storage implements IStorage<ISkillData> {
 		

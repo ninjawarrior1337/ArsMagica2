@@ -1,10 +1,15 @@
 package am2.blocks;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
 
@@ -20,6 +25,13 @@ public class BlockArsMagicaOre extends BlockAM {
 	@Override
 	public BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[]{BlockArsMagicaOre.ORE_TYPE});
+	}
+	
+	@Override
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+		for (int i = 0; i < EnumOreType.values().length; i++) {
+			list.add(new ItemStack(this, 1, i));
+		}
 	}
 	
 	@Override

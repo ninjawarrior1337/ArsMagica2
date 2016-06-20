@@ -33,7 +33,6 @@ public class SpellRenderer implements ItemMeshDefinition {
 	public SpellRenderer() {
 			List<ResourceLocation> resources = getResourceListing();
 			for (ResourceLocation resource : resources) {
-				ArsMagica2.LOGGER.info("Loading " + resource);
 				locations.add(new ModelResourceLocation(resource, "inventory"));
 				ModelBakery.registerItemVariants(ItemDefs.spell, new ModelResourceLocation(resource, "inventory"));
 			}
@@ -49,7 +48,6 @@ public class SpellRenderer implements ItemMeshDefinition {
 				if (jar.getProtocol() == "jar"){
 					String path = jar.toString().replace("jar:", "").replace("file:", "").replace("!/am2/ArsMagica2.class", "").replace('/', File.separatorChar);
 					path = URLDecoder.decode(path, "UTF-8");
-					ArsMagica2.LOGGER.debug(path);
 					JarFile jarFile = new JarFile(path);
 					Enumeration<JarEntry> entries = jarFile.entries();
 					while (entries.hasMoreElements()){

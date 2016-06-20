@@ -1,16 +1,21 @@
 package am2.multiblock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class MultiblockStructureDefinition {
 	
 	public ArrayList<MultiblockGroup> groups;
+	String id;
 	
-	public MultiblockStructureDefinition() {
+	public MultiblockStructureDefinition(String id) {
 		groups = new ArrayList<>();
+		this.id = id;
 	}
 	
 	public void addGroup (MultiblockGroup group) {
@@ -41,6 +46,15 @@ public class MultiblockStructureDefinition {
 				return false;
 		}
 		return true;
+	}
+	
+	public HashMap<BlockPos, List<IBlockState>> getStructureLayer(MultiblockGroup selected, int layer) {
+		HashMap<BlockPos, List<IBlockState>> stateMap = new HashMap<>();
+		for (BlockPos entry : selected.getPositions()) {
+			if (entry.getY() == layer)
+				stateMap.put(entry, selected.getStates());
+		}
+		return stateMap;
 	}
 	
 	public int getMinX () {
@@ -95,5 +109,21 @@ public class MultiblockStructureDefinition {
 				max = group.getMaxZ();
 		}
 		return max;
+	}
+
+	public int getWidth() {
+		return getMaxX() - getMinX();
+	}
+	
+	public int getLength() {
+		return getMaxZ() - getMinZ();
+	}
+	
+	public int getHeight() {
+		return getMaxY() - getMinY();
+	}
+	
+	public String getId() {
+		return id;
 	}
 }

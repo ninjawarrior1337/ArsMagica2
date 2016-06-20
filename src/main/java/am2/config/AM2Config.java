@@ -2,6 +2,7 @@ package am2.config;
 
 import java.io.File;
 
+import am2.api.math.AMVector2;
 import net.minecraftforge.common.config.Configuration;
 
 public class AM2Config extends Configuration{
@@ -31,7 +32,7 @@ public class AM2Config extends Configuration{
 	}
 
 	public boolean FullGFX() {
-		return false;
+		return true;
 	}
 
 	public boolean LowGFX() {
@@ -59,6 +60,126 @@ public class AM2Config extends Configuration{
 	public boolean moonstoneMeteorsDestroyTerrain() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public boolean allowVersionChecks() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean allowCompendiumUpdates() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean stagedCompendium() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean showHudMinimally() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public AMVector2 getSpellBookPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getBurnoutHudPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getManaHudPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean showHudBars() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public AMVector2 getManaNumericPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getBurnoutNumericPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean getShowNumerics() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean showXPAlways() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public AMVector2 getXPNumericPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getContingencyPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getArmorPositionHead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getArmorPositionChest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getArmorPositionLegs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getArmorPositionBoots() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getAffinityPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean showArmorUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public AMVector2 getLevelPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AMVector2 getXPBarPosition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean retroactiveWorldgen() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public int getMeteorMinSpawnLevel() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

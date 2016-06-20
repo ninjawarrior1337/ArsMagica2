@@ -2,6 +2,7 @@ package am2.skill;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 
 public class Skill {
 	
@@ -57,5 +58,13 @@ public class Skill {
 	@Override
 	public String toString() {
 		return ID;
+	}
+	
+	public String getName() {
+		return I18n.translateToLocal("skill." + getID() + ".name");
+	}
+	
+	public String getOcculusDesc() {
+		return I18n.translateToLocal("skill." + getID() + ".occulusdesc");
 	}
 }

@@ -291,9 +291,9 @@ public class GuiOcculus extends GuiScreen {
 						hasPrereq &= data.hasSkill(subParent);
 					}
 					ArrayList<String> list = new ArrayList<String>();
-					list.add(s.getPoint().getChatColor().toString() + I18n.translateToLocal("skill." + s.getID() + ".name"));
+					list.add(s.getPoint().getChatColor().toString() + I18n.translateToLocal(s.getName()));
 					if (hasPrereq)
-						list.add(TextFormatting.DARK_GRAY.toString() + I18n.translateToLocal("skill." + s.getID() + ".occulusdesc"));
+						list.add(TextFormatting.DARK_GRAY.toString() + I18n.translateToLocal(s.getOcculusDesc()));
 					else
 						list.add(TextFormatting.DARK_RED.toString() + I18n.translateToLocal("occulus.missingrequirements"));
 					

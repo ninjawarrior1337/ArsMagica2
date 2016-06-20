@@ -17,6 +17,8 @@ public class SkillTree {
 	private String name;
 	private ResourceLocation background;
 	private ResourceLocation icon;
+	private boolean canRender = true;
+	private String unlock = null;
 	
 	public SkillTree(String name, ResourceLocation background, ResourceLocation icon) {
 		this.name = name.toLowerCase();
@@ -42,5 +44,19 @@ public class SkillTree {
 	
 	public String getLocalizedName() {
 		return I18n.translateToLocal(getUnlocalizedName());
+	}
+
+	public SkillTree disableRender(String compendiumUnlock) {
+		canRender = false;
+		this.unlock = compendiumUnlock;
+		return this;
+	}
+	
+	public String getUnlock() {
+		return unlock;
+	}
+	
+	public boolean canRender() {
+		return canRender;
 	}
 }

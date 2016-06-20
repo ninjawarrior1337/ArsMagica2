@@ -161,4 +161,8 @@ public class MultiblockGroup {
 	public ImmutableList<BlockPos> getPositions() {
 		return ImmutableList.copyOf(positions);
 	}
+	
+	public ImmutableList<IBlockState> getStates() {
+		return ImmutableList.copyOf(states);
+	}
 }

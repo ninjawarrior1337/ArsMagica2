@@ -198,4 +198,16 @@ public interface IEntityExtension {
 
 	public float getBonusCurrentMana();
 
+	public boolean shouldReverseInput();
+
+	public boolean getIsFlipped();
+
+	public float getFlipRotation();
+
+	public float getPrevFlipRotation();
+
+	public float getShrinkPct();
+
+	public float getPrevShrinkPct();
+
 }
