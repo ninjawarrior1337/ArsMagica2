@@ -1,7 +1,6 @@
 package am2.gui;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -10,9 +9,9 @@ import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
 import am2.api.SkillRegistry;
+import am2.api.extensions.IArcaneCompendium;
 import am2.api.extensions.ISkillData;
 import am2.extensions.SkillData;
-import am2.gui.AMGuiHelper.CompendiumBreadcrumb;
 import am2.gui.controls.GuiButtonCompendiumLink;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import am2.gui.controls.GuiButtonCompendiumTab;
@@ -26,7 +25,6 @@ import am2.lore.CompendiumEntryType;
 import am2.skill.Skill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.renderer.RenderHelper;
@@ -46,9 +44,7 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 	int ySize = 256;
 
 	int page = 0;
-
-	private CompendiumEntry currentParentEntry = null;
-	private String currentParentEntryName = null;
+	
 	ArrayList<String> lines;
 	int lineWidth = 140;
 	int maxLines = 22;
@@ -64,26 +60,13 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/guis/ArcaneCompendiumIndexGui.png");
 
 	public GuiCompendiumIndex(){
-		categories = ArcaneCompendium.instance.getCategories();
+		categories = ArcaneCompendium.getCategories();
 		activeCategory = categories.iterator().next().getCategoryLabel();
 		activeCategoryID = categories.iterator().next().getCategoryName();
 		pagingData = new HashMap<String, Integer>();
 		lines = new ArrayList<String>();
 
 		sk = SkillData.For(Minecraft.getMinecraft().thePlayer);
-	}
-
-	@SuppressWarnings("unchecked")
-	public GuiCompendiumIndex(CompendiumBreadcrumb breadcrumb){
-		this();
-		this.page = breadcrumb.page;
-		this.activeCategory = (String)breadcrumb.refData[0];
-		this.activeCategoryID = (String)breadcrumb.refData[1];
-		this.currentParentEntryName = (String)breadcrumb.refData[2];
-		this.pagingData = (HashMap<String, Integer>)breadcrumb.refData[3];
-		if (currentParentEntryName != null){
-			this.currentParentEntry = ArcaneCompendium.instance.getEntry(currentParentEntryName);
-		}
 	}
 
 	@Override
@@ -105,9 +88,9 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 		backToIndex.setActive(true);
 		backToIndex.visible = false;
 
-		updateButton = new GuiSpellImageButton(idCount++, l - 5, i1 + 10, ArcaneCompendium.instance.isModUpdateAvailable() ? AMGuiIcons.warning : AMGuiIcons.checkmark, 0, 0);
-		updateButton.setDimensions(10, 10);
-		updateButton.setPopupText(ArcaneCompendium.instance.isModUpdateAvailable() ? I18n.translateToLocal("am2.tooltip.updateAvailable") : I18n.translateToLocal("am2.tooltip.upToDate"));
+//		updateButton = new GuiSpellImageButton(idCount++, l - 5, i1 + 10, ArcaneCompendium.instance.isModUpdateAvailable() ? AMGuiIcons.warning : AMGuiIcons.checkmark, 0, 0);
+//		updateButton.setDimensions(10, 10);
+//		updateButton.setPopupText(ArcaneCompendium.isModUpdateAvailable() ? I18n.translateToLocal("am2.tooltip.updateAvailable") : I18n.translateToLocal("am2.tooltip.upToDate"));
 
 		this.buttonList.add(nextPage);
 		this.buttonList.add(prevPage);
@@ -116,15 +99,6 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 			this.buttonList.add(updateButton);
 
 		switchCategoryAndPage();
-
-		if (this.currentParentEntry != null && this.currentParentEntry.hasSubItems()){
-			for (Object btn : this.buttonList){
-				if (btn instanceof GuiButtonCompendiumTab){
-					((GuiButtonCompendiumTab)btn).visible = false;
-				}
-			}
-			backToIndex.visible = true;
-		}
 
 		if (page < getNumPages()){
 			nextPage.visible = true;
@@ -150,14 +124,14 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 			GuiButton guibutton = (GuiButton)this.buttonList.get(l);
 
 			if (guibutton.mousePressed(Minecraft.getMinecraft(), par1, par2)){
-				if (guibutton.id == updateButton.id){
-					this.storeBreadcrumb();
-					if (par3 == 0){ //left click
-						this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, ArcaneCompendium.instance.getModDownloadLink(), 0, false));
-					}else if (par3 == 1){ //right click
-						this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, ArcaneCompendium.instance.getPatchNotesLink(), 1, false));
-					}
-				}
+//				if (guibutton.id == updateButton.id){
+//					this.storeBreadcrumb();
+//					if (par3 == 0){ //left click
+//						this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, ArcaneCompendium.instance.getModDownloadLink(), 0, false));
+//					}else if (par3 == 1){ //right click
+//						this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, ArcaneCompendium.instance.getPatchNotesLink(), 1, false));
+//					}
+//				}
 				if (par3 == 0){
 					this.actionPerformed(guibutton);
 					return;
@@ -169,44 +143,37 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 	@Override
 	public void confirmClicked(boolean par1, int par2){
 		if (par1){
-			switch (par2){
-			case 0:
-				openLink(URI.create(ArcaneCompendium.instance.getModDownloadLink()));
-				break;
-			case 1:
-				openLink(URI.create(ArcaneCompendium.instance.getPatchNotesLink()));
-				break;
-			}
+//			switch (par2){
+//			case 0:
+//				openLink(URI.create(ArcaneCompendium.instance.getModDownloadLink()));
+//				break;
+//			case 1:
+//				openLink(URI.create(ArcaneCompendium.instance.getPatchNotesLink()));
+//				break;
+//			}
 		}
 		this.mc.displayGuiScreen(this);
 	}
 
-	private void openLink(URI par1URI){
-		try{
-			Class oclass = Class.forName("java.awt.Desktop");
-			Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-			oclass.getMethod("browse", new Class[]{URI.class}).invoke(object, new Object[]{par1URI});
-		}catch (Throwable throwable){
-			throwable.printStackTrace();
-		}
-	}
-
-	private void storeBreadcrumb(){
-		AMGuiHelper.instance.pushCompendiumBreadcrumb("", this.page, CompendiumBreadcrumb.TYPE_INDEX, activeCategory, activeCategoryID, currentParentEntryName, pagingData);
-	}
+//	private void openLink(URI par1URI){
+//		try{
+//			Class oclass = Class.forName("java.awt.Desktop");
+//			Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+//			oclass.getMethod("browse", new Class[]{URI.class}).invoke(object, new Object[]{par1URI});
+//		}catch (Throwable throwable){
+//			throwable.printStackTrace();
+//		}
+//	}
 
 	@Override
 	protected void actionPerformed(GuiButton buttonClicked){
 
 		if (buttonClicked.id == backToIndex.id){
-			CompendiumBreadcrumb crumb = AMGuiHelper.instance.popCompendiumBreadcrumb();
-			Minecraft.getMinecraft().displayGuiScreen(new GuiCompendiumIndex(crumb));
+			Minecraft.getMinecraft().displayGuiScreen(new GuiCompendiumIndex());
 			return;
 		}
 
 		if (buttonClicked instanceof GuiButtonCompendiumTab){
-			this.currentParentEntry = null;
-			this.currentParentEntryName = null;
 			this.activeCategory = ((GuiButtonCompendiumTab)buttonClicked).displayString;
 			activeCategoryID = ((GuiButtonCompendiumTab)buttonClicked).categoryID;
 			int visibleButtons = 0;
@@ -224,8 +191,8 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 			}
 
 			if (visibleButtons == 0){
-				String zeroItemText = ArcaneCompendium.instance.getZeroItemText(activeCategoryID);
-				lines = GuiArcaneCompendium.splitStringToLines(fontRendererObj, zeroItemText, lineWidth, maxLines);
+//				String zeroItemText = ArcaneCompendium.instance.getZeroItemText(activeCategoryID);
+//				lines = GuiArcaneCompendium.splitStringToLines(fontRendererObj, zeroItemText, lineWidth, maxLines);
 			}else{
 				lines = null;
 			}
@@ -240,37 +207,7 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 				nextPage.visible = false;
 			}
 
-		}else if (buttonClicked instanceof GuiButtonCompendiumLink){
-			this.currentParentEntry = null;
-			if (((GuiButtonCompendiumLink)buttonClicked).hasSubItems()){
-				storeBreadcrumb();
-
-				for (Object btn : this.buttonList){
-					if (btn instanceof GuiButtonCompendiumTab){
-						((GuiButtonCompendiumTab)btn).visible = false;
-					}
-				}
-
-				backToIndex.visible = true;
-
-				this.currentParentEntryName = ((GuiButtonCompendiumLink)buttonClicked).getEntryID();
-				this.currentParentEntry = ArcaneCompendium.instance.getEntry(currentParentEntryName);
-				this.activeCategoryID = this.activeCategoryID + ":" + this.currentParentEntryName;
-
-				currentParentEntry.setIsNew(false);
-
-				switchCategoryAndPage();
-			}else{
-				CompendiumEntry entry = ArcaneCompendium.instance.getEntry(((GuiButtonCompendiumLink)buttonClicked).getEntryID());
-				if (entry != null){
-					storeBreadcrumb();
-					GuiArcaneCompendium gui = entry.getCompendiumGui(((GuiButtonCompendiumLink)buttonClicked).getEntryID());
-					if (gui != null){
-						Minecraft.getMinecraft().displayGuiScreen(gui);
-					}
-				}
-			}
-		}
+		}else if (buttonClicked instanceof GuiButtonCompendiumLink){}
 
 		if (getNumPages() > 0){
 			if (buttonClicked.id == nextPage.id && page < getNumPages()){
@@ -293,20 +230,6 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 	}
 
 	private void switchCategoryAndPage(){
-		if (currentParentEntry != null){
-			lines = GuiArcaneCompendium.splitStringToLines(fontRendererObj, currentParentEntry.getDescription(), lineWidth, maxLines);
-			int numPages = currentParentEntry.hasSubItems() ? lines.size() : lines.size() - 1;
-
-			Integer existingPages = pagingData.get(activeCategoryID);
-			if (existingPages == null || existingPages < numPages){
-				pagingData.put(activeCategoryID, numPages);
-				page = 0;
-				prevPage.visible = false;
-				if (numPages > 1){
-					nextPage.visible = true;
-				}
-			}
-		}
 
 		for (Object button : this.buttonList){
 			if (button == backToIndex) continue;
@@ -340,10 +263,12 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 		for (CompendiumEntryType category : this.categories){
 
 			int unlockedSubItems = 0;
+			
+			IArcaneCompendium comp = ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer);
 
-			ArrayList<CompendiumEntry> itemsInCategory = ArcaneCompendium.instance.getEntriesForCategory(category.getCategoryName());
+			ArrayList<CompendiumEntry> itemsInCategory = comp.getEntriesForCategory(category.getCategoryName());
 			for (CompendiumEntry entry : itemsInCategory)
-				if (!entry.isLocked())
+				if (!comp.isUnlocked(entry.getID()))
 					unlockedSubItems++;
 
 			if (unlockedSubItems == 0)
@@ -368,7 +293,8 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 	}
 
 	private int initButtonsForCategory(String category, int idCount, boolean display){
-		ArrayList<CompendiumEntry> itemsInCategory = ArcaneCompendium.instance.getEntriesForCategory(category);
+		IArcaneCompendium comp = ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer);
+		ArrayList<CompendiumEntry> itemsInCategory = comp.getEntriesForCategory(category);
 
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
@@ -379,13 +305,13 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 
 		for (int i = 0; i < itemsInCategory.size(); ++i){
 			CompendiumEntry entry = itemsInCategory.get(i);
-			if (entry.isLocked() || !checkSCMLimit(entry)) continue;
+			if (!comp.isUnlocked(entry.getID()) || !checkSCMLimit(entry)) continue;
 			String buttonLabel = entry.getName();
 			while (fontRendererObj.getStringWidth(buttonLabel) > 125){
 				buttonLabel = buttonLabel.substring(0, buttonLabel.length() - 4) + "...";
 			}
 			GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, buttonLabel, entry.getID(), category, entry.hasSubItems(), numPages);
-			if (entry.isNew()){
+			if (comp.isNew(entry.getID())){
 				setCategoryHasNewItems(category, true);
 				link.setNewItem();
 			}
@@ -428,7 +354,7 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 			if (!checkSCMLimit(subItem)) continue;
 			String newCategory = category + ":" + entry.getID();
 			GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, subItem.getName(), subItem.getID(), newCategory, subItem.hasSubItems(), numPages);
-			if (entryHasDescription && entry.getSubItems().length < maxLines)
+			if (entryHasDescription && entry.getSubItems().size() < maxLines)
 				link.setShowOnAllPages();
 			link.visible = false;
 			buttonY += 12;
@@ -472,7 +398,6 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 	@Override
 	protected void keyTyped(char par1, int par2) throws IOException{
 		if (par2 == 1){
-			storeBreadcrumb();
 			onGuiClosed();
 		}
 		super.keyTyped(par1, par2);
@@ -524,7 +449,7 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 
 	@Override
 	public void onGuiClosed(){
-		ArcaneCompendium.instance.saveUnlockData();
+		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).write();
 		super.onGuiClosed();
 	}
 }

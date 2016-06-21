@@ -20,7 +20,7 @@ import am2.extensions.SkillData;
 import am2.gui.controls.GuiButtonSkillTree;
 import am2.skill.Skill;
 import am2.skill.SkillTree;
-import am2.texture.SpellPartManager;
+import am2.texture.SpellIconManager;
 import am2.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -231,7 +231,7 @@ public class GuiOcculus extends GuiScreen {
 				int offsetY = calcYOffset(posY, s);
 				int tick = (player.ticksExisted % 80) >= 40 ? (player.ticksExisted % 40) - 20 : -(player.ticksExisted % 40) + 20;
 				float multiplier = 0.75F + tick / 80F;
-				TextureAtlasSprite sprite = SpellPartManager.INSTANCE.getSprite(s.getID());
+				TextureAtlasSprite sprite = SpellIconManager.INSTANCE.getSprite(s.getID());
 				if (offsetX + renderSize < posX + 7 || offsetX > posX + 203 || offsetY + renderSize < posY + 7 || offsetY > posY + 203 || sprite == null) {
 					continue;
 				}

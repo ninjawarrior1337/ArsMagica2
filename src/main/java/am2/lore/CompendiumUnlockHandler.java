@@ -2,6 +2,7 @@ package am2.lore;
 
 import am2.ArsMagica2;
 import am2.api.SkillRegistry;
+import am2.api.extensions.IArcaneCompendium;
 import am2.defs.SkillDefs;
 import am2.event.PlayerMagicLevelChangeEvent;
 import am2.event.SkillLearnedEvent;
@@ -41,36 +42,37 @@ public class CompendiumUnlockHandler{
 	@SubscribeEvent
 	public void onPlayerMagicLevelChange(PlayerMagicLevelChangeEvent event){
 		if (event.getEntity().worldObj.isRemote && event.getEntity() == Minecraft.getMinecraft().thePlayer){
+			IArcaneCompendium instance = ArcaneCompendium.For(event.getEntityPlayer());
 			if (event.getLevel() >= 5){
-				ArcaneCompendium.instance.unlockCategory("talents");
+				instance.unlockCategory("talents");
 				//ArcaneCompendium.instance.unlockEntry("dungeonsAndExploring");
-				ArcaneCompendium.instance.unlockEntry("enchantments");
+				instance.unlockEntry("enchantments");
 			}
 			if (event.getLevel() >= 10){
-				ArcaneCompendium.instance.unlockEntry("armorMage");
-				ArcaneCompendium.instance.unlockEntry("playerjournal");
+				instance.unlockEntry("armorMage");
+				instance.unlockEntry("playerjournal");
 			}
 			if (event.getLevel() >= 15){
-				ArcaneCompendium.instance.unlockEntry("BossWaterGuardian");
-				ArcaneCompendium.instance.unlockEntry("BossEarthGuardian");
-				ArcaneCompendium.instance.unlockEntry("rituals");
-				ArcaneCompendium.instance.unlockEntry("inlays");
-				ArcaneCompendium.instance.unlockEntry("inlays_structure");
+				instance.unlockEntry("BossWaterGuardian");
+				instance.unlockEntry("BossEarthGuardian");
+				instance.unlockEntry("rituals");
+				instance.unlockEntry("inlays");
+				instance.unlockEntry("inlays_structure");
 			}
 			if (event.getLevel() >= 20){
-				ArcaneCompendium.instance.unlockEntry("armorBattlemage");
+				instance.unlockEntry("armorBattlemage");
 			}
 			if (event.getLevel() >= 25){
-				ArcaneCompendium.instance.unlockEntry("BossAirGuardian");
-				ArcaneCompendium.instance.unlockEntry("BossArcaneGuardian");
-				ArcaneCompendium.instance.unlockEntry("BossLifeGuardian");
+				instance.unlockEntry("BossAirGuardian");
+				instance.unlockEntry("BossArcaneGuardian");
+				instance.unlockEntry("BossLifeGuardian");
 			}
 			if (event.getLevel() >= 35){
-				ArcaneCompendium.instance.unlockEntry("BossNatureGuardian");
-				ArcaneCompendium.instance.unlockEntry("BossWinterGuardian");
-				ArcaneCompendium.instance.unlockEntry("BossFireGuardian");
-				ArcaneCompendium.instance.unlockEntry("BossLightningGuardian");
-				ArcaneCompendium.instance.unlockEntry("BossEnderGuardian");
+				instance.unlockEntry("BossNatureGuardian");
+				instance.unlockEntry("BossWinterGuardian");
+				instance.unlockEntry("BossFireGuardian");
+				instance.unlockEntry("BossLightningGuardian");
+				instance.unlockEntry("BossEnderGuardian");
 			}
 		}
 	}
@@ -84,12 +86,12 @@ public class CompendiumUnlockHandler{
 	public void onEntityDeath(LivingDeathEvent event){
 		if (event.getEntityLiving().worldObj.isRemote && event.getSource().getSourceOfDamage() instanceof EntityPlayer){
 			if (event.getEntity() instanceof EntityEnderman){
-				ArcaneCompendium.instance.unlockEntry("blockastralbarrier");
+				ArcaneCompendium.For((EntityPlayer)event.getSource().getSourceOfDamage()).unlockEntry("blockastralbarrier");
 			}else{
 				EntityRegistration reg = EntityRegistry.instance().lookupModSpawn(event.getEntityLiving().getClass(), true);
 				if (reg != null && reg.getContainer().matches(ArsMagica2.instance)){
 					String id = reg.getEntityName();
-					ArcaneCompendium.instance.unlockEntry(id);
+					ArcaneCompendium.For((EntityPlayer)event.getSource().getSourceOfDamage()).unlockEntry(id);
 				}
 			}
 		}
@@ -104,13 +106,14 @@ public class CompendiumUnlockHandler{
 	@SubscribeEvent
 	public void onSkillLearned(SkillLearnedEvent event){
 		if (event.getEntityPlayer() == Minecraft.getMinecraft().thePlayer){
+			IArcaneCompendium instance = ArcaneCompendium.For(event.getEntityPlayer());
 			if (event.getSkill().equals(SkillRegistry.getSkillFromName("summon"))){
-				ArcaneCompendium.instance.unlockEntry("crystal_phylactery");
-				ArcaneCompendium.instance.unlockEntry("summoner");
+				instance.unlockEntry("crystal_phylactery");
+				instance.unlockEntry("summoner");
 			} else if (event.getSkill().equals(SkillRegistry.getSkillFromName("true_sight"))){
-				ArcaneCompendium.instance.unlockEntry("illusionBlocks");
+				instance.unlockEntry("illusionBlocks");
 			} else if (event.getSkill().getPoint().equals(SkillDefs.SILVER_POINT)){
-				ArcaneCompendium.instance.unlockEntry("silver_skills");
+				instance.unlockEntry("silver_skills");
 			}
 		}
 	}
@@ -123,10 +126,11 @@ public class CompendiumUnlockHandler{
 	@SubscribeEvent
 	public void onSpellCast(SpellCastEvent.Pre event){
 		if (event.entityLiving == Minecraft.getMinecraft().thePlayer){
-			ArcaneCompendium.instance.unlockEntry("unlockingPowers");
-			ArcaneCompendium.instance.unlockEntry("affinity");
+			IArcaneCompendium instance = ArcaneCompendium.For((EntityPlayer) event.entityLiving);
+			instance.unlockEntry("unlockingPowers");
+			instance.unlockEntry("affinity");
 			if (EntityExtension.For(event.entityLiving).getCurrentMana() < EntityExtension.For(event.entityLiving).getMaxMana() / 2)
-				ArcaneCompendium.instance.unlockEntry("mana_potion");
+				instance.unlockEntry("mana_potion");
 		}
 	}
 
@@ -136,7 +140,8 @@ public class CompendiumUnlockHandler{
 	@SubscribeEvent
 	public void onCrafting(ItemCraftedEvent event){
 		if (event.player.worldObj.isRemote){
-			ArcaneCompendium.instance.unlockRelatedItems(event.crafting);
+			IArcaneCompendium instance = ArcaneCompendium.For(event.player);
+			instance.unlockRelatedItems(event.crafting);
 		}
 	}
 

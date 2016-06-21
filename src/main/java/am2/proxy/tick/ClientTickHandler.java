@@ -3,18 +3,14 @@ package am2.proxy.tick;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import am2.ArsMagica2;
 import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
 import am2.gui.AMIngameGUI;
 import am2.items.ItemSpellBase;
-import am2.lore.ArcaneCompendium;
 import am2.lore.CompendiumEntryTypes;
-import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
-import am2.packet.AMPacketIDs;
 import am2.particles.AMLineArc;
 import am2.spell.IComponent;
 import am2.spell.component.Telekinesis;
@@ -27,9 +23,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -85,7 +79,6 @@ public class ClientTickHandler{
 		}
 
 		if (compendiumLoad){
-			ArcaneCompendium.instance.loadUnlockData();
 			compendiumLoad = false;
 		}
 //		ArsMagica2.proxy.itemFrameWatcher.checkWatchedFrames();

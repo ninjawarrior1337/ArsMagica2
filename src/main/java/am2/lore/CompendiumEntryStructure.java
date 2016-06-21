@@ -1,44 +1,30 @@
 package am2.lore;
 
-import java.util.Map;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
+import am2.api.IMultiblockStructureController;
 import am2.gui.GuiArcaneCompendium;
+import am2.multiblock.MultiblockStructureDefinition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CompendiumEntryStructure extends CompendiumEntry{
 
-	private String controllerClass;
+	private Class<? extends TileEntity> controllerClass;
 
-	public CompendiumEntryStructure(){
-		super(CompendiumEntryTypes.instance.STRUCTURE);
-	}
-
-	@Override
-	protected void parseEx(Node node){
-		NodeList childNodes = node.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); ++i){
-			Node child = childNodes.item(i);
-			if (child.getNodeName().equals("controller")){
-				this.controllerClass = child.getTextContent();
-			}
-		}
+	public CompendiumEntryStructure(String id, MultiblockStructureDefinition structure, Class<? extends TileEntity> controller, String... related){
+		super(CompendiumEntryTypes.instance.STRUCTURE, id, related);
+		this.controllerClass = controller;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta){
+	public GuiArcaneCompendium getCompendiumGui(){
 		if (this.controllerClass != null){
-			Class tileEntityClass = (Class)((Map)ReflectionHelper.getPrivateValue(TileEntity.class, null, 1)).get(controllerClass);
-			if (tileEntityClass != null && IMultiblockStructureController.class.isAssignableFrom(tileEntityClass)){
+			if (controllerClass != null && IMultiblockStructureController.class.isAssignableFrom(controllerClass)){
 				try{
-					TileEntity te = (TileEntity)tileEntityClass.newInstance();
-					return new GuiArcaneCompendium(((IMultiblockStructureController)te).getDefinition(), te);
+					TileEntity te = (TileEntity)controllerClass.newInstance();
+					return new GuiArcaneCompendium(id, ((IMultiblockStructureController)te).getDefinition(), te);
 				}catch (InstantiationException e){
 					e.printStackTrace();
 				}catch (IllegalAccessException e){
@@ -46,11 +32,11 @@ public class CompendiumEntryStructure extends CompendiumEntry{
 				}
 			}
 		}
-		return new GuiArcaneCompendium(searchID);
+		return new GuiArcaneCompendium(id);
 	}
 
 	@Override
-	public ItemStack getRepresentItemStack(String searchID, int meta){
+	public ItemStack getRepresentStack(){
 		return null;
 	}
 

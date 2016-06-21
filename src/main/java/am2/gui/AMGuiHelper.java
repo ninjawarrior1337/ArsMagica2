@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -71,7 +70,6 @@ public class AMGuiHelper{
 	private int slowUITicker = 0;
 	private static int fastUITicker = 0;
 	public boolean runCompendiumTicker = true;
-	private final LinkedList<CompendiumBreadcrumb> compendiumBreadcrumbs = new LinkedList<CompendiumBreadcrumb>();
 	//=========================================
 
 	public EntityItem dummyItem;
@@ -181,35 +179,12 @@ public class AMGuiHelper{
 		}
 	}
 
-	public void pushCompendiumBreadcrumb(String identifier, int page, int type, Object... refData){
-		compendiumBreadcrumbs.add(new CompendiumBreadcrumb(identifier, refData, type, page));
-	}
-
-	public CompendiumBreadcrumb popCompendiumBreadcrumb(){
-		if (compendiumBreadcrumbs.size() > 0)
-			return compendiumBreadcrumbs.pollLast();
-		return null;
-	}
-
-	public void clearCompendiumBreadcrumbs(){
-		compendiumBreadcrumbs.clear();
-	}
-
 	public static void OpenBookGUI(ItemStack stack){
 		
 	}
 
 	public static void OpenCompendiumGui(ItemStack stack){
-		CompendiumBreadcrumb breadcrumb = AMGuiHelper.instance.popCompendiumBreadcrumb();
-		if (breadcrumb != null){
-			if (breadcrumb.entryType == CompendiumBreadcrumb.TYPE_ENTRY){
-				Minecraft.getMinecraft().displayGuiScreen(new GuiArcaneCompendium(breadcrumb));
-			}else{
-				Minecraft.getMinecraft().displayGuiScreen(new GuiCompendiumIndex(breadcrumb));
-			}
-		}else{
-			Minecraft.getMinecraft().displayGuiScreen(new GuiCompendiumIndex());
-		}
+		Minecraft.getMinecraft().displayGuiScreen(new GuiCompendiumIndex());
 	}
 
 	public static void DrawIconAtXY(TextureAtlasSprite IIcon, float x, float y, float zLevel, int w, int h, boolean semitransparent){
@@ -702,22 +677,5 @@ public class AMGuiHelper{
 		}
 
 		return false;
-	}
-
-	public class CompendiumBreadcrumb{
-		public final String entryName;
-		public final Object[] refData;
-		public final int entryType;
-		public final int page;
-
-		public static final int TYPE_INDEX = 0;
-		public static final int TYPE_ENTRY = 1;
-
-		public CompendiumBreadcrumb(String entryName, Object[] refObject, int entryType, int page){
-			this.entryName = entryName;
-			this.entryType = entryType;
-			this.refData = refObject;
-			this.page = page;
-		}
 	}
 }

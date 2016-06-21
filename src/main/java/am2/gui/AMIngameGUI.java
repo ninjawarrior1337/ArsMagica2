@@ -14,7 +14,7 @@ import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.spell.ContingencyType;
-import am2.texture.SpellPartManager;
+import am2.texture.SpellIconManager;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -339,19 +339,19 @@ public class AMIngameGUI{
 		ContingencyType type = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getContingencyType();
 		switch (type){
 		case DAMAGE:
-			icon = SpellPartManager.INSTANCE.getSprite("Contingency_Damage");
+			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Damage");
 			break;
 		case FALL:
-			icon = SpellPartManager.INSTANCE.getSprite("Contingency_Fall");
+			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Fall");
 			break;
 		case HEALTH:
-			icon = SpellPartManager.INSTANCE.getSprite("Contingency_Health");
+			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Health");
 			break;
 		case FIRE:
-			icon = SpellPartManager.INSTANCE.getSprite("Contingency_Fire");
+			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Fire");
 			break;
 		case DEATH:
-			icon = SpellPartManager.INSTANCE.getSprite("Contingency_Death");
+			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Death");
 			break;
 		case NULL:
 		default:

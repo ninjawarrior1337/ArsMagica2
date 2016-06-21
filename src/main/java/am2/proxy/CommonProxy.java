@@ -14,6 +14,7 @@ import am2.entity.EntityRiftStorage;
 import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
 import am2.extensions.RiftStorage;
+import am2.lore.CompendiumUnlockHandler;
 import am2.particles.ParticleManagerServer;
 import am2.proxy.tick.ServerTickHandler;
 import net.minecraft.entity.EntityLiving;
@@ -54,6 +55,7 @@ public class CommonProxy implements IGuiHandler{
 	public void preInit() {
 		serverTickHandler = new ServerTickHandler();
 		MinecraftForge.EVENT_BUS.register(serverTickHandler);
+		MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
 		particleManager = new ParticleManagerServer();
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 80, 1, false);

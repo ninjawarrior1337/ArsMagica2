@@ -3,36 +3,30 @@ package am2.lore;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.w3c.dom.Node;
-
 import am2.gui.GuiArcaneCompendium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CompendiumEntryMob extends CompendiumEntry{
+	
+	protected Class<? extends Entity> clazz;
 
-	public CompendiumEntryMob(){
-		super(CompendiumEntryTypes.instance.MOB);
-	}
-
-	@Override
-	protected void parseEx(Node node){
+	public CompendiumEntryMob(String id, Class<? extends Entity> clazz, String... related){
+		super(CompendiumEntryTypes.instance.MOB, id, related);
+		this.clazz = clazz;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta){
-		String modEntityID = searchID.indexOf(".") == -1 ? "arsmagica2." + searchID : searchID;
-		Class entityClass = (Class)EntityList.NAME_TO_CLASS.get(modEntityID);
-		if (entityClass != null){
+	public GuiArcaneCompendium getCompendiumGui(){
+		if (clazz != null){
 			try{
-				Constructor ctor = entityClass.getConstructor(World.class);
-				return new GuiArcaneCompendium((Entity)ctor.newInstance(Minecraft.getMinecraft().theWorld));
+				Constructor ctor = clazz.getConstructor(World.class);
+				return new GuiArcaneCompendium(id, (Entity)ctor.newInstance(Minecraft.getMinecraft().theWorld));
 			}catch (InstantiationException e){
 				e.printStackTrace();
 			}catch (IllegalAccessException e){
@@ -47,11 +41,11 @@ public class CompendiumEntryMob extends CompendiumEntry{
 				e.printStackTrace();
 			}
 		}
-		return new GuiArcaneCompendium(searchID);
+		return new GuiArcaneCompendium(id);
 	}
 
 	@Override
-	public ItemStack getRepresentItemStack(String searchID, int meta){
+	public ItemStack getRepresentStack(){
 		return null;
 	}
 

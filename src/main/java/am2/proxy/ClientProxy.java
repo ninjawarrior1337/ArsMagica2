@@ -13,11 +13,14 @@ import am2.extensions.RiftStorage;
 import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
 import am2.lore.ArcaneCompendium;
+import am2.lore.CompendiumUnlockHandler;
 import am2.models.ModelLoader;
 import am2.particles.AMParticleIcons;
 import am2.particles.ParticleManagerClient;
-import am2.texture.SpellPartManager;
+import am2.proxy.tick.ClientTickHandler;
+import am2.texture.SpellIconManager;
 import am2.utils.RenderFactory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -40,7 +43,7 @@ public class ClientProxy extends CommonProxy {
 	public void preInit() {
 		super.preInit();
 		AMParticleIcons.instance.toString();
-		SpellPartManager.INSTANCE.toString();
+		SpellIconManager.INSTANCE.toString();
 		particleManager = new ParticleManagerClient();
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityRiftStorage.class, new RenderFactory(RenderRiftStorage.class));
@@ -49,6 +52,8 @@ public class ClientProxy extends CommonProxy {
 		
 		ModelLoaderRegistry.registerLoader(new ModelLoader());
 		MinecraftForge.EVENT_BUS.register(new ModelLoader());
+		MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
+		MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
 	}
 	
 	/**
@@ -56,10 +61,7 @@ public class ClientProxy extends CommonProxy {
 	 */
 	@Override
 	public void unlockCompendiumEntry(String id){
-		if (ArcaneCompendium.instance.isCategory(id))
-			unlockCompendiumCategory(id);
-		else
-			ArcaneCompendium.instance.unlockEntry(id);
+		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).unlockEntry(id);
 	}
 
 	/**
@@ -67,7 +69,7 @@ public class ClientProxy extends CommonProxy {
 	 */
 	@Override
 	public void unlockCompendiumCategory(String id){
-		ArcaneCompendium.instance.unlockCategory(id);
+		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).unlockCategory(id);
 	}
 	
 }

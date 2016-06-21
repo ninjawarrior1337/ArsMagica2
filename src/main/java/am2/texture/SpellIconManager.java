@@ -11,13 +11,13 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class SpellPartManager {
+public class SpellIconManager {
 	
-	public static final SpellPartManager INSTANCE = new SpellPartManager();
+	public static final SpellIconManager INSTANCE = new SpellIconManager();
 	
 	private final HashMap<String, TextureAtlasSprite> sprites;
 	
-	private SpellPartManager() {
+	private SpellIconManager() {
 		this.sprites = new HashMap<>();
 		MinecraftForge.EVENT_BUS.register(this);
 	}

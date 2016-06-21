@@ -41,6 +41,8 @@ public class ItemDefs {
 	public static final Item creatureFocus = new ItemArsMagica2().registerAndName("creatureFocus");
 	public static final Item arcaneCompendium = new ItemArcaneCompendium().registerAndName("arcaneCompendium");
 	public static final Item spell_component = new ItemSpellComponent().registerAndName("spellComponent");
+	public static final Item crystalWrench = null;
+	public static final Item magitechGoggles = null;
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	
