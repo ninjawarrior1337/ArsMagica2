@@ -13,6 +13,7 @@ import am2.defs.SkillDefs;
 import am2.entity.EntityThrownRock;
 import am2.items.ItemOre;
 import am2.spell.IComponent;
+import am2.spell.IModifier;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
@@ -44,7 +45,10 @@ public class FallingStar implements IComponent{
 		List<EntityThrownRock> rocks = world.getEntitiesWithinAABB(EntityThrownRock.class, new AxisAlignedBB(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
 
 		int damageMultitplier = SpellUtils.getModifiedInt_Mul(15, spellStack, caster, target, world, SpellModifiers.DAMAGE);
-
+		System.out.println(damageMultitplier);
+		for (IModifier mod : SpellUtils.getModifiersForStage(spellStack, -1)) {
+			System.out.println(mod.getClass());
+		}
 		for (EntityThrownRock rock : rocks){
 			if (rock.getIsShootingStar())
 				return false;

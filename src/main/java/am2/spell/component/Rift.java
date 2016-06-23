@@ -39,7 +39,7 @@ public class Rift implements IComponent, IRitualInteraction{
 					world.setBlockToAir(blockPos);
 					RitualShapeHelper.instance.consumeReagents(this, world, blockPos);
 					RitualShapeHelper.instance.consumeShape(this, world, blockPos);
-					//TODO
+					
 //					EntityItem item = new EntityItem(world);
 //					item.setPosition(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
 //					item.setEntityItemStack(new ItemStack(BlocksCommonProxy.inertSpawner));

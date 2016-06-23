@@ -1,13 +1,17 @@
 package am2.proxy.tick;
 
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 
+import am2.lore.ArcaneCompendium;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -38,7 +42,7 @@ public class ServerTickHandler{
 //		MeteorSpawnHelper.instance.tick();
 //		EntityItemWatcher.instance.tick();
 	}
-
+	
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event){
 		if (event.phase == TickEvent.Phase.START){
@@ -50,6 +54,7 @@ public class ServerTickHandler{
 
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent event){
+//		System.out.println(event.side);
 //		if (AMCore.config.retroactiveWorldgen())
 //			RetroactiveWorldgenerator.instance.continueRetrogen(event.world);
 //

@@ -16,7 +16,7 @@ public class GuiButtonCompendiumNext extends GuiButton{
 	private final static int sourceWidth = 12;
 	private final static int sourceHeight = 12;
 
-	private static final ResourceLocation buttonImage = new ResourceLocation("arsmagica2", "textures/guis/ArcaneCompendiumGuiExtras.png");
+	private static final ResourceLocation buttonImage = new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumGuiExtras.png");
 
 	public GuiButtonCompendiumNext(int id, int xPos, int yPos, boolean isNextPage){
 		super(id, xPos, yPos, sourceWidth, sourceHeight, "");
@@ -62,10 +62,10 @@ public class GuiButtonCompendiumNext extends GuiButton{
 		Tessellator var9 = Tessellator.getInstance();
 
 		var9.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8);
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8);
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8);
-		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8);
+		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8).endVertex();
 		var9.draw();
 	}
 }

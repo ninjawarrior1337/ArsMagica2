@@ -36,7 +36,7 @@ public class RenderUtils {
 	}
 	
 	public static void color(int color) {
-		
+		GL11.glColor4f(getRed(color), getGreen(color), getBlue(color), 0.5F);
 	}
 	
 	public static void line2d (float xStart, float yStart, float xEnd, float yEnd, float zLevel, int color) {

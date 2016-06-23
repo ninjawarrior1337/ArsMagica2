@@ -1,6 +1,5 @@
 package am2.lore;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -13,11 +12,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
+import am2.api.IMultiblockStructureController;
 import am2.api.SpellRegistry;
 import am2.api.extensions.IArcaneCompendium;
-import am2.data.DataSaver;
 import am2.event.CompendiumEntryRegistrationEvent;
+import am2.extensions.DataDefinitions;
 import am2.rituals.IRitualInteraction;
+import am2.skill.Skill;
 import am2.spell.IComponent;
 import am2.spell.IModifier;
 import am2.spell.IShape;
@@ -30,13 +31,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider {
+public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
 	
 	@CapabilityInject(IArcaneCompendium.class)
 	public static Capability<IArcaneCompendium> INSTANCE = null;
@@ -51,8 +55,12 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider 
 	 * @param allowReplace
 	 * @param relatedKeys
 	 */
-	@SuppressWarnings("unchecked")
 	public static void AddCompendiumEntry(Object entryItem, String id, EnumSet<SpellModifiers> mods, boolean allowReplace, String... relatedKeys) {
+		AddCompendiumEntry(entryItem, id, mods, allowReplace, false, relatedKeys);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void AddCompendiumEntry(Object entryItem, String id, EnumSet<SpellModifiers> mods, boolean allowReplace, boolean defaultUnlock, String... relatedKeys) {
 		
 		CompendiumEntry entry = null;
 		CompendiumEntryRegistrationEvent event = new CompendiumEntryRegistrationEvent(entryItem, id, mods, relatedKeys);
@@ -60,25 +68,33 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider 
 		entry = event.getEntry();
 		if (entry == null) {
 			if (entryItem instanceof Item)
-				entry = new CompendiumEntryItem(id, (Item) entryItem, relatedKeys);
+				entry = new CompendiumEntryItem(id, (Item) entryItem, relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof ItemStack)
-				entry = new CompendiumEntryItem(id, ((ItemStack)entryItem).getItem(), ((ItemStack)entryItem).getItemDamage(), relatedKeys);
+				entry = new CompendiumEntryItem(id, ((ItemStack)entryItem).getItem(), ((ItemStack)entryItem).getItemDamage(), relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof Block)
-				entry = new CompendiumEntryBlock(id, ((Block)entryItem).getDefaultState(), relatedKeys);
+				entry = new CompendiumEntryBlock(id, ((Block)entryItem).getDefaultState(), relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof IBlockState)
-				entry = new CompendiumEntryBlock(id, (IBlockState) entryItem, relatedKeys);
+				entry = new CompendiumEntryBlock(id, (IBlockState) entryItem, relatedKeys).setUnlocked(defaultUnlock);
+			else if (entryItem instanceof Skill)
+				entry = new CompendiumEntryTalent(id, (Skill) entryItem, relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof IComponent)
-				entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((IComponent) entryItem), mods, relatedKeys);
+				entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((IComponent) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof IShape)
-				entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((IShape) entryItem), mods, relatedKeys);
+				entry = new CompendiumEntrySpellShape(id, SpellRegistry.getSkillFromPart((IShape) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof IModifier)
-				entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((IModifier) entryItem), ((IModifier) entryItem).getAspectsModified(), relatedKeys);
+				entry = new CompendiumEntrySpellModifier(id, SpellRegistry.getSkillFromPart((IModifier) entryItem), ((IModifier) entryItem).getAspectsModified(), relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof IRitualInteraction)
-				entry = new CompendiumEntryRitual(id, (IRitualInteraction)entryItem, ((IRitualInteraction)entryItem).getRitualShape(), relatedKeys);
+				entry = new CompendiumEntryRitual(id, (IRitualInteraction)entryItem, ((IRitualInteraction)entryItem).getRitualShape(), relatedKeys).setUnlocked(defaultUnlock);
+			else if (entryItem instanceof Class && ((Class<?>)entryItem).isAssignableFrom(IMultiblockStructureController.class) && ((Class<?>)entryItem).isAssignableFrom(TileEntity.class))
+				entry = new CompendiumEntryStructure(id, ((IMultiblockStructureController)entryItem).getDefinition(), ((TileEntity)entryItem).getClass(), relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof Class && ((Class<?>)entryItem).isAssignableFrom(Entity.class))
-				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem, relatedKeys);
+				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem, relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof Entity)
-				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem.getClass(), relatedKeys);
+				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem.getClass(), relatedKeys).setUnlocked(defaultUnlock);
+			else if (entryItem instanceof String && "guide".equalsIgnoreCase((String) entryItem))
+				entry = new CompendiumEntryGuide(id, relatedKeys).setUnlocked(defaultUnlock);
+			else if (entryItem instanceof String && "mechanic".equalsIgnoreCase((String) entryItem))
+				entry = new CompendiumEntryMechanic(id, relatedKeys).setUnlocked(defaultUnlock);
 		}
 		
 		if (entry != null) {
@@ -90,48 +106,37 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider 
 	
 	private static final Map<String, CompendiumEntry> compendiumEntries = new HashMap<>();
 	
+	private EntityPlayer player;
+	
 	public static ImmutableMap<String, CompendiumEntry> getCompendium() {
 		return ImmutableMap.copyOf(compendiumEntries);
 	}
-	
-	private ArrayList<String> compendiumUnlocks;
-	private ArrayList<String> categoriesUnlocks;
-	
-	private EntityPlayer player;
-	/**
-	 * DO NOT USE, IT'S JUST A DEFAULT IMPLEMENTATION
-	 */
-	@Deprecated
 	public ArcaneCompendium() {}
 	
-	public ArcaneCompendium(EntityPlayer player) {
-		this.player = player;
-		try {
-			compendiumUnlocks = DataSaver.readArcaneCompendiumUnlocks(player.worldObj, player);
-			categoriesUnlocks = DataSaver.readArcaneCompendiumCategoriesUnlocks(player.worldObj, player);
-		} catch (IOException e) {
-			compendiumUnlocks = new ArrayList<>();
-			categoriesUnlocks = new ArrayList<>();
-		}
-	}
-	
 	public void unlockEntry(String name) {
-		if (compendiumEntries.get(name) != null)
-			compendiumUnlocks.add(name);
-		else
-			ArsMagica2.LOGGER.warn("Entry " + name + " doens't exist");
+		ArrayList<String> categories = player.getDataManager().get(DataDefinitions.COMPENDIUM);
+		categories.add(name);
+		player.getDataManager().set(DataDefinitions.COMPENDIUM, categories);
 	}
 	
 	public boolean isUnlocked(String name)  {
-		return compendiumUnlocks.contains(name) || categoriesUnlocks.contains(name);
+		if (getCompendium().get(name) != null && getCompendium().get(name).isDefaultUnlocked()) return true;
+		for (String str : player.getDataManager().get(DataDefinitions.COMPENDIUM)) {
+			if (name.equals(str))
+				return true;
+		}
+		for (String str : player.getDataManager().get(DataDefinitions.CATEGORIES)) {
+			if (name.equals(str))
+				return true;
+		}
+
+		return false;
 	}
 	
-	public void write() {
-		try {
-			DataSaver.writeArcaneCompendiumUnlocks(this, player.worldObj, player);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void init(EntityPlayer player) {
+		this.player = player;
+		player.getDataManager().register(DataDefinitions.COMPENDIUM, new ArrayList<String>());
+		player.getDataManager().register(DataDefinitions.CATEGORIES, new ArrayList<String>());
 	}
 
 	public static IArcaneCompendium For(EntityPlayer entityPlayer) {
@@ -140,7 +145,9 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider 
 
 	@Override
 	public void unlockCategory(String string) {
-		categoriesUnlocks.add(string);
+		ArrayList<String> categories = player.getDataManager().get(DataDefinitions.CATEGORIES);
+		categories.add(string);
+		player.getDataManager().set(DataDefinitions.CATEGORIES, categories);
 	}
 
 	@Override
@@ -172,7 +179,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider 
 	public ArrayList<CompendiumEntry> getEntriesForCategory(String categoryName) {
 		ArrayList<CompendiumEntry> array = new ArrayList<>();
 		for (CompendiumEntry entry : getCompendium().values()) {
-			if (entry.getType().getCategoryName().equals(categoryName) || entry.getType().getCategoryLabel().equals(categoryName))
+			if (entry.getType().getCategoryName().equals(categoryName))
 				array.add(entry);
 		}
 		return array;
@@ -195,6 +202,17 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider 
 		if (capability == INSTANCE)
 			return (T) this;
 		return null;
+	}
+
+	@Override
+	public NBTBase serializeNBT() {
+		return new IArcaneCompendium.Storage().writeNBT(INSTANCE, this, null);
+	}
+
+	@Override
+	public void deserializeNBT(NBTBase nbt) {
+		System.out.println("Deserialize");
+		new IArcaneCompendium.Storage().readNBT(INSTANCE, this, null, nbt);
 	}
 	
 	

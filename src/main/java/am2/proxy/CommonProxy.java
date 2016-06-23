@@ -13,8 +13,11 @@ import am2.container.ContainerRiftStorage;
 import am2.entity.EntityRiftStorage;
 import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
+import am2.entity.EntityThrownRock;
 import am2.extensions.RiftStorage;
 import am2.lore.CompendiumUnlockHandler;
+import am2.packet.AMNetHandler;
+import am2.packet.AMPacketProcessorServer;
 import am2.particles.ParticleManagerServer;
 import am2.proxy.tick.ServerTickHandler;
 import net.minecraft.entity.EntityLiving;
@@ -31,10 +34,11 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class CommonProxy implements IGuiHandler{
 
 	public ParticleManagerServer particleManager;
-	private ServerTickHandler serverTickHandler;
-	private HashMap<EntityLivingBase, ArrayList<PotionEffect>> deferredPotionEffects;
-	private HashMap<EntityLivingBase, Integer> deferredDimensionTransfers;
-	public ArrayList<Item> items;
+	protected ServerTickHandler serverTickHandler;
+	protected AMPacketProcessorServer packetProcessor;
+	private HashMap<EntityLivingBase, ArrayList<PotionEffect>> deferredPotionEffects = new HashMap<>();
+	private HashMap<EntityLivingBase, Integer> deferredDimensionTransfers = new HashMap<>();
+	public ArrayList<Item> items = new ArrayList<>();
 
 
 	@Override
@@ -53,13 +57,21 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void preInit() {
+		initHandlers();
 		serverTickHandler = new ServerTickHandler();
+		AMNetHandler.INSTANCE.init();
+		AMNetHandler.INSTANCE.registerChannels(packetProcessor);
 		MinecraftForge.EVENT_BUS.register(serverTickHandler);
 		MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
-		particleManager = new ParticleManagerServer();
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 80, 1, false);
+		EntityRegistry.registerModEntity(EntityThrownRock.class, "ThrownRock", 3, ArsMagica2.instance, 80, 1, false);
+	}
+	
+	public void initHandlers() {
+		particleManager = new ParticleManagerServer();
+		packetProcessor = new AMPacketProcessorServer();
 	}
 	
 	public void addDeferredTargetSet(EntityLiving ent, EntityLivingBase target){

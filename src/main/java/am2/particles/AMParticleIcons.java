@@ -111,10 +111,10 @@ public class AMParticleIcons{
 		TextureAtlasSprite icon = null;
 		if (name.equals("symbols")){
 			icon = hiddenIcons.get("Symbols" + (rand.nextInt(28) + 1));
-		}else if (name.equals("snowflakes")){
+		} else if (name.equals("snowflakes")){
 			icon = hiddenIcons.get("snowflake" + (rand.nextInt(9) + 1));
-		}
-		icon = icons.get(name);
+		} else
+			icon = icons.get(name);
 		if (icon == null) return icons.get("lights");
 		return icon;
 	}

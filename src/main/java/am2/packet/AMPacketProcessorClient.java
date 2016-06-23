@@ -1,8 +1,21 @@
 package am2.packet;
 
+import java.util.ArrayList;
+
 import am2.ArsMagica2;
+import am2.particles.AMParticle;
+import am2.particles.ParticleChangeSize;
+import am2.particles.ParticleFadeOut;
+import am2.particles.ParticleLeaveParticleTrail;
+import am2.particles.ParticleMoveOnHeading;
+import am2.spell.IModifier;
+import am2.spell.SpellModifiers;
+import am2.spell.modifier.Colour;
+import am2.utils.MathUtilities;
+import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,7 +30,6 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			if (event.getPacket().getTarget() != Side.CLIENT){
 				return;
 			}
-
 			//constant details all packets share:  ID, player, and remaining data
 			packetID = bbis.readByte();
 //			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -79,9 +91,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.SYNC_WORLD_NAME:
 //				handleSyncWorldName(remaining);
 //				break;
-//			case AMPacketIDs.STAR_FALL:
-//				handleStarFall(remaining);
-//				break;
+			case AMPacketIDs.STAR_FALL:
+				handleStarFall(remaining);
+				break;
 //			case AMPacketIDs.HIDDEN_COMPONENT_UNLOCK:
 //				Minecraft.getMinecraft().guiAchievement.func_146256_a(ArcaneCompendium.componentUnlock);
 //				break;
@@ -222,61 +234,60 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		SpellHelper.instance.applyStackStage(spellStack, (EntityLivingBase)caster, (EntityLivingBase)target, x, y, z, 0, Minecraft.getMinecraft().theWorld, false, false, 0);
 //	}
 //
-//	private void handleStarFall(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		double x = rdr.getDouble();
-//		double y = rdr.getDouble();
-//		double z = rdr.getDouble();
-//
-//		ItemStack spellStack = null;
-//		if (rdr.getBoolean())
-//			spellStack = rdr.getItemStack();
-//
-//		int color = -1;
-//		if (spellStack != null){
-//			if (SpellUtils.instance.modifierIsPresent(SpellModifiers.COLOR, spellStack, 0)){
-//				ISpellModifier[] mods = SpellUtils.instance.getModifiersForStage(spellStack, 0);
-//				int ordinalCount = 0;
-//				for (ISpellModifier mod : mods){
-//					if (mod instanceof Colour){
-//						byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(spellStack, mod, 0, ordinalCount++);
-//						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
-//					}
-//				}
-//			}
-//		}
-//
-//		for (int i = 0; i < 360; i += AMCore.config.FullGFX() ? 5 : AMCore.config.LowGFX() ? 10 : 20){
-//			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
-//			if (effect != null){
-//				effect.setIgnoreMaxAge(true);
-//				effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, 0.7f, 1, false));
-//				float clrMod = Minecraft.getMinecraft().theWorld.rand.nextFloat();
-//				int finalColor = -1;
-//				if (color == -1)
-//					finalColor = MathUtilities.colorFloatsToInt(0.24f * clrMod, 0.58f * clrMod, 0.71f * clrMod);
-//				else{
-//					float[] colors = MathUtilities.colorIntToFloats(color);
-//					for (int c = 0; c < colors.length; ++c)
-//						colors[c] = colors[c] * clrMod;
-//					finalColor = MathUtilities.colorFloatsToInt(colors[0], colors[1], colors[2]);
-//				}
-//				effect.setParticleScale(1.2f);
-//				effect.noClip = false;
-//				effect.setRGBColorI(finalColor);
-//				effect.AddParticleController(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.05f).setKillParticleOnFinish(true));
-//				effect.AddParticleController(
-//						new ParticleLeaveParticleTrail(effect, "sparkle2", false, 15, 1, false)
-//								.addControllerToParticleList(new ParticleChangeSize(effect, 1.2f, 0.01f, 15, 1, false))
-//								.setParticleRGB_I(finalColor)
-//								.setChildAffectedByGravity()
-//								.addRandomOffset(0.2f, 0.2f, 0.2f)
-//				);
-//			}
-//		}
-//
+	private void handleStarFall(byte[] data){
+		AMDataReader rdr = new AMDataReader(data, false);
+		double x = rdr.getDouble();
+		double y = rdr.getDouble();
+		double z = rdr.getDouble();
+
+		ItemStack spellStack = null;
+		if (rdr.getBoolean())
+			spellStack = rdr.getItemStack();
+		
+		System.out.println("Handling falling star");
+		
+		int color = -1;
+		if (spellStack != null){
+			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
+				ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
+				for (IModifier mod : mods){
+					if (mod instanceof Colour){
+						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < 360; i += ArsMagica2.config.FullGFX() ? 5 : ArsMagica2.config.LowGFX() ? 10 : 20){
+			AMParticle effect = (AMParticle)ArsMagica2.instance.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
+			if (effect != null){
+				effect.setIgnoreMaxAge(true);
+				effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, 0.7f, 1, false));
+				float clrMod = Minecraft.getMinecraft().theWorld.rand.nextFloat();
+				int finalColor = -1;
+				if (color == -1)
+					finalColor = MathUtilities.colorFloatsToInt(0.24f * clrMod, 0.58f * clrMod, 0.71f * clrMod);
+				else{
+					float[] colors = MathUtilities.colorIntToFloats(color);
+					for (int c = 0; c < colors.length; ++c)
+						colors[c] = colors[c] * clrMod;
+					finalColor = MathUtilities.colorFloatsToInt(colors[0], colors[1], colors[2]);
+				}
+				effect.setParticleScale(1.2f);
+				effect.setRGBColorI(finalColor);
+				effect.AddParticleController(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.05f).setKillParticleOnFinish(true));
+				effect.AddParticleController(
+						new ParticleLeaveParticleTrail(effect, "sparkle2", false, 15, 1, false)
+								.addControllerToParticleList(new ParticleChangeSize(effect, 1.2f, 0.01f, 15, 1, false))
+								.setParticleRGB_I(finalColor)
+								.setChildAffectedByGravity()
+								.addRandomOffset(0.2f, 0.2f, 0.2f)
+				);
+			}
+		}
+
 //		Minecraft.getMinecraft().theWorld.playSound(x, y, z, "arsmagica2:spell.special.starfall", 2.0f, 1.0f, false);
-//	}
+	}
 //
 //	private void handleSyncWorldName(byte[] data){
 //		AMDataReader rdr = new AMDataReader(data, false);

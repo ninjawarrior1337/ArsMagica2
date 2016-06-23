@@ -6,8 +6,8 @@ import am2.gui.AMGuiIcons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
 
 public class GuiSpellImageButton extends GuiButtonVariableDims{
 	/**
@@ -19,8 +19,6 @@ public class GuiSpellImageButton extends GuiButtonVariableDims{
 	private final int page;
 	private final static int sourceWidth = 12;
 	private final static int sourceHeight = 12;
-
-	private static final ResourceLocation buttonImage = new ResourceLocation("textures/atlas/items.png");
 
 	public GuiSpellImageButton(int id, int xPos, int yPos, TextureAtlasSprite imageIcon, int index, int page){
 		super(id, sourceWidth, sourceHeight, "");
@@ -51,7 +49,7 @@ public class GuiSpellImageButton extends GuiButtonVariableDims{
 		if (this.visible){
 			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			par1Minecraft.renderEngine.bindTexture(buttonImage);
+			par1Minecraft.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 			if (isMousedOver){
 				GL11.glColor4f(0.6f, 0.6f, 0.6f, 1.0f);

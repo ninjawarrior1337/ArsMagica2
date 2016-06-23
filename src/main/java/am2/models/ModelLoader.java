@@ -36,6 +36,7 @@ public class ModelLoader implements ICustomModelLoader {
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		sprites.clear();
 		SpellModel.handRender = null;
+		
 	}
 
 	@Override

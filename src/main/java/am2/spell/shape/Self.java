@@ -3,6 +3,7 @@ package am2.spell.shape;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
+import am2.power.PowerTypes;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
 import am2.utils.SpellUtils;
@@ -35,7 +36,7 @@ public class Self implements IShape{
 				//TODO BlockDefs.aum,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM),
 				ItemDefs.lesserFocus,
-				//String.format("E:%d", PowerTypes.NEUTRAL.ID()), 500
+				"E:" + PowerTypes.NEUTRAL.ID(), 500
 		};
 	}
 

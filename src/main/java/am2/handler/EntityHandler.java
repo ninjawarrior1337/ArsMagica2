@@ -17,6 +17,7 @@ import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
+import am2.lore.ArcaneCompendium;
 import am2.packet.MessageBoolean;
 import am2.utils.RenderUtils;
 import am2.utils.WorldUtils;
@@ -81,11 +82,14 @@ public class EntityHandler {
 			ext.init(event.getEntity());
 			event.addCapability(EntityExtension.ID, ext);
 			if (event.getEntity() instanceof EntityPlayer) {
+				ArcaneCompendium compendium = new ArcaneCompendium();
 				AffinityData affData = new AffinityData();
 				SkillData skillData = new SkillData();
 				RiftStorage storage = new RiftStorage();
 				affData.init((EntityPlayer) event.getEntity());
 				skillData.init((EntityPlayer) event.getEntity());
+				compendium.init((EntityPlayer) event.getEntity());
+				event.addCapability(new ResourceLocation("arsmagica2", "Compendium"), compendium);
 				event.addCapability(SkillData.ID, skillData);
 				event.addCapability(AffinityData.ID, affData);
 				event.addCapability(new ResourceLocation("arsmagica2", "RiftStorage"), storage);
@@ -99,6 +103,8 @@ public class EntityHandler {
 		transferCapability(EntityExtension.INSTANCE, EntityExtension.For(event.getOriginal()), EntityExtension.For(event.getEntityPlayer()));
 		transferCapability(SkillData.INSTANCE, SkillData.For(event.getOriginal()), SkillData.For(event.getEntityPlayer()));
 		transferCapability(RiftStorage.INSTANCE, RiftStorage.For(event.getOriginal()), RiftStorage.For(event.getEntityPlayer()));
+		transferCapability(ArcaneCompendium.INSTANCE, ArcaneCompendium.For(event.getOriginal()), ArcaneCompendium.For(event.getEntityPlayer()));
+		
 	}
 	
 	private <T> void transferCapability(Capability<T> capability, T original, T target) {

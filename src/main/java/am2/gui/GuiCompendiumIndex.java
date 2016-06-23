@@ -57,7 +57,7 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 
 	ISkillData sk;
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/guis/ArcaneCompendiumIndexGui.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumIndexGui.png");
 
 	public GuiCompendiumIndex(){
 		categories = ArcaneCompendium.getCategories();
@@ -207,8 +207,29 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 				nextPage.visible = false;
 			}
 
-		}else if (buttonClicked instanceof GuiButtonCompendiumLink){}
+		}else if (buttonClicked instanceof GuiButtonCompendiumLink){
+			if (((GuiButtonCompendiumLink)buttonClicked).hasSubItems()){
 
+				for (Object btn : this.buttonList){
+					if (btn instanceof GuiButtonCompendiumTab){
+						((GuiButtonCompendiumTab)btn).visible = false;
+					}
+				}
+
+				backToIndex.visible = true;
+//				this.activeCategoryID = this.activeCategoryID + ":";
+
+				switchCategoryAndPage();
+			} else {
+				CompendiumEntry entry = ArcaneCompendium.getCompendium().get(((GuiButtonCompendiumLink)buttonClicked).getEntryID());
+				if (entry != null){
+					GuiArcaneCompendium gui = entry.getCompendiumGui();
+					if (gui != null){
+						Minecraft.getMinecraft().displayGuiScreen(gui);
+					}
+				}
+			}
+		}
 		if (getNumPages() > 0){
 			if (buttonClicked.id == nextPage.id && page < getNumPages()){
 				page++;
@@ -267,10 +288,10 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 			IArcaneCompendium comp = ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer);
 
 			ArrayList<CompendiumEntry> itemsInCategory = comp.getEntriesForCategory(category.getCategoryName());
+			System.out.println(category.getCategoryName() + " : " + itemsInCategory.size());
 			for (CompendiumEntry entry : itemsInCategory)
-				if (!comp.isUnlocked(entry.getID()))
+				if (comp.isUnlocked(entry.getID()) || entry.isDefaultUnlocked())
 					unlockedSubItems++;
-
 			if (unlockedSubItems == 0)
 				continue;
 
@@ -440,16 +461,10 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 
 		Tessellator var9 = Tessellator.getInstance();
 		var9.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8);
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8);
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8);
-		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8);
+		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8).endVertex();;
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8).endVertex();;
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8).endVertex();;
+		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8).endVertex();;
 		var9.draw();
-	}
-
-	@Override
-	public void onGuiClosed(){
-		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).write();
-		super.onGuiClosed();
 	}
 }

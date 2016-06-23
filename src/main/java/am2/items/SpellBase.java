@@ -1,7 +1,12 @@
 package am2.items;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import org.lwjgl.util.glu.Project;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -25,8 +31,14 @@ import am2.api.SpellRegistry;
 import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
 import am2.spell.IShape;
+import am2.spell.ISpellPart;
+import am2.spell.component.Blizzard;
+import am2.spell.component.FireRain;
+import am2.spell.component.PhysicalDamage;
 import am2.spell.shape.MissingShape;
+import am2.spell.shape.Projectile;
 import am2.utils.EntityUtils;
+import am2.utils.KeyValuePair;
 import am2.utils.SpellUtils;
 
 public class SpellBase extends ItemSpellBase{
@@ -96,7 +108,7 @@ public class SpellBase extends ItemSpellBase{
 		IShape shape = SpellUtils.getShapeForStage(stack, 0);
 		if (shape != null){
 			if (!shape.isChanneled())
-				SpellUtils.applyStackStage(stack, player, null, player.posX, player.posY, player.posZ, EnumFacing.UP, world, true, true, 0);
+				System.out.println(SpellUtils.applyStackStage(stack, player, null, player.posX, player.posY, player.posZ, EnumFacing.UP, world, true, true, 0));
 			if (world.isRemote && shape.isChanneled()){
 				//SoundHelper.instance.stopSound(shape.getSoundForAffinity(SpellUtils.instance.mainAffinityFor(stack), stack, null));
 			}
@@ -151,17 +163,23 @@ public class SpellBase extends ItemSpellBase{
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab,
 			List<ItemStack> subItems) {
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("dig")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("physical_damage")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("physical_damage")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("dig"), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("physical_damage")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("mark"), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("recall")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("contingency_death"), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("chronoAnchor")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("heal")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("rift")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("slowfall"), SpellRegistry.getComponentFromName("heal")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getShapeFromName("zone"), SpellRegistry.getComponentFromName("lightning_damage")));
-		subItems.add(SpellUtils.createSpellStack(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getShapeFromName("zone"), SpellRegistry.getComponentFromName("lightning_damage")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("dig")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("physical_damage")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("physical_damage")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("dig"), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("physical_damage")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("mark"), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("recall")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("contingency_death"), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("chronoAnchor")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("heal")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("rift")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("self"), SpellRegistry.getComponentFromName("slowfall"), SpellRegistry.getComponentFromName("heal")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getShapeFromName("zone"), SpellRegistry.getComponentFromName("lightning_damage")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getShapeFromName("zone"), SpellRegistry.getComponentFromName("lightning_damage")));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("falling_star"), SpellRegistry.getModifierFromName("damage"), SpellRegistry.getModifierFromName("damage"), SpellRegistry.getModifierFromName("damage"), SpellRegistry.getModifierFromName("damage"), SpellRegistry.getModifierFromName("damage")).setStackDisplayName("Falling Star"));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("blizzard")).setStackDisplayName("Blizzard"));
+		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("fire_rain")).setStackDisplayName("Fire Rain"));
+		
+		KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> pair = new KeyValuePair<>(Lists.newArrayList(new Projectile()), new NBTTagCompound());
+		subItems.add(SpellUtils.createSpellStack(Lists.newArrayList(pair), Lists.newArrayList(new PhysicalDamage(), new Blizzard(), new FireRain()), new NBTTagCompound()));
 	}
 
 	@Override

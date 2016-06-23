@@ -29,17 +29,27 @@ public class CompendiumEntrySpellPart extends CompendiumEntry{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiArcaneCompendium getCompendiumGui(){
-		return new GuiArcaneCompendium(id, skill);
+		return new GuiArcaneCompendium(id, skill, getModifiers());
 	}
 	
 	public ArrayList<ItemStack> getModifiers() {
 		ArrayList<ItemStack> ret = new ArrayList<>();
-		for (SpellData<IModifier> skill : SpellRegistry.getModifierMap().values()) {
-			if (skill.part == null) continue;
-			for (SpellModifiers mod : mods) {
-				if (skill.part.getAspectsModified().contains(mod)) {
-					ret.add(new ItemStack(ItemDefs.spell_component, 1, ItemSpellComponent.getIdFor(SkillRegistry.getSkillFromName(skill.id))));
-					break;
+		if (mods != null) {
+			for (SpellData<IModifier> skill : SpellRegistry.getModifierMap().values()) {
+				if (skill.part == null) continue;
+				for (SpellModifiers mod : mods) {
+					boolean shouldSkip = false;
+					for (SpellModifiers mod2 : skill.part.getAspectsModified()) {
+						if (mod2.equals(mod)) {
+							ItemStack stack = new ItemStack(ItemDefs.spell_component, 1, ItemSpellComponent.getIdFor(SkillRegistry.getSkillFromName(skill.id)));
+							if (!ret.contains(stack))
+								ret.add(new ItemStack(ItemDefs.spell_component, 1, ItemSpellComponent.getIdFor(SkillRegistry.getSkillFromName(skill.id))));
+							shouldSkip = true;
+							break;
+						}
+					}
+					if (shouldSkip)
+						break;
 				}
 			}
 		}

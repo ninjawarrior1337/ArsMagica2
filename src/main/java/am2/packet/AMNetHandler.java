@@ -157,7 +157,6 @@ public class AMNetHandler{
 			writer.add(true).add(spellStack);
 		else
 			writer.add(false);
-
 		sendPacketToAllClientsNear(world.provider.getDimension(), x, y, z, 64, AMPacketIDs.STAR_FALL, writer.generate());
 	}
 

@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.math.Vec3d;
 
 public class NBTUtils {
 	
@@ -21,6 +22,17 @@ public class NBTUtils {
 	
 	public static NBTTagCompound getEssenceTag (NBTTagCompound baseTag) {
 		return addTag(getAM2Tag(baseTag), "Essence");
+	}
+	
+	public static void writeVecToNBT(Vec3d vec, NBTTagCompound nbt) {
+		nbt.setDouble("X", vec.xCoord);
+		nbt.setDouble("Y", vec.yCoord);
+		nbt.setDouble("Z", vec.zCoord);
+	}
+	
+	public static Vec3d readVecFromNBT(NBTTagCompound nbt) {
+		Vec3d vec = new Vec3d(nbt.getDouble("X"), nbt.getDouble("Y"), nbt.getDouble("Z"));
+		return vec;
 	}
 	
 	public static Object getValueAt (NBTTagCompound baseTag, String tagName) {
@@ -50,6 +62,12 @@ public class NBTUtils {
 		}
 		upper.setTag(name, newTag);
 		return newTag;		
+	}
+	
+	public static NBTTagCompound addTag (NBTTagCompound upper, NBTTagCompound compound, String name) {
+		if (upper == null) throw new IllegalStateException("Base Tag must exist");
+		upper.setTag(name, compound);
+		return upper;		
 	}
 	
 	public static NBTTagList addList (NBTTagCompound upper, int type, String name) {

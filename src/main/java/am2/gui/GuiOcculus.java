@@ -18,6 +18,7 @@ import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.SkillData;
 import am2.gui.controls.GuiButtonSkillTree;
+import am2.lore.ArcaneCompendium;
 import am2.skill.Skill;
 import am2.skill.SkillTree;
 import am2.texture.SpellIconManager;
@@ -84,6 +85,7 @@ public class GuiOcculus extends GuiScreen {
 				}
 				if (hasPrereq) {
 					data.unlockSkill(hoverItem.getID());
+					ArcaneCompendium.For(player).unlockEntry(hoverItem.getID());
 				}
 			}
 			else if (this.currentTree != SkillDefs.TREE_AFFINITY)

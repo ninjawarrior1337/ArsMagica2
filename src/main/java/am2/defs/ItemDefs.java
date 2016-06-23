@@ -40,11 +40,15 @@ public class ItemDefs {
 	public static final Item playerFocus = new ItemArsMagica2().registerAndName("playerFocus");
 	public static final Item creatureFocus = new ItemArsMagica2().registerAndName("creatureFocus");
 	public static final Item arcaneCompendium = new ItemArcaneCompendium().registerAndName("arcaneCompendium");
+	public static final Item crystalWrench = new ItemArsMagica2().registerAndName("crystalWrench");
+	public static final Item magitechGoggles = new ItemArsMagica2().registerAndName("magitechGoggles");
+	
+	// PlaceHolder items
 	public static final Item spell_component = new ItemSpellComponent().registerAndName("spellComponent");
-	public static final Item crystalWrench = null;
-	public static final Item magitechGoggles = null;
+	public static final Item etherium = new ItemArsMagica2().registerAndName("etherium");
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
+	public static Item blankRune;
 	
 	public static void init () {
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();

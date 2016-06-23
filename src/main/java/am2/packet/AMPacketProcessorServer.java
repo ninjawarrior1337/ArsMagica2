@@ -7,6 +7,7 @@ public class AMPacketProcessorServer{
 
 	@SubscribeEvent
 	public void onServerPacketData(ServerCustomPacketEvent event){
+		System.out.println("Called");
 //		ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
 //		byte packetID = -1;
 //		try{

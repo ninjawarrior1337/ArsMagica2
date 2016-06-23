@@ -56,7 +56,7 @@ public class RitualShapeHelper {
 	}
 	
 	public void consumeShape(IRitualInteraction ritual, World world, BlockPos pos) {
-		for (MultiblockGroup group : ritual.getRitualShape().groups) {
+		for (MultiblockGroup group : ritual.getRitualShape().getMatchingGroups(world, pos)) {
 			for (BlockPos blockPos : group.getPositions()) {
 				world.setBlockToAir(blockPos);
 				world.markAndNotifyBlock(blockPos, world.getChunkFromBlockCoords(blockPos), world.getBlockState(blockPos), world.getBlockState(blockPos), 3);
@@ -72,8 +72,8 @@ public class RitualShapeHelper {
 	}
 	
 	private void corruptionRitual() {
-		MultiblockGroup chalks = new MultiblockGroup(Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
-		MultiblockGroup candles = new MultiblockGroup(Lists.newArrayList(Blocks.TORCH.getDefaultState()), true);
+		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
+		MultiblockGroup candles = new MultiblockGroup("candle", Lists.newArrayList(Blocks.TORCH.getDefaultState()), true);
 		
 		chalks.addBlock(new BlockPos(1, 0, 0));
 		chalks.addBlock(new BlockPos(-1, 0, 0));
@@ -104,8 +104,8 @@ public class RitualShapeHelper {
 	}
 	
 	private void purificationRitual() {
-		MultiblockGroup chalks = new MultiblockGroup(Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
-		MultiblockGroup candles = new MultiblockGroup(Lists.newArrayList(Blocks.TORCH.getDefaultState()), true);
+		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
+		MultiblockGroup candles = new MultiblockGroup("candle", Lists.newArrayList(Blocks.TORCH.getDefaultState()), true);
 		chalks.addBlock(new BlockPos(-1, 0, 1));
 		chalks.addBlock(new BlockPos(-1, 0, -1));
 		chalks.addBlock(new BlockPos(1, 0, 1));
@@ -149,7 +149,7 @@ public class RitualShapeHelper {
 	}
 	
 	private void hourglassRitual() {
-		MultiblockGroup chalks = new MultiblockGroup(Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
+		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
 
 		chalks.addBlock(new BlockPos(0, 0, 0));
 
@@ -169,7 +169,7 @@ public class RitualShapeHelper {
 	}
 	
 	private void ringedCrossRitual() {
-		MultiblockGroup chalks = new MultiblockGroup(Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
+		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
 		
 		chalks.addBlock(new BlockPos(1, 0, 0));
 		chalks.addBlock(new BlockPos(-1, 0, 0));

@@ -1,5 +1,6 @@
 package am2.extensions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.common.base.Optional;
@@ -34,10 +35,18 @@ public class DataDefinitions {
 		public Skill getKeyInstanceFromString(String str) {return SkillRegistry.getSkillFromName(str);}
 	};
 	
+	public static final ArraySerializer<String> STRING_SERIALIZER = new ArraySerializer<String>() {
+		public String getKeyInstanceFromString(String str) {
+			System.out.println(str);
+			return str;
+		}
+	};
+	
 	static {
 		DataSerializers.registerSerializer(AFFINITY_SERIALIZER);
 		DataSerializers.registerSerializer(SKILL_POINT_SERIALIZER);
 		DataSerializers.registerSerializer(SKILL_SERIALIZER);
+		DataSerializers.registerSerializer(STRING_SERIALIZER);
 	}
 
 	static final DataParameter<Float> CURRENT_MANA = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
@@ -74,6 +83,9 @@ public class DataDefinitions {
 	static final DataParameter<Float> PREV_SHRINK_PCT = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
 	static final DataParameter<Float> FLIP_ROTATION = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
 	static final DataParameter<Float> PREV_FLIP_ROTATION = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
+
+	public static final DataParameter<ArrayList<String>> COMPENDIUM = EntityDataManager.createKey(Entity.class, STRING_SERIALIZER);	
+	public static final DataParameter<ArrayList<String>> CATEGORIES = EntityDataManager.createKey(Entity.class, STRING_SERIALIZER);	
 
 	static {
 		ArsMagica2.LOGGER.info("Current Mana ID : " + CURRENT_MANA.getId());

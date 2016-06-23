@@ -25,8 +25,8 @@ public class CompendiumEntryMob extends CompendiumEntry{
 	public GuiArcaneCompendium getCompendiumGui(){
 		if (clazz != null){
 			try{
-				Constructor ctor = clazz.getConstructor(World.class);
-				return new GuiArcaneCompendium(id, (Entity)ctor.newInstance(Minecraft.getMinecraft().theWorld));
+				Constructor<? extends Entity> ctor = clazz.getConstructor(World.class);
+				return new GuiArcaneCompendium(id, ctor.newInstance(Minecraft.getMinecraft().theWorld));
 			}catch (InstantiationException e){
 				e.printStackTrace();
 			}catch (IllegalAccessException e){

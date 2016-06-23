@@ -278,18 +278,22 @@ public class EntityThrownRock extends EntityLiving{
 		rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
 		setPosition(posX, posY, posZ);
 	}
-
+	
+	
+	
 	protected void HitObject(RayTraceResult movingobjectposition){
 		if (worldObj.isRemote){
 			return;
 		}
-
+		
+		
 		if (getIsShootingStar()){
 			AMNetHandler.INSTANCE.sendStarImpactToClients(posX, posY + ((movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY) ? -movingobjectposition.entityHit.getEyeHeight() : 1.5f), posZ, worldObj, this.getSpellStack());
-			List<EntityLivingBase> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(5, 5, 5));
+			List<EntityLivingBase> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(12, 5, 12));
+			this.posY++;
 			for (EntityLivingBase e : ents){
 				if (e == throwingEntity) continue;
-				if (this.getEntitySenses().canSee(e))
+				if (this.getDistanceToEntity(e) < 12 && this.canEntityBeSeen(e))
 					SpellUtils.attackTargetSpecial(null, e, DamageSources.causeMagicDamage(throwingEntity), damage);
 			}
 		}else{

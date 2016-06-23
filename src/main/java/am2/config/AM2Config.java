@@ -181,6 +181,11 @@ public class AM2Config extends Configuration{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	public boolean savePowerDataOnWorldSave() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 	
 }

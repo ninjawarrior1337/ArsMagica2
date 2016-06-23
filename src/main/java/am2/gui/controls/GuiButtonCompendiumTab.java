@@ -30,7 +30,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 	//private static final int renderTextureID = AMGuiHelper.createRenderTexture();
 	//private static final int depthBufferTextureID = AMGuiHelper.instance.createFBO(renderTextureID, 100, 20, true);
 
-	private static final ResourceLocation buttonImage = new ResourceLocation("arsmagica2", "textures/guis/ArcaneCompendiumIndexGui.png");
+	private static final ResourceLocation buttonImage = new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumIndexGui.png");
 	public GuiButtonCompendiumTab(int id, int xPos, int yPos, String categoryDisplay, String categoryID, TextureAtlasSprite displayIcon){
 		super(id, xPos, yPos, sourceWidth, sourceHeight, categoryDisplay);
 		this.width = displayIcon == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(categoryDisplay) : 20;
@@ -67,7 +67,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 		if (this.visible){
 			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 			GL11.glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
-			par1Minecraft.renderEngine.bindTexture(buttonImage);
+			par1Minecraft.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumIndexGui.png"));
 
 			if (isMousedOver || isActive){
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -86,6 +86,8 @@ public class GuiButtonCompendiumTab extends GuiButton{
 				par1Minecraft.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 				AMGuiHelper.DrawIconAtXY(displayIcon, this.xPosition + (this.width / 3), this.yPosition + 2, this.zLevel, 14, 14, true);
 			}else{
+				GL11.glColor4f(0, 0, 0, 1);
+				
 				Minecraft.getMinecraft().fontRendererObj.drawString(this.displayString, this.xPosition + (this.width / 4), this.yPosition + 2, 0x000000);
 			}
 			GL11.glEnable(GL11.GL_LIGHTING);
@@ -111,10 +113,10 @@ public class GuiButtonCompendiumTab extends GuiButton{
 		Tessellator var9 = Tessellator.getInstance();
 
 		var9.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8);
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8);
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8);
-		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8);
+		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8).endVertex();
 		var9.draw();
 		GL11.glDisable(GL11.GL_BLEND);
 	}

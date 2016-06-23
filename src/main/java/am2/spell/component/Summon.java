@@ -10,6 +10,7 @@ import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
+import am2.power.PowerTypes;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.EntityUtils;
@@ -34,7 +35,7 @@ import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
 public class Summon implements IComponent{
-	//TODO
+	
 
 	public EntityLiving summonCreature(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z){
 		Class<? extends Entity> clazz = getSummonType(stack);
@@ -82,7 +83,7 @@ public class Summon implements IComponent{
 				//TODO BlocksCommonProxy.cerublossom,
 				ItemDefs.mobFocus,
 				//TODO new ItemStack(ItemDefs.crystalPhylactery, 1, ItemDefs.crystalPhylactery.META_FULL),
-				//TODO String.format("E:%d", PowerTypes.DARK()), 1500
+				"E:" + PowerTypes.DARK.ID(), 1500
 		};
 	}
 

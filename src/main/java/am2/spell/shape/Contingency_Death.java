@@ -5,6 +5,7 @@ import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
+import am2.power.PowerTypes;
 import am2.spell.ContingencyType;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
@@ -32,7 +33,7 @@ public class Contingency_Death implements IShape{
 				Items.BLAZE_POWDER,
 				//TODO BlockDefs.tarmaRoot,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
-				//TODO String.format("E:%d", PowerTypes.DARK.ID()), 5000
+				"E:" + PowerTypes.DARK.ID(), 5000
 		};
 	}
 

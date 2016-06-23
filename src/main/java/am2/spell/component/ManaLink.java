@@ -27,7 +27,7 @@ public class ManaLink implements IComponent{
 		return new Object[]{
 				//TODO BlocksCommonProxy.manaBattery,
 				//TODO BlocksCommonProxy.essenceConduit,
-				//TODO ItemsCommonProxy.crystalWrench,
+				ItemDefs.crystalWrench,
 				ItemDefs.manaFocus
 		};
 	}

@@ -1,5 +1,7 @@
 package am2.gui;
 
+import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -14,8 +16,14 @@ import org.lwjgl.opengl.GLContext;
 
 import am2.ArsMagica2;
 import am2.api.extensions.IEntityExtension;
+import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
+import am2.items.ItemSpellComponent;
+import am2.particles.AMParticleIcons;
+import am2.power.PowerTypes;
+import am2.texture.SpellIconManager;
+import am2.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -23,12 +31,13 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class AMGuiHelper{
@@ -39,8 +48,6 @@ public class AMGuiHelper{
 	}
 
 	public static final AMGuiHelper instance = new AMGuiHelper();
-
-	private static final ResourceLocation rl_items = new ResourceLocation("textures/atlas/items.png");
 
 	private long millis;
 	private long lastmillis;
@@ -198,26 +205,66 @@ public class AMGuiHelper{
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		}
-		Minecraft.getMinecraft().renderEngine.bindTexture(rl_items);
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 		Tessellator tessellator = Tessellator.getInstance();
 
-		boolean drawing = ReflectionHelper.getPrivateValue(Tessellator.class, tessellator, "field_78415_z", "isDrawing");
+		boolean drawing = ReflectionHelper.getPrivateValue(VertexBuffer.class, tessellator.getBuffer(), "isDrawing", "field_179010_r");
 		if (drawing)
 			tessellator.draw();
 
 		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
 
-		tessellator.getBuffer().pos(x, y + h, zLevel).tex( IIcon.getMinU(), IIcon.getMaxV());
-		tessellator.getBuffer().pos(x + w, y + h, zLevel).tex( IIcon.getMaxU(), IIcon.getMaxV());
-		tessellator.getBuffer().pos(x + w, y, zLevel).tex( IIcon.getMaxU(), IIcon.getMinV());
-		tessellator.getBuffer().pos(x, y, zLevel).tex( IIcon.getMinU(), IIcon.getMinV());
-
+		tessellator.getBuffer().pos(x, y + h, zLevel).tex( IIcon.getMinU(), IIcon.getMaxV()).endVertex();
+		tessellator.getBuffer().pos(x + w, y + h, zLevel).tex( IIcon.getMaxU(), IIcon.getMaxV()).endVertex();
+		tessellator.getBuffer().pos(x + w, y, zLevel).tex( IIcon.getMaxU(), IIcon.getMinV()).endVertex();
+		tessellator.getBuffer().pos(x, y, zLevel).tex( IIcon.getMinU(), IIcon.getMinV()).endVertex();
+		
 		tessellator.draw();
 
 		if (semitransparent){
 			GL11.glDisable(GL11.GL_BLEND);
 		}
+		GL11.glPopMatrix();
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+		if (drawing)
+			tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+	}
+	
+	public static void DrawIconAtXY(TextureAtlasSprite IIcon, float x, float y, float zLevel, int w, int h, int color){
+
+		if (IIcon == null)
+			return;
+
+		GL11.glMatrixMode(GL11.GL_TEXTURE);
+		GL11.glPushMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
+		Tessellator tessellator = Tessellator.getInstance();
+
+		boolean drawing = ReflectionHelper.getPrivateValue(VertexBuffer.class, tessellator.getBuffer(), "isDrawing", "field_179010_r");
+		if (drawing)
+			tessellator.draw();
+
+		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+		
+		//System.out.println(color);
+		
+		tessellator.getBuffer().pos(x, y + h, zLevel).tex( IIcon.getMinU(), IIcon.getMaxV())
+		.color(RenderUtils.getRed(color), RenderUtils.getGreen(color), RenderUtils.getBlue(color), 1.0f)
+		.endVertex();
+		tessellator.getBuffer().pos(x + w, y + h, zLevel).tex( IIcon.getMaxU(), IIcon.getMaxV())
+		.color(RenderUtils.getRed(color), RenderUtils.getGreen(color), RenderUtils.getBlue(color), 1.0f)
+		.endVertex();
+		tessellator.getBuffer().pos(x + w, y, zLevel).tex( IIcon.getMaxU(), IIcon.getMinV())
+		.color(RenderUtils.getRed(color), RenderUtils.getGreen(color), RenderUtils.getBlue(color), 1.0f)
+		.endVertex();
+		tessellator.getBuffer().pos(x, y, zLevel).tex( IIcon.getMinU(), IIcon.getMinV())
+		.color(RenderUtils.getRed(color), RenderUtils.getGreen(color), RenderUtils.getBlue(color), 1.0f)
+		.endVertex();
+		
+		tessellator.draw();
 		GL11.glPopMatrix();
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
@@ -230,11 +277,15 @@ public class AMGuiHelper{
 	}
 
 	public static void DrawItemAtXY(ItemStack stack, float x, float y, float zLevel, float scale){
+		Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 		if (stack == null)
 			return;
-		GL11.glPushAttrib(GL11.GL_TEXTURE_BIT | GL11.GL_LIGHTING_BIT);
+		GL11.glPushAttrib(GL11.GL_TEXTURE_BIT | GL11.GL_LIGHTING_BIT | GL11.GL_COLOR_BUFFER_BIT);
+		GL11.glColor4f(1, 1, 1, 1);
 
 		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL11.GL_BLEND);
+		//GL11.glDisable(GL11.GL_LIGHTING);
 
 		if (scale != 1.0f){
 			GL11.glPushMatrix();
@@ -243,14 +294,38 @@ public class AMGuiHelper{
 			itemRenderer.renderItemIntoGUI(stack, (int)(x + (x * invScale)), (int)(y + (y * invScale)));
 
 			GL11.glPopMatrix();
-		}else{
-			itemRenderer.renderItemIntoGUI(stack, (int)x, (int)y);
+		}else {
+			if (stack.getItem() instanceof ItemSpellComponent) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
+				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ItemSpellComponent.getPartFor(stack.getItemDamage()).getID());
+				GL11.glColor4f(1, 1, 1, 1);
+				if (icon != null)
+					DrawIconAtXY(icon, x, y, zLevel + 1, 16, 16, false);
+			} else if (stack.getItem().equals(ItemDefs.etherium)) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
+				TextureAtlasSprite icon = AMParticleIcons.instance.getIconByName("lights");
+				int color = 0;
+				for (PowerTypes type : PowerTypes.all()) {
+					if ((stack.getItemDamage() & type.ID()) == type.ID()) {
+						color |= type.getColor();
+					}
+				}
+				//System.out.println(Integer.toHexString(color));
+				if (icon != null)
+					DrawIconAtXY(icon, x, y, zLevel, 16, 16, color);
+			} else {
+				RenderHelper.enableStandardItemLighting();
+				itemRenderer.renderItemIntoGUI(stack, (int)x, (int)y);
+			}
 		}
+		RenderHelper.enableStandardItemLighting();
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glPopAttrib();
 	}
 
 	public static void drawCompendiumText(String text, int x_start, int y_start, int max_width, int start_color, FontRenderer fontRenderer){
 		int cur_color = start_color;
+		text = text.replaceAll("!d", "\n\n");
 		String[] words = text.split(" ");
 		int lineLength = 0;
 		int posX = x_start;

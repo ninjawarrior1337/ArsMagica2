@@ -10,15 +10,16 @@ import com.google.common.collect.ImmutableList;
 
 public class MultiblockGroup {
 	
-	private ArrayList<BlockPos> positions;
-	private ArrayList<IBlockState> states;
-	private boolean ignoreState;
+	protected ArrayList<BlockPos> positions;
+	protected ArrayList<IBlockState> states;
+	protected boolean ignoreState;
+	protected String name;
 	
-	
-	public MultiblockGroup(ArrayList<IBlockState> arrayList, boolean ignoreState) {
+	public MultiblockGroup(String name, ArrayList<IBlockState> arrayList, boolean ignoreState) {
 		positions = new ArrayList<BlockPos>();
 		this.states = arrayList;
 		this.ignoreState = ignoreState;
+		this.name = name;
 	}
 	
 	public void addBlock(BlockPos position) {
@@ -134,7 +135,7 @@ public class MultiblockGroup {
 	 * @return
 	 */
 	public MultiblockGroup rotate (int mode) {
-		MultiblockGroup group = new MultiblockGroup(states, ignoreState);
+		MultiblockGroup group = new MultiblockGroup(name, states, ignoreState);
 		ArrayList<BlockPos> positions = new ArrayList<BlockPos>();
 		
 		for (BlockPos pos : positions) {

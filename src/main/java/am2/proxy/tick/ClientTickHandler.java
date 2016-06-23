@@ -61,8 +61,8 @@ public class ClientTickHandler{
 			CompendiumEntryTypes.instance.initTextures();
 
 		if (Minecraft.getMinecraft().isIntegratedServerRunning()){
-			if (worldName == null || !worldName.equals(Minecraft.getMinecraft().getIntegratedServer().getWorldName().replace(" ", "_"))){
-				worldName = Minecraft.getMinecraft().getIntegratedServer().getWorldName().replace(" ", "_");
+			if (worldName == null || !worldName.equals(Minecraft.getMinecraft().getIntegratedServer().getWorldName())){
+				worldName = Minecraft.getMinecraft().getIntegratedServer().getWorldName();
 				firstTick = true;
 			}
 		}else{

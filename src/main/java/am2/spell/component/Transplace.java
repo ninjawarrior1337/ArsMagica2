@@ -140,7 +140,7 @@ public class Transplace implements IComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
-				//TODO
+				
 //				new ItemStack(ItemDefs.mageArmor),
 //				new ItemStack(ItemDefs.mageBoots),
 //				new ItemStack(ItemDefs.mageHood),

@@ -41,14 +41,24 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class SpellUtils {
+	
+	public static final String TYPE_SHAPE = "Shape";
+	public static final String TYPE_COMPONENT = "Component";
+	public static final String TYPE_MODIFIER = "Modifier";
+	public static final String TYPE = "Type";
+	public static final String ID = "ID";
+	public static final String SHAPE_GROUP = "ShapeGroup";
+	public static final String STAGE = "Stage_";
+	public static final String SPELL_DATA = "SpellData";
+	
 	public static IShape getShapeForStage(ItemStack stack, int stage){
 		if (stack == null || !stack.hasTagCompound()) return SpellDefs.MISSING_SHAPE;
 		NBTTagCompound am2Tag = NBTUtils.getAM2Tag(stack.getTagCompound());
-		NBTTagList stageTag = NBTUtils.addCompoundList(am2Tag, "Stage_" + stage);
+		NBTTagList stageTag = NBTUtils.addCompoundList(am2Tag, STAGE + stage);
 		String shapeName = "null";
 		for (int i = 0; i < stageTag.tagCount(); i++) {
-			if (stageTag.getCompoundTagAt(i).getString("Type").equals("Shape")) {
-				shapeName = stageTag.getCompoundTagAt(i).getString("ID");
+			if (stageTag.getCompoundTagAt(i).getString(TYPE).equals(TYPE_SHAPE)) {
+				shapeName = stageTag.getCompoundTagAt(i).getString(ID);
 				break;
 			}
 		}
@@ -161,12 +171,98 @@ public class SpellUtils {
 		return success;
 	}
 	
+	public static ItemStack createSpellStack(ArrayList<KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>> shapeGroups, ArrayList<ISpellPart> spellDef, NBTTagCompound encodedData) {
+		ItemStack stack = new ItemStack(ItemDefs.spell);
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTTagCompound am2 = NBTUtils.getAM2Tag(tag);
+		am2.setTag(SPELL_DATA, encodedData);
+		NBTTagList shapeGroupList = NBTUtils.addCompoundList(am2, "ShapeGroups");
+		for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> shapeGroup : shapeGroups) {
+			NBTTagCompound group = new NBTTagCompound();
+			group.setTag(SPELL_DATA, shapeGroup.value);
+			int stage = 0;
+			boolean lastWasShape = false;
+			for (ISpellPart part : shapeGroup.key) {
+				System.out.println(part.getClass().getSimpleName());
+				NBTTagList stageTag = NBTUtils.addCompoundList(group, STAGE + stage);
+				NBTTagCompound tmp = new NBTTagCompound();
+				String id = SpellRegistry.getSkillFromPart(part).getID();
+				tmp.setString(ID, id);
+				String type = "";
+				if (part instanceof IShape) type = TYPE_SHAPE;
+				if (part instanceof IModifier) type = TYPE_MODIFIER;
+				if (part instanceof IComponent) type = TYPE_COMPONENT;
+				tmp.setString(TYPE, type);
+				if (part instanceof IShape) {
+					stage++;
+					lastWasShape = true;
+				} else {
+					lastWasShape = false;
+				}
+				stageTag.appendTag(tmp);
+			}
+			group.setInteger("StageNum", stage + (lastWasShape ? 0 : 1));
+			group.setBoolean("LastWasShape", lastWasShape);
+			group.setInteger("CurrentGroup", 0);
+			shapeGroupList.appendTag(group);
+		}
+		int stage = 0;
+		for (ISpellPart part : spellDef) {
+			NBTTagList stageTag = NBTUtils.addCompoundList(am2, STAGE + stage);
+			NBTTagCompound tmp = new NBTTagCompound();
+			String id = SpellRegistry.getSkillFromPart(part).getID();
+			tmp.setString(ID, id);
+			String type = "";
+			if (part instanceof IShape) type = TYPE_SHAPE;
+			if (part instanceof IModifier) type = TYPE_MODIFIER;
+			if (part instanceof IComponent) type = TYPE_COMPONENT;
+			tmp.setString(TYPE, type);
+			if (part instanceof IShape) stage++;
+			stageTag.appendTag(tmp);
+		}
+		am2.setInteger("StageNum", stage + 1);
+		am2.setInteger("CurrentShapeGroup", 0);
+		am2.setInteger("CurrentGroup", 0);
+		System.out.println(tag);
+		stack.setTagCompound(tag);
+		return stack;
+	}
+	
+	private static ItemStack merge(ItemStack spellIn) {
+		if (spellIn.getTagCompound() == null)
+			return spellIn;
+		if (NBTUtils.getAM2Tag(spellIn.getTagCompound()).getInteger("CurrentShapeGroup") == -1) {
+			System.out.println(spellIn.getTagCompound());
+			return spellIn;
+		}
+		NBTTagCompound group = (NBTTagCompound) NBTUtils.addCompoundList(NBTUtils.getAM2Tag(spellIn.getTagCompound()), "ShapeGroups").getCompoundTagAt(NBTUtils.getAM2Tag(spellIn.getTagCompound()).getInteger("CurrentShapeGroup")).copy();
+		int stageNum = numStages(spellIn);
+		for (int i = 0; i < stageNum; i++) {
+			NBTTagList list = (NBTTagList) NBTUtils.addCompoundList(NBTUtils.getAM2Tag(spellIn.getTagCompound()), STAGE + i).copy();
+//			if (i == 0 && group.getBoolean("LastWasShape")) {
+//				NBTTagList newList = NBTUtils.addCompoundList(group, "Stage_" + (stageNum - 1));
+//				for (int j = 0; j < list.tagCount(); j++) {
+//					newList.appendTag(list.getCompoundTagAt(j));
+//				}
+//				list = newList;
+//			}
+			// (group.getBoolean("LastWasShape") ? -1 : 0) +
+			group.setTag(STAGE + (i + group.getInteger("StageNum")), list);
+		}
+		group.setInteger("StageNum", group.getInteger("StageNum") + stageNum - 1);
+		group.setInteger("CurrentShapeGroup", -1);
+		spellIn.setTagCompound(NBTUtils.addTag(new NBTTagCompound(), group, "AM2"));
+		group.setInteger("Cost", 1);
+		System.out.println(group);
+		return spellIn;
+	}
+	
 	@SafeVarargs
-	public static ItemStack createSpellStack(int id, SpellData<? extends ISpellPart>... components) {
+	public static ItemStack createSpellStack_old(int id, SpellData<? extends ISpellPart>... components) {
 		ItemStack stack = new ItemStack(ItemDefs.spell, 1, id);
 		NBTTagCompound tag = new NBTTagCompound();
 		NBTTagCompound am2 = NBTUtils.getAM2Tag(tag);
-		NBTTagCompound compound = NBTUtils.addTag(am2, "SpellData");
+		NBTTagCompound compound = NBTUtils.addTag(am2, SPELL_DATA);
 		Multimap<Integer, ISpellPart> spellStageMap = HashMultimap.create();
 		int stage = 0;
 		int manaCost = 0;
@@ -177,26 +273,26 @@ public class SpellUtils {
 				continue;
 			//System.out.println(info.id);
 			spellStageMap.put(stage, info.part);
-			NBTTagList stageTag = NBTUtils.addCompoundList(am2, "Stage_" + stage);
+			NBTTagList stageTag = NBTUtils.addCompoundList(am2, STAGE + stage);
 			NBTTagCompound tmp = new NBTTagCompound();
-			tmp.setString("ID", info.id);
+			tmp.setString(ID, info.id);
 			String type = "";
 			if (info.part instanceof IShape) {
-				type = "Shape";
+				type = TYPE_SHAPE;
 				multiplier *= ((IShape)info.part).manaCostMultiplier(stack);
 			}
 			if (info.part instanceof IModifier) {
-				type = "Modifier";
+				type = TYPE_MODIFIER;
 				multiplier *= ((IModifier)info.part).getManaCostMultiplier(stack, stage, 1);
 			}
 			if (info.part instanceof IComponent) {
-				type = "Component";
+				type = TYPE_COMPONENT;
 				manaCost += ((IComponent)info.part).manaCost(null);
 			}
-			tmp.setString("Type", type);
+			tmp.setString(TYPE, type);
 			info.part.encodeBasicData(compound, null);
 			stageTag.appendTag(tmp);
-			am2.setTag("Stage_" + stage, stageTag);
+			am2.setTag(STAGE + stage, stageTag);
 			if (info.part instanceof IShape) {
 				stage++;
 				finalCost += (int) ((float)manaCost * multiplier);
@@ -206,8 +302,9 @@ public class SpellUtils {
 		}
 		finalCost += (int) ((float)manaCost * multiplier);
 		am2.setInteger("Cost", finalCost);
-		am2.setInteger("StageNum", stage);
+		am2.setInteger("StageNum", stage + 1);
 		am2.setInteger("CurrentGroup", 0);
+		am2.setInteger("CurrentShapeGroup", -1);
 		stack.setTagCompound(tag);		
 		return stack;
 	}
@@ -231,6 +328,9 @@ public class SpellUtils {
 		
 		IEntityExtension ext = EntityExtension.For(caster);
 		int group = NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("CurrentGroup");
+		if (group == 0) {
+			stack = merge(stack.copy());
+		}
 		IShape shape = getShapeForStage(stack, group);
 		if (!(caster instanceof EntityPlayer))
 			return SpellCastResult.EFFECT_FAILED;
@@ -271,27 +371,29 @@ public class SpellUtils {
 	public static double getModifiedStat (double defaultValue, int operation, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage, SpellModifiers modified) {
 		double val = defaultValue;
 		if (stage != -1) {
-			NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), "Stage_" + stack);
+			NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + stack);
 			for (int i = 0; i < stageTag.tagCount(); i++) {
 				NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-				String tagType = tag.getString("Type");
-				if (tagType.equals("Modifier")) {
-					String tagID = tag.getString("ID");
+				String tagType = tag.getString(TYPE);
+				if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
+					String tagID = tag.getString(ID);
 					SpellData<IModifier> mod = SpellRegistry.getModifierFromName(tagID);
-					if (mod.part.getAspectsModified().contains(caster))
+					if (mod.part.getAspectsModified().contains(modified))
 						val = makeCalculation(operation, val, mod.part.getModifier(modified, caster, target, world, stack.getTagCompound()));
 				}
 			}
 		} else {
+			System.out.println("StageNum : " + NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"));
 			for (int j = 0; j < NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) { 
-				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), "Stage_" + j);
+				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-					String tagType = tag.getString("Type");
-					if (tagType.equals("Modifier")) {
-						String tagID = tag.getString("ID");
+					String tagType = tag.getString(TYPE);
+					if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
+						String tagID = tag.getString(ID);
 						SpellData<IModifier> mod = SpellRegistry.getModifierFromName(tagID);
-						if (mod.part.getAspectsModified().contains(caster)) {
+						if (mod.part.getAspectsModified().contains(modified)) {
+							val = makeCalculation(operation, val, mod.part.getModifier(modified, caster, target, world, stack.getTagCompound()));
 						}
 					}
 				}
@@ -331,22 +433,22 @@ public class SpellUtils {
 	public static ArrayList<IModifier> getModifiersForStage (ItemStack stack, int stage) {
 		ArrayList<IModifier> mods = new ArrayList<IModifier>();
 		if (stage != -1) {
-			NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), "Stage_" + stage);
+			NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + stage);
 			for (int i = 0; i < stageTag.tagCount(); i++) {
 				NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-				String tagType = tag.getString("Type");
-				if (tagType.equals("Modifier")) {
-					mods.add(SpellRegistry.getModifierFromName(tag.getString("ID")).part);
+				String tagType = tag.getString(TYPE);
+				if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
+					mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)).part);
 				}
 			}
 		} else {
 			for (int j = 0; j <= NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) { 
-				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), "Stage_" + j);
+				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-					String tagType = tag.getString("Type");
-					if (tagType.equals("Modifier")) {
-						mods.add(SpellRegistry.getModifierFromName(tag.getString("ID")).part);
+					String tagType = tag.getString(TYPE);
+					if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
+						mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)).part);
 					}
 				}
 			}
@@ -358,23 +460,23 @@ public class SpellUtils {
 		try {
 			ArrayList<IComponent> mods = new ArrayList<IComponent>();
 			if (stage != -1) {
-				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), "Stage_" + stage);
+				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + stage);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-					String tagType = tag.getString("Type");
-					if (tagType.equals("Component")) {
-						mods.add(SpellRegistry.getComponentFromName(tag.getString("ID")).part);
+					String tagType = tag.getString(TYPE);
+					if (tagType.equalsIgnoreCase(TYPE_COMPONENT)) {
+						mods.add(SpellRegistry.getComponentFromName(tag.getString(ID)).part);
 					}
 				}
 			} else {
 				//System.out.println(NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"));
 				for (int j = 0; j <= NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) { 
-					NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), "Stage_" + j);
+					NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
 					for (int i = 0; i < stageTag.tagCount(); i++) {
 						NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-						String tagType = tag.getString("Type");
-						if (tagType.equals("Component")) {
-							mods.add(SpellRegistry.getComponentFromName(tag.getString("ID")).part);
+						String tagType = tag.getString(TYPE);
+						if (tagType.equalsIgnoreCase(TYPE_COMPONENT)) {
+							mods.add(SpellRegistry.getComponentFromName(tag.getString(ID)).part);
 						}
 					}
 				}
@@ -504,11 +606,11 @@ public class SpellUtils {
 	}
 
 	public static String getSpellMetadata(ItemStack stack, String string) {
-		return NBTUtils.addTag(NBTUtils.getAM2Tag(stack.getTagCompound()), "SpellData").getString(string);
+		return NBTUtils.addTag(NBTUtils.getAM2Tag(stack.getTagCompound()), SPELL_DATA).getString(string);
 	}
 
 	public static void setSpellMetadata(ItemStack stack, String string, String s) {
-		NBTUtils.addTag(NBTUtils.getAM2Tag(stack.getTagCompound()), "SpellData").setString(string, s);
+		NBTUtils.addTag(NBTUtils.getAM2Tag(stack.getTagCompound()), SPELL_DATA).setString(string, s);
 	}
 
 }

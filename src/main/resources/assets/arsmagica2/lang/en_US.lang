@@ -18,6 +18,13 @@ item.ore.chimerite.name=Chimerite
 item.ore.moonstone.name=Moonstone
 item.ore.sunstone.name=Sunstone
 item.spell_parchment.name=Spell Parchment
+item.etherium.name=Etherium
+
+etherium.any.name=Any
+etherium.light.name=Light
+etherium.dark.name=Dark
+etherium.neutral.name=Neutral
+
 
 keybindings.am2=Ars Magica 2
 key.bridge=Toggle Ice Bridge
@@ -125,3 +132,96 @@ skill.watery_grave.occulusdesc=Bottom of the ocean.
 
 arsmagica2:agility=Agility
 arsmagica2:temporalAnchor=Chrono Anchor
+
+compendium.projectile.name=Projectile
+compendium.bounce.name=Bounce
+compendium.gravity.name=Gravity
+compendium.physical_damage.name=Physical Damage
+compendium.magic_damage.name=Magic Damage
+compendium.drown.name=Drown
+compendium.watery_grave.name=Watery Grave
+compendium.knockback.name=Knockback
+compendium.fling.name=Fling
+compendium.velocity_added.name=Velocity Added
+compendium.astral_distortion.name=Astral Distortion
+compendium.wave.name=Wave
+compendium.frost_damage.name=Frost Damage
+compendium.freeze.name=Freeze
+compendium.piercing.name=Piercing
+compendium.aoe.name=AoE
+compendium.beam.name=Beam
+compendium.damage.name=Damage
+compendium.lightning_damage.name=Lightning Damage
+compendium.storm.name=Storm
+compendium.fury.name=Fury
+compendium.blind.name=Blind
+compendium.solar.name=Solar
+compendium.fire_damage.name=Fire Damage
+compendium.ignition.name=Ignition
+compendium.contingency_fire.name=Contingency : Fire
+compendium.forge.name=Forge
+compendium.silence.name=Silence
+
+compendium.wall.name=Wall
+compendium.appropriation.name=Appropiation
+compendium.slow.name=Slow
+compendium.repel.name=Repel
+compendium.entangle.name=Entangle
+compendium.rune.name=Rune
+compendium.rune_procs.name=Rune Procs
+compendium.haste.name=Haste
+compendium.swift_swim.name=Swift Swim
+compendium.accelerate.name=Accelerate
+compendium.speed.name=Speed
+compendium.leap.name=Leap
+compendium.slowfall.name=Slowfall
+compendium.gravity_well.name=Gravity Well
+compendium.levitate.name=Levitate
+compendium.flight.name=Flight
+compendium.self.name=Self
+compendium.summon.name=Summon
+compendium.contingency_fall.name=Contingency : Fall
+compendium.life_tap.name=Life Tap
+compendium.life_drain.name=Life Drain
+compendium.mana_drain.name=Mana Drain
+compendium.regeneration.name=Regeneration
+compendium.heal.name=Heal
+compendium.dispel.name=Dispel
+compendium.zone.name=Zone
+compendium.shield.name=Shield
+compendium.reflect.name=Reflect
+compendium.chrono_anchor.name=Chrono Anchor
+compendium.duration.name=Duration
+compendium.shrink.name=Shrink
+compendium.healing.name=Healing
+compendium.contingency_health.name=Contingency : Health
+compendium.contingency_damage.name=Contingency : Damage
+
+compendium.projectile.pages=You are able to focus your will into a concentrated ball, which you can propel forwards away from you. The projectile will last for 5 seconds of flight, or until it strikes something. It will by default pass through water and non-collidable blocks unless you modify it with target non-solid blocks.
+compendium.channel.pages=Through intense concentration, a mage can maintain a flow of magic on themselves. This is useful for things like Telekinesis, Healing, Attract, and Storm.
+compendium.beam.pages=It isn't much of a mental shift to switch from a channeled spell to a beam. The amount of strain, however, is another story. A beam is a much more controlled version of a channeled spell.
+compendium.self.pages=One of the simplest forms of magic application is applying the magic to yourself. The distance is low, and the target is willing. You only hope you don't accidentally light yourself on fire.
+compendium.touch.pages=Simply wrap your hand in magic, and reach out. Touch is a very short range shape; it does not follow the block highlighting. You need to be almost bumping into a block for touch to apply its effect.
+compendium.zone.pages=You have learned to focus your will into an area effect that will persist for a time.
+compendium.aoe.pages=After charging your spell, you can shape it into a blast that radiates outwards from the spell's origin. If gravity is applied, AoE will search downwards for blocks to apply to. This is useful for lowering a hill without changing its natural shape, and many other things. An AoE spell will not affect the caster.
+compendium.chain.pages=You can shape your magic into a blast that jumps from one target to the next. Chain by default contains an 8-block built in touch-like component (with an extended range - 8 blocks or so), so there is no need to add additional stages; though you can if you like, projectile for example to start the chain somewhere else. A chain spell cannot affect the caster. Chain jump range can be extended by using the #5Range#0 modifier, and the number of jumps can be increased by using #5Procs#0.
+compendium.rune.pages=You can create a magically-infused rune on the ground that when triggered can apply powerful buffs...or deadly traps.
+compendium.contingency_fall.pages=You have figured out a spell shape that triggers when falling the instant before you hit the ground. !d Oh gravity, thou art a heartless... !d You can only have one contingency active at a time.
+compendium.contingency_damage.pages=You have managed to create a spell that triggers only when you get hurt. !d Let's play shot for shot. !d You can only have one contingency active at a time.
+compendium.contingency_fire.pages=You've decided you really don't like being on fire anymore. To that end, you made a spell that will light up when the flames do. !d You can only have one contingency active at a time.
+compendium.contingency_health.pages=No matter how subtle the wizard, a knife between the shoulder blades will seriously cramp his style. You think you have found a way to make them regret trying that. Or need two knives. !d This contingency procs when your health is less than or equal to 25% of maximum. !d You can only have one contingency active at a time.
+compendium.contingency_death.pages=You may get me, but in those few seconds it takes you, I will have all the time I need to ensure you come along for the ride. !d You can only have one contingency active at a time.
+compendium.binding.pages=You can create solid objects out of nothing! The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability. Dropping the item with the drop hotkey (default 'q') will instead unbind it.
+compendium.wall.pages=You can manifest a wall in front of you. The wall will run perpendicular to your current direction. Walls function similarly to zones, but with a different form factor. Walls also apply their effects more rapidly.
+compendium.wave.pages=Project a wave of magic in front of you that rolls forward, applying its effect to everything in its path.
+
+
+
+
+
+
+
+compendium.yourFirstSpell.name=Your First Spell
+compendium.yourFirstSpell.pages=To make a spell, you will first need to create an #5Occulus#0 and unlock at least one spell shape and one component. You start with three blue skill points to make this possible. Then, craft a writable book and head over to your #5Inscription Table#0. Place the book in the inscription table. !d There are three sections of the Inscription Table UI that are of note. The source region is the large grey square at the top, and will contain all of your known shapes, components, and modifiers. The Shape Group section is identified by brown squares. There are multiple brown squares as multiple shape groups can be created. Finally there is the Spell Grammar section, which is the gray rectangle at the bottom. !d Create #5Shape Groups#0 by dragging shapes and/or modifiers from the source region to any of the shape groups in the UI. You can create multiple shape groups in the same spell, three by default. Each shape group can have up to four shapes/modifiers. Shape groups cannot contain components. A good way to think about it is that shape groups are different means of targeting things with the spell, then the spell grammar is what the spell actually does. !d Once your shape groups are created, drag the spell parts you want, in order, from the source region to the spell grammar section. The spell grammar section can contain spell shapes, components, and modifiers in addition to the shape groups. Once your combination is completed, go to your #5Crafting Altar#0 and place your book containing the spell recipe on the lectern. Throw a #5blank rune#0 into the middle of the crafting altar to begin the process, then follow the book's prompts. The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell. Note that certain crafting altars can only craft spells that are so powerful. Too much power and bad things can happen. See the entry on the #5Crafting Altar#0 for more information.
+compendium.crystal_wrench.name=Crystal Wrench
+compendium.crystal_wrench.pages=The crystal wrench serves many purposes.  It can be used to direct Etherium through your power network.  To do this, #9right click first on the source of Etherium you want to use#0.  This marks the source block. Then, #9right click on the destination while still holding the wrench#0.  #5Note that there is no need to click on Etherium Conduits along the way - just click on the final block.  The power system will attempt to pathfind through nearby Etherium Conduits automatically#0.  If that fails for any reason, you will be notified.  This will force a pairing, and ensures the Etherium goes where you want it to.  !d If you #9sneak while right clicking on the source#0, the wrench's crystal will turn green.  This means the crystal wrench is remembering the source block's location, and you can click on several destinations in a row without having to return to the source.  Each destination right clicked on in this state will be paired (if possible) to the remembered source.  !dYou can also disconnect power nodes by #9Sneaking and right clicking#0 on a #5non-powered block#0.  This will switch the wrench's mode from link to unlink.  You can see the change when the crystal on the wrench turns red.  To switch it back, simply repeat the sneak right click to change the crystal back to purple.  If you have a stored location, it will need to be cleared first before the mode can be switched (which is also done by sneak right-clicking a non-powered block).!p The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking when in unlink mode.  The settings can then be pasted to another emitter by right clicking.  Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.

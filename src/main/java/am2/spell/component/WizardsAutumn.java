@@ -54,7 +54,7 @@ public class WizardsAutumn implements IComponent{
 							if (block.removedByPlayer(state, world, pos, DummyEntityPlayer.fromEntityLiving(caster), true)){
 								block.onBlockDestroyedByPlayer(world, pos, state);
 								block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), pos, state, null, stack);
-								//TODO: play sound
+								//TODO : play sound
 							}
 						}
 					}

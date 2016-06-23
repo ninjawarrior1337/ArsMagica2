@@ -7,6 +7,8 @@ import am2.texture.SpellIconManager;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.util.ResourceLocation;
 
 public class CompendiumEntryTypes{
 
@@ -64,20 +66,19 @@ public class CompendiumEntryTypes{
 	}
 
 	public void initTextures(){
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-		GUIDE.setRepresentIcon(mesher.getParticleIcon(ItemDefs.arcaneCompendium));
-		MECHANIC.setRepresentIcon(mesher.getParticleIcon(ItemDefs.magitechGoggles));
-		ITEM.setRepresentIcon(mesher.getParticleIcon(ItemDefs.essence, AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ICE).getItemDamage()));
-		BLOCK.setRepresentIcon(mesher.getParticleIcon(ItemDefs.crystalWrench));
-		SPELL_SHAPE.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("Binding"));
-		SPELL_COMPONENT.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("LifeTap"));
-		SPELL_MODIFIER.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("VelocityAdded"));
-		TALENT.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("AugmentedCasting"));
+		TextureMap textures = Minecraft.getMinecraft().getTextureMapBlocks();;
+		GUIDE.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/arcanecompendium")));//ParticleIcon(ItemDefs.arcaneCompendium));
+		MECHANIC.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/magitech_goggles")));
+		ITEM.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/essence_ice")));
+		BLOCK.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/crystal_wrench")));
+		SPELL_SHAPE.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("binding"));
+		SPELL_COMPONENT.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("life_tap"));
+		SPELL_MODIFIER.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("velocity_added"));
+		TALENT.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("augmentedCasting"));
 		MOB.setRepresentIcon(AMGuiIcons.fatigueIcon);
 		STRUCTURE.setRepresentIcon(AMGuiIcons.gatewayPortal);
 		RITUAL.setRepresentIcon(AMGuiIcons.gatewayPortal);
 		BOSS.setRepresentIcon(AMGuiIcons.evilBook);
-
 		initialized = true;
 	}
 

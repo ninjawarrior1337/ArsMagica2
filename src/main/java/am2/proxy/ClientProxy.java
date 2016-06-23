@@ -6,15 +6,17 @@ import static am2.defs.IDDefs.RIFT_GUI_ID;
 import am2.entity.EntityRiftStorage;
 import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
+import am2.entity.EntityThrownRock;
 import am2.entity.render.RenderHidden;
 import am2.entity.render.RenderRiftStorage;
 import am2.entity.render.RenderSpellProjectile;
+import am2.entity.render.RenderThrownRock;
 import am2.extensions.RiftStorage;
 import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
 import am2.lore.ArcaneCompendium;
-import am2.lore.CompendiumUnlockHandler;
 import am2.models.ModelLoader;
+import am2.packet.AMPacketProcessorClient;
 import am2.particles.AMParticleIcons;
 import am2.particles.ParticleManagerClient;
 import am2.proxy.tick.ClientTickHandler;
@@ -44,16 +46,22 @@ public class ClientProxy extends CommonProxy {
 		super.preInit();
 		AMParticleIcons.instance.toString();
 		SpellIconManager.INSTANCE.toString();
-		particleManager = new ParticleManagerClient();
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityRiftStorage.class, new RenderFactory(RenderRiftStorage.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new RenderFactory(RenderSpellProjectile.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellEffect.class, new RenderFactory(RenderHidden.class));
+		RenderingRegistry.registerEntityRenderingHandler(EntityThrownRock.class, new RenderFactory(RenderThrownRock.class));
 		
 		ModelLoaderRegistry.registerLoader(new ModelLoader());
 		MinecraftForge.EVENT_BUS.register(new ModelLoader());
 		MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
-		MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
+		MinecraftForge.EVENT_BUS.register(new AMPacketProcessorClient());
+	}
+	
+	@Override
+	public void initHandlers() {
+		particleManager = new ParticleManagerClient();
+		packetProcessor = new AMPacketProcessorClient();
 	}
 	
 	/**

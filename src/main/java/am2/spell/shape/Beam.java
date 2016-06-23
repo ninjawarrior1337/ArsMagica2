@@ -13,6 +13,7 @@ import am2.particles.AMBeam;
 import am2.particles.AMParticle;
 import am2.particles.AMParticleIcons;
 import am2.particles.ParticleMoveOnHeading;
+import am2.power.PowerTypes;
 import am2.spell.IModifier;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
@@ -148,7 +149,7 @@ public class Beam implements IShape{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
 				//TODO BlockDefs.aum,
-				//TODO String.format("E:%d", PowerTypes.NEUTRAL.ID()), 500
+				"E:" + PowerTypes.NEUTRAL.ID(), 500
 		};
 	}
 

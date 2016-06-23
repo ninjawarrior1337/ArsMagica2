@@ -14,11 +14,21 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 	protected String id;
 	protected CompendiumEntryType type;
 	protected String[] related;
+	protected boolean defaultUnlocked = false;
 	
 	public CompendiumEntry(CompendiumEntryType type, String id, String... relatedItems) {
 		this.type = type;
 		this.id = id;
 		this.related = relatedItems;
+	}
+	
+	public CompendiumEntry setUnlocked(boolean unlocked) {
+		defaultUnlocked = unlocked;
+		return this;
+	}
+	
+	public boolean isDefaultUnlocked() {
+		return defaultUnlocked;
 	}
 	
 	public CompendiumEntryType getType() {
@@ -39,24 +49,82 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 	
 	public String[] getPages() {
 		FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-		final int maxSize = GuiArcaneCompendium.lineWidth * GuiArcaneCompendium.maxLines;
-		String text = I18n.translateToLocal("compendium." + id + ".pages");
-		ArrayList<String> pages = new ArrayList<>();
-		for (String page : text.split("!p")) {
-			while (fontRendererObj.getStringWidth(page) > maxSize) {
-				String[] words = text.split(" ");
-				String checkString = "";
-				for (String word : words) {
-					if (checkString.length() + word.length() + 1 > maxSize ) {
-						page = page.substring(checkString.length());
-						pages.add(checkString);
-						break;
+		String text = I18n.translateToLocal("compendium." + id + ".pages").replaceAll("!d", "\n\n");
+		ArrayList<String> lines = new ArrayList<>();
+		int lineSize = GuiArcaneCompendium.lineWidth;
+		int maxLines = GuiArcaneCompendium.maxLines;
+		int lineID = 0;
+		String line = "";
+		for (String word : text.split(" ")) {
+			if (word.contains("!p") && word.contains("\n")) {
+				for (String newWord : word.split("!p")) {
+					for (String newWord2 : word.split("\n")) {
+						line += newWord2 + "\n";
+						lines.add(line);
+						line = "";
 					}
-					checkString += word + " ";
+					line += newWord + "!p";
+					lines.add(line);
+					line = "";
+				}
+				continue;
+			}
+			else if (word.contains("!p")) {
+				for (String newWord : word.split("!p")) {
+					line += newWord + "!p";
+					lines.add(line);
+					line = "";
+				}
+				continue;
+			}
+			else if (word.contains("\n")) {
+				for (String newWord2 : word.split("\n")) {
+					line += newWord2 + "\n";
+					lines.add(line);
+					line = "";
+				}			
+				continue;
+			}
+			if (fontRendererObj.getStringWidth(line + word + " ") > lineSize) {
+				if (fontRendererObj.getStringWidth(word ) > lineSize) {
+					String newWord = "";
+					for (String chara : word.split("")) {
+						if (fontRendererObj.getStringWidth(line + newWord + chara + "-") > lineSize) {
+							newWord += "-";
+							line += newWord;
+							lines.add(line);
+							line = "";
+						}
+						newWord += chara + "";
+					}
+					line += newWord + " ";
+				} else {
+					lines.add(line);
+					line = "";
 				}
 			}
-			pages.add(page);
+			line += word + " ";
 		}
+		lines.add(line);
+		ArrayList<String> pages = new ArrayList<>();
+		String page = "";
+		for (String line2 : lines) {
+			if (line2.endsWith("!p")) {
+				page += line2.substring(0, line2.length() - 2);
+				pages.add(page);
+				page = "";
+				lineID = 0;
+				continue;
+			}
+			if (lineID >= maxLines) {
+				lineID = 0;
+				pages.add(page);
+				page = "";			
+			}
+			page += line2;
+			lineID++;
+		}
+		pages.add(page);
 		String[] str = new String[pages.size()];
 		for (int i = 0; i < pages.size(); i++) {
 			str[i] = pages.get(i);
