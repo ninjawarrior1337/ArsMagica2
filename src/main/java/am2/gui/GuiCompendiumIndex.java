@@ -95,8 +95,8 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 		this.buttonList.add(nextPage);
 		this.buttonList.add(prevPage);
 		this.buttonList.add(backToIndex);
-		if (ArsMagica2.config.allowVersionChecks())
-			this.buttonList.add(updateButton);
+//		if (ArsMagica2.config.allowVersionChecks())
+//			this.buttonList.add(updateButton);
 
 		switchCategoryAndPage();
 

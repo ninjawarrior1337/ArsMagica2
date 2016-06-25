@@ -9,7 +9,7 @@ import am2.api.extensions.IEntityExtension;
 import am2.api.extensions.IRiftStorage;
 import am2.api.extensions.ISkillData;
 import am2.blocks.tileentity.TileEntityOcculus;
-import am2.config.AM2Config;
+import am2.config.AMConfig;
 import am2.defs.BindingsDefs;
 import am2.defs.BlockDefs;
 import am2.defs.CreativeTabsDefs;
@@ -52,7 +52,7 @@ public class ArsMagica2 {
 	
 	@Instance(MODID)
 	public static ArsMagica2 instance = new ArsMagica2();
-	public static AM2Config config;
+	public static AMConfig config;
 	public static final Logger LOGGER = LogManager.getLogger("ArsMagica2");
 	
 	static {
@@ -75,7 +75,8 @@ public class ArsMagica2 {
 		new ItemDefs();
 		new CreativeTabsDefs();
 		new BlockDefs();
-		config = new AM2Config(e.getSuggestedConfigurationFile());
+		config = new AMConfig(e.getSuggestedConfigurationFile());
+		config.init();
 		SkillDefs.init();
 		SpellDefs.init();
 		LoreDefs.init();

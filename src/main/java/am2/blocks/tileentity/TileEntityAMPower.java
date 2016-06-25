@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 
-public abstract class TileEntityAMPower extends TileEntity implements IPowerNode, ITickable{
+public abstract class TileEntityAMPower extends TileEntity implements IPowerNode<TileEntityAMPower>, ITickable{
 	protected int capacity;
 	protected boolean canRequestPower = true;
 	private int tickCounter;

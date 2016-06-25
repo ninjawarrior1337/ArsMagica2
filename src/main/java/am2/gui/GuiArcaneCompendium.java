@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL12;
 import am2.api.SkillRegistry;
 import am2.api.SpellRegistry;
 import am2.api.SpellRegistry.SpellData;
+import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.defs.ItemDefs;
 import am2.event.SpellRecipeItemsEvent;
 import am2.gui.controls.GuiButtonCompendiumNext;
@@ -26,6 +27,7 @@ import am2.lore.CompendiumEntry;
 import am2.lore.CompendiumEntrySpellModifier;
 import am2.multiblock.MultiblockGroup;
 import am2.multiblock.MultiblockStructureDefinition;
+import am2.multiblock.TypedMultiblockGroup;
 import am2.power.PowerTypes;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
@@ -39,6 +41,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -94,7 +97,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 	private MultiblockStructureDefinition entryMultiblock;
 	private ArrayList<ItemStack> modifiers = new ArrayList<>();
 	private float curRotationH;
-	private int curLayer;
+	private int curLayer = -1;
 	private GuiBlockAccess blockAccess = new GuiBlockAccess();
 	private GuiButtonCompendiumNext prevPage;
 	private GuiButtonCompendiumNext nextPage;
@@ -112,10 +115,8 @@ public class GuiArcaneCompendium extends GuiScreen {
 	public GuiArcaneCompendium(String id) {
 		entry = ArcaneCompendium.getCompendium().get(id);
 		if (entry != null) {
-			for (String page : entry.getPages()) {
-				lines.add(page);
-			}
-			numPages = entry.getPages().length - 1;
+			lines = entry.getPages();
+			numPages = entry.getPages().size() - 1;
 		}
 	}
 
@@ -162,6 +163,10 @@ public class GuiArcaneCompendium extends GuiScreen {
 
 		stackTip = null;
 		
+		mc.renderEngine.bindTexture(background);
+		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+		this.drawTexturedModalRect_Classic(l, i1, 0, 0, xSize, ySize, 256, 240);
+
 		GL11.glPushMatrix();
 		
 		drawLeftPage(l, i1);
@@ -185,10 +190,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 		GL11.glTranslatef(0, 0, -1);
 
 		this.drawDefaultBackground();
-
-		mc.renderEngine.bindTexture(background);
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-		this.drawTexturedModalRect_Classic(l, i1, 0, 0, xSize, ySize, 256, 240);
 
 		drawRightPageExtras(l, i1);
 
@@ -622,8 +624,6 @@ public class GuiArcaneCompendium extends GuiScreen {
 				if (recipeItems != null){
 					for (int i = 0; i < recipeItems.length; ++i){
 						Object o = recipeItems[i];
-						boolean matches = false;
-
 						if (o instanceof ItemStack){
 							recipe.add(o);
 						}else if (o instanceof Item){
@@ -1425,7 +1425,13 @@ public class GuiArcaneCompendium extends GuiScreen {
 		for (MultiblockGroup mutex : entryMultiblock.getGroups()){
 			HashMap<BlockPos, List<IBlockState>> layerBlocks = entryMultiblock.getStructureLayer(mutex, layer);
 			for (BlockPos bc : layerBlocks.keySet()){
-				layerBlocksSorted.put(bc, layerBlocks.get(bc));
+				if (mutex instanceof TypedMultiblockGroup) {
+					TypedMultiblockGroup newGroup = (TypedMultiblockGroup) mutex;
+					layerBlocksSorted.put(bc, newGroup.getState(bc));
+				} else {
+					layerBlocksSorted.put(bc, layerBlocks.get(bc));
+
+				}
 			}
 		}
 
@@ -1472,7 +1478,6 @@ public class GuiArcaneCompendium extends GuiScreen {
 
 	private void drawMultiblockLayer(int cx, int cy, int layer, BlockPos pickedBlock, int mousex, int mousey){
 		TreeMap<BlockPos, List<IBlockState>> layerBlocksSorted = getMultiblockLayer(layer);
-
 		float step_x = 14f;
 		float step_y = -16.0f;
 		float step_z = 7f;
@@ -1664,9 +1669,10 @@ public class GuiArcaneCompendium extends GuiScreen {
 		else
 			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 		
-		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, new BlockPos(0, 0, 0), blockAccess , Tessellator.getInstance().getBuffer());
-		Tessellator.getInstance().draw();;
+		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, new BlockPos(0, 1, 0), blockAccess , Tessellator.getInstance().getBuffer());
+		Tessellator.getInstance().draw();
 		
 //		if (block.getRenderType() == BlocksCommonProxy.blockRenderID){
 //			blockRenderer.useInventoryTint = false;

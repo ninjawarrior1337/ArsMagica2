@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import am2.ArsMagica2;
+import am2.commands.ConfigureAMUICommand;
 import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
 import am2.gui.AMIngameGUI;
@@ -271,7 +272,7 @@ public class ClientTickHandler{
 
 		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus )) {//|| guiScreen instanceof GuiHudCustomization)){
 			this.inGameGui.renderGameOverlay();
-//			ConfigureAMUICommand.showIfQueued();
+			ConfigureAMUICommand.showIfQueued();
 		}
 	}
 

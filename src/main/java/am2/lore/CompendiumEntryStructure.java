@@ -12,7 +12,7 @@ public class CompendiumEntryStructure extends CompendiumEntry{
 
 	private Class<? extends TileEntity> controllerClass;
 
-	public CompendiumEntryStructure(String id, MultiblockStructureDefinition structure, Class<? extends TileEntity> controller, String... related){
+	public CompendiumEntryStructure(String id, Class<? extends TileEntity> controller, String... related){
 		super(CompendiumEntryTypes.instance.STRUCTURE, id, related);
 		this.controllerClass = controller;
 	}

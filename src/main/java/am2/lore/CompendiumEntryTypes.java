@@ -74,7 +74,7 @@ public class CompendiumEntryTypes{
 		SPELL_SHAPE.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("binding"));
 		SPELL_COMPONENT.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("life_tap"));
 		SPELL_MODIFIER.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("velocity_added"));
-		TALENT.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("augmentedCasting"));
+		TALENT.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("augmentedcasting"));
 		MOB.setRepresentIcon(AMGuiIcons.fatigueIcon);
 		STRUCTURE.setRepresentIcon(AMGuiIcons.gatewayPortal);
 		RITUAL.setRepresentIcon(AMGuiIcons.gatewayPortal);

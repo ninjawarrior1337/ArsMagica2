@@ -60,8 +60,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static void AddCompendiumEntry(Object entryItem, String id, EnumSet<SpellModifiers> mods, boolean allowReplace, boolean defaultUnlock, String... relatedKeys) {
-		
+	public static void AddCompendiumEntry(Object entryItem, String id, EnumSet<SpellModifiers> mods, boolean allowReplace, boolean defaultUnlock, String... relatedKeys) {		
 		CompendiumEntry entry = null;
 		CompendiumEntryRegistrationEvent event = new CompendiumEntryRegistrationEvent(entryItem, id, mods, relatedKeys);
 		MinecraftForge.EVENT_BUS.post(event);
@@ -85,9 +84,9 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 				entry = new CompendiumEntrySpellModifier(id, SpellRegistry.getSkillFromPart((IModifier) entryItem), ((IModifier) entryItem).getAspectsModified(), relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof IRitualInteraction)
 				entry = new CompendiumEntryRitual(id, (IRitualInteraction)entryItem, ((IRitualInteraction)entryItem).getRitualShape(), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof Class && ((Class<?>)entryItem).isAssignableFrom(IMultiblockStructureController.class) && ((Class<?>)entryItem).isAssignableFrom(TileEntity.class))
-				entry = new CompendiumEntryStructure(id, ((IMultiblockStructureController)entryItem).getDefinition(), ((TileEntity)entryItem).getClass(), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof Class && ((Class<?>)entryItem).isAssignableFrom(Entity.class))
+			else if (entryItem instanceof Class && IMultiblockStructureController.class.isAssignableFrom(((Class<?>)entryItem)) && TileEntity.class.isAssignableFrom(((Class<?>)entryItem)))
+				entry = new CompendiumEntryStructure(id, ((Class<? extends TileEntity>)entryItem), relatedKeys).setUnlocked(defaultUnlock);
+			else if (entryItem instanceof Class && Entity.class.isAssignableFrom(((Class<?>)entryItem)))
 				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem, relatedKeys).setUnlocked(defaultUnlock);
 			else if (entryItem instanceof Entity)
 				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem.getClass(), relatedKeys).setUnlocked(defaultUnlock);
@@ -96,7 +95,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 			else if (entryItem instanceof String && "mechanic".equalsIgnoreCase((String) entryItem))
 				entry = new CompendiumEntryMechanic(id, relatedKeys).setUnlocked(defaultUnlock);
 		}
-		
+				
 		if (entry != null) {
 			if (allowReplace) compendiumEntries.put(id, entry);
 			else if (!compendiumEntries.containsKey(id)) compendiumEntries.put(id, entry);

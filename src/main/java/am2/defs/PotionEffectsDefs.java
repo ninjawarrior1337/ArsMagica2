@@ -125,6 +125,7 @@ public class PotionEffectsDefs {
 	public static PotionEffect getEffect(PotionEffect effect) {
 		Class<? extends BuffEffect> clazz = classForId.get(effect.getPotion());
 		if (clazz == null) return null;
+		if (effect instanceof BuffEffect) return null;
 		try {
 			Constructor<? extends BuffEffect> constr = clazz.getDeclaredConstructor(int.class, int.class);
 			return constr.newInstance(effect.getDuration(), effect.getAmplifier());

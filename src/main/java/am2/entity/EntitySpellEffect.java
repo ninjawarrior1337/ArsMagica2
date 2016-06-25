@@ -182,6 +182,7 @@ public class EntitySpellEffect extends Entity{
 						return;
 					}
 				}
+				spellStack = spellStack.copy();
 
 				int color = 0xFFFFFF;
 				if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
@@ -255,6 +256,7 @@ public class EntitySpellEffect extends Entity{
 					return;
 				}
 			}
+			spellStack = spellStack.copy();
 
 			int color = 0xFFFFFF;
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
@@ -320,6 +322,7 @@ public class EntitySpellEffect extends Entity{
 					return;
 				}
 			}
+			spellStack = spellStack.copy();
 
 			int color = 0xFFFFFF;
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
@@ -401,6 +404,7 @@ public class EntitySpellEffect extends Entity{
 					return;
 				}
 			}
+			spellStack = spellStack.copy();
 
 			double dist = getRadius();
 
@@ -500,7 +504,7 @@ public class EntitySpellEffect extends Entity{
 					if (e instanceof EntityLivingBase && hDistance < 0.75f && vDistance < 2){
 						//commented out in favor of line below so as to apply subsequent shapes as well
 						//uncomment and comment out below line to revert to direct target only, but mark wave/wall as terminus
-						//SpellHelper.instance.applyStageToEntity(spellStack, dummycaster, worldObj, e, 0, false);
+						//SpellUtils.applyStageToEntity(spellStack, dummycaster, worldObj, e, false);
 						SpellUtils.applyStackStage(spellStack, dummycaster, (EntityLivingBase)e, this.posX, this.posY, this.posZ, null, worldObj, false, false, 0);
 					}
 				}

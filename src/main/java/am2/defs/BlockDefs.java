@@ -1,12 +1,17 @@
 package am2.defs;
 
 import am2.blocks.BlockAM;
+import am2.blocks.BlockAMFlower;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaOre;
+import am2.blocks.BlockDesertNova;
 import am2.blocks.BlockFrost;
 import am2.blocks.BlockLightDecay;
+import am2.blocks.BlockMageLight;
 import am2.blocks.BlockMagicWall;
 import am2.blocks.BlockOcculus;
+import am2.blocks.BlockTarmaRoot;
+import am2.blocks.BlockWakebloom;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -27,6 +32,12 @@ public class BlockDefs {
 	public static final BlockAM invisibleLight = new BlockLightDecay().registerAndName(new ResourceLocation("arsmagica2:invisible_light"));
 	public static final BlockAM ores = new BlockArsMagicaOre().registerAndName(new ResourceLocation("arsmagica2:ore"));
 	public static final BlockAM blocks = new BlockArsMagicaBlock().registerAndName(new ResourceLocation("arsmagica2:block"));
+	public static final BlockAM blockMageTorch = new BlockMageLight().registerAndName(new ResourceLocation("arsmagica2:blockMageLight"));
+	public static final BlockAMFlower desertNova = new BlockDesertNova().registerAndName(new ResourceLocation("arsmagica2:desertNova"));
+	public static final BlockAMFlower cerublossom = new BlockAMFlower().registerAndName(new ResourceLocation("arsmagica2:cerublossom"));
+	public static final BlockAMFlower wakebloom = new BlockWakebloom().registerAndName(new ResourceLocation("arsmagica2:wakebloom"));
+	public static final BlockAMFlower aum = new BlockAMFlower().registerAndName(new ResourceLocation("arsmagica2:aum"));
+	public static final BlockAMFlower tarmaRoot = new BlockTarmaRoot().registerAndName(new ResourceLocation("arsmagica2:tarmaRoot"));
 	
 	public static void init () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);

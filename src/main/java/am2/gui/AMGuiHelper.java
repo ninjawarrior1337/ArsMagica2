@@ -284,7 +284,7 @@ public class AMGuiHelper{
 		GL11.glColor4f(1, 1, 1, 1);
 
 		RenderHelper.disableStandardItemLighting();
-		GL11.glDisable(GL11.GL_BLEND);
+		//GL11.glDisable(GL11.GL_BLEND);
 		//GL11.glDisable(GL11.GL_LIGHTING);
 
 		if (scale != 1.0f){
@@ -319,13 +319,13 @@ public class AMGuiHelper{
 			}
 		}
 		RenderHelper.enableStandardItemLighting();
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		//GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glPopAttrib();
 	}
 
 	public static void drawCompendiumText(String text, int x_start, int y_start, int max_width, int start_color, FontRenderer fontRenderer){
 		int cur_color = start_color;
-		text = text.replaceAll("!d", "\n\n");
+		text = text.replaceAll("!d", "\n\n").replace("!l", "\n").replaceAll("-", "- ");
 		String[] words = text.split(" ");
 		int lineLength = 0;
 		int posX = x_start;
@@ -351,11 +351,11 @@ public class AMGuiHelper{
 				linesAfter++;
 				word = word.substring(0, word.length() - 1);
 			}
-			word = word.replace("\n", "");
-
+			//word = word.replaceAll("\n", "");
+			
 			if (linesBefore > 0){
 				posY += fontRenderer.FONT_HEIGHT * linesBefore;
-				posX = x_start;
+				posX = x_start - 13;
 				lineLength = 0;
 			}
 

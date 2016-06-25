@@ -21,7 +21,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.common.Loader;
 
 public class TileEntityLectern extends TileEntityEnchantmentTable implements ITickable{
 	private ItemStack stack;
@@ -100,26 +99,6 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
             this.bookSpread -= 0.1F;
         }
 
-        while (this.bookRotation >= (float)Math.PI)
-        {
-            this.bookRotation -= ((float)Math.PI * 2F);
-        }
-
-        while (this.bookRotation < -(float)Math.PI)
-        {
-            this.bookRotation += ((float)Math.PI * 2F);
-        }
-
-        while (this.tRot >= (float)Math.PI)
-        {
-            this.tRot -= ((float)Math.PI * 2F);
-        }
-
-        while (this.tRot < -(float)Math.PI)
-        {
-            this.tRot += ((float)Math.PI * 2F);
-        }
-
         float f2;
 
         for (f2 = this.tRot - this.bookRotation; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F))
@@ -165,21 +144,25 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 //			while (f1 == this.field_145932_k);
 //		}
 //
-//		while (this.bookRotation >= (float)Math.PI){
-//			this.bookRotation -= ((float)Math.PI * 2F);
-//		}
-//
-//		while (this.bookRotation < -(float)Math.PI){
-//			this.bookRotation += ((float)Math.PI * 2F);
-//		}
-//
-//		while (this.field_145924_q >= (float)Math.PI){
-//			this.field_145924_q -= ((float)Math.PI * 2F);
-//		}
-//
-//		while (this.field_145924_q < -(float)Math.PI){
-//			this.field_145924_q += ((float)Math.PI * 2F);
-//		}
+        while (this.bookRotation >= (float)Math.PI)
+        {
+            this.bookRotation -= ((float)Math.PI * 2F);
+        }
+
+        while (this.bookRotation < -(float)Math.PI)
+        {
+            this.bookRotation += ((float)Math.PI * 2F);
+        }
+
+        while (this.tRot >= (float)Math.PI)
+        {
+            this.tRot -= ((float)Math.PI * 2F);
+        }
+
+        while (this.tRot < -(float)Math.PI)
+        {
+            this.tRot += ((float)Math.PI * 2F);
+        }
 //
 //		float f2;
 //

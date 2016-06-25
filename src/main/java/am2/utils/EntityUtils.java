@@ -195,6 +195,49 @@ public class EntityUtils {
 		return ownerID == null ? -1 : ownerID;
 	}
 
+	public static boolean revertAI(EntityCreature entityliving){
+
+		int ownerID = getOwner(entityliving);
+		Entity owner = entityliving.worldObj.getEntityByID(ownerID);
+		if (owner != null && owner instanceof EntityLivingBase){
+			EntityExtension.For((EntityLivingBase)owner).removeSummon();
+			if (EntityExtension.For((EntityLivingBase)owner).isManaLinkedTo(entityliving)){
+				EntityExtension.For((EntityLivingBase)owner).updateManaLink(entityliving);
+			}
+		}
+
+		entityliving.getEntityData().setBoolean(isSummonKey, false);
+		setOwner(entityliving, null);
+
+		if (storedTasks.containsKey(entityliving.getEntityId())){
+			entityliving.targetTasks.taskEntries.clear();
+			entityliving.targetTasks.taskEntries.addAll(storedTasks.get(entityliving.getEntityId()));
+			storedTasks.remove(entityliving.getEntityId());
+
+			if (storedAITasks.get(entityliving.getEntityId()) != null){
+				ArrayList<EntityAITaskEntry> toRemove = new ArrayList<EntityAITaskEntry>();
+				for (Object task : entityliving.tasks.taskEntries){
+					EntityAITaskEntry base = (EntityAITaskEntry)task;
+					if (base.action instanceof EntityAIAttackMelee || base.action instanceof EntityAISummonFollowOwner){
+						toRemove.add(base);
+					}
+				}
+
+				entityliving.tasks.taskEntries.removeAll(toRemove);
+
+				entityliving.tasks.taskEntries.addAll(storedAITasks.get(entityliving.getEntityId()));
+				storedAITasks.remove(entityliving.getEntityId());
+			}
+			if (!entityliving.worldObj.isRemote && entityliving.getAttackTarget() != null)
+				ArsMagica2.proxy.addDeferredTargetSet(entityliving, null);
+			if (entityliving instanceof EntityTameable){
+				((EntityTameable)entityliving).setTamed(false);
+			}
+			return true;
+		}
+
+		return false;
+	}
 
 
 }

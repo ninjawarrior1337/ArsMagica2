@@ -7,7 +7,6 @@ import am2.affinity.Affinity;
 import am2.api.AffinityRegistry;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
-import am2.config.AM2Config;
 import am2.defs.BindingsDefs;
 import am2.defs.BlockDefs;
 import am2.defs.IDDefs;
@@ -37,6 +36,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -118,55 +119,57 @@ public class EntityHandler {
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public void renderTick (RenderTickEvent event) {
-		int h = Minecraft.getMinecraft().displayHeight / 2;
-		int w = Minecraft.getMinecraft().displayWidth / 2;
-		if (Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus) && (Minecraft.isGuiEnabled())) {
-			Affinity highest = null;
-			for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-				if (aff.equals(SkillDefs.NONE))
-					continue;
-				if (highest == null || AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(aff) > AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest))
-					highest = aff;
-			}
-			int meta = 0;
-			for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-				if (aff.equals(SkillDefs.NONE))
-					continue;				
-				if (aff.equals(highest))
-					break;
-				meta++;
-			}
-			if (!highest.equals(SkillDefs.NONE) && AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest) > 0.01) {
-				Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(new ItemStack(ItemDefs.essence, 1, meta), 0, 0);
-				Minecraft.getMinecraft().fontRendererObj.drawString("" + Math.floor(AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest) * 10000) / 100 + "%", 20, 4, highest.getColor());
-				GL11.glColor4f(1, 1, 1, 1);
-			}
-			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(ArsMagica2.MODID, "textures/gui/overlay.png"));
-			GlStateManager.enableBlend();
-			int burnoutBarX = (int) (w/2 - w/2.5);
-			int burnoutBarY = h - h/8;
-			int manaBarX = (int) (w/2 + w/5);
-			int manaBarY = h - h/8;
-			//System.out.println(EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana());
-			float burnout = -1F;// * AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(SkillDefs.NATURE);
-			float mana = -1F;
-			if (EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana() != 0)
-				mana = ((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentMana()) / ((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana());
-			if (EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout() != 0)
-				burnout = (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() / (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout();
-			//System.out.println(mana);
-			float f = 1F/256F;
-			RenderUtils.drawBox(burnoutBarX + 0.5F, burnoutBarY + 0.5F, (192/2 * burnout), 17 / 2, 0, 1F*f, 1F*f, 193F * burnout * f, 17F * f);
-			RenderUtils.drawBox(burnoutBarX, burnoutBarY, 194/2, 19/2, 0F, 0F, 0.07F, 194*f, 0.14F);
-			
-			RenderUtils.drawBox(manaBarX + 0.5F, manaBarY + 0.5F,(int) (192/2 * mana), 17 / 2, 0, 0F, 0.15F, 193F * mana * f, 0.20F);
-			RenderUtils.drawBox(manaBarX, manaBarY, 194/2, 19/2, 0, 0F, 0.2105F, 194*f, 0.28F);
-			Minecraft.getMinecraft().fontRendererObj.drawString("Mana : " + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentMana() + "/" + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana(), manaBarX, manaBarY-15, 0x00ffff);
-			Minecraft.getMinecraft().fontRendererObj.drawString("Burnout : " + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() + "/" + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout(), burnoutBarX, burnoutBarY-15, 0xff0000);
-			GlStateManager.color(1F, 1F, 1F);
-			GlStateManager.disableBlend();
-		}
+	public void renderTick (RenderGameOverlayEvent event) {
+		if (event.getType() == ElementType.CROSSHAIRS)
+			ArsMagica2.proxy.renderGameOverlay();
+//		int h = Minecraft.getMinecraft().displayHeight / 2;
+//		int w = Minecraft.getMinecraft().displayWidth / 2;
+//		if (Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus) && (Minecraft.isGuiEnabled())) {
+//			Affinity highest = null;
+//			for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
+//				if (aff.equals(SkillDefs.NONE))
+//					continue;
+//				if (highest == null || AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(aff) > AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest))
+//					highest = aff;
+//			}
+//			int meta = 0;
+//			for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
+//				if (aff.equals(SkillDefs.NONE))
+//					continue;				
+//				if (aff.equals(highest))
+//					break;
+//				meta++;
+//			}
+//			if (!highest.equals(SkillDefs.NONE) && AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest) > 0.01) {
+//				Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(new ItemStack(ItemDefs.essence, 1, meta), 0, 0);
+//				Minecraft.getMinecraft().fontRendererObj.drawString("" + Math.floor(AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest) * 10000) / 100 + "%", 20, 4, highest.getColor());
+//				GL11.glColor4f(1, 1, 1, 1);
+//			}
+//			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(ArsMagica2.MODID, "textures/gui/overlay.png"));
+//			GlStateManager.enableBlend();
+//			int burnoutBarX = (int) (w/2 - w/2.5);
+//			int burnoutBarY = h - h/8;
+//			int manaBarX = (int) (w/2 + w/5);
+//			int manaBarY = h - h/8;
+//			//System.out.println(EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana());
+//			float burnout = -1F;// * AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(SkillDefs.NATURE);
+//			float mana = -1F;
+//			if (EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana() != 0)
+//				mana = ((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentMana()) / ((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana());
+//			if (EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout() != 0)
+//				burnout = (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() / (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout();
+//			//System.out.println(mana);
+//			float f = 1F/256F;
+//			RenderUtils.drawBox(burnoutBarX + 0.5F, burnoutBarY + 0.5F, (192/2 * burnout), 17 / 2, 0, 1F*f, 1F*f, 193F * burnout * f, 17F * f);
+//			RenderUtils.drawBox(burnoutBarX, burnoutBarY, 194/2, 19/2, 0F, 0F, 0.07F, 194*f, 0.14F);
+//			
+//			RenderUtils.drawBox(manaBarX + 0.5F, manaBarY + 0.5F,(int) (192/2 * mana), 17 / 2, 0, 0F, 0.15F, 193F * mana * f, 0.20F);
+//			RenderUtils.drawBox(manaBarX, manaBarY, 194/2, 19/2, 0, 0F, 0.2105F, 194*f, 0.28F);
+//			Minecraft.getMinecraft().fontRendererObj.drawString("Mana : " + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentMana() + "/" + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana(), manaBarX, manaBarY-15, 0x00ffff);
+//			Minecraft.getMinecraft().fontRendererObj.drawString("Burnout : " + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() + "/" + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout(), burnoutBarX, burnoutBarY-15, 0xff0000);
+//			GlStateManager.color(1F, 1F, 1F);
+//			GlStateManager.disableBlend();
+//		}
 	}
 	
 	public void playerTick (EntityPlayer player) {
@@ -192,7 +195,6 @@ public class EntityHandler {
 			}
 		}
 		//ext.setCurrentLevel(25);
-		AM2Config.maxManaGrowth = 1.15F;
 		ext.lowerHealCooldown((int) (Math.max(1, lifeDepth * 10F)));
 		ext.lowerAffinityHealCooldown((int) (Math.max(1, lifeDepth * 10F)));
 		

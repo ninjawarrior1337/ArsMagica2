@@ -47,89 +47,10 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 		return I18n.translateToLocal("compendium." + id + ".desc");
 	}
 	
-	public String[] getPages() {
+	public ArrayList<String> getPages() {
 		FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-		String text = I18n.translateToLocal("compendium." + id + ".pages").replaceAll("!d", "\n\n");
-		ArrayList<String> lines = new ArrayList<>();
-		int lineSize = GuiArcaneCompendium.lineWidth;
-		int maxLines = GuiArcaneCompendium.maxLines;
-		int lineID = 0;
-		String line = "";
-		for (String word : text.split(" ")) {
-			if (word.contains("!p") && word.contains("\n")) {
-				for (String newWord : word.split("!p")) {
-					for (String newWord2 : word.split("\n")) {
-						line += newWord2 + "\n";
-						lines.add(line);
-						line = "";
-					}
-					line += newWord + "!p";
-					lines.add(line);
-					line = "";
-				}
-				continue;
-			}
-			else if (word.contains("!p")) {
-				for (String newWord : word.split("!p")) {
-					line += newWord + "!p";
-					lines.add(line);
-					line = "";
-				}
-				continue;
-			}
-			else if (word.contains("\n")) {
-				for (String newWord2 : word.split("\n")) {
-					line += newWord2 + "\n";
-					lines.add(line);
-					line = "";
-				}			
-				continue;
-			}
-			if (fontRendererObj.getStringWidth(line + word + " ") > lineSize) {
-				if (fontRendererObj.getStringWidth(word ) > lineSize) {
-					String newWord = "";
-					for (String chara : word.split("")) {
-						if (fontRendererObj.getStringWidth(line + newWord + chara + "-") > lineSize) {
-							newWord += "-";
-							line += newWord;
-							lines.add(line);
-							line = "";
-						}
-						newWord += chara + "";
-					}
-					line += newWord + " ";
-				} else {
-					lines.add(line);
-					line = "";
-				}
-			}
-			line += word + " ";
-		}
-		lines.add(line);
-		ArrayList<String> pages = new ArrayList<>();
-		String page = "";
-		for (String line2 : lines) {
-			if (line2.endsWith("!p")) {
-				page += line2.substring(0, line2.length() - 2);
-				pages.add(page);
-				page = "";
-				lineID = 0;
-				continue;
-			}
-			if (lineID >= maxLines) {
-				lineID = 0;
-				pages.add(page);
-				page = "";			
-			}
-			page += line2;
-			lineID++;
-		}
-		pages.add(page);
-		String[] str = new String[pages.size()];
-		for (int i = 0; i < pages.size(); i++) {
-			str[i] = pages.get(i);
-		}
-		return str;
+		String text = I18n.translateToLocal("compendium." + id + ".pages");//.replaceAll("!d", "\n\n").replace("!l", "\n");
+		return splitStringToLines(fontRendererObj, text, GuiArcaneCompendium.lineWidth, GuiArcaneCompendium.maxLines);
 	}
 	
 	public String[] getParents() {
@@ -323,6 +244,87 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 //
 //	public abstract ItemStack getRepresentItemStack(String searchID, int meta);
 //
+	
+	public static ArrayList<String> splitStringToLines(FontRenderer fontRenderer, String string, int lineWidth, int maxLines){
+		ArrayList<String> toReturn = new ArrayList<String>();
+		int numLines = 0;
+		int len = 0;
+		int pageCount = 0;
+		String[] words = string.replace("\n", " ").replace("\t", "").split(" ");
+		StringBuilder sb = new StringBuilder();
+		String curLine = "";
+		for (String s : words){
+			s = s.trim();
+			int wordWidth = fontRenderer.getStringWidth(s + " ");
+			if (s.equals("!p")){
+				sb.append(curLine);
+				curLine = "";
+				len = 0;
+				numLines++;
+				toReturn.add(sb.toString());
+				sb = new StringBuilder();
+				pageCount++;
+				numLines = 0;
+				continue;
+			}else if (s.equals("!l")){
+				sb.append(curLine + "\n");
+				curLine = "";
+				len = 0;
+				numLines++;
+				if ((numLines == maxLines && pageCount > 0) || (pageCount == 0 && numLines == maxLines - 2)){
+					toReturn.add(sb.toString());
+					sb = new StringBuilder();
+					pageCount++;
+					numLines = 0;
+				}
+				continue;
+			}else if (s.equals("!d")){
+				sb.append(curLine + "\n");
+				curLine = "";
+				len = 0;
+				numLines++;
+				if ((numLines == maxLines && pageCount > 0) || (pageCount == 0 && numLines == maxLines - 2)){
+					toReturn.add(sb.toString());
+					sb = new StringBuilder();
+					pageCount++;
+					numLines = 0;
+				}
+				sb.append(curLine + "\n");
+				curLine = "";
+				len = 0;
+				numLines++;
+				if ((numLines == maxLines && pageCount > 0) || (pageCount == 0 && numLines == maxLines - 2)){
+					toReturn.add(sb.toString());
+					sb = new StringBuilder();
+					pageCount++;
+					numLines = 0;
+				}
+				continue;
+			}else if (len + wordWidth > lineWidth){
+				sb.append(curLine);
+				curLine = "";
+				len = 0;
+				numLines++;
+				if ((numLines == maxLines && pageCount > 0) || (pageCount == 0 && numLines == maxLines - 2)){
+					toReturn.add(sb.toString());
+					sb = new StringBuilder();
+					pageCount++;
+					numLines = 0;
+				}
+			}
+			curLine = curLine + " " + s;
+			len += wordWidth + 1;
+		}
+
+		sb.append(curLine);
+
+		if (sb.length() > 0){
+			toReturn.add(sb.toString());
+		}
+
+		return toReturn;
+	}
+
 	@Override
 	public int compareTo(CompendiumEntry arg0){
 

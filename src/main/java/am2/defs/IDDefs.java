@@ -17,5 +17,6 @@ public class IDDefs {
 	public static final int OCCULUS_GUI_ID = 0;
 	public static final int SPELL_CUSTOMIZATION_GUI_ID = 1;
 	public static final int RIFT_GUI_ID = 2;
+	public static final int GUI_SPELL_BOOK = 3;
 	
 }

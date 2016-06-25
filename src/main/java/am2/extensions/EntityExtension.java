@@ -26,7 +26,6 @@ import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
 import am2.api.extensions.IEntityExtension;
-import am2.config.AM2Config;
 import am2.defs.SkillDefs;
 import am2.particles.AMLineArc;
 import am2.spell.ContingencyType;
@@ -125,7 +124,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	public void placeHealOnCooldown() {
-		entity.getDataManager().set(HEAL_COOLDOWN, AM2Config.healCooldown);
+		entity.getDataManager().set(HEAL_COOLDOWN, 40);
 	}
 	
 	public void lowerAffinityHealCooldown (int amount) {
@@ -139,7 +138,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	public void placeAffinityHealOnCooldown(boolean full) {
-		entity.getDataManager().set(AFFINITY_HEAL_COOLDOWN, full ? AM2Config.healCooldown : AM2Config.healCooldown / 2);
+		entity.getDataManager().set(AFFINITY_HEAL_COOLDOWN, 40);
 	}
 	
 	public boolean useMana (int toUse) {
@@ -149,15 +148,15 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	public float getMaxMana() {
-		return entity.getDataManager().get(MAX_MANA);
+		return (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99)) + 500f);
 	}
 	
 	public float getMaxXP () {
-		return AM2Config.XPNeedDefault + (getCurrentLevel() * AM2Config.XPNeedGrowth);
+		return (float)Math.pow(getCurrentLevel() * 0.25f, 1.5f);
 	}
 	
 	public float getMaxBurnout () {
-		return entity.getDataManager().get(MAX_MANA_FATIGUE);
+		return getCurrentLevel() * 10 + 1;
 	}
 	
 	public void setAffinityHealCooldown(int affinityHealCooldown) {

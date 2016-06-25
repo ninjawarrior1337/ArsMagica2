@@ -88,5 +88,6 @@ public class ItemDefs {
 		renderItem.getItemModelMesher().register(itemFocus, 0, new ModelResourceLocation("arsmagica2:itemFocus", "inventory"));
 		renderItem.getItemModelMesher().register(playerFocus, 0, new ModelResourceLocation("arsmagica2:playerFocus", "inventory"));
 		renderItem.getItemModelMesher().register(creatureFocus, 0, new ModelResourceLocation("arsmagica2:creatureFocus", "inventory"));
+		renderItem.getItemModelMesher().register(creatureFocus, 0, new ModelResourceLocation("arsmagica2:arcaneCompendium", "inventory"));
 	}
 }

@@ -3,6 +3,7 @@ package am2.proxy;
 import static am2.defs.IDDefs.OCCULUS_GUI_ID;
 import static am2.defs.IDDefs.RIFT_GUI_ID;
 
+import am2.commands.ConfigureAMUICommand;
 import am2.entity.EntityRiftStorage;
 import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
@@ -25,11 +26,14 @@ import am2.utils.RenderFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
+	
+	public ClientTickHandler handler;
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		System.out.println("Running");
@@ -54,14 +58,17 @@ public class ClientProxy extends CommonProxy {
 		
 		ModelLoaderRegistry.registerLoader(new ModelLoader());
 		MinecraftForge.EVENT_BUS.register(new ModelLoader());
-		MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
+		MinecraftForge.EVENT_BUS.register(handler);
 		MinecraftForge.EVENT_BUS.register(new AMPacketProcessorClient());
+		
+		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
 	
 	@Override
 	public void initHandlers() {
 		particleManager = new ParticleManagerClient();
 		packetProcessor = new AMPacketProcessorClient();
+		handler = new ClientTickHandler();
 	}
 	
 	/**
@@ -70,6 +77,11 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void unlockCompendiumEntry(String id){
 		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).unlockEntry(id);
+	}
+	
+	@Override
+	public void renderGameOverlay() {
+		handler.renderOverlays();
 	}
 
 	/**

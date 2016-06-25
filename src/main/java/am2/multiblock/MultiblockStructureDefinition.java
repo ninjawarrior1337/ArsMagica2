@@ -3,9 +3,11 @@ package am2.multiblock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import am2.gui.AMGuiHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -153,7 +155,10 @@ public class MultiblockStructureDefinition {
 	public ArrayList<MultiblockGroup> getGroups() {
 		ArrayList<MultiblockGroup> list = new ArrayList<>();
 		for (List<MultiblockGroup> groups : this.groups) {
-			list.add(groups.get(0));
+			int num = new Random(AMGuiHelper.instance.getSlowTicker() * 4500L).nextInt(groups.size());
+			MultiblockGroup group = groups.get(num);
+			//System.out.println(num);
+			list.add(group);
 		}
 		return list;
 	}

@@ -1,9 +1,11 @@
 package am2.blocks.tileentity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import am2.ArsMagica2;
 import am2.api.IMultiblockStructureController;
@@ -12,7 +14,7 @@ import am2.api.power.IPowerNode;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.multiblock.BiMultiblockGroup;
+import am2.multiblock.TypedMultiblockGroup;
 import am2.multiblock.MultiblockGroup;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.packet.AMDataReader;
@@ -31,6 +33,9 @@ import am2.utils.KeyValuePair;
 import am2.utils.SpellUtils;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockLever.EnumOrientation;
+import net.minecraft.block.BlockStairs.EnumHalf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -42,6 +47,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -49,8 +55,19 @@ import net.minecraftforge.common.util.Constants;
 
 public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController{
 
-	private MultiblockStructureDefinition primary;
-	private MultiblockStructureDefinition secondary;
+	private MultiblockStructureDefinition primary = new MultiblockStructureDefinition("craftingAltar_alt");
+	private MultiblockStructureDefinition secondary = new MultiblockStructureDefinition("craftingAltar");
+	
+	private static final int BLOCKID = 0;
+	private static final int STAIR_NORTH = 1;
+	private static final int STAIR_SOUTH = 2;
+	private static final int STAIR_EAST = 3;
+	private static final int STAIR_WEST = 4;
+	private static final int STAIR_NORTH_INVERTED = 5;
+	private static final int STAIR_SOUTH_INVERTED = 6;
+	private static final int STAIR_EAST_INVERTED = 7;
+	private static final int STAIR_WEST_INVERTED = 8;
+	
 
 	private boolean isCrafting;
 	private final ArrayList<ItemStack> allAddedItems;
@@ -128,7 +145,21 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			shapeGroups.add(new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
 		}
 	}
-
+	
+	private HashMap<Integer, IBlockState> createStateMap(IBlockState block, IBlockState stairs) {
+		HashMap<Integer, IBlockState> map = new HashMap<>();
+		map.put(BLOCKID, block);
+		map.put(STAIR_NORTH, stairs.withProperty(BlockStairs.FACING, EnumFacing.NORTH));
+		map.put(STAIR_SOUTH, stairs.withProperty(BlockStairs.FACING, EnumFacing.SOUTH));
+		map.put(STAIR_EAST, stairs.withProperty(BlockStairs.FACING, EnumFacing.EAST));
+		map.put(STAIR_WEST, stairs.withProperty(BlockStairs.FACING, EnumFacing.WEST));
+		map.put(STAIR_NORTH_INVERTED, stairs.withProperty(BlockStairs.FACING, EnumFacing.NORTH).withProperty(BlockStairs.HALF, EnumHalf.TOP));
+		map.put(STAIR_SOUTH_INVERTED, stairs.withProperty(BlockStairs.FACING, EnumFacing.SOUTH).withProperty(BlockStairs.HALF, EnumHalf.TOP));
+		map.put(STAIR_EAST_INVERTED, stairs.withProperty(BlockStairs.FACING, EnumFacing.EAST).withProperty(BlockStairs.HALF, EnumHalf.TOP));
+		map.put(STAIR_WEST_INVERTED, stairs.withProperty(BlockStairs.FACING, EnumFacing.WEST).withProperty(BlockStairs.HALF, EnumHalf.TOP));
+		return map;
+	}
+	
 	private void setupMultiblock(){
 //		primary = new MultiblockStructureDefinition("craftingAltar_alt");
 //
@@ -159,67 +190,44 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				false);
 		
 		@SuppressWarnings("unchecked")
-		BiMultiblockGroup out = new BiMultiblockGroup("out", 
+		TypedMultiblockGroup out = new TypedMultiblockGroup("out", 
 				Lists.newArrayList(
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), Blocks.BIRCH_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.SPRUCE_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), Blocks.JUNGLE_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.DARK_OAK_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.QUARTZ_BLOCK.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.QUARTZ_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.NETHER_BRICK.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.NETHER_BRICK_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.STONEBRICK.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.STONE_BRICK_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.COBBLESTONE.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.STONE_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.BRICK_BLOCK.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.BRICK_STAIRS.getDefaultState()),
-						new KeyValuePair<IBlockState, IBlockState>(Blocks.SANDSTONE.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.SANDSTONE_STAIRS.getDefaultState())
+						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), Blocks.BIRCH_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.SPRUCE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), Blocks.JUNGLE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.DARK_OAK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.QUARTZ_BLOCK.getDefaultState(), Blocks.QUARTZ_STAIRS.getDefaultState()),
+						createStateMap(Blocks.NETHER_BRICK.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.STONEBRICK.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.COBBLESTONE.getDefaultState(), Blocks.STONE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState())
 						), 
 				false);
-//
-//		lecternGroup_primary = new MultiblockGroup[4];
-//
-//		for (int i = 0; i < lecternGroup_primary.length; ++i){
-//			lecternGroup_primary[i] = primary.createGroup("lectern" + i, lectern_mutex);
-//		}
-//
-//		int count = 0;
-//		for (int i = -2; i <= 2; i += 4){
-//			lecternGroup_primary[count].addAllowedBlock(i, -3, i, BlocksCommonProxy.blockLectern);
-//			lecternGroup_primary[count].addAllowedBlock(i, -2, -i, Blocks.LEVER, (count < 2) ? 2 : 1);
-//			lecternGroup_primary[count].addAllowedBlock(i, -2, -i, Blocks.LEVER, (count < 2) ? 10 : 9);
-//			count++;
-//			lecternGroup_primary[count].addAllowedBlock(i, -3, -i, BlocksCommonProxy.blockLectern);
-//			lecternGroup_primary[count].addAllowedBlock(i, -2, i, Blocks.lever, (count < 2) ? 2 : 1);
-//			lecternGroup_primary[count].addAllowedBlock(i, -2, i, Blocks.lever, (count < 2) ? 10 : 9);
-//			count++;
-//		}
-//
-//		augMatl_primary = new MultiblockGroup[augMatls.length];
-//		for (int i = 0; i < augMatls.length; ++i)
-//			augMatl_primary[i] = primary.createGroup("augmatl" + i, augmatl_mutex);
-//
-//		//row 0
-//		for (int i = 0; i < augMatls.length; ++i)
-//			primary.addAllowedBlock(augMatl_primary[i], -1, 0, -2, augMatls[i], augMetas[i]);
+		
 		catalysts.addBlock(new BlockPos(-1, 0, -2));
 		catalysts.addBlock(new BlockPos(1, 0, -2));
 		catalysts.addBlock(new BlockPos(-1, 0, 2));
 		catalysts.addBlock(new BlockPos(1, 0, 2));
 		catalysts.addBlock(new BlockPos(0, -4, 0));
 
-		out.addBlock(new BlockPos(-1, 0, -1), 1);
-		out.addBlock(new BlockPos(-1, 0, 0), 1);
-		out.addBlock(new BlockPos(-1, 0, 1), 1);
-		out.addBlock(new BlockPos(1, 0, -1), 1);
-		out.addBlock(new BlockPos(1, 0, 0), 1);
-		out.addBlock(new BlockPos(1, 0, 1), 1);
-		out.addBlock(new BlockPos(-1, 0, -2), 1);
-		out.addBlock(new BlockPos(-1, 0, 2), 1);
-		out.addBlock(new BlockPos(-1, -1, -1), 1);
-		out.addBlock(new BlockPos(-1, -1, 1), 1);
-		out.addBlock(new BlockPos(1, -1, -1), 1);
-		out.addBlock(new BlockPos(1, -1, 1), 1);
+		out.addBlock(new BlockPos(-1, 0, -1), STAIR_EAST);
+		out.addBlock(new BlockPos(-1, 0, 0), STAIR_EAST);
+		out.addBlock(new BlockPos(-1, 0, 1), STAIR_EAST);
+		out.addBlock(new BlockPos(1, 0, -1), STAIR_WEST);
+		out.addBlock(new BlockPos(1, 0, 0), STAIR_WEST);
+		out.addBlock(new BlockPos(1, 0, 1), STAIR_WEST);
+		out.addBlock(new BlockPos(0, 0, -2), STAIR_SOUTH);
+		out.addBlock(new BlockPos(0, 0, 2), STAIR_NORTH);
+		out.addBlock(new BlockPos(-1, -1, -1), STAIR_NORTH_INVERTED);
+		out.addBlock(new BlockPos(-1, -1, 1), STAIR_SOUTH_INVERTED);
+		out.addBlock(new BlockPos(1, -1, -1), STAIR_NORTH_INVERTED);
+		out.addBlock(new BlockPos(1, -1, 1), STAIR_SOUTH_INVERTED);
 		
+		out.addBlock(new BlockPos(0, 0, -1), 0);
+		out.addBlock(new BlockPos(0, 0, 1), 0);
 		out.addBlock(new BlockPos(1, -1, -2), 0);
 		out.addBlock(new BlockPos(1, -1, 2), 0);
 		out.addBlock(new BlockPos(-1, -1, -2), 0);
@@ -249,7 +257,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		out.addBlock(new BlockPos(1, -4, -2), 0);		
 		out.addBlock(new BlockPos(1, -4, -1), 0);		
 		out.addBlock(new BlockPos(1, -4, 0), 0);		
-		out.addBlock(new BlockPos(1, -4, 1), 0);		
+		out.addBlock(new BlockPos(1, -4, 1), 0);
 		out.addBlock(new BlockPos(1, -4, 2), 0);		
 		out.addBlock(new BlockPos(2, -4, -2), 0);		
 		out.addBlock(new BlockPos(2, -4, -1), 0);		
@@ -257,8 +265,166 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		out.addBlock(new BlockPos(2, -4, 1), 0);		
 		out.addBlock(new BlockPos(2, -4, 2), 0);		
 		
+		MultiblockGroup wall = new MultiblockGroup("wall", Lists.newArrayList(BlockDefs.magicWall.getDefaultState()), true);
+		wall.addBlock(new BlockPos(0, -1, -2));
+		wall.addBlock(new BlockPos(0, -2, -2));
+		wall.addBlock(new BlockPos(0, -3, -2));
+		wall.addBlock(new BlockPos(0, -1, 2));
+		wall.addBlock(new BlockPos(0, -2, 2));
+		wall.addBlock(new BlockPos(0, -3, 2));
+		
+		MultiblockGroup lever1 = new MultiblockGroup("lever1", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.EAST),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.EAST).withProperty(BlockLever.POWERED, true)
+				), false);
+		MultiblockGroup lever2 = new MultiblockGroup("lever2", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.EAST),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.EAST).withProperty(BlockLever.POWERED, true)
+				), false);
+		MultiblockGroup lever3 = new MultiblockGroup("lever3", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.WEST),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.WEST).withProperty(BlockLever.POWERED, true)
+				), false);
+		MultiblockGroup lever4 = new MultiblockGroup("lever4", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.WEST),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.WEST).withProperty(BlockLever.POWERED, true)
+				), false);
+		lever1.addBlock(new BlockPos(2, -2, 2));
+		lever2.addBlock(new BlockPos(2, -2, -2));
+		lever3.addBlock(new BlockPos(-2, -2, 2));
+		lever4.addBlock(new BlockPos(-2, -2, -2));
+		
+		primary.addGroup(wall);
+		primary.addGroup(lever1, lever2, lever3,  lever4);
 		primary.addGroup(out);
 		primary.addGroup(catalysts);
+		
+		MultiblockGroup catalysts_alt = new MultiblockGroup("catalysts_alt", 
+				Lists.newArrayList(
+						Blocks.GLASS.getDefaultState(),
+						Blocks.COAL_BLOCK.getDefaultState(),
+						Blocks.REDSTONE_BLOCK.getDefaultState(), 
+						Blocks.IRON_BLOCK.getDefaultState(),
+						Blocks.LAPIS_BLOCK.getDefaultState(),
+						Blocks.GOLD_BLOCK.getDefaultState(),
+						Blocks.DIAMOND_BLOCK.getDefaultState(),
+						Blocks.EMERALD_BLOCK.getDefaultState(),
+						BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE),
+						BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE)),
+				false);
+		
+		@SuppressWarnings("unchecked")
+		TypedMultiblockGroup out_alt = new TypedMultiblockGroup("out_alt", 
+				Lists.newArrayList(
+						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), Blocks.BIRCH_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.SPRUCE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), Blocks.JUNGLE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.DARK_OAK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.QUARTZ_BLOCK.getDefaultState(), Blocks.QUARTZ_STAIRS.getDefaultState()),
+						createStateMap(Blocks.NETHER_BRICK.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.STONEBRICK.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.COBBLESTONE.getDefaultState(), Blocks.STONE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState()),
+						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState())
+						), 
+				false);
+		
+		MultiblockGroup wall_alt = new MultiblockGroup("wall_alt", Lists.newArrayList(BlockDefs.magicWall.getDefaultState()), true);
+		wall.addBlock(new BlockPos(-2, -1, 0));
+		wall.addBlock(new BlockPos(-2, -2, 0));
+		wall.addBlock(new BlockPos(-2, -3, 0));
+		wall.addBlock(new BlockPos(2, -1, 0));
+		wall.addBlock(new BlockPos(2, -2, 0));
+		wall.addBlock(new BlockPos(2, -3, 0));
+
+		
+		catalysts_alt.addBlock(new BlockPos(-2, 0, -1));
+		catalysts_alt.addBlock(new BlockPos(-2, 0, 1));
+		catalysts_alt.addBlock(new BlockPos(2, 0, -1));
+		catalysts_alt.addBlock(new BlockPos(2, 0, 1));
+		catalysts_alt.addBlock(new BlockPos(0, -4, 0));
+
+		out_alt.addBlock(new BlockPos(-1, 0, -1), STAIR_SOUTH);
+		out_alt.addBlock(new BlockPos(0, 0, -1), STAIR_SOUTH);
+		out_alt.addBlock(new BlockPos(1, 0, -1), STAIR_SOUTH);
+		out_alt.addBlock(new BlockPos(-1, 0, 1), STAIR_NORTH);
+		out_alt.addBlock(new BlockPos(0, 0, 1), STAIR_NORTH);
+		out_alt.addBlock(new BlockPos(1, 0, 1), STAIR_NORTH);
+		out_alt.addBlock(new BlockPos(-2, 0, 0), STAIR_EAST);
+		out_alt.addBlock(new BlockPos(2, 0, 0), STAIR_WEST);
+		out_alt.addBlock(new BlockPos(-1, -1, -1), STAIR_WEST_INVERTED);
+		out_alt.addBlock(new BlockPos(-1, -1, 1), STAIR_WEST_INVERTED);
+		out_alt.addBlock(new BlockPos(1, -1, -1), STAIR_EAST_INVERTED);
+		out_alt.addBlock(new BlockPos(1, -1, 1), STAIR_EAST_INVERTED);
+		
+		out_alt.addBlock(new BlockPos(-1, 0, 0), 0);
+		out_alt.addBlock(new BlockPos(1, 0, 0), 0);
+		out_alt.addBlock(new BlockPos(-2, -1, 1), 0);
+		out_alt.addBlock(new BlockPos(2, -1, 1), 0);
+		out_alt.addBlock(new BlockPos(-2, -1, -1), 0);
+		out_alt.addBlock(new BlockPos(2, -1, -1), 0);
+		out_alt.addBlock(new BlockPos(-2, -2, 1), 0);
+		out_alt.addBlock(new BlockPos(2, -2, 1), 0);
+		out_alt.addBlock(new BlockPos(-2, -2, -1), 0);
+		out_alt.addBlock(new BlockPos(2, -2, -1), 0);
+		out_alt.addBlock(new BlockPos(-2, -3, 1), 0);
+		out_alt.addBlock(new BlockPos(2, -3, 1), 0);
+		out_alt.addBlock(new BlockPos(-2, -3, -1), 0);
+		out_alt.addBlock(new BlockPos(2, -3, -1), 0);
+		out_alt.addBlock(new BlockPos(-2, -4, -2), 0);		
+		out_alt.addBlock(new BlockPos(-2, -4, -1), 0);		
+		out_alt.addBlock(new BlockPos(-2, -4, 0), 0);		
+		out_alt.addBlock(new BlockPos(-2, -4, 1), 0);		
+		out_alt.addBlock(new BlockPos(-2, -4, 2), 0);		
+		out_alt.addBlock(new BlockPos(-1, -4, -2), 0);		
+		out_alt.addBlock(new BlockPos(-1, -4, -1), 0);		
+		out_alt.addBlock(new BlockPos(-1, -4, 0), 0);		
+		out_alt.addBlock(new BlockPos(-1, -4, 1), 0);		
+		out_alt.addBlock(new BlockPos(-1, -4, 2), 0);		
+		out_alt.addBlock(new BlockPos(0, -4, -2), 0);		
+		out_alt.addBlock(new BlockPos(0, -4, -1), 0);		
+		out_alt.addBlock(new BlockPos(0, -4, 1), 0);		
+		out_alt.addBlock(new BlockPos(0, -4, 2), 0);		
+		out_alt.addBlock(new BlockPos(1, -4, -2), 0);		
+		out_alt.addBlock(new BlockPos(1, -4, -1), 0);		
+		out_alt.addBlock(new BlockPos(1, -4, 0), 0);		
+		out_alt.addBlock(new BlockPos(1, -4, 1), 0);
+		out_alt.addBlock(new BlockPos(1, -4, 2), 0);		
+		out_alt.addBlock(new BlockPos(2, -4, -2), 0);		
+		out_alt.addBlock(new BlockPos(2, -4, -1), 0);		
+		out_alt.addBlock(new BlockPos(2, -4, 0), 0);		
+		out_alt.addBlock(new BlockPos(2, -4, 1), 0);		
+		out_alt.addBlock(new BlockPos(2, -4, 2), 0);
+		
+		MultiblockGroup lever1_alt = new MultiblockGroup("lever1_alt", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.SOUTH),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.SOUTH).withProperty(BlockLever.POWERED, true)
+				), false);
+		MultiblockGroup lever2_alt = new MultiblockGroup("lever2_alt", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.NORTH),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.NORTH).withProperty(BlockLever.POWERED, true)
+				), false);
+		MultiblockGroup lever3_alt = new MultiblockGroup("lever3_alt", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.SOUTH),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.SOUTH).withProperty(BlockLever.POWERED, true)
+				), false);
+		MultiblockGroup lever4_alt = new MultiblockGroup("lever4_alt", Lists.newArrayList(
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.NORTH),
+				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.NORTH).withProperty(BlockLever.POWERED, true)
+				), false);
+		lever1_alt.addBlock(new BlockPos(2, -2, 2));
+		lever2_alt.addBlock(new BlockPos(2, -2, -2));
+		lever3_alt.addBlock(new BlockPos(-2, -2, 2));
+		lever4_alt.addBlock(new BlockPos(-2, -2, -2));
+
+		
+		secondary.addGroup(wall_alt);
+		secondary.addGroup(lever1_alt, lever2_alt, lever3_alt, lever4_alt);
+		secondary.addGroup(out_alt);
+		secondary.addGroup(catalysts_alt);
+
 		
 //		for (int i = 0; i < augMatls.length; ++i)
 //			primary.addAllowedBlock(augMatl_primary[i], -1, 0, 2, augMatls[i], augMetas[i]);

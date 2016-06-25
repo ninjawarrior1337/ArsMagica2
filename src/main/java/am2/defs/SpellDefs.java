@@ -1,21 +1,42 @@
 package am2.defs;
 
+import static am2.spell.SpellModifiers.BOUNCE;
+import static am2.spell.SpellModifiers.BUFF_POWER;
+import static am2.spell.SpellModifiers.DAMAGE;
+import static am2.spell.SpellModifiers.DURATION;
+import static am2.spell.SpellModifiers.GRAVITY;
+import static am2.spell.SpellModifiers.HEALING;
+import static am2.spell.SpellModifiers.PIERCING;
+import static am2.spell.SpellModifiers.PROCS;
+import static am2.spell.SpellModifiers.RADIUS;
+import static am2.spell.SpellModifiers.RANGE;
+import static am2.spell.SpellModifiers.SPEED;
+import static am2.spell.SpellModifiers.TARGET_NONSOLID_BLOCKS;
+import static am2.spell.SpellModifiers.VELOCITY_ADDED;
+
 import java.util.EnumSet;
 
 import am2.api.SpellRegistry;
 import am2.spell.IShape;
-import am2.spell.SpellModifiers;
 import am2.spell.component.Accelerate;
 import am2.spell.component.Appropriation;
 import am2.spell.component.AstralDistortion;
 import am2.spell.component.Attract;
 import am2.spell.component.BanishRain;
 import am2.spell.component.Blind;
+import am2.spell.component.Blink;
 import am2.spell.component.Blizzard;
+import am2.spell.component.Charm;
 import am2.spell.component.ChronoAnchor;
+import am2.spell.component.CreateWater;
+import am2.spell.component.Daylight;
 import am2.spell.component.Dig;
+import am2.spell.component.Disarm;
 import am2.spell.component.Dispel;
+import am2.spell.component.DivineIntervention;
+import am2.spell.component.Drought;
 import am2.spell.component.Drown;
+import am2.spell.component.EnderIntervention;
 import am2.spell.component.Entangle;
 import am2.spell.component.FallingStar;
 import am2.spell.component.FireDamage;
@@ -27,27 +48,36 @@ import am2.spell.component.Freeze;
 import am2.spell.component.FrostDamage;
 import am2.spell.component.Fury;
 import am2.spell.component.GravityWell;
+import am2.spell.component.Grow;
+import am2.spell.component.HarvestPlants;
 import am2.spell.component.Haste;
 import am2.spell.component.Heal;
 import am2.spell.component.Ignition;
+import am2.spell.component.Invisiblity;
 import am2.spell.component.Knockback;
 import am2.spell.component.Leap;
 import am2.spell.component.Levitation;
 import am2.spell.component.LifeDrain;
 import am2.spell.component.LifeTap;
+import am2.spell.component.Light;
 import am2.spell.component.LightningDamage;
 import am2.spell.component.MagicDamage;
 import am2.spell.component.ManaDrain;
 import am2.spell.component.ManaLink;
 import am2.spell.component.ManaShield;
 import am2.spell.component.Mark;
+import am2.spell.component.Moonrise;
+import am2.spell.component.NightVision;
 import am2.spell.component.PhysicalDamage;
+import am2.spell.component.PlaceBlock;
+import am2.spell.component.Plant;
+import am2.spell.component.Plow;
+import am2.spell.component.RandomTeleport;
 import am2.spell.component.Recall;
 import am2.spell.component.Reflect;
 import am2.spell.component.Regeneration;
 import am2.spell.component.Repel;
 import am2.spell.component.Rift;
-import am2.spell.component.ScrambleSynapses;
 import am2.spell.component.Shield;
 import am2.spell.component.Shrink;
 import am2.spell.component.Silence;
@@ -68,15 +98,25 @@ import am2.spell.modifier.Colour;
 import am2.spell.modifier.Damage;
 import am2.spell.modifier.Dismembering;
 import am2.spell.modifier.Duration;
+import am2.spell.modifier.FeatherTouch;
 import am2.spell.modifier.Gravity;
 import am2.spell.modifier.Healing;
+import am2.spell.modifier.Lunar;
+import am2.spell.modifier.MiningPower;
 import am2.spell.modifier.Piercing;
+import am2.spell.modifier.Prosperity;
+import am2.spell.modifier.Radius;
+import am2.spell.modifier.Range;
 import am2.spell.modifier.RuneProcs;
 import am2.spell.modifier.Solar;
 import am2.spell.modifier.Speed;
+import am2.spell.modifier.TargetNonSolidBlocks;
 import am2.spell.modifier.VelocityAdded;
 import am2.spell.shape.AoE;
 import am2.spell.shape.Beam;
+import am2.spell.shape.Binding;
+import am2.spell.shape.Chain;
+import am2.spell.shape.Channel;
 import am2.spell.shape.Contingency_Death;
 import am2.spell.shape.Contingency_Fall;
 import am2.spell.shape.Contingency_Fire;
@@ -86,12 +126,11 @@ import am2.spell.shape.MissingShape;
 import am2.spell.shape.Projectile;
 import am2.spell.shape.Rune;
 import am2.spell.shape.Self;
+import am2.spell.shape.Touch;
 import am2.spell.shape.Wall;
 import am2.spell.shape.Wave;
 import am2.spell.shape.Zone;
 import net.minecraft.util.ResourceLocation;
-
-import static am2.spell.SpellModifiers.*;
 
 public class SpellDefs {
 	public static final IShape MISSING_SHAPE = new MissingShape();
@@ -103,26 +142,7 @@ public class SpellDefs {
 
 		handleOffenseTree();
 		handleDefenseTree();
-		
-		
-		SpellRegistry.registerSpellShape("contingency_death", getShapeTexture("Contingency_Death"), SkillDefs.SKILL_POINT_0, new Contingency_Death(), SkillDefs.TREE_DEFENSE, 0, 0, null);
-		
-		SpellRegistry.registerSpellComponent("attract", getComponentTexture("Attract"), SkillDefs.SKILL_POINT_0, new Attract(), SkillDefs.TREE_UTILITY, 4, 4, null);
-		SpellRegistry.registerSpellComponent("banish_rain", getComponentTexture("BanishRain"), SkillDefs.SKILL_POINT_0, new BanishRain(), SkillDefs.TREE_UTILITY, 4, 4, null);
-		SpellRegistry.registerSpellComponent("dig", getComponentTexture("Dig"), SkillDefs.SKILL_POINT_0, new Dig(), SkillDefs.TREE_UTILITY, 0, 1, null);
-				
-		SpellRegistry.registerSpellComponent("mark", getComponentTexture("Mark"), SkillDefs.SKILL_POINT_1, new Mark(), SkillDefs.TREE_UTILITY, 0, 2, null);
-		
-		
-		SpellRegistry.registerSpellComponent("recall", getComponentTexture("Recall"), SkillDefs.SKILL_POINT_1, new Recall(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		SpellRegistry.registerSpellComponent("rift", getComponentTexture("Rift"), SkillDefs.SKILL_POINT_1, new Rift(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		SpellRegistry.registerSpellComponent("scramble_synapses", getComponentTexture("ScrambleSynapses"), SkillDefs.SKILL_POINT_1, new ScrambleSynapses(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		SpellRegistry.registerSpellComponent("telekinesis", getComponentTexture("Telekinesis"), SkillDefs.SKILL_POINT_1, new Telekinesis(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		SpellRegistry.registerSpellComponent("transplace", getComponentTexture("Transplace"), SkillDefs.SKILL_POINT_1, new Transplace(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		SpellRegistry.registerSpellComponent("true_sight", getComponentTexture("TrueSight"), SkillDefs.SKILL_POINT_1, new TrueSight(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		SpellRegistry.registerSpellComponent("water_breathing", getComponentTexture("WaterBreathing"), SkillDefs.SKILL_POINT_1, new WaterBreathing(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		SpellRegistry.registerSpellComponent("wizards_autumn", getComponentTexture("WizardsAutumn"), SkillDefs.SKILL_POINT_1, new WizardsAutumn(), SkillDefs.TREE_UTILITY, 0, 3, null);
-		
+		handleUtilityTree();
 	}
 	
 	public static void handleOffenseTree() {
@@ -227,78 +247,70 @@ public class SpellDefs {
 		SpellRegistry.registerSpellComponent("mana_shield", getComponentTexture("ManaShield"), SkillDefs.SILVER_POINT, new ManaShield(), SkillDefs.TREE_DEFENSE, 30, 90, EnumSet.of(BUFF_POWER, DURATION));
 		SpellRegistry.registerSpellModifier("buff_power", getModifierTexture("BuffPower"), SkillDefs.SILVER_POINT, new BuffPower(), SkillDefs.TREE_DEFENSE, 30, 135);
 		
-	}/*
-		//utility tree
-		utilityTree.clear();
-		RegisterPart(SkillManager.instance.getSkill("Touch"), 275, 75, SkillTrees.Utility, SkillPointTypes.BLUE);
-
-		RegisterPart(SkillManager.instance.getSkill("Dig"), 275, 120, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Touch"));
-		RegisterPart(SkillManager.instance.getSkill("WizardsAutumn"), 315, 120, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Dig"));
-		RegisterPart(SkillManager.instance.getSkill("TargetNonSolid"), 230, 75, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Touch"));
-
-		RegisterPart(SkillManager.instance.getSkill("PlaceBlock"), 185, 93, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Dig"));
-		RegisterPart(SkillManager.instance.getSkill("FeatherTouch"), 230, 137, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Dig"));
-		RegisterPart(SkillManager.instance.getSkill("MiningPower"), 185, 137, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("FeatherTouch"));
-
-		RegisterPart(SkillManager.instance.getSkill("Light"), 275, 165, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Dig"));
-		RegisterPart(SkillManager.instance.getSkill("NightVision"), 185, 165, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Light"));
-
-		RegisterPart(SkillManager.instance.getSkill("Binding"), 275, 210, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Light"));
-		RegisterPart(SkillManager.instance.getSkill("Disarm"), 230, 210, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Binding"));
-		RegisterPart(SkillManager.instance.getSkill("Charm"), 315, 235, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Binding"));
-		RegisterPart(SkillManager.instance.getSkill("TrueSight"), 185, 210, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("NightVision"));
-
-		RegisterPart(SkillManager.instance.getSkill("Lunar"), 145, 210, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("TrueSight"));
-
-		RegisterPart(SkillManager.instance.getSkill("HarvestPlants"), 365, 120, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Binding"));
-		RegisterPart(SkillManager.instance.getSkill("Plow"), 365, 165, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Binding"));
-		RegisterPart(SkillManager.instance.getSkill("Plant"), 365, 210, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Binding"));
-		RegisterPart(SkillManager.instance.getSkill("CreateWater"), 365, 255, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Binding"));
-		RegisterPart(SkillManager.instance.getSkill("Drought"), 365, 300, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Binding"));
-
-		RegisterPart(SkillManager.instance.getSkill("BanishRain"), 365, 345, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Drought"));
-		RegisterPart(SkillManager.instance.getSkill("WaterBreathing"), 410, 345, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Drought"));
-
-		RegisterPart(SkillManager.instance.getSkill("Grow"), 410, 210, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("Drought"), SkillManager.instance.getSkill("CreateWater"), SkillManager.instance.getSkill("Plant"), SkillManager.instance.getSkill("Plow"), SkillManager.instance.getSkill("HarvestPlants"));
-
-		RegisterPart(SkillManager.instance.getSkill("Chain"), 455, 210, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("Grow"));
-
-		RegisterPart(SkillManager.instance.getSkill("Rift"), 275, 255, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Binding"));
-		RegisterPart(SkillManager.instance.getSkill("Invisibility"), 185, 255, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("TrueSight"));
-
-		RegisterPart(SkillManager.instance.getSkill("RandomTeleport"), 185, 300, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Invisibility"));
-		RegisterPart(SkillManager.instance.getSkill("Attract"), 245, 300, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Rift"));
-		RegisterPart(SkillManager.instance.getSkill("Telekinesis"), 305, 300, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Rift"));
-
-		RegisterPart(SkillManager.instance.getSkill("Blink"), 185, 345, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("RandomTeleport"));
-		RegisterPart(SkillManager.instance.getSkill("Range"), 140, 345, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("Blink"));
-		RegisterPart(SkillManager.instance.getSkill("Channel"), 275, 345, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Attract"), SkillManager.instance.getSkill("Telekinesis"));
-
-		RegisterPart(SkillManager.instance.getSkill("Radius"), 275, 390, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("Channel"));
-		RegisterPart(SkillManager.instance.getSkill("Transplace"), 185, 390, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Blink"));
-
-		RegisterPart(SkillManager.instance.getSkill("Mark"), 155, 435, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Transplace"));
-		RegisterPart(SkillManager.instance.getSkill("Recall"), 215, 435, SkillTrees.Utility, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Transplace"));
-
-		RegisterPart(SkillManager.instance.getSkill("DivineIntervention"), 172, 480, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("Recall"), SkillManager.instance.getSkill("Mark"));
-		RegisterPart(SkillManager.instance.getSkill("EnderIntervention"), 198, 480, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("Recall"), SkillManager.instance.getSkill("Mark"));
-
-		RegisterPart(SkillManager.instance.getSkill("Contingency_Death"), 198, 524, SkillTrees.Utility, SkillPointTypes.RED, SkillManager.instance.getSkill("EnderIntervention"));
-
-		RegisterPart(SkillManager.instance.getSkill("Daylight"), 75, 45, SkillTrees.Utility, SkillPointTypes.SILVER);
-		RegisterPart(SkillManager.instance.getSkill("Moonrise"), 75, 90, SkillTrees.Utility, SkillPointTypes.SILVER);
-		RegisterPart(SkillManager.instance.getSkill("Prosperity"), 75, 135, SkillTrees.Utility, SkillPointTypes.SILVER);
-
-		calculateHighestOverallTier();
-
-		checkAllPartIDs(SkillManager.instance.getAllShapes());
-		checkAllPartIDs(SkillManager.instance.getAllComponents());
-		checkAllPartIDs(SkillManager.instance.getAllModifiers());
-		checkAllPartIDs(SkillManager.instance.getAllTalents());
-
-		AMCore.skillConfig.save();
 	}
-	 */
+	
+	public static void handleUtilityTree () {
+		//utility tree
+		SpellRegistry.registerSpellShape("touch", getShapeTexture("Touch"), SkillDefs.SKILL_POINT_0, new Touch(), SkillDefs.TREE_UTILITY, 275, 75, null);
+
+		SpellRegistry.registerSpellComponent("dig", getComponentTexture("Dig"), SkillDefs.SKILL_POINT_0, new Dig(), SkillDefs.TREE_UTILITY, 275, 120, null, "touch");
+		SpellRegistry.registerSpellComponent("wizards_autumn", getComponentTexture("WizardsAutumn"), SkillDefs.SKILL_POINT_0, new WizardsAutumn(), SkillDefs.TREE_UTILITY, 315, 120, null, "dig");
+		SpellRegistry.registerSpellModifier("target_non_solid", getModifierTexture("TargetNonSolid"), SkillDefs.SKILL_POINT_0, new TargetNonSolidBlocks(), SkillDefs.TREE_UTILITY, 230, 75, "touch");
+
+		SpellRegistry.registerSpellComponent("place_block", getComponentTexture("PlaceBlock"), SkillDefs.SKILL_POINT_0, new PlaceBlock(), SkillDefs.TREE_UTILITY, 185, 93, null, "dig");
+		SpellRegistry.registerSpellModifier("feather_touch", getModifierTexture("FeatherTouch"), SkillDefs.SKILL_POINT_0, new FeatherTouch(), SkillDefs.TREE_UTILITY, 230, 137, "dig");
+		SpellRegistry.registerSpellModifier("mining_power", getModifierTexture("MiningPower"), SkillDefs.SKILL_POINT_1, new MiningPower(), SkillDefs.TREE_UTILITY, 185, 137, "feather_touch");
+
+		SpellRegistry.registerSpellComponent("light", getComponentTexture("Light"), SkillDefs.SKILL_POINT_0, new Light(), SkillDefs.TREE_UTILITY, 275, 165, null, "dig");
+		SpellRegistry.registerSpellComponent("night_vision", getComponentTexture("NightVision"), SkillDefs.SKILL_POINT_0, new NightVision(), SkillDefs.TREE_UTILITY, 185, 165, null, "light");
+
+		SpellRegistry.registerSpellShape("binding", getShapeTexture("Binding"), SkillDefs.SKILL_POINT_0, new Binding(), SkillDefs.TREE_UTILITY, 275, 210, null, "light");
+		SpellRegistry.registerSpellComponent("disarm", getComponentTexture("Disarm"), SkillDefs.SKILL_POINT_0, new Disarm(), SkillDefs.TREE_UTILITY, 230, 210, null, "binding");
+		SpellRegistry.registerSpellComponent("charm", getComponentTexture("Charm"), SkillDefs.SKILL_POINT_0, new Charm(), SkillDefs.TREE_UTILITY, 315, 235, null, "binding");
+		SpellRegistry.registerSpellComponent("true_sight", getComponentTexture("TrueSight"), SkillDefs.SKILL_POINT_0, new TrueSight(), SkillDefs.TREE_UTILITY, 185, 210, null, "night_vision");
+
+		SpellRegistry.registerSpellModifier("lunar", getModifierTexture("Lunar"), SkillDefs.SKILL_POINT_2, new Lunar(), SkillDefs.TREE_UTILITY, 145, 210, "true_sight");
+
+		SpellRegistry.registerSpellComponent("harvest_plants", getComponentTexture("HarvestPlants"), SkillDefs.SKILL_POINT_1, new HarvestPlants(), SkillDefs.TREE_UTILITY, 365, 120, null, "binding");
+		SpellRegistry.registerSpellComponent("plow", getComponentTexture("Plow"), SkillDefs.SKILL_POINT_0, new Plow(), SkillDefs.TREE_UTILITY, 365, 165, null, "binding");
+		SpellRegistry.registerSpellComponent("plant", getComponentTexture("Plant"), SkillDefs.SKILL_POINT_0, new Plant(), SkillDefs.TREE_UTILITY, 365, 210, null, "binding");
+		SpellRegistry.registerSpellComponent("create_water", getComponentTexture("CreateWater"), SkillDefs.SKILL_POINT_1, new CreateWater(), SkillDefs.TREE_UTILITY, 365, 255, null, "binding");
+		SpellRegistry.registerSpellComponent("drought", getComponentTexture("Drought"), SkillDefs.SKILL_POINT_1, new Drought(), SkillDefs.TREE_UTILITY, 365, 300, null, "binding");
+
+		SpellRegistry.registerSpellComponent("banish_rain", getComponentTexture("BanishRain"), SkillDefs.SKILL_POINT_1, new BanishRain(), SkillDefs.TREE_UTILITY, 365, 345, null, "drought");
+		SpellRegistry.registerSpellComponent("water_breathing", getComponentTexture("WaterBreathing"), SkillDefs.SKILL_POINT_0, new WaterBreathing(), SkillDefs.TREE_UTILITY, 410, 345, null, "drought");
+
+		SpellRegistry.registerSpellComponent("grow", getComponentTexture("Grow"), SkillDefs.SKILL_POINT_2, new Grow(), SkillDefs.TREE_UTILITY, 410, 210, null, "drought", "create_water", "plant", "plow", "harvest_plants");
+
+		SpellRegistry.registerSpellShape("chain", getShapeTexture("Chain"), SkillDefs.SKILL_POINT_2, new Chain(), SkillDefs.TREE_UTILITY, 455, 210, null, "grow");
+
+		SpellRegistry.registerSpellComponent("rift", getComponentTexture("Rift"), SkillDefs.SKILL_POINT_1, new Rift(), SkillDefs.TREE_UTILITY, 275, 255, null, "binding");
+		SpellRegistry.registerSpellComponent("invisibility", getComponentTexture("Invisiblity"), SkillDefs.SKILL_POINT_1, new Invisiblity(), SkillDefs.TREE_UTILITY, 185, 255, null, "true_sight");
+
+		SpellRegistry.registerSpellComponent("random_teleport", getComponentTexture("RandomTeleport"), SkillDefs.SKILL_POINT_0, new RandomTeleport(), SkillDefs.TREE_UTILITY, 185, 300, null, "invisibility");
+		SpellRegistry.registerSpellComponent("attract", getComponentTexture("Attract"), SkillDefs.SKILL_POINT_1, new Attract(), SkillDefs.TREE_UTILITY, 245, 300, null, "rift");
+		SpellRegistry.registerSpellComponent("telekinesis", getComponentTexture("Telekinesis"), SkillDefs.SKILL_POINT_1, new Telekinesis(), SkillDefs.TREE_UTILITY, 305, 300, null, "rift");
+
+		SpellRegistry.registerSpellComponent("blink", getComponentTexture("Blink"), SkillDefs.SKILL_POINT_1, new Blink(), SkillDefs.TREE_UTILITY, 185, 345, null, "random_teleport");
+		SpellRegistry.registerSpellModifier("range", getModifierTexture("Range"), SkillDefs.SKILL_POINT_2, new Range(), SkillDefs.TREE_UTILITY, 140, 345, "blink");
+		SpellRegistry.registerSpellShape("channel", getShapeTexture("Channel"), SkillDefs.SKILL_POINT_1, new Channel(), SkillDefs.TREE_UTILITY, 275, 345, null, "attract", "telekinesis");
+
+		SpellRegistry.registerSpellModifier("radius", getModifierTexture("Radius"), SkillDefs.SKILL_POINT_2, new Radius(), SkillDefs.TREE_UTILITY, 275, 390, "channel");
+		SpellRegistry.registerSpellComponent("transplace", getComponentTexture("Transplace"), SkillDefs.SKILL_POINT_0, new Transplace(), SkillDefs.TREE_UTILITY, 185, 390, null, "blink");
+
+		SpellRegistry.registerSpellComponent("mark", getComponentTexture("Mark"), SkillDefs.SKILL_POINT_1, new Mark(), SkillDefs.TREE_UTILITY, 155, 435, null, "transplace");
+		SpellRegistry.registerSpellComponent("recall", getComponentTexture("Recall"), SkillDefs.SKILL_POINT_1, new Recall(), SkillDefs.TREE_UTILITY, 215, 435, null, "transplace");
+
+		SpellRegistry.registerSpellComponent("divine_intervention", getComponentTexture("DivineIntervention"), SkillDefs.SKILL_POINT_2, new DivineIntervention(), SkillDefs.TREE_UTILITY, 172, 480, null, "recall", "mark");
+		SpellRegistry.registerSpellComponent("ender_intervention", getComponentTexture("EnderIntervention"), SkillDefs.SKILL_POINT_2, new EnderIntervention(), SkillDefs.TREE_UTILITY, 198, 480, null, "recall", "mark");
+
+		SpellRegistry.registerSpellShape("contingency_death", getShapeTexture("Contingency_Death"), SkillDefs.SKILL_POINT_2, new Contingency_Death(), SkillDefs.TREE_UTILITY, 198, 524, null, "ender_intervention");
+
+		SpellRegistry.registerSpellComponent("daylight", getComponentTexture("Daylight"), SkillDefs.SILVER_POINT, new Daylight(), SkillDefs.TREE_UTILITY, 75, 45, null);
+		SpellRegistry.registerSpellComponent("moonrise", getComponentTexture("Moonrise"), SkillDefs.SILVER_POINT, new Moonrise(), SkillDefs.TREE_UTILITY, 75, 90, null);
+		SpellRegistry.registerSpellModifier("prosperity", getModifierTexture("Prosperity"), SkillDefs.SILVER_POINT, new Prosperity(), SkillDefs.TREE_UTILITY, 75, 135);
+	}
+	
 	private static ResourceLocation getComponentTexture(String name) {
 		return new ResourceLocation("arsmagica2", "items/spells/components/" + name);
 	}

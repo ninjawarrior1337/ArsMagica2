@@ -88,7 +88,6 @@ public interface IArcaneCompendium {
 	
 	public static class Factory implements Callable<IArcaneCompendium> {
 
-		@SuppressWarnings("deprecation")
 		@Override
 		public IArcaneCompendium call() throws Exception {
 			return new ArcaneCompendium();

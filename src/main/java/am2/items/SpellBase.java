@@ -4,10 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.lwjgl.util.glu.Project;
-
 import com.google.common.collect.Lists;
 
+import am2.api.SpellRegistry;
+import am2.extensions.EntityExtension;
+import am2.extensions.SkillData;
+import am2.spell.IShape;
+import am2.spell.ISpellPart;
+import am2.spell.component.Blizzard;
+import am2.spell.component.FireRain;
+import am2.spell.component.PhysicalDamage;
+import am2.spell.shape.MissingShape;
+import am2.spell.shape.Projectile;
+import am2.spell.shape.Touch;
+import am2.spell.shape.Wave;
+import am2.utils.EntityUtils;
+import am2.utils.KeyValuePair;
+import am2.utils.SpellUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -27,19 +40,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import am2.api.SpellRegistry;
-import am2.extensions.EntityExtension;
-import am2.extensions.SkillData;
-import am2.spell.IShape;
-import am2.spell.ISpellPart;
-import am2.spell.component.Blizzard;
-import am2.spell.component.FireRain;
-import am2.spell.component.PhysicalDamage;
-import am2.spell.shape.MissingShape;
-import am2.spell.shape.Projectile;
-import am2.utils.EntityUtils;
-import am2.utils.KeyValuePair;
-import am2.utils.SpellUtils;
 
 public class SpellBase extends ItemSpellBase{
 
@@ -178,8 +178,8 @@ public class SpellBase extends ItemSpellBase{
 		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("blizzard")).setStackDisplayName("Blizzard"));
 		subItems.add(SpellUtils.createSpellStack_old(new Random().nextInt(405), SpellRegistry.getShapeFromName("projectile"), SpellRegistry.getComponentFromName("fire_rain")).setStackDisplayName("Fire Rain"));
 		
-		KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> pair = new KeyValuePair<>(Lists.newArrayList(new Projectile()), new NBTTagCompound());
-		subItems.add(SpellUtils.createSpellStack(Lists.newArrayList(pair), Lists.newArrayList(new PhysicalDamage(), new Blizzard(), new FireRain()), new NBTTagCompound()));
+		KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> pair = new KeyValuePair<>(Lists.newArrayList(new Projectile(), new Wave(), new Touch()), new NBTTagCompound());
+		subItems.add(SpellUtils.createSpellStack(Lists.newArrayList(pair), Lists.newArrayList(new PhysicalDamage()), new NBTTagCompound()));
 	}
 
 	@Override

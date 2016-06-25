@@ -21,6 +21,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -60,7 +61,7 @@ public class AMIngameGUI{
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 //		if (drawAMHud)
 //			RenderBuffs(i, j);
-		mc.renderEngine.bindTexture(items);
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		if (drawAMHud)
 			RenderContingency(i, j);
 		if (drawAMHud)
@@ -232,6 +233,7 @@ public class AMIngameGUI{
 		}
 
 		if (ArsMagica2.config.getShowNumerics()){
+			GL11.glEnable(GL11.GL_BLEND);
 			String manaStr = I18n.translateToLocal("am2.gui.mana") + ": " + (int)(mana + bonusMana) + "/" + (int)maxMana;
 			String burnoutStr = I18n.translateToLocal("am2.gui.burnout") + ": " + (int)props.getCurrentBurnout() + "/" + (int)props.getMaxBurnout();
 			AMVector2 manaNumericPos = getShiftedVector(ArsMagica2.config.getManaNumericPosition(), i, j);
@@ -239,6 +241,7 @@ public class AMIngameGUI{
 			fontRendererObj.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, bonusMana > 0 ? 0xeae31c : 0x2080FF);
 			fontRendererObj.drawString(burnoutStr, burnoutNumericPos.iX + 25 - fontRendererObj.getStringWidth(burnoutStr), burnoutNumericPos.iY, 0xFF2020);
 		}
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}
 
 //	private ItemStack getSpellFromStack(ItemStack stack){
@@ -321,6 +324,7 @@ public class AMIngameGUI{
 			AMGuiHelper.DrawIconAtXY(mc.getRenderItem().getItemModelMesher().getParticleIcon(ItemDefs.essence, AffinityShiftUtils.getEssenceForAffinity(affinity).getItemDamage()), x, y, j, 12, 12, true);
 
 			if (ArsMagica2.config.getShowNumerics()){
+				GL11.glEnable(GL11.GL_BLEND);
 				String display = String.format("%.2f%%", AffinityData.For(mc.thePlayer).getAffinityDepth(affinity) * 100);
 				if (x < i / 2)
 					Minecraft.getMinecraft().fontRendererObj.drawString(display, x + 14, y + 2, affinity.getColor());
@@ -334,7 +338,7 @@ public class AMIngameGUI{
 	public void RenderContingency(int i, int j){
 
 		AMVector2 contingencyPos = getShiftedVector(ArsMagica2.config.getContingencyPosition(), i, j);
-
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		TextureAtlasSprite icon = null;
 		ContingencyType type = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getContingencyType();
 		switch (type){
@@ -430,6 +434,7 @@ public class AMIngameGUI{
 	public void RenderMagicXP(int i, int j){
 		IEntityExtension props = EntityExtension.For(Minecraft.getMinecraft().thePlayer);
 		if (props.getCurrentLevel() > 0){
+			GL11.glEnable(GL11.GL_BLEND);
 			AMVector2 position = getShiftedVector(ArsMagica2.config.getXPBarPosition(), i, j);
 			AMVector2 dimensions = new AMVector2(182, 5);
 			Minecraft.getMinecraft().renderEngine.bindTexture(mc_gui);
@@ -524,16 +529,15 @@ public class AMIngameGUI{
 //	}
 
 	private void DrawIconAtXY(TextureAtlasSprite icon, String base, float x, float y, boolean semitransparent){
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		DrawIconAtXY(icon, base, x, y, 16, 16, semitransparent);
 	}
 
 	private void DrawIconAtXY(TextureAtlasSprite IIcon, String base, float x, float y, int w, int h, boolean semitransparent){
-
 		if (IIcon == null) return;
-
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-
 		tessellator.getBuffer().pos(x, y + h, this.zLevel).tex(IIcon.getMinU(), IIcon.getMaxV()).endVertex();
 		tessellator.getBuffer().pos(x + w, y + h, this.zLevel).tex(IIcon.getMaxU(), IIcon.getMaxV()).endVertex();
 		tessellator.getBuffer().pos(x + w, y, this.zLevel).tex(IIcon.getMaxU(), IIcon.getMinV()).endVertex();
@@ -543,9 +547,8 @@ public class AMIngameGUI{
 	}
 
 	private void DrawPartialIconAtXY(TextureAtlasSprite IIcon, float pct_x, float pct_y, float x, float y, float w, float h, boolean semitransparent){
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		if (IIcon == null) return;
-
-		mc.renderEngine.bindTexture(items);
 
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);

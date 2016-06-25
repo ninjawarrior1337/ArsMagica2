@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableMap;
 
 import am2.ArsMagica2;
 import am2.container.ContainerRiftStorage;
+import am2.enchantments.AMEnchantments;
 import am2.entity.EntityRiftStorage;
 import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
@@ -39,6 +40,7 @@ public class CommonProxy implements IGuiHandler{
 	private HashMap<EntityLivingBase, ArrayList<PotionEffect>> deferredPotionEffects = new HashMap<>();
 	private HashMap<EntityLivingBase, Integer> deferredDimensionTransfers = new HashMap<>();
 	public ArrayList<Item> items = new ArrayList<>();
+	public AMEnchantments enchantments;
 
 
 	@Override
@@ -59,6 +61,7 @@ public class CommonProxy implements IGuiHandler{
 	public void preInit() {
 		initHandlers();
 		serverTickHandler = new ServerTickHandler();
+		enchantments = new AMEnchantments();
 		AMNetHandler.INSTANCE.init();
 		AMNetHandler.INSTANCE.registerChannels(packetProcessor);
 		MinecraftForge.EVENT_BUS.register(serverTickHandler);
@@ -102,5 +105,10 @@ public class CommonProxy implements IGuiHandler{
 		
 	}
 
+	public void renderGameOverlay() {}
+	
+	public void addDeferredDimensionTransfer(EntityLivingBase ent, int dimension){
+		deferredDimensionTransfers.put(ent, dimension);
+	}
 
 }
