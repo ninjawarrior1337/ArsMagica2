@@ -52,6 +52,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		player.getDataManager().register(DataDefinitions.ICE_BRIDGE_STATE, false);
 		player.getDataManager().register(DataDefinitions.NATURE_SPEED, 0);
 		player.getDataManager().register(DataDefinitions.ICE_SPEED, 0);
+		player.getDataManager().register(DataDefinitions.DIMINISHING_RETURNS, 1.0F);
 	}
 
 	@Override
@@ -62,6 +63,26 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public void setIceBridgeState(boolean bool) {
 		player.getDataManager().set(DataDefinitions.ICE_BRIDGE_STATE, bool);
+	}
+	
+	
+	
+	@Override
+	public float getDiminishingReturnsFactor(){
+		return player.getDataManager().get(DataDefinitions.DIMINISHING_RETURNS);
+	}
+	
+	@Override
+	public void tickDiminishingReturns(){
+		if (getDiminishingReturnsFactor() < 1.2f){
+			player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, player.getDataManager().get(DataDefinitions.DIMINISHING_RETURNS) + 0.005f);
+		}
+	}
+	
+	@Override
+	public void addDiminishingReturns(boolean isChanneled){
+		player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, getDiminishingReturnsFactor() - (isChanneled ? 0.1f : 0.3f));
+		if (this.getDiminishingReturnsFactor() < 0) player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, 0F);
 	}
 
 	@Override
@@ -115,6 +136,8 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		Affinity maxAff2 = SkillDefs.NONE;
 		for (Entry<Affinity, Float> entry : getAffinities().entrySet()) {
 			if (entry.getValue() > max1) {
+				max2 = max1;
+				maxAff2 = maxAff1;
 				max1 = entry.getValue();
 				maxAff1 = entry.getKey();
 			} else if (entry.getValue() > max2) {

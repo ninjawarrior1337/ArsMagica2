@@ -40,7 +40,7 @@ public class BlockDesertNova extends BlockAMFlower{
 	
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		if (worldIn.getBlockState(pos).getBlock() == Blocks.SAND){
+		if (worldIn.getBlockState(pos.down()).getBlock() == Blocks.SAND){
 			return true;
 		}
 		if (blockSands == null){// sand is defined by Forge, hence only first call will be 'true'
@@ -53,7 +53,7 @@ public class BlockDesertNova extends BlockAMFlower{
 				}
 			}
 		}
-		return blockSands != null && blockSands.contains(worldIn.getBlockState(pos).getBlock());
+		return blockSands != null && blockSands.contains(worldIn.getBlockState(pos.down()).getBlock());
 	}
 	
 	@Override

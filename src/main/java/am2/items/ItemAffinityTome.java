@@ -49,7 +49,7 @@ public class ItemAffinityTome extends ItemArsMagica2 {
 		HashMap<Affinity, Float> map = AffinityShiftUtils.finalize(AffinityRegistry.getAffinityFromName(affName), 0.2F, AffinityShiftUtils.shiftAffinity(AffinityRegistry.getAffinityFromName(affName), 0.2F, AffinityData.For(playerIn).getAffinities()));
 		ItemStack newStack = itemStackIn.copy();
 		newStack.stackSize--;
-		AffinityShiftUtils.setAffinityData(map, playerIn);
+		AffinityShiftUtils.setAffinityData(map, playerIn, false);
 		return super.onItemRightClick(newStack, worldIn, playerIn, hand);
 	}
 	

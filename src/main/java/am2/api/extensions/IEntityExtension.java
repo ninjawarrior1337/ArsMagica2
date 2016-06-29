@@ -115,7 +115,7 @@ public interface IEntityExtension {
 			NBTTagCompound am2tag = NBTUtils.getAM2Tag(compound);
 			am2tag.setFloat("CurrentMana", instance.getCurrentMana());
 			am2tag.setInteger("CurrentLevel", instance.getCurrentLevel());
-			am2tag.setFloat("CurrentXP", instance.getCurrentMana());
+			am2tag.setFloat("CurrentXP", instance.getCurrentXP());
 			am2tag.setFloat("CurrentBurnout", instance.getCurrentBurnout());
 			am2tag.setInteger("CurrentSummons", instance.getCurrentSummons());
 			
@@ -130,6 +130,7 @@ public interface IEntityExtension {
 			am2tag.setDouble("MarkY", instance.getMarkY());
 			am2tag.setDouble("MarkZ", instance.getMarkZ());
 			am2tag.setInteger("MarkDimensionId", instance.getMarkDimensionID());
+			am2tag.setFloat("TK_Distance", instance.getTKDistance());
 			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (instance.getContingencyType() != ContingencyType.NULL) {
 				contingencyTag.setString("Type", instance.getContingencyType().name().toLowerCase());
@@ -160,6 +161,9 @@ public interface IEntityExtension {
 			instance.setMarkY(am2tag.getDouble("MarkY"));
 			instance.setMarkZ(am2tag.getDouble("MarkZ"));
 			instance.setMarkDimensionID(am2tag.getInteger("MarkDimensionId"));
+			
+			instance.setTKDistance(am2tag.getFloat("TK_Distance"));
+			
 			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (!contingencyTag.hasKey("Type") || !contingencyTag.getString("Type").equals("null")) {
 				instance.setContingency(ContingencyType.fromName(contingencyTag.getString("Type")), ItemStack.loadItemStackFromNBT(contingencyTag.getCompoundTag("Stack")));
@@ -209,5 +213,12 @@ public interface IEntityExtension {
 	public float getShrinkPct();
 
 	public float getPrevShrinkPct();
+	
+	public void setTKDistance(float newDist);
+	
+	public void addToTKDistance(float toAdd);
+	
+	public float getTKDistance();
 
+	public void syncTKDistance();
 }

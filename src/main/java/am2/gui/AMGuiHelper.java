@@ -209,11 +209,14 @@ public class AMGuiHelper{
 
 		Tessellator tessellator = Tessellator.getInstance();
 
-		boolean drawing = ReflectionHelper.getPrivateValue(VertexBuffer.class, tessellator.getBuffer(), "isDrawing", "field_179010_r");
-		if (drawing)
+		boolean drawing = false;
+		try{
+			tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		} catch (IllegalStateException e) {
+			drawing = true;
 			tessellator.draw();
-
-		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+			tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		}
 
 		tessellator.getBuffer().pos(x, y + h, zLevel).tex( IIcon.getMinU(), IIcon.getMaxV()).endVertex();
 		tessellator.getBuffer().pos(x + w, y + h, zLevel).tex( IIcon.getMaxU(), IIcon.getMaxV()).endVertex();

@@ -10,6 +10,7 @@ import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
+import am2.extensions.EntityExtension;
 import am2.items.SpellBase;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachPoint;
@@ -43,7 +44,7 @@ public class Attract implements IComponent{
 
 	private boolean doTK_Extrapolated(ItemStack stack, World world, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (caster instanceof EntityPlayer){
-			double range = 8;
+			double range = EntityExtension.For(caster).getTKDistance();
 			RayTraceResult mop = ((SpellBase) ItemDefs.spell).getMovingObjectPosition(caster, world, range, false, false);
 			if (mop == null){
 				impactX = caster.posX + (Math.cos(Math.toRadians(caster.rotationYaw + 90)) * range);

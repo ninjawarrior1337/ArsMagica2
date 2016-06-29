@@ -7,6 +7,7 @@ import am2.gui.AMGuiIcons;
 import am2.lore.CompendiumEntryTypes;
 import am2.skill.Skill;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -31,6 +32,8 @@ public class SpellIconManager {
 				sprites.put(skill.getID(), e.getMap().registerSprite(skill.getIcon()));
 		}
 		CompendiumEntryTypes.instance.initTextures();
+		sprites.put("CasterRuneSide", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/CasterRuneSide")));
+		sprites.put("RuneStone", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/RuneStone")));
 	}
 	
 	public TextureAtlasSprite getSprite(String name) {

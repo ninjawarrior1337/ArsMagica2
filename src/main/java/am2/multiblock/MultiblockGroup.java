@@ -45,7 +45,7 @@ public class MultiblockGroup {
 			else {
 				boolean subFlag = false;
 				for (IBlockState state : states) {
-					flag = world.getBlockState(startCheckPos.add(pos)).equals(state);
+					subFlag = world.getBlockState(startCheckPos.add(pos)).equals(state);
 					if (subFlag)
 						break;
 				}

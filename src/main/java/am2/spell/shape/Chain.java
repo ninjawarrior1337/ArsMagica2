@@ -33,7 +33,7 @@ public class Chain implements IShape{
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 
 		RayTraceResult mop = item.getMovingObjectPosition(caster, world, 8.0f, true, false);
-		double range = SpellUtils.getModifiedDouble_Mul(4, stack, caster, target, world, SpellModifiers.RANGE);
+		double range = SpellUtils.getModifiedDouble_Mul(8, stack, caster, target, world, SpellModifiers.RANGE);
 		int num_targets = SpellUtils.getModifiedInt_Add(3, stack, caster, target, world, SpellModifiers.PROCS);
 
 		ArrayList<EntityLivingBase> targets = new ArrayList<EntityLivingBase>();

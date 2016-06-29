@@ -285,7 +285,7 @@ public class SpellDefs {
 		SpellRegistry.registerSpellShape("chain", getShapeTexture("Chain"), SkillDefs.SKILL_POINT_2, new Chain(), SkillDefs.TREE_UTILITY, 455, 210, null, "grow");
 
 		SpellRegistry.registerSpellComponent("rift", getComponentTexture("Rift"), SkillDefs.SKILL_POINT_1, new Rift(), SkillDefs.TREE_UTILITY, 275, 255, null, "binding");
-		SpellRegistry.registerSpellComponent("invisibility", getComponentTexture("Invisiblity"), SkillDefs.SKILL_POINT_1, new Invisiblity(), SkillDefs.TREE_UTILITY, 185, 255, null, "true_sight");
+		SpellRegistry.registerSpellComponent("invisibility", getComponentTexture("Invisibility"), SkillDefs.SKILL_POINT_1, new Invisiblity(), SkillDefs.TREE_UTILITY, 185, 255, null, "true_sight");
 
 		SpellRegistry.registerSpellComponent("random_teleport", getComponentTexture("RandomTeleport"), SkillDefs.SKILL_POINT_0, new RandomTeleport(), SkillDefs.TREE_UTILITY, 185, 300, null, "invisibility");
 		SpellRegistry.registerSpellComponent("attract", getComponentTexture("Attract"), SkillDefs.SKILL_POINT_1, new Attract(), SkillDefs.TREE_UTILITY, 245, 300, null, "rift");

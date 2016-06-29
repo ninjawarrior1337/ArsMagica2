@@ -1,11 +1,13 @@
 package am2.gui;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
+import am2.api.SpellRegistry;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
 import am2.api.math.AMVector2;
@@ -13,17 +15,23 @@ import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
+import am2.items.ItemSpellBook;
 import am2.spell.ContingencyType;
+import am2.spell.ISpellPart;
 import am2.texture.SpellIconManager;
 import am2.utils.AffinityShiftUtils;
+import am2.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
@@ -71,7 +79,6 @@ public class AMIngameGUI{
 		RenderArmorStatus(i, j, mc, mc.fontRendererObj);
 		if (drawAMHud)
 			RenderMagicXP(i, j);
-
 //		ItemStack item = mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
 //		if (item != null && item.getItem() instanceof ItemSpellBook){
 //
@@ -81,6 +88,7 @@ public class AMIngameGUI{
 		GL11.glPopAttrib();
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GlStateManager.disableAlpha();
 		GL11.glColor4f(1, 1, 1, 1);
 	}
 
@@ -184,26 +192,28 @@ public class AMIngameGUI{
 					GL11.glColor3f(0.2f, 0.9f, 0.6f);
 			}
 
-//			ItemStack curItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
+			ItemStack curItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
 			//TODO Spell Groups
-//			if (curItem != null && (curItem.getItem() == ItemDefs.spell || curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
-//				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
-//				if (spellStack != null){
-//					int[] parts = SpellUtils.getShapeGroupParts(spellStack);
-//					int sx = mana_hud.iX - 2 * parts.length / 2;
-//					int sy = mana_hud.iY - 2 * parts.length / 2;
-//					for (int p : parts){
-//						IIcon icon = SpellPartManager.instance.getIcon(SkillManager.instance.getSkillName(SkillManager.instance.getSkill(p)));
-//						if (icon != null){
-//							DrawIconAtXY(icon, "items", sx, sy, false);
-//							sx += 3;
-//							sy += 3;
-//						}
-//					}
-//				}
-//			}
+			if (curItem != null && (curItem.getItem() == ItemDefs.spell
+					//|| curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook
+					)){
+				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
+				if (spellStack != null){
+					ArrayList<ISpellPart> parts = SpellUtils.getPartsForGroup(spellStack, 0);//SpellUtils.getShapeGroupParts(spellStack);
+					int sx = mana_hud.iX - 2 * parts.size() / 2;
+					int sy = mana_hud.iY - 2 * parts.size() / 2;
+					for (ISpellPart p : parts){
+						TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(p).getID());
+						if (icon != null){
+							DrawIconAtXY(icon, "items", sx, sy, false);
+							sx += 3;
+							sy += 3;
+						}
+					}
+				}
+			}
 
-			DrawPartialIconAtXY(AMGuiIcons.manaLevel, progressScaled, 1, mana_hud.iX + 16, mana_hud.iY + 1f, (int)(barWidth * 0.97f), 40, false);
+			DrawPartialIconAtXY(AMGuiIcons.manaLevel, progressScaled, 1, mana_hud.iX + 16, mana_hud.iY + 1f, (int)(barWidth * 0.99F), 40, false);
 			DrawIconAtXY(AMGuiIcons.manaBar, "items", mana_hud.iX + 15, mana_hud.iY + 3, barWidth, 50, false);
 
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -343,27 +353,27 @@ public class AMIngameGUI{
 		ContingencyType type = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getContingencyType();
 		switch (type){
 		case DAMAGE:
-			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Damage");
+			icon = SpellIconManager.INSTANCE.getSprite("contingency_damage");
 			break;
 		case FALL:
-			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Fall");
+			icon = SpellIconManager.INSTANCE.getSprite("contingency_fall");
 			break;
 		case HEALTH:
-			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Health");
+			icon = SpellIconManager.INSTANCE.getSprite("contingency_health");
 			break;
 		case FIRE:
-			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Fire");
+			icon = SpellIconManager.INSTANCE.getSprite("contingency_fire");
 			break;
 		case DEATH:
-			icon = SpellIconManager.INSTANCE.getSprite("Contingency_Death");
+			icon = SpellIconManager.INSTANCE.getSprite("contingency_death");
 			break;
 		case NULL:
 		default:
 			return;
 		}
-
+		//System.out.println(icon);
 		DrawIconAtXY(icon, "items", contingencyPos.iX, contingencyPos.iY, 16, 16, true);
-		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+		//GL11.glColor3f(1.0f, 1.0f, 1.0f);
 	}
 
 //	public void RenderBuffs(int i, int j){
@@ -542,7 +552,6 @@ public class AMIngameGUI{
 		tessellator.getBuffer().pos(x + w, y + h, this.zLevel).tex(IIcon.getMaxU(), IIcon.getMaxV()).endVertex();
 		tessellator.getBuffer().pos(x + w, y, this.zLevel).tex(IIcon.getMaxU(), IIcon.getMinV()).endVertex();
 		tessellator.getBuffer().pos(x, y, this.zLevel).tex(IIcon.getMinU(), IIcon.getMinV()).endVertex();
-
 		tessellator.draw();
 	}
 

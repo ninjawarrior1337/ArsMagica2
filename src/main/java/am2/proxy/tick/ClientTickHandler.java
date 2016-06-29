@@ -9,7 +9,9 @@ import am2.commands.ConfigureAMUICommand;
 import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
 import am2.gui.AMIngameGUI;
+import am2.gui.GuiHudCustomization;
 import am2.items.ItemSpellBase;
+import am2.items.ItemSpellBook;
 import am2.lore.CompendiumEntryTypes;
 import am2.packet.AMNetHandler;
 import am2.particles.AMLineArc;
@@ -208,13 +210,13 @@ public class ClientTickHandler{
 
 			if (checkForTKMove(stack)){
 				EntityExtension props = (EntityExtension)EntityExtension.For(Minecraft.getMinecraft().thePlayer);
-				if (this.mouseWheelValue > 0 && props.TK_Distance < 10){
-					props.TK_Distance += 0.5f;
-				}else if (this.mouseWheelValue < 0 && props.TK_Distance > 0.3){
-					props.TK_Distance -= 0.5f;
+				if (this.mouseWheelValue > 0 && props.getTKDistance() < 10){
+					props.addToTKDistance(0.5f);
+				}else if (this.mouseWheelValue < 0 && props.getTKDistance() > 0.3){
+					props.addToTKDistance(-0.5f);
 				}
-				ArsMagica2.LOGGER.debug("TK Distance: %.2f", props.TK_Distance);
-//				props.syncTKDistance();
+				ArsMagica2.LOGGER.debug("TK Distance: %.2f", props.getTKDistance());
+				props.syncTKDistance();
 			}
 //				else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getMinecraft().thePlayer.isSneaking()){
 //				ItemSpellBook isb = (ItemSpellBook)stack.getItem();
@@ -244,11 +246,11 @@ public class ClientTickHandler{
 	}
 
 	private boolean checkForTKMove(ItemStack stack){
-//		if (stack.getItem() instanceof ItemSpellBook){
-//			ItemStack activeStack = ((ItemSpellBook)stack.getItem()).GetActiveItemStack(stack);
-//			if (activeStack != null)
-//				stack = activeStack;
-//		}
+		if (stack.getItem() instanceof ItemSpellBook){
+			ItemStack activeStack = ((ItemSpellBook)stack.getItem()).GetActiveItemStack(stack);
+			if (activeStack != null)
+				stack = activeStack;
+		}
 		if (stack.getItem() instanceof ItemSpellBase && stack.hasTagCompound() && this.usingItem){
 			for (IComponent component : SpellUtils.getComponentsForStage(stack, -1)){
 				if (component instanceof Telekinesis){
@@ -270,7 +272,7 @@ public class ClientTickHandler{
 	public void renderOverlays(){
 		GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
 
-		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus )) {//|| guiScreen instanceof GuiHudCustomization)){
+		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus ) || guiScreen instanceof GuiHudCustomization){
 			this.inGameGui.renderGameOverlay();
 			ConfigureAMUICommand.showIfQueued();
 		}

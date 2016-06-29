@@ -20,7 +20,7 @@ public class BlockWakebloom extends BlockAMFlower{
 	
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos).getBlock().equals(Blocks.WATER);
+		return worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.WATER);
 	}
 	
 	@Override

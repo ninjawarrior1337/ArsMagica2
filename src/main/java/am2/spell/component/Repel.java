@@ -8,11 +8,13 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
+import am2.api.math.AMVector3;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
+import am2.packet.AMNetHandler;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
-import am2.particles.ParticleMoveOnHeading;
+import am2.particles.ParticleFleePoint;
 import am2.spell.IComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -67,7 +69,7 @@ public class Repel implements IComponent{
 		double dY = delta.yCoord / 2.5D / distance;
 		double dZ = delta.zCoord / 2.5D / distance;
 		if (target instanceof EntityPlayer){
-			//AMNetHandler.INSTANCE.sendVelocityAddPacket(world, (EntityPlayer)target, dX, dY, dZ);
+			AMNetHandler.INSTANCE.sendVelocityAddPacket(world, (EntityPlayer)target, dX, dY, dZ);
 		}
 		target.motionX += dX;
 		target.motionY += dY;
@@ -86,17 +88,20 @@ public class Repel implements IComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-		AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", x, y, z);
-		if (particle != null){
-			particle.addRandomOffset(1, 2, 1);
-			double dx = caster.posX - target.posX;
-			double dz = caster.posZ - target.posZ;
-			double angle = Math.toDegrees(Math.atan2(-dz, -dx));
-			particle.AddParticleController(new ParticleMoveOnHeading(particle, angle, 0, 0.1 + rand.nextDouble() * 0.5, 1, false));
-			particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.05f));
-			particle.setMaxAge(20);
-			if (colorModifier > -1){
-				particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+		for (int i = 0; i < ArsMagica2.config.getGFXLevel() * 2; i++) {
+			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", x, y, z);
+			if (effect != null){
+				effect.addRandomOffset(1, 2, 1);
+				double dx = caster.posX - target.posX;
+				double dz = caster.posZ - target.posZ;
+				double angle = Math.toDegrees(Math.atan2(-dz, -dx));
+				//effect.AddParticleController(new ParticleMoveOnHeading(effect, angle, 0, 0.1 + rand.nextDouble() * 0.5, 1, false));
+				effect.AddParticleController(new ParticleFleePoint(effect, new AMVector3(caster).add(new AMVector3(0, caster.getEyeHeight(), 0)).toVec3D(), 0.075f, 3f, 1, true));
+				effect.AddParticleController(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.05f));
+				effect.setMaxAge(20);
+				if (colorModifier > -1){
+					effect.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
+				}
 			}
 		}
 	}

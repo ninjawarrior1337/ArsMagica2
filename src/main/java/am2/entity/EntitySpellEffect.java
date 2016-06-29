@@ -214,8 +214,8 @@ public class EntitySpellEffect extends Entity{
 				}
 			}
 		}
-
-		this.moveEntity(0, this.dataManager.get(WATCHER_GRAVITY) / 100.0f, 0);
+		
+		this.moveEntity(0, (float)this.dataManager.get(WATCHER_GRAVITY), 0);
 
 		ticksToEffect--;
 		if (spellStack == null){
@@ -230,19 +230,28 @@ public class EntitySpellEffect extends Entity{
 		if (ticksToEffect <= 0){
 			ticksToEffect = maxTicksToEffect;
 			float radius = this.dataManager.get(WATCHER_RADIUS);
-			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
+			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(posX - radius, posY - 3, posZ - radius, posX + radius, posY + 3, posZ + radius));
 			for (Entity e : possibleTargets){
 				if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 					e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
 
 				if (e instanceof EntityLivingBase)
-					SpellUtils.applyStageToEntity(spellStack, dummycaster, worldObj, e, false);
+					//SpellUtils.applyStageToEntity(spellStack, dummycaster, worldObj, e, false);
+					SpellUtils.applyStackStage(spellStack.copy(), dummycaster, (EntityLivingBase) e, e.posX, e.posY - 1, e.posZ, null, worldObj, false, false, this.ticksExisted);
 			}
 			if (this.dataManager.get(WATCHER_GRAVITY) < 0 && !firstApply)
-				SpellUtils.applyStackStage(spellStack, dummycaster, null, posX, posY - 1, posZ, null, worldObj, false, false, this.ticksExisted);
+				SpellUtils.applyStackStage(spellStack.copy(), dummycaster, null, posX, posY - 1, posZ, null, worldObj, false, false, this.ticksExisted);
 			else
-				SpellUtils.applyStackStage(spellStack, dummycaster, null, posX, posY, posZ, null, worldObj, false, false, this.ticksExisted);
+				SpellUtils.applyStackStage(spellStack.copy(), dummycaster, null, posX, posY, posZ, null, worldObj, false, false, this.ticksExisted);
 			firstApply = false;
+			for (float i = -radius; i <= radius; i++) {
+				for (int j = -3; j <= 3; j++) {
+					Vec3d[] blocks = getAllBlockLocationsBetween(new Vec3d(posX + i, posY + j, posZ - radius), new Vec3d(posX + i, posY + j, posZ + radius));
+					for (Vec3d vec : blocks) {
+						SpellUtils.applyStageToGround(spellStack.copy(), dummycaster, worldObj, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5, false);
+					}
+				}
+			}
 		}
 	}
 
@@ -309,6 +318,7 @@ public class EntitySpellEffect extends Entity{
 				if (worldObj.isAirBlock(new BlockPos(pX, pY, pZ)))
 					worldObj.setBlockState(new BlockPos(pX, pY, pZ), Blocks.FIRE.getDefaultState());
 			}
+			
 		}
 	}
 
@@ -500,12 +510,14 @@ public class EntitySpellEffect extends Entity{
 
 					double hDistance = closest.distanceTo(target);
 					double vDistance = Math.abs(this.posY - e.posY);
-
+					
+					System.out.println(hDistance + " " + vDistance);
+					
 					if (e instanceof EntityLivingBase && hDistance < 0.75f && vDistance < 2){
 						//commented out in favor of line below so as to apply subsequent shapes as well
 						//uncomment and comment out below line to revert to direct target only, but mark wave/wall as terminus
 						//SpellUtils.applyStageToEntity(spellStack, dummycaster, worldObj, e, false);
-						SpellUtils.applyStackStage(spellStack, dummycaster, (EntityLivingBase)e, this.posX, this.posY, this.posZ, null, worldObj, false, false, 0);
+						SpellUtils.applyStackStage(spellStack.copy(), dummycaster, (EntityLivingBase)e, this.posX, this.posY, this.posZ, null, worldObj, false, false, 0);
 					}
 				}
 			}
@@ -525,16 +537,18 @@ public class EntitySpellEffect extends Entity{
 
 		float radius = this.dataManager.get(WATCHER_RADIUS);
 
-		Vec3d a = new Vec3d((this.posX + dx) - dxH * radius, this.posY, (this.posZ + dz) - dzH * radius);
-		Vec3d b = new Vec3d((this.posX + dx) - dxH * -radius, this.posY, (this.posZ + dz) - dzH * -radius);
-
-		if (dummycaster == null){
-			dummycaster = DummyEntityPlayer.fromEntityLiving(new EntityDummyCaster(worldObj));
-		}
-
-		Vec3d[] vecs = getAllBlockLocationsBetween(a, b);
-		for (Vec3d vec : vecs){
-			SpellUtils.applyStageToGround(spellStack, dummycaster, worldObj, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5, false);
+		for (int j = -1; j <= 1; j++) {
+			Vec3d a = new Vec3d((this.posX + dx) - dxH * radius, this.posY + j, (this.posZ + dz) - dzH * radius);
+			Vec3d b = new Vec3d((this.posX + dx) - dxH * -radius, this.posY + j, (this.posZ + dz) - dzH * -radius);
+	
+			if (dummycaster == null){
+				dummycaster = DummyEntityPlayer.fromEntityLiving(new EntityDummyCaster(worldObj));
+			}
+	
+			Vec3d[] vecs = getAllBlockLocationsBetween(a, b);
+			for (Vec3d vec : vecs){
+				SpellUtils.applyStageToGround(SpellUtils.popStackStage(spellStack.copy()), dummycaster, worldObj, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5, false);
+			}
 		}
 
 	}

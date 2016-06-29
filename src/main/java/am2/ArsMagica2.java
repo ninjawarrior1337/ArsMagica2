@@ -10,6 +10,7 @@ import am2.api.extensions.IRiftStorage;
 import am2.api.extensions.ISkillData;
 import am2.blocks.tileentity.TileEntityOcculus;
 import am2.config.AMConfig;
+import am2.defs.AMRecipes;
 import am2.defs.BindingsDefs;
 import am2.defs.BlockDefs;
 import am2.defs.CreativeTabsDefs;
@@ -61,30 +62,14 @@ public class ArsMagica2 {
 	
 	@EventHandler
 	public void preInit (FMLPreInitializationEvent e) {
+		config = new AMConfig(e.getSuggestedConfigurationFile());
 		proxy.preInit();
-		MinecraftForge.EVENT_BUS.register(new EntityHandler());
-		MinecraftForge.EVENT_BUS.register(new PotionEffectHandler());
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("AM2");
 		network.registerMessage(MessageBoolean.IceBridgeHandler.class, MessageBoolean.class, 1, Side.SERVER);
 		network.registerMessage(MessageCapabilities.class, MessageCapabilities.class, 3, Side.SERVER);
-		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
-		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
-		CapabilityManager.INSTANCE.register(ISkillData.class, new ISkillData.Storage(), new ISkillData.Factory());
-		CapabilityManager.INSTANCE.register(IRiftStorage.class, new IRiftStorage.Storage(), new IRiftStorage.Factory());
-		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
-		new ItemDefs();
-		new CreativeTabsDefs();
-		new BlockDefs();
-		config = new AMConfig(e.getSuggestedConfigurationFile());
-		config.init();
-		SkillDefs.init();
-		SpellDefs.init();
-		LoreDefs.init();
-		PotionEffectsDefs.init();
 		ClientRegistry.registerKeyBinding(BindingsDefs.iceBridge);
 		ClientRegistry.registerKeyBinding(BindingsDefs.enderTP);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
-		GameRegistry.registerTileEntity(TileEntityOcculus.class, "TileEntityOcculus");
 	}
 	
 	@EventHandler
@@ -97,6 +82,7 @@ public class ArsMagica2 {
 	
 	@EventHandler
 	public void postInit (FMLPostInitializationEvent e) {
+		AMRecipes.addRecipes();
 	}
 
 	public String getVersion() {

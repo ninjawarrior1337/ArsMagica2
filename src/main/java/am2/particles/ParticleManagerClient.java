@@ -1,5 +1,7 @@
 package am2.particles;
 
+import am2.ArsMagica2;
+import am2.codechicken.LightningBolt;
 import am2.defs.PotionEffectsDefs;
 import am2.packet.AMDataReader;
 import am2.particles.ribbon.AMRibbon;
@@ -62,28 +64,28 @@ public class ParticleManagerClient extends ParticleManagerServer{
 
 	@Override
 	public void BoltFromEntityToEntity(World world, Entity caster, Entity source, Entity target, int damage, int type, int color){
-//		double xx = target.posX;
-//		double yy = target.posY + target.getEyeHeight();
-//		double zz = target.posZ;
-//
-//		double px = source.posX;
-//		double py = source.posY + source.getEyeHeight();
-//		double pz = source.posZ;
-//		px -= MathHelper.cos(source.rotationYaw / 180.0F * 3.141593F) * 0.16F;
-//		py -= 0.1000000014901161D;
-//		pz -= MathHelper.sin(source.rotationYaw / 180.0F * 3.141593F) * 0.16F;
-//		Vec3d vec3d = source.getLookVec().normalize();
-//		px += vec3d.xCoord * 0.25D;
-//		py += vec3d.yCoord * 0.25D;
-//		pz += vec3d.zCoord * 0.25D;
-//		LightningBolt bolt = new LightningBolt(world, px, py, pz, xx, target.boundingBox.minY + target.height / 2.0F, zz, world.rand.nextLong(), 6, 0.3F, 6);
-//
-//		bolt.defaultFractal();
-//		bolt.setSourceEntity(caster);
-//		bolt.setType(type);
-//		bolt.setDamage(0);
-//		bolt.setOverrideColor(color);
-//		bolt.finalizeBolt();
+		double xx = target.posX;
+		double yy = target.posY + target.getEyeHeight();
+		double zz = target.posZ;
+
+		double px = source.posX;
+		double py = source.posY + source.getEyeHeight();
+		double pz = source.posZ;
+		px -= MathHelper.cos(source.rotationYaw / 180.0F * 3.141593F) * 0.16F;
+		py -= 0.1000000014901161D;
+		pz -= MathHelper.sin(source.rotationYaw / 180.0F * 3.141593F) * 0.16F;
+		Vec3d vec3d = source.getLookVec().normalize();
+		px += vec3d.xCoord * 0.25D;
+		py += vec3d.yCoord * 0.25D;
+		pz += vec3d.zCoord * 0.25D;
+		LightningBolt bolt = new LightningBolt(world, px, py, pz, xx, target.getEntityBoundingBox().minY + target.height / 2.0F, zz, world.rand.nextLong(), 6, 0.3F, 6);
+
+		bolt.defaultFractal();
+		bolt.setSourceEntity(caster);
+		bolt.setType(type);
+		bolt.setDamage(0);
+		bolt.setOverrideColor(color);
+		bolt.finalizeBolt();
 	}
 
 	@Override
@@ -109,16 +111,16 @@ public class ParticleManagerClient extends ParticleManagerServer{
 	@Override
 	public void BoltFromPointToPoint(World world, double startX, double startY, double startZ, double endX, double endY, double endZ, int type, int color){
 
-//		if (AMCore.config.NoGFX()){
-//			return;
-//		}
-//		LightningBolt bolt = new LightningBolt(world, startX, startY, startZ, endX, endY, endZ, world.rand.nextLong(), 6, 0.3F, 6);
-//
-//		bolt.defaultFractal();
-//		bolt.setSourceEntity(null);
-//		bolt.setType(type);
-//		bolt.setDamage(0);
-//		bolt.finalizeBolt();
+		if (ArsMagica2.config.NoGFX()){
+			return;
+		}
+		LightningBolt bolt = new LightningBolt(world, startX, startY, startZ, endX, endY, endZ, world.rand.nextLong(), 6, 0.3F, 6);
+
+		bolt.defaultFractal();
+		bolt.setSourceEntity(null);
+		bolt.setType(type);
+		bolt.setDamage(0);
+		bolt.finalizeBolt();
 	}
 
 	@Override
@@ -228,11 +230,10 @@ public class ParticleManagerClient extends ParticleManagerServer{
 	@Override
 	public void RibbonFromPointToPoint(World world, double startX, double startY, double startZ, double endX, double endY, double endZ, int type){
 
-//		if (AMCore.config.NoGFX()){
-//			return;
-//		}
+		if (ArsMagica2.config.NoGFX()){
+			return;
+		}
 		AMRibbon ribbon = new AMRibbon(world, 0.5f, 0.05f, startX, startY, startZ);
-
 		Minecraft.getMinecraft().effectRenderer.addEffect(ribbon);
 	}
 

@@ -9,8 +9,10 @@ import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.world.World;
 
 public class Speed implements IModifier{
@@ -31,7 +33,7 @@ public class Speed implements IModifier{
 				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.LIGHTNING),
 				Items.LEATHER_BOOTS,
 				Items.CARROT,
-				"P:!0 & 1 & !2 & !3 & 1+6"
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.SWIFTNESS)
 		};
 	}
 

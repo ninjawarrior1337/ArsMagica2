@@ -1,12 +1,8 @@
 package am2.lore;
 
-import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.gui.AMGuiIcons;
 import am2.texture.SpellIconManager;
-import am2.utils.AffinityShiftUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 
@@ -68,7 +64,7 @@ public class CompendiumEntryTypes{
 	public void initTextures(){
 		TextureMap textures = Minecraft.getMinecraft().getTextureMapBlocks();;
 		GUIDE.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/arcanecompendium")));//ParticleIcon(ItemDefs.arcaneCompendium));
-		MECHANIC.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/magitech_goggles")));
+		MECHANIC.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/magitech_goggle")));
 		ITEM.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/essence_ice")));
 		BLOCK.setRepresentIcon(textures.registerSprite(new ResourceLocation("arsmagica2", "items/crystal_wrench")));
 		SPELL_SHAPE.setRepresentIcon(SpellIconManager.INSTANCE.getSprite("binding"));

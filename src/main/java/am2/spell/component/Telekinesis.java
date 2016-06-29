@@ -11,6 +11,7 @@ import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
+import am2.extensions.EntityExtension;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachPoint;
 import am2.spell.IComponent;
@@ -43,7 +44,7 @@ public class Telekinesis implements IComponent{
 
 	private boolean doTK_Extrapolated(ItemStack stack, World world, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (caster instanceof EntityPlayer){
-			double range = 8;
+			double range = ((EntityExtension)EntityExtension.For(caster)).getTKDistance();
 			RayTraceResult mop = ItemDefs.spell.getMovingObjectPosition(caster, world, range, false, false);
 			if (mop == null){
 				impactX = caster.posX + (Math.cos(Math.toRadians(caster.rotationYaw + 90)) * range);
@@ -100,12 +101,12 @@ public class Telekinesis implements IComponent{
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 
 		if (caster instanceof EntityPlayer){
-			double range = 8; //ExtendedProperties.For(caster).TK_Distance;
+			double range = EntityExtension.For(caster).getTKDistance();
 			RayTraceResult mop = ItemDefs.spell.getMovingObjectPosition(caster, world, range, false, false);
 			if (mop == null){
 				x = caster.posX + (Math.cos(Math.toRadians(caster.rotationYaw + 90)) * range);
 				z = caster.posZ + (Math.sin(Math.toRadians(caster.rotationYaw + 90)) * range);
-				y = caster.posY + (-Math.sin(Math.toRadians(caster.rotationPitch)) * range);
+				y = caster.posY + caster.getEyeHeight() + (-Math.sin(Math.toRadians(caster.rotationPitch)) * range);
 			}
 		}
 

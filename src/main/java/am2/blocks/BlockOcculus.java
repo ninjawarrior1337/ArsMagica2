@@ -53,7 +53,7 @@ public class BlockOcculus extends BlockContainer {
 			float hitZ) {
 		if (playerIn.isSneaking())
 			return false;
-		playerIn.openGui(ArsMagica2.instance, IDDefs.OCCULUS_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		playerIn.openGui(ArsMagica2.instance, IDDefs.GUI_OCCULUS, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 

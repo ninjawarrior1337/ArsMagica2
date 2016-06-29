@@ -2,7 +2,6 @@ package am2.lore;
 
 import am2.api.IMultiblockStructureController;
 import am2.gui.GuiArcaneCompendium;
-import am2.multiblock.MultiblockStructureDefinition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;

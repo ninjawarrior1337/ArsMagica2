@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableMap;
 
 import am2.affinity.Affinity;
 import am2.api.AffinityRegistry;
-import am2.models.ModelLoader;
+import am2.models.ArsMagicaModelLoader;
 import am2.utils.ResourceUtils;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -48,7 +48,7 @@ public class SpellModel implements IModel {
 		if (handRender == null) {
 			handRender = new HandBakedModel(model, map);
 			for (Affinity affinity : AffinityRegistry.getAffinityMap().values()) {
-				IBakedModel subModel = ItemLayerModel.INSTANCE.retexture(ImmutableMap.of("layer0", ModelLoader.sprites.get(affinity).getIconName())).bake(state, format, bakedTextureGetter);
+				IBakedModel subModel = ItemLayerModel.INSTANCE.retexture(ImmutableMap.of("layer0", ArsMagicaModelLoader.sprites.get(affinity).getIconName())).bake(state, format, bakedTextureGetter);
 				handRender.addPart(affinity, subModel);
 			}
 		}

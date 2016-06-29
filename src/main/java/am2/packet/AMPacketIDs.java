@@ -26,7 +26,7 @@ public class AMPacketIDs{
 	//No longer needed
 	//public static final byte SHOW_UI_CUSTOMIZATION = 37;
 	public static final byte ENTITY_ACTION_UPDATE = 38;
-	//public static final byte TK_DISTANCE_SYNC = 39;
+	public static final byte TK_DISTANCE_SYNC = 39;
 	public static final byte SAVE_KEYSTONE_COMBO = 40;
 	public static final byte SET_KEYSTONE_COMBO = 41;
 	public static final byte PLAYER_LOGIN_DATA = 42;

@@ -1,5 +1,6 @@
 package am2.blocks;
 
+import am2.defs.CreativeTabsDefs;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.item.ItemBlock;
@@ -13,6 +14,7 @@ public class BlockAMFlower extends BlockBush{
 	public BlockAMFlower(){
 		super();
 		setSoundType(SoundType.PLANT);
+		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
 	}
 
 	public BlockAMFlower registerAndName(ResourceLocation loc){

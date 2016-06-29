@@ -4,7 +4,9 @@ import am2.blocks.BlockAM;
 import am2.blocks.BlockAMFlower;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaOre;
+import am2.blocks.BlockCraftingAltar;
 import am2.blocks.BlockDesertNova;
+import am2.blocks.BlockEssenceGenerator;
 import am2.blocks.BlockFrost;
 import am2.blocks.BlockLightDecay;
 import am2.blocks.BlockMageLight;
@@ -12,6 +14,7 @@ import am2.blocks.BlockMagicWall;
 import am2.blocks.BlockOcculus;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
+import am2.blocks.BlockWizardsChalk;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -38,14 +41,19 @@ public class BlockDefs {
 	public static final BlockAMFlower wakebloom = new BlockWakebloom().registerAndName(new ResourceLocation("arsmagica2:wakebloom"));
 	public static final BlockAMFlower aum = new BlockAMFlower().registerAndName(new ResourceLocation("arsmagica2:aum"));
 	public static final BlockAMFlower tarmaRoot = new BlockTarmaRoot().registerAndName(new ResourceLocation("arsmagica2:tarmaRoot"));
+	public static final BlockCraftingAltar altar = new BlockCraftingAltar().registerAndName(new ResourceLocation("arsmagica2:craftingAltar"));
+	public static final Block wizardChalk = new BlockWizardsChalk().registerAndName(new ResourceLocation("arsmagica2:wizardChalkBlock"));
+	public static final Block obelisk = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_STANDARD).registerAndName(new ResourceLocation("arsmagica2:obelisk"));
+	public static final Block blackAurem = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_DARK).registerAndName(new ResourceLocation("arsmagica2:blackAurem"));
+	public static final Block celestialPrism = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_LIGHT).registerAndName(new ResourceLocation("arsmagica2:celestialPrism"));
+	public static final Block crystalMarker = null;
 	
 	public static void init () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);
-		Item occulus = items.getValue(new ResourceLocation("arsmagica2", "occulus"));
 		RenderItem renderer = Minecraft.getMinecraft().getRenderItem();
-		renderer.getItemModelMesher().register(occulus, 0, new ModelResourceLocation("arsmagica2:occulus", "inventory"));
-		Item wall = items.getValue(new ResourceLocation("arsmagica2", "magic_wall"));
-		renderer.getItemModelMesher().register(wall, 0, new ModelResourceLocation("arsmagica2:magic_wall", "inventory"));
+		registerTexture(magicWall);
+		registerTexture(occulus);
+		registerTexture(altar);
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {
@@ -58,4 +66,9 @@ public class BlockDefs {
 		}
 	}
 	
+	private static void registerTexture(Block block) {
+		ResourceLocation loc = block.getRegistryName();
+		Item item = GameRegistry.findRegistry(Item.class).getValue(loc);
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(loc, "inventory"));
+	}
 }

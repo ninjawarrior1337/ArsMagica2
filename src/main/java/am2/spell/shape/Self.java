@@ -1,5 +1,6 @@
 package am2.spell.shape;
 
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
@@ -33,7 +34,7 @@ public class Self implements IShape{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				//TODO BlockDefs.aum,
+				BlockDefs.aum,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM),
 				ItemDefs.lesserFocus,
 				"E:" + PowerTypes.NEUTRAL.ID(), 500

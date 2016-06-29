@@ -379,7 +379,7 @@ public class AMConfig extends Configuration{
 
 	public void clientInit(){
 		AuraType = get(CATEGORY_BETA, KEY_AuraType, 15).getInt(15);
-		AuraType %= AMParticle.particleTypes.length;
+		//AuraType %= AMParticle.particleTypes.length;
 		AuraBehaviour = get(CATEGORY_BETA, KEY_AuraBehaviour, 0).getInt(0);
 		AuraBehaviour %= ParticleController.AuraControllerOptions.length;
 		AuraAlpha = (float)(get(CATEGORY_BETA, KEY_AuraAlpha, 1.0D)).getDouble(1.0D);

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import am2.ArsMagica2;
 import am2.api.IMultiblockStructureController;
@@ -14,9 +13,9 @@ import am2.api.power.IPowerNode;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.multiblock.TypedMultiblockGroup;
 import am2.multiblock.MultiblockGroup;
 import am2.multiblock.MultiblockStructureDefinition;
+import am2.multiblock.TypedMultiblockGroup;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
@@ -32,9 +31,9 @@ import am2.spell.shape.Binding;
 import am2.utils.KeyValuePair;
 import am2.utils.SpellUtils;
 import net.minecraft.block.BlockLever;
+import net.minecraft.block.BlockLever.EnumOrientation;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.block.BlockLever.EnumOrientation;
 import net.minecraft.block.BlockStairs.EnumHalf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -102,28 +101,6 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private static final int augmatl_mutex = 2;
 	private static final int lectern_mutex = 4;
-	//==============================================
-	// Structure Groups
-	//==============================================
-	private MultiblockGroup[] lecternGroup_primary;
-	private MultiblockGroup[] augMatl_primary;
-	private MultiblockGroup wood_primary;
-	private MultiblockGroup quartz_primary;
-	private MultiblockGroup netherbrick_primary;
-	private MultiblockGroup cobble_primary;
-	private MultiblockGroup brick_primary;
-	private MultiblockGroup sandstone_primary;
-	private MultiblockGroup witchwood_primary;
-
-	private MultiblockGroup[] lecternGroup_secondary;
-	private MultiblockGroup[] augMatl_secondary;
-	private MultiblockGroup wood_secondary;
-	private MultiblockGroup quartz_secondary;
-	private MultiblockGroup netherbrick_secondary;
-	private MultiblockGroup cobble_secondary;
-	private MultiblockGroup brick_secondary;
-	private MultiblockGroup sandstone_secondary;
-	private MultiblockGroup witchwood_secondary;
 
 	private String currentSpellName = "";
 
@@ -160,6 +137,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		return map;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void setupMultiblock(){
 //		primary = new MultiblockStructureDefinition("craftingAltar_alt");
 //
@@ -175,21 +153,29 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 //				BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE),
 //				BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE)
 //		};
-		MultiblockGroup catalysts = new MultiblockGroup("catalysts", 
-				Lists.newArrayList(
-						Blocks.GLASS.getDefaultState(),
-						Blocks.COAL_BLOCK.getDefaultState(),
-						Blocks.REDSTONE_BLOCK.getDefaultState(), 
-						Blocks.IRON_BLOCK.getDefaultState(),
-						Blocks.LAPIS_BLOCK.getDefaultState(),
-						Blocks.GOLD_BLOCK.getDefaultState(),
-						Blocks.DIAMOND_BLOCK.getDefaultState(),
-						Blocks.EMERALD_BLOCK.getDefaultState(),
-						BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE),
-						BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE)),
-				false);
+		HashMap<Integer, IBlockState> glass = new HashMap<>();
+		HashMap<Integer, IBlockState> coal = new HashMap<>();
+		HashMap<Integer, IBlockState> redstone = new HashMap<>();
+		HashMap<Integer, IBlockState> iron = new HashMap<>();
+		HashMap<Integer, IBlockState> lapis = new HashMap<>();
+		HashMap<Integer, IBlockState> gold = new HashMap<>();
+		HashMap<Integer, IBlockState> diamond = new HashMap<>();
+		HashMap<Integer, IBlockState> emerald = new HashMap<>();
+		HashMap<Integer, IBlockState> moonstone = new HashMap<>();
+		HashMap<Integer, IBlockState> sunstone = new HashMap<>();
+		glass.put(0, Blocks.GLASS.getDefaultState());
+		coal.put(0, Blocks.COAL_BLOCK.getDefaultState());
+		redstone.put(0, Blocks.REDSTONE_BLOCK.getDefaultState());
+		iron.put(0, Blocks.IRON_BLOCK.getDefaultState());
+		lapis.put(0, Blocks.LAPIS_BLOCK.getDefaultState());
+		gold.put(0, Blocks.GOLD_BLOCK.getDefaultState());
+		diamond.put(0, Blocks.DIAMOND_BLOCK.getDefaultState());
+		emerald.put(0, Blocks.EMERALD_BLOCK.getDefaultState());
+		moonstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE));
+		sunstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE));
 		
-		@SuppressWarnings("unchecked")
+		TypedMultiblockGroup catalysts = new TypedMultiblockGroup("catalysts", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
+		
 		TypedMultiblockGroup out = new TypedMultiblockGroup("out", 
 				Lists.newArrayList(
 						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
@@ -201,17 +187,18 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 						createStateMap(Blocks.QUARTZ_BLOCK.getDefaultState(), Blocks.QUARTZ_STAIRS.getDefaultState()),
 						createStateMap(Blocks.NETHER_BRICK.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState()),
 						createStateMap(Blocks.STONEBRICK.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.COBBLESTONE.getDefaultState(), Blocks.STONE_STAIRS.getDefaultState()),
 						createStateMap(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState())
+						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PURPUR_BLOCK.getDefaultState(), Blocks.PURPUR_STAIRS.getDefaultState()),
+						createStateMap(Blocks.RED_SANDSTONE.getDefaultState(), Blocks.RED_SANDSTONE_STAIRS.getDefaultState())
 						), 
 				false);
 		
-		catalysts.addBlock(new BlockPos(-1, 0, -2));
-		catalysts.addBlock(new BlockPos(1, 0, -2));
-		catalysts.addBlock(new BlockPos(-1, 0, 2));
-		catalysts.addBlock(new BlockPos(1, 0, 2));
-		catalysts.addBlock(new BlockPos(0, -4, 0));
+		catalysts.addBlock(new BlockPos(-1, 0, -2), 0);
+		catalysts.addBlock(new BlockPos(1, 0, -2), 0);
+		catalysts.addBlock(new BlockPos(-1, 0, 2), 0);
+		catalysts.addBlock(new BlockPos(1, 0, 2), 0);
+		catalysts.addBlock(new BlockPos(0, -4, 0), 0);
 
 		out.addBlock(new BlockPos(-1, 0, -1), STAIR_EAST);
 		out.addBlock(new BlockPos(-1, 0, 0), STAIR_EAST);
@@ -299,21 +286,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		primary.addGroup(out);
 		primary.addGroup(catalysts);
 		
-		MultiblockGroup catalysts_alt = new MultiblockGroup("catalysts_alt", 
-				Lists.newArrayList(
-						Blocks.GLASS.getDefaultState(),
-						Blocks.COAL_BLOCK.getDefaultState(),
-						Blocks.REDSTONE_BLOCK.getDefaultState(), 
-						Blocks.IRON_BLOCK.getDefaultState(),
-						Blocks.LAPIS_BLOCK.getDefaultState(),
-						Blocks.GOLD_BLOCK.getDefaultState(),
-						Blocks.DIAMOND_BLOCK.getDefaultState(),
-						Blocks.EMERALD_BLOCK.getDefaultState(),
-						BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE),
-						BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE)),
-				false);
+		TypedMultiblockGroup catalysts_alt = new TypedMultiblockGroup("catalysts_alt", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
 		
-		@SuppressWarnings("unchecked")
 		TypedMultiblockGroup out_alt = new TypedMultiblockGroup("out_alt", 
 				Lists.newArrayList(
 						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
@@ -325,26 +299,27 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 						createStateMap(Blocks.QUARTZ_BLOCK.getDefaultState(), Blocks.QUARTZ_STAIRS.getDefaultState()),
 						createStateMap(Blocks.NETHER_BRICK.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState()),
 						createStateMap(Blocks.STONEBRICK.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.COBBLESTONE.getDefaultState(), Blocks.STONE_STAIRS.getDefaultState()),
 						createStateMap(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState())
+						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState()),
+						createStateMap(Blocks.PURPUR_BLOCK.getDefaultState(), Blocks.PURPUR_STAIRS.getDefaultState()),
+						createStateMap(Blocks.RED_SANDSTONE.getDefaultState(), Blocks.RED_SANDSTONE_STAIRS.getDefaultState())
 						), 
 				false);
 		
 		MultiblockGroup wall_alt = new MultiblockGroup("wall_alt", Lists.newArrayList(BlockDefs.magicWall.getDefaultState()), true);
-		wall.addBlock(new BlockPos(-2, -1, 0));
-		wall.addBlock(new BlockPos(-2, -2, 0));
-		wall.addBlock(new BlockPos(-2, -3, 0));
-		wall.addBlock(new BlockPos(2, -1, 0));
-		wall.addBlock(new BlockPos(2, -2, 0));
-		wall.addBlock(new BlockPos(2, -3, 0));
+		wall_alt.addBlock(new BlockPos(-2, -1, 0));
+		wall_alt.addBlock(new BlockPos(-2, -2, 0));
+		wall_alt.addBlock(new BlockPos(-2, -3, 0));
+		wall_alt.addBlock(new BlockPos(2, -1, 0));
+		wall_alt.addBlock(new BlockPos(2, -2, 0));
+		wall_alt.addBlock(new BlockPos(2, -3, 0));
 
 		
-		catalysts_alt.addBlock(new BlockPos(-2, 0, -1));
-		catalysts_alt.addBlock(new BlockPos(-2, 0, 1));
-		catalysts_alt.addBlock(new BlockPos(2, 0, -1));
-		catalysts_alt.addBlock(new BlockPos(2, 0, 1));
-		catalysts_alt.addBlock(new BlockPos(0, -4, 0));
+		catalysts_alt.addBlock(new BlockPos(-2, 0, -1), 0);
+		catalysts_alt.addBlock(new BlockPos(-2, 0, 1), 0);
+		catalysts_alt.addBlock(new BlockPos(2, 0, -1), 0);
+		catalysts_alt.addBlock(new BlockPos(2, 0, 1), 0);
+		catalysts_alt.addBlock(new BlockPos(0, -4, 0), 0);
 
 		out_alt.addBlock(new BlockPos(-1, 0, -1), STAIR_SOUTH);
 		out_alt.addBlock(new BlockPos(0, 0, -1), STAIR_SOUTH);
@@ -424,7 +399,11 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		secondary.addGroup(lever1_alt, lever2_alt, lever3_alt, lever4_alt);
 		secondary.addGroup(out_alt);
 		secondary.addGroup(catalysts_alt);
-
+		
+		MultiblockGroup center = new MultiblockGroup("center", Lists.newArrayList(BlockDefs.altar.getDefaultState()), true);
+		center.addBlock(new BlockPos(0, 0, 0));
+		primary.addGroup(center);
+		secondary.addGroup(center);
 		
 //		for (int i = 0; i < augMatls.length; ++i)
 //			primary.addAllowedBlock(augMatl_primary[i], -1, 0, 2, augMatls[i], augMetas[i]);
@@ -696,12 +675,14 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	@Override
 	public void update(){
 		super.update();
+		this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
 		this.ticksExisted++;
 
 		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
 		if (isCrafting){
+			//System.out.println("Me");
 			checkForEndCondition();
 			updatePowerRequestData();
 			if (!worldObj.isRemote && !currentDefinitionIsWithinStructurePower() && this.ticksExisted > 100){
@@ -935,7 +916,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	}
 
 	private void checkStructure(){
-		setStructureValid(primary.matches(worldObj, pos));
+		setStructureValid(primary.matches(worldObj, pos) || secondary.matches(worldObj, pos));
 	}
 
 	private void checkForStartCondition(){
@@ -1252,6 +1233,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.getNbtCompound());
+		this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
 	}
 
 }

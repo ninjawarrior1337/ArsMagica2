@@ -288,7 +288,6 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 			IArcaneCompendium comp = ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer);
 
 			ArrayList<CompendiumEntry> itemsInCategory = comp.getEntriesForCategory(category.getCategoryName());
-			System.out.println(category.getCategoryName() + " : " + itemsInCategory.size());
 			for (CompendiumEntry entry : itemsInCategory)
 				if (comp.isUnlocked(entry.getID()) || entry.isDefaultUnlocked())
 					unlockedSubItems++;
@@ -328,6 +327,9 @@ public class GuiCompendiumIndex extends GuiScreen implements GuiYesNoCallback{
 			CompendiumEntry entry = itemsInCategory.get(i);
 			if (!comp.isUnlocked(entry.getID()) || !checkSCMLimit(entry)) continue;
 			String buttonLabel = entry.getName();
+			Skill entrySkill = SkillRegistry.getSkillFromName(entry.getID());
+			if (entrySkill != null)
+				buttonLabel = entrySkill.getName();
 			while (fontRendererObj.getStringWidth(buttonLabel) > 125){
 				buttonLabel = buttonLabel.substring(0, buttonLabel.length() - 4) + "...";
 			}

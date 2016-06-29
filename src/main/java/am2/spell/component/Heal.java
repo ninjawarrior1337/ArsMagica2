@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.api.DamageSources;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
@@ -46,6 +47,7 @@ public class Heal implements IComponent{
 				return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeHolyDamage(caster), healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(SkillDefs.LIFE)));
 			}else{
 				int healing = SpellUtils.getModifiedInt_Mul(2, stack, caster, target, world, SpellModifiers.HEALING);
+				healing *= 1F + AffinityData.For(caster).getAffinityDepth(SkillDefs.LIFE);
 				if (EntityExtension.For((EntityLivingBase)target).getHealCooldown() == 0){
 					((EntityLivingBase)target).heal(healing);
 					EntityExtension.For((EntityLivingBase)target).setHealCooldown(60);
@@ -107,7 +109,7 @@ public class Heal implements IComponent{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-				//BlocksCommonProxy.aum
+				BlockDefs.aum
 		};
 	}
 

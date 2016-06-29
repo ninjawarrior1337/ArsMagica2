@@ -18,7 +18,7 @@ public enum ContingencyType {
 	 */
 	FALL,
 	/**
-	 * When the entity goes under 2 hearts (4hp)
+	 * When the entity goes under 25% hp
 	 */
 	HEALTH,
 	/**
@@ -29,7 +29,7 @@ public enum ContingencyType {
 	
 	public static ContingencyType fromName(String name) {
 		for (ContingencyType type : values()) {
-			if (name.equalsIgnoreCase(type.name()))
+			if (name.equalsIgnoreCase(type.name().toLowerCase()))
 				return type;
 		}
 		

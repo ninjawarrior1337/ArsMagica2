@@ -32,6 +32,24 @@ public class CompendiumEntrySpellPart extends CompendiumEntry{
 		return new GuiArcaneCompendium(id, skill, getModifiers());
 	}
 	
+	@Override
+	public String[] getRelatedItems() {
+		ArrayList<String> str = new ArrayList<>();
+		for (Skill sk : SkillRegistry.getSkillMap().values()) {
+			for (String parent : sk.getParents()) {
+				if (parent.equals(skill.getID())) {
+					str.add(sk.getID());
+				}
+			}
+		}
+		String[] array = new String[str.size() + related.length];
+		for (int i = 0; i < related.length; i++)
+			array[i] = related[i];
+		for (int i = 0; i < str.size(); i++)
+			array[i + related.length] = str.get(i);
+		return super.getRelatedItems();
+	}
+	
 	public ArrayList<ItemStack> getModifiers() {
 		ArrayList<ItemStack> ret = new ArrayList<>();
 		if (mods != null) {

@@ -97,9 +97,7 @@ public class AMRibbon extends Particle{
 	void draw(){
 		ribbonTarget = new Vec3d(random(-movement, movement), random(-movement, movement), random(-movement, movement));
 		ribbonSeparation = lerp(-MAXSEPARATION, MAXSEPARATION, noise.noise1(noisePosn += NOISESTEP));
-
 		currentCurve.addSegment();
-
 		int size = curves.size();
 		if (size > NUMCURVES - 1){
 			RibbonCurve c = (RibbonCurve)curves.get(0);

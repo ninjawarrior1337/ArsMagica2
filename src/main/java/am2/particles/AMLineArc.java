@@ -183,8 +183,7 @@ public class AMLineArc extends Particle{
 
 		double wGain = (width * 3) / (length * distance);
 		float curWidth = width * 3;
-
-		tessellator.draw();
+		tessellator.getBuffer().begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_TEX);
 		for (int i = 0; i <= length * distance; i++){
 			float lengthFactor = i / length;
 			float f3 = 1.0F - Math.abs(i - length / 2.0F) / (length / 2.0F);
@@ -203,8 +202,7 @@ public class AMLineArc extends Particle{
 
 			curWidth -= wGain;
 		}
-		tessellator.getBuffer().begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_TEX);
-
+		tessellator.draw();
 		forwardFactor = (forwardFactor + 0.01f) % 1.0f;
 		GL11.glPopMatrix();
 	}

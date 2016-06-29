@@ -27,21 +27,20 @@ public class MultiblockStructureDefinition {
 	}
 	
 	public boolean matches (World world, BlockPos startCheckPos) {
-		boolean flag = false;
-		for (int l = 0; l < 4 && !flag; l++) {
-			boolean subFlag = true;
-			for (List<MultiblockGroup> subGroup : groups) {
-				boolean groupCheck = false;
-
-				for (MultiblockGroup group : subGroup) {
-					MultiblockGroup gr = group.rotate(l);
-					subFlag |= gr.matches(world, startCheckPos);
-				}
-				subFlag &= groupCheck;
+		boolean subFlag = true;
+		for (List<MultiblockGroup> subGroup : groups) {
+			boolean groupCheck = false;
+			boolean hasCheck = false;
+			for (MultiblockGroup group : subGroup) {
+				hasCheck = true;
+				groupCheck |= group.matches(world, startCheckPos);
 			}
-			flag = subFlag;
+//			if (!groupCheck)
+//				System.out.println("Missing match for " + subGroup.get(0).name);
+			if (hasCheck)
+				subFlag &= groupCheck;
 		}
-		return flag;
+		return subFlag;
 	}
 	
 	public List<MultiblockGroup> getMatchingGroups (World world, BlockPos startCheckPos) {
@@ -157,9 +156,13 @@ public class MultiblockStructureDefinition {
 		for (List<MultiblockGroup> groups : this.groups) {
 			int num = new Random(AMGuiHelper.instance.getSlowTicker() * 4500L).nextInt(groups.size());
 			MultiblockGroup group = groups.get(num);
-			//System.out.println(num);
 			list.add(group);
 		}
 		return list;
+	}
+
+	public ArrayList<MultiblockGroup> getMatchedGroups(World worldObj, BlockPos pos) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

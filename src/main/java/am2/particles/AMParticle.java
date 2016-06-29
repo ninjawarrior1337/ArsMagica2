@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
@@ -272,7 +274,6 @@ public class AMParticle extends Particle {
 		if (!this.worldObj.isRemote){
 			return;
 		}
-
 		float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialframe - interpPosX);
 		float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * partialframe - interpPosY);
 		float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * partialframe - interpPosZ);

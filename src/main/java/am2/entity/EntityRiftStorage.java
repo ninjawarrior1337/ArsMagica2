@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -64,7 +65,7 @@ public class EntityRiftStorage extends EntityLiving {
 			return super.processInteract(player, hand, stack);
 		}
 		RiftStorage.For(player).setAccessLevel(getStorageLevel());
-		player.openGui(ArsMagica2.instance, IDDefs.RIFT_GUI_ID, worldObj, (int)posX, (int)posY, (int)posZ);
+		player.openGui(ArsMagica2.instance, IDDefs.GUI_RIFT, worldObj, (int)posX, (int)posY, (int)posZ);
 		return super.processInteract(player, hand, stack);
 	}
 	
@@ -107,6 +108,11 @@ public class EntityRiftStorage extends EntityLiving {
 
 	public float getRotation() {
 		return rotation;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		return false;
 	}
 	
 	public float getScale(int type){

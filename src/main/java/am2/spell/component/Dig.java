@@ -9,6 +9,8 @@ import am2.affinity.Affinity;
 import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.spell.IComponent;
+import am2.spell.SpellModifiers;
+import am2.utils.SpellUtils;
 import am2.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -21,6 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 public class Dig implements IComponent {
 
@@ -35,15 +38,15 @@ public class Dig implements IComponent {
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
-		Block block = WorldUtils.getBlockAt(world, blockPos);
+		Block block = world.getBlockState(blockPos).getBlock();
 		@SuppressWarnings("deprecation")
 		float hardness = block.getBlockHardness(world.getBlockState(blockPos), world, blockPos);
-		System.out.println(hardness);
-		if (block.equals(Blocks.AIR) || hardness == -1)
+		if (block.equals(Blocks.AIR) || hardness == -1 || block.getHarvestLevel(world.getBlockState(blockPos)) > SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER))
 			return false;
 		if (EntityExtension.For(caster).useMana((int) hardness)) {
 			IBlockState old = world.getBlockState(blockPos);
-			block.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), 0);
+			block.breakBlock(world, blockPos, old);
+			block.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
 			world.setBlockToAir(blockPos);
 			world.markAndNotifyBlock(blockPos, world.getChunkFromBlockCoords(blockPos), old, Blocks.AIR.getDefaultState(), 3);
 		}

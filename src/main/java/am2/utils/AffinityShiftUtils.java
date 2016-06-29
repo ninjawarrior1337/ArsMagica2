@@ -10,6 +10,7 @@ import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.spell.IComponent;
+import am2.spell.IShape;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -73,7 +74,7 @@ public class AffinityShiftUtils {
 		return hash;
 	}
 	
-	public static void setAffinityData (HashMap<Affinity, Float> map, EntityPlayer player) {
+	public static void setAffinityData (HashMap<Affinity, Float> map, EntityPlayer player, boolean isChanneled) {
 		for (Entry<String, Affinity> entry : AffinityRegistry.getAffinityMap().entrySet()) {
 			if (map.containsKey(entry.getValue()))
 				AffinityData.For(player).setAffinityDepth(entry.getValue(), map.get(entry.getValue()));
@@ -83,13 +84,13 @@ public class AffinityShiftUtils {
 	}
 	
 	private static float finalShift(EntityPlayer player, Affinity aff, float shift) {
-		return shift * (1 - AffinityData.For(player).getAffinityDepth(aff));
+		return AffinityData.For(player).getDiminishingReturnsFactor() * shift;
 	}
 	
-	public static void applyShift (EntityPlayer player, float shift, Affinity toShift) {
+	public static void applyShift (EntityPlayer player, boolean isChanneled, float shift, Affinity toShift) {
 		shift = finalShift(player, toShift, shift);
 		if (!player.worldObj.isRemote)
-			setAffinityData(finalize(toShift, shift, shiftAffinity(toShift, shift, AffinityData.For(player).getAffinities())), player);
+			setAffinityData(finalize(toShift, shift, shiftAffinity(toShift, shift, AffinityData.For(player).getAffinities())), player, isChanneled);
 	}
 	
 	public static HashMap<Affinity, Float> getShift(HashMap<Affinity, Float> affinities, float shift, Affinity toShift) {

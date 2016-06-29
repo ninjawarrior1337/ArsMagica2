@@ -49,4 +49,24 @@ public class AffinityRegistry {
 		return affinities.get("none");
 	}
 
+	public static Affinity getByID(int itemDamage) {
+		int i = 0;
+		for (Entry<String, Affinity> entry : affinities.entrySet()) {
+			if (i == itemDamage)
+				return entry.getValue();
+			i++;
+		}
+		return null;
+	}
+	
+	public static int getIdFor(Affinity aff) {
+		int i = 0;
+		for (Entry<String, Affinity> entry : affinities.entrySet()) {
+			if (entry.getValue() == aff)
+				return i;
+			i++;
+		}
+		return -1;
+	}
+
 }

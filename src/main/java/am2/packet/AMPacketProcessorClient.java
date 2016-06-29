@@ -3,6 +3,7 @@ package am2.packet;
 import java.util.ArrayList;
 
 import am2.ArsMagica2;
+import am2.blocks.tileentity.TileEntityObelisk;
 import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
 import am2.particles.ParticleFadeOut;
@@ -16,6 +17,8 @@ import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -118,9 +121,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.CALEFACTOR_DATA:
 //				handleCalefactorData(remaining);
 //				break;
-//			case AMPacketIDs.OBELISK_DATA:
-//				handleObeliskData(remaining);
-//				break;
+			case AMPacketIDs.OBELISK_DATA:
+				handleObeliskData(remaining);
+				break;
 			}
 		}catch (Throwable t){
 			ArsMagica2.LOGGER.error("Client Packet Failed to Handle!");
@@ -136,12 +139,12 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		}
 	}
 
-//	private void handleObeliskData(byte[] remaining){
-//		AMDataReader rdr = new AMDataReader(remaining, false);
-//		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
-//		if (te == null || !(te instanceof TileEntityObelisk)) return;
-//		((TileEntityObelisk)te).handlePacket(rdr.getRemainingBytes());
-//	}
+	private void handleObeliskData(byte[] remaining){
+		AMDataReader rdr = new AMDataReader(remaining, false);
+		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
+		if (te == null || !(te instanceof TileEntityObelisk)) return;
+		((TileEntityObelisk)te).handlePacket(rdr.getRemainingBytes());
+	}
 //
 //	private void handleCalefactorData(byte[] remaining){
 //		AMDataReader rdr = new AMDataReader(remaining, false);
@@ -259,7 +262,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		}
 
 		for (int i = 0; i < 360; i += ArsMagica2.config.FullGFX() ? 5 : ArsMagica2.config.LowGFX() ? 10 : 20){
-			AMParticle effect = (AMParticle)ArsMagica2.instance.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
+			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
 			if (effect != null){
 				effect.setIgnoreMaxAge(true);
 				effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, 0.7f, 1, false));

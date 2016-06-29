@@ -15,6 +15,7 @@ import am2.particles.ParticleOrbitEntity;
 import am2.particles.ParticleOrbitPoint;
 import am2.spell.IComponent;
 import am2.utils.AffinityShiftUtils;
+import am2.utils.DimensionUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,7 +55,7 @@ public class DivineIntervention implements IComponent{
 			}
 			((EntityLivingBase)target).setPositionAndUpdate(coords.getX() + 0.5, coords.getY(), coords.getZ() + 0.5);
 		}else{
-			//DimensionUtilities.doDimensionTransfer((EntityLivingBase)target, 0);
+			DimensionUtilities.doDimensionTransfer((EntityLivingBase)target, 0);
 			ArsMagica2.proxy.addDeferredDimensionTransfer((EntityLivingBase)target, 0);
 		}
 

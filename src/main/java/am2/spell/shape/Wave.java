@@ -38,7 +38,7 @@ public class Wave implements IShape{
 		EntitySpellEffect wave = new EntitySpellEffect(world);
 		wave.setRadius((float)radius);
 		wave.setTicksToExist(duration);
-		wave.SetCasterAndStack(caster, SpellUtils.popStackStage(stack));
+		wave.SetCasterAndStack(caster, stack);
 		wave.setPosition(x, y + 1, z);
 		wave.setWave(caster.rotationYaw, (float)speed);
 		wave.noClip = hasPiercing;

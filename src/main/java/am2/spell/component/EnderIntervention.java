@@ -14,6 +14,7 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.spell.IComponent;
 import am2.utils.AffinityShiftUtils;
+import am2.utils.DimensionUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,7 +49,7 @@ public class EnderIntervention implements IComponent{
 				((EntityPlayer)target).addChatMessage(new TextComponentString("You are already in the nether."));
 			return false;
 		}else{
-//			DimensionUtilities.doDimensionTransfer((EntityLivingBase)target, -1);
+			DimensionUtilities.doDimensionTransfer((EntityLivingBase)target, -1);
 			ArsMagica2.proxy.addDeferredDimensionTransfer((EntityLivingBase)target, -1);
 		}
 

@@ -5,9 +5,12 @@ import java.util.Map.Entry;
 
 import am2.affinity.Affinity;
 import am2.api.AffinityRegistry;
+import am2.armor.ItemMagitechGoggles;
 import am2.items.ItemAffinityTome;
 import am2.items.ItemArcaneCompendium;
 import am2.items.ItemArsMagica2;
+import am2.items.ItemChalk;
+import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
 import am2.items.ItemOre;
 import am2.items.ItemRune;
@@ -40,15 +43,20 @@ public class ItemDefs {
 	public static final Item playerFocus = new ItemArsMagica2().registerAndName("playerFocus");
 	public static final Item creatureFocus = new ItemArsMagica2().registerAndName("creatureFocus");
 	public static final Item arcaneCompendium = new ItemArcaneCompendium().registerAndName("arcaneCompendium");
-	public static final Item crystalWrench = new ItemArsMagica2().registerAndName("crystalWrench");
-	public static final Item magitechGoggles = new ItemArsMagica2().registerAndName("magitechGoggles");
+	public static final Item crystalWrench = new ItemCrystalWrench().registerAndName("crystalWrench");
+	public static final Item magitechGoggles = new ItemMagitechGoggles(0).registerAndName("magitechGoggles");
 	
 	// PlaceHolder items
 	public static final Item spell_component = new ItemSpellComponent().registerAndName("spellComponent");
-	public static final Item etherium = new ItemArsMagica2().registerAndName("etherium");
+	public static final Item etherium = new ItemArsMagica2().registerAndName("etherium").setCreativeTab(null);
+	public static final Item blankRune = new ItemArsMagica2().registerAndName("blankRune");
+	public static final Item chalk = new ItemChalk().registerAndName("chalk");
+	public static final Item spellStaffMagitech = null;
+	public static final Item flickerFocus = null;
+	public static final Item flickerJar = null;
+	public static final Item evilBook = null;
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
-	public static Item blankRune;
 	
 	public static void init () {
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
@@ -88,6 +96,7 @@ public class ItemDefs {
 		renderItem.getItemModelMesher().register(itemFocus, 0, new ModelResourceLocation("arsmagica2:itemFocus", "inventory"));
 		renderItem.getItemModelMesher().register(playerFocus, 0, new ModelResourceLocation("arsmagica2:playerFocus", "inventory"));
 		renderItem.getItemModelMesher().register(creatureFocus, 0, new ModelResourceLocation("arsmagica2:creatureFocus", "inventory"));
-		renderItem.getItemModelMesher().register(creatureFocus, 0, new ModelResourceLocation("arsmagica2:arcaneCompendium", "inventory"));
+		renderItem.getItemModelMesher().register(arcaneCompendium, 0, new ModelResourceLocation("arsmagica2:arcaneCompendium", "inventory"));
+		renderItem.getItemModelMesher().register(blankRune, 0, new ModelResourceLocation("arsmagica2:blankRune", "inventory"));
 	}
 }

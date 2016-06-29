@@ -16,12 +16,6 @@ public class ItemSpellComponent extends ItemArsMagica2 {
 	
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		int i = 0;
-		for (Skill skill : SkillRegistry.getSkillMap().values()) {
-			if (skill == null) continue;
-			subItems.add(new ItemStack(this, 1, i));
-			i++;
-		}
 	}
 	
 	public static int getIdFor(Skill part) {

@@ -12,7 +12,6 @@ import am2.defs.SkillDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.spell.IComponent;
-import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;

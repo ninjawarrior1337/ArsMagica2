@@ -8,6 +8,7 @@ import static am2.extensions.DataDefinitions.CURRENT_MANA;
 import static am2.extensions.DataDefinitions.CURRENT_MANA_FATIGUE;
 import static am2.extensions.DataDefinitions.CURRENT_SUMMONS;
 import static am2.extensions.DataDefinitions.CURRENT_XP;
+import static am2.extensions.DataDefinitions.FLIP_ROTATION;
 import static am2.extensions.DataDefinitions.HAS_FALL_PROTECTION;
 import static am2.extensions.DataDefinitions.HEAL_COOLDOWN;
 import static am2.extensions.DataDefinitions.IS_INVERTED;
@@ -16,8 +17,11 @@ import static am2.extensions.DataDefinitions.MARK_DIMENSION;
 import static am2.extensions.DataDefinitions.MARK_X;
 import static am2.extensions.DataDefinitions.MARK_Y;
 import static am2.extensions.DataDefinitions.MARK_Z;
-import static am2.extensions.DataDefinitions.MAX_MANA;
-import static am2.extensions.DataDefinitions.MAX_MANA_FATIGUE;
+import static am2.extensions.DataDefinitions.PREV_FLIP_ROTATION;
+import static am2.extensions.DataDefinitions.PREV_SHRINK_PCT;
+import static am2.extensions.DataDefinitions.REVERSE_INPUT;
+import static am2.extensions.DataDefinitions.SHRINK_PCT;
+import static am2.extensions.DataDefinitions.TK_DISTANCE;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,6 +31,9 @@ import com.google.common.base.Optional;
 import am2.ArsMagica2;
 import am2.api.extensions.IEntityExtension;
 import am2.defs.SkillDefs;
+import am2.packet.AMDataWriter;
+import am2.packet.AMNetHandler;
+import am2.packet.AMPacketIDs;
 import am2.particles.AMLineArc;
 import am2.spell.ContingencyType;
 import net.minecraft.entity.Entity;
@@ -51,9 +58,6 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public static Capability<IEntityExtension> INSTANCE = null;
 	
 	private ArrayList<Integer> summon_ent_ids = new ArrayList<Integer>();
-	
-	public float TK_Distance = 8;
-	
 	private Entity entity;
 
 	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
@@ -148,7 +152,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	public float getMaxMana() {
-		return (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99)) + 500f);
+		return (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99f)) + 100f) * 1.25F;
 	}
 	
 	public float getMaxXP () {
@@ -261,8 +265,6 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			this.entity.getDataManager().register(CURRENT_XP, 0F);
 			this.entity.getDataManager().register(CURRENT_SUMMONS, 0);			
 		}
-		this.entity.getDataManager().register(MAX_MANA, 100F);
-		this.entity.getDataManager().register(MAX_MANA_FATIGUE, 38F);
 		this.entity.getDataManager().register(HEAL_COOLDOWN, 0);
 		this.entity.getDataManager().register(AFFINITY_HEAL_COOLDOWN, 0);
 		this.entity.getDataManager().register(MARK_X, 0F);
@@ -274,6 +276,11 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.entity.getDataManager().register(HAS_FALL_PROTECTION, false);
 		this.entity.getDataManager().register(IS_INVERTED, false);
 		this.entity.getDataManager().register(IS_SHRUNK, false);
+		this.entity.getDataManager().register(FLIP_ROTATION, 0.0f);
+		this.entity.getDataManager().register(PREV_FLIP_ROTATION, 0.0f);
+		this.entity.getDataManager().register(SHRINK_PCT, 0.0f);
+		this.entity.getDataManager().register(PREV_SHRINK_PCT, 0.0f);
+		this.entity.getDataManager().register(TK_DISTANCE, 8.0f);
 	}
 
 	@Override
@@ -488,32 +495,54 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean shouldReverseInput() {
-		return entity.getDataManager().get(DataDefinitions.REVERSE_INPUT);
+		return entity.getDataManager().get(REVERSE_INPUT);
 	}
 
 	@Override
 	public boolean getIsFlipped() {
-		return entity.getDataManager().get(DataDefinitions.IS_FLIPPED);
+		return entity.getDataManager().get(IS_INVERTED);
 	}
 
 	@Override
 	public float getFlipRotation() {
-		return entity.getDataManager().get(DataDefinitions.FLIP_ROTATION);
+		return entity.getDataManager().get(FLIP_ROTATION);
 	}
 
 	@Override
 	public float getPrevFlipRotation() {
-		return entity.getDataManager().get(DataDefinitions.PREV_FLIP_ROTATION);
+		return entity.getDataManager().get(PREV_FLIP_ROTATION);
 	}
 
 	@Override
 	public float getShrinkPct() {
-		return entity.getDataManager().get(DataDefinitions.SHRINK_PCT);
+		return entity.getDataManager().get(SHRINK_PCT);
 	}
 
 	@Override
 	public float getPrevShrinkPct() {
-		return entity.getDataManager().get(DataDefinitions.PREV_SHRINK_PCT);
+		return entity.getDataManager().get(PREV_SHRINK_PCT);
+	}
+
+	@Override
+	public void setTKDistance(float TK_Distance) {
+		entity.getDataManager().set(TK_DISTANCE, TK_Distance);
+	}
+
+	@Override
+	public void addToTKDistance(float toAdd) {
+		setTKDistance(getTKDistance() + toAdd);
+	}
+
+	@Override
+	public float getTKDistance() {
+		return entity.getDataManager().get(TK_DISTANCE);
+	}
+	
+	@Override
+	public void syncTKDistance() {
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(this.getTKDistance());
+		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.TK_DISTANCE_SYNC, writer.generate());
 	}
 
 }

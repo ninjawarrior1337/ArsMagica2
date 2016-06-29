@@ -2,8 +2,13 @@ package am2.particles.ribbon;
 
 import java.util.Random;
 
+import org.lwjgl.opengl.GL11;
+
+import am2.ArsMagica2;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.Vec3d;
 
@@ -43,29 +48,39 @@ public class Quad3D{
 	}
 
 	void draw(){
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		//noStroke();
 		//GL11.glBegin(GL11.GL_QUADS);
+		boolean wasTessellating = false;
 		Tessellator t = Tessellator.getInstance();
-		t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		try{
+			t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		} catch (IllegalStateException e) {
+			wasTessellating = true;
+			t.draw();
+			t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		}
 		t.getBuffer().pos(p0.xCoord, p0.yCoord, p0.zCoord).tex( icon.getMinU(), icon.getMinV()).endVertex();
 		t.getBuffer().pos(p1.xCoord, p1.yCoord, p1.zCoord).tex( icon.getMaxU(), icon.getMinV()).endVertex();
 		t.getBuffer().pos(p2.xCoord, p2.yCoord, p2.zCoord).tex( icon.getMaxU(), icon.getMaxV()).endVertex();
 		t.getBuffer().pos(p3.xCoord, p3.yCoord, p3.zCoord).tex( icon.getMinU(), icon.getMaxV()).endVertex();
 		t.draw();
-//		if (AMCore.config.FullGFX()){
-//			double off = 0.005;
-//
-//			t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-//			t.setBrightness(0xF00F0);
-//			GL11.glColor4f(0, 0.5f, 1.0f, 0.6f);
-//			t.getBuffer().pos(p0.xCoord + off, p0.yCoord + off, p0.zCoord + off).tex( icon.getMinU(), icon.getMinV());
-//			t.getBuffer().pos(p1.xCoord + off, p1.yCoord + off, p1.zCoord + off).tex( icon.getMaxU(), icon.getMinV());
-//			t.getBuffer().pos(p2.xCoord + off, p2.yCoord + off, p2.zCoord + off).tex( icon.getMaxU(), icon.getMaxV());
-//			t.getBuffer().pos(p3.xCoord + off, p3.yCoord + off, p3.zCoord + off).tex( icon.getMinU(), icon.getMaxV());
-//			t.draw();
-//
-//			GL11.glColor4f(1, 1, 1, 0.6f);
-//		}
+		if (ArsMagica2.config.FullGFX()){
+			double off = 0.005;
+
+			t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+			//t.setBrightness(0xF00F0);
+			GL11.glColor4f(0, 0.5f, 1.0f, 0.6f);
+			t.getBuffer().pos(p0.xCoord + off, p0.yCoord + off, p0.zCoord + off).tex( icon.getMinU(), icon.getMinV()).endVertex();
+			t.getBuffer().pos(p1.xCoord + off, p1.yCoord + off, p1.zCoord + off).tex( icon.getMaxU(), icon.getMinV()).endVertex();
+			t.getBuffer().pos(p2.xCoord + off, p2.yCoord + off, p2.zCoord + off).tex( icon.getMaxU(), icon.getMaxV()).endVertex();
+			t.getBuffer().pos(p3.xCoord + off, p3.yCoord + off, p3.zCoord + off).tex( icon.getMinU(), icon.getMaxV()).endVertex();
+			t.draw();
+
+			GL11.glColor4f(1, 1, 1, 0.6f);
+		}
+		if (wasTessellating)
+			t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
 		double mul = 0.0025;
 		double halfMul = 0.00125;
 

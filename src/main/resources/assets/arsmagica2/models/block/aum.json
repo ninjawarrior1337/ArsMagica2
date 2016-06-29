@@ -1,0 +1,6 @@
+{
+	"parent": "block/cross",
+    "textures": {
+        "all": "arsmagica2:blocks/aum"
+    }
+}

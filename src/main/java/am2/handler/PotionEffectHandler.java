@@ -28,8 +28,6 @@ public class PotionEffectHandler {
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
 	public void playerPreDeathEvent(LivingDeathEvent e) {
 		PotionEffect effect = e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.temporalAnchor);
-		System.out.println(effect);
-		//effect = BuffEffectTemporalAnchor.readCustomPotionEffectFromNBT(effect.writeCustomPotionEffectToNBT(new NBTTagCompound()));
 		if (effect != null) {
 			((BuffEffectTemporalAnchor)effect).stopEffect(e.getEntityLiving());
 			e.getEntityLiving().removePotionEffect(PotionEffectsDefs.temporalAnchor);

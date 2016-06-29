@@ -11,9 +11,10 @@ import am2.utils.NBTUtils;
 @SuppressWarnings("deprecation")
 public class Affinity {
 	
+	private static int currentMask = 1;
 	private int color;
 	private String name;
-	
+	private int mask;
 	
 //	static {
 //	}
@@ -21,6 +22,8 @@ public class Affinity {
 	public Affinity (String name, int color) {
 		this.color = color;
 		this.name = name;
+		mask = currentMask;
+		currentMask *= 2;
 	}
 	
 	/**
@@ -102,6 +105,10 @@ public class Affinity {
 				return tmp.getFloat("Depth");
 		}
 		return 0.0F;
+	}
+
+	public int getAffinityMask() {
+		return mask;
 	}
 	
 

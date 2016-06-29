@@ -1,5 +1,6 @@
 package am2.spell.shape;
 
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
@@ -10,7 +11,6 @@ import am2.spell.ContingencyType;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
 import am2.utils.AffinityShiftUtils;
-import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -31,7 +31,7 @@ public class Contingency_Death implements IShape{
 				Blocks.STONE_SLAB,
 				Blocks.STONE_SLAB,
 				Items.BLAZE_POWDER,
-				//TODO BlockDefs.tarmaRoot,
+				BlockDefs.tarmaRoot,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
 				"E:" + PowerTypes.DARK.ID(), 5000
 		};
@@ -39,7 +39,7 @@ public class Contingency_Death implements IShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.DEATH, SpellUtils.popStackStage(stack));
+		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.DEATH, stack);
 		return SpellCastResult.SUCCESS;
 	}
 

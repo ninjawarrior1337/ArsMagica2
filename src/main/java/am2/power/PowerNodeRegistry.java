@@ -381,11 +381,11 @@ public class PowerNodeRegistry{
 
 	private ChunkPos getChunkFromNode(IPowerNode<?> node){
 		TileEntity te = (TileEntity)node;
-		if (te.getWorld() == null)
-			return null;
-		if (te.getWorld().getChunkFromBlockCoords(te.getPos()) == null)
-			return new ChunkPos(te.getPos().getX() >> 4, te.getPos().getZ() >> 4);
-		return te.getWorld().getChunkFromBlockCoords(te.getPos()).getChunkCoordIntPair();
+//		if (te.getWorld() == null)
+//			return null;
+//		if (te.getWorld().getChunkFromBlockCoords(te.getPos()) == null)
+		return new ChunkPos(te.getPos().getX() >> 4, te.getPos().getZ() >> 4);
+//		return te.getWorld().getChunkFromBlockCoords(te.getPos()).getChunkCoordIntPair();
 	}
 
 //	private ChunkPos getChunkFromPosition(World world, Vec3d location){

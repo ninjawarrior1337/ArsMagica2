@@ -1,5 +1,6 @@
 package am2.spell.shape;
 
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
@@ -9,11 +10,12 @@ import am2.spell.ContingencyType;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
 import am2.utils.AffinityShiftUtils;
-import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
@@ -23,8 +25,8 @@ public class Contingency_Health implements IShape{
 	public Object[] getRecipe(){
 		return new Object[]{
 				Items.CLOCK,
-				"P:0 & !1 & 2 & !3",
-				//TODO BlockDefs.tarmaRoot,
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.HEALING),
+				BlockDefs.tarmaRoot,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ),
 				"E:*", 5000,
 				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.LIFE)
@@ -33,7 +35,7 @@ public class Contingency_Health implements IShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.HEALTH, SpellUtils.popStackStage(stack));
+		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.HEALTH, stack);
 		return SpellCastResult.SUCCESS;
 	}
 

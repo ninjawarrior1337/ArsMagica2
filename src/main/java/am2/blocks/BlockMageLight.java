@@ -23,7 +23,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockMageLight extends BlockAM{
+public class BlockMageLight extends BlockAMSpecialRender {
 
 	public BlockMageLight(){
 		super(Material.CIRCUITS);

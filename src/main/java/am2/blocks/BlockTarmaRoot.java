@@ -28,13 +28,13 @@ public class BlockTarmaRoot extends BlockAMFlower{
 	//EoD: restrict Tarma Roots growth by the blocks in canPlaceBlockOn()
 	@Override
 	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state){
-		return canPlaceBlockAt(worldIn, pos.down()) && super.canBlockStay(worldIn, pos, state);
+		return canPlaceBlockAt(worldIn, pos) && super.canBlockStay(worldIn, pos, state);
 	}
 	
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		Block block = worldIn.getBlockState(pos).getBlock();
-		if (block == Blocks.STONE || block == Blocks.COBBLESTONE){
+		Block block = worldIn.getBlockState(pos.down()).getBlock();
+		if (block.equals(Blocks.STONE) || block == Blocks.COBBLESTONE){
 			return true;
 		}
 		if (blockStones == null){// stone and cobblestone are defined by Forge, hence only first call will be 'true'

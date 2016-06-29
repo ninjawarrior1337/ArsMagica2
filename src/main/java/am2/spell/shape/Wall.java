@@ -41,7 +41,7 @@ public class Wall implements IShape{
 		wall.setRadius(radius);
 		wall.setTicksToExist(duration);
 		wall.setGravity(gravity);
-		wall.SetCasterAndStack(caster, SpellUtils.popStackStage(stack));
+		wall.SetCasterAndStack(caster, stack);
 		wall.setPosition(x, y, z);
 		wall.setWall(caster.rotationYaw);
 		world.spawnEntityInWorld(wall);

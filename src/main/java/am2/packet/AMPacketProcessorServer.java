@@ -1,28 +1,34 @@
 package am2.packet;
 
+import am2.ArsMagica2;
+import am2.extensions.EntityExtension;
+import io.netty.buffer.ByteBufInputStream;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class AMPacketProcessorServer{
 
 	@SubscribeEvent
 	public void onServerPacketData(ServerCustomPacketEvent event){
 		System.out.println("Called");
-//		ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
-//		byte packetID = -1;
-//		try{
-//			if (event.getPacket().getTarget() != Side.SERVER){
-//				return;
-//			}
-//
-//			//constant details all packets share:  ID, player, and remaining data
-//			packetID = bbis.readByte();
-//			NetHandlerPlayServer srv = (NetHandlerPlayServer)event.getPacket().handler();
-//			EntityPlayerMP player = srv.playerEntity;
-//			byte[] remaining = new byte[bbis.available()];
-//			bbis.readFully(remaining);
-//
-//			switch (packetID){
+		ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
+		byte packetID = -1;
+		try{
+			if (event.getPacket().getTarget() != Side.SERVER){
+				return;
+			}
+
+			//constant details all packets share:  ID, player, and remaining data
+			packetID = bbis.readByte();
+			NetHandlerPlayServer srv = (NetHandlerPlayServer)event.getPacket().handler();
+			EntityPlayerMP player = srv.playerEntity;
+			byte[] remaining = new byte[bbis.available()];
+			bbis.readFully(remaining);
+			
+			switch (packetID){
 //			case AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE:
 //				handleCastingModeChange(remaining, (EntityPlayerMP)player);
 //				break;
@@ -53,9 +59,11 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.INSCRIPTION_TABLE_UPDATE:
 //				handleInscriptionTableUpdate(remaining, (EntityPlayerMP)player);
 //				break;
-////			case AMPacketIDs.TK_DISTANCE_SYNC:
-////				ExtendedProperties.For((EntityPlayerMP)player).TK_Distance = new AMDataReader(remaining).getFloat();
-////				break;
+			case AMPacketIDs.TK_DISTANCE_SYNC:
+				System.out.println(remaining.length);
+				float TK_Distance = new AMDataReader(remaining, false).getFloat();
+				EntityExtension.For((EntityPlayerMP)player).setTKDistance(TK_Distance);
+				break;
 //			case AMPacketIDs.SAVE_KEYSTONE_COMBO:
 //				handleSaveKeystoneCombo(remaining, (EntityPlayerMP)player);
 //				break;
@@ -83,19 +91,19 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.AFFINITY_ACTIVATE:
 //				handleAffinityActivate(remaining, player);
 //				break;
-//			}
-//		}catch (Throwable t){
-//			ArsMagica2.LOGGER.error("Server Packet Failed to Handle!");
-//			ArsMagica2.LOGGER.error("Packet Type: " + packetID);
-//			t.printStackTrace();
-//		}finally{
-//			try{
-//				if (bbis != null)
-//					bbis.close();
-//			}catch (Throwable t){
-//				t.printStackTrace();
-//			}
-//		}
+			}
+		}catch (Throwable t){
+			ArsMagica2.LOGGER.error("Server Packet Failed to Handle!");
+			ArsMagica2.LOGGER.error("Packet Type: " + packetID);
+			t.printStackTrace();
+		}finally{
+			try{
+				if (bbis != null)
+					bbis.close();
+			}catch (Throwable t){
+				t.printStackTrace();
+			}
+		}
 	}
 
 //	private void handleAffinityActivate(byte[] data, EntityPlayerMP entity){

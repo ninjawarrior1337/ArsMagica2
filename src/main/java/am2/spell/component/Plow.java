@@ -28,7 +28,7 @@ public class Plow implements IComponent{
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		Block block = world.getBlockState(pos).getBlock();
-		Block blockAbove = world.getBlockState(pos.up()).getBlock();
+		//Block blockAbove = world.getBlockState(pos.up()).getBlock();
 		if ((block == Blocks.DIRT || block == Blocks.GRASS)){
 			/*if (!(blockAbove instanceof BlockFlower)){
 				return false;

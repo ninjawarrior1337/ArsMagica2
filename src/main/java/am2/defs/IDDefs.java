@@ -14,9 +14,11 @@ public class IDDefs {
 	public static final UUID furyDmgID = UUID.fromString("03B0A79B-9769-43AE-BFE3-830D993D4A70");
 	public static final UUID furyMoveID = UUID.fromString("03B0A79B-9769-43AE-BFE3-830D993D4A69");
 	
-	public static final int OCCULUS_GUI_ID = 0;
-	public static final int SPELL_CUSTOMIZATION_GUI_ID = 1;
-	public static final int RIFT_GUI_ID = 2;
+	public static final int GUI_OCCULUS = 0;
+	public static final int GUI_SPELL_CUSTOMIZATION = 1;
+	public static final int GUI_RIFT = 2;
 	public static final int GUI_SPELL_BOOK = 3;
+	public static final int GUI_OBELISK = 4;
+	public static final int GUI_CRYSTAL_MARKER = 5;
 	
 }

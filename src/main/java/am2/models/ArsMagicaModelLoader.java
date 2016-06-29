@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class ModelLoader implements ICustomModelLoader {
+public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
 	public static final HashMap<Affinity, TextureAtlasSprite> sprites = new HashMap<>();
 	public static final HashMap<String, TextureAtlasSprite> particles = new HashMap<>();
@@ -93,6 +93,11 @@ public class ModelLoader implements ICustomModelLoader {
 		registerParticle(e.getMap(), "water_ball");
 		registerParticle(e.getMap(), "wind");
 		registerParticle(e.getMap(), "witchwood_leaf");
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/obelisk"));
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/obelisk_active"));
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/obelisk_active_highpower"));
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/obelisk_runes"));
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/celestial_prism"));
 	}
 	
 	private void registerParticle(TextureMap map, String name) {

@@ -64,4 +64,10 @@ public interface IAffinityData {
 	}
 
 	public Affinity[] getHighestAffinities();
+
+	public float getDiminishingReturnsFactor();
+
+	public void tickDiminishingReturns();
+
+	public void addDiminishingReturns(boolean isChanneled);
 }

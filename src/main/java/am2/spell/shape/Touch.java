@@ -32,7 +32,6 @@ public class Touch implements IShape{
 
 		boolean targetWater = SpellUtils.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack);
 		RayTraceResult mop = item.getMovingObjectPosition(caster, world, 2.5f, true, targetWater);
-
 		if (mop == null){
 			return SpellCastResult.EFFECT_FAILED;
 		}else{

@@ -5,8 +5,10 @@ import org.lwjgl.opengl.GL11;
 import am2.api.particles.IBeamParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
@@ -169,6 +171,7 @@ public class AMBeam extends Particle implements IBeamParticle{
 	public void renderParticle(VertexBuffer tessellator, Entity ent, float par2, float par3, float par4, float par5, float par6, float par7){
 
 		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_BLEND);
 		float scaleFactor = 1.0F;
 //		float slide = this.worldObj.getTotalWorldTime();
 		float rot = this.worldObj.provider.getWorldTime() % (360 / this.rotateSpeed) * this.rotateSpeed + this.rotateSpeed * par2;
@@ -238,7 +241,14 @@ public class AMBeam extends Particle implements IBeamParticle{
 			double mV = beamIcon.getMaxV(); //this.length * size * scaleFactor + mU;
 
 			GL11.glRotatef(36.0F, 0.0F, 1.0F, 0.0F);
-//			tessellator.begin(7, DefaultVertexFormats.POSITION_TEX);
+			boolean wasDrawing = false;
+			try {
+				tessellator.begin(7, DefaultVertexFormats.POSITION_TEX);
+			} catch (Throwable e) {
+				wasDrawing = true;
+				Tessellator.getInstance().draw();
+				tessellator.begin(7, DefaultVertexFormats.POSITION_TEX);
+			}
 			//tessellator.setBrightness(200);
 			if (t % 2 == 0){
 				GL11.glColor4f(this.particleRed, this.particleGreen, this.particleBlue, op);
@@ -249,7 +259,9 @@ public class AMBeam extends Particle implements IBeamParticle{
 			tessellator.pos(offset1, 0.0D, 0.0D).tex( br, mU).endVertex();;
 			tessellator.pos(offset2, 0.0D, 0.0D).tex( tl, mU).endVertex();;
 			tessellator.pos(offset4, l, 0.0D).tex( tl, mV).endVertex();
-//			tessellator.finishDrawing();
+			Tessellator.getInstance().draw();
+			if (wasDrawing)
+				tessellator.begin(7, DefaultVertexFormats.POSITION_TEX);			
 		}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

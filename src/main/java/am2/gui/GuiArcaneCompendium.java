@@ -12,11 +12,10 @@ import java.util.TreeMap;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.api.SkillRegistry;
 import am2.api.SpellRegistry;
 import am2.api.SpellRegistry.SpellData;
-import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.defs.ItemDefs;
+import am2.defs.SkillDefs;
 import am2.event.SpellRecipeItemsEvent;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import am2.gui.controls.GuiButtonCompendiumTab;
@@ -30,12 +29,12 @@ import am2.multiblock.MultiblockStructureDefinition;
 import am2.multiblock.TypedMultiblockGroup;
 import am2.power.PowerTypes;
 import am2.rituals.IRitualInteraction;
-import am2.rituals.RitualShapeHelper;
 import am2.skill.Skill;
 import am2.spell.ISpellPart;
 import am2.texture.SpellIconManager;
 import am2.utils.RecipeUtils;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -46,6 +45,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -105,11 +105,13 @@ public class GuiArcaneCompendium extends GuiScreen {
 	private GuiButtonCompendiumNext prevLayer;
 	private GuiButtonCompendiumNext nextLayer;
 	private GuiButtonVariableDims pauseCycling;
+	private TileEntity entryTileEntity;
 	private int maxLayers;
 	
 	public GuiArcaneCompendium(String id, MultiblockStructureDefinition definition, TileEntity te) {
 		this(id);
 		this.entryMultiblock = definition;
+		this.entryTileEntity = te;
 	}
 
 	public GuiArcaneCompendium(String id) {
@@ -149,7 +151,10 @@ public class GuiArcaneCompendium extends GuiScreen {
 	
 	public GuiArcaneCompendium(String id, Skill skill, ArrayList<ItemStack> mods) {
 		this(id, skill);
-		this.modifiers = mods;
+		for (ItemStack stack : mods) {
+			if (ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).isUnlocked(ItemSpellComponent.getPartFor(stack.getItemDamage()).getID()))
+				this.modifiers.add(stack);			
+		}
 	}
 	
 	@Override
@@ -162,9 +167,8 @@ public class GuiArcaneCompendium extends GuiScreen {
 		int i1 = (height - ySize) / 2;
 
 		stackTip = null;
-		
-		mc.renderEngine.bindTexture(background);
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+		mc.renderEngine.bindTexture(background);
 		this.drawTexturedModalRect_Classic(l, i1, 0, 0, xSize, ySize, 256, 240);
 
 		GL11.glPushMatrix();
@@ -173,6 +177,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 		drawRightPage(l, i1, mouseX, mouseY);
 		
 		GL11.glPopMatrix();
+		
 		if (this.page == 0)
 			prevPage.visible = false;
 		else
@@ -188,12 +193,13 @@ public class GuiArcaneCompendium extends GuiScreen {
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, 0, -1);
+		//GlStateManager.disableDepth();
 
 		this.drawDefaultBackground();
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
 
 		drawRightPageExtras(l, i1);
-
+		//GlStateManager.enableDepth();
 		GL11.glPopMatrix();
 
 		RenderHelper.enableStandardItemLighting();
@@ -214,7 +220,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 		if (entry == null) return;
 
 		int y_start_title = i1 + 50;
-		int x_start_title = l + 100 - (fontRendererObj.getStringWidth(entry.getName()) / 2);
+		int x_start_title = l + 100 - (fontRendererObj.getStringWidth(entrySkill != null ? entrySkill.getName() : entry.getName()) / 2);
 
 		int x_start_line = l + 35;
 		int y_start_line = page == 0 ? i1 + 65 : i1 + 50;
@@ -223,7 +229,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 
 		if (entry != null){
 			if (page == 0)
-				fontRendererObj.drawString(entry.getName(), x_start_title, y_start_title, 0x000000);
+				fontRendererObj.drawString(entrySkill != null ? entrySkill.getName() : entry.getName(), x_start_title, y_start_title, 0x000000);
 			AMGuiHelper.drawCompendiumText(lines.get(page), x_start_line, y_start_line, lineWidth, 0x000000, fontRendererObj);
 		}
 	}
@@ -260,14 +266,13 @@ public class GuiArcaneCompendium extends GuiScreen {
 		}else{
 			RenderRecipe(cx, cy, mousex, mousey);
 		}
-
 		if (this.entryItem.getItem() instanceof ItemSpellComponent){
 			TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(entrySkill.getID());
 			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 			GL11.glColor4f(1, 1, 1, 1);
 			if (icon != null)
 				AMGuiHelper.DrawIconAtXY(icon, cx, cy, zLevel, 16, 16, false);
-		} else {
+		} else if (craftingComponents == null){
 			AMGuiHelper.DrawItemAtXY(entryItem, cx, cy, this.zLevel);		
 		}
 		
@@ -608,7 +613,6 @@ public class GuiArcaneCompendium extends GuiScreen {
 //		}
 		else if (entryItem.getItem() instanceof ItemSpellComponent){
 			if (entrySkill == null) return;
-			System.out.println("Skill Detected");
 			SpellData<? extends ISpellPart> spellPart = SpellRegistry.getCombinedMap().get(entrySkill.getID());
 			if (spellPart == null) return;
 			ISpellPart part = spellPart.part;
@@ -1045,18 +1049,19 @@ public class GuiArcaneCompendium extends GuiScreen {
 		int cy = i1 + 120 - 6;
 
 		mc.renderEngine.bindTexture(extras);
+		zLevel++;
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		this.drawTexturedModalRect_Classic(l + 305, i1 + 15, 112, 145, 60, 40, 40, 40);
 		this.drawTexturedModalRect_Classic(l + 180, i1 + 200, 112, 175, 60, 40, 40, 40);
 		GL11.glDisable(GL11.GL_BLEND);
-
 		//block/item
 		if (entryBlock != null || entryItem != null){
 			drawRightPageExtras_Block_Item(cx, cy);
 		}else if (entryMultiblock == null){
 			drawRightPageExtras_Generic(cx, cy);
 		}
+		zLevel--;
 	}
 //
 	private void drawRelatedItems(int cx, int cy, int mouseX, int mouseY){
@@ -1663,12 +1668,14 @@ public class GuiArcaneCompendium extends GuiScreen {
 		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
 		this.blockAccess.setFakeBlockAndMeta(state);
-
 		if (picked)
 			mc.renderEngine.bindTexture(red);
 		else
 			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
-		
+		GL11.glEnable(GL11.GL_LIGHTING);
+		if (state.getBlock() instanceof BlockContainer)
+			TileEntityRendererDispatcher.instance.renderTileEntityAt(((BlockContainer)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), 0, 1, 0, 0, 0);
+		GL11.glDisable(GL11.GL_LIGHTING);
 		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, new BlockPos(0, 1, 0), blockAccess , Tessellator.getInstance().getBuffer());
@@ -1686,7 +1693,6 @@ public class GuiArcaneCompendium extends GuiScreen {
 //			this.blockRenderer.renderBlockByRenderType(block, 0, 0, 0);
 //			Tessellator.instance.draw();
 //		}
-
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 	}

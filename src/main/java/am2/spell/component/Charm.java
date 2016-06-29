@@ -57,9 +57,6 @@ public class Charm implements IComponent, IRitualInteraction{
 		int duration = SpellUtils.getModifiedInt_Mul(PotionEffectsDefs.default_buff_duration, stack, caster, target, world, SpellModifiers.DURATION);
 		//duration = SpellUtils.modifyDurationBasedOnArmor(caster, duration);
 
-		int x = (int)Math.floor(target.posX);
-		int y = (int)Math.floor(target.posY);
-		int z = (int)Math.floor(target.posZ);
 		if (RitualShapeHelper.instance.matchesRitual(this, world, target.getPosition())){
 			duration += (3600 * (SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack) + 1));
 			RitualShapeHelper.instance.consumeReagents(this, world, target.getPosition());

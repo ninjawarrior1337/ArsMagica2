@@ -1,6 +1,7 @@
 package am2.packet;
 
 import am2.ArsMagica2;
+import am2.blocks.tileentity.TileEntityObelisk;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -273,14 +274,14 @@ public class AMNetHandler{
 //		sendPacketToAllClientsNear(calefactor.getWorldObj().provider.getDimension(), calefactor.xCoord, calefactor.yCoord, calefactor.zCoord, 32, AMPacketIDs.CALEFACTOR_DATA, writer.generate());
 //	}
 //
-//	public void sendObeliskUpdate(TileEntityObelisk obelisk, byte[] data){
-//		AMDataWriter writer = new AMDataWriter();
-//		writer.add(obelisk.xCoord);
-//		writer.add(obelisk.yCoord);
-//		writer.add(obelisk.zCoord);
-//		writer.add(data);
-//		sendPacketToAllClientsNear(obelisk.getWorldObj().provider.getDimension(), obelisk.xCoord, obelisk.yCoord, obelisk.zCoord, 32, AMPacketIDs.OBELISK_DATA, writer.generate());
-//	}
+	public void sendObeliskUpdate(TileEntityObelisk obelisk, byte[] data){
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(obelisk.getPos().getX());
+		writer.add(obelisk.getPos().getY());
+		writer.add(obelisk.getPos().getZ());
+		writer.add(data);
+		sendPacketToAllClientsNear(obelisk.getWorld().provider.getDimension(), obelisk.getPos().getX(), obelisk.getPos().getY(), obelisk.getPos().getZ(), 32, AMPacketIDs.OBELISK_DATA, writer.generate());
+	}
 
 	public void sendAffinityActivate(){
 		sendPacketToServer(AMPacketIDs.AFFINITY_ACTIVATE, new byte[0]);

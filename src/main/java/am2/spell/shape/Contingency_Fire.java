@@ -1,5 +1,6 @@
 package am2.spell.shape;
 
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
@@ -9,7 +10,6 @@ import am2.spell.ContingencyType;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
 import am2.utils.AffinityShiftUtils;
-import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -23,7 +23,7 @@ public class Contingency_Fire implements IShape{
 		return new Object[]{
 				Items.CLOCK,
 				Items.MAGMA_CREAM,
-				//TODO BlockDefs.tarmaRoot,
+				BlockDefs.tarmaRoot,
 				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.FIRE),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE),
 				"E:*", 5000
@@ -32,7 +32,7 @@ public class Contingency_Fire implements IShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.FIRE, SpellUtils.popStackStage(stack));
+		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.FIRE, stack);
 		return SpellCastResult.SUCCESS;
 	}
 

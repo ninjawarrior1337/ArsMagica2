@@ -3,14 +3,12 @@ package am2.handler;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
 import am2.defs.BindingsDefs;
 import am2.defs.BlockDefs;
 import am2.defs.IDDefs;
-import am2.defs.ItemDefs;
+import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
@@ -18,34 +16,37 @@ import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
 import am2.lore.ArcaneCompendium;
 import am2.packet.MessageBoolean;
-import am2.utils.RenderUtils;
+import am2.spell.ContingencyType;
+import am2.utils.SpellUtils;
 import am2.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -60,6 +61,9 @@ public class EntityHandler {
 		if (BindingsDefs.enderTP.isPressed() && AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(SkillDefs.ENDER) > 0.8) {
 			Vec3d vec = new Vec3d(Minecraft.getMinecraft().thePlayer.getLookVec().xCoord * 32, Minecraft.getMinecraft().thePlayer.getLookVec().yCoord * 32, Minecraft.getMinecraft().thePlayer.getLookVec().zCoord * 32).add(Minecraft.getMinecraft().thePlayer.getPositionVector());
 			RayTraceResult mop = Minecraft.getMinecraft().theWorld.rayTraceBlocks(Minecraft.getMinecraft().thePlayer.getPositionVector().addVector(0D, 1.2D, 0D), vec);
+			EnderTeleportEvent tp = new EnderTeleportEvent(Minecraft.getMinecraft().thePlayer, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0F);
+			if (MinecraftForge.EVENT_BUS.post(tp)) return;
+			Minecraft.getMinecraft().thePlayer.setPosition(tp.getTargetX(), tp.getTargetY(), tp.getTargetZ());
 			if (mop != null && mop.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
 				Minecraft.getMinecraft().thePlayer.setPosition(mop.getBlockPos().getX(), mop.getBlockPos().getY() + 2, mop.getBlockPos().getZ());
 				FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable() {
@@ -69,11 +73,19 @@ public class EntityHandler {
 						EntityPlayer player = (EntityPlayer) FMLCommonHandler.instance().getMinecraftServerInstance().getEntityFromUuid(Minecraft.getMinecraft().thePlayer.getUniqueID());
 						Vec3d vec = new Vec3d(player.getLookVec().xCoord * 32, player.getLookVec().yCoord * 32, player.getLookVec().zCoord * 32).add(player.getPositionVector());
 						RayTraceResult mop = Minecraft.getMinecraft().theWorld.rayTraceBlocks(player.getPositionVector().addVector(0D, 1.2D, 0D), vec);
-						player.setPosition(mop.getBlockPos().getX(), mop.getBlockPos().getY() + 2, mop.getBlockPos().getZ());
+						EnderTeleportEvent tp = new EnderTeleportEvent(Minecraft.getMinecraft().thePlayer, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0F);
+						if (MinecraftForge.EVENT_BUS.post(tp)) return;
+						Minecraft.getMinecraft().thePlayer.setPosition(tp.getTargetX(), tp.getTargetY(), tp.getTargetZ());
 					}
 				});
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onMouseEvent(MouseEvent event){
+		event.setCanceled(ArsMagica2.proxy.setMouseDWheel(event.getDwheel()));
 	}
 	
 	@SubscribeEvent
@@ -115,65 +127,33 @@ public class EntityHandler {
 	@SubscribeEvent
 	public void entityTick (LivingUpdateEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) playerTick((EntityPlayer) event.getEntityLiving());
+		IEntityExtension ext = EntityExtension.For(event.getEntityLiving());
+		ContingencyType type = ext.getContingencyType();
+		if (event.getEntityLiving().isBurning() && type == ContingencyType.FIRE) {
+			SpellUtils.applyStackStage(ext.getContingencyStack(), event.getEntityLiving(), null, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, null, event.getEntityLiving().worldObj, false, true, 0);
+			if (ext.getContingencyType() == ContingencyType.FIRE)
+				ext.setContingency(ContingencyType.NULL, null);		
+		}
+		else if (event.getEntityLiving().getHealth() * 4 < event.getEntityLiving().getMaxHealth() && type == ContingencyType.HEALTH) {
+			SpellUtils.applyStackStage(ext.getContingencyStack(), event.getEntityLiving(), null, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, null, event.getEntityLiving().worldObj, false, true, 0);			
+			if (ext.getContingencyType() == ContingencyType.HEALTH) {
+				ext.setContingency(ContingencyType.NULL, null);
+			}
+		}
 	}
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTick (RenderGameOverlayEvent event) {
+		GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+		GL11.glPushMatrix();
 		if (event.getType() == ElementType.CROSSHAIRS)
 			ArsMagica2.proxy.renderGameOverlay();
-//		int h = Minecraft.getMinecraft().displayHeight / 2;
-//		int w = Minecraft.getMinecraft().displayWidth / 2;
-//		if (Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus) && (Minecraft.isGuiEnabled())) {
-//			Affinity highest = null;
-//			for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-//				if (aff.equals(SkillDefs.NONE))
-//					continue;
-//				if (highest == null || AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(aff) > AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest))
-//					highest = aff;
-//			}
-//			int meta = 0;
-//			for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-//				if (aff.equals(SkillDefs.NONE))
-//					continue;				
-//				if (aff.equals(highest))
-//					break;
-//				meta++;
-//			}
-//			if (!highest.equals(SkillDefs.NONE) && AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest) > 0.01) {
-//				Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(new ItemStack(ItemDefs.essence, 1, meta), 0, 0);
-//				Minecraft.getMinecraft().fontRendererObj.drawString("" + Math.floor(AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(highest) * 10000) / 100 + "%", 20, 4, highest.getColor());
-//				GL11.glColor4f(1, 1, 1, 1);
-//			}
-//			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(ArsMagica2.MODID, "textures/gui/overlay.png"));
-//			GlStateManager.enableBlend();
-//			int burnoutBarX = (int) (w/2 - w/2.5);
-//			int burnoutBarY = h - h/8;
-//			int manaBarX = (int) (w/2 + w/5);
-//			int manaBarY = h - h/8;
-//			//System.out.println(EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana());
-//			float burnout = -1F;// * AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(SkillDefs.NATURE);
-//			float mana = -1F;
-//			if (EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana() != 0)
-//				mana = ((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentMana()) / ((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana());
-//			if (EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout() != 0)
-//				burnout = (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() / (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout();
-//			//System.out.println(mana);
-//			float f = 1F/256F;
-//			RenderUtils.drawBox(burnoutBarX + 0.5F, burnoutBarY + 0.5F, (192/2 * burnout), 17 / 2, 0, 1F*f, 1F*f, 193F * burnout * f, 17F * f);
-//			RenderUtils.drawBox(burnoutBarX, burnoutBarY, 194/2, 19/2, 0F, 0F, 0.07F, 194*f, 0.14F);
-//			
-//			RenderUtils.drawBox(manaBarX + 0.5F, manaBarY + 0.5F,(int) (192/2 * mana), 17 / 2, 0, 0F, 0.15F, 193F * mana * f, 0.20F);
-//			RenderUtils.drawBox(manaBarX, manaBarY, 194/2, 19/2, 0, 0F, 0.2105F, 194*f, 0.28F);
-//			Minecraft.getMinecraft().fontRendererObj.drawString("Mana : " + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentMana() + "/" + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxMana(), manaBarX, manaBarY-15, 0x00ffff);
-//			Minecraft.getMinecraft().fontRendererObj.drawString("Burnout : " + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() + "/" + (int)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout(), burnoutBarX, burnoutBarY-15, 0xff0000);
-//			GlStateManager.color(1F, 1F, 1F);
-//			GlStateManager.disableBlend();
-//		}
+		GL11.glPopMatrix();
+		GL11.glPopAttrib();
 	}
 	
 	public void playerTick (EntityPlayer player) {
-		Minecraft.getMinecraft().mcProfiler.startSection("am2-playertick");
 		//player.addPotionEffect(new BuffEffectTemporalAnchor(200, 0));
 		IEntityExtension ext = player.getCapability(EntityExtension.INSTANCE, null);
 		IAffinityData affData = player.getCapability(AffinityData.INSTANCE, null);
@@ -181,7 +161,6 @@ public class EntityHandler {
 		float lifeDepth = affData.getAffinityDepth(SkillDefs.LIFE);
 		float lightningDepth = affData.getAffinityDepth(SkillDefs.LIGHTNING);
 		float iceDepth = affData.getAffinityDepth(SkillDefs.ICE);
-		
 		float manaPerSecond = ext.getMaxMana() / 100;
 		float burnoutPerSecond = Math.max(1, ext.getMaxBurnout() / 100);
 		if (!player.worldObj.isRemote && player.ticksExisted % 20 == 0) {// && ext.getCurrentMana() < ext.getMaxMana() && player.ticksExisted % 40 == 0) {
@@ -193,6 +172,7 @@ public class EntityHandler {
 			if (ext.getCurrentBurnout() < 0) {
 				ext.setCurrentBurnout(0);
 			}
+			affData.tickDiminishingReturns();
 		}
 		//ext.setCurrentLevel(25);
 		ext.lowerHealCooldown((int) (Math.max(1, lifeDepth * 10F)));
@@ -280,7 +260,6 @@ public class EntityHandler {
 				player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(modIceSpeed);
 			}
 		}
-		Minecraft.getMinecraft().mcProfiler.endSection();
 	}
 	
 	public void makeIceBridge (EntityPlayer player) {
@@ -302,6 +281,27 @@ public class EntityHandler {
 					}
 				}			
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void entityDeath(LivingDeathEvent e) {
+		IEntityExtension ext = EntityExtension.For(e.getEntityLiving());
+		ContingencyType type = ext.getContingencyType();
+		EntityLivingBase target = null;
+		if (e.getSource() != null && e.getSource().getSourceOfDamage() instanceof EntityLivingBase)
+			target = e.getSource().getSourceOfDamage() != null ? (EntityLivingBase)e.getSource().getSourceOfDamage() : null;
+		if (type == ContingencyType.DEATH) {
+			SpellUtils.applyStackStage(ext.getContingencyStack(), e.getEntityLiving(), target, e.getEntity().posX, e.getEntity().posY, e.getEntity().posZ, null, e.getEntityLiving().worldObj, false, true, 0);
+			if (ext.getContingencyType() == ContingencyType.DEATH)
+				ext.setContingency(ContingencyType.NULL, null);		
+		}
+	}
+	
+	@SubscribeEvent
+	public void teleportEvent(EnderTeleportEvent e) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.astralDistortion) || e.getEntity().isDead) {
+			e.setCanceled(true);
 		}
 	}
 }
