@@ -25,6 +25,7 @@ import am2.handler.PotionEffectHandler;
 import am2.packet.MessageBoolean;
 import am2.packet.MessageCapabilities;
 import am2.proxy.CommonProxy;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -39,6 +40,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.oredict.OreDictionary;
 
 
 @Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION)
@@ -70,6 +72,12 @@ public class ArsMagica2 {
 		ClientRegistry.registerKeyBinding(BindingsDefs.iceBridge);
 		ClientRegistry.registerKeyBinding(BindingsDefs.enderTP);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
+		OreDictionary.registerOre("fence", Blocks.ACACIA_FENCE);
+		OreDictionary.registerOre("fence", Blocks.OAK_FENCE);
+		OreDictionary.registerOre("fence", Blocks.DARK_OAK_FENCE);
+		OreDictionary.registerOre("fence", Blocks.SPRUCE_FENCE);
+		OreDictionary.registerOre("fence", Blocks.BIRCH_FENCE);
+		OreDictionary.registerOre("fence", Blocks.JUNGLE_FENCE);
 	}
 	
 	@EventHandler

@@ -323,38 +323,38 @@ public class InventoryUtilities{
 		return !inventory.isItemValidForSlot(slot, itemStack) ? false : !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canInsertItem(slot, itemStack, side);
 	}
 
-//	private static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
-//		return !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canExtractItem(slot, itemStack, side);
-//	}
+	private static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
+		return !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canExtractItem(slot, itemStack, side);
+	}
 
-//	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot){
-//		for (int i = slot; i < inventory.getSizeInventory(); i++){
-//			itemStack = inventory.getStackInSlot(i);
-//			if (itemStack != null){
-//				return new GetFirstStackStartingFromSlotResult(i, itemStack);
-//			}
-//		}
-//
-//		return new GetFirstStackStartingFromSlotResult(-1, null);
-//	}
-//
-//	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
-//		if (inventory instanceof ISidedInventory){
-//			ISidedInventory sidededInventory = (ISidedInventory)inventory;
-//			int[] slots = sidededInventory.getSlotsForFace(side);
-//
-//			for (int i = slot; i < slots.length; i++){
-//				itemStack = inventory.getStackInSlot(slots[i]);
-//				if (itemStack != null && canExtractItemFromInventory(sidededInventory, itemStack, slots[i], side)){
-//					return new GetFirstStackStartingFromSlotResult(i, itemStack);
-//				}
-//			}
-//		}else{
-//			return getFirstStackStartingFromSlot(inventory, itemStack, slot);
-//		}
-//
-//		return new GetFirstStackStartingFromSlotResult(-1, null);
-//	}
+	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot){
+		for (int i = slot; i < inventory.getSizeInventory(); i++){
+			itemStack = inventory.getStackInSlot(i);
+			if (itemStack != null){
+				return new GetFirstStackStartingFromSlotResult(i, itemStack);
+			}
+		}
+
+		return new GetFirstStackStartingFromSlotResult(-1, null);
+	}
+
+	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
+		if (inventory instanceof ISidedInventory){
+			ISidedInventory sidededInventory = (ISidedInventory)inventory;
+			int[] slots = sidededInventory.getSlotsForFace(side);
+
+			for (int i = slot; i < slots.length; i++){
+				itemStack = inventory.getStackInSlot(slots[i]);
+				if (itemStack != null && canExtractItemFromInventory(sidededInventory, itemStack, slots[i], side)){
+					return new GetFirstStackStartingFromSlotResult(i, itemStack);
+				}
+			}
+		}else{
+			return getFirstStackStartingFromSlot(inventory, itemStack, slot);
+		}
+
+		return new GetFirstStackStartingFromSlotResult(-1, null);
+	}
 
 	public static TileEntityChest getAdjacentChest(TileEntityChest chest){
 		TileEntityChest adjacent = null;

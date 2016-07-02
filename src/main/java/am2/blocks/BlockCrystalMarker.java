@@ -31,7 +31,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
-public class BlockCrystalMarker extends BlockContainer{
+public class BlockCrystalMarker extends BlockAMContainer{
 
 	public static final int META_IN = 0;
 	public static final int META_OUT = 1;
@@ -62,7 +62,7 @@ public class BlockCrystalMarker extends BlockContainer{
 			"cm_spellExport"
 	};
 
-	protected BlockCrystalMarker(){
+	public BlockCrystalMarker(){
 		super(Material.GLASS);
 	}
 

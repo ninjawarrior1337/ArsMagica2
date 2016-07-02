@@ -5,9 +5,11 @@ import am2.blocks.BlockAMFlower;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaOre;
 import am2.blocks.BlockCraftingAltar;
+import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockDesertNova;
 import am2.blocks.BlockEssenceGenerator;
 import am2.blocks.BlockFrost;
+import am2.blocks.BlockInvisibleUtility;
 import am2.blocks.BlockLightDecay;
 import am2.blocks.BlockMageLight;
 import am2.blocks.BlockMagicWall;
@@ -33,6 +35,7 @@ public class BlockDefs {
 	public static final BlockOcculus occulus = new BlockOcculus().registerAndName(new ResourceLocation("arsmagica2:occulus"));
 	public static final BlockAM magicWall = new BlockMagicWall().registerAndName(new ResourceLocation("arsmagica2:magic_wall"));
 	public static final BlockAM invisibleLight = new BlockLightDecay().registerAndName(new ResourceLocation("arsmagica2:invisible_light"));
+	public static final BlockAM invisibleUtility = new BlockInvisibleUtility().registerAndName(new ResourceLocation("arsmagica2:invisibleUtility"));
 	public static final BlockAM ores = new BlockArsMagicaOre().registerAndName(new ResourceLocation("arsmagica2:ore"));
 	public static final BlockAM blocks = new BlockArsMagicaBlock().registerAndName(new ResourceLocation("arsmagica2:block"));
 	public static final BlockAM blockMageTorch = new BlockMageLight().registerAndName(new ResourceLocation("arsmagica2:blockMageLight"));
@@ -46,7 +49,9 @@ public class BlockDefs {
 	public static final Block obelisk = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_STANDARD).registerAndName(new ResourceLocation("arsmagica2:obelisk"));
 	public static final Block blackAurem = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_DARK).registerAndName(new ResourceLocation("arsmagica2:blackAurem"));
 	public static final Block celestialPrism = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_LIGHT).registerAndName(new ResourceLocation("arsmagica2:celestialPrism"));
-	public static final Block crystalMarker = null;
+	public static final Block crystalMarker = new BlockCrystalMarker().registerAndName(new ResourceLocation("arsmagica2:crystalMarker"));
+	public static final Block witchwoodLog = null;
+	public static final Block essenceConduit = null;
 	
 	public static void init () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);
@@ -54,6 +59,11 @@ public class BlockDefs {
 		registerTexture(magicWall);
 		registerTexture(occulus);
 		registerTexture(altar);
+		registerTexture(aum);
+		registerTexture(cerublossom);
+		registerTexture(wakebloom);
+		registerTexture(tarmaRoot);
+		registerTexture(desertNova);
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {

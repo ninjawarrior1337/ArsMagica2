@@ -30,4 +30,8 @@ public class WorldUtils {
 		}
 		return flag;
 	}
+	
+	public static int getBlockMeta(IBlockState state) {
+		return state.getBlock().getMetaFromState(state);
+	}
 }
