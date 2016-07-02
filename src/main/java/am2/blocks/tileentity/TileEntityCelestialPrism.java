@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import am2.ArsMagica2;
 import am2.api.IMultiblockStructureController;
 import am2.blocks.BlockArsMagicaBlock;
+import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.buffs.BuffEffectManaRegen;
 import am2.defs.BlockDefs;
 import am2.defs.PotionEffectsDefs;
@@ -28,11 +29,6 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 
 	private boolean onlyChargeAtNight = false;
 
-	private HashMap<Integer, IBlockState> createMap(IBlockState state) {
-		HashMap<Integer, IBlockState> states = new HashMap<>();
-		states.put(0, state);
-		return states;
-	}
 	
 	@SuppressWarnings("unchecked")
 	public TileEntityCelestialPrism(){
@@ -42,7 +38,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 
 		structure = new MultiblockStructureDefinition("celestialprism_structure");
 		
-		TypedMultiblockGroup caps = new TypedMultiblockGroup("caps", Lists.newArrayList(
+		capsGroup = new TypedMultiblockGroup("caps", Lists.newArrayList(
 				createMap(Blocks.GLASS.getDefaultState()),
 				createMap(Blocks.GOLD_BLOCK.getDefaultState()),
 				createMap(Blocks.DIAMOND_BLOCK.getDefaultState()),
@@ -63,10 +59,10 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 		pillars.addBlock(new BlockPos(-2, 0, -2));
 		pillars.addBlock(new BlockPos(-2, 1, -2));
 
-		caps.addBlock(new BlockPos(-2, 2, -2), 0);
-		caps.addBlock(new BlockPos(2, 2, -2), 0);
-		caps.addBlock(new BlockPos(-2, 2, 2), 0);
-		caps.addBlock(new BlockPos(2, 2, 2), 0);
+		capsGroup.addBlock(new BlockPos(-2, 2, -2), 0);
+		capsGroup.addBlock(new BlockPos(2, 2, -2), 0);
+		capsGroup.addBlock(new BlockPos(-2, 2, 2), 0);
+		capsGroup.addBlock(new BlockPos(2, 2, 2), 0);
 
 		pillars.addBlock(new BlockPos(2, 0, -2));
 		pillars.addBlock(new BlockPos(2, 1, -2));
@@ -78,6 +74,10 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 		pillars.addBlock(new BlockPos(2, 1, 2));
 
 		wizardChalkCircle = addWizChalkGroupToStructure(structure);
+		structure.addGroup(pillars);
+		structure.addGroup(capsGroup);
+		structure.addGroup(wizardChalkCircle);
+		structure.addGroup(prism);
 	}
 
 	@Override
@@ -87,18 +87,24 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 		float capsLevel = 1;
 		boolean pillarsFound = false;
 		boolean wizChalkFound = false;
+		boolean capsFound = false;
 
 		for (MultiblockGroup group : groups){
 			if (group == pillars)
 				pillarsFound = true;
 			else if (group == wizardChalkCircle)
 				wizChalkFound = true;
-			
+			else if (group == capsGroup)
+				capsFound = true;
+		}
+		
+		if (pillarsFound && capsFound) {
 			IBlockState capState = worldObj.getBlockState(pos.add(2, 2, 2));
+			
 			for (IBlockState cap : caps.keySet()){
 				if (capState == cap){
 					capsLevel = caps.get(cap);
-					if (cap == BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE))
+					if (cap.getBlock() == BlockDefs.blocks && cap.getValue(BlockArsMagicaBlock.BLOCK_TYPE) == EnumBlockType.MOONSTONE)
 						onlyChargeAtNight = true;
 					else
 						onlyChargeAtNight = false;

@@ -2,6 +2,8 @@ package am2.utils;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -84,6 +86,45 @@ public class RenderUtils {
 
 	public static void fractalLine2dd(double xStart, double yStart, double xEnd, double yEnd, float zLevel, int color, float displace, float fractalDetail) {
 		fractalLine2df((float)xStart, (float)yStart, (float)xEnd, (float)yEnd, (float)zLevel, color, displace, fractalDetail);
+	}
+	
+	public static void drawTextInWorldAtOffset(String text, double x, double y, double z, int color){
+		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+		float f = 1.6F;
+		float f1 = 0.016666668F * f;
+		GL11.glPushMatrix();
+		GL11.glTranslatef((float)x, (float)y, (float)z);
+		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(-Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+		GL11.glScalef(-f1, -f1, f1);
+		GL11.glScalef(0.5f, 0.5f, 0.5f);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDepthMask(false);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		Tessellator tessellator = Tessellator.getInstance();
+		byte b0 = 0;
+
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_COLOR);;
+		int j = fontrenderer.getStringWidth(text) / 2;
+		tessellator.getBuffer().pos(-j - 1, -1 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.75F).endVertex();
+		tessellator.getBuffer().pos(-j - 1, 8 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.75F).endVertex();
+		tessellator.getBuffer().pos(j + 1, 8 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.75F).endVertex();
+		tessellator.getBuffer().pos(j + 1, -1 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.75F).endVertex();
+		tessellator.draw();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, 553648127);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, -1);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glPopMatrix();
+
 	}
 
 }

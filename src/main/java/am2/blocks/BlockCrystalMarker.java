@@ -9,9 +9,10 @@ import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,11 +45,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	public static final int META_SPELL_EXPORT = 8;
 	
 	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 8);
-	
-	private EnumFacing facingHolder = EnumFacing.UP;
-	private int xCoord = 0;
-	private int yCoord = 0;
-	private int zCoord = 0;
+	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 
 	public static final String[] crystalMarkerTypes = {
 			"cm_import",
@@ -64,6 +61,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 
 	public BlockCrystalMarker(){
 		super(Material.GLASS);
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, 0).withProperty(FACING, EnumFacing.UP));
 	}
 
 	private int getCrystalTier(int meta){
@@ -178,11 +176,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		facingHolder = facing;
-		this.xCoord = pos.getX();
-		this.yCoord = pos.getY();
-		this.zCoord = pos.getY();
-		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, facing.getOpposite());
 	}
 	
 	@Override
@@ -190,7 +184,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te != null && te instanceof TileEntityCrystalMarker){
-			((TileEntityCrystalMarker)te).setFacing(facingHolder);
+			((TileEntityCrystalMarker)te).setFacing(state.getValue(FACING));
 
 			IBlockState attachedTo = null;
 			double minx = 0;
@@ -200,7 +194,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 			double maxy = 1;
 			double maxz = 1;
 			
-			attachedTo = world.getBlockState(pos.offset(facingHolder));
+			attachedTo = world.getBlockState(pos.offset(state.getValue(FACING)));
 
 			if (attachedTo != null){
 				minx = attachedTo.getBoundingBox(world, pos).minX;
@@ -276,7 +270,9 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		TileEntity te = source.getTileEntity(pos);
 		TileEntityCrystalMarker cm = (TileEntityCrystalMarker)te;
-		EnumFacing facing = cm.getFacing();
+		if (cm == null)
+			return null;
+		EnumFacing facing = state.getValue(FACING);
 
 
 		switch (facing){
@@ -341,6 +337,21 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	@Override
 	public int damageDropped(IBlockState state) {
 		return getMetaFromState(state);
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(TYPE);
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(TYPE, meta);
+	}
+	
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, TYPE, FACING);
 	}
 }
 

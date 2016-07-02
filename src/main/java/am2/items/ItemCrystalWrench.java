@@ -67,7 +67,7 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 			handleModeChanges(stack);
 
 		}
-		return EnumActionResult.FAIL;
+		return EnumActionResult.PASS;
 	}
 
 	private void handleCMPair(ItemStack stack, World world, EntityPlayer player, TileEntity te, double hitX, double hitY, double hitZ){

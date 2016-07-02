@@ -26,7 +26,7 @@ public class TileCelestialPrismRenderer extends TileEntitySpecialRenderer<TileEn
 	
 	private IBakedModel getBakedModel() {
 		try {
-			model = ModelLoaderRegistry.getModel(new ResourceLocation("arsmagica2", "obj/celestial_prism.obj"));
+			model = ModelLoaderRegistry.getModel(new ResourceLocation("arsmagica2", "block/celestial_prism.obj"));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -53,6 +53,7 @@ public class TileCelestialPrismRenderer extends TileEntitySpecialRenderer<TileEn
 		EnumFacing facing = state.getValue(BlockEssenceGenerator.FACING);
 		GlStateManager.rotate(180 - facing.getHorizontalAngle(), 0, 1, 0);
 		GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+		GlStateManager.translate(-0.5, 0, -0.5);
 		if (Minecraft.isAmbientOcclusionEnabled())
 			GlStateManager.shadeModel(GL11.GL_SMOOTH);
 		else

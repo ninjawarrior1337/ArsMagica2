@@ -14,6 +14,12 @@ public class CompendiumEntryRitual extends CompendiumEntry{
 
 	public CompendiumEntryRitual(String id, IRitualInteraction ritualController, MultiblockStructureDefinition def, String... related){
 		super(CompendiumEntryTypes.instance.RITUAL, id, related);
+		this.ritualShape = def;
+		this.ritualController = ritualController;
+	}
+
+	public CompendiumEntryRitual(String id, Class<? extends IRitualInteraction> entryItem, String... relatedKeys) throws InstantiationException, IllegalAccessException {
+		this(id, entryItem.newInstance(), entryItem.newInstance().getRitualShape(), relatedKeys);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import am2.blocks.BlockAM;
 import am2.blocks.BlockAMFlower;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaOre;
+import am2.blocks.BlockCandle;
 import am2.blocks.BlockCraftingAltar;
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockDesertNova;
@@ -50,6 +51,7 @@ public class BlockDefs {
 	public static final Block blackAurem = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_DARK).registerAndName(new ResourceLocation("arsmagica2:blackAurem"));
 	public static final Block celestialPrism = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_LIGHT).registerAndName(new ResourceLocation("arsmagica2:celestialPrism"));
 	public static final Block crystalMarker = new BlockCrystalMarker().registerAndName(new ResourceLocation("arsmagica2:crystalMarker"));
+	public static final Block wardingCandle = new BlockCandle().registerAndName(new ResourceLocation("arsmagica2:wardingCandle"));
 	public static final Block witchwoodLog = null;
 	public static final Block essenceConduit = null;
 	
@@ -64,6 +66,10 @@ public class BlockDefs {
 		registerTexture(wakebloom);
 		registerTexture(tarmaRoot);
 		registerTexture(desertNova);
+		registerTexture(obelisk);
+		registerTexture(crystalMarker);
+		registerTexture(celestialPrism);
+		registerTexture(wardingCandle);
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {

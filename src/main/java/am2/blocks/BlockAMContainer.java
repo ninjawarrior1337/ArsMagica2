@@ -1,5 +1,6 @@
 package am2.blocks;
 
+import am2.defs.CreativeTabsDefs;
 import am2.items.ItemBlockSubtypes;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -15,6 +16,7 @@ public abstract class BlockAMContainer extends BlockContainer {
 
 	protected BlockAMContainer(Material materialIn) {
 		super(materialIn);
+		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
 	}
 	
 	public BlockAMContainer registerAndName(ResourceLocation rl) {
@@ -32,7 +34,7 @@ public abstract class BlockAMContainer extends BlockContainer {
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return boundingBox;
+		return getBoundingBox(blockState, worldIn, pos);
 	}
 	
 	@Override

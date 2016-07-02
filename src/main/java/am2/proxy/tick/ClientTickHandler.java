@@ -15,6 +15,7 @@ import am2.items.ItemSpellBook;
 import am2.lore.CompendiumEntryTypes;
 import am2.packet.AMNetHandler;
 import am2.particles.AMLineArc;
+import am2.power.PowerNodeEntry;
 import am2.spell.IComponent;
 import am2.spell.component.Telekinesis;
 import am2.utils.SpellUtils;
@@ -28,6 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -54,7 +56,7 @@ public class ClientTickHandler{
 	private int powerWatchSyncTick = 0;
 	private Vec3d powerWatch = Vec3d.ZERO;
 	private boolean hasSynced = false;
-//	private PowerNodeEntry powerData = null;
+	private PowerNodeEntry powerData = null;
 
 	private String lastWorldName;
 
@@ -310,6 +312,11 @@ public class ClientTickHandler{
 			renderTick_End();
 		}
 	}
+	
+	@SubscribeEvent
+	public void onBlockHighlight(DrawBlockHighlightEvent event){
+		ArsMagica2.proxy.drawPowerOnBlockHighlight(event.getPlayer(), event.getTarget(), event.getPartialTicks());
+	}
 
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent event){
@@ -339,9 +346,9 @@ public class ClientTickHandler{
 		return this.powerWatch;
 	}
 
-//	public PowerNodeEntry getTrackData(){
-//		return this.powerData;
-//	}
+	public PowerNodeEntry getTrackData(){
+		return this.powerData;
+	}
 
 	public void setTrackLocation(Vec3d location){
 		if (location.equals(Vec3d.ZERO)){
@@ -357,8 +364,8 @@ public class ClientTickHandler{
 	}
 
 	public void setTrackData(NBTTagCompound compound){
-//		this.powerData = new PowerNodeEntry();
-//		this.powerData.readFromNBT(compound);
+		this.powerData = new PowerNodeEntry();
+		this.powerData.readFromNBT(compound);
 		this.hasSynced = true;
 	}
 

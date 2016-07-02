@@ -1,20 +1,25 @@
 package am2.spell.component;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
+import am2.api.power.IPowerNode;
 import am2.buffs.BuffEffectIllumination;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.items.ItemOre;
+import am2.multiblock.MultiblockGroup;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
+import am2.power.PowerNodeRegistry;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
 import am2.spell.IComponent;
@@ -35,20 +40,20 @@ public class Light implements IComponent, IRitualInteraction{
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		//TODO etherium
-//		if (world.getBlock(pos) == BlocksCommonProxy.obelisk){
-//			if (RitualShapeHelper.instance.matchesRitual(this, world, pos)){
-//				if (!world.isRemote){
-//					RitualShapeHelper.instance.consumeReagents(this, world, pos);
-//					RitualShapeHelper.instance.consumeShape(this, world, pos);
-//					world.setBlock(pos, BlocksCommonProxy.celestialPrism);
-//					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
-//				}else{
-//
-//				}
-//
-//				return true;
-//			}
-//		}
+		if (world.getBlockState(pos).getBlock().equals(BlockDefs.obelisk)){
+			if (RitualShapeHelper.instance.matchesRitual(this, world, pos)){
+				if (!world.isRemote){
+					RitualShapeHelper.instance.consumeReagents(this, world, pos);
+					RitualShapeHelper.instance.consumeShape(this, world, pos);
+					world.setBlockState(pos, BlockDefs.celestialPrism.getDefaultState());
+					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
+				}else{
+
+				}
+
+				return true;
+			}
+		}
 
 		if (world.getBlockState(pos).getBlock() == Blocks.AIR) blockFace = null;
 		if (blockFace != null){
@@ -155,7 +160,12 @@ public class Light implements IComponent, IRitualInteraction{
 
 	@Override
 	public MultiblockStructureDefinition getRitualShape(){
-		return RitualShapeHelper.instance.purification;
+		MultiblockStructureDefinition newDef = new MultiblockStructureDefinition("celestialPurification");
+		newDef.groups = Lists.newArrayList(RitualShapeHelper.instance.purification.groups);
+		MultiblockGroup obelisk = new MultiblockGroup("obelisk", Lists.newArrayList(BlockDefs.obelisk.getDefaultState()), true);
+		obelisk.addBlock(new BlockPos (0, 0, 0));
+		newDef.addGroup(obelisk);
+		return newDef;
 	}
 
 	@Override

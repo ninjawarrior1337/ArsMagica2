@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 
 import am2.blocks.BlockEssenceGenerator;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.defs.BlockDefs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,6 +20,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJModel;
@@ -37,7 +39,7 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
 	
 	private void bake() {
 		try {
-			defaultModel = ModelLoaderRegistry.getModel(new ResourceLocation("arsmagica2", "obj/obelisk.obj"));
+			defaultModel = ModelLoaderRegistry.getModel(new ResourceLocation("arsmagica2", "block/obelisk.obj"));
 			activeModel = ((OBJModel) defaultModel)
 					.retexture(ImmutableMap.of("#Material", "arsmagica2:blocks/custom/obelisk_active"));
 			highPowerModel = ((OBJModel) defaultModel)
@@ -63,26 +65,17 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.pushMatrix();
 		RenderHelper.disableStandardItemLighting();
-		IBlockState state = te.getWorld().getBlockState(te.getPos());
-		EnumFacing facing = state.getValue(BlockEssenceGenerator.FACING);
+		EnumFacing facing = EnumFacing.NORTH;
+		if (te.hasWorldObj()) {
+			IBlockState state = te.getWorld().getBlockState(te.getPos());
+			facing = state.getValue(BlockEssenceGenerator.FACING);
+		}
+		if (facing == EnumFacing.WEST || facing == EnumFacing.SOUTH)
+			GlStateManager.translate(0, 0, 1);
+		if (facing == EnumFacing.SOUTH || facing == EnumFacing.EAST)
+			GlStateManager.translate(1, 0, 0);
 		GlStateManager.rotate(180 - facing.getHorizontalAngle(), 0, 1, 0);
 		GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
-		GlStateManager.translate(0.5f, 0, 0.5F);
-		switch (facing) {
-		case EAST:
-			GlStateManager.translate(0, 0, -1);
-			break;
-		case WEST:
-			GlStateManager.translate(-1, 0, 0);
-			break;
-		case NORTH:
-			break;
-		case SOUTH:
-			GlStateManager.translate(-1, 0, -1);
-			break;
-		default:
-			break;
-		}
 		if (Minecraft.isAmbientOcclusionEnabled())
 			GlStateManager.shadeModel(GL11.GL_SMOOTH);
 		else
@@ -90,7 +83,10 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), getBakedModel(te), te.getWorld().getBlockState(te.getPos()), te.getPos(), tessellator.getBuffer(), false);
+		if (te.hasWorldObj())
+			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), getBakedModel(te), te.getWorld().getBlockState(te.getPos()), te.getPos(), tessellator.getBuffer(), false);
+		else
+			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().theWorld, getBakedModel(te), BlockDefs.obelisk.getDefaultState(), new BlockPos(0, 0, 0), tessellator.getBuffer(), false);
 		tessellator.draw();
 		if (te.isActive()) {
 			GL11.glMatrixMode(GL11.GL_TEXTURE);

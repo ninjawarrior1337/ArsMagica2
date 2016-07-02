@@ -16,6 +16,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -24,7 +25,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.util.Constants;
 
 @SuppressWarnings("deprecation")
-public class TileEntityCrystalMarker extends TileEntity implements IInventory, ISidedInventory{
+public class TileEntityCrystalMarker extends TileEntity implements IInventory, ISidedInventory, ITickable{
 	private static final int SEARCH_RADIUS = 400;
 	public static final int FILTER_SIZE = 9;
 
@@ -453,5 +454,10 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public void clear() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void update() {
+		worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BlockCrystalMarker.FACING, getFacing()));
 	}
 }

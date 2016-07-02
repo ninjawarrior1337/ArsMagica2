@@ -1,17 +1,21 @@
 package am2.rituals;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import am2.defs.BlockDefs;
+import am2.multiblock.MultiblockGroup;
+import am2.multiblock.MultiblockStructureDefinition;
+import am2.multiblock.TypedMultiblockGroup;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import am2.multiblock.MultiblockGroup;
-import am2.multiblock.MultiblockStructureDefinition;
-
-import com.google.common.collect.Lists;
 
 public class RitualShapeHelper {
 	
@@ -24,8 +28,9 @@ public class RitualShapeHelper {
 	
 	public boolean matchesRitual(IRitualInteraction ritual, World world, BlockPos pos) {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius()));
-		if (!ritual.getRitualShape().matches(world, pos))
+		if (!ritual.getRitualShape().matches(world, pos)) {
 			return false;
+		}
 		for (ItemStack stack : ritual.getReagents()) {
 			boolean matches = false;
 			for (EntityItem item : items) {
@@ -58,8 +63,9 @@ public class RitualShapeHelper {
 	public void consumeShape(IRitualInteraction ritual, World world, BlockPos pos) {
 		for (MultiblockGroup group : ritual.getRitualShape().getMatchingGroups(world, pos)) {
 			for (BlockPos blockPos : group.getPositions()) {
-				world.setBlockToAir(blockPos);
-				world.markAndNotifyBlock(blockPos, world.getChunkFromBlockCoords(blockPos), world.getBlockState(blockPos), world.getBlockState(blockPos), 3);
+				IBlockState state = world.getBlockState(pos.add(blockPos));
+				world.setBlockToAir(pos.add(blockPos));
+				world.notifyBlockUpdate(pos.add(blockPos), state, Blocks.AIR.getDefaultState(), 3);
 			}
 		}
 	}
@@ -71,41 +77,70 @@ public class RitualShapeHelper {
 		ringedCrossRitual();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void corruptionRitual() {
-		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
-		MultiblockGroup candles = new MultiblockGroup("candle", Lists.newArrayList(Blocks.TORCH.getDefaultState()), true);
+		HashMap<Integer, IBlockState> corruptionMap = new HashMap<>();
+		corruptionMap.put(0, BlockDefs.wizardChalk.getDefaultState());
+		corruptionMap.put(1, BlockDefs.wardingCandle.getDefaultState());
+		TypedMultiblockGroup defaultRotation = new TypedMultiblockGroup("defaultRotation", Lists.newArrayList(corruptionMap), true);
+		TypedMultiblockGroup rotated = new TypedMultiblockGroup("rotated", Lists.newArrayList(corruptionMap), true);
 		
-		chalks.addBlock(new BlockPos(1, 0, 0));
-		chalks.addBlock(new BlockPos(-1, 0, 0));
+		defaultRotation.addBlock(new BlockPos(1, 0, 0), 0);
+		defaultRotation.addBlock(new BlockPos(-1, 0, 0), 0);
 
-		chalks.addBlock(new BlockPos(2, 0, 1));
-		chalks.addBlock(new BlockPos(-2, 0, 1));
-		chalks.addBlock(new BlockPos(2, 0, -1));
-		chalks.addBlock(new BlockPos(-2, 0, -1));
+		defaultRotation.addBlock(new BlockPos(2, 0, 1), 0);
+		defaultRotation.addBlock(new BlockPos(-2, 0, 1), 0);
+		defaultRotation.addBlock(new BlockPos(2, 0, -1), 0);
+		defaultRotation.addBlock(new BlockPos(-2, 0, -1), 0);
 
-		chalks.addBlock(new BlockPos(2, 0, 2));
-		candles.addBlock(new BlockPos(1, 0, 2));
-		chalks.addBlock(new BlockPos(0, 0, 2));
-		candles.addBlock(new BlockPos(-1, 0, 2));
-		chalks.addBlock(new BlockPos(-2, 0, 2));
-		chalks.addBlock(new BlockPos(2, 0, -2));
-		candles.addBlock(new BlockPos(1, 0, -2));
-		chalks.addBlock(new BlockPos(0, 0, -2));
-		candles.addBlock(new BlockPos(-1, 0, -2));
-		chalks.addBlock(new BlockPos(-2, 0, -2));
+		defaultRotation.addBlock(new BlockPos(2, 0, 2), 0);
+		defaultRotation.addBlock(new BlockPos(1, 0, 2), 1);
+		defaultRotation.addBlock(new BlockPos(0, 0, 2), 0);
+		defaultRotation.addBlock(new BlockPos(-1, 0, 2), 1);
+		defaultRotation.addBlock(new BlockPos(-2, 0, 2), 0);
+		defaultRotation.addBlock(new BlockPos(2, 0, -2), 0);
+		defaultRotation.addBlock(new BlockPos(1, 0, -2), 1);
+		defaultRotation.addBlock(new BlockPos(0, 0, -2), 0);
+		defaultRotation.addBlock(new BlockPos(-1, 0, -2), 1);
+		defaultRotation.addBlock(new BlockPos(-2, 0, -2), 0);
 
-		chalks.addBlock(new BlockPos(1, 0, 3));
-		chalks.addBlock(new BlockPos(-1, 0, 3));
-		chalks.addBlock(new BlockPos(1, 0, -3));
-		chalks.addBlock(new BlockPos(-1, 0, -3));
+		defaultRotation.addBlock(new BlockPos(1, 0, 3), 0);
+		defaultRotation.addBlock(new BlockPos(-1, 0, 3), 0);
+		defaultRotation.addBlock(new BlockPos(1, 0, -3), 0);
+		defaultRotation.addBlock(new BlockPos(-1, 0, -3), 0);
 		
-		corruption.addGroup(candles);
-		corruption.addGroup(chalks);
+		
+		
+		rotated.addBlock(new BlockPos(0, 0, 1), 0);
+		rotated.addBlock(new BlockPos(0, 0, -1), 0);
+
+		rotated.addBlock(new BlockPos(1, 0, 2), 0);
+		rotated.addBlock(new BlockPos(1, 0, -2), 0);
+		rotated.addBlock(new BlockPos(-1, 0, 2), 0);
+		rotated.addBlock(new BlockPos(-1, 0, -2), 0);
+
+		rotated.addBlock(new BlockPos(2, 0, 2), 0);
+		rotated.addBlock(new BlockPos(2, 0, 1), 1);
+		rotated.addBlock(new BlockPos(2, 0, 0), 0);
+		rotated.addBlock(new BlockPos(2, 0, -1), 1);
+		rotated.addBlock(new BlockPos(2, 0, -2), 0);
+		rotated.addBlock(new BlockPos(-2, 0, 2), 0);
+		rotated.addBlock(new BlockPos(-2, 0, 1), 1);
+		rotated.addBlock(new BlockPos(-2, 0, 0), 0);
+		rotated.addBlock(new BlockPos(-2, 0, -1), 1);
+		rotated.addBlock(new BlockPos(-2, 0, -2), 0);
+
+		rotated.addBlock(new BlockPos(3, 0, 1), 0);
+		rotated.addBlock(new BlockPos(3, 0, -1), 0);
+		rotated.addBlock(new BlockPos(-3, 0, 1), 0);
+		rotated.addBlock(new BlockPos(-3, 0, -1), 0);
+		
+		corruption.addGroup(defaultRotation, rotated);
 	}
 	
 	private void purificationRitual() {
-		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
-		MultiblockGroup candles = new MultiblockGroup("candle", Lists.newArrayList(Blocks.TORCH.getDefaultState()), true);
+		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(BlockDefs.wizardChalk.getDefaultState()), true);
+		MultiblockGroup candles = new MultiblockGroup("candle", Lists.newArrayList(BlockDefs.wardingCandle.getDefaultState()), true);
 		chalks.addBlock(new BlockPos(-1, 0, 1));
 		chalks.addBlock(new BlockPos(-1, 0, -1));
 		chalks.addBlock(new BlockPos(1, 0, 1));
@@ -149,7 +184,7 @@ public class RitualShapeHelper {
 	}
 	
 	private void hourglassRitual() {
-		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
+		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(BlockDefs.wizardChalk.getDefaultState()), true);
 
 		chalks.addBlock(new BlockPos(0, 0, 0));
 
@@ -169,7 +204,7 @@ public class RitualShapeHelper {
 	}
 	
 	private void ringedCrossRitual() {
-		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(Blocks.STONE.getDefaultState()), true);
+		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(BlockDefs.wizardChalk.getDefaultState()), true);
 		
 		chalks.addBlock(new BlockPos(1, 0, 0));
 		chalks.addBlock(new BlockPos(-1, 0, 0));

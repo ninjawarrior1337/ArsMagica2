@@ -1,10 +1,14 @@
 package am2.packet;
 
 import am2.ArsMagica2;
+import am2.api.math.AMVector3;
+import am2.api.power.IPowerNode;
 import am2.extensions.EntityExtension;
+import am2.power.PowerNodeRegistry;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,7 +17,6 @@ public class AMPacketProcessorServer{
 
 	@SubscribeEvent
 	public void onServerPacketData(ServerCustomPacketEvent event){
-		System.out.println("Called");
 		ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
 		byte packetID = -1;
 		try{
@@ -27,7 +30,6 @@ public class AMPacketProcessorServer{
 			EntityPlayerMP player = srv.playerEntity;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
-			
 			switch (packetID){
 //			case AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE:
 //				handleCastingModeChange(remaining, (EntityPlayerMP)player);
@@ -82,9 +84,9 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.IMBUE_ARMOR:
 //				handleImbueArmor(remaining, (EntityPlayerMP)player);
 //				break;
-//			case AMPacketIDs.REQUEST_PWR_PATHS:
-//				handlePowerPathSync(remaining, (EntityPlayerMP)player);
-//				break;
+			case AMPacketIDs.REQUEST_PWR_PATHS:
+				handlePowerPathSync(remaining, (EntityPlayerMP)player);
+				break;
 //			case AMPacketIDs.SYNC_EXTENDED_PROPS:
 //				handleExpropOperation(remaining, (EntityPlayerMP)player);
 //				break;
@@ -114,17 +116,17 @@ public class AMPacketProcessorServer{
 //		ExtendedProperties.For(player).performRemoteOp(new AMDataReader(data, false).getInt());
 //	}
 //
-//	private void handlePowerPathSync(byte[] data, EntityPlayerMP player){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		byte nom = rdr.getByte();
-//		if (nom == 1){
-//			AMVector3 loc = new AMVector3(rdr.getFloat(), rdr.getFloat(), rdr.getFloat());
-//			TileEntity te = player.worldObj.getTileEntity((int)loc.x, (int)loc.y, (int)loc.z);
-//			if (te != null && te instanceof IPowerNode){
-//				AMNetHandler.INSTANCE.sendPowerResponseToClient(PowerNodeRegistry.For(player.worldObj).getDataCompoundForNode((IPowerNode)te), player, te);
-//			}
-//		}
-//	}
+	private void handlePowerPathSync(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data, false);
+		byte nom = rdr.getByte();
+		if (nom == 1){
+			AMVector3 loc = new AMVector3(rdr.getFloat(), rdr.getFloat(), rdr.getFloat());
+			TileEntity te = player.worldObj.getTileEntity(loc.toBlockPos());
+			if (te != null && te instanceof IPowerNode){
+				AMNetHandler.INSTANCE.sendPowerResponseToClient(PowerNodeRegistry.For(player.worldObj).getDataCompoundForNode((IPowerNode<?>)te), player, te);
+			}
+		}
+	}
 //
 //	private void handleImbueArmor(byte[] data, EntityPlayerMP player){
 //		AMDataReader rdr = new AMDataReader(data, false);

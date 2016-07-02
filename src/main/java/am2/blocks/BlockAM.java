@@ -48,7 +48,7 @@ public class BlockAM extends Block {
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return boundingBox;
+		return getBoundingBox(blockState, worldIn, pos);
 	}
 	
 	@Override

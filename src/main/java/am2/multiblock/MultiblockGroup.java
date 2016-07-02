@@ -52,8 +52,9 @@ public class MultiblockGroup {
 				flag = subFlag;
 				
 			}
-			if (!flag)
+			if (!flag) {
 				break;
+			}
 		}
 		
 		return flag;

@@ -12,9 +12,8 @@ import am2.particles.ParticleFloatUpward;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 
-public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker implements ITickable{
+public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
 	static final int RESCAN_INTERVAL = 600;
 	static final int UPDATE_INTERVAL = 100;
 
@@ -31,6 +30,7 @@ public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker 
 	}
 	@Override
 	public void update(){
+		super.update();
 		if (this.updateCounter % RESCAN_INTERVAL == 0){
 			scanForCraftingAltars();
 		}

@@ -12,6 +12,7 @@ import am2.defs.BlockDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.multiblock.MultiblockGroup;
 import am2.multiblock.MultiblockStructureDefinition;
+import am2.multiblock.TypedMultiblockGroup;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
@@ -55,7 +56,14 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	protected MultiblockGroup wizardChalkCircle;
 	protected MultiblockGroup pillars;
 	protected HashMap<IBlockState, Float> caps;
-
+	protected TypedMultiblockGroup capsGroup;
+	
+	protected HashMap<Integer, IBlockState> createMap(IBlockState state) {
+		HashMap<Integer, IBlockState> states = new HashMap<>();
+		states.put(0, state);
+		return states;
+	}
+	
 	public TileEntityObelisk(){
 		this(5000);
 		inventory = new ItemStack[this.getSizeInventory()];
@@ -67,12 +75,18 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 		float capsLevel = 1;
 		boolean pillarsFound = false;
 		boolean wizChalkFound = false;
+		boolean capsFound = false;
 
 		for (MultiblockGroup group : groups){
 			if (group == pillars)
 				pillarsFound = true;
 			else if (group == wizardChalkCircle)
 				wizChalkFound = true;
+			else if (group == capsGroup)
+				capsFound = true;
+		}
+		
+		if (pillarsFound && capsFound) {
 			IBlockState capState = worldObj.getBlockState(pos.add(2, 2, 2));
 			
 			for (IBlockState cap : caps.keySet()){
@@ -92,16 +106,16 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 			powerMultiplier *= capsLevel;
 	}
 
+	@SuppressWarnings("unchecked")
 	public TileEntityObelisk(int capacity){
 		super(capacity);
 		setNoPowerRequests();
 		surroundingCheckTicks = 0;
 
 		structure = new MultiblockStructureDefinition("obelisk_structure");
-
 		pillars = new MultiblockGroup("pillars", Lists.newArrayList(Blocks.STONEBRICK.getDefaultState()), false);
 		caps = new HashMap<>();
-		MultiblockGroup chiseled = new MultiblockGroup("chiseled", Lists.newArrayList(Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED)), false);
+		capsGroup = new TypedMultiblockGroup("caps", Lists.newArrayList(createMap(Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED))), false);
 		caps.put(Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED), 1.35f);
 		
 		MultiblockGroup obelisk = new MultiblockGroup("obelisk", Lists.newArrayList(BlockDefs.obelisk.getDefaultState()), true);
@@ -110,21 +124,25 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 
 		pillars.addBlock(new BlockPos (-2, 0, -2));
 		pillars.addBlock(new BlockPos (-2, 1, -2));
-		chiseled.addBlock(new BlockPos (-2, 2, -2));
+		capsGroup.addBlock(new BlockPos (-2, 2, -2), 0);
 
 		pillars.addBlock(new BlockPos (2, 0, -2));
 		pillars.addBlock(new BlockPos (2, 1, -2));
-		chiseled.addBlock(new BlockPos (2, 2, -2));
+		capsGroup.addBlock(new BlockPos (2, 2, -2), 0);
 
 		pillars.addBlock(new BlockPos (-2, 0, 2));
 		pillars.addBlock(new BlockPos (-2, 1, 2));
-		chiseled.addBlock(new BlockPos (-2, 2, 2));
+		capsGroup.addBlock(new BlockPos (-2, 2, 2), 0);
 
 		pillars.addBlock(new BlockPos (2, 0, 2));
 		pillars.addBlock(new BlockPos (2, 1, 2));
-		chiseled.addBlock(new BlockPos (2, 2, 2));
+		capsGroup.addBlock(new BlockPos (2, 2, 2), 0);
 
 		wizardChalkCircle = addWizChalkGroupToStructure(structure);
+		structure.addGroup(pillars);
+		structure.addGroup(capsGroup);
+		structure.addGroup(wizardChalkCircle);
+		structure.addGroup(obelisk);
 	}
 
 	public boolean isActive(){

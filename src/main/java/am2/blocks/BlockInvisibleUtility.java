@@ -12,6 +12,7 @@ import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -50,6 +51,7 @@ public class BlockInvisibleUtility extends BlockAM{
 		super(Material.GLASS);
 		this.setBlockBounds(0, 0, 0, 0.01f, 0.01f, 0.01f);
 		this.setTickRandomly(true);
+		this.setDefaultState(blockState.getBaseState().withProperty(TYPE, EnumInvisibleType.LOW_ILLUMINATED));
 	}
 
 	@Override
@@ -62,6 +64,21 @@ public class BlockInvisibleUtility extends BlockAM{
 		if (getType(state).type == EnumType.LIGHT)
 			return null;
 		return new AxisAlignedBB(pos).expandXyz(1);
+	}
+	
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, TYPE);
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(TYPE).ordinal();
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(TYPE, EnumInvisibleType.values()[meta]);
 	}
 	
 	@Override

@@ -9,8 +9,10 @@ import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.world.World;
 
 public class Healing implements IModifier{
@@ -29,7 +31,7 @@ public class Healing implements IModifier{
 		return new Object[]{
 				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.LIFE),
 				Items.EGG,
-				"P:0 & !1 & 2 & !3" //healing potion
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.HEALING)
 		};
 	}
 

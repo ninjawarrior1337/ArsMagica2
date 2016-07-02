@@ -334,7 +334,6 @@ public class SpellUtils {
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tmp = stageTag.getCompoundTagAt(i);
 					String type = tmp.getString(TYPE);
-					System.out.println("Found " + tmp.getString(ID) + ", Type: " + type);
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
 						IComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID)).part;
 						cost += component.manaCost(Minecraft.getMinecraft().thePlayer);

@@ -1,7 +1,9 @@
 package am2.packet;
 
 import am2.ArsMagica2;
+import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.power.PowerNodeRegistry;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -184,26 +186,26 @@ public class AMNetHandler{
 //		sendPacketToAllClientsNear(hecate.worldObj.provider.getDimension(), hecate.posX, hecate.posY, hecate.posZ, 32, AMPacketIDs.HECATE_DEATH, writer.generate());
 //	}
 
-//	public void syncPowerPaths(IPowerNode node, EntityPlayerMP player){
-//		AMDataWriter writer = new AMDataWriter();
-//		if (((TileEntity)node).getWorldObj().isRemote){
-//			writer.add((byte)0);
-//			writer.add(((TileEntity)node).getWorldObj().provider.getDimension());
-//			writer.add(((TileEntity)node).xCoord);
-//			writer.add(((TileEntity)node).yCoord);
-//			writer.add(((TileEntity)node).zCoord);
-//
-//			sendPacketToServer(AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
-//		}else{
-//			NBTTagCompound compound = PowerNodeRegistry.For(((TileEntity)node).getWorldObj()).getDataCompoundForNode(node);
-//			if (compound != null){
-//				writer.add((byte)0);
-//				writer.add(compound);
-//
-//				sendPacketToClientPlayer(player, AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
-//			}
-//		}
-//	}
+	public void syncPowerPaths(IPowerNode<?> node, EntityPlayerMP player){
+		AMDataWriter writer = new AMDataWriter();
+		if (((TileEntity)node).getWorld().isRemote){
+			writer.add((byte)0);
+			writer.add(((TileEntity)node).getWorld().provider.getDimension());
+			writer.add(((TileEntity)node).getPos().getX());
+			writer.add(((TileEntity)node).getPos().getY());
+			writer.add(((TileEntity)node).getPos().getZ());
+
+			sendPacketToServer(AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
+		}else{
+			NBTTagCompound compound = PowerNodeRegistry.For(((TileEntity)node).getWorld()).getDataCompoundForNode(node);
+			if (compound != null){
+				writer.add((byte)0);
+				writer.add(compound);
+
+				sendPacketToClientPlayer(player, AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
+			}
+		}
+	}
 
 //	public void sendImbueToServer(TileEntityArmorImbuer tileEntity, String hoveredID){
 //		AMDataWriter writer = new AMDataWriter();
@@ -218,9 +220,9 @@ public class AMNetHandler{
 	public void sendPowerRequestToServer(Vec3d location){
 		AMDataWriter writer = new AMDataWriter();
 		writer.add((byte)1);
-		writer.add(location.xCoord);
-		writer.add(location.yCoord);
-		writer.add(location.zCoord);
+		writer.add((float)location.xCoord);
+		writer.add((float)location.yCoord);
+		writer.add((float)location.zCoord);
 
 		sendPacketToServer(AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
 	}

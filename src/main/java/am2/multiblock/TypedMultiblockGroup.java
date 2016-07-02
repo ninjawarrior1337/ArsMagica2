@@ -26,8 +26,14 @@ public class TypedMultiblockGroup extends MultiblockGroup{
 	}
 	
 	public void addBlock(BlockPos position, int group) {
-		super.addBlock(position);
+		positions.add(position);
 		groups.put(position, group);
+	}
+	
+	@Override
+	@Deprecated
+	public void addBlock(BlockPos position) {
+		addBlock(position, 0);
 	}
 	
 	public int getGroup(BlockPos pos) {
@@ -55,7 +61,8 @@ public class TypedMultiblockGroup extends MultiblockGroup{
 				else {
 					subFlag = checkState.getBlock() == state.getBlock() && checkState.getBlock().getMetaFromState(checkState) == state.getBlock().getMetaFromState(state);
 				}
-				if (!subFlag) break;
+				if (!subFlag)
+					break;
 			}
 			if (subFlag)
 				return true;

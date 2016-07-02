@@ -3,12 +3,16 @@ package am2.packet;
 import java.util.ArrayList;
 
 import am2.ArsMagica2;
+import am2.api.math.AMVector3;
+import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleLeaveParticleTrail;
 import am2.particles.ParticleMoveOnHeading;
+import am2.power.PowerNodeEntry;
+import am2.power.PowerNodeRegistry;
 import am2.spell.IModifier;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
@@ -17,6 +21,7 @@ import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -38,7 +43,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
-
+						
 			switch (packetID){
 //			case AMPacketIDs.SPELL_CAST:
 //				handleSpellCast(remaining);
@@ -106,9 +111,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.HECATE_DEATH:
 //				handleHecateDeath(remaining);
 //				break;
-//			case AMPacketIDs.REQUEST_PWR_PATHS:
-//				handleRcvPowerPaths(remaining);
-//				break;
+			case AMPacketIDs.REQUEST_PWR_PATHS:
+				handleRcvPowerPaths(remaining);
+				break;
 //			case AMPacketIDs.CAPABILITY_CHANGE:
 //				handleCapabilityChange(remaining);
 //				break;
@@ -185,23 +190,23 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		}
 //	}
 //
-//	private void handleRcvPowerPaths(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		byte bite = rdr.getByte();
-//		NBTTagCompound compound = rdr.getNBTTagCompound();
-//		if (bite == 0){
-//			PowerNodeEntry pnd = PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).parseFromNBT(compound);
-//			AMCore.proxy.receivePowerPathVisuals(pnd.getNodePaths());
-//		}else if (bite == 1){
-//			int x = rdr.getInt();
-//			int y = rdr.getInt();
-//			int z = rdr.getInt();
-//			AMCore.proxy.setTrackedPowerCompound((NBTTagCompound)compound.copy());
-//			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
-//			if (te != null && te instanceof IPowerNode)
-//				PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).setDataCompoundForNode((IPowerNode)te, compound);
-//		}
-//	}
+	private void handleRcvPowerPaths(byte[] data){
+		AMDataReader rdr = new AMDataReader(data, false);
+		byte bite = rdr.getByte();
+		NBTTagCompound compound = rdr.getNBTTagCompound();
+		if (bite == 0){
+			PowerNodeEntry pnd = PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).parseFromNBT(compound);
+			ArsMagica2.proxy.receivePowerPathVisuals(pnd.getNodePaths());
+		}else if (bite == 1){
+			int x = rdr.getInt();
+			int y = rdr.getInt();
+			int z = rdr.getInt();
+			ArsMagica2.proxy.setTrackedPowerCompound((NBTTagCompound)compound.copy());
+			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(x, y, z));
+			if (te != null && te instanceof IPowerNode)
+				PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).setDataCompoundForNode((IPowerNode<?>)te, compound);
+		}
+	}
 //
 //	private void handleHecateDeath(byte[] data){
 //		AMDataReader rdr = new AMDataReader(data, false);

@@ -23,7 +23,6 @@ import am2.particles.AMLineArc;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
 import am2.utils.EntityUtils;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,12 +37,8 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 	private final HashMap<EntityLivingBase, AMLineArc> arcs;
 	private final ArrayList<EntityLivingBase> cachedEntities;
 	private int ticksSinceLastEntityScan = 0;
-	private HashMap<Integer, IBlockState> createMap(IBlockState state) {
-		HashMap<Integer, IBlockState> states = new HashMap<>();
-		states.put(0, state);
-		return states;
-	}
 	
+	@SuppressWarnings("unchecked")
 	public TileEntityBlackAurem(){
 		super(10000);
 
@@ -56,8 +51,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 		pillars = new MultiblockGroup("pillars", Lists.newArrayList(Blocks.NETHER_BRICK.getDefaultState()), false);
 
 		this.caps = new HashMap<>();
-		@SuppressWarnings("unchecked")
-		TypedMultiblockGroup caps = new TypedMultiblockGroup("caps", Lists.newArrayList(
+		capsGroup = new TypedMultiblockGroup("caps", Lists.newArrayList(
 				createMap(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE)),
 				createMap(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.CHIMERITE)),
 				createMap(Blocks.OBSIDIAN.getDefaultState())), false);
@@ -69,10 +63,10 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 		
 		aurem.addBlock(BlockPos.ORIGIN);
 		
-		caps.addBlock(new BlockPos(-2, 2, -2), 0);
-		caps.addBlock(new BlockPos(2, 2, -2), 0);
-		caps.addBlock(new BlockPos(-2, 2, 2), 0);
-		caps.addBlock(new BlockPos(2, 2, 2), 0);
+		capsGroup.addBlock(new BlockPos(-2, 2, -2), 0);
+		capsGroup.addBlock(new BlockPos(2, 2, -2), 0);
+		capsGroup.addBlock(new BlockPos(-2, 2, 2), 0);
+		capsGroup.addBlock(new BlockPos(2, 2, 2), 0);
 
 		pillars.addBlock(new BlockPos (-2, 0, -2));
 		pillars.addBlock(new BlockPos (-2, 1, -2));
@@ -87,6 +81,10 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 		pillars.addBlock(new BlockPos (2, 1, 2));
 
 		wizardChalkCircle = addWizChalkGroupToStructure(structure);
+		structure.addGroup(pillars);
+		structure.addGroup(capsGroup);
+		structure.addGroup(wizardChalkCircle);
+		structure.addGroup(aurem);
 	}
 
 	@Override
@@ -133,7 +131,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 
 			double distanceHorizontal = deltaX * deltaX + deltaZ * deltaZ;
 			double distanceVertical = this.pos.getY() - ent.posY;
-			if (distanceHorizontal < 1.3){
+			if (distanceHorizontal < 1.3 * Math.max(1, Math.abs(distanceVertical / 2))){
 				if (distanceVertical < -1.5){
 					if (worldObj.isRemote && worldObj.rand.nextInt(10) < 3){
 						ArsMagica2.proxy.particleManager.BoltFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent.posX, ent.posY, ent.posZ, 4, 0x000000);

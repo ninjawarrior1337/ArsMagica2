@@ -3,6 +3,8 @@ package am2.gui;
 import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,7 +17,6 @@ import org.lwjgl.opengl.GL12;
 import am2.api.SpellRegistry;
 import am2.api.SpellRegistry.SpellData;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.event.SpellRecipeItemsEvent;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import am2.gui.controls.GuiButtonCompendiumTab;
@@ -33,6 +34,7 @@ import am2.skill.Skill;
 import am2.spell.ISpellPart;
 import am2.texture.SpellIconManager;
 import am2.utils.RecipeUtils;
+import am2.utils.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.state.IBlockState;
@@ -1163,7 +1165,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 		fontRendererObj.drawString(renderString, cx - fontRendererObj.getStringWidth(renderString) / 2, i1 + 20, 0x000000);
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void renderEntityIntoUI(){
 		Render render = (Render)Minecraft.getMinecraft().getRenderManager().entityRenderMap.get(entryEntity.getClass());
 		if (render != null){
@@ -1216,10 +1218,6 @@ public class GuiArcaneCompendium extends GuiScreen {
 //	}
 //
 	private void drawRightPageExtras_Block_Item(int cx, int cy){
-
-		int l = (width - xSize) / 2;
-		int i1 = (height - ySize) / 2;
-
 		if (craftingComponents == null){
 			GL11.glPushMatrix();
 
@@ -1324,14 +1322,14 @@ public class GuiArcaneCompendium extends GuiScreen {
 		}
 	}
 
-	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font){
+	protected void drawHoveringText(List<String> par1List, int par2, int par3, FontRenderer font){
 		if (!par1List.isEmpty()){
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			int k = 0;
-			Iterator iterator = par1List.iterator();
+			Iterator<String> iterator = par1List.iterator();
 
 			while (iterator.hasNext()){
 				String s = (String)iterator.next();
@@ -1435,7 +1433,6 @@ public class GuiArcaneCompendium extends GuiScreen {
 					layerBlocksSorted.put(bc, newGroup.getState(bc));
 				} else {
 					layerBlocksSorted.put(bc, layerBlocks.get(bc));
-
 				}
 			}
 		}
@@ -1461,10 +1458,8 @@ public class GuiArcaneCompendium extends GuiScreen {
 
 			float px = cx - (step_x * (entryMultiblock.getWidth() / 2));
 			float py = cy - (step_z * (entryMultiblock.getLength() / 2));
-
+						
 			for (BlockPos bc : layerBlocksSorted.keySet()){
-				//if (bc.getX() == 0 && bc.getY() == 0 && bc.getZ() == 0) continue;
-				IBlockState bd = layerBlocksSorted.get(bc).get(0);
 				float x = px + ((bc.getX() - bc.getZ()) * step_x);
 				float y = py + ((bc.getZ() + bc.getX()) * step_z) + (step_y * i);
 
@@ -1674,11 +1669,11 @@ public class GuiArcaneCompendium extends GuiScreen {
 			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		if (state.getBlock() instanceof BlockContainer)
-			TileEntityRendererDispatcher.instance.renderTileEntityAt(((BlockContainer)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), 0, 1, 0, 0, 0);
+			TileEntityRendererDispatcher.instance.renderTileEntityAt(((BlockContainer)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), 0, 0, 0, 0, 0);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, new BlockPos(0, 1, 0), blockAccess , Tessellator.getInstance().getBuffer());
+		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, new BlockPos(0, 0, 0), blockAccess , Tessellator.getInstance().getBuffer());
 		Tessellator.getInstance().draw();
 		
 //		if (block.getRenderType() == BlocksCommonProxy.blockRenderID){

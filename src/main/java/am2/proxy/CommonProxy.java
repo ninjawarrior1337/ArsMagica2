@@ -6,6 +6,7 @@ import static am2.defs.IDDefs.GUI_RIFT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -15,9 +16,15 @@ import am2.api.extensions.IArcaneCompendium;
 import am2.api.extensions.IEntityExtension;
 import am2.api.extensions.IRiftStorage;
 import am2.api.extensions.ISkillData;
+import am2.api.math.AMVector3;
+import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityBlackAurem;
+import am2.blocks.tileentity.TileEntityCandle;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
+import am2.blocks.tileentity.TileEntityCrystalMarker;
+import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
+import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
@@ -42,18 +49,23 @@ import am2.lore.CompendiumUnlockHandler;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketProcessorServer;
 import am2.particles.ParticleManagerServer;
+import am2.power.PowerNodeCache;
+import am2.power.PowerNodeEntry;
+import am2.power.PowerTypes;
 import am2.proxy.tick.ServerTickHandler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -68,7 +80,8 @@ public class CommonProxy implements IGuiHandler{
 	private HashMap<EntityLivingBase, Integer> deferredDimensionTransfers = new HashMap<>();
 	public ArrayList<Item> items = new ArrayList<>();
 	public AMEnchantments enchantments;
-
+	
+	public static HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> powerPathVisuals;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -99,7 +112,9 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		MinecraftForge.EVENT_BUS.register(new PotionEffectHandler());
 		MinecraftForge.EVENT_BUS.register(packetProcessor);
-
+		MinecraftForge.EVENT_BUS.register(PowerNodeCache.instance);
+		
+		
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 80, 1, false);
@@ -111,6 +126,11 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityObelisk.class, "TileEntityObelisk");
 		GameRegistry.registerTileEntity(TileEntityCelestialPrism.class, "TileEntityCelestialPrism");
 		GameRegistry.registerTileEntity(TileEntityBlackAurem.class, "TileEntityBlackAurem");
+		GameRegistry.registerTileEntity(TileEntityCandle.class, "TileEntityCandle");
+		GameRegistry.registerTileEntity(TileEntityCrystalMarker.class, "TileEntityCrystalMarker");
+		GameRegistry.registerTileEntity(TileEntityCrystalMarkerSpellExport.class, "TileEntityCrystalMarkerSpellExport");
+		GameRegistry.registerTileEntity(TileEntityFlickerHabitat.class, "TileEntityFlickerHabitat");
+		
 		
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
@@ -169,6 +189,30 @@ public class CommonProxy implements IGuiHandler{
 
 	public boolean setMouseDWheel(int dwheel) {
 		return false;
+	}
+	
+	public void setTrackedPowerCompound(NBTTagCompound compound){
+	}
+
+	public void setTrackedLocation(AMVector3 location){
+	}
+
+	public boolean hasTrackedLocationSynced(){
+		return false;
+	}
+
+	public PowerNodeEntry getTrackedData(){
+		return null;
+	}
+
+	public void drawPowerOnBlockHighlight(EntityPlayer player, RayTraceResult target, float partialTicks) {}
+
+	public void receivePowerPathVisuals(HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> nodePaths) {}
+
+	public void requestPowerPathVisuals(IPowerNode<?> node, EntityPlayerMP player) {}
+
+	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getPowerPathVisuals() {
+		return null;
 	}
 
 }

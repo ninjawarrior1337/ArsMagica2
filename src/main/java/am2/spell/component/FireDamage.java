@@ -8,16 +8,20 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.api.DamageSources;
+import am2.api.power.IPowerNode;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
+import am2.power.PowerNodeRegistry;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGhast;
@@ -34,22 +38,22 @@ public class FireDamage implements IComponent, IRitualInteraction{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-//		Block block = world.getBlock(blockx, blocky, blockz);
-//
-//		if (block == BlocksCommonProxy.obelisk){
-//			if (RitualShapeHelper.instance.matchesRitual(this, world, pos)){
-//				if (!world.isRemote){
-//					RitualShapeHelper.instance.consumeReagents(this, world, pos);
-//					RitualShapeHelper.instance.consumeShape(this, world, pos);
-//					world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.blackAurem);
-//					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
-//				}else{
-//
-//				}
-//
-//				return true;
-//			}
-//		}
+		Block block = world.getBlockState(pos).getBlock();
+
+		if (block == BlockDefs.obelisk){
+			if (RitualShapeHelper.instance.matchesRitual(this, world, pos)){
+				if (!world.isRemote){
+					RitualShapeHelper.instance.consumeReagents(this, world, pos);
+					RitualShapeHelper.instance.consumeShape(this, world, pos);
+					world.setBlockState(pos, BlockDefs.blackAurem.getDefaultState());
+					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
+				}else{
+
+				}
+
+				return true;
+			}
+		}
 		return false;
 	}
 

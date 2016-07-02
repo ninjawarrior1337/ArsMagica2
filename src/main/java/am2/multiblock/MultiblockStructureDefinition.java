@@ -35,8 +35,6 @@ public class MultiblockStructureDefinition {
 				hasCheck = true;
 				groupCheck |= group.matches(world, startCheckPos);
 			}
-//			if (!groupCheck)
-//				System.out.println("Missing match for " + subGroup.get(0).name);
 			if (hasCheck)
 				subFlag &= groupCheck;
 		}
@@ -45,19 +43,15 @@ public class MultiblockStructureDefinition {
 	
 	public List<MultiblockGroup> getMatchingGroups (World world, BlockPos startCheckPos) {
 		List<MultiblockGroup> list = new ArrayList<>();
-		for (int l = 0; l < 4 && list.size() != groups.size(); l++) {
-			list.clear();
-			for (List<MultiblockGroup> subGroup : groups) {
-				for (MultiblockGroup group : subGroup) {
-					MultiblockGroup gr = group.rotate(l);
-					if (gr.matches(world, startCheckPos)) {
-						list.add(gr);
-						break;
-					}
+		for (List<MultiblockGroup> subGroup : groups) {
+			for (MultiblockGroup group : subGroup) {
+				if (group.matches(world, startCheckPos)) {
+					list.add(group);
+//					break;
 				}
 			}
 		}
-		return list.size() == groups.size() ? list : new ArrayList<>();
+		return list;
 	}
 	
 	public HashMap<BlockPos, List<IBlockState>> getStructureLayer(MultiblockGroup selected, int layer) {

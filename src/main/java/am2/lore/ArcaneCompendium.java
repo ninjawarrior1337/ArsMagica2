@@ -63,37 +63,42 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	public static void AddCompendiumEntry(Object entryItem, String id, EnumSet<SpellModifiers> mods, boolean allowReplace, boolean defaultUnlock, String... relatedKeys) {		
 		CompendiumEntry entry = null;
 		CompendiumEntryRegistrationEvent event = new CompendiumEntryRegistrationEvent(entryItem, id, mods, relatedKeys);
-		MinecraftForge.EVENT_BUS.post(event);
-		entry = event.getEntry();
-		if (entry == null) {
-			if (entryItem instanceof Item)
-				entry = new CompendiumEntryItem(id, (Item) entryItem, relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof ItemStack)
-				entry = new CompendiumEntryItem(id, ((ItemStack)entryItem).getItem(), ((ItemStack)entryItem).getItemDamage(), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof Block)
-				entry = new CompendiumEntryBlock(id, ((Block)entryItem).getDefaultState(), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof IBlockState)
-				entry = new CompendiumEntryBlock(id, (IBlockState) entryItem, relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof Skill)
-				entry = new CompendiumEntryTalent(id, (Skill) entryItem, relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof IComponent)
-				entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((IComponent) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof IShape)
-				entry = new CompendiumEntrySpellShape(id, SpellRegistry.getSkillFromPart((IShape) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof IModifier)
-				entry = new CompendiumEntrySpellModifier(id, SpellRegistry.getSkillFromPart((IModifier) entryItem), ((IModifier) entryItem).getAspectsModified(), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof IRitualInteraction)
-				entry = new CompendiumEntryRitual(id, (IRitualInteraction)entryItem, ((IRitualInteraction)entryItem).getRitualShape(), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof Class && IMultiblockStructureController.class.isAssignableFrom(((Class<?>)entryItem)) && TileEntity.class.isAssignableFrom(((Class<?>)entryItem)))
-				entry = new CompendiumEntryStructure(id, ((Class<? extends TileEntity>)entryItem), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof Class && Entity.class.isAssignableFrom(((Class<?>)entryItem)))
-				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem, relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof Entity)
-				entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem.getClass(), relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof String && "guide".equalsIgnoreCase((String) entryItem))
-				entry = new CompendiumEntryGuide(id, relatedKeys).setUnlocked(defaultUnlock);
-			else if (entryItem instanceof String && "mechanic".equalsIgnoreCase((String) entryItem))
-				entry = new CompendiumEntryMechanic(id, relatedKeys).setUnlocked(defaultUnlock);
+		try {
+			MinecraftForge.EVENT_BUS.post(event);
+			entry = event.getEntry();
+			if (entry == null) {
+				if (entryItem instanceof Item)
+					entry = new CompendiumEntryItem(id, (Item) entryItem, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof ItemStack)
+					entry = new CompendiumEntryItem(id, ((ItemStack)entryItem).getItem(), ((ItemStack)entryItem).getItemDamage(), relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof Block)
+					entry = new CompendiumEntryBlock(id, ((Block)entryItem).getDefaultState(), relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof IBlockState)
+					entry = new CompendiumEntryBlock(id, (IBlockState) entryItem, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof Skill)
+					entry = new CompendiumEntryTalent(id, (Skill) entryItem, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof IComponent)
+					entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((IComponent) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof IShape)
+					entry = new CompendiumEntrySpellShape(id, SpellRegistry.getSkillFromPart((IShape) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof IModifier)
+					entry = new CompendiumEntrySpellModifier(id, SpellRegistry.getSkillFromPart((IModifier) entryItem), ((IModifier) entryItem).getAspectsModified(), relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof Class && IRitualInteraction.class.isAssignableFrom((Class<?>) entryItem))
+					entry = new CompendiumEntryRitual(id, (Class<? extends IRitualInteraction>) entryItem, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof Class && IMultiblockStructureController.class.isAssignableFrom(((Class<?>)entryItem)) && TileEntity.class.isAssignableFrom(((Class<?>)entryItem)))
+					entry = new CompendiumEntryStructure(id, ((Class<? extends TileEntity>)entryItem), relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof Class && Entity.class.isAssignableFrom(((Class<?>)entryItem)))
+					entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof Entity)
+					entry = new CompendiumEntryMob(id, (Class<? extends Entity>) entryItem.getClass(), relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof String && "guide".equalsIgnoreCase((String) entryItem))
+					entry = new CompendiumEntryGuide(id, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof String && "mechanic".equalsIgnoreCase((String) entryItem))
+					entry = new CompendiumEntryMechanic(id, relatedKeys).setUnlocked(defaultUnlock);
+			}
+		} catch (Throwable t) {
+			ArsMagica2.LOGGER.error("Exception caught during " + id + " initialization...");
+			t.printStackTrace();
 		}
 				
 		if (entry != null) {

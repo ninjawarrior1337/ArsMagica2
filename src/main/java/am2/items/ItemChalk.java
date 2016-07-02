@@ -21,17 +21,14 @@ public class ItemChalk extends ItemArsMagica2{
 	
 	@Override
 	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-
 		if (side != EnumFacing.UP || !canBeUsed(world, pos.up())){
 			return EnumActionResult.FAIL;
 		}
-
 		if (!world.isRemote){
 			world.setBlockState(pos.up(), BlockDefs.wizardChalk.getDefaultState().withProperty(BlockWizardsChalk.VARIANT, world.rand.nextInt(16)));
 			stack.damageItem(1, player);
 		}
-
-		return EnumActionResult.SUCCESS;
+		return EnumActionResult.PASS;
 	}
 
 	public boolean canBeUsed(World world, BlockPos pos){
