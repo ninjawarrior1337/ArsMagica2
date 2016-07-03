@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import am2.affinity.Affinity;
+import am2.api.AffinityRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
 
 @SuppressWarnings("deprecation")
 public class ItemEssence extends ItemArsMagica2 {

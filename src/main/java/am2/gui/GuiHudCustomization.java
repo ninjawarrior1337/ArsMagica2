@@ -15,6 +15,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.text.translation.I18n;
 
+@SuppressWarnings("deprecation")
 public class GuiHudCustomization extends GuiScreen{
 	private GuiButtonVariableDims manaButton;
 	private GuiButtonVariableDims burnoutButton;

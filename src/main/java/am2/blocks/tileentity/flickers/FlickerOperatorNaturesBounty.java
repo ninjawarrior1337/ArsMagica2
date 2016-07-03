@@ -33,12 +33,12 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		return DoOperation(worldObj, habitat, powered, new Affinity[0]);
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		int radius = 6;
 		int diameter = radius * 2 + 1;
 		boolean updatedOnce = false;
@@ -92,7 +92,7 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered){
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 	}
 
 	@Override

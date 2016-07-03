@@ -31,7 +31,7 @@ public class FlickerOperatorGentleRains implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int radius = 6;
 		int diameter = radius * 2 + 1;
 		if (!worldObj.isRemote){
@@ -73,12 +73,12 @@ public class FlickerOperatorGentleRains implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class FlickerOperatorGentleRains implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 	}
 
 	@Override

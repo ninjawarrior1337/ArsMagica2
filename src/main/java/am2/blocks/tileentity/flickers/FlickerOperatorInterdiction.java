@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		if (worldObj.isRemote)
 			return true;
 
@@ -65,7 +65,7 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int radius = 6;
 		BlockPos habitatPos = ((TileEntity)habitat).getPos();
 

@@ -90,7 +90,7 @@ public class EntitySpellProjectile extends Entity {
 			motionZ = -motionZ;			
 		}
 		else {
-			double projectileSpeed = SpellUtils.getModifiedDouble_Mul(getSpell(), getShooter(), null, worldObj, SpellModifiers.VELOCITY_ADDED);
+			double projectileSpeed = SpellUtils.getModifiedDouble_Mul(1, getSpell(), getShooter(), null, worldObj, SpellModifiers.VELOCITY_ADDED);
 			double newMotionX = motionX / projectileSpeed;
 			double newMotionY = motionY / projectileSpeed;
 			double newMotionZ = motionZ / projectileSpeed;

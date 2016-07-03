@@ -6,11 +6,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import am2.api.power.IPowerNode;
-import am2.utils.MathUtilities;
 import am2.utils.NBTUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -104,8 +102,8 @@ public class PowerNodeEntry{
 		Vec3d end = path.getLast();
 		TileEntity te = world.getTileEntity(new BlockPos(end));
 		if (te != null && te instanceof IPowerNode){
-			if (((IPowerNode)te).canProvidePower(type)){
-				return PowerNodeRegistry.For(world).consumePower(((IPowerNode)te), type, amount);
+			if (((IPowerNode<?>)te).canProvidePower(type)){
+				return PowerNodeRegistry.For(world).consumePower(((IPowerNode<?>)te), type, amount);
 			}
 		}
 		return 0f;
@@ -272,6 +270,7 @@ public class PowerNodeEntry{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getNodePaths(){
 		return (HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>>)nodePaths.clone();
 	}

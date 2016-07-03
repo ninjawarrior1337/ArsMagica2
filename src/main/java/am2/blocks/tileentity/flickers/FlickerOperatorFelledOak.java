@@ -15,8 +15,6 @@ import am2.utils.DummyEntityPlayer;
 import am2.utils.InventoryUtilities;
 import am2.utils.WorldUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -105,7 +103,8 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		}
 	}
 
-	private void plantTree(World worldObj, IFlickerController habitat, boolean powered){
+	@SuppressWarnings("deprecation")
+	private void plantTree(World worldObj, IFlickerController<?> habitat, boolean powered){
 		if (!powered || worldObj.isRemote)
 			return;
 
@@ -124,7 +123,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		worldObj.setBlockState(plantLoc.toBlockPos(), block.getBlock().getStateFromMeta(sapling.getItemDamage()), 3);
 	}
 
-	private AMVector3 getPlantLocation(World worldObj, IFlickerController habitat, ItemStack sapling){
+	private AMVector3 getPlantLocation(World worldObj, IFlickerController<?> habitat, ItemStack sapling){
 		if (sapling.getItem() instanceof ItemBlock == false)
 			return null;
 		TileEntity te = (TileEntity)habitat;
@@ -166,7 +165,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	 *
 	 * @return
 	 */
-	private ItemStack getSaplingFromNearbyChest(World worldObj, IFlickerController habitat){
+	private ItemStack getSaplingFromNearbyChest(World worldObj, IFlickerController<?> habitat){
 		for (EnumFacing dir : EnumFacing.values()){
 			IInventory inv = getOffsetInventory(worldObj, habitat, dir);
 			if (inv == null)
@@ -181,7 +180,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		return null;
 	}
 
-	private void deductSaplingFromNearbyChest(World worldObj, IFlickerController habitat){
+	private void deductSaplingFromNearbyChest(World worldObj, IFlickerController<?> habitat){
 		for (EnumFacing dir : EnumFacing.values()){
 			IInventory inv = getOffsetInventory(worldObj, habitat, dir);
 			if (inv == null)
@@ -197,7 +196,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	/**
 	 * Gets an instance of the adjacent IInventory at direction offset.  Returns null if not found or invalid type adjacent.
 	 */
-	private IInventory getOffsetInventory(World worldObj, IFlickerController habitat, EnumFacing direction){
+	private IInventory getOffsetInventory(World worldObj, IFlickerController<?> habitat, EnumFacing direction){
 		TileEntity te = (TileEntity)habitat;
 		TileEntity adjacent = worldObj.getTileEntity(te.getPos().offset(direction));
 		if (adjacent != null && adjacent instanceof IInventory)
@@ -216,7 +215,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int radius = 6;
 
 		dummyPlayer = new DummyEntityPlayer(worldObj);
@@ -237,7 +236,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 
 		boolean hasNatureAugment = false;
 		for (Affinity aff : flickers){
@@ -255,7 +254,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 	}
 
 	@Override
@@ -270,7 +269,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 	}
 
 	@Override

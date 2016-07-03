@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
+@SuppressWarnings("deprecation")
 public class Skill {
 	
 	private String ID;

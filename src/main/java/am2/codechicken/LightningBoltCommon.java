@@ -29,21 +29,16 @@ public class LightningBoltCommon{
 	public boolean nonLethal = false;
 	private int numsplits;
 	private boolean finalized;
-	private boolean canhittarget;
 	private Random rand;
 	public long seed;
 	public int particleAge;
 	public int particleMaxAge;
-	private AxisAlignedBB boundingBox;
-	private World world;
 	public int damage;
 	public Entity wrapper;
 
 	public LightningBoltCommon(World world, AMVector3 jammervec, AMVector3 targetvec, long seed){
 		this.segments = new ArrayList<>();
 		this.splitparents = new HashMap<>();
-		this.canhittarget = true;
-		this.world = world;
 		this.start = jammervec;
 		this.end = targetvec;
 		this.seed = seed;
@@ -54,7 +49,7 @@ public class LightningBoltCommon{
 		this.particleMaxAge = 30;//(3 + this.rand.nextInt(3) - 1);
 		this.multiplier = 1.0F;
 		this.particleAge = (-(int)(this.length * 3.0F));
-		this.boundingBox = new AxisAlignedBB(Math.min(this.start.x, this.end.x), Math.min(this.start.y, this.end.y), Math.min(this.start.z, this.end.z), Math.max(this.start.x, this.end.x), Math.max(this.start.y, this.end.y), Math.max(this.start.z, this.end.z)).expand(this.length / 2.0F, this.length / 2.0F, this.length / 2.0F);
+		new AxisAlignedBB(Math.min(this.start.x, this.end.x), Math.min(this.start.y, this.end.y), Math.min(this.start.z, this.end.z), Math.max(this.start.x, this.end.x), Math.max(this.start.y, this.end.y), Math.max(this.start.z, this.end.z)).expand(this.length / 2.0F, this.length / 2.0F, this.length / 2.0F);
 
 		this.segments.add(new Segment(this.start, this.end));
 	}
@@ -159,12 +154,12 @@ public class LightningBoltCommon{
 	}
 
 	private void calculateCollisionAndDiffs(){
-		HashMap lastactivesegment = new HashMap();
+		HashMap<Integer, Integer> lastactivesegment = new HashMap<>();
 		Collections.sort(this.segments, new SegmentSorter());
 		int lastsplitcalc = 0;
 		int lastactiveseg = 0;
 		float splitresistance = 0.0F;
-		for (Iterator iterator = this.segments.iterator(); iterator.hasNext(); ){
+		for (Iterator<Segment> iterator = this.segments.iterator(); iterator.hasNext(); ){
 			Segment segment = (Segment)iterator.next();
 			if (segment.splitno > lastsplitcalc){
 				lastactivesegment.put(lastsplitcalc, lastactiveseg);
@@ -181,7 +176,7 @@ public class LightningBoltCommon{
 		lastsplitcalc = 0;
 		lastactiveseg = ((Integer)lastactivesegment.get(0)).intValue();
 		Segment segment;
-		for (Iterator iterator = this.segments.iterator(); iterator.hasNext(); segment.calcEndDiffs()){
+		for (Iterator<Segment> iterator = this.segments.iterator(); iterator.hasNext(); segment.calcEndDiffs()){
 			segment = (Segment)iterator.next();
 			if (lastsplitcalc != segment.splitno){
 				lastsplitcalc = segment.splitno;
@@ -191,8 +186,8 @@ public class LightningBoltCommon{
 				iterator.remove();
 			}
 		}
-		if (((Integer)lastactivesegment.get(0)).intValue() + 1 < this.numsegments0)
-			this.canhittarget = false;
+		if (((Integer)lastactivesegment.get(0)).intValue() + 1 < this.numsegments0) {
+		}
 	}
 
 	public void finalizeBolt(){
@@ -211,7 +206,7 @@ public class LightningBoltCommon{
 	}
 
 	public class SegmentSorter
-			implements Comparator{
+			implements Comparator<Segment>{
 		final LightningBoltCommon this$0;
 
 		public int compare(LightningBoltCommon.Segment o1, LightningBoltCommon.Segment o2){
@@ -222,7 +217,7 @@ public class LightningBoltCommon{
 			return comp;
 		}
 
-		public int compare(Object obj, Object obj1){
+		public int compare(Segment obj, Object obj1){
 			return compare((LightningBoltCommon.Segment)obj, (LightningBoltCommon.Segment)obj1);
 		}
 
@@ -232,14 +227,14 @@ public class LightningBoltCommon{
 	}
 
 	public class SegmentLightSorter
-			implements Comparator{
+			implements Comparator<Segment>{
 		final LightningBoltCommon this$0;
 
 		public int compare(LightningBoltCommon.Segment o1, LightningBoltCommon.Segment o2){
 			return Float.compare(o2.light, o1.light);
 		}
 
-		public int compare(Object obj, Object obj1){
+		public int compare(Segment obj, Object obj1){
 			return compare((LightningBoltCommon.Segment)obj, (LightningBoltCommon.Segment)obj1);
 		}
 

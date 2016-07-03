@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
 
 import org.lwjgl.opengl.GL11;
 
-import am2.ArsMagica2;
 import am2.api.SkillRegistry;
 import am2.api.extensions.IArcaneCompendium;
 import am2.api.extensions.ISkillData;

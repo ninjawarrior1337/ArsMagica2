@@ -70,8 +70,8 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 				}
 			}
 
-			int oldMeta = getBlockMetadata();
-
+//			int oldMeta = getBlockMetadata();
+//
 //			if (forceShow){
 //				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, oldMeta & ~0x8, 2);
 //			}else{
@@ -219,7 +219,7 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 			}
 		}
 
-		int oldMeta = getBlockMetadata();
+//		int oldMeta = getBlockMetadata();
 
 		//worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, show ? oldMeta & ~0x8 : oldMeta | 0x8, 2);
 	}

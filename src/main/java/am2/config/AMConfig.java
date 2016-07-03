@@ -7,6 +7,7 @@ import am2.api.math.AMVector2;
 import am2.particles.AMParticle;
 import am2.particles.ParticleController;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Loader;
@@ -15,8 +16,8 @@ public class AMConfig extends Configuration{
 
 	private final String KEY_PlayerSpellsDamageTerrain = "Player_Spells_Destroy_Terrain";
 	private final String KEY_NPCSpellsDamageTerrain = "NPC_Spells_Destroy_Terrain";
-	private final String KEY_TowergenGridSize = "Towergen_Grid_Size";
-	private final String KEY_EnableWorldGen = "EnableWorldGen";
+//	private final String KEY_TowergenGridSize = "Towergen_Grid_Size";
+//	private final String KEY_EnableWorldGen = "EnableWorldGen";
 	private final String KEY_RetroactiveWorldGen = "RetroactiveWorldGen";
 
 	public static final float MANA_BURNOUT_RATIO = 0.38f;
@@ -24,7 +25,7 @@ public class AMConfig extends Configuration{
 	private final String KEY_SecondarySkillTreeTierCap = "SecondarySkillTreeTierCap";
 	private final String KEY_DigBreaksTEs = "DigBreaksTileEntities";
 	private final String KEY_DisplayManaInInventory = "DisplayManaInInventory";
-	private final String KEY_SpellBookUIPosition = "SpellBookUIPosition";
+//	private final String KEY_SpellBookUIPosition = "SpellBookUIPosition";
 	private final String KEY_ManaCap = "Mana_Cap";
 	private final String KEY_mageSpawnRate = "MageSpawnRate";
 	private final String KEY_waterElementalSpawnRate = "WaterElementalSpawnRate";
@@ -37,11 +38,11 @@ public class AMConfig extends Configuration{
 	private final String KEY_fireElementalSpawnRate = "FireElementalSpawnRate";
 	private final String KEY_flickerSpawnRate = "FlickerSpawnRate";
 
-	private final String KEY_RandomSpellRecipes = "RandomSpellRecipes";
+//	private final String KEY_RandomSpellRecipes = "RandomSpellRecipes";
 	private final String KEY_DamageMultiplier = "DamageMultiplier";
 
 	private final String KEY_UseSpecialRenderers = "Use_Special_Renderers";
-	private final String KEY_LowResParticles = "Low_Res_Particles";
+//	private final String KEY_LowResParticles = "Low_Res_Particles";
 	private final String KEY_FrictionCoefficient = "FrictionCoefficient";
 
 	private final String KEY_MageVillagerProfessionID = "mage_villager_profession_id";
@@ -49,11 +50,11 @@ public class AMConfig extends Configuration{
 	private final String KEY_DigDisabledBlocks = "dig_blacklist";
 	private final String KEY_WorldgenBlacklist = "worldgen_blacklist";
 
-	private final String KEY_GetRandomSpellNames = "suggest_spell_names";
+//	private final String KEY_GetRandomSpellNames = "suggest_spell_names";
 	private final String KEY_DisarmAffectsPlayers = "disarm_affects_players";
 
-	private final String KEY_MMFBiomeID = "MMFBiomeID";
-	private final String KEY_MMFDimensionID = "MMFDimensionID";
+//	private final String KEY_MMFBiomeID = "MMFBiomeID";
+//	private final String KEY_MMFDimensionID = "MMFDimensionID";
 	private final String KEY_WitchwoodForestBiomeID = "WitchwoodForestBiomeID";
 	private final String KEY_WitchwoodForestRarity = "Witchwood_Forest_Biome_Rarity";
 
@@ -151,7 +152,6 @@ public class AMConfig extends Configuration{
 	private static final String CATEGORY_MOBS = "mobs";
 	private static final String CATEGORY_ENCHANTMENTS = "enchantments";
 	private static final String CATEGORY_UI = "guis";
-	private static final String CATEGORY_POTIONS = "potions";
 
 	private int GFXLevel;
 	private boolean PlayerSpellsDamageTerrain;
@@ -181,7 +181,7 @@ public class AMConfig extends Configuration{
 	private boolean allowCreativeTargets;
 
 	private String[] appropriationBlockBlacklist;
-	private Class[] appropriationMobBlacklist;
+	private Class<? extends Entity>[] appropriationMobBlacklist;
 
 	private int AuraType;
 	private int AuraBehaviour;
@@ -243,6 +243,7 @@ public class AMConfig extends Configuration{
 		addCustomCategoryComment(CATEGORY_MOBS, "Spawn control for different AM mobs.");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void init(){
 
 		PlayerSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_PlayerSpellsDamageTerrain, true).getBoolean(true);
@@ -362,7 +363,7 @@ public class AMConfig extends Configuration{
 		for (String s : split){
 			if (s.equals("")) continue;
 			try{
-				appropriationMobBlacklist[count] = Class.forName(s);
+				appropriationMobBlacklist[count] = (Class<? extends Entity>) Class.forName(s);
 			}catch (Throwable t){
 				ArsMagica2.LOGGER.info("Malformed item in appropriation entity blacklist (%s).  Skipping.", s);
 				t.printStackTrace();
@@ -584,7 +585,7 @@ public class AMConfig extends Configuration{
 		return appropriationBlockBlacklist;
 	}
 
-	public Class[] getAppropriationMobBlacklist(){
+	public Class<? extends Entity>[] getAppropriationMobBlacklist(){
 		return appropriationMobBlacklist;
 	}
 

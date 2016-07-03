@@ -50,8 +50,8 @@ public class ClientTickHandler{
 	private boolean compendiumLoad;
 
 	private ArrayList<AMLineArc> arcs = new ArrayList<AMLineArc>();
-	private int arcSpawnCounter = 0;
-	private final int arcSpawnFrequency = 95;
+//	private int arcSpawnCounter = 0;
+//	private final int arcSpawnFrequency = 95;
 
 	private int powerWatchSyncTick = 0;
 	private Vec3d powerWatch = Vec3d.ZERO;
@@ -200,7 +200,7 @@ public class ClientTickHandler{
 				else
 					arc.setExpired();
 			}
-			arcSpawnCounter = arcSpawnFrequency;
+//			arcSpawnCounter = arcSpawnFrequency;
 		}
 	}
 

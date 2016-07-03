@@ -1,5 +1,6 @@
 package am2.proxy;
 
+import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
@@ -25,9 +26,11 @@ import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
 import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
+import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
+import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerObelisk;
 import am2.container.ContainerRiftStorage;
 import am2.defs.BlockDefs;
@@ -90,6 +93,7 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_OCCULUS: return null;
 		case GUI_RIFT: return new ContainerRiftStorage(player, RiftStorage.For(player));
 		case GUI_OBELISK: return new ContainerObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
+		case GUI_INSCRIPTION_TABLE: return new ContainerInscriptionTable((TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)), player.inventory);		
 		}
 		return null;
 	}
@@ -130,7 +134,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityCrystalMarker.class, "TileEntityCrystalMarker");
 		GameRegistry.registerTileEntity(TileEntityCrystalMarkerSpellExport.class, "TileEntityCrystalMarkerSpellExport");
 		GameRegistry.registerTileEntity(TileEntityFlickerHabitat.class, "TileEntityFlickerHabitat");
-		
+		GameRegistry.registerTileEntity(TileEntityInscriptionTable.class, "TileEntityInscriptionTable");
 		
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());

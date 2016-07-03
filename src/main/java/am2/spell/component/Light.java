@@ -1,6 +1,5 @@
 package am2.spell.component;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
 
@@ -46,7 +45,7 @@ public class Light implements IComponent, IRitualInteraction{
 					RitualShapeHelper.instance.consumeReagents(this, world, pos);
 					RitualShapeHelper.instance.consumeShape(this, world, pos);
 					world.setBlockState(pos, BlockDefs.celestialPrism.getDefaultState());
-					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
+					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode<?>)world.getTileEntity(pos));
 				}else{
 
 				}

@@ -92,9 +92,9 @@ public class Repel implements IComponent{
 			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", x, y, z);
 			if (effect != null){
 				effect.addRandomOffset(1, 2, 1);
-				double dx = caster.posX - target.posX;
-				double dz = caster.posZ - target.posZ;
-				double angle = Math.toDegrees(Math.atan2(-dz, -dx));
+				//double dx = caster.posX - target.posX;
+				//double dz = caster.posZ - target.posZ;
+				//double angle = Math.toDegrees(Math.atan2(-dz, -dx));
 				//effect.AddParticleController(new ParticleMoveOnHeading(effect, angle, 0, 0.1 + rand.nextDouble() * 0.5, 1, false));
 				effect.AddParticleController(new ParticleFleePoint(effect, new AMVector3(caster).add(new AMVector3(0, caster.getEyeHeight(), 0)).toVec3D(), 0.075f, 3f, 1, true));
 				effect.AddParticleController(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.05f));

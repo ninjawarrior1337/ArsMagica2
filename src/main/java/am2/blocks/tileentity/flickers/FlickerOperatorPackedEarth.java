@@ -29,8 +29,9 @@ public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
 		return 10;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int searchesPerLoop = 12;
 
 		int radius = 6;
@@ -47,12 +48,8 @@ public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
 				
 				BlockPos effectPos = ((TileEntity)habitat).getPos().add(-radius, -1, -radius).add(worldObj.rand.nextInt(diameter), worldObj.rand.nextInt(diameter), worldObj.rand.nextInt(radius));
 				
-				int effectX = ((TileEntity)habitat).getPos().getX() - radius + (worldObj.rand.nextInt(diameter));
-				int effectZ = ((TileEntity)habitat).getPos().getZ() - radius + (worldObj.rand.nextInt(diameter));
-				int effectY = ((TileEntity)habitat).getPos().getY() - 1 - worldObj.rand.nextInt(radius);
-
-				if (effectY < 3)
-					effectY = 3;
+				if (effectPos.getY() < 3)
+					effectPos = new BlockPos(effectPos.getX(), 3, effectPos.getY());
 
 				Block block = worldObj.getBlockState(effectPos).getBlock();
 
@@ -72,12 +69,12 @@ public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, controller, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered){
 	}
 
 	@Override
@@ -86,7 +83,7 @@ public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 	}
 
 	@Override

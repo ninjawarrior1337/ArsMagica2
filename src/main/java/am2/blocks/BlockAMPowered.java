@@ -19,6 +19,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 public abstract class BlockAMPowered extends BlockAMContainer{
 	public BlockAMPowered(Material material){
 		super(material);

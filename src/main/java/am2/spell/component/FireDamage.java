@@ -46,7 +46,7 @@ public class FireDamage implements IComponent, IRitualInteraction{
 					RitualShapeHelper.instance.consumeReagents(this, world, pos);
 					RitualShapeHelper.instance.consumeShape(this, world, pos);
 					world.setBlockState(pos, BlockDefs.blackAurem.getDefaultState());
-					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
+					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode<?>)world.getTileEntity(pos));
 				}else{
 
 				}

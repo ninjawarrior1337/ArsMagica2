@@ -81,6 +81,7 @@ public class BlockInvisibleUtility extends BlockAM{
 		return getDefaultState().withProperty(TYPE, EnumInvisibleType.values()[meta]);
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entity){
 

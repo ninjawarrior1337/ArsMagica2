@@ -1,7 +1,7 @@
 package am2.defs;
 
-import net.minecraft.nbt.NBTTagCompound;
 import am2.utils.NBTUtils;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class PowerDefs {
 	

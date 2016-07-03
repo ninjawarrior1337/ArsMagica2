@@ -132,8 +132,7 @@ public class AMGuiHelper{
 		if (dummyItem == null){
 			dummyItem = new EntityItem(Minecraft.getMinecraft().theWorld);
 		}else{
-			//dummyItem.age++;
-			//dummyItem.rotationYaw += 0.1f;
+			dummyItem.rotationYaw += 0.1f;
 		}
 
 		for (int i = 0; i < this.flashTimers.length; ++i){

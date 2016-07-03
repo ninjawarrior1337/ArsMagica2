@@ -157,7 +157,9 @@ public class Story{
 		//pages
 		NBTTagList pages = new NBTTagList();
 		for (NBTTagString page : storyData){
-			pages.appendTag(page);
+			NBTTagString newPage = new NBTTagString("{\"text\":\"" + page.getString() + "\"}");
+			System.out.println(newPage.getString());
+			pages.appendTag(newPage);
 		}
 		compound.setTag("pages", pages);
 	}

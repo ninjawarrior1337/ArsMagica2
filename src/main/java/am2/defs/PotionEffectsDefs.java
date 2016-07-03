@@ -6,10 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import am2.buffs.BuffEffect;
 import am2.buffs.BuffEffectAgility;
 import am2.buffs.BuffEffectAstralDistortion;
@@ -42,6 +38,10 @@ import am2.buffs.BuffEffectTrueSight;
 import am2.buffs.BuffEffectWaterBreathing;
 import am2.buffs.BuffEffectWateryGrave;
 import am2.buffs.BuffMaxManaIncrease;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PotionEffectsDefs {
 	

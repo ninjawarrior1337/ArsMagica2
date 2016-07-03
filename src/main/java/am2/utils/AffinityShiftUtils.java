@@ -10,7 +10,6 @@ import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.spell.IComponent;
-import am2.spell.IShape;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 

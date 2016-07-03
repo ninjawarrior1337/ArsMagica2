@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import am2.affinity.Affinity;
+import am2.api.AffinityRegistry;
+import am2.extensions.AffinityData;
+import am2.utils.AffinityShiftUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,10 +16,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
-import am2.extensions.AffinityData;
-import am2.utils.AffinityShiftUtils;
 
 @SuppressWarnings("deprecation")
 public class ItemAffinityTome extends ItemArsMagica2 {

@@ -9,7 +9,7 @@ import am2.api.AffinityRegistry;
 import am2.utils.NBTUtils;
 
 @SuppressWarnings("deprecation")
-public class Affinity {
+public class Affinity implements Comparable<Affinity>{
 	
 	private static int currentMask = 1;
 	private int color;
@@ -109,6 +109,10 @@ public class Affinity {
 
 	public int getAffinityMask() {
 		return mask;
+	}
+
+	public int compareTo(Affinity b) {
+		return AffinityRegistry.getIdFor(b) - AffinityRegistry.getIdFor(this);
 	}
 	
 

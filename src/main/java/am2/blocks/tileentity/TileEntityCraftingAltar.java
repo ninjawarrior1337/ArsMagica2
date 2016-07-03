@@ -9,8 +9,8 @@ import com.google.common.collect.Lists;
 import am2.ArsMagica2;
 import am2.api.IMultiblockStructureController;
 import am2.api.SpellRegistry;
-import am2.api.power.IPowerNode;
 import am2.blocks.BlockArsMagicaBlock;
+import am2.blocks.BlockLectern;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.multiblock.MultiblockGroup;
@@ -49,13 +49,19 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController{
 
 	private MultiblockStructureDefinition primary = new MultiblockStructureDefinition("craftingAltar_alt");
 	private MultiblockStructureDefinition secondary = new MultiblockStructureDefinition("craftingAltar");
+	
+	private TypedMultiblockGroup out;
+	private TypedMultiblockGroup out_alt;
+	private TypedMultiblockGroup catalysts;
+	private TypedMultiblockGroup catalysts_alt;
+	private HashMap<IBlockState, Integer> capsPower = new HashMap<>();
+	private HashMap<IBlockState, Integer> structurePower = new HashMap<>();
 	
 	private static final int BLOCKID = 0;
 	private static final int STAIR_NORTH = 1;
@@ -75,7 +81,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private final ArrayList<ISpellPart> spellDef;
 	private final NBTTagCompound savedData = new NBTTagCompound();
 	private final ArrayList<KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>> shapeGroups;
-	private boolean allShapeGroupsAdded = false;
+//	private boolean allShapeGroupsAdded = false;
 
 	private int currentKey = -1;
 	private int checkCounter;
@@ -99,8 +105,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private static final byte COMPONENT_ADDED = 2;
 	private static final byte FULL_UPDATE = 3;
 
-	private static final int augmatl_mutex = 2;
-	private static final int lectern_mutex = 4;
+//	private static final int augmatl_mutex = 2;
+//	private static final int lectern_mutex = 4;
 
 	private String currentSpellName = "";
 
@@ -139,20 +145,27 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	
 	@SuppressWarnings("unchecked")
 	private void setupMultiblock(){
-//		primary = new MultiblockStructureDefinition("craftingAltar_alt");
-//
-//		IBlockState[] augMatls = new IBlockState[]{
-//				Blocks.GLASS.getDefaultState(),
-//				Blocks.COAL_BLOCK.getDefaultState(),
-//				Blocks.REDSTONE_BLOCK.getDefaultState(),
-//				Blocks.IRON_BLOCK.getDefaultState(),
-//				Blocks.LAPIS_BLOCK.getDefaultState(),
-//				Blocks.GOLD_BLOCK.getDefaultState(),
-//				Blocks.DIAMOND_BLOCK.getDefaultState(),
-//				Blocks.EMERALD_BLOCK.getDefaultState(),
-//				BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE),
-//				BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE)
-//		};
+		
+		capsPower.put(Blocks.GLASS.getDefaultState(), 1);
+		capsPower.put(Blocks.COAL_BLOCK.getDefaultState(), 2);
+		capsPower.put(Blocks.REDSTONE_BLOCK.getDefaultState(), 3);
+		capsPower.put(Blocks.IRON_BLOCK.getDefaultState(), 4);
+		capsPower.put(Blocks.LAPIS_BLOCK.getDefaultState(), 5);
+		capsPower.put(Blocks.GOLD_BLOCK.getDefaultState(), 6);
+		capsPower.put(Blocks.DIAMOND_BLOCK.getDefaultState(), 7);
+		capsPower.put(Blocks.EMERALD_BLOCK.getDefaultState(), 8);
+		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE), 9);
+		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE), 10);
+		
+		structurePower.put(Blocks.PLANKS.getDefaultState(), 1);
+		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), 1);
+		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), 1);
+		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 1);
+		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 1);
+		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 1);
+		structurePower.put(Blocks.QUARTZ_BLOCK.getDefaultState(), 2);
+		
+		
 		HashMap<Integer, IBlockState> glass = new HashMap<>();
 		HashMap<Integer, IBlockState> coal = new HashMap<>();
 		HashMap<Integer, IBlockState> redstone = new HashMap<>();
@@ -174,9 +187,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		moonstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE));
 		sunstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE));
 		
-		TypedMultiblockGroup catalysts = new TypedMultiblockGroup("catalysts", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
+		catalysts = new TypedMultiblockGroup("catalysts", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
 		
-		TypedMultiblockGroup out = new TypedMultiblockGroup("out", 
+		out = new TypedMultiblockGroup("out", 
 				Lists.newArrayList(
 						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
 						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState()),
@@ -276,19 +289,39 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.WEST),
 				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.WEST).withProperty(BlockLever.POWERED, true)
 				), false);
+		
+		MultiblockGroup podium1 = new MultiblockGroup("podium1", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.EAST)
+				), false);
+		MultiblockGroup podium2 = new MultiblockGroup("podium2", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.EAST)
+				), false);
+		MultiblockGroup podium3 = new MultiblockGroup("podium3", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.WEST)
+				), false);
+		MultiblockGroup podium4 = new MultiblockGroup("podium4", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.WEST)
+				), false);
+
+		
 		lever1.addBlock(new BlockPos(2, -2, 2));
 		lever2.addBlock(new BlockPos(2, -2, -2));
 		lever3.addBlock(new BlockPos(-2, -2, 2));
 		lever4.addBlock(new BlockPos(-2, -2, -2));
+		podium1.addBlock(new BlockPos(2, -3, 2));
+		podium2.addBlock(new BlockPos(2, -3, -2));
+		podium3.addBlock(new BlockPos(-2, -3, 2));
+		podium4.addBlock(new BlockPos(-2, -3, -2));
 		
 		primary.addGroup(wall);
 		primary.addGroup(lever1, lever2, lever3,  lever4);
 		primary.addGroup(out);
 		primary.addGroup(catalysts);
+		primary.addGroup(podium1, podium2, podium3, podium4);
 		
-		TypedMultiblockGroup catalysts_alt = new TypedMultiblockGroup("catalysts_alt", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
+		catalysts_alt = new TypedMultiblockGroup("catalysts_alt", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
 		
-		TypedMultiblockGroup out_alt = new TypedMultiblockGroup("out_alt", 
+		out_alt = new TypedMultiblockGroup("out_alt", 
 				Lists.newArrayList(
 						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
 						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState()),
@@ -389,233 +422,37 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.NORTH),
 				Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, EnumOrientation.NORTH).withProperty(BlockLever.POWERED, true)
 				), false);
+		
+		MultiblockGroup podium1_alt = new MultiblockGroup("podium1_alt", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.SOUTH)
+				), false);
+		MultiblockGroup podium2_alt = new MultiblockGroup("podium2_alt", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.NORTH)
+				), false);
+		MultiblockGroup podium3_alt = new MultiblockGroup("podium3_alt", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.SOUTH)
+				), false);
+		MultiblockGroup podium4_alt = new MultiblockGroup("podium4_alt", Lists.newArrayList(
+				BlockDefs.lectern.getDefaultState().withProperty(BlockLectern.FACING, EnumFacing.NORTH)
+				), false);
 		lever1_alt.addBlock(new BlockPos(2, -2, 2));
 		lever2_alt.addBlock(new BlockPos(2, -2, -2));
 		lever3_alt.addBlock(new BlockPos(-2, -2, 2));
 		lever4_alt.addBlock(new BlockPos(-2, -2, -2));
-
-		
+		podium1_alt.addBlock(new BlockPos(2, -3, 2));
+		podium2_alt.addBlock(new BlockPos(2, -3, -2));
+		podium3_alt.addBlock(new BlockPos(-2, -3, 2));
+		podium4_alt.addBlock(new BlockPos(-2, -3, -2));		
 		secondary.addGroup(wall_alt);
 		secondary.addGroup(lever1_alt, lever2_alt, lever3_alt, lever4_alt);
 		secondary.addGroup(out_alt);
 		secondary.addGroup(catalysts_alt);
+		secondary.addGroup(podium1_alt, podium2_alt, podium3_alt, podium4_alt);
 		
 		MultiblockGroup center = new MultiblockGroup("center", Lists.newArrayList(BlockDefs.altar.getDefaultState()), true);
 		center.addBlock(new BlockPos(0, 0, 0));
 		primary.addGroup(center);
 		secondary.addGroup(center);
-		
-//		for (int i = 0; i < augMatls.length; ++i)
-//			primary.addAllowedBlock(augMatl_primary[i], -1, 0, 2, augMatls[i], augMetas[i]);
-//
-//		primary.addAllowedBlock(0, 0, -1, Blocks.stonebrick, 0);
-//		primary.addAllowedBlock(0, 0, 0, BlocksCommonProxy.craftingAltar);
-//		primary.addAllowedBlock(0, 0, 1, Blocks.stonebrick, 0);
-//
-//		for (int i = 0; i < augMatls.length; ++i)
-//			primary.addAllowedBlock(augMatl_primary[i], 1, 0, -2, augMatls[i], augMetas[i]);
-//
-//		for (int i = 0; i < augMatls.length; ++i)
-//			primary.addAllowedBlock(augMatl_primary[i], 1, 0, 2, augMatls[i], augMetas[i]);
-//
-//		//row 1
-//		primary.addAllowedBlock(1, -1, -2, Blocks.stonebrick, 0);
-//		primary.addAllowedBlock(1, -1, 2, Blocks.stonebrick, 0);
-//
-//		primary.addAllowedBlock(0, -1, -2, BlocksCommonProxy.magicWall, 0);
-//		primary.addAllowedBlock(0, -1, 2, BlocksCommonProxy.magicWall, 0);
-//
-//		primary.addAllowedBlock(-1, -1, -2, Blocks.stonebrick, 0);
-//		primary.addAllowedBlock(-1, -1, 2, Blocks.stonebrick, 0);
-//
-//		//row 2
-//		primary.addAllowedBlock(1, -2, -2, Blocks.stonebrick, 0);
-//		primary.addAllowedBlock(1, -2, 2, Blocks.stonebrick, 0);
-//
-//		primary.addAllowedBlock(0, -2, -2, BlocksCommonProxy.magicWall, 0);
-//		primary.addAllowedBlock(0, -2, 2, BlocksCommonProxy.magicWall, 0);
-//
-//		primary.addAllowedBlock(-1, -2, -2, Blocks.stonebrick, 0);
-//		primary.addAllowedBlock(-1, -2, 2, Blocks.stonebrick, 0);
-//
-//
-//		//row 3
-//		primary.addAllowedBlock(1, -3, -2, Blocks.stonebrick, 0);
-//		primary.addAllowedBlock(1, -3, 2, Blocks.stonebrick, 0);
-//
-//		primary.addAllowedBlock(0, -3, -2, BlocksCommonProxy.magicWall, 0);
-//		primary.addAllowedBlock(0, -3, 2, BlocksCommonProxy.magicWall, 0);
-//
-//		primary.addAllowedBlock(-1, -3, -2, Blocks.stonebrick, 0);
-//		primary.addAllowedBlock(-1, -3, 2, Blocks.stonebrick, 0);
-//
-//		//row 4
-//		for (int i = -2; i <= 2; ++i){
-//			for (int j = -2; j <= 2; ++j){
-//				if (i == 0 && j == 0){
-//					for (int n = 0; n < augMatls.length; ++n)
-//						primary.addAllowedBlock(augMatl_primary[n], i, -4, j, augMatls[n], augMetas[n]);
-//				}else{
-//					primary.addAllowedBlock(i, -4, j, Blocks.stonebrick, 0);
-//				}
-//			}
-//		}
-//
-//		wood_primary = primary.copyGroup("main", "main_wood");
-//		wood_primary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.planks);
-//		wood_primary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.oak_stairs);
-//
-//		quartz_primary = primary.copyGroup("main", "main_quartz");
-//		quartz_primary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.quartz_block);
-//		quartz_primary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.quartz_stairs);
-//
-//		netherbrick_primary = primary.copyGroup("main", "main_netherbrick");
-//		netherbrick_primary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.nether_brick);
-//		netherbrick_primary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.nether_brick_stairs);
-//
-//		cobble_primary = primary.copyGroup("main", "main_cobble");
-//		cobble_primary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.cobblestone);
-//		cobble_primary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.stone_stairs);
-//
-//		brick_primary = primary.copyGroup("main", "main_brick");
-//		brick_primary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.brick_block);
-//		brick_primary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.brick_stairs);
-//
-//		sandstone_primary = primary.copyGroup("main", "main_sandstone");
-//		sandstone_primary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.sandstone);
-//		sandstone_primary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.sandstone_stairs);
-//
-//		witchwood_primary = primary.copyGroup("main", "main_witchwood");
-//		witchwood_primary.replaceAllBlocksOfType(Blocks.stonebrick, BlocksCommonProxy.witchwoodPlanks);
-//		witchwood_primary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, BlocksCommonProxy.witchwoodStairs);
-//
-//		//Secondary
-//		secondary = new MultiblockStructureDefinition("craftingAltar");
-//
-//		lecternGroup_secondary = new MultiblockGroup[4];
-//
-//		for (int i = 0; i < lecternGroup_secondary.length; ++i){
-//			lecternGroup_secondary[i] = secondary.createGroup("lectern" + i, lectern_mutex);
-//		}
-//
-//		count = 0;
-//		for (int i = -2; i <= 2; i += 4){
-//			secondary.addAllowedBlock(lecternGroup_secondary[count], i, -3, i, BlocksCommonProxy.blockLectern);
-//			secondary.addAllowedBlock(lecternGroup_secondary[count], -i, -2, i, Blocks.lever, (count < 2) ? 4 : 3);
-//			secondary.addAllowedBlock(lecternGroup_secondary[count], -i, -2, i, Blocks.lever, (count < 2) ? 12 : 11);
-//			count++;
-//			secondary.addAllowedBlock(lecternGroup_secondary[count], -i, -3, i, BlocksCommonProxy.blockLectern);
-//			secondary.addAllowedBlock(lecternGroup_secondary[count], i, -2, i, Blocks.lever, (count < 2) ? 4 : 3);
-//			secondary.addAllowedBlock(lecternGroup_secondary[count], i, -2, i, Blocks.lever, (count < 2) ? 12 : 11);
-//			count++;
-//		}
-//
-//		augMatl_secondary = new MultiblockGroup[augMatls.length];
-//		for (int i = 0; i < augMatls.length; ++i)
-//			augMatl_secondary[i] = secondary.createGroup("augmatl" + i, augmatl_mutex);
-//
-//		//row 0
-//		for (int i = 0; i < augMatls.length; ++i)
-//			secondary.addAllowedBlock(augMatl_secondary[i], -2, 0, -1, augMatls[i], augMetas[i]);
-//
-//		secondary.addAllowedBlock(-1, 0, -1, Blocks.stone_brick_stairs, 2);
-//		secondary.addAllowedBlock(0, 0, -1, Blocks.stone_brick_stairs, 2);
-//		secondary.addAllowedBlock(1, 0, -1, Blocks.stone_brick_stairs, 2);
-//
-//		for (int i = 0; i < augMatls.length; ++i)
-//			secondary.addAllowedBlock(augMatl_secondary[i], 2, 0, -1, augMatls[i], augMetas[i]);
-//
-//		secondary.addAllowedBlock(-2, 0, 0, Blocks.stone_brick_stairs, 0);
-//		secondary.addAllowedBlock(-1, 0, 0, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(0, 0, 0, BlocksCommonProxy.craftingAltar);
-//		secondary.addAllowedBlock(1, 0, 0, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(2, 0, 0, Blocks.stone_brick_stairs, 1);
-//
-//		for (int i = 0; i < augMatls.length; ++i)
-//			secondary.addAllowedBlock(augMatl_secondary[i], -2, 0, 1, augMatls[i], augMetas[i]);
-//
-//		secondary.addAllowedBlock(-1, 0, 1, Blocks.stone_brick_stairs, 3);
-//		secondary.addAllowedBlock(0, 0, 1, Blocks.stone_brick_stairs, 3);
-//		secondary.addAllowedBlock(1, 0, 1, Blocks.stone_brick_stairs, 3);
-//
-//		for (int i = 0; i < augMatls.length; ++i)
-//			secondary.addAllowedBlock(augMatl_secondary[i], 2, 0, 1, augMatls[i], augMetas[i]);
-//
-//		//row 1
-//		secondary.addAllowedBlock(-2, -1, 1, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(-1, -1, 1, Blocks.stone_brick_stairs, 5);
-//		secondary.addAllowedBlock(1, -1, 1, Blocks.stone_brick_stairs, 4);
-//		secondary.addAllowedBlock(2, -1, 1, Blocks.stonebrick, 0);
-//
-//		secondary.addAllowedBlock(-2, -1, 0, BlocksCommonProxy.magicWall, 0);
-//		secondary.addAllowedBlock(2, -1, 0, BlocksCommonProxy.magicWall, 0);
-//
-//		secondary.addAllowedBlock(-2, -1, -1, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(-1, -1, -1, Blocks.stone_brick_stairs, 5);
-//		secondary.addAllowedBlock(1, -1, -1, Blocks.stone_brick_stairs, 4);
-//		secondary.addAllowedBlock(2, -1, -1, Blocks.stonebrick, 0);
-//
-//		//row 2
-//		secondary.addAllowedBlock(-2, -2, 1, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(2, -2, 1, Blocks.stonebrick, 0);
-//
-//		secondary.addAllowedBlock(-2, -2, 0, BlocksCommonProxy.magicWall, 0);
-//		secondary.addAllowedBlock(2, -2, 0, BlocksCommonProxy.magicWall, 0);
-//
-//		secondary.addAllowedBlock(-2, -2, -1, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(2, -2, -1, Blocks.stonebrick, 0);
-//
-//
-//		//row 3
-//		secondary.addAllowedBlock(-2, -3, 1, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(2, -3, 1, Blocks.stonebrick, 0);
-//
-//		secondary.addAllowedBlock(-2, -3, 0, BlocksCommonProxy.magicWall, 0);
-//		secondary.addAllowedBlock(2, -3, 0, BlocksCommonProxy.magicWall, 0);
-//
-//		secondary.addAllowedBlock(-2, -3, -1, Blocks.stonebrick, 0);
-//		secondary.addAllowedBlock(2, -3, -1, Blocks.stonebrick, 0);
-//
-//		//row 4
-//		for (int i = -2; i <= 2; ++i){
-//			for (int j = -2; j <= 2; ++j){
-//				if (i == 0 && j == 0){
-//					for (int n = 0; n < augMatls.length; ++n)
-//						secondary.addAllowedBlock(augMatl_secondary[n], i, -4, j, augMatls[n], augMetas[n]);
-//				}else{
-//					secondary.addAllowedBlock(i, -4, j, Blocks.stonebrick, 0);
-//				}
-//			}
-//		}
-//
-//		wood_secondary = secondary.copyGroup("main", "main_wood");
-//		wood_secondary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.planks);
-//		wood_secondary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.oak_stairs);
-//
-//		quartz_secondary = secondary.copyGroup("main", "main_quartz");
-//		quartz_secondary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.quartz_block);
-//		quartz_secondary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.quartz_stairs);
-//
-//		netherbrick_secondary = secondary.copyGroup("main", "main_netherbrick");
-//		netherbrick_secondary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.nether_brick);
-//		netherbrick_secondary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.nether_brick_stairs);
-//
-//		cobble_secondary = secondary.copyGroup("main", "main_cobble");
-//		cobble_secondary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.cobblestone);
-//		cobble_secondary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.stone_stairs);
-//
-//		brick_secondary = secondary.copyGroup("main", "main_brick");
-//		brick_secondary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.brick_block);
-//		brick_secondary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.brick_stairs);
-//
-//		sandstone_secondary = secondary.copyGroup("main", "main_sandstone");
-//		sandstone_secondary.replaceAllBlocksOfType(Blocks.stonebrick, Blocks.sandstone);
-//		sandstone_secondary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, Blocks.sandstone_stairs);
-//
-//		witchwood_secondary = secondary.copyGroup("main", "main_witchwood");
-//		witchwood_secondary.replaceAllBlocksOfType(Blocks.stonebrick, BlocksCommonProxy.witchwoodPlanks);
-//		witchwood_secondary.replaceAllBlocksOfType(Blocks.stone_brick_stairs, BlocksCommonProxy.witchwoodStairs);
-//
 	}
 
 	@Override
@@ -682,7 +519,6 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		checkForStartCondition();
 		updateLecternInformation();
 		if (isCrafting){
-			//System.out.println("Me");
 			checkForEndCondition();
 			updatePowerRequestData();
 			if (!worldObj.isRemote && !currentDefinitionIsWithinStructurePower() && this.ticksExisted > 100){
@@ -826,7 +662,6 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private void pickPowerType(ItemStack stack){
 		if (this.currentMainPowerTypes != PowerTypes.NONE)
 			return;
-		int flags = stack.getItemDamage();
 		PowerTypes highestValid = PowerTypes.NONE;
 		float amt = 0;
 		for (PowerTypes type : PowerTypes.all()){
@@ -916,6 +751,21 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	}
 
 	private void checkStructure(){
+		for (MultiblockGroup matching : primary.getMatchingGroups(worldObj, pos)) {
+			for (IBlockState state : matching.getStates()) {
+				if (state.getBlock().equals(Blocks.LEVER))
+					this.switchLocation = matching.getPositions().get(0);
+				else if (state.getBlock().equals(BlockDefs.lectern))
+					this.podiumLocation = matching.getPositions().get(0);
+			}
+			if (matching == catalysts || matching == catalysts_alt) {
+				Integer toAdd = capsPower.get(worldObj.getBlockState(pos.down(4)));
+				maxEffects = toAdd != null ? toAdd : 0;
+			}else if (matching == out || matching == out_alt) {
+				Integer toAdd = structurePower.get(worldObj.getBlockState(pos.down(4).east()));
+				maxEffects += toAdd != null ? toAdd : 0;
+			}
+		}
 		setStructureValid(primary.matches(worldObj, pos) || secondary.matches(worldObj, pos));
 	}
 
@@ -994,12 +844,12 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			currentAddedItems.clear();
 
 			spellDef.clear();
-//			for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> groups : shapeGroups)
-//				groups.clear();
+			shapeGroups.clear();
 
 			//find otherworld auras
-			IPowerNode[] nodes = PowerNodeRegistry.For(worldObj).getAllNearbyNodes(worldObj, new Vec3d(pos), PowerTypes.DARK);
-//			for (IPowerNode node : nodes){
+			//TODO OtherWorldAura
+//			IPowerNode<?>[] nodes = PowerNodeRegistry.For(worldObj).getAllNearbyNodes(worldObj, new Vec3d(pos), PowerTypes.DARK);
+//			for (IPowerNode<?> node : nodes){
 //				if (node instanceof TileEntityOtherworldAura){
 //					((TileEntityOtherworldAura)node).setActive(true, this);
 //					break;
@@ -1079,48 +929,29 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			addedBindingCatalyst.writeToNBT(catalyst);
 			altarCompound.setTag("catalyst", catalyst);
 		}
-
+		
+		//TODO CRAFTING Altar...
+		
 		NBTTagList shapeGroupData = new NBTTagList();
-//		for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> list : shapeGroups){
-//			shapeGroupData.appendTag(ISpellPartListToNBT(list.key));
-//		}
-//		altarCompound.setTag("shapeGroups", shapeGroupData);
-//
-//		NBTTagCompound spellDefSave = ISpellPartListToNBT(this.spellDef);
-//		altarCompound.setTag("spellDef", spellDefSave);
+		for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> list : shapeGroups){
+			shapeGroupData.appendTag(ISpellPartListToNBT(list));
+		}
+		altarCompound.setTag("shapeGroups", shapeGroupData);
+
+		NBTTagCompound spellDefSave = ISpellPartListToNBT(new KeyValuePair<>(spellDef, savedData));
+		altarCompound.setTag("spellDef", spellDefSave);
 
 		nbttagcompound.setTag("altarData", altarCompound);
 		return nbttagcompound;
 	}
 
-//	private NBTTagCompound ISpellPartListToNBT(ArrayList<ISpellPart> spellDef2){
-//		NBTTagCompound shapeGroupData = new NBTTagCompound();
-//		int[] ids = new int[spellDef2.size()];
-//		byte[][] meta = new byte[spellDef2.size()][];
-//		for (int d = 0; d < spellDef2.size(); ++d){
-//			ids[d] = SkillManager.instance.getShiftedPartID(spellDef2.get(d).getKey());
-//			meta[d] = spellDef2.get(d).getValue();
-//		}
-//		shapeGroupData.setIntArray("group_ids", ids);
-//		for (int i = 0; i < meta.length; ++i){
-//			shapeGroupData.setByteArray("meta_" + i, meta[i]);
-//		}
-//		return shapeGroupData;
-//	}
+	private NBTTagCompound ISpellPartListToNBT(KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> spellDef2){
+		return SpellUtils.encode(spellDef2);
+	}
 
-//	private ArrayList<KeyValuePair<ISpellPart, byte[]>> NBTToISpellPartList(NBTTagCompound compound){
-//		int[] ids = compound.getIntArray("group_ids");
-//		ArrayList<KeyValuePair<ISpellPart, byte[]>> list = new ArrayList<KeyValuePair<ISpellPart, byte[]>>();
-//		for (int i = 0; i < ids.length; ++i){
-//			int partID = ids[i];
-//			ISkillTreeEntry part = SkillManager.instance.getSkill(i);
-//			byte[] partMeta = compound.getByteArray("meta_" + i);
-//			if (part instanceof ISpellPart){
-//				list.add(new KeyValuePair<ISpellPart, byte[]>((ISpellPart)part, partMeta));
-//			}
-//		}
-//		return list;
-//	}
+	private KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> NBTToISpellPartList(NBTTagCompound compound){
+		return SpellUtils.decode(compound);
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound){
@@ -1173,18 +1004,20 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		}
 
 		this.spellDef.clear();
-//		for (ArrayList<KeyValuePair<ISpellPart, byte[]>> groups : shapeGroups)
-//			groups.clear();
-//
-//		NBTTagCompound currentSpellDef = altarCompound.getCompoundTag("spellDef");
-//		this.spellDef.addAll(NBTToISpellPartList(currentSpellDef));
-//
-//		NBTTagList currentShapeGroups = altarCompound.getTagList("shapeGroups", Constants.NBT.TAG_COMPOUND);
-//
-//		for (int i = 0; i < currentShapeGroups.tagCount(); ++i){
-//			NBTTagCompound compound = (NBTTagCompound)currentShapeGroups.getCompoundTagAt(i);
-//			shapeGroups.get(i).addAll(NBTToISpellPartList(compound));
-//		}
+		for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> groups : shapeGroups)
+			groups.key.clear();
+
+		NBTTagCompound currentSpellDef = altarCompound.getCompoundTag("spellDef");
+		this.spellDef.addAll(NBTToISpellPartList(currentSpellDef).key);
+		this.savedData.merge(NBTToISpellPartList(currentSpellDef).value);
+
+		NBTTagList currentShapeGroups = altarCompound.getTagList("shapeGroups", Constants.NBT.TAG_COMPOUND);
+
+		for (int i = 0; i < currentShapeGroups.tagCount(); ++i){
+			NBTTagCompound compound = (NBTTagCompound)currentShapeGroups.getCompoundTagAt(i);
+			shapeGroups.get(i).key.addAll(NBTToISpellPartList(compound).key);
+			shapeGroups.get(i).value.merge(NBTToISpellPartList(compound).value);
+		}
 	}
 
 	@Override

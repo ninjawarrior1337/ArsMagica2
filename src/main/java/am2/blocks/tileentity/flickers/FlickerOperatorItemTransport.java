@@ -42,14 +42,14 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered){
 		Affinity[] emptyFlickerList = new Affinity[6];
 		DoOperation(worldObj, controller, powered, emptyFlickerList);
 		return false;
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 		if (worldObj.isRemote){
 			return false;
 		}
@@ -78,8 +78,6 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 		toMove = Math.max(toMove, 1);
 
 
-		//initiate the arrays for any input crystals
-		ArrayList<ItemStack> itemsToTransfer = new ArrayList<ItemStack>();
 		ArrayList<AMVector3> removeFromInList = new ArrayList<AMVector3>();
 		boolean itemFound = false;
 
@@ -411,12 +409,12 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 
 	@Override
 	public void RemoveOperator(World worldObj,
-							   IFlickerController controller, boolean powered){
+							   IFlickerController<?> controller, boolean powered){
 	}
 
 	@Override
 	public void RemoveOperator(World worldObj,
-							   IFlickerController controller, boolean powered,
+							   IFlickerController<?> controller, boolean powered,
 							   Affinity[] flickers){
 	}
 

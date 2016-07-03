@@ -1,5 +1,6 @@
 package am2.api.extensions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
@@ -85,4 +86,10 @@ public interface ISkillData {
 			return new SkillData();
 		}
 	}
+
+	public ArrayList<String> getKnownShapes();
+
+	public ArrayList<String> getKnownComponents();
+
+	public ArrayList<String> getKnownModifiers();
 }

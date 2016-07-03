@@ -1,3 +1,6 @@
 {
-    "parent": "arsmagica2:block/wakebloom"
+    "parent": "item/generated",
+	"textures": {
+		"layer0": "arsmagica2:blocks/wakebloom"
+	}
 }

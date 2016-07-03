@@ -48,7 +48,6 @@ public class AMIngameGUI{
 	private static final ResourceLocation mc_gui = new ResourceLocation("textures/gui/icons.png");
 //	private static final ResourceLocation spellbook_ui = new ResourceLocation("arsmagica2", "textures/gui/spellbook_ui.png");
 //	private static final ResourceLocation inventory = new ResourceLocation("textures/gui/container/inventory.png");
-	private static final ResourceLocation items = new ResourceLocation("textures/atlas/items.png");
 
 	public AMIngameGUI(){
 		mc = Minecraft.getMinecraft();

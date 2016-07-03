@@ -1,10 +1,10 @@
 package am2.items;
 
+import am2.ArsMagica2;
+import am2.defs.CreativeTabsDefs;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import am2.ArsMagica2;
-import am2.defs.CreativeTabsDefs;
 
 public class ItemArsMagica2 extends Item{
 	

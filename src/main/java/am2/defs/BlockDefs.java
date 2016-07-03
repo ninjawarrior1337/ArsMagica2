@@ -10,7 +10,9 @@ import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockDesertNova;
 import am2.blocks.BlockEssenceGenerator;
 import am2.blocks.BlockFrost;
+import am2.blocks.BlockInscriptionTable;
 import am2.blocks.BlockInvisibleUtility;
+import am2.blocks.BlockLectern;
 import am2.blocks.BlockLightDecay;
 import am2.blocks.BlockMageLight;
 import am2.blocks.BlockMagicWall;
@@ -54,6 +56,8 @@ public class BlockDefs {
 	public static final Block wardingCandle = new BlockCandle().registerAndName(new ResourceLocation("arsmagica2:wardingCandle"));
 	public static final Block witchwoodLog = null;
 	public static final Block essenceConduit = null;
+	public static final Block lectern = new BlockLectern().registerAndName(new ResourceLocation("arsmagica2:lectern"));
+	public static final Block inscriptionTable = new BlockInscriptionTable().registerAndName(new ResourceLocation("arsmagica2:inscriptionTable"));
 	
 	public static void init () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);
@@ -70,6 +74,7 @@ public class BlockDefs {
 		registerTexture(crystalMarker);
 		registerTexture(celestialPrism);
 		registerTexture(wardingCandle);
+		registerTexture(lectern);
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {

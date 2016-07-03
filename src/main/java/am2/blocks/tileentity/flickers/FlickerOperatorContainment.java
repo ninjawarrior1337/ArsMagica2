@@ -47,11 +47,11 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 		}
 	}
 
-	protected void setLastRadius(IFlickerController habitat, int radius){
+	protected void setLastRadius(IFlickerController<?> habitat, int radius){
 		habitat.setMetadata(this, new AMDataWriter().add(radius).generate());
 	}
 
-	protected int getLastRadius(IFlickerController habitat){
+	protected int getLastRadius(IFlickerController<?> habitat){
 		byte[] meta = habitat.getMetadata(this);
 		if (meta == null || meta.length == 0)
 			return BASE_RADIUS;
@@ -80,12 +80,12 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		return false;
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		if (worldObj.isRemote)
 			return true;
 
@@ -133,7 +133,7 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int radius = getLastRadius(habitat);
 
 		for (int i = 0; i < radius * 2 + 1; ++i){
@@ -154,7 +154,7 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		RemoveOperator(worldObj, habitat, powered);
 	}
 

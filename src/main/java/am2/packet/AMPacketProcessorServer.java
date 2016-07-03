@@ -3,12 +3,15 @@ package am2.packet;
 import am2.ArsMagica2;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
+import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.extensions.EntityExtension;
 import am2.power.PowerNodeRegistry;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -58,9 +61,9 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.DECO_BLOCK_UPDATE:
 //				handleDecoBlockUpdate(remaining, (EntityPlayerMP)player);
 //				break;
-//			case AMPacketIDs.INSCRIPTION_TABLE_UPDATE:
-//				handleInscriptionTableUpdate(remaining, (EntityPlayerMP)player);
-//				break;
+			case AMPacketIDs.INSCRIPTION_TABLE_UPDATE:
+				handleInscriptionTableUpdate(remaining, (EntityPlayerMP)player);
+				break;
 			case AMPacketIDs.TK_DISTANCE_SYNC:
 				System.out.println(remaining.length);
 				float TK_Distance = new AMDataReader(remaining, false).getFloat();
@@ -187,15 +190,15 @@ public class AMPacketProcessorServer{
 //		}
 //	}
 //
-//	private void handleInscriptionTableUpdate(byte[] data, EntityPlayerMP player){
-//		World world = player.worldObj;
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		TileEntity te = world.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
-//		if (te == null || !(te instanceof TileEntityInscriptionTable)) return;
-//		((TileEntityInscriptionTable)te).HandleUpdatePacket(rdr.getRemainingBytes());
-//
-//		world.markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
-//	}
+	private void handleInscriptionTableUpdate(byte[] data, EntityPlayerMP player){
+		World world = player.worldObj;
+		AMDataReader rdr = new AMDataReader(data, false);
+		TileEntity te = world.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
+		if (te == null || !(te instanceof TileEntityInscriptionTable)) return;
+		((TileEntityInscriptionTable)te).HandleUpdatePacket(rdr.getRemainingBytes());
+
+		world.markAndNotifyBlock(te.getPos(), te.getWorld().getChunkFromBlockCoords(te.getPos()), te.getWorld().getBlockState(te.getPos()), te.getWorld().getBlockState(te.getPos()), 3);
+	}
 //
 //	private void handleDecoBlockUpdate(byte[] data, EntityPlayerMP player){
 //		World world = player.worldObj;

@@ -1,13 +1,6 @@
 package am2.asm;
 
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ASTORE;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.GETSTATIC;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.objectweb.asm.Opcodes.NEW;
-import static org.objectweb.asm.Opcodes.POP;
+import static org.objectweb.asm.Opcodes.*;
 
 import java.util.ListIterator;
 
@@ -21,6 +14,7 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.LabelNode;
+import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
@@ -64,6 +58,24 @@ public class Transformer implements IClassTransformer {
 							}
 						}
 					}
+				}
+			}
+			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+			cn.accept(cw);
+			return cw.toByteArray();
+		} else if (transformedName.equalsIgnoreCase("net.minecraft.client.renderer.block.model.BlockPart$Deserializer")) {
+			ClassReader cr = new ClassReader(basicClass);
+			ClassNode cn = new ClassNode();
+			cr.accept(cn, 0);
+			InsnList newInsn = new InsnList();
+			newInsn.add(new VarInsnNode(ALOAD, 1));
+			newInsn.add(new LdcInsnNode("angle"));
+			newInsn.add(new MethodInsnNode(INVOKESTATIC, "net/minecraft/util/JsonUtils", "getFloat", "(Lcom/google/gson/JsonObject;Ljava/lang/String;)F", false));
+			newInsn.add(new InsnNode(FRETURN));
+			for (MethodNode mn : cn.methods) {
+				if (mn.name.equals("parseAngle")) {
+					System.out.println("Removing Model Rotation Limit...");
+					mn.instructions = newInsn;
 				}
 			}
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);

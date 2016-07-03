@@ -156,6 +156,7 @@ public class SpellBase extends ItemSpellBase{
 		return entityPos != null ? entityPos : mop;
 
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab,
 			List<ItemStack> subItems) {

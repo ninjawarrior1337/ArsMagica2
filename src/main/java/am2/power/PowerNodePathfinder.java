@@ -13,13 +13,11 @@ import net.minecraft.world.chunk.Chunk;
 public class PowerNodePathfinder extends AStar<Vec3d>{
 
 	private World world;
-	private Vec3d start;
 	private Vec3d end;
 	private PowerTypes powerType;
 
 	PowerNodePathfinder(World world, Vec3d start, Vec3d end, PowerTypes type){
 		this.world = world;
-		this.start = start;
 		this.end = end;
 		this.powerType = type;
 	}

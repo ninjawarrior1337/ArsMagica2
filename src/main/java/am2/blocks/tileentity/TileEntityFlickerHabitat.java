@@ -44,7 +44,6 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private ArrayList<AMVector3> inList;
 	private HashMap<Integer, ArrayList<AMVector3>> outList;
-	private int timer;
 	private int inListPosition = 0;
 	private HashMap<Integer, Integer> outListPositions = new HashMap<Integer, Integer>();
 	private int defoutListPosition = 0;
@@ -443,7 +442,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 				int secondColor = affinities.get((colorCounter + 1) % affinities.size()).getColor();
 				if (firstColor == secondColor)
 					return firstColor;
-				if (this.fadeCounter > this.MAX_SHIFT_TICKS)
+				if (this.fadeCounter > TileEntityFlickerHabitat.MAX_SHIFT_TICKS)
 					return secondColor;
 				return colorShift(firstColor, secondColor);
 			}
@@ -637,33 +636,24 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public ITextComponent getDisplayName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int getField(int id) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setField(int id, int value) {}
 
 	@Override
 	public int getFieldCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void clear() {}
 }
 
 

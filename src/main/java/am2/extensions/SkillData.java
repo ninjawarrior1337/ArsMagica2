@@ -1,9 +1,12 @@
 package am2.extensions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
+import am2.api.SpellRegistry;
 import am2.api.extensions.ISkillData;
 import am2.defs.SkillDefs;
 import am2.skill.Skill;
@@ -107,6 +110,36 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public ArrayList<String> getKnownShapes() {
+		ArrayList<String> out = new ArrayList<>();
+		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
+			if (entry.getValue() && SpellRegistry.getShapeFromName(entry.getKey().getID()) != null)
+				out.add(entry.getKey().getID());
+		}
+		return out;
+	}
+
+	@Override
+	public ArrayList<String> getKnownComponents() {
+		ArrayList<String> out = new ArrayList<>();
+		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
+			if (entry.getValue() && SpellRegistry.getComponentFromName(entry.getKey().getID()) != null)
+				out.add(entry.getKey().getID());
+		}
+		return out;
+	}
+
+	@Override
+	public ArrayList<String> getKnownModifiers() {
+		ArrayList<String> out = new ArrayList<>();
+		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
+			if (entry.getValue() && SpellRegistry.getModifierFromName(entry.getKey().getID()) != null)
+				out.add(entry.getKey().getID());
+		}
+		return out;
 	}
 
 }

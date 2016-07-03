@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public abstract class AStar<T>{
-	private class Path implements Comparable{
+	private class Path implements Comparable<Path>{
 		public T point;
 		public Double f;
 		public Double g;
@@ -45,7 +45,7 @@ public abstract class AStar<T>{
 		 * @see Comparable#compareTo()
 		 */
 		@Override
-		public int compareTo(Object o){
+		public int compareTo(Path o){
 			Path p = (Path)o;
 			return (int)(f - p.f);
 		}

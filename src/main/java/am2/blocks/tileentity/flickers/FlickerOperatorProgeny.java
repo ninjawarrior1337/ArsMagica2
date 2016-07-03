@@ -39,7 +39,7 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		HashMap<Class<? extends EntityAnimal>, Integer> entityCount = new HashMap<>();
 		int radius = 8;
 		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expandXyz(radius));
@@ -80,12 +80,12 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, controller, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered){
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 	}
 
 	@Override

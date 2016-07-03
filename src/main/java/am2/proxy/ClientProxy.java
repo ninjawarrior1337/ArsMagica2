@@ -1,8 +1,6 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.GUI_OBELISK;
-import static am2.defs.IDDefs.GUI_OCCULUS;
-import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +14,13 @@ import am2.api.power.IPowerNode;
 import am2.blocks.render.TileBlackAuremRenderer;
 import am2.blocks.render.TileCelestialPrismRenderer;
 import am2.blocks.render.TileCraftingAltarRenderer;
+import am2.blocks.render.TileLecternRenderer;
 import am2.blocks.render.TileObeliskRenderer;
 import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
+import am2.blocks.tileentity.TileEntityInscriptionTable;
+import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.commands.ConfigureAMUICommand;
 import am2.defs.ItemDefs;
@@ -32,6 +33,7 @@ import am2.entity.render.RenderRiftStorage;
 import am2.entity.render.RenderSpellProjectile;
 import am2.entity.render.RenderThrownRock;
 import am2.extensions.RiftStorage;
+import am2.gui.GuiInscriptionTable;
 import am2.gui.GuiObelisk;
 import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
@@ -83,6 +85,7 @@ public class ClientProxy extends CommonProxy {
 		case GUI_OCCULUS: return new GuiOcculus(player);
 		case GUI_RIFT: return new GuiRiftStorage(player, RiftStorage.For(player));
 		case GUI_OBELISK: return new GuiObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
+		case GUI_INSCRIPTION_TABLE: return new GuiInscriptionTable(player.inventory, (TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
@@ -106,6 +109,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCelestialPrism.class, new TileCelestialPrismRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlackAurem.class, new TileBlackAuremRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLectern.class, new TileLecternRenderer());
 		
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());

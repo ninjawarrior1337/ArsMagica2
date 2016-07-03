@@ -9,7 +9,6 @@ import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.DummyEntityPlayer;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -32,7 +31,7 @@ public class FlickerOperatorFlatLands implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int searchesPerLoop = 12;
 
 		int radius = 6;
@@ -72,12 +71,12 @@ public class FlickerOperatorFlatLands implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 	}
 
 	@Override
@@ -86,7 +85,7 @@ public class FlickerOperatorFlatLands implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 	}
 
 

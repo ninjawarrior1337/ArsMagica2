@@ -35,12 +35,12 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
-		HashMap<Class, Integer> entityCount = new HashMap<Class, Integer>();
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
+		HashMap<Class<?>, Integer> entityCount = new HashMap<>();
 		int radius = 6;
 		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expandXyz(radius));
 		for (EntityAnimal creature : creatures){
-			Class clazz = creature.getClass();
+			Class<? extends EntityAnimal> clazz = creature.getClass();
 			if (!SpawnBlacklists.canButcheryAffect(clazz))
 				continue;
 			Integer count = entityCount.get(clazz);
@@ -66,16 +66,16 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 	}
 
 	@Override

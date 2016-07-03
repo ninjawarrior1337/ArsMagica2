@@ -1,7 +1,5 @@
 package am2.defs;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.api.AffinityRegistry;
@@ -12,6 +10,8 @@ import am2.skill.Skill;
 import am2.skill.SkillPoint;
 import am2.skill.SkillTree;
 import am2.utils.ResourceUtils;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 public class SkillDefs {
 	

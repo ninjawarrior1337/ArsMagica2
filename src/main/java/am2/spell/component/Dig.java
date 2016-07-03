@@ -11,7 +11,6 @@ import am2.extensions.EntityExtension;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
-import am2.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -23,7 +22,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 
 public class Dig implements IComponent {
 

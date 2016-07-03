@@ -40,7 +40,7 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		AMVector3 vec = new AMVector3((TileEntity)habitat);
 		if (powered){
 			if (!attractors.contains(vec)){
@@ -54,12 +54,12 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 		AMVector3 vec = new AMVector3((TileEntity)habitat);
 		attractors.remove(vec);
 	}
@@ -70,7 +70,7 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		RemoveOperator(worldObj, habitat, powered);
 	}
 

@@ -22,8 +22,6 @@ public class LightningBolt extends Particle{
 	private int overrideColor = -1;
 	private LightningBoltCommon main;
 
-	private static final ResourceLocation bolt = new ResourceLocation("arsmagica2", "textures/items/particles/smoke.png");
-
 	public LightningBolt(World world, AMVector3 jammervec, AMVector3 targetvec, long seed){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, jammervec, targetvec, seed);
@@ -206,8 +204,6 @@ public class LightningBolt extends Particle{
 
 		this.particleRed = (this.particleGreen = this.particleBlue = 1.0F);
 
-		int brightness = 0xF00F0;
-
 		switch (this.type){
 		case 0:
 			this.particleRed = 0.1F;
@@ -238,7 +234,6 @@ public class LightningBolt extends Particle{
 			this.particleGreen = 0.1F;
 			this.particleBlue = 0.1F;
 			GL11.glBlendFunc(770, 771);
-			brightness = 0xF0060;
 			break;
 		case 5:
 			this.particleRed = 0.6F;
@@ -251,7 +246,6 @@ public class LightningBolt extends Particle{
 			this.particleGreen = 0.1f;
 			this.particleBlue = 0.1f;
 			GL11.glBlendFunc(770, 1);
-			brightness = 0xF0000;
 			break;
 		}
 
@@ -271,8 +265,6 @@ public class LightningBolt extends Particle{
 //			tessellator.draw();
 //		}catch (Throwable t){
 //		}
-
-		brightness = 0xF00F0;
 
 		switch (this.type){
 		case 0:
@@ -312,7 +304,6 @@ public class LightningBolt extends Particle{
 			this.particleGreen = 0.1f;
 			this.particleBlue = 0.6f;
 			GL11.glBlendFunc(770, 1);
-			brightness = 0xF0060;
 			break;
 		}
 
@@ -334,8 +325,6 @@ public class LightningBolt extends Particle{
 //		}catch (Throwable t){
 //		}
 
-		brightness = 0xF00F0;
-
 		switch (this.type){
 		case 0:
 			this.particleRed = 1.0F;
@@ -361,7 +350,6 @@ public class LightningBolt extends Particle{
 			this.particleRed = 0.1F;
 			this.particleGreen = 0.1F;
 			this.particleBlue = 0.1F;
-			brightness = 0xF0060;
 			GL11.glBlendFunc(770, 771);
 			break;
 		case 5:
@@ -375,7 +363,6 @@ public class LightningBolt extends Particle{
 			this.particleGreen = 0.1f;
 			this.particleBlue = 0.6f;
 			GL11.glBlendFunc(770, 1);
-			brightness = 0xF0060;
 			break;
 		}
 

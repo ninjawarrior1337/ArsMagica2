@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 
 	private static String KEY_PAIRLOC = "PAIRLOC";
@@ -52,7 +53,7 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 
 		if (te != null && te instanceof IPowerNode){
 			if (cMode == MODE_DISCONNECT){
-				doDisconnect((IPowerNode)te, world, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ, player);
+				doDisconnect((IPowerNode<?>)te, world, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ, player);
 				return EnumActionResult.FAIL;
 			}
 
@@ -109,7 +110,7 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 		AMVector3 source = AMVector3.readFromNBT(stack.getTagCompound().getCompoundTag(KEY_PAIRLOC));
 		TileEntity sourceTE = world.getTileEntity(source.toBlockPos());
 		if (sourceTE != null && sourceTE instanceof IPowerNode && !world.isRemote){
-			player.addChatMessage(new TextComponentString(PowerNodeRegistry.For(world).tryPairNodes((IPowerNode)sourceTE, (IPowerNode)te)));
+			player.addChatMessage(new TextComponentString(PowerNodeRegistry.For(world).tryPairNodes((IPowerNode<?>)sourceTE, (IPowerNode<?>)te)));
 		}else if (world.isRemote){
 			spawnLinkParticles(world, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
 		}
@@ -117,7 +118,7 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 			stack.getTagCompound().removeTag(KEY_PAIRLOC);
 	}
 
-	private void doDisconnect(IPowerNode node, World world, double hitX, double hitY, double hitZ, EntityPlayer player){
+	private void doDisconnect(IPowerNode<?> node, World world, double hitX, double hitY, double hitZ, EntityPlayer player){
 		PowerNodeRegistry.For(world).tryDisconnectAllNodes(node);
 		if (world.isRemote){
 			spawnLinkParticles(player.worldObj, hitX, hitY, hitZ, true);

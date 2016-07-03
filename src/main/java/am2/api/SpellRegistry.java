@@ -156,7 +156,7 @@ public class SpellRegistry {
 
 	public static ISpellPart getPartByRecipe(ArrayList<ItemStack> currentAddedItems) {
 		for (SpellData<? extends ISpellPart> data : getCombinedMap().values()) {
-			if (data.part != null && data.part.getRecipe().equals(currentAddedItems.toArray()))
+			if (data != null && data.part != null && currentAddedItems.toArray().equals(data.part.getRecipe()))
 				return data.part;
 		}
 		return null;

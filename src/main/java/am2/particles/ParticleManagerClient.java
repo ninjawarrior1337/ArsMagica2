@@ -65,7 +65,6 @@ public class ParticleManagerClient extends ParticleManagerServer{
 	@Override
 	public void BoltFromEntityToEntity(World world, Entity caster, Entity source, Entity target, int damage, int type, int color){
 		double xx = target.posX;
-		double yy = target.posY + target.getEyeHeight();
 		double zz = target.posZ;
 
 		double px = source.posX;

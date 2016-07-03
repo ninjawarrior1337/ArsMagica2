@@ -82,14 +82,8 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 		return GetDamageReduction();
 	}
 
-	private int GetArsMagicatArmorReductionFromSlot(EntityPlayer player, int armorSlot){
-		AMArmor armor = (AMArmor)player.inventory.armorInventory[armorSlot].getItem();
-		return armor.GetDamageReduction();
-	}
-
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot){
-		AMArmor armorItem = (AMArmor)armor.getItem();
 		ArmorProperties ap = new ArmorProperties(1, material.getDamageReduceRatio(slot), 1000);
 		return ap;
 	}

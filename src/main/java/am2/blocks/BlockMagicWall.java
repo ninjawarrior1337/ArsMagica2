@@ -18,13 +18,11 @@ public class BlockMagicWall extends BlockAM {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos,
-			IBlockState state, Entity entityIn) {
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (entityIn instanceof EntitySpellProjectile) {
 			EntitySpellProjectile projectile = (EntitySpellProjectile)entityIn;
 			projectile.setBounces(projectile.getBounces() + 1);
 		}
-		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
 	}
 	
 	

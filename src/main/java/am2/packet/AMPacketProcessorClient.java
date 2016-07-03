@@ -3,8 +3,8 @@ package am2.packet;
 import java.util.ArrayList;
 
 import am2.ArsMagica2;
-import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
+import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
@@ -120,9 +120,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.CRAFTING_ALTAR_DATA:
 //				handleCraftingAltarData(remaining);
 //				break;
-//			case AMPacketIDs.LECTERN_DATA:
-//				handleLecternData(remaining);
-//				break;
+			case AMPacketIDs.LECTERN_DATA:
+				handleLecternData(remaining);
+				break;
 //			case AMPacketIDs.CALEFACTOR_DATA:
 //				handleCalefactorData(remaining);
 //				break;
@@ -158,15 +158,15 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		((TileEntityCalefactor)te).handlePacket(rdr.getRemainingBytes());
 //	}
 //
-//	private void handleLecternData(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
-//		if (te == null || !(te instanceof TileEntityLectern)) return;
-//		if (rdr.getBoolean())
-//			((TileEntityLectern)te).setStack(rdr.getItemStack());
-//		else
-//			((TileEntityLectern)te).setStack(null);
-//	}
+	private void handleLecternData(byte[] data){
+		AMDataReader rdr = new AMDataReader(data, false);
+		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(rdr.getInt(), rdr.getInt(), rdr.getInt()));
+		if (te == null || !(te instanceof TileEntityLectern)) return;
+		if (rdr.getBoolean())
+			((TileEntityLectern)te).setStack(rdr.getItemStack());
+		else
+			((TileEntityLectern)te).setStack(null);
+	}
 //
 //	private void handleCraftingAltarData(byte[] data){
 //		AMDataReader rdr = new AMDataReader(data, false);

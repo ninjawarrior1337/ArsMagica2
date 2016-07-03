@@ -17,7 +17,6 @@ import am2.items.ItemRune;
 import am2.items.ItemSpellComponent;
 import am2.items.SpellBase;
 import am2.items.rendering.SpellRenderer;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -59,6 +58,7 @@ public class ItemDefs {
 	public static final Item wardingCandle = null;
 	public static final Item liquidEssenceBottle = null;
 	public static final Item bindingCatalyst = null;
+	public static final Item inscriptionUpgrade = null;
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	

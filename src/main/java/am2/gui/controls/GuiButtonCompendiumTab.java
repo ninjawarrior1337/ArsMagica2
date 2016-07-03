@@ -30,7 +30,6 @@ public class GuiButtonCompendiumTab extends GuiButton{
 	//private static final int renderTextureID = AMGuiHelper.createRenderTexture();
 	//private static final int depthBufferTextureID = AMGuiHelper.instance.createFBO(renderTextureID, 100, 20, true);
 
-	private static final ResourceLocation buttonImage = new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumIndexGui.png");
 	public GuiButtonCompendiumTab(int id, int xPos, int yPos, String categoryDisplay, String categoryID, TextureAtlasSprite displayIcon){
 		super(id, xPos, yPos, sourceWidth, sourceHeight, categoryDisplay);
 		this.width = displayIcon == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(categoryDisplay) : 20;

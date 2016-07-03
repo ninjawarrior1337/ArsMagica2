@@ -38,12 +38,12 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered){
 		return DoOperation(worldObj, controller, powered, new Affinity[0]);
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 		TileEntity te = (TileEntity)controller;
 		if (!powered || !checkSurroundings(worldObj, te.getPos()) || worldObj.isBlockIndirectlyGettingPowered(te.getPos()) == 0)
 			return false;
@@ -73,7 +73,6 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 		if (worldObj.isRemote)
 			return;
 
-		boolean eject = false;
 		for (int i = -1; i <= 1; ++i){
 			for (int j = -1; j <= 1; ++j){
 				for (int k = -1; k <= 1; ++k){
@@ -98,7 +97,7 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered){
 	}
 
 	@Override
@@ -112,7 +111,7 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers){
 	}
 
 	@Override

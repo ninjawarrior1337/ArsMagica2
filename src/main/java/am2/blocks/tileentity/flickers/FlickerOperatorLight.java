@@ -36,7 +36,7 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		if (!worldObj.isRemote){
 			int radius = 16;
 			int yRadius = radius / 4;
@@ -91,12 +91,12 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered){
 		habitat.removeMetadata(this);
 
 		if (!worldObj.isRemote){
@@ -125,7 +125,7 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+	public void RemoveOperator(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		RemoveOperator(worldObj, habitat, powered);
 	}
 

@@ -2,11 +2,11 @@ package am2.items;
 
 import java.util.List;
 
+import am2.defs.CreativeTabsDefs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import am2.defs.CreativeTabsDefs;
 
 public class ItemOre extends ItemArsMagica2 {
 	

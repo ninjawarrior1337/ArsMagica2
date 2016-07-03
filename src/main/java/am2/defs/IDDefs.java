@@ -20,5 +20,6 @@ public class IDDefs {
 	public static final int GUI_SPELL_BOOK = 3;
 	public static final int GUI_OBELISK = 4;
 	public static final int GUI_CRYSTAL_MARKER = 5;
+	public static final int GUI_INSCRIPTION_TABLE = 6;
 	
 }

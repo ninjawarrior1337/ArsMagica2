@@ -189,22 +189,22 @@ public class PowerNodeCache{
 		saveWorldToFile(world);
 	}
 
-	private void cacheToFile(World world, RegionCoordinates coords){
-		NBTTagCompound cachedRegion = dataCache.get(coords);
-		if (!cachedRegion.hasKey("AM2PowerData"))
-			return;
-		int xBase = coords.x * 32;
-		int zBase = coords.z * 32;
-		for (int x = 0; x < 32; ++x){
-			for (int z = 0; z < 32; ++z){
-				ChunkPos pair = new ChunkPos(xBase + x, zBase + z);
-				NBTTagCompound compound = cachedRegion.getCompoundTag(getPNDIdentifier(pair));
-				if (compound != null){
-					SaveNBTToFile(world, pair, compound, true);
-				}
-			}
-		}
-	}
+//	private void cacheToFile(World world, RegionCoordinates coords){
+//		NBTTagCompound cachedRegion = dataCache.get(coords);
+//		if (!cachedRegion.hasKey("AM2PowerData"))
+//			return;
+//		int xBase = coords.x * 32;
+//		int zBase = coords.z * 32;
+//		for (int x = 0; x < 32; ++x){
+//			for (int z = 0; z < 32; ++z){
+//				ChunkPos pair = new ChunkPos(xBase + x, zBase + z);
+//				NBTTagCompound compound = cachedRegion.getCompoundTag(getPNDIdentifier(pair));
+//				if (compound != null){
+//					SaveNBTToFile(world, pair, compound, true);
+//				}
+//			}
+//		}
+//	}
 
 	public void saveWorldToFile(World world){
 		if (world.isRemote)

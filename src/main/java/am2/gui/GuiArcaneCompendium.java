@@ -3,8 +3,6 @@ package am2.gui;
 import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,9 +32,9 @@ import am2.skill.Skill;
 import am2.spell.ISpellPart;
 import am2.texture.SpellIconManager;
 import am2.utils.RecipeUtils;
-import am2.utils.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -107,13 +105,13 @@ public class GuiArcaneCompendium extends GuiScreen {
 	private GuiButtonCompendiumNext prevLayer;
 	private GuiButtonCompendiumNext nextLayer;
 	private GuiButtonVariableDims pauseCycling;
-	private TileEntity entryTileEntity;
+//	private TileEntity entryTileEntity;
 	private int maxLayers;
 	
 	public GuiArcaneCompendium(String id, MultiblockStructureDefinition definition, TileEntity te) {
 		this(id);
 		this.entryMultiblock = definition;
-		this.entryTileEntity = te;
+//		this.entryTileEntity = te;
 	}
 
 	public GuiArcaneCompendium(String id) {
@@ -1668,8 +1666,8 @@ public class GuiArcaneCompendium extends GuiScreen {
 		else
 			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		if (state.getBlock() instanceof BlockContainer)
-			TileEntityRendererDispatcher.instance.renderTileEntityAt(((BlockContainer)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), 0, 0, 0, 0, 0);
+		if (state.getBlock() instanceof ITileEntityProvider)
+			TileEntityRendererDispatcher.instance.renderTileEntityAt(((ITileEntityProvider)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), 0, 0, 0, 0, 0);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);

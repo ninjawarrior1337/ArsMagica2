@@ -178,6 +178,57 @@ public class SpellUtils {
 		return success;
 	}
 	
+	public static NBTTagCompound encode(KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> toEncode) {
+		NBTTagCompound group = new NBTTagCompound();
+		group.setTag(SPELL_DATA, toEncode.value);
+		int stage = 0;
+		for (ISpellPart part : toEncode.key) {
+			NBTTagList stageTag = NBTUtils.addCompoundList(group, STAGE + stage);
+			NBTTagCompound tmp = new NBTTagCompound();
+			String id = SpellRegistry.getSkillFromPart(part).getID();
+			tmp.setString(ID, id);
+			String type = "";
+			if (part instanceof IShape) type = TYPE_SHAPE;
+			if (part instanceof IModifier) type = TYPE_MODIFIER;
+			if (part instanceof IComponent) type = TYPE_COMPONENT;
+			tmp.setString(TYPE, type);
+			if (part instanceof IShape) {
+				stage++;
+			} else {
+			}
+			stageTag.appendTag(tmp);
+		}
+		group.setInteger("StageNum", stage);
+		return group;
+	}
+	
+	public static KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> decode(NBTTagCompound toDecode) {
+		if (toDecode == null)
+			return null;
+		try {
+			ArrayList<ISpellPart> parts = new ArrayList<>();
+			for (int j = 0; j < NBTUtils.getAM2Tag(toDecode).getInteger("StageNum"); j++) { 
+				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(toDecode), STAGE + j);
+				for (int i = 0; i < stageTag.tagCount(); i++) {
+					NBTTagCompound tmp = stageTag.getCompoundTagAt(i);
+					String type = tmp.getString(TYPE);
+					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
+						parts.add(SpellRegistry.getComponentFromName(tmp.getString(ID)).part);
+					}
+					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
+						parts.add(SpellRegistry.getModifierFromName(tmp.getString(ID)).part);
+					}
+					if (type.equalsIgnoreCase(TYPE_SHAPE)) {
+						parts.add(SpellRegistry.getShapeFromName(tmp.getString(ID)).part);
+					}
+				}
+			}
+			return new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(parts, toDecode.getCompoundTag(SPELL_DATA));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 	public static ItemStack createSpellStack(ArrayList<KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>> shapeGroups, ArrayList<ISpellPart> spellDef, NBTTagCompound encodedData) {
 		ItemStack stack = new ItemStack(ItemDefs.spell);
 		NBTTagCompound tag = new NBTTagCompound();
@@ -227,6 +278,7 @@ public class SpellUtils {
 			stageTag.appendTag(tmp);
 		}
 		am2.setInteger("StageNum", stage + 1);
+		am2.setInteger("NumShapeGroups", shapeGroupList.tagCount());
 		am2.setInteger("CurrentShapeGroup", 0);
 		am2.setInteger("CurrentGroup", 0);
 		stack.setTagCompound(tag);
@@ -705,6 +757,31 @@ public class SpellUtils {
 
 	public static void setSpellMetadata(ItemStack stack, String string, String s) {
 		NBTUtils.addTag(NBTUtils.getAM2Tag(stack.getTagCompound()), SPELL_DATA).setString(string, s);
+	}
+
+	public static int numShapeGroups(ItemStack stack) {
+		return NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("NumShapeGroups");
+	}
+
+	public static ArrayList<ISpellPart> getShapeGroupParts(ItemStack stack, int shapeGroup) {
+		try {
+			ArrayList<ISpellPart> mods = new ArrayList<ISpellPart>();
+			NBTTagCompound tag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), "ShapeGroups").getCompoundTagAt(shapeGroup);
+			for (int j = 0; j <= tag.getInteger("StageNum"); j++) { 
+				NBTTagList stageTag = NBTUtils.addCompoundList(tag, STAGE + j);
+				for (int i = 0; i < stageTag.tagCount(); i++) {
+					NBTTagCompound tmp = stageTag.getCompoundTagAt(i);
+					mods.add(SpellRegistry.getComponentFromName(tmp.getString(ID)).part);
+				}
+			}
+			return mods;
+		} catch (Exception e) {
+			return Lists.newArrayList();
+		}
+	}
+
+	public static ItemStack createSpellStack( ArrayList<KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>> shapeGroupSetup, KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> curRecipeSetup) {
+		return createSpellStack(shapeGroupSetup, curRecipeSetup.key, curRecipeSetup.value);
 	}
 
 }

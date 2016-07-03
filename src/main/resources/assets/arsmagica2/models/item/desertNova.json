@@ -1,3 +1,6 @@
 {
-    "parent": "arsmagica2:block/desertNova"
+    "parent": "item/generated",
+	"textures": {
+		"layer0": "arsmagica2:blocks/desert_nova"
+	}
 }

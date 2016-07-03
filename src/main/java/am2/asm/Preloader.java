@@ -5,7 +5,9 @@ import java.util.Map;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
 
+@SortingIndex(1001)
 public class Preloader extends DummyModContainer implements IFMLLoadingPlugin {
 	
 	private final ModMetadata md = new ModMetadata();

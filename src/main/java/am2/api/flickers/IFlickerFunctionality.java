@@ -8,15 +8,15 @@ public interface IFlickerFunctionality{
 
 	int PowerPerOperation();
 
-	boolean DoOperation(World worldObj, IFlickerController controller, boolean powered);
+	boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered);
 
-	boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers);
+	boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers);
 
-	void RemoveOperator(World worldObj, IFlickerController controller, boolean powered);
+	void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered);
 
 	int TimeBetweenOperation(boolean powered, Affinity[] flickers);
 
-	void RemoveOperator(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers);
+	void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers);
 
 	Object[] getRecipe();
 }

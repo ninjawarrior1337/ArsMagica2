@@ -32,6 +32,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
+@SuppressWarnings("deprecation")
 public class BlockCrystalMarker extends BlockAMContainer{
 
 	public static final int META_IN = 0;
@@ -166,7 +167,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 			}
 
 			return false;
-		}else if (operandType == this.META_SET_EXPORT || operandType == this.META_REGULATE_EXPORT || operandType == this.META_REGULATE_MULTI || operandType == this.META_SET_IMPORT){
+		}else if (operandType == META_SET_EXPORT || operandType == META_REGULATE_EXPORT || operandType == META_REGULATE_MULTI || operandType == META_SET_IMPORT){
 			FMLNetworkHandler.openGui(player, ArsMagica2.instance, IDDefs.GUI_CRYSTAL_MARKER, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
