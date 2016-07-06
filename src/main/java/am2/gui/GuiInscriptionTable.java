@@ -317,7 +317,6 @@ public class GuiInscriptionTable extends GuiContainer{
 
 
 		int offsetX = l + shapeGroupX;
-
 		for (int sg = 0; sg < TileEntityInscriptionTable.MAX_STAGE_GROUPS; ++sg){
 			if (sg >= ((ContainerInscriptionTable)this.inventorySlots).getNumStageGroups())
 				GL11.glColor3f(0.5f, 0.5f, 0.5f);

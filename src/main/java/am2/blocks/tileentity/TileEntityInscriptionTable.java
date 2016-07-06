@@ -11,12 +11,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.StringUtils;
-
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.api.SpellRegistry;
 import am2.api.SpellRegistry.SpellData;
+import am2.blocks.BlockInscriptionTable;
 import am2.container.ContainerInscriptionTable;
 import am2.defs.ItemDefs;
 import am2.event.SpellRecipeItemsEvent;
@@ -41,6 +40,7 @@ import am2.utils.KeyValuePair;
 import am2.utils.RecipeUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -56,8 +56,10 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
@@ -179,9 +181,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	public void update(){
 		if (worldObj.isRemote && getUpgradeState() >= 3)
 			candleUpdate();
-
 		if (this.numStageGroups > MAX_STAGE_GROUPS)
 			this.numStageGroups = MAX_STAGE_GROUPS;
+		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	public int getUpgradeState(){
@@ -307,8 +309,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound){
 		super.readFromNBT(par1NBTTagCompound);
-		parseTagCompound(par1NBTTagCompound);
 		clearCurrentRecipe();
+		parseTagCompound(par1NBTTagCompound);
 	}
 
 	private void parseTagCompound(NBTTagCompound par1NBTTagCompound){
@@ -322,8 +324,25 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				inscriptionTableItemStacks[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-
+		shapeGroups.clear();
+		NBTTagList shapeGroups = par1NBTTagCompound.getTagList("ShapeGroups", Constants.NBT.TAG_LIST);
+		for (int i = 0; i < shapeGroups.tagCount(); i++){
+			NBTTagList tmplist = (NBTTagList) shapeGroups.get(i);
+			ArrayList<ISpellPart> parts = new ArrayList<>();
+			for (int j = 0; j < tmplist.tagCount(); j++) {
+				NBTTagCompound tmp = tmplist.getCompoundTagAt(j);
+				parts.add(tmp.getInteger("Slot"), SpellRegistry.getCombinedMap().get(tmp.getString("ID")).part);
+			}
+			this.shapeGroups.add(parts);
+		}
+		currentRecipe.clear();
+		NBTTagList recipe = par1NBTTagCompound.getTagList("CurrentRecipe", Constants.NBT.TAG_COMPOUND);
+		for (int i = 0; i < recipe.tagCount(); i++){
+			NBTTagCompound tmp = recipe.getCompoundTagAt(i);
+			currentRecipe.add(tmp.getInteger("Slot"), SpellRegistry.getCombinedMap().get(tmp.getString("ID")).part);
+		}
 		this.numStageGroups = Math.max(par1NBTTagCompound.getInteger("numShapeGroupSlots"), 2);
+		this.worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockInscriptionTable.TIER_1, getUpgradeState() >= 1).withProperty(BlockInscriptionTable.TIER_2, getUpgradeState() >= 2).withProperty(BlockInscriptionTable.TIER_3, getUpgradeState() >= 3), 2);
 	}
 
 	@Override
@@ -339,7 +358,27 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				nbttaglist.appendTag(nbttagcompound1);
 			}
 		}
-
+		NBTTagList recipe = new NBTTagList();
+		for (int i = 0; i < currentRecipe.size(); i++) {
+			NBTTagCompound tmp = new NBTTagCompound();
+			tmp.setInteger("Slot", i);
+			tmp.setString("ID", SpellRegistry.getSkillFromPart(currentRecipe.get(i)).getID());
+			recipe.appendTag(tmp);
+		}
+		NBTTagList shapeGroups = new NBTTagList();
+		for (int j = 0; j < this.shapeGroups.size(); j++) {
+			ArrayList<ISpellPart> parts = this.shapeGroups.get(j);
+			NBTTagList list = new NBTTagList();
+			for (int i = 0; i < parts.size(); i++) {
+				NBTTagCompound tmp = new NBTTagCompound();
+				tmp.setInteger("Slot", i);
+				tmp.setString("ID", SpellRegistry.getSkillFromPart(parts.get(i)).getID());
+				list.appendTag(tmp);
+			}
+			shapeGroups.appendTag(list);
+		}
+		par1NBTTagCompound.setTag("ShapeGroups", shapeGroups);
+		par1NBTTagCompound.setTag("CurrentRecipe", recipe);
 		par1NBTTagCompound.setTag("InscriptionTableInventory", nbttaglist);
 		par1NBTTagCompound.setInteger("numShapeGroupSlots", this.numStageGroups);
 		return par1NBTTagCompound;
@@ -347,6 +386,11 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	@Override
 	public boolean hasCustomName(){
+		return false;
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return false;
 	}
 
@@ -788,7 +832,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 			//worldObj.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), "arsmagica2:misc.inscriptiontable.takebook", 1.0f, 1.0f, true);
 
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
+			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
 		}
 		return bookstack;
 	}
@@ -827,8 +871,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			group.clear();
 		currentSpellName = "";
 		currentSpellIsReadOnly = false;
-		if (worldObj != null)
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	public SpellValidator.ValidationResult currentRecipeIsValid(){

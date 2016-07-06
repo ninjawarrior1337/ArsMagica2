@@ -1,0 +1,16 @@
+{
+	"multipart": [
+	{
+		"when": {"left": "false"},
+		"apply": {"model":"arsmagica2:inscriptionTableRight"}
+	},
+	{
+		"when": {"left": "true"},
+		"apply": {"model":"arsmagica2:inscriptionTableLeft"}
+	},
+	{
+		"when": { "AND": [{"left":"true"}, {"tier_1":"true"}]},
+		"apply": {"model":"arsmagica2:inscriptionTableLeft1"}
+	}
+	]
+}

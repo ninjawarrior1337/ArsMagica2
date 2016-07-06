@@ -49,6 +49,7 @@ public class ItemDefs {
 	// PlaceHolder items
 	public static final Item spell_component = new ItemSpellComponent().registerAndName("spellComponent");
 	public static final Item etherium = new ItemArsMagica2().registerAndName("etherium").setCreativeTab(null);
+	
 	public static final Item blankRune = new ItemArsMagica2().registerAndName("blankRune");
 	public static final Item chalk = new ItemChalk().registerAndName("chalk");
 	public static final Item spellStaffMagitech = null;
@@ -63,6 +64,25 @@ public class ItemDefs {
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	
 	public static void init () {
+		//Focus
+		registerTexture(mobFocus);
+		registerTexture(lesserFocus);
+		registerTexture(standardFocus);
+		registerTexture(manaFocus);
+		registerTexture(greaterFocus);
+		registerTexture(chargeFocus);
+		registerTexture(itemFocus);
+		registerTexture(playerFocus);
+		registerTexture(creatureFocus);
+		
+		registerTexture(arcaneCompendium);
+		registerTexture(blankRune);
+		
+		registerTexture(crystalWrench);
+		registerTexture(magitechGoggles);
+		registerTexture(etherium);
+		registerTexture(chalk);
+		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		renderItem.getItemModelMesher().register(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2", "spell_parchment")), 0, new ModelResourceLocation("arsmagica2:spell_parchment", "inventory"));
 		Item essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2", "essence"));
@@ -91,16 +111,10 @@ public class ItemDefs {
 			renderItem.getItemModelMesher().register(itemOre, i, loc);
 		}
 		renderItem.getItemModelMesher().register(spell, new SpellRenderer());
-		renderItem.getItemModelMesher().register(mobFocus, 0, new ModelResourceLocation("arsmagica2:mobFocus", "inventory"));
-		renderItem.getItemModelMesher().register(lesserFocus, 0, new ModelResourceLocation("arsmagica2:lesserFocus", "inventory"));
-		renderItem.getItemModelMesher().register(standardFocus, 0, new ModelResourceLocation("arsmagica2:standardFocus", "inventory"));
-		renderItem.getItemModelMesher().register(manaFocus, 0, new ModelResourceLocation("arsmagica2:manaFocus", "inventory"));
-		renderItem.getItemModelMesher().register(greaterFocus, 0, new ModelResourceLocation("arsmagica2:greaterFocus", "inventory"));
-		renderItem.getItemModelMesher().register(chargeFocus, 0, new ModelResourceLocation("arsmagica2:chargeFocus", "inventory"));
-		renderItem.getItemModelMesher().register(itemFocus, 0, new ModelResourceLocation("arsmagica2:itemFocus", "inventory"));
-		renderItem.getItemModelMesher().register(playerFocus, 0, new ModelResourceLocation("arsmagica2:playerFocus", "inventory"));
-		renderItem.getItemModelMesher().register(creatureFocus, 0, new ModelResourceLocation("arsmagica2:creatureFocus", "inventory"));
-		renderItem.getItemModelMesher().register(arcaneCompendium, 0, new ModelResourceLocation("arsmagica2:arcaneCompendium", "inventory"));
-		renderItem.getItemModelMesher().register(blankRune, 0, new ModelResourceLocation("arsmagica2:blankRune", "inventory"));
+
+	}
+	
+	private static void registerTexture(Item item) {
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 }

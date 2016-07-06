@@ -33,7 +33,6 @@ import am2.spell.ISpellPart;
 import am2.texture.SpellIconManager;
 import am2.utils.RecipeUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

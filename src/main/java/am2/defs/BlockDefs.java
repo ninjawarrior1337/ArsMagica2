@@ -16,12 +16,12 @@ import am2.blocks.BlockLectern;
 import am2.blocks.BlockLightDecay;
 import am2.blocks.BlockMageLight;
 import am2.blocks.BlockMagicWall;
+import am2.blocks.BlockManaBattery;
 import am2.blocks.BlockOcculus;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
 import am2.blocks.BlockWizardsChalk;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -33,7 +33,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
 public class BlockDefs {
 	
-	public static final Block manaBattery = new Block(Material.ROCK);
+	public static final Block manaBattery = new BlockManaBattery().registerAndName(new ResourceLocation("arsmagica2:manaBattery"));
 	public static final BlockFrost frost = new BlockFrost().registerAndName(new ResourceLocation("arsmagica2:frost"));
 	public static final BlockOcculus occulus = new BlockOcculus().registerAndName(new ResourceLocation("arsmagica2:occulus"));
 	public static final BlockAM magicWall = new BlockMagicWall().registerAndName(new ResourceLocation("arsmagica2:magic_wall"));
@@ -54,27 +54,49 @@ public class BlockDefs {
 	public static final Block celestialPrism = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_LIGHT).registerAndName(new ResourceLocation("arsmagica2:celestialPrism"));
 	public static final Block crystalMarker = new BlockCrystalMarker().registerAndName(new ResourceLocation("arsmagica2:crystalMarker"));
 	public static final Block wardingCandle = new BlockCandle().registerAndName(new ResourceLocation("arsmagica2:wardingCandle"));
-	public static final Block witchwoodLog = null;
-	public static final Block essenceConduit = null;
 	public static final Block lectern = new BlockLectern().registerAndName(new ResourceLocation("arsmagica2:lectern"));
 	public static final Block inscriptionTable = new BlockInscriptionTable().registerAndName(new ResourceLocation("arsmagica2:inscriptionTable"));
+	public static final Block witchwoodLog = null;
+	public static final Block essenceConduit = null;
 	
 	public static void init () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);
 		RenderItem renderer = Minecraft.getMinecraft().getRenderItem();
+		//Utility Blocks
+		registerTexture(frost);
+		registerTexture(invisibleLight);
+		registerTexture(invisibleUtility);
+		registerTexture(blockMageTorch);
+		
+		//Building Blocks
 		registerTexture(magicWall);
+		
+		//Power Blocks
+		registerTexture(obelisk);
+		registerTexture(celestialPrism);
+		registerTexture(blackAurem);
+		registerTexture(manaBattery);
+		
+		//Flickers
+		registerTexture(crystalMarker);
+		
+		//Ritual Blocks
+		registerTexture(wardingCandle);
+		registerTexture(wizardChalk);
+		
+		//Spell Blocks
 		registerTexture(occulus);
+		registerTexture(lectern);
 		registerTexture(altar);
+		registerTexture(inscriptionTable);
+		
+		//Flowers
 		registerTexture(aum);
 		registerTexture(cerublossom);
 		registerTexture(wakebloom);
 		registerTexture(tarmaRoot);
 		registerTexture(desertNova);
-		registerTexture(obelisk);
-		registerTexture(crystalMarker);
-		registerTexture(celestialPrism);
-		registerTexture(wardingCandle);
-		registerTexture(lectern);
+		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {

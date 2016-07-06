@@ -1,0 +1,48 @@
+{
+	"parent":"block/block",
+	"textures": {
+		"book1":"arsmagica2:book1",
+		"book2":"arsmagica2:book2",
+		"book3":"arsmagica2:book3"
+	},
+	"elements": [
+	{
+		"from":[1, 16, 5],
+		"to":[5, 18, 11],
+		"faces": {
+			"down":{ "texture":"#book1"},
+			"up":{"texture":"#book1"},
+			"north":{"texture":"#book1"},
+			"south":{"texture":"#book1"},
+			"west":{"texture":"#book1"},
+			"east":{"texture":"#book1"}
+		}
+	},
+	{
+		"from":[7, 16, 5],
+		"to":[11, 18, 11],
+		"rotation": {"origin": [7, 16, 5], "axis":"y", "angle":57, "rescale": false },
+		"faces": {
+			"down":{ "texture":"#book2"},
+			"up":{"texture":"#book2"},
+			"north":{"texture":"#book2"},
+			"south":{"texture":"#book2"},
+			"west":{"texture":"#book2"},
+			"east":{"texture":"#book2"}
+		}
+	},
+	{
+		"from":[4, 16, 1],
+		"to":[8, 18, 7],
+		"rotation": {"origin": [4, 16, 1], "axis":"x", "angle":-29, "rescale": false },
+		"faces": {
+			"down":{ "texture":"#book3"},
+			"up":{"texture":"#book3"},
+			"north":{"texture":"#book3"},
+			"south":{"texture":"#book3"},
+			"west":{"texture":"#book3"},
+			"east":{"texture":"#book3"}
+		}
+	}
+	]
+}

@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -26,6 +27,9 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class, EnumFacing.HORIZONTALS);
 	public static final PropertyBool LEFT = PropertyBool.create("left");
+	public static final PropertyBool TIER_1 = PropertyBool.create("tier_1");
+	public static final PropertyBool TIER_2 = PropertyBool.create("tier_2");
+	public static final PropertyBool TIER_3 = PropertyBool.create("tier_3");
 	
 	public BlockInscriptionTable(){
 		super(Material.WOOD);
@@ -35,7 +39,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		setResistance(2.0f);
 		setLightLevel(0.8f);
 		this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 1.3f, 1.0f);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(LEFT, false));
+		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(LEFT, false).withProperty(TIER_1, false).withProperty(TIER_2, false).withProperty(TIER_3, false));
 	}
 	
 	@Override
@@ -77,39 +81,21 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 				pos = pos.offset(state.getValue(FACING));
 				te = (TileEntityInscriptionTable)worldIn.getTileEntity(pos);
 			}else{
-				int tx = pos.getX();
-				int ty = pos.getY();
-				int tz = pos.getZ();
-				switch (state.getValue(FACING)){
-				case NORTH:
-					tz++;
-					break;
-				case SOUTH:
-					tx++;
-					break;
-				case EAST:
-					tz--;
-					break;
-				case WEST:
-					tx--;
-					break;
-				default:
-					break;
-				}
-
-				tealt = (TileEntityInscriptionTable)worldIn.getTileEntity(new BlockPos (tx, ty, tz));
+				tealt = (TileEntityInscriptionTable)worldIn.getTileEntity(pos.offset(state.getValue(FACING).getOpposite()));
 			}
 		}
 
 		if (te == null)
 			return true;
-
+		
 		if (te.isInUse(playerIn)){
 			playerIn.addChatMessage(new TextComponentString("Someone else is using this."));
 			return true;
 		}
 
 		ItemStack curItem = playerIn.getHeldItem(hand);
+		ArsMagica2.LOGGER.info(te.writeToNBT(new NBTTagCompound()).toString());
+		ArsMagica2.LOGGER.info(tealt.writeToNBT(new NBTTagCompound()).toString());
 		if (curItem != null && curItem.getItem() == ItemDefs.inscriptionUpgrade){
 			if (te.getUpgradeState() == curItem.getItemDamage()){
 				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
@@ -134,7 +120,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		TileEntityInscriptionTable insc = (TileEntityInscriptionTable)world.getTileEntity(pos);
 
 		if (insc == null) return;
-		BlockPos placePos = pos.offset(state.getValue(FACING));
+		BlockPos placePos = pos.offset(state.getValue(FACING), state.getValue(LEFT) ? -1 : 1);
 
 		if (world.getBlockState(placePos).getBlock() == this)
 			world.setBlockToAir(placePos);
@@ -182,7 +168,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING, LEFT);
+		return new BlockStateContainer(this, FACING, LEFT, TIER_1, TIER_2, TIER_3);
 	}
 	
 	@Override

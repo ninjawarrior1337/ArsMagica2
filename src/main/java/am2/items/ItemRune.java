@@ -6,7 +6,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
 
 public class ItemRune extends ItemArsMagica2 {
 
@@ -22,6 +21,6 @@ public class ItemRune extends ItemArsMagica2 {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return "item.rune." + EnumDyeColor.values()[MathHelper.clamp_int(stack.getMetadata(), 0, 15)].getUnlocalizedName();
+		return "item.rune." + EnumDyeColor.byDyeDamage(stack.getItemDamage()).getUnlocalizedName();
 	}
 }
