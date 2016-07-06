@@ -105,7 +105,7 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 	public List<PowerTypes> getValidPowerTypes(){
 		if (this.outputPowerType == PowerTypes.NONE)
 			return PowerTypes.all();
-		return Lists.newArrayList(this.outputPowerType);
+		return Lists.newArrayList(outputPowerType);
 	}
 
 	@Override

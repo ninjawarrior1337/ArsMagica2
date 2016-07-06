@@ -98,8 +98,8 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 			RenderBook(podium, x, y, z, f1, 0);
 			GlStateManager.disableBlend();
 		}
-
 		renderHelperIcon(podium, x, y, z, f1);
+		GlStateManager.disableBlend();
 	}
 
 	private void renderHelperIcon(TileEntityLectern podium, double x, double y, double z, float f){

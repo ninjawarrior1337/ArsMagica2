@@ -1,0 +1,21 @@
+{
+	"parent":"block/block",
+	"textures": {
+		"book6":"arsmagica2:blocks/book6"
+	},
+	"elements": [
+	{
+		"from":[10, 18, 9],
+		"to":[14, 20, 15],
+		"rotation": {"origin": [10, 20, 9], "axis":"y", "angle":-71.6, "rescale": false },
+		"faces": {
+			"down":{ "texture":"#book6", "uv":[4, 0, 8, 6]},
+			"up":{"texture":"#book6", "uv":[0, 0, 4, 6]},
+			"north":{"texture":"#book6", "uv":[0, 6, 4, 8]},
+			"south":{"texture":"#book6", "uv":[4, 6, 8, 8]},
+			"west":{"texture":"#book6", "uv":[8, 0, 14, 2]},
+			"east":{"texture":"#book6", "uv":[8, 2, 14, 4]}
+		}
+	}
+	]
+}

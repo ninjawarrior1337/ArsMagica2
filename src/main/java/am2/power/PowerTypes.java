@@ -20,8 +20,8 @@ public class PowerTypes {
 	private PowerTypes(String name) {
 		ID = 0;
 		this.name = name;
-		this.chatColor = TextFormatting.BLACK.toString();
-		this.color = 0;
+		this.chatColor = TextFormatting.WHITE.toString();
+		this.color = 0xffffff;
 	}
 	
 	public PowerTypes(String name, String chatColor, int color) {
@@ -58,6 +58,6 @@ public class PowerTypes {
 			if (type.ID == integer)
 				return type;
 		}
-		return null;
+		return NONE;
 	}
 }

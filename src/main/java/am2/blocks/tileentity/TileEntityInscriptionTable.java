@@ -174,7 +174,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	private boolean isRenderingLeft(){
-		return (getBlockMetadata() & 0x8) == 0x8;
+		return worldObj.getBlockState(pos).getValue(BlockInscriptionTable.LEFT);
 	}
 
 	@Override
@@ -190,6 +190,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.numStageGroups - 2;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	private void candleUpdate(){
 		ticksToNextParticle--;
 
@@ -201,20 +202,20 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				double particleX = 0;
 				double particleZ = 0;
 
-				switch (meta){
-				case 1:
+				switch (worldObj.getBlockState(pos).getValue(BlockInscriptionTable.FACING)){
+				case SOUTH:
 					particleX = this.pos.getX() + 0.15;
 					particleZ = this.getPos().getZ() + 0.22;
 					break;
-				case 2:
+				case NORTH:
 					particleX = this.getPos().getX() + 0.22;
 					particleZ = this.getPos().getZ() + 0.85;
 					break;
-				case 3:
+				case WEST:
 					particleX = this.getPos().getX() + 0.83;
 					particleZ = this.getPos().getZ() + 0.78;
 					break;
-				case 4:
+				case EAST:
 					particleX = this.getPos().getX() + 0.79;
 					particleZ = this.getPos().getZ() + 0.15;
 					break;
@@ -246,20 +247,20 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				double particleX = 0;
 				double particleZ = 0;
 
-				switch (meta){
-				case 1:
+				switch (worldObj.getBlockState(pos).getValue(BlockInscriptionTable.FACING)){
+				case SOUTH:
 					particleX = this.getPos().getX() + 0.59;
 					particleZ = this.getPos().getZ() - 0.72;
 					break;
-				case 2:
+				case NORTH:
 					particleX = this.getPos().getX() - 0.72;
 					particleZ = this.getPos().getZ() + 0.41;
 					break;
-				case 3:
+				case EAST:
 					particleX = this.getPos().getX() + 0.41;
 					particleZ = this.getPos().getZ() + 1.72;
 					break;
-				case 4:
+				case WEST:
 					particleX = this.getPos().getX() + 1.72;
 					particleZ = this.getPos().getZ() + 0.60;
 					break;
@@ -342,7 +343,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			currentRecipe.add(tmp.getInteger("Slot"), SpellRegistry.getCombinedMap().get(tmp.getString("ID")).part);
 		}
 		this.numStageGroups = Math.max(par1NBTTagCompound.getInteger("numShapeGroupSlots"), 2);
-		this.worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockInscriptionTable.TIER_1, getUpgradeState() >= 1).withProperty(BlockInscriptionTable.TIER_2, getUpgradeState() >= 2).withProperty(BlockInscriptionTable.TIER_3, getUpgradeState() >= 3), 2);
 	}
 
 	@Override
@@ -500,6 +500,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.parseTagCompound(pkt.getNbtCompound());
+		this.worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockInscriptionTable.TIER_1, getUpgradeState() >= 1).withProperty(BlockInscriptionTable.TIER_2, getUpgradeState() >= 2).withProperty(BlockInscriptionTable.TIER_3, getUpgradeState() >= 3), 2);
 	}
 
 	private void sendDataToServer(){

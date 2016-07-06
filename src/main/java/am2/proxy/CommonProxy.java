@@ -28,6 +28,7 @@ import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.blocks.tileentity.TileEntityLectern;
+import am2.blocks.tileentity.TileEntityManaBattery;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
 import am2.container.ContainerInscriptionTable;
@@ -88,7 +89,6 @@ public class CommonProxy implements IGuiHandler{
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		System.out.println("Running");
 		switch (ID) {
 		case GUI_OCCULUS: return null;
 		case GUI_RIFT: return new ContainerRiftStorage(player, RiftStorage.For(player));
@@ -135,6 +135,8 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityCrystalMarkerSpellExport.class, "TileEntityCrystalMarkerSpellExport");
 		GameRegistry.registerTileEntity(TileEntityFlickerHabitat.class, "TileEntityFlickerHabitat");
 		GameRegistry.registerTileEntity(TileEntityInscriptionTable.class, "TileEntityInscriptionTable");
+		GameRegistry.registerTileEntity(TileEntityManaBattery.class, "TileEntityManaBattery");
+		
 		
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());

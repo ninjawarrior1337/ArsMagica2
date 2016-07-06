@@ -80,7 +80,6 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		System.out.println("Running");
 		switch (ID) {
 		case GUI_OCCULUS: return new GuiOcculus(player);
 		case GUI_RIFT: return new GuiRiftStorage(player, RiftStorage.For(player));
