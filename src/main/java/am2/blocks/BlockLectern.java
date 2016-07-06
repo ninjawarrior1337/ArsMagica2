@@ -36,8 +36,6 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		super.onBlockActivated(world, pos, state, player, hand, heldItem, side, hitX, hitY, hitZ);
-		
 		TileEntityLectern te = getTileEntity(world, pos);
 		if (te == null){
 			return true;
@@ -61,6 +59,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 				}
 			}else{
 				te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
+				return true;
 			}
 		}else{
 			if (player.getHeldItem(hand) != null){

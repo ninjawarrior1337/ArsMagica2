@@ -47,7 +47,6 @@ public class MultiblockStructureDefinition {
 			for (MultiblockGroup group : subGroup) {
 				if (group.matches(world, startCheckPos)) {
 					list.add(group);
-//					break;
 				}
 			}
 		}
@@ -153,10 +152,5 @@ public class MultiblockStructureDefinition {
 			list.add(group);
 		}
 		return list;
-	}
-
-	public ArrayList<MultiblockGroup> getMatchedGroups(World worldObj, BlockPos pos) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

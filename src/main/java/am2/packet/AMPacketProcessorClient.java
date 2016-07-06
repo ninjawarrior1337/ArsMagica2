@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import am2.ArsMagica2;
 import am2.api.power.IPowerNode;
+import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.particles.AMParticle;
@@ -117,9 +118,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.CAPABILITY_CHANGE:
 //				handleCapabilityChange(remaining);
 //				break;
-//			case AMPacketIDs.CRAFTING_ALTAR_DATA:
-//				handleCraftingAltarData(remaining);
-//				break;
+			case AMPacketIDs.CRAFTING_ALTAR_DATA:
+				handleCraftingAltarData(remaining);
+				break;
 			case AMPacketIDs.LECTERN_DATA:
 				handleLecternData(remaining);
 				break;
@@ -167,13 +168,13 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		else
 			((TileEntityLectern)te).setStack(null);
 	}
-//
-//	private void handleCraftingAltarData(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
-//		if (te == null || !(te instanceof TileEntityCraftingAltar)) return;
-//		((TileEntityCraftingAltar)te).HandleUpdatePacket(rdr.getRemainingBytes());
-//	}
+
+	private void handleCraftingAltarData(byte[] data){
+		AMDataReader rdr = new AMDataReader(data, false);
+		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(rdr.getInt(), rdr.getInt(), rdr.getInt()));
+		if (te == null || !(te instanceof TileEntityCraftingAltar)) return;
+		((TileEntityCraftingAltar)te).HandleUpdatePacket(rdr.getRemainingBytes());
+	}
 //
 //	private void handleCapabilityChange(byte[] data){
 //		AMDataReader rdr = new AMDataReader(data, false);

@@ -15,8 +15,10 @@ import am2.spell.IModifier;
 import am2.spell.IShape;
 import am2.spell.ISpellPart;
 import am2.spell.SpellModifiers;
+import am2.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * Contains all spell parts, used for both registration<BR>
@@ -156,8 +158,20 @@ public class SpellRegistry {
 
 	public static ISpellPart getPartByRecipe(ArrayList<ItemStack> currentAddedItems) {
 		for (SpellData<? extends ISpellPart> data : getCombinedMap().values()) {
-			if (data != null && data.part != null && currentAddedItems.toArray().equals(data.part.getRecipe()))
+			if (data != null && data.part != null && data.part.getRecipe() != null) {
+				ArrayList<ItemStack> convRecipe = RecipeUtils.getConvRecipe(data.part);
+				boolean match = currentAddedItems.size() == convRecipe.size();
+				if (!match) continue;
+				System.out.println("Checking part : " + data.id);
+				for (int i = 0; i < convRecipe.size(); i++) {
+					match &= OreDictionary.itemMatches(convRecipe.get(i), currentAddedItems.get(i), false);
+					System.out.println(convRecipe.get(i) + "vs" + currentAddedItems.get(i));
+					if (!match) continue;					
+				}
+				if (!match) continue;
+				System.out.println("Match found for " + data.id);
 				return data.part;
+			}
 		}
 		return null;
 	}

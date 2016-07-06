@@ -163,8 +163,14 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 1);
 		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 1);
 		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 1);
-		structurePower.put(Blocks.QUARTZ_BLOCK.getDefaultState(), 2);
-		
+		structurePower.put(Blocks.NETHER_BRICK.getDefaultState(), 3);
+		structurePower.put(Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
+		structurePower.put(Blocks.STONEBRICK.getDefaultState(), 1);
+		structurePower.put(Blocks.SANDSTONE.getDefaultState(), 1);
+		structurePower.put(Blocks.PURPUR_BLOCK.getDefaultState(), 4);
+		structurePower.put(Blocks.BRICK_BLOCK.getDefaultState(), 2);
+		structurePower.put(Blocks.RED_SANDSTONE.getDefaultState(), 2);
+
 		
 		HashMap<Integer, IBlockState> glass = new HashMap<>();
 		HashMap<Integer, IBlockState> coal = new HashMap<>();
@@ -751,19 +757,38 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	}
 
 	private void checkStructure(){
-		for (MultiblockGroup matching : primary.getMatchingGroups(worldObj, pos)) {
-			for (IBlockState state : matching.getStates()) {
-				if (state.getBlock().equals(Blocks.LEVER))
-					this.switchLocation = matching.getPositions().get(0);
-				else if (state.getBlock().equals(BlockDefs.lectern))
-					this.podiumLocation = matching.getPositions().get(0);
+		maxEffects = 0;
+		if (primary.matches(worldObj, pos)) {
+			for (MultiblockGroup matching : primary.getMatchingGroups(worldObj, pos)) {
+				for (IBlockState state : matching.getStates()) {
+					if (state.getBlock().equals(Blocks.LEVER))
+						this.switchLocation = matching.getPositions().get(0);
+					else if (state.getBlock().equals(BlockDefs.lectern))
+						this.podiumLocation = matching.getPositions().get(0);
+				}
+				if (matching == catalysts || matching == catalysts_alt) {
+					Integer toAdd = capsPower.get(worldObj.getBlockState(pos.down(4)));
+					maxEffects += toAdd != null ? toAdd : 0;
+				}else if (matching == out || matching == out_alt) {
+					Integer toAdd = structurePower.get(worldObj.getBlockState(pos.down(4).east()));
+					maxEffects += toAdd != null ? toAdd : 0;
+				}
 			}
-			if (matching == catalysts || matching == catalysts_alt) {
-				Integer toAdd = capsPower.get(worldObj.getBlockState(pos.down(4)));
-				maxEffects = toAdd != null ? toAdd : 0;
-			}else if (matching == out || matching == out_alt) {
-				Integer toAdd = structurePower.get(worldObj.getBlockState(pos.down(4).east()));
-				maxEffects += toAdd != null ? toAdd : 0;
+		} else if (secondary.matches(worldObj, pos)) {
+			for (MultiblockGroup matching : secondary.getMatchingGroups(worldObj, pos)) {
+				for (IBlockState state : matching.getStates()) {
+					if (state.getBlock().equals(Blocks.LEVER))
+						this.switchLocation = matching.getPositions().get(0);
+					else if (state.getBlock().equals(BlockDefs.lectern))
+						this.podiumLocation = matching.getPositions().get(0);
+				}
+				if (matching == catalysts || matching == catalysts_alt) {
+					Integer toAdd = capsPower.get(worldObj.getBlockState(pos.down(4)));
+					maxEffects += toAdd != null ? toAdd : 0;
+				}else if (matching == out || matching == out_alt) {
+					Integer toAdd = structurePower.get(worldObj.getBlockState(pos.down(4).east()));
+					maxEffects += toAdd != null ? toAdd : 0;
+				}
 			}
 		}
 		setStructureValid(primary.matches(worldObj, pos) || secondary.matches(worldObj, pos));
@@ -796,16 +821,15 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 					setCrafting(false);
 					EntityItem craftedItem = new EntityItem(worldObj);
 					craftedItem.setPosition(pos.getX() + 0.5, pos.getY() - 1.5, pos.getZ() + 0.5);
-
 					ItemStack craftStack = SpellUtils.createSpellStack(shapeGroups, spellDef, savedData);
 					if (!craftStack.hasTagCompound())
 						craftStack.setTagCompound(new NBTTagCompound());
 					AddSpecialMetadata(craftStack);
-
+					
 					craftStack.getTagCompound().setString("suggestedName", currentSpellName != null ? currentSpellName : "");
 					craftedItem.setEntityItemStack(craftStack);
 					worldObj.spawnEntityInWorld(craftedItem);
-
+					
 					allAddedItems.clear();
 					currentAddedItems.clear();
 				}else{
@@ -845,7 +869,11 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 			spellDef.clear();
 			shapeGroups.clear();
-
+			
+			for (int i = 0; i < 5; ++i){
+				shapeGroups.add(new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
+			}
+			
 			//find otherworld auras
 			//TODO OtherWorldAura
 //			IPowerNode<?>[] nodes = PowerNodeRegistry.For(worldObj).getAllNearbyNodes(worldObj, new Vec3d(pos), PowerTypes.DARK);
@@ -1015,8 +1043,14 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 		for (int i = 0; i < currentShapeGroups.tagCount(); ++i){
 			NBTTagCompound compound = (NBTTagCompound)currentShapeGroups.getCompoundTagAt(i);
-			shapeGroups.get(i).key.addAll(NBTToISpellPartList(compound).key);
-			shapeGroups.get(i).value.merge(NBTToISpellPartList(compound).value);
+			try {
+				shapeGroups.get(i).key.addAll(NBTToISpellPartList(compound).key);
+				shapeGroups.get(i).value.merge(NBTToISpellPartList(compound).value);
+			} catch (IndexOutOfBoundsException | NullPointerException e) {
+				shapeGroups.add(i, new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
+				shapeGroups.get(i).key.addAll(NBTToISpellPartList(compound).key);
+				shapeGroups.get(i).value.merge(NBTToISpellPartList(compound).value);
+			}
 		}
 	}
 

@@ -175,7 +175,6 @@ public class ClientProxy extends CommonProxy {
 		if (dwheel == 0) return false;
 
 		ItemStack stack = Minecraft.getMinecraft().thePlayer.getActiveItemStack();
-		System.out.println(stack);
 		if (stack == null) return false;
 
 		boolean store = checkForTKMove(stack);

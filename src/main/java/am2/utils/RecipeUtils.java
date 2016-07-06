@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.api.SpellRegistry;
+import am2.defs.ItemDefs;
+import am2.event.SpellRecipeItemsEvent;
 import am2.power.PowerTypes;
+import am2.spell.ISpellPart;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeUtils {
 //	public static ItemStack parsePotionMeta(String potionDefinition){
@@ -91,10 +99,77 @@ public class RecipeUtils {
 			try{
 				ids[i] = Integer.parseInt(split[i]);
 			}catch (NumberFormatException nex){
-				ArsMagica2.LOGGER.warn("Invalid power type ID while parsing value %s", s);
+				ArsMagica2.LOGGER.warn("Invalid power type ID while parsing value " + s);
 				ids[i] = 0;
 			}
 		}
 		return ids;
+	}
+	
+	public static ArrayList<ItemStack> getConvRecipe(ISpellPart part) {
+		ArrayList<ItemStack> list = new ArrayList<>();
+		if (part == null){
+			ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe part is null!");
+			return list;
+		}
+		
+		Object[] recipeItems = part.getRecipe();
+		SpellRecipeItemsEvent event = new SpellRecipeItemsEvent(SpellRegistry.getSkillFromPart(part).getID(), recipeItems);
+		MinecraftForge.EVENT_BUS.post(event);
+		recipeItems = event.recipeItems;
+
+		if (recipeItems == null){
+			ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe items are null for part " + SpellRegistry.getSkillFromPart(part).getName() + "!");
+			return list;
+		}
+		for (int i = 0; i < recipeItems.length; ++i){
+			Object o = recipeItems[i];
+			String materialkey = "";
+			int qty = 1;
+			ItemStack recipeStack = null;
+			if (o instanceof ItemStack){
+				materialkey = ((ItemStack)o).getDisplayName();
+				recipeStack = (ItemStack)o;
+			}else if (o instanceof Item){
+				recipeStack = new ItemStack((Item)o);
+				materialkey = ((Item)o).getItemStackDisplayName(new ItemStack((Item)o));
+			}else if (o instanceof Block){
+				recipeStack = new ItemStack((Block)o);
+				materialkey = ((Block)o).getLocalizedName();
+			}else if (o instanceof String){
+				if (((String)o).startsWith("E:")){
+					int[] ids = RecipeUtils.ParseEssenceIDs((String)o);
+					materialkey = "Essence (";
+					for (int powerID : ids){
+						PowerTypes type = PowerTypes.getByID(powerID);
+						materialkey += type.name() + "/";
+					}
+
+					if (materialkey.equals("Essence (")){
+						++i;
+						continue;
+					}
+
+					o = recipeItems[++i];
+					if (materialkey.startsWith("Essence (")){
+						materialkey = materialkey.substring(0, materialkey.lastIndexOf("/")) + ")";
+						qty = (Integer)o;
+						int flag = 0;
+						for (int f : ids){
+							flag |= f;
+						}
+
+						recipeStack = new ItemStack(ItemDefs.etherium, qty, flag);
+					}
+
+				}else{
+					List<ItemStack> ores = OreDictionary.getOres((String)o);
+					recipeStack = ores.size() > 0 ? ores.get(1) : null;
+					materialkey = (String)o;
+				}
+			}
+			list.add(recipeStack);
+		}
+		return list;
 	}
 }
