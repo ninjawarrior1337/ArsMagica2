@@ -3,6 +3,7 @@ package am2.handler;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
+import am2.api.IBoundItem;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
 import am2.defs.BindingsDefs;
@@ -28,6 +29,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -160,9 +162,17 @@ public class EntityHandler {
 		float lifeDepth = affData.getAffinityDepth(SkillDefs.LIFE);
 		float lightningDepth = affData.getAffinityDepth(SkillDefs.LIGHTNING);
 		float iceDepth = affData.getAffinityDepth(SkillDefs.ICE);
-		float manaPerSecond = ext.getMaxMana() / 100;
-		float burnoutPerSecond = Math.max(1, ext.getMaxBurnout() / 100);
-		if (!player.worldObj.isRemote && player.ticksExisted % 20 == 0) {// && ext.getCurrentMana() < ext.getMaxMana() && player.ticksExisted % 40 == 0) {
+		float manaMultiplier = 1;
+		if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_1.getID()))
+			manaMultiplier *= 1.5F;
+		if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_2.getID()))
+			manaMultiplier *= 1.5F;
+		if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_3.getID()))
+			manaMultiplier *= 1.5F;
+		float manaPerSecond = ext.getMaxMana() / 100F / 20F;
+		manaPerSecond *= manaMultiplier;
+		float burnoutPerSecond = Math.max(1, ext.getMaxBurnout() / 100F / 20F);
+		if (!player.worldObj.isRemote) {// && ext.getCurrentMana() < ext.getMaxMana() && player.ticksExisted % 40 == 0) {
 			ext.setCurrentMana(ext.getCurrentMana() + manaPerSecond);
 			if (ext.getCurrentMana() > ext.getMaxMana()) {
 				ext.setCurrentMana(ext.getMaxMana());
@@ -172,6 +182,15 @@ public class EntityHandler {
 				ext.setCurrentBurnout(0);
 			}
 			affData.tickDiminishingReturns();
+		}
+		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			ItemStack stack = player.inventory.getStackInSlot(i);
+			if (stack != null && stack.getItem() instanceof IBoundItem) {
+				if (ext.hasEnoughtMana(((IBoundItem)stack.getItem()).maintainCost(player, stack)))
+					ext.deductMana(((IBoundItem)stack.getItem()).maintainCost(player, stack));
+				else 
+					stack.getItem().onDroppedByPlayer(stack, player);
+			}
 		}
 		//ext.setCurrentLevel(25);
 		ext.lowerHealCooldown((int) (Math.max(1, lifeDepth * 10F)));

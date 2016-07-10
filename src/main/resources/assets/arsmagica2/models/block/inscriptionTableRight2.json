@@ -2,7 +2,8 @@
 	"parent":"block/block",
 	"textures": {
 		"book4":"arsmagica2:blocks/book4",
-		"book5":"arsmagica2:blocks/book5"
+		"book5":"arsmagica2:blocks/book5",
+		"cloth":"arsmagica2:blocks/table_cloth"
 	},
 	"elements": [
 	{
@@ -28,6 +29,30 @@
 			"south":{"texture":"#book5", "uv":[4, 6, 8, 8]},
 			"west":{"texture":"#book5", "uv":[8, 0, 14, 2]},
 			"east":{"texture":"#book5", "uv":[8, 2, 14, 4]}
+		}
+	},
+	{
+		"from":[0, 4, 0],
+		"to":[5, 13, 0],
+		"faces": {
+			"down":{ "texture":"#cloth", "uv":[0, 16, 0, 16]},
+			"up":{"texture":"#cloth", "uv":[0, 16, 0, 16]},
+			"north":{"texture":"#cloth", "uv":[0, 0, 5, 9]},
+			"south":{"texture":"#cloth", "uv":[5, 0, 10, 9]},
+			"west":{"texture":"#cloth", "uv":[0, 16, 0, 16]},
+			"east":{"texture":"#cloth", "uv":[0, 16, 0, 16]}
+		}
+	},
+	{
+		"from":[0, 4, 16],
+		"to":[5, 13, 16],
+		"faces": {
+			"down":{ "texture":"#cloth", "uv":[0, 16, 0, 16]},
+			"up":{"texture":"#cloth", "uv":[0, 16, 0, 16]},
+			"north":{"texture":"#cloth", "uv":[0, 0, 5, 9]},
+			"south":{"texture":"#cloth", "uv":[5, 0, 10, 9]},
+			"west":{"texture":"#cloth", "uv":[0, 16, 0, 16]},
+			"east":{"texture":"#cloth", "uv":[0, 16, 0, 16]}
 		}
 	}
 	]

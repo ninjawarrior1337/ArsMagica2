@@ -17,7 +17,7 @@ import am2.utils.NBTUtils;
 
 public interface IEntityExtension {
 	
-	public boolean hasEnoughtMana(int cost);
+	public boolean hasEnoughtMana(float f);
 		
 	public void setContingency (ContingencyType type, ItemStack stack);
 	

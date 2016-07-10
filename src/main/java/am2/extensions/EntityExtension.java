@@ -62,7 +62,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
 		
-	public boolean hasEnoughtMana(int cost) {
+	public boolean hasEnoughtMana(float cost) {
 		if (getCurrentMana() < cost)
 			return false;
 		return true;

@@ -38,7 +38,7 @@ public class FrostDamage implements IComponent{
 		if (!(target instanceof EntityLivingBase)) return false;
 		float baseDamage = 10;
 		double damage = SpellUtils.getModifiedDouble_Add(baseDamage, stack, caster, target, world, SpellModifiers.DAMAGE);
-		((EntityLivingBase)target).addPotionEffect(new BuffEffectFrostSlowed(10, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+		((EntityLivingBase)target).addPotionEffect(new BuffEffectFrostSlowed(200, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
 		return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeFrostDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
 	}
 

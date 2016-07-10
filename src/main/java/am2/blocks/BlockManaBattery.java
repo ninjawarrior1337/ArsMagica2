@@ -210,6 +210,11 @@ public class BlockManaBattery extends BlockAMPowered{
 	}
 	
 	@Override
+	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return true;
+	}
+	
+	@Override
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}

@@ -107,7 +107,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 			if (!ent.isPotionActive(PotionEffectsDefs.astralDistortion))
 				ent.addPotionEffect(new BuffEffectAstralDistortion(600, 0));
 			
-			if (ent.isDead){
+			if (ent.isDead || new AMVector3(pos).distanceTo(new AMVector3(ent)) > 10){
 				it.remove();
 				continue;
 			}

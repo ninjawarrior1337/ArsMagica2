@@ -1,42 +1,53 @@
 package am2.spell.shape;
 
 import am2.defs.ItemDefs;
+import am2.items.ItemBindingCatalyst;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.spell.IShape;
 import am2.spell.SpellCastResult;
+import am2.utils.InventoryUtilities;
+import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Binding implements IShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-//		if (!(caster instanceof EntityPlayer)){
-//			return SpellCastResult.EFFECT_FAILED;
-//		}
-//
-//		EntityPlayer player = (EntityPlayer)caster;
-//		ItemStack heldStack = player.getCurrentEquippedItem();
-//		if (heldStack == null || heldStack.getItem() != ItemDefs.spell || !(SpellUtils.instance.getShapeForStage(stack, 0) instanceof Binding)){
-//			return SpellCastResult.EFFECT_FAILED;
-//		}
-//
-//		int bindingType = getBindingType(heldStack);
-//		switch (bindingType){
+		if (!(caster instanceof EntityPlayer)){
+			return SpellCastResult.EFFECT_FAILED;
+		}
+		
+		System.out.println("Binding V1");
+		
+		EntityPlayer player = (EntityPlayer)caster;
+		ItemStack heldStack = player.getActiveItemStack();
+		if (heldStack == null || heldStack.getItem() != ItemDefs.spell){
+			return SpellCastResult.EFFECT_FAILED;
+		}
+		
+		System.out.println("Binding V2");
+
+		int bindingType = getBindingType(SpellUtils.merge(heldStack.copy()));
+		
+		System.out.println("Binding V3 - " + heldStack.getTagCompound());
+		switch (bindingType){
 //		case ItemBindingCatalyst.META_AXE:
 //			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundAxe);
 //			break;
 //		case ItemBindingCatalyst.META_PICK:
 //			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundPickaxe);
 //			break;
-//		case ItemBindingCatalyst.META_SWORD:
-//			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundSword);
-//			break;
+		case ItemBindingCatalyst.META_SWORD:
+			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundSword);
+			break;
 //		case ItemBindingCatalyst.META_SHOVEL:
 //			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundShovel);
 //			break;
@@ -46,8 +57,8 @@ public class Binding implements IShape{
 //		case ItemBindingCatalyst.META_BOW:
 //			heldStack = InventoryUtilities.replaceItem(heldStack, Items.bow);
 //			break;
-//		}
-//		player.inventory.setInventorySlotContents(player.inventory.currentItem, heldStack);
+		}
+		player.inventory.setInventorySlotContents(player.inventory.currentItem, heldStack);
 		return SpellCastResult.SUCCESS;
 	}
 
@@ -65,7 +76,7 @@ public class Binding implements IShape{
 				Items.IRON_HOE,
 				Items.GOLDEN_AXE,
 				Items.DIAMOND_PICKAXE,
-				//TODO new ItemStack(ItemDefs.bindingCatalyst, 1, Short.MAX_VALUE)
+				new ItemStack(ItemDefs.bindingCatalyst, 1, OreDictionary.WILDCARD_VALUE)
 		};
 	}
 
@@ -93,23 +104,24 @@ public class Binding implements IShape{
 //		SpellUtils.instance.setSpellMetadata(craftStack, "binding_type", "" + addedBindingCatalyst.getItemDamage());
 //	}
 
-//	public int getBindingType(ItemStack spellStack){
-//		int type = 0;
-//		try{
-//			type = Integer.parseInt(SpellUtils.instance.getSpellMetadata(spellStack, "binding_type"));
-//		}catch (Throwable t){
-//
-//		}
-//		return type;
-//	}
+	public int getBindingType(ItemStack spellStack){
+		int type = 0;
+		try{
+			type = Integer.parseInt(SpellUtils.getSpellMetadata(spellStack, "binding_type"));
+		}catch (Throwable t){
+
+		}
+		return type;
+	}
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
-//		for (Object obj : recipe) {
-//			if (obj instanceof ItemStack) {
-//				ItemStack is = (ItemStack)obj;
-//				if (is.getItem().equals(ItemDefs.bindingCatalyst));
-//			}
-//		}
+		for (Object obj : recipe) {
+			if (obj instanceof ItemStack) {
+				ItemStack is = (ItemStack)obj;
+				if (is.getItem().equals(ItemDefs.bindingCatalyst))
+					tag.setString("binding_type", "" + is.getItemDamage());
+			}
+		}
 	}
 }

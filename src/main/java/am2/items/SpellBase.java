@@ -102,6 +102,7 @@ public class SpellBase extends ItemSpellBase{
 	public void onPlayerStoppedUsing(ItemStack stack, World world,
 			EntityLivingBase player, int timeLeft) {
 		IShape shape = SpellUtils.getShapeForStage(stack, 0);
+		if (!stack.hasTagCompound()) return;
 		if (shape != null){
 			if (!shape.isChanneled())
 				SpellUtils.applyStackStage(stack, player, null, player.posX, player.posY, player.posZ, EnumFacing.UP, world, true, true, 0);

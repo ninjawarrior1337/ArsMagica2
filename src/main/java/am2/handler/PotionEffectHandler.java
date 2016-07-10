@@ -10,6 +10,7 @@ import am2.defs.PotionEffectsDefs;
 import am2.event.EventPotionAdded;
 import am2.event.SpellCastEvent;
 import am2.extensions.EntityExtension;
+import am2.utils.SelectionUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.item.ItemStack;
@@ -52,11 +53,13 @@ public class PotionEffectHandler {
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.gravityWell)&& e.getEntityLiving().motionY < 0) {
 			e.getEntityLiving().motionY *= 2;
 		}
+		
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.agility)) {
 			e.getEntityLiving().stepHeight = 1.01f;
 		}else if (e.getEntityLiving().stepHeight == 1.01f) {
 			e.getEntityLiving().stepHeight = 0.5f;
 		}
+		
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.manaRegen) && e.getEntityLiving().ticksExisted % 20 == 0) {
 			int add = (ext.getCurrentLevel() + 1) * 22;
 			ext.setCurrentMana(ext.getCurrentMana() + add);
@@ -103,25 +106,16 @@ public class PotionEffectHandler {
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.trueSight)) {
 			GL11.glPushMatrix();
 			GL11.glRotated(e.getEntityPlayer().rotationYawHead, 0, -1, 0);
-			int runeCombo = (e.getEntityPlayer().getName()).hashCode() & 0xFFFF;
-			int numRunes = 0;
-			for (int i = 0; i <= 16; ++i){
-				int bit = 1 << i;
-				if ((runeCombo & bit) == bit){
-					numRunes++;
-				}
-			}
+			int[] runes = SelectionUtils.getRuneSet(e.getEntityPlayer());
+			int numRunes = runes.length;
 			double start = ((double)numRunes - 1) / 8D;
 			GL11.glTranslated(start, 2.2, 0);
-			for (int i = 0; i <= 16; ++i){
-				int bit = 1 << i;
-				if ((runeCombo & bit) == bit){
-					GL11.glPushMatrix();
-					GL11.glScaled(0.25, 0.25, 0.25);
-					Minecraft.getMinecraft().getItemRenderer().renderItem(e.getEntityPlayer(), new ItemStack(ItemDefs.rune, 1, i), TransformType.GUI);
-					GL11.glPopMatrix();
-					GL11.glTranslated(-0.25, 0, 0);
-				}
+			for (int rune : runes) {
+				GL11.glPushMatrix();
+				GL11.glScaled(0.25, 0.25, 0.25);
+				Minecraft.getMinecraft().getItemRenderer().renderItem(e.getEntityPlayer(), new ItemStack(ItemDefs.rune, 1, rune), TransformType.GUI);
+				GL11.glPopMatrix();
+				GL11.glTranslated(-0.25, 0, 0);			
 			}
 			GL11.glPopMatrix();
 		}

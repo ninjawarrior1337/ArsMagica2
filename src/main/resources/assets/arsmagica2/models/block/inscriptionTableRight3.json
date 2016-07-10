@@ -1,7 +1,8 @@
 {
 	"parent":"block/block",
 	"textures": {
-		"book6":"arsmagica2:blocks/book6"
+		"book6":"arsmagica2:blocks/book6",
+		"candle":"arsmagica2:blocks/inscription_candle"
 	},
 	"elements": [
 	{
@@ -15,6 +16,18 @@
 			"south":{"texture":"#book6", "uv":[4, 6, 8, 8]},
 			"west":{"texture":"#book6", "uv":[8, 0, 14, 2]},
 			"east":{"texture":"#book6", "uv":[8, 2, 14, 4]}
+		}
+	},
+	{
+		"from":[11, 16, 6],
+		"to":[12, 19, 7],
+		"faces": {
+			"down":{ "texture":"#candle", "uv":[0, 0, 1, 1]},
+			"up":{"texture":"#candle", "uv":[0, 0, 1, 1]},
+			"north":{"texture":"#candle", "uv":[0, 1, 1, 4]},
+			"south":{"texture":"#candle", "uv":[0, 1, 1, 4]},
+			"west":{"texture":"#candle", "uv":[0, 1, 1, 4]},
+			"east":{"texture":"#candle", "uv":[0, 1, 1, 4]}
 		}
 	}
 	]

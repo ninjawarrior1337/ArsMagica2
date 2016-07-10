@@ -1,6 +1,9 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.*;
+import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
+import static am2.defs.IDDefs.GUI_OBELISK;
+import static am2.defs.IDDefs.GUI_OCCULUS;
+import static am2.defs.IDDefs.GUI_RIFT;
 
 import java.util.ArrayList;
 import java.util.HashMap;

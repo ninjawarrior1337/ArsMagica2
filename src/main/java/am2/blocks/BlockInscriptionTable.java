@@ -122,8 +122,13 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		if (insc == null) return;
 		BlockPos placePos = pos.offset(state.getValue(FACING), state.getValue(LEFT) ? -1 : 1);
 
-		if (world.getBlockState(placePos).getBlock() == this)
+		if (world.getBlockState(placePos).getBlock() == this && state.getValue(LEFT)) {
+			breakBlock(world, placePos, state);
 			world.setBlockToAir(placePos);
+		} else if (world.getBlockState(placePos).getBlock() == this) {
+			super.breakBlock(world, placePos, state);
+			world.setBlockToAir(placePos);			
+		}
 
 		if (!world.isRemote && !state.getValue(LEFT)){
 			for (int l = 0; l < insc.getSizeInventory(); l++){

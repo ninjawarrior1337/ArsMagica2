@@ -17,6 +17,7 @@ import am2.api.SpellRegistry;
 import am2.api.SpellRegistry.SpellData;
 import am2.blocks.BlockInscriptionTable;
 import am2.container.ContainerInscriptionTable;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.event.SpellRecipeItemsEvent;
 import am2.items.ItemSpellComponent;
@@ -179,6 +180,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	@Override
 	public void update(){
+		if (worldObj.getBlockState(pos).getBlock() != BlockDefs.inscriptionTable)
+			return;
 		if (worldObj.isRemote && getUpgradeState() >= 3)
 			candleUpdate();
 		if (this.numStageGroups > MAX_STAGE_GROUPS)
@@ -197,8 +200,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		if (isRenderingLeft()){
 			if (ticksToNextParticle == 0 || ticksToNextParticle == 15){
 
-				int meta = getBlockMetadata() & ~0x8;
-
 				double particleX = 0;
 				double particleZ = 0;
 
@@ -212,8 +213,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 					particleZ = this.getPos().getZ() + 0.85;
 					break;
 				case WEST:
-					particleX = this.getPos().getX() + 0.83;
-					particleZ = this.getPos().getZ() + 0.78;
+					particleX = this.getPos().getX() + 0.78;
+					particleZ = this.getPos().getZ() + 0.85;
 					break;
 				case EAST:
 					particleX = this.getPos().getX() + 0.79;
@@ -242,7 +243,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			}
 			if (ticksToNextParticle == 10 || ticksToNextParticle == 25){
 
-				int meta = getBlockMetadata() & ~0x8;
 
 				double particleX = 0;
 				double particleZ = 0;
@@ -262,7 +262,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 					break;
 				case WEST:
 					particleX = this.getPos().getX() + 1.72;
-					particleZ = this.getPos().getZ() + 0.60;
+					particleZ = this.getPos().getZ() + 0.41;
 					break;
 				}
 

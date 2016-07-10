@@ -18,6 +18,7 @@ public class ItemBindingCatalyst extends ItemArsMagica2{
 	public static final int META_SHOVEL = 3;
 	public static final int META_HOE = 4;
 	public static final int META_BOW = 5;
+	public static final String[] NAMES = {"pick", "axe", "sword", "shovel", "hoe", "bow", "shield"};
 
 	public ItemBindingCatalyst(){
 		super();

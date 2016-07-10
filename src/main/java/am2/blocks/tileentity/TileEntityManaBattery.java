@@ -54,7 +54,6 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 			float amt = PowerNodeRegistry.For(worldObj).getPower(this, highest);
 			if (amt > 0){
 				this.outputPowerType = highest;
-				worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 			}
 		}
 
@@ -64,6 +63,7 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 			tickCounter = 0;
 		}
 
+		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 		super.update();
 	}
 

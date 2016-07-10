@@ -18,5 +18,4 @@ public class ItemArsMagica2 extends Item{
 		ArsMagica2.proxy.items.add(this);
 		return this;
 	}
-	
 }

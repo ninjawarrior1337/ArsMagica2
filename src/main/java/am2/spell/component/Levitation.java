@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.buffs.BuffEffectLevitation;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
@@ -85,7 +86,7 @@ public class Levitation implements IComponent, IRitualInteraction{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage()),
-				//TODO BlocksCommonProxy.tarmaRoot
+				BlockDefs.tarmaRoot
 		};
 	}
 

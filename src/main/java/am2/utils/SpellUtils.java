@@ -285,11 +285,10 @@ public class SpellUtils {
 		return stack;
 	}
 	
-	private static ItemStack merge(ItemStack spellIn) {
+	public static ItemStack merge(ItemStack spellIn) {
 		if (spellIn.getTagCompound() == null)
 			return spellIn;
 		if (NBTUtils.getAM2Tag(spellIn.getTagCompound()).getInteger("CurrentShapeGroup") == -1) {
-			//System.out.println(spellIn.getTagCompound());
 			return spellIn;
 		}
 		ItemStack newStack = spellIn.copy();
@@ -309,6 +308,7 @@ public class SpellUtils {
 		}
 		group.setInteger("StageNum", group.getInteger("StageNum") + stageNum);
 		group.setInteger("CurrentShapeGroup", -1);
+		group.getCompoundTag(SPELL_DATA).merge(NBTUtils.getAM2Tag(newStack.getTagCompound()).getCompoundTag(SPELL_DATA));
 		newStack.setTagCompound(NBTUtils.addTag(new NBTTagCompound(), group, "AM2"));
 		return newStack;
 	}
@@ -327,7 +327,6 @@ public class SpellUtils {
 		for (SpellData<? extends ISpellPart> info : components) {
 			if (info == null)
 				continue;
-			//System.out.println(info.id);
 			spellStageMap.put(stage, info.part);
 			NBTTagList stageTag = NBTUtils.addCompoundList(am2, STAGE + stage);
 			NBTTagCompound tmp = new NBTTagCompound();
@@ -782,6 +781,10 @@ public class SpellUtils {
 
 	public static ItemStack createSpellStack( ArrayList<KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>> shapeGroupSetup, KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> curRecipeSetup) {
 		return createSpellStack(shapeGroupSetup, curRecipeSetup.key, curRecipeSetup.value);
+	}
+
+	public static IShape getShapeForStage(ItemStack stack) {
+		return getShapeForStage(stack, currentStage(stack));
 	}
 
 }
