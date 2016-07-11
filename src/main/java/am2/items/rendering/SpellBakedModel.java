@@ -64,7 +64,7 @@ public class SpellBakedModel implements IPerspectiveAwareModel{
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		return new HandBakedModel.Overrides(parent.getOverrides().getOverrides(), spellRenderer);
+		return new SpellParticleRender(parent.getOverrides().getOverrides(), spellRenderer);
 	}
 
 	@Override

@@ -62,151 +62,186 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
 		
+	@Override
 	public boolean hasEnoughtMana(float cost) {
 		if (getCurrentMana() < cost)
 			return false;
 		return true;
 	}
 	
+	@Override
 	public void setContingency (ContingencyType type, ItemStack stack) {
 		entity.getDataManager().set(CONTENGENCY_TYPE, type.name().toLowerCase());
 		entity.getDataManager().set(CONTENGENCY_STACK, Optional.fromNullable(stack));
 	}
 	
+	@Override
 	public ContingencyType getContingencyType() {
 		return ContingencyType.fromName(entity.getDataManager().get(CONTENGENCY_TYPE));
 	}
 	
+	@Override
 	public ItemStack getContingencyStack() {
 		return entity.getDataManager().get(CONTENGENCY_STACK).get();
 	}
 	
+	@Override
 	public double getMarkX() {
 		return (double) entity.getDataManager().get(MARK_X);
 	}
 	
+	@Override
 	public double getMarkY() {
 		return (double) entity.getDataManager().get(MARK_Y);
 	}
 	
+	@Override
 	public double getMarkZ() {
 		return (double) entity.getDataManager().get(MARK_Z);
 	}
 	
+	@Override
 	public int getMarkDimensionID() {
 		return entity.getDataManager().get(MARK_DIMENSION);
 	}
 	
+	@Override
 	public float getCurrentMana() {
 		return entity.getDataManager().get(CURRENT_MANA);
 	}
 	
+	@Override
 	public int getCurrentLevel() {
 		return entity.getDataManager().get(CURRENT_LEVEL);
 	}
 	
+	@Override
 	public float getCurrentBurnout() {
 		return entity.getDataManager().get(CURRENT_MANA_FATIGUE);
 	}
 	
+	@Override
 	public int getCurrentSummons() {
 		return entity.getDataManager().get(CURRENT_SUMMONS);
 	}
 	
+	@Override
 	public float getCurrentXP() {
 		return entity.getDataManager().get(CURRENT_XP);
 	}
 	
+	@Override
 	public int getHealCooldown() {
 		return entity.getDataManager().get(HEAL_COOLDOWN);
 	}
 	
+	@Override
 	public void lowerHealCooldown(int amount) {
 		setHealCooldown(getHealCooldown() - amount);
 		if (getHealCooldown() < 0)
 			setHealCooldown(0);
 	}
 	
+	@Override
 	public void placeHealOnCooldown() {
 		entity.getDataManager().set(HEAL_COOLDOWN, 40);
 	}
 	
+	@Override
 	public void lowerAffinityHealCooldown (int amount) {
 		setAffinityHealCooldown(getAffinityHealCooldown() - amount);
 		if (getAffinityHealCooldown() < 0)
 			setAffinityHealCooldown(0);
 	}
 	
+	@Override
 	public int getAffinityHealCooldown() {
 		return entity.getDataManager().get(AFFINITY_HEAL_COOLDOWN);
 	}
 	
+	@Override
 	public void placeAffinityHealOnCooldown(boolean full) {
 		entity.getDataManager().set(AFFINITY_HEAL_COOLDOWN, 40);
 	}
 	
-	public boolean useMana (int toUse) {
+	@Override
+	public boolean useMana (float toUse) {
 		boolean canUse = toUse <= getCurrentMana();
 		if (canUse) setCurrentMana(getCurrentMana() - toUse);
 		return canUse;
 	}
 	
+	@Override
 	public float getMaxMana() {
 		return (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99f)) + 100f) * 1.25F;
 	}
 	
+	@Override
 	public float getMaxXP () {
 		return (float)Math.pow(getCurrentLevel() * 0.25f, 1.5f);
 	}
 	
+	@Override
 	public float getMaxBurnout () {
 		return getCurrentLevel() * 10 + 1;
 	}
 	
+	@Override
 	public void setAffinityHealCooldown(int affinityHealCooldown) {
 		entity.getDataManager().set(AFFINITY_HEAL_COOLDOWN, affinityHealCooldown);
 	}
 	
+	@Override
 	public void setCurrentBurnout(float currentBurnout) {
 		entity.getDataManager().set(CURRENT_MANA_FATIGUE, currentBurnout);
 	}
 	
+	@Override
 	public void setCurrentLevel(int currentLevel) {
 		entity.getDataManager().set(CURRENT_LEVEL, currentLevel);
 	}
 	
+	@Override
 	public void setCurrentMana(float currentMana) {
 		entity.getDataManager().set(CURRENT_MANA, currentMana);
 	}
 	
+	@Override
 	public void setCurrentSummons(int currentSummons) {
 		entity.getDataManager().set(CURRENT_SUMMONS, currentSummons);
 	}
 	
+	@Override
 	public void setCurrentXP(float currentXP) {
 		entity.getDataManager().set(CURRENT_XP, currentXP);
 	}
 	
+	@Override
 	public void setHealCooldown(int healCooldown) {
 		entity.getDataManager().set(HEAL_COOLDOWN, healCooldown);
 	}
 	
+	@Override
 	public void setMarkX(double markX) {
 		entity.getDataManager().set(MARK_X, (float)markX);
 	}
 	
+	@Override
 	public void setMarkY(double markY) {
 		entity.getDataManager().set(MARK_Y, (float)markY);
 	}
 	
+	@Override
 	public void setMarkZ(double markZ) {
 		entity.getDataManager().set(MARK_Z, (float)markZ);
 	}
 	
+	@Override
 	public void setMarkDimensionID(int markDimensionID) {
 		entity.getDataManager().set(MARK_DIMENSION, markDimensionID);
 	}
 	
+	@Override
 	public void setMark (double x, double y, double z, int dim) {
 		setMarkX(x);
 		setMarkY(y);

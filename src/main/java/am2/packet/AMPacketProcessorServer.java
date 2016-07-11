@@ -4,14 +4,18 @@ import am2.ArsMagica2;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
+import am2.container.ContainerSpellCustomization;
 import am2.extensions.EntityExtension;
 import am2.power.PowerNodeRegistry;
 import io.netty.buffer.ByteBufInputStream;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -49,9 +53,9 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.REQUEST_BETA_PARTICLES:
 //				handleRequestBetaParticles(remaining, (EntityPlayerMP)player);
 //				break;
-//			case AMPacketIDs.SPELL_CUSTOMIZE:
-//				handleSpellCustomize(remaining, (EntityPlayerMP)player);
-//				break;
+			case AMPacketIDs.SPELL_CUSTOMIZE:
+				handleSpellCustomize(remaining, (EntityPlayerMP)player);
+				break;
 //			case AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT:
 //				handleSpellBookChangeActiveSlot(remaining, (EntityPlayerMP)player);
 //				break;
@@ -233,23 +237,21 @@ public class AMPacketProcessorServer{
 //			return;
 //	}
 //
-//	private void handleSpellCustomize(byte[] data, EntityPlayerMP player){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		int entityID = rdr.getInt();
-//
-//		EntityLivingBase ent = getEntityByID(entityID);
-//
-//		if (player == null){
-//			return;
-//		}
-//
-//		int IIconIndex = rdr.getInt();
-//		String name = rdr.getString();
-//
-//		if (player.openContainer instanceof ContainerSpellCustomization){
-//			((ContainerSpellCustomization)player.openContainer).setNameAndIndex(name, IIconIndex);
-//		}
-//	}
+	private void handleSpellCustomize(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data, false);
+		rdr.getInt();
+
+		if (player == null){
+			return;
+		}
+
+		int IIconIndex = rdr.getInt();
+		String name = rdr.getString();
+
+		if (player.openContainer instanceof ContainerSpellCustomization){
+			((ContainerSpellCustomization)player.openContainer).setNameAndIndex(name, IIconIndex);
+		}
+	}
 //
 //	private void handleRequestBetaParticles(byte[] data, EntityPlayerMP player){
 //		AMDataReader rdr = new AMDataReader(data, false);
@@ -348,7 +350,11 @@ public class AMPacketProcessorServer{
 //		return FMLServerHandler.instance().getServer().worldServers;
 //	}
 //
-//	public EntityLivingBase getEntityByID(int entityID){
-//		return AMCore.proxy.getEntityByID(entityID);
-//	}
+	public EntityLivingBase getEntityByID(int entityID){
+		for (EntityLivingBase ent : FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().<EntityLivingBase>getEntities(EntityLivingBase.class, EntitySelectors.NOT_SPECTATING)) {
+			if (ent.getEntityId() == entityID)
+				return ent;
+		}
+		return null;
+	}
 }

@@ -5,11 +5,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemWrittenBook;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -58,7 +63,10 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 					te.setStack(null);
 				}
 			}else{
-				te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
+				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == Minecraft.getMinecraft().thePlayer)
+					Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, te.getStack(), false));
+				else
+					te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
 				return true;
 			}
 		}else{

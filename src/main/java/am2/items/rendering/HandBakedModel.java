@@ -71,7 +71,7 @@ public class HandBakedModel implements IPerspectiveAwareModel {
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		return new Overrides(parent.getOverrides().getOverrides(), this);
+		return new SpellParticleRender(parent.getOverrides().getOverrides(), this);
 	}
 	
 	@Override

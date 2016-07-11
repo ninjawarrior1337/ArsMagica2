@@ -8,6 +8,6 @@
 	"variants": {
 		"normal": [{}],
 		"inventory": [{"submodel":"arsmagica2:obelisk.obj"}],
-		"facing": [{"south":{}, "east":{}, "north":{}, "west":{}}]
+		"facing": {"south":{}, "east":{}, "north":{}, "west":{}}
 	}
 }

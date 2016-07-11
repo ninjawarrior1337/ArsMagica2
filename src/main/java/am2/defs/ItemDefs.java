@@ -11,6 +11,13 @@ import am2.items.ItemAffinityTome;
 import am2.items.ItemArcaneCompendium;
 import am2.items.ItemArsMagica2;
 import am2.items.ItemBindingCatalyst;
+import am2.items.ItemBoundArrow;
+import am2.items.ItemBoundAxe;
+import am2.items.ItemBoundBow;
+import am2.items.ItemBoundHoe;
+import am2.items.ItemBoundPickaxe;
+import am2.items.ItemBoundShield;
+import am2.items.ItemBoundShovel;
 import am2.items.ItemBoundSword;
 import am2.items.ItemChalk;
 import am2.items.ItemCrystalWrench;
@@ -19,6 +26,7 @@ import am2.items.ItemOre;
 import am2.items.ItemRune;
 import am2.items.ItemSpellComponent;
 import am2.items.SpellBase;
+import am2.items.rendering.IgnoreMetadataRenderer;
 import am2.items.rendering.SpellRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -26,8 +34,15 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSword;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemShield;
+import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -70,6 +85,14 @@ public class ItemDefs {
 	public static final ItemArsMagica2 bindingCatalyst = new ItemBindingCatalyst().registerAndName("binding_catalyst");
 	public static final ItemArsMagica2 inscriptionUpgrade = new InscriptionTableUpgrade().registerAndName("inscription_upgrade");
 	public static final ItemSword BoundSword = new ItemBoundSword().registerAndName("bound_sword");
+	public static final ItemAxe BoundAxe = new ItemBoundAxe().registerAndName("bound_axe");
+	public static final ItemPickaxe BoundPickaxe = new ItemBoundPickaxe().registerAndName("bound_pickaxe");
+	public static final ItemSpade BoundShovel = new ItemBoundShovel().registerAndName("bound_shovel");
+	public static final ItemHoe BoundHoe = new ItemBoundHoe().registerAndName("bound_hoe");
+	public static final ItemBow BoundBow = new ItemBoundBow().registerAndName("bound_bow");
+	public static final ItemShield BoundShield = new ItemBoundShield().registerAndName("bound_shield");
+
+	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	
@@ -93,6 +116,12 @@ public class ItemDefs {
 		registerTexture(etherium);
 		registerTexture(chalk);
 		registerTexture(BoundSword);
+		registerTexture(BoundAxe);
+		registerTexture(BoundPickaxe);
+		registerTexture(BoundShovel);
+		registerTexture(BoundHoe);
+		registerTexture(BoundBow);
+		registerTexture(BoundShield);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		renderItem.getItemModelMesher().register(GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2", "spell_parchment")), 0, new ModelResourceLocation("arsmagica2:spell_parchment", "inventory"));
@@ -127,7 +156,7 @@ public class ItemDefs {
 			renderItem.getItemModelMesher().register(bindingCatalyst, i, loc);
 		}
 		for (int i = 0; i < 3; i++) {
-			ModelResourceLocation loc = new ModelResourceLocation(inscriptionUpgrade.getRegistryName() + "_" + i, "inventory");
+			ModelResourceLocation loc = new ModelResourceLocation(inscriptionUpgrade.getRegistryName() + "_" + (i + 1), "inventory");
 			ModelBakery.registerItemVariants(inscriptionUpgrade, loc);
 			renderItem.getItemModelMesher().register(inscriptionUpgrade, i, loc);
 		}
@@ -136,6 +165,6 @@ public class ItemDefs {
 	}
 	
 	private static void registerTexture(Item item) {
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new IgnoreMetadataRenderer( new ModelResourceLocation(item.getRegistryName(), "inventory")));
 	}
 }

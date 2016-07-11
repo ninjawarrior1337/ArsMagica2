@@ -70,10 +70,10 @@ public class GuiSpellImageButton extends GuiButtonVariableDims{
 	public void drawTexturedModelRectFromIcon(int posX, int posY, TextureAtlasSprite sprite, int width, int height) {
 		Tessellator t = Tessellator.getInstance();
 		t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-		t.getBuffer().pos(posX + 0, posY + height, this.zLevel).tex(sprite.getMinU(), sprite.getMaxV());
-		t.getBuffer().pos(posX + width, posY + height, this.zLevel).tex(sprite.getMaxU(), sprite.getMaxV());
-		t.getBuffer().pos(posX + width, posY + 0, this.zLevel).tex(sprite.getMaxU(), sprite.getMinV());
-		t.getBuffer().pos(posX + 0, posY + 0, this.zLevel).tex(sprite.getMinU(), sprite.getMinV());
+		t.getBuffer().pos(posX + 0, posY + height, this.zLevel).tex(sprite.getMinU(), sprite.getMaxV()).endVertex();
+		t.getBuffer().pos(posX + width, posY + height, this.zLevel).tex(sprite.getMaxU(), sprite.getMaxV()).endVertex();
+		t.getBuffer().pos(posX + width, posY + 0, this.zLevel).tex(sprite.getMaxU(), sprite.getMinV()).endVertex();
+		t.getBuffer().pos(posX + 0, posY + 0, this.zLevel).tex(sprite.getMinU(), sprite.getMinV()).endVertex();
 		t.draw();
 	}
 }

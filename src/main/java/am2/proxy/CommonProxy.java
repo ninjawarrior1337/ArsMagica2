@@ -1,9 +1,6 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
-import static am2.defs.IDDefs.GUI_OBELISK;
-import static am2.defs.IDDefs.GUI_OCCULUS;
-import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +31,7 @@ import am2.blocks.tileentity.TileEntityOcculus;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerObelisk;
 import am2.container.ContainerRiftStorage;
+import am2.container.ContainerSpellCustomization;
 import am2.defs.BlockDefs;
 import am2.defs.CreativeTabsDefs;
 import am2.defs.ItemDefs;
@@ -42,6 +40,7 @@ import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.defs.SpellDefs;
 import am2.enchantments.AMEnchantments;
+import am2.entity.EntityBoundArrow;
 import am2.entity.EntityRiftStorage;
 import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
@@ -93,7 +92,8 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_OCCULUS: return null;
 		case GUI_RIFT: return new ContainerRiftStorage(player, RiftStorage.For(player));
 		case GUI_OBELISK: return new ContainerObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
-		case GUI_INSCRIPTION_TABLE: return new ContainerInscriptionTable((TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)), player.inventory);		
+		case GUI_INSCRIPTION_TABLE: return new ContainerInscriptionTable((TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
+		case GUI_SPELL_CUSTOMIZATION: return new ContainerSpellCustomization(player);
 		}
 		return null;
 	}
@@ -123,6 +123,7 @@ public class CommonProxy implements IGuiHandler{
 		EntityRegistry.registerModEntity(EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityThrownRock.class, "ThrownRock", 3, ArsMagica2.instance, 80, 1, false);
+		EntityRegistry.registerModEntity(EntityBoundArrow.class, "BoundArrow", 4, ArsMagica2.instance, 80, 1, false);
 		
 		GameRegistry.registerTileEntity(TileEntityOcculus.class, "TileEntityOcculus");
 		GameRegistry.registerTileEntity(TileEntityCraftingAltar.class, "TileEntityCraftingAltar");

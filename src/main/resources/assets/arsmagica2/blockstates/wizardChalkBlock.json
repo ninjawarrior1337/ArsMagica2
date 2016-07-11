@@ -22,6 +22,7 @@
 			13:{"textures":{"all":"arsmagica2:blocks/wizardchalk/WizardChalk14"}},
 			14:{"textures":{"all":"arsmagica2:blocks/wizardchalk/WizardChalk15"}},
 			15:{"textures":{"all":"arsmagica2:blocks/wizardchalk/WizardChalk16"}}
-		}
+		},
+		"inventory": [{"textures":{"all":"arsmagica2:blocks/wizardchalk/WizardChalk1"}}]
 	}
 }

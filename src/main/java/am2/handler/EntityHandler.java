@@ -9,6 +9,7 @@ import am2.api.extensions.IEntityExtension;
 import am2.defs.BindingsDefs;
 import am2.defs.BlockDefs;
 import am2.defs.IDDefs;
+import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
@@ -18,6 +19,7 @@ import am2.extensions.SkillData;
 import am2.lore.ArcaneCompendium;
 import am2.packet.MessageBoolean;
 import am2.spell.ContingencyType;
+import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import am2.utils.WorldUtils;
 import net.minecraft.block.Block;
@@ -42,6 +44,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -183,13 +186,15 @@ public class EntityHandler {
 			}
 			affData.tickDiminishingReturns();
 		}
-		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-			ItemStack stack = player.inventory.getStackInSlot(i);
-			if (stack != null && stack.getItem() instanceof IBoundItem) {
-				if (ext.hasEnoughtMana(((IBoundItem)stack.getItem()).maintainCost(player, stack)))
-					ext.deductMana(((IBoundItem)stack.getItem()).maintainCost(player, stack));
-				else 
-					stack.getItem().onDroppedByPlayer(stack, player);
+		if (!player.capabilities.isCreativeMode) {
+			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+				ItemStack stack = player.inventory.getStackInSlot(i);
+				if (stack != null && stack.getItem() instanceof IBoundItem) {
+					if (ext.hasEnoughtMana(((IBoundItem)stack.getItem()).maintainCost(player, stack)))
+						ext.deductMana(((IBoundItem)stack.getItem()).maintainCost(player, stack));
+					else 
+						stack.getItem().onDroppedByPlayer(stack, player);
+				}
 			}
 		}
 		//ext.setCurrentLevel(25);
@@ -320,6 +325,31 @@ public class EntityHandler {
 	public void teleportEvent(EnderTeleportEvent e) {
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.astralDistortion) || e.getEntity().isDead) {
 			e.setCanceled(true);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@SubscribeEvent
+	public void attackEntity(LivingAttackEvent e) {
+		if (e.getEntityLiving() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) e.getEntityLiving();
+			ItemStack stack = player.getActiveItemStack();
+			if (e.getAmount() > 0.0F && stack != null && EntityUtils.canBlockDamageSource(player, e.getSource()) && stack.getItem() == ItemDefs.BoundShield) {
+				if (!EntityExtension.For(player).useMana(e.getAmount() * 10)) {
+					stack.getItem().onDroppedByPlayer(stack, player);
+				} else if (EntityExtension.For(player).hasEnoughtMana(SpellUtils.getManaCost(stack))) {
+					EntityLivingBase target = e.getSource().getSourceOfDamage() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getSourceOfDamage() : null;
+					double posX = target != null ? target.posX : player.posX;
+					double posY = target != null ? target.posY : player.posY;
+					double posZ = target != null ? target.posZ : player.posZ;
+					ItemStack copiedStack = SpellUtils.merge(stack.copy());
+					copiedStack.getTagCompound().getCompoundTag("AM2").setInteger("CurrentGroup", SpellUtils.currentStage(stack) + 1);
+					copiedStack.setItem(ItemDefs.spell);
+					SpellUtils.applyStackStage(copiedStack, player, target, posX, posY, posZ, null, player.worldObj, true, true, 0);
+				} else {
+					stack.getItem().onDroppedByPlayer(stack, player);
+				}
+			}
 		}
 	}
 }

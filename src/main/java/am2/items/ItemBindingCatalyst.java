@@ -18,6 +18,7 @@ public class ItemBindingCatalyst extends ItemArsMagica2{
 	public static final int META_SHOVEL = 3;
 	public static final int META_HOE = 4;
 	public static final int META_BOW = 5;
+	public static final int META_SHIELD = 6;
 	public static final String[] NAMES = {"pick", "axe", "sword", "shovel", "hoe", "bow", "shield"};
 
 	public ItemBindingCatalyst(){
@@ -45,6 +46,8 @@ public class ItemBindingCatalyst extends ItemArsMagica2{
 			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystHoe.name");
 		case META_BOW:
 			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystBow.name");
+		case META_SHIELD:
+			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystShield.name");
 		}
 		return baseName;
 	}
@@ -57,7 +60,8 @@ public class ItemBindingCatalyst extends ItemArsMagica2{
 		par3List.add(new ItemStack(par1, 1, META_SHOVEL));
 		par3List.add(new ItemStack(par1, 1, META_SWORD));
 		par3List.add(new ItemStack(par1, 1, META_HOE));
-		//par3List.add(new ItemStack(par1, 1, META_BOW));
+		par3List.add(new ItemStack(par1, 1, META_BOW));
+		par3List.add(new ItemStack(par1, 1, META_SHIELD));
 	}
 
 }

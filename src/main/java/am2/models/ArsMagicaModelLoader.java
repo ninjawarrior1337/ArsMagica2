@@ -1,14 +1,26 @@
 package am2.models;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.security.CodeSource;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
+import am2.ArsMagica2;
 import am2.affinity.Affinity;
 import am2.api.AffinityRegistry;
 import am2.items.rendering.SpellModel;
@@ -31,6 +43,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
 	public static final HashMap<Affinity, TextureAtlasSprite> sprites = new HashMap<>();
 	public static final HashMap<String, TextureAtlasSprite> particles = new HashMap<>();
+	public static final List<ResourceLocation> spellIcons = getResourceListing();
 	
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
@@ -61,7 +74,9 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 			}
 			IModel model = new SpellModel(builder.build());
 			return model;
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return ModelLoaderRegistry.getMissingModel();
 	}
 	
@@ -103,5 +118,46 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	private void registerParticle(TextureMap map, String name) {
 		map.registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + name));
 		particles.put(name, map.getTextureExtry(new ResourceLocation("arsmagica2", "items/particles/" + name).toString()));
+	}
+	
+	private static final String iconsPath = "/assets/arsmagica2/textures/items/spells/icons/";
+	private static final String iconsPrefix = "items/spells/icons/";
+	
+	private static List<ResourceLocation> getResourceListing() {
+		try {
+			CodeSource src = ArsMagica2.class.getProtectionDomain().getCodeSource();
+			ArrayList<ResourceLocation> toReturn = new ArrayList<ResourceLocation>();
+			if (src != null){
+				URL jar = src.getLocation();
+				if (jar.getProtocol() == "jar"){
+					String path = jar.toString().replace("jar:", "").replace("file:", "").replace("!/am2/ArsMagica2.class", "").replace('/', File.separatorChar);
+					path = URLDecoder.decode(path, "UTF-8");
+					JarFile jarFile = new JarFile(path);
+					Enumeration<JarEntry> entries = jarFile.entries();
+					while (entries.hasMoreElements()){
+						JarEntry entry = entries.nextElement();
+						if (entry.getName().startsWith("assets/arsmagica2/textures/items/spells/icons/")){
+							String name = entry.getName().replace("assets/arsmagica2/textures/items/spells/icons/", "");
+							if (name.equals("")) continue;
+							toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + name.replace(".png", "")));
+						}
+					}
+					jarFile.close();
+				}else if (jar.getProtocol() == "file"){
+					String path = jar.toURI().toString().replace("/am2/ArsMagica2.class", iconsPath).replace("file:/", "").replace("%20", " ").replace("/", "\\");
+					File file = new File(path);
+					if (file.exists() && file.isDirectory()){
+						for (File sub : file.listFiles()){
+							toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + sub.getName().replace(".png", "")));
+						}
+					}
+				}
+				return toReturn;
+			}else{
+				return toReturn;
+			}
+		} catch (IOException | URISyntaxException e) {
+			return Lists.newArrayList();
+		}
 	}
 }

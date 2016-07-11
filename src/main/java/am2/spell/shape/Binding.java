@@ -25,38 +25,34 @@ public class Binding implements IShape{
 			return SpellCastResult.EFFECT_FAILED;
 		}
 		
-		System.out.println("Binding V1");
-		
 		EntityPlayer player = (EntityPlayer)caster;
 		ItemStack heldStack = player.getActiveItemStack();
 		if (heldStack == null || heldStack.getItem() != ItemDefs.spell){
 			return SpellCastResult.EFFECT_FAILED;
 		}
-		
-		System.out.println("Binding V2");
-
 		int bindingType = getBindingType(SpellUtils.merge(heldStack.copy()));
-		
-		System.out.println("Binding V3 - " + heldStack.getTagCompound());
 		switch (bindingType){
-//		case ItemBindingCatalyst.META_AXE:
-//			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundAxe);
-//			break;
-//		case ItemBindingCatalyst.META_PICK:
-//			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundPickaxe);
-//			break;
+		case ItemBindingCatalyst.META_AXE:
+			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundAxe);
+			break;
+		case ItemBindingCatalyst.META_PICK:
+			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundPickaxe);
+			break;
 		case ItemBindingCatalyst.META_SWORD:
 			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundSword);
 			break;
-//		case ItemBindingCatalyst.META_SHOVEL:
-//			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundShovel);
-//			break;
-//		case ItemBindingCatalyst.META_HOE:
-//			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundHoe);
-//			break;
-//		case ItemBindingCatalyst.META_BOW:
-//			heldStack = InventoryUtilities.replaceItem(heldStack, Items.bow);
-//			break;
+		case ItemBindingCatalyst.META_SHOVEL:
+			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundShovel);
+			break;
+		case ItemBindingCatalyst.META_HOE:
+			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundHoe);
+			break;
+		case ItemBindingCatalyst.META_BOW:
+			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundBow);
+			break;
+		case ItemBindingCatalyst.META_SHIELD:
+			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundShield);
+			break;
 		}
 		player.inventory.setInventorySlotContents(player.inventory.currentItem, heldStack);
 		return SpellCastResult.SUCCESS;

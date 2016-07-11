@@ -4,6 +4,7 @@ import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +28,12 @@ import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.commands.ConfigureAMUICommand;
 import am2.defs.ItemDefs;
+import am2.entity.EntityBoundArrow;
 import am2.entity.EntityRiftStorage;
 import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
 import am2.entity.EntityThrownRock;
+import am2.entity.render.RenderBoundArrow;
 import am2.entity.render.RenderHidden;
 import am2.entity.render.RenderRiftStorage;
 import am2.entity.render.RenderSpellProjectile;
@@ -40,6 +43,7 @@ import am2.gui.GuiInscriptionTable;
 import am2.gui.GuiObelisk;
 import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
+import am2.gui.GuiSpellCustomization;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
 import am2.lore.ArcaneCompendium;
@@ -88,6 +92,7 @@ public class ClientProxy extends CommonProxy {
 		case GUI_RIFT: return new GuiRiftStorage(player, RiftStorage.For(player));
 		case GUI_OBELISK: return new GuiObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
 		case GUI_INSCRIPTION_TABLE: return new GuiInscriptionTable(player.inventory, (TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)));
+		case GUI_SPELL_CUSTOMIZATION: return new GuiSpellCustomization(player);
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
@@ -106,6 +111,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new RenderFactory(RenderSpellProjectile.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellEffect.class, new RenderFactory(RenderHidden.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntityThrownRock.class, new RenderFactory(RenderThrownRock.class));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBoundArrow.class, new RenderFactory(RenderBoundArrow.class));
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());

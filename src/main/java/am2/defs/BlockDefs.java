@@ -21,6 +21,7 @@ import am2.blocks.BlockOcculus;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
 import am2.blocks.BlockWizardsChalk;
+import am2.items.rendering.IgnoreMetadataRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -112,6 +113,6 @@ public class BlockDefs {
 	private static void registerTexture(Block block) {
 		ResourceLocation loc = block.getRegistryName();
 		Item item = GameRegistry.findRegistry(Item.class).getValue(loc);
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(loc, "inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new IgnoreMetadataRenderer(new ModelResourceLocation(loc, "inventory")));
 	}
 }

@@ -24,6 +24,7 @@ import net.minecraft.entity.monster.EntityShulker;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -239,5 +240,20 @@ public class EntityUtils {
 		return false;
 	}
 
+	public static boolean canBlockDamageSource(EntityLivingBase living, DamageSource damageSourceIn) {
+		if (!damageSourceIn.isUnblockable()) {
+			Vec3d vec3d = damageSourceIn.getDamageLocation();
 
+			if (vec3d != null) {
+				Vec3d vec3d1 = living.getLook(1.0F);
+				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(living.posX, living.posY, living.posZ)).normalize();
+				vec3d2 = new Vec3d(vec3d2.xCoord, 0.0D, vec3d2.zCoord);
+
+				if (vec3d2.dotProduct(vec3d1) < 0.0D) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

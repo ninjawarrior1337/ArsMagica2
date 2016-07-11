@@ -11,9 +11,9 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderFactory<T extends Entity> implements IRenderFactory<T> {
 	
-	private Constructor<Render<? super T>> constructor;
+	private Constructor<Render<T>> constructor;
 	
-	public RenderFactory(Class<Render<? super T>> clazz) {
+	public RenderFactory(Class<Render<T>> clazz) {
 		try {
 			this.constructor = clazz.getConstructor(RenderManager.class);
 		} catch (NoSuchMethodException | SecurityException e) {
@@ -22,9 +22,9 @@ public class RenderFactory<T extends Entity> implements IRenderFactory<T> {
 	}
 	
 	@Override
-	public Render<? super T> createRenderFor(RenderManager manager) {
+	public Render<T> createRenderFor(RenderManager manager) {
 		try {
-			Render<? super T> render = constructor.newInstance(manager);
+			Render<T> render = constructor.newInstance(manager);
 			ArsMagica2.LOGGER.info("Successfully created instance for : " + constructor.getDeclaringClass().getName());
 			return render;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
