@@ -5,9 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.spell.IComponent;
 import net.minecraft.entity.Entity;
@@ -67,7 +66,7 @@ public class Moonrise implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.NONE);
+		return Sets.newHashSet(Affinity.NONE);
 	}
 
 	@Override

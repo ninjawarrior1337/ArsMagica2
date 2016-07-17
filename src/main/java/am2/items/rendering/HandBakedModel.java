@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.ImmutableMap;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -71,7 +71,7 @@ public class HandBakedModel implements IPerspectiveAwareModel {
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		return new SpellParticleRender(parent.getOverrides().getOverrides(), this);
+		return new SpellParticleRender(parent.getOverrides().getOverrides());
 	}
 	
 	@Override

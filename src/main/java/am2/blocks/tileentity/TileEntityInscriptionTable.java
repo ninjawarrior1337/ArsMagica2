@@ -12,9 +12,9 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
 import am2.api.SpellRegistry;
 import am2.api.SpellRegistry.SpellData;
+import am2.api.affinity.Affinity;
 import am2.blocks.BlockInscriptionTable;
 import am2.container.ContainerInscriptionTable;
 import am2.defs.BlockDefs;

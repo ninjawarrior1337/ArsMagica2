@@ -20,6 +20,15 @@ item.ore.sunstone.name=Sunstone
 item.spell_parchment.name=Spell Parchment
 item.etherium.name=Etherium
 
+item.arsmagica2:bindingCatalyst.name=Binding Catalyst
+item.arsmagica2:bindingCatalystAxe.name=: Axe
+item.arsmagica2:bindingCatalystBow.name=: Bow
+item.arsmagica2:bindingCatalystHoe.name=: Hoe
+item.arsmagica2:bindingCatalystPick.name=: Pickaxe
+item.arsmagica2:bindingCatalystShovel.name=: Shovel
+item.arsmagica2:bindingCatalystSword.name=: Sword
+item.arsmagica2:bindingCatalystShield.name=: Shield
+
 etherium.any.name=Any
 etherium.light.name=Light
 etherium.dark.name=Dark

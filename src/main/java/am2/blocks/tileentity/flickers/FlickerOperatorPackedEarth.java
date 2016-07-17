@@ -1,11 +1,10 @@
 package am2.blocks.tileentity.flickers;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.InventoryUtilities;
 import net.minecraft.block.Block;
@@ -94,8 +93,8 @@ public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
 				" E ",
 				Character.valueOf('D'), Blocks.DIRT,
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
-				Character.valueOf('E'), AffinityShiftUtils.getEssenceForAffinity(SkillDefs.EARTH),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.EARTH))
+				Character.valueOf('E'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH))
 
 		};
 	}

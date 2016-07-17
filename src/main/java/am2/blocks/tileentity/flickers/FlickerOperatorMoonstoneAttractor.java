@@ -2,15 +2,14 @@ package am2.blocks.tileentity.flickers;
 
 import java.util.ArrayList;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.blocks.BlockArsMagicaOre;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
@@ -81,12 +80,12 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 				"AME",
 				"I T",
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.LIGHTNING)),
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.ARCANE)),
-				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.EARTH)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
+				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)),
 				Character.valueOf('M'), new ItemStack(BlockDefs.ores, 1, BlockArsMagicaOre.EnumOreType.MOONSTONE.ordinal()),
-				Character.valueOf('I'), AffinityShiftUtils.getEssenceForAffinity(SkillDefs.AIR),
-				Character.valueOf('T'), AffinityShiftUtils.getEssenceForAffinity(SkillDefs.EARTH)
+				Character.valueOf('I'), AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
+				Character.valueOf('T'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH)
 		};
 	}
 

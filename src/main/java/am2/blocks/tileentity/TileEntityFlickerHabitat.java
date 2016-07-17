@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.math.AMVector3;
 import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
 import am2.blocks.tileentity.flickers.TileEntityFlickerControllerBase;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -87,7 +86,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public Affinity getSelectedAffinity(){
 		if (flickerJar != null){
-			return AffinityRegistry.getByID(flickerJar.getItemDamage());
+			return ArsMagicaAPI.getAffinityRegistry().getObjectById(flickerJar.getItemDamage());
 		}else{
 			return null;
 		}
@@ -430,8 +429,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		else if (this.flickerJar.getItem() == ItemDefs.flickerFocus){
 			ArrayList<Affinity> affinities = new ArrayList<Affinity>();
 			int meta = this.flickerJar.getItemDamage();
-			for (Affinity aff : AffinityRegistry.getAffinityMap().values()){
-				if (aff == SkillDefs.NONE)
+			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()){
+				if (aff == Affinity.NONE)
 					continue;
 				if ((meta & aff.getAffinityMask()) == aff.getAffinityMask())
 					affinities.add(aff);

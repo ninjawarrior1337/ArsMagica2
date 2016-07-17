@@ -1,8 +1,8 @@
 package am2.spell.shape;
 
+import am2.api.affinity.Affinity;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
@@ -26,7 +26,7 @@ public class Contingency_Fall implements IShape{
 				Items.FEATHER,
 				BlockDefs.tarmaRoot,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.AIR),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
 				"E:*", 5000
 		};
 	}

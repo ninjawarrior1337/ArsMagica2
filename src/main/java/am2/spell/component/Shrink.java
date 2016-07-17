@@ -5,10 +5,9 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectShrink;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
@@ -77,7 +76,7 @@ public class Shrink implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.NONE);
+		return Sets.newHashSet(Affinity.NONE);
 	}
 
 	@Override

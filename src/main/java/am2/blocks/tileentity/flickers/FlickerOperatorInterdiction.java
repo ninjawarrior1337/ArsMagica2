@@ -1,11 +1,10 @@
 package am2.blocks.tileentity.flickers;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.blocks.BlockInvisibleUtility.EnumInvisibleType;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
@@ -22,7 +21,7 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 
 		boolean hasEnderAugment = false;
 		for (Affinity aff : flickers){
-			if (aff == SkillDefs.ENDER){
+			if (aff == Affinity.ENDER){
 				hasEnderAugment = true;
 				break;
 			}
@@ -89,9 +88,9 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 				"IWI",
 				Character.valueOf('F'), "fence",
 				Character.valueOf('W'), Blocks.COBBLESTONE_WALL,
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.ARCANE)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.AIR)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
 				Character.valueOf('I'), Blocks.IRON_BARS
 
 		};

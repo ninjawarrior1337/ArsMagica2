@@ -3,8 +3,7 @@ package am2.particles;
 import java.util.HashMap;
 import java.util.Random;
 
-import am2.affinity.Affinity;
-import am2.defs.SkillDefs;
+import am2.api.affinity.Affinity;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
@@ -126,85 +125,32 @@ public class AMParticleIcons{
 	}
 
 	public String getParticleForAffinity(Affinity aff){
-//		switch (aff){
-//		case AIR:
-//			return "wind";
-//		case ARCANE:
-//			return "arcane";
-//		case EARTH:
-//			return "rock";
-//		case ENDER:
-//			return "pulse";
-//		case FIRE:
-//			return "explosion_2";
-//		case ICE:
-//			return "ember";
-//		case LIFE:
-//			return "sparkle";
-//		case LIGHTNING:
-//			return "lightning_hand";
-//		case NATURE:
-//			return "plant";
-//		case WATER:
-//			return "water_ball";
-//		case NONE:
-//		default:
-//			return "lens_flare";
-//
-//		}
-		if (aff.equals(SkillDefs.AIR)) return "wind";
-		if (aff.equals(SkillDefs.ARCANE)) return "arcane";
-		if (aff.equals(SkillDefs.EARTH)) return "rock";
-		if (aff.equals(SkillDefs.ENDER)) return "pulse";
-		if (aff.equals(SkillDefs.FIRE)) return "explosion_2";
-		if (aff.equals(SkillDefs.ICE)) return "ember";
-		if (aff.equals(SkillDefs.LIFE)) return "sparkle";
-		if (aff.equals(SkillDefs.LIGHTNING)) return "lightning_hand";
-		if (aff.equals(SkillDefs.NATURE)) return "plant";
-		if (aff.equals(SkillDefs.WATER)) return "water_ball";
-		if (aff.equals(SkillDefs.NONE)) return "lens_flare";
+		if (aff.equals(Affinity.AIR)) return "wind";
+		if (aff.equals(Affinity.ARCANE)) return "arcane";
+		if (aff.equals(Affinity.EARTH)) return "rock";
+		if (aff.equals(Affinity.ENDER)) return "pulse";
+		if (aff.equals(Affinity.FIRE)) return "explosion_2";
+		if (aff.equals(Affinity.ICE)) return "ember";
+		if (aff.equals(Affinity.LIFE)) return "sparkle";
+		if (aff.equals(Affinity.LIGHTNING)) return "lightning_hand";
+		if (aff.equals(Affinity.NATURE)) return "plant";
+		if (aff.equals(Affinity.WATER)) return "water_ball";
+		if (aff.equals(Affinity.NONE)) return "lens_flare";
 		return "lens_flare";
 	}
 
 	public String getSecondaryParticleForAffinity(Affinity aff){
-//		switch (aff){
-//		case AIR:
-//			return "air_hand";
-//		case ARCANE:
-//			return "symbols";
-//		case EARTH:
-//			return "earth_hand";
-//		case ENDER:
-//			return "ghost";
-//		case FIRE:
-//			return "smoke";
-//		case ICE:
-//			return "snowflakes";
-//		case LIFE:
-//			return "sparkle2";
-//		case LIGHTNING:
-//			return "lightning_hand";
-//		case NATURE:
-//			return "leaf";
-//		case WATER:
-//			return "water_hand";
-//		case NONE:
-//		default:
-//			return "lights";
-//
-//		}
-		
-		if (aff.equals(SkillDefs.AIR)) return "air_hand";
-		if (aff.equals(SkillDefs.ARCANE)) return "symbols";
-		if (aff.equals(SkillDefs.EARTH)) return "earth_hand";
-		if (aff.equals(SkillDefs.ENDER)) return "ghost";
-		if (aff.equals(SkillDefs.FIRE)) return "smoke";
-		if (aff.equals(SkillDefs.ICE)) return "snowflakes";
-		if (aff.equals(SkillDefs.LIFE)) return "sparkle2";
-		if (aff.equals(SkillDefs.LIGHTNING)) return "lightning_hand";
-		if (aff.equals(SkillDefs.NATURE)) return "leaf";
-		if (aff.equals(SkillDefs.WATER)) return "water_hand";
-		if (aff.equals(SkillDefs.NONE)) return "lights";
+		if (aff.equals(Affinity.AIR)) return "air_hand";
+		if (aff.equals(Affinity.ARCANE)) return "symbols";
+		if (aff.equals(Affinity.EARTH)) return "earth_hand";
+		if (aff.equals(Affinity.ENDER)) return "ghost";
+		if (aff.equals(Affinity.FIRE)) return "smoke";
+		if (aff.equals(Affinity.ICE)) return "snowflakes";
+		if (aff.equals(Affinity.LIFE)) return "sparkle2";
+		if (aff.equals(Affinity.LIGHTNING)) return "lightning_hand";
+		if (aff.equals(Affinity.NATURE)) return "leaf";
+		if (aff.equals(Affinity.WATER)) return "water_hand";
+		if (aff.equals(Affinity.NONE)) return "lights";
 		return "lights";
 
 	}

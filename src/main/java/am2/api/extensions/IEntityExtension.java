@@ -16,7 +16,7 @@ import am2.spell.ContingencyType;
 import am2.utils.NBTUtils;
 
 public interface IEntityExtension {
-	
+
 	public boolean hasEnoughtMana(float f);
 		
 	public void setContingency (ContingencyType type, ItemStack stack);
@@ -93,11 +93,9 @@ public interface IEntityExtension {
 
 	public void setInverted(boolean inverted);
 
-	public void setFallProtection(boolean fallProtection);
+	public void setFallProtection(float fallProtection);
 	
 	public boolean isInverted();
-	
-	public boolean hasFallProtection();
 	
 	public void addEntityReference(Entity entity);
 	
@@ -124,7 +122,7 @@ public interface IEntityExtension {
 			
 			am2tag.setBoolean("Shrunk", instance.isShrunk());
 			am2tag.setBoolean("Inverted", instance.isInverted());
-			am2tag.setBoolean("FallProtection", instance.hasFallProtection());
+			am2tag.setFloat("FallProtection", instance.getFallProtection());
 			
 			am2tag.setDouble("MarkX", instance.getMarkX());
 			am2tag.setDouble("MarkY", instance.getMarkY());
@@ -155,7 +153,7 @@ public interface IEntityExtension {
 			
 			instance.setShrunk(am2tag.getBoolean("Shrunk"));
 			instance.setInverted(am2tag.getBoolean("Inverted"));
-			instance.setFallProtection(am2tag.getBoolean("FallProtection"));
+			instance.setFallProtection(am2tag.getFloat("FallProtection"));
 			
 			instance.setMarkX(am2tag.getDouble("MarkX"));
 			instance.setMarkY(am2tag.getDouble("MarkY"));
@@ -221,4 +219,6 @@ public interface IEntityExtension {
 	public float getTKDistance();
 
 	public void syncTKDistance();
+
+	public float getFallProtection();
 }

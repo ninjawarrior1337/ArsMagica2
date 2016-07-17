@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.entity.SpawnBlacklists;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -93,7 +92,7 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 		if (powered){
 			float base = BASE_COOLDOWN;
 			for (Affinity aff : flickers)
-				if (aff == SkillDefs.LIGHTNING)
+				if (aff == Affinity.LIGHTNING)
 					base *= COOLDOWN_BONUS;
 
 			return (int)Math.max(base, COOLDOWN_MINIMUM);
@@ -113,8 +112,8 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 				"EFE",
 				"EWE",
 				Character.valueOf('E'), Items.EGG,
-				Character.valueOf('L'), AffinityShiftUtils.getEssenceForAffinity(SkillDefs.LIFE),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.LIFE)),
+				Character.valueOf('L'), AffinityShiftUtils.getEssenceForAffinity(Affinity.LIFE),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
 				Character.valueOf('W'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage())
 
 		};

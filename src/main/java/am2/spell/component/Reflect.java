@@ -6,11 +6,10 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectSpellReflect;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleHoldPosition;
 import am2.spell.IComponent;
@@ -79,7 +78,7 @@ public class Reflect implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.ARCANE);
+		return Sets.newHashSet(Affinity.ARCANE);
 	}
 
 	@Override

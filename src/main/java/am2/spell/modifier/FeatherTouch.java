@@ -2,8 +2,8 @@ package am2.spell.modifier;
 
 import java.util.EnumSet;
 
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.spell.IModifier;
 import am2.spell.SpellModifiers;
@@ -29,7 +29,7 @@ public class FeatherTouch implements IModifier{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.AIR),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
 				Items.FEATHER,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE)
 		};

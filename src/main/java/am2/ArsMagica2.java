@@ -3,6 +3,7 @@ package am2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import am2.api.ArsMagicaAPI;
 import am2.config.AMConfig;
 import am2.defs.AMRecipes;
 import am2.defs.BindingsDefs;
@@ -44,6 +45,7 @@ public class ArsMagica2 {
 	
 	static {
 		new DataDefinitions();
+		new ArsMagicaAPI();
 	}
 	
 	@EventHandler
@@ -54,7 +56,7 @@ public class ArsMagica2 {
 		network.registerMessage(MessageBoolean.IceBridgeHandler.class, MessageBoolean.class, 1, Side.SERVER);
 		network.registerMessage(MessageCapabilities.class, MessageCapabilities.class, 3, Side.SERVER);
 		ClientRegistry.registerKeyBinding(BindingsDefs.iceBridge);
-		ClientRegistry.registerKeyBinding(BindingsDefs.enderTP);
+		ClientRegistry.registerKeyBinding(BindingsDefs.ENDER_TP);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 		OreDictionary.registerOre("fence", Blocks.ACACIA_FENCE);
 		OreDictionary.registerOre("fence", Blocks.OAK_FENCE);

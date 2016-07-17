@@ -1,8 +1,6 @@
 package am2.defs;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
 import am2.api.SkillTreeRegistry;
@@ -40,17 +38,6 @@ public class SkillDefs {
 	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SKILL_POINT_2, 230, 210, TREE_TALENT, "augmentedCasting");
 	
 	
-	public static final Affinity NONE = new Affinity("none", 0xFFFFFF);
-	public static final Affinity ARCANE = new Affinity("arcane", 0xb935cd);
-	public static final Affinity WATER = new Affinity("water", 0x0b5cef);
-	public static final Affinity FIRE = new Affinity("fire", 0xef260b);
-	public static final Affinity EARTH = new Affinity("earth", 0x61330b);
-	public static final Affinity AIR = new Affinity("air", 0x777777);
-	public static final Affinity LIGHTNING = new Affinity("lightning", 0xdece19);
-	public static final Affinity ICE = new Affinity("ice", 0xd3e8fc);
-	public static final Affinity NATURE = new Affinity("nature", 0x228718);
-	public static final Affinity LIFE = new Affinity("life", 0x34e122);
-	public static final Affinity ENDER = new Affinity("ender", 0x3f043d);
 
 	
 	public static void init() {
@@ -74,18 +61,6 @@ public class SkillDefs {
 		SkillRegistry.registerSkill(AUGMENTED_CASTING);
 		SkillRegistry.registerSkill(AFFINITY_GAINS);
 		SkillRegistry.registerSkill(EXTRA_SUMMONS);
-		
-		AffinityRegistry.registerAffinity(NONE);
-		AffinityRegistry.registerAffinity(ARCANE);
-		AffinityRegistry.registerAffinity(WATER);
-		AffinityRegistry.registerAffinity(FIRE);
-		AffinityRegistry.registerAffinity(EARTH);
-		AffinityRegistry.registerAffinity(AIR);
-		AffinityRegistry.registerAffinity(LIGHTNING);
-		AffinityRegistry.registerAffinity(ICE);
-		AffinityRegistry.registerAffinity(NATURE);
-		AffinityRegistry.registerAffinity(LIFE);
-		AffinityRegistry.registerAffinity(ENDER);
 	}
 	
 }

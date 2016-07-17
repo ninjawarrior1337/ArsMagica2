@@ -2,8 +2,8 @@ package am2.spell.modifier;
 
 import java.util.EnumSet;
 
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.spell.IModifier;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
@@ -28,7 +28,7 @@ public class RuneProcs implements IModifier{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ARCANE),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ARCANE),
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage()),
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage()),
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()),

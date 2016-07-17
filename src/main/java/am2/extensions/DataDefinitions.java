@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 import com.google.common.base.Optional;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
+import am2.api.affinity.Affinity;
 import am2.skill.Skill;
 import am2.skill.SkillPoint;
 import net.minecraft.entity.Entity;
@@ -16,12 +16,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
 
 public class DataDefinitions {
 	
 	public static final MapSerializer<Affinity, Float> AFFINITY_SERIALIZER = new MapSerializer<Affinity, Float>() {
 		public Float getValueInstanceFromString(String str) {return Float.valueOf(str);}
-		public Affinity getKeyInstanceFromString(String str) {return AffinityRegistry.getAffinityFromName(str);}
+		public Affinity getKeyInstanceFromString(String str) {return ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(str));}
 	};
 		
 	public static final MapSerializer<SkillPoint, Integer> SKILL_POINT_SERIALIZER = new MapSerializer<SkillPoint, Integer>() {
@@ -62,7 +63,7 @@ public class DataDefinitions {
 	static final DataParameter<Optional<ItemStack>> CONTENGENCY_STACK = EntityDataManager.<Optional<ItemStack>>createKey(Entity.class, DataSerializers.OPTIONAL_ITEM_STACK);
 	static final DataParameter<Boolean> IS_SHRUNK = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
 	static final DataParameter<Boolean> IS_INVERTED = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
-	static final DataParameter<Boolean> HAS_FALL_PROTECTION = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
+	static final DataParameter<Float> FALL_PROTECTION = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
 	static final DataParameter<String> CONTENGENCY_TYPE = EntityDataManager.<String>createKey(Entity.class, DataSerializers.STRING);
 	
 	static final DataParameter<String> AFFINITY = EntityDataManager.createKey(Entity.class, DataSerializers.STRING);
@@ -70,6 +71,7 @@ public class DataDefinitions {
 	static final DataParameter<HashMap<SkillPoint, Integer>> POINT_TIER = EntityDataManager.createKey(Entity.class, SKILL_POINT_SERIALIZER);
 	static final DataParameter<HashMap<Skill, Boolean>> SKILL = EntityDataManager.createKey(Entity.class, SKILL_SERIALIZER);	
 	static final DataParameter<Boolean> ICE_BRIDGE_STATE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
+	static final DataParameter<Boolean> NIGHT_VISION_ACTIVE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
 	static final DataParameter<Integer> ICE_SPEED = EntityDataManager.createKey(Entity.class, DataSerializers.VARINT);
 	static final DataParameter<Integer> NATURE_SPEED = EntityDataManager.createKey(Entity.class, DataSerializers.VARINT);
 

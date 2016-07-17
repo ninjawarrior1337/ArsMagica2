@@ -3,8 +3,8 @@ package am2.blocks.tileentity.flickers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.math.AMVector3;
@@ -12,7 +12,6 @@ import am2.blocks.BlockCrystalMarker;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.utils.GetFirstStackStartingFromSlotResult;
 import am2.utils.InventoryUtilities;
@@ -68,7 +67,7 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 		//iterate through modifiers and adjust params
 		//if(powered){
 		for (int i = 0; i < 6; i++){
-			if (flickers[i] == SkillDefs.ARCANE){
+			if (flickers[i] == Affinity.ARCANE){
 				toMove += 32;
 			}
 		}
@@ -395,7 +394,7 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 			float rechargeTime = BASE_POWERED_ACTIVATION_TIME;
 
 			for (int i = 0; i < 6; i++){
-				if (flickers[i] == SkillDefs.LIGHTNING){
+				if (flickers[i] == Affinity.LIGHTNING){
 					rechargeTime = rechargeTime - (rechargeTime * TIME_DISCOUNT_PERCENTAGE);
 				}
 			}
@@ -424,7 +423,7 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 				" B ",
 				"CAC",
 				" B ",
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.AIR)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
 				Character.valueOf('C'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
 				Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ)
 		};

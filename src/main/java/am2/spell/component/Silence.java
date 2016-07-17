@@ -5,11 +5,10 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectSilence;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
@@ -71,7 +70,7 @@ public class Silence implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.WATER, SkillDefs.ENDER);
+		return Sets.newHashSet(Affinity.WATER, Affinity.ENDER);
 	}
 
 	@Override

@@ -1,15 +1,14 @@
 package am2.blocks.tileentity.flickers;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.blocks.BlockInvisibleUtility;
 import am2.blocks.BlockInvisibleUtility.EnumInvisibleType;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
@@ -136,9 +135,9 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 				"ISI",
 				"F L",
 				"ISI",
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.FIRE)),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
 				Character.valueOf('S'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.LIGHTNING)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
 				Character.valueOf('I'), ItemDefs.liquidEssenceBottle
 
 		};

@@ -7,13 +7,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.api.power.IPowerNode;
 import am2.buffs.BuffEffectIllumination;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.multiblock.MultiblockGroup;
 import am2.multiblock.MultiblockStructureDefinition;
@@ -139,7 +138,7 @@ public class Light implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.NONE);
+		return Sets.newHashSet(Affinity.NONE);
 	}
 
 	@Override

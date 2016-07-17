@@ -6,11 +6,10 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
 import am2.api.DamageSources;
+import am2.api.affinity.Affinity;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.particles.AMParticle;
@@ -44,10 +43,10 @@ public class Heal implements IComponent{
 			if (((EntityLivingBase)target).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD){
 				int healing = SpellUtils.getModifiedInt_Mul(10, stack, caster, target, world, SpellModifiers.HEALING);
 				target.setFire(2);
-				return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeHolyDamage(caster), healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(SkillDefs.LIFE)));
+				return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeHolyDamage(caster), healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(Affinity.LIFE)));
 			}else{
 				int healing = SpellUtils.getModifiedInt_Mul(2, stack, caster, target, world, SpellModifiers.HEALING);
-				healing *= 1F + AffinityData.For(caster).getAffinityDepth(SkillDefs.LIFE);
+				healing *= 1F + AffinityData.For(caster).getAffinityDepth(Affinity.LIFE);
 				if (EntityExtension.For((EntityLivingBase)target).getHealCooldown() == 0){
 					((EntityLivingBase)target).heal(healing);
 					EntityExtension.For((EntityLivingBase)target).setHealCooldown(60);
@@ -102,7 +101,7 @@ public class Heal implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.LIFE);
+		return Sets.newHashSet(Affinity.LIFE);
 	}
 
 	@Override

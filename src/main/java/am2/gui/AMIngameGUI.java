@@ -6,13 +6,12 @@ import java.util.Comparator;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
 import am2.api.SpellRegistry;
+import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
 import am2.api.math.AMVector2;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.items.ItemSpellBook;
@@ -328,7 +327,7 @@ public class AMIngameGUI{
 
 		IAffinityData ad = AffinityData.For(Minecraft.getMinecraft().thePlayer);
 		for (Affinity affinity : ad.getHighestAffinities()){
-			if (affinity == null || affinity == SkillDefs.NONE) continue;
+			if (affinity == null || affinity == Affinity.NONE) continue;
 			GL11.glColor3f(1.0f, 1.0f, 1.0f);
 			AMGuiHelper.DrawIconAtXY(mc.getRenderItem().getItemModelMesher().getParticleIcon(ItemDefs.essence, AffinityShiftUtils.getEssenceForAffinity(affinity).getItemDamage()), x, y, j, 12, 12, true);
 

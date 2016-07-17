@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.google.common.collect.Lists;
 
-import am2.affinity.Affinity;
-import am2.defs.SkillDefs;
+import am2.api.affinity.Affinity;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
 import am2.particles.AMParticleIcons;
@@ -22,7 +20,6 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -35,7 +32,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumFacing;
@@ -45,17 +41,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class SpellParticleRender extends ItemOverrideList{
-	private final ModelBiped modelBipedMain;
 	private final Minecraft mc;
 	private final Map<Affinity, TextureAtlasSprite> icons;
 	private boolean setupIcons = false;
-	private HandBakedModel model;
 	private static final ResourceLocation rLoc = TextureMap.LOCATION_BLOCKS_TEXTURE;
 
-	public SpellParticleRender(List<ItemOverride> overridesIn, HandBakedModel model){
+	public SpellParticleRender(List<ItemOverride> overridesIn){
 		super (overridesIn);
-		modelBipedMain = new ModelBiped(0.0F);
-		this.model = model;
+		new ModelBiped(0.0F);
 		mc = Minecraft.getMinecraft();
 		icons = new HashMap<Affinity, TextureAtlasSprite>();
 	}
@@ -65,7 +58,6 @@ public class SpellParticleRender extends ItemOverrideList{
 		if (world == null || entity == null)
 			return super.handleItemState(originalModel, stack, world, entity);
 		renderItem(stack, entity);
-		IBakedModel model = this.model.getModel(AffinityShiftUtils.getMainShiftForStack(stack));
 		return new BakedBlank();//model != null ? model : super.handleItemState(originalModel, stack, world, entity);
 	}
 	
@@ -181,17 +173,17 @@ public class SpellParticleRender extends ItemOverrideList{
 	}
 
 	private void setupAffinityIcons(){
-		icons.put(SkillDefs.AIR, AMParticleIcons.instance.getIconByName("air_hand"));
-		icons.put(SkillDefs.ARCANE, AMParticleIcons.instance.getIconByName("arcane_hand"));
-		icons.put(SkillDefs.EARTH, AMParticleIcons.instance.getIconByName("earth_hand"));
-		icons.put(SkillDefs.ENDER, AMParticleIcons.instance.getIconByName("ender_hand"));
-		icons.put(SkillDefs.FIRE, AMParticleIcons.instance.getIconByName("fire_hand"));
-		icons.put(SkillDefs.ICE, AMParticleIcons.instance.getIconByName("ice_hand"));
-		icons.put(SkillDefs.LIFE, AMParticleIcons.instance.getIconByName("life_hand"));
-		icons.put(SkillDefs.LIGHTNING, AMParticleIcons.instance.getIconByName("lightning_hand"));
-		icons.put(SkillDefs.NATURE, AMParticleIcons.instance.getIconByName("nature_hand"));
-		icons.put(SkillDefs.NONE, AMParticleIcons.instance.getIconByName("none_hand"));
-		icons.put(SkillDefs.WATER, AMParticleIcons.instance.getIconByName("water_hand"));
+		icons.put(Affinity.AIR, AMParticleIcons.instance.getIconByName("air_hand"));
+		icons.put(Affinity.ARCANE, AMParticleIcons.instance.getIconByName("arcane_hand"));
+		icons.put(Affinity.EARTH, AMParticleIcons.instance.getIconByName("earth_hand"));
+		icons.put(Affinity.ENDER, AMParticleIcons.instance.getIconByName("ender_hand"));
+		icons.put(Affinity.FIRE, AMParticleIcons.instance.getIconByName("fire_hand"));
+		icons.put(Affinity.ICE, AMParticleIcons.instance.getIconByName("ice_hand"));
+		icons.put(Affinity.LIFE, AMParticleIcons.instance.getIconByName("life_hand"));
+		icons.put(Affinity.LIGHTNING, AMParticleIcons.instance.getIconByName("lightning_hand"));
+		icons.put(Affinity.NATURE, AMParticleIcons.instance.getIconByName("nature_hand"));
+		icons.put(Affinity.NONE, AMParticleIcons.instance.getIconByName("none_hand"));
+		icons.put(Affinity.WATER, AMParticleIcons.instance.getIconByName("water_hand"));
 	}
 
 	public void RenderByAffinity(Affinity affinity){

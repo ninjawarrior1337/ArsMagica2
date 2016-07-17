@@ -6,12 +6,11 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectAstralDistortion;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -100,7 +99,7 @@ public class AstralDistortion implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.ENDER);
+		return Sets.newHashSet(Affinity.ENDER);
 	}
 
 	@Override
@@ -124,10 +123,10 @@ public class AstralDistortion implements IComponent, IRitualInteraction{
 	@Override
 	public ItemStack[] getReagents(){
 		int enderMeta = 0;
-		for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-			if (aff.equals(SkillDefs.NONE))
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			if (aff.equals(Affinity.NONE))
 				continue;				
-			if (aff.equals(SkillDefs.ENDER))
+			if (aff.equals(Affinity.ENDER))
 				break;
 			enderMeta++;
 		}

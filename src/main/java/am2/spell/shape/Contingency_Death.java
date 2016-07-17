@@ -1,8 +1,8 @@
 package am2.spell.shape;
 
+import am2.api.affinity.Affinity;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
@@ -25,7 +25,7 @@ public class Contingency_Death implements IShape{
 	public Object[] getRecipe(){
 		return new Object[]{
 				Items.CLOCK,
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ENDER),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ENDER),
 				Blocks.STONE,
 				Blocks.STONE_SLAB,
 				Blocks.STONE_SLAB,

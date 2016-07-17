@@ -7,9 +7,8 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.enchantments.AMEnchantments;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
@@ -136,7 +135,7 @@ public class Disarm implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.NONE);
+		return Sets.newHashSet(Affinity.NONE);
 	}
 	@Override
 	public Object[] getRecipe(){

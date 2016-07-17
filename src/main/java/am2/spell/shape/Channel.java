@@ -1,7 +1,7 @@
 package am2.spell.shape;
 
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.spell.IShape;
@@ -42,7 +42,7 @@ public class Channel implements IShape{
 		//Arcane Ash, Arcane Essence, Tarma Root, 500 any power
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ARCANE),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ARCANE),
 				//TODO BlockDefs.tarmaRoot,
 				"E:*", 500
 		};

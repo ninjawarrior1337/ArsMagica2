@@ -4,9 +4,8 @@ import java.util.List;
 
 import com.google.common.base.Optional;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.NBTUtils;
@@ -229,9 +228,9 @@ public class EntitySpellProjectile extends Entity {
 	public void setSpell (ItemStack stack) {
 		this.getDataManager().set(DW_EFFECT, Optional.fromNullable(stack));
 		Affinity mainAff = AffinityShiftUtils.getMainShiftForStack(stack);
-		if (mainAff.equals(SkillDefs.ENDER)) this.getDataManager().set(DW_COLOR, 0x550055);
-		else if (mainAff.equals(SkillDefs.ICE)) this.getDataManager().set(DW_COLOR, 0x2299FF);
-		else if (mainAff.equals(SkillDefs.LIFE)) this.getDataManager().set(DW_COLOR, 0x22FF44);
+		if (mainAff.equals(Affinity.ENDER)) this.getDataManager().set(DW_COLOR, 0x550055);
+		else if (mainAff.equals(Affinity.ICE)) this.getDataManager().set(DW_COLOR, 0x2299FF);
+		else if (mainAff.equals(Affinity.LIFE)) this.getDataManager().set(DW_COLOR, 0x22FF44);
 	}
 	
 	public void setBounces(int projectileBounce) {

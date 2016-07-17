@@ -1,11 +1,10 @@
 package am2.blocks.tileentity.flickers;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.utils.InventoryUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
@@ -104,7 +103,7 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 	public int TimeBetweenOperation(boolean powered, Affinity[] flickers){
 		int time = 2000;
 		for (Affinity aff : flickers){
-			if (aff == SkillDefs.LIGHTNING)
+			if (aff == Affinity.LIGHTNING)
 				time *= 0.8;
 		}
 		return time;
@@ -121,8 +120,8 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 				"N W",
 				" R ",
 				Character.valueOf('F'), Items.FISH,
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.WATER)),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.NATURE)),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
 				Character.valueOf('R'), Items.FISHING_ROD
 		};
 	}

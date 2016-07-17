@@ -5,9 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.spell.IComponent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
@@ -70,7 +69,7 @@ public class CreateWater implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.WATER);
+		return Sets.newHashSet(Affinity.WATER);
 	}
 
 	@Override

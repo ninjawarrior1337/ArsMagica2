@@ -1,14 +1,13 @@
 package am2.blocks.tileentity.flickers;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.blocks.BlockInvisibleUtility;
 import am2.blocks.BlockInvisibleUtility.EnumInvisibleType;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import net.minecraft.init.Blocks;
@@ -62,7 +61,7 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 	protected int calculateRadius(Affinity[] flickers){
 		int rad = BASE_RADIUS;
 		for (Affinity aff : flickers){
-			if (aff == SkillDefs.ICE){
+			if (aff == Affinity.ICE){
 				rad++;
 			}
 		}
@@ -98,7 +97,7 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 
 		boolean hasArcaneAugment = false;
 		for (Affinity aff : flickers){
-			if (aff == SkillDefs.ARCANE){
+			if (aff == Affinity.ARCANE){
 				hasArcaneAugment = true;
 				break;
 			}
@@ -166,9 +165,9 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 				"IWI",
 				Character.valueOf('F'), "fence",
 				Character.valueOf('W'), Blocks.COBBLESTONE_WALL,
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.AIR)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.ENDER)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)),
 				Character.valueOf('I'), Blocks.IRON_BARS
 
 		};

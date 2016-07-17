@@ -5,11 +5,10 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectManaShield;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
@@ -69,7 +68,7 @@ public class ManaShield implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.LIFE, SkillDefs.EARTH, SkillDefs.WATER);
+		return Sets.newHashSet(Affinity.LIFE, Affinity.EARTH, Affinity.WATER);
 	}
 
 	@Override
@@ -85,7 +84,7 @@ public class ManaShield implements IComponent, IRitualInteraction{
 	@Override
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ARCANE),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ARCANE),
 				//TODO new ItemStack(ItemsCommonProxy.manaPotionBundle, 1, 1027)
 		};
 	}

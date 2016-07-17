@@ -25,7 +25,7 @@ public class Dismembering implements IModifier{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				//AffinityShiftUtils.getEssenceForAffinity(SkillDefs.HIGH_CORE),
+				//AffinityShiftUtils.getEssenceForAffinity(Affinity.HIGH_CORE),
 				new ItemStack(Items.SKULL, 1, 1),
 				Items.BONE
 		};

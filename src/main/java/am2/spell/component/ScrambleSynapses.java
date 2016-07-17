@@ -5,10 +5,9 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectScrambleSynapses;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
@@ -61,7 +60,7 @@ public class ScrambleSynapses implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.LIGHTNING);
+		return Sets.newHashSet(Affinity.LIGHTNING);
 	}
 
 	@Override

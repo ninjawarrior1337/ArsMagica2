@@ -42,6 +42,21 @@ public class EntityUtils {
 //	private static final String summonTileYKey = "AM2_Summon_Tile_Y";
 //	private static final String summonTileZKey = "AM2_Summon_Tile_Z";
 	
+	
+	public static int getLevelFromXP(float totalXP){
+		int level = 0;
+		int xp = (int)Math.floor(totalXP);
+		do{
+			int cap = xpBarCap(level);
+			xp -= cap;
+			if (xp < 0)
+				break;
+			level++;
+		}while (true);
+
+		return level;
+	}
+	
 	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius, boolean nonCollide){
 		Entity pointedEntity = null;
 		double d = range;
@@ -78,6 +93,18 @@ public class EntityUtils {
 			}
 		}
 		return pointedEntity;
+	}
+	
+	public static int getXPFromLevel(int level){
+		int totalXP = 0;
+		for(int i = 0; i < level; i++){
+			totalXP += xpBarCap(i);
+		}
+		return totalXP;
+	}
+	
+	public static int xpBarCap(int experienceLevel){
+		return experienceLevel >= 30 ? 62 + (experienceLevel - 30) * 7 : (experienceLevel >= 15 ? 17 + (experienceLevel - 15) * 3 : 17);
 	}
 	
 	public static boolean isAIEnabled(EntityCreature ent){

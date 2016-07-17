@@ -7,9 +7,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
 import am2.api.SpellRegistry;
 import am2.api.SpellRegistry.SpellData;
+import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
 import am2.api.extensions.ISkillData;

@@ -1,12 +1,11 @@
 package am2.blocks.tileentity.flickers;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.utils.AffinityShiftUtils;
@@ -83,8 +82,8 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 
 		if (powered){
 			for (Affinity aff : flickers){
-				if (aff == SkillDefs.WATER)
-					FlickerOperatorRegistry.instance.getOperatorForMask(SkillDefs.WATER.getAffinityMask()).DoOperation(worldObj, habitat, powered);
+				if (aff == Affinity.WATER)
+					FlickerOperatorRegistry.instance.getOperatorForMask(Affinity.WATER.getAffinityMask()).DoOperation(worldObj, habitat, powered);
 			}
 		}
 
@@ -112,10 +111,10 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 				"BGB",
 				Character.valueOf('B'), new ItemStack(Items.DYE, 1, 15),
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-				Character.valueOf('N'), AffinityShiftUtils.getEssenceForAffinity(SkillDefs.NATURE),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.LIFE)),
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.NATURE)),
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.WATER))
+				Character.valueOf('N'), AffinityShiftUtils.getEssenceForAffinity(Affinity.NATURE),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER))
 
 		};
 	}

@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
 import am2.api.IBoundItem;
+import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
-import am2.defs.BindingsDefs;
 import am2.defs.BlockDefs;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
@@ -17,14 +17,12 @@ import am2.extensions.EntityExtension;
 import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
 import am2.lore.ArcaneCompendium;
-import am2.packet.MessageBoolean;
 import am2.spell.ContingencyType;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import am2.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -35,12 +33,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
@@ -48,43 +43,11 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityHandler {
-		
-	@SubscribeEvent
-	public void onKeyInput(InputEvent.KeyInputEvent event) {
-		if (BindingsDefs.iceBridge.isPressed()) {
-			AffinityData.For(Minecraft.getMinecraft().thePlayer).setIceBridgeState(!AffinityData.For(Minecraft.getMinecraft().thePlayer).getIceBridgeState());
-			ArsMagica2.network.sendToServer(new MessageBoolean(AffinityData.For(Minecraft.getMinecraft().thePlayer).getIceBridgeState()));
-		}
-		if (BindingsDefs.enderTP.isPressed() && AffinityData.For(Minecraft.getMinecraft().thePlayer).getAffinityDepth(SkillDefs.ENDER) > 0.8) {
-			Vec3d vec = new Vec3d(Minecraft.getMinecraft().thePlayer.getLookVec().xCoord * 32, Minecraft.getMinecraft().thePlayer.getLookVec().yCoord * 32, Minecraft.getMinecraft().thePlayer.getLookVec().zCoord * 32).add(Minecraft.getMinecraft().thePlayer.getPositionVector());
-			RayTraceResult mop = Minecraft.getMinecraft().theWorld.rayTraceBlocks(Minecraft.getMinecraft().thePlayer.getPositionVector().addVector(0D, 1.2D, 0D), vec);
-			EnderTeleportEvent tp = new EnderTeleportEvent(Minecraft.getMinecraft().thePlayer, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0F);
-			if (MinecraftForge.EVENT_BUS.post(tp)) return;
-			Minecraft.getMinecraft().thePlayer.setPosition(tp.getTargetX(), tp.getTargetY(), tp.getTargetZ());
-			if (mop != null && mop.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
-				Minecraft.getMinecraft().thePlayer.setPosition(mop.getBlockPos().getX(), mop.getBlockPos().getY() + 2, mop.getBlockPos().getZ());
-				FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable() {
-					
-					@Override
-					public void run() {
-						EntityPlayer player = (EntityPlayer) FMLCommonHandler.instance().getMinecraftServerInstance().getEntityFromUuid(Minecraft.getMinecraft().thePlayer.getUniqueID());
-						Vec3d vec = new Vec3d(player.getLookVec().xCoord * 32, player.getLookVec().yCoord * 32, player.getLookVec().zCoord * 32).add(player.getPositionVector());
-						RayTraceResult mop = Minecraft.getMinecraft().theWorld.rayTraceBlocks(player.getPositionVector().addVector(0D, 1.2D, 0D), vec);
-						EnderTeleportEvent tp = new EnderTeleportEvent(Minecraft.getMinecraft().thePlayer, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0F);
-						if (MinecraftForge.EVENT_BUS.post(tp)) return;
-						Minecraft.getMinecraft().thePlayer.setPosition(tp.getTargetX(), tp.getTargetY(), tp.getTargetZ());
-					}
-				});
-			}
-		}
-	}
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -161,10 +124,10 @@ public class EntityHandler {
 		//player.addPotionEffect(new BuffEffectTemporalAnchor(200, 0));
 		IEntityExtension ext = player.getCapability(EntityExtension.INSTANCE, null);
 		IAffinityData affData = player.getCapability(AffinityData.INSTANCE, null);
-		float natureDepth = affData.getAffinityDepth(SkillDefs.NATURE);
-		float lifeDepth = affData.getAffinityDepth(SkillDefs.LIFE);
-		float lightningDepth = affData.getAffinityDepth(SkillDefs.LIGHTNING);
-		float iceDepth = affData.getAffinityDepth(SkillDefs.ICE);
+		float natureDepth = affData.getAffinityDepth(Affinity.NATURE);
+		float lifeDepth = affData.getAffinityDepth(Affinity.LIFE);
+		float lightningDepth = affData.getAffinityDepth(Affinity.LIGHTNING);
+		float iceDepth = affData.getAffinityDepth(Affinity.ICE);
 		float manaMultiplier = 1;
 		if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_1.getID()))
 			manaMultiplier *= 1.5F;
@@ -287,7 +250,7 @@ public class EntityHandler {
 	
 	public void makeIceBridge (EntityPlayer player) {
 		IAffinityData affData = player.getCapability(AffinityData.INSTANCE, null);
-		float iceDepth = affData.getAffinityDepth(SkillDefs.ICE);
+		float iceDepth = affData.getAffinityDepth(Affinity.ICE);
 		if (affData.getIceBridgeState() && iceDepth >= 0.5F && !player.worldObj.isRemote && ((!player.isSneaking() && player.onGround) || (player.isSneaking() && !player.onGround))) {
 			//System.out.println(player.worldObj.isRemote);
 			for (int x = -1; x <= 1; x++) {
@@ -338,7 +301,7 @@ public class EntityHandler {
 				if (!EntityExtension.For(player).useMana(e.getAmount() * 10)) {
 					stack.getItem().onDroppedByPlayer(stack, player);
 				} else if (EntityExtension.For(player).hasEnoughtMana(SpellUtils.getManaCost(stack))) {
-					EntityLivingBase target = e.getSource().getSourceOfDamage() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getSourceOfDamage() : null;
+					EntityLivingBase target = e.getSource().getEntity() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getEntity() : null;
 					double posX = target != null ? target.posX : player.posX;
 					double posY = target != null ? target.posY : player.posY;
 					double posZ = target != null ? target.posZ : player.posZ;

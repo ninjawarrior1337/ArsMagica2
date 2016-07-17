@@ -2,10 +2,9 @@ package am2.items;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.extensions.AffinityData;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,7 +28,7 @@ public class ItemAffinityTome extends ItemArsMagica2 {
 	
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		for (int i = 0; i < AffinityRegistry.getAffinityMap().size(); i++) {
+		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
 			subItems.add(new ItemStack(itemIn, 1, i));
 		}
 	}
@@ -39,14 +38,8 @@ public class ItemAffinityTome extends ItemArsMagica2 {
 			World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (worldIn.isRemote)
 			return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
-		String affName = "none";
-		int i = 0;
-		for (Entry<String, Affinity> entry : AffinityRegistry.getAffinityMap().entrySet()) {
-			if (i == itemStackIn.getItemDamage())
-				affName = entry.getKey();
-			i++;
-		}
-		HashMap<Affinity, Float> map = AffinityShiftUtils.finalize(AffinityRegistry.getAffinityFromName(affName), 0.2F, AffinityShiftUtils.shiftAffinity(AffinityRegistry.getAffinityFromName(affName), 0.2F, AffinityData.For(playerIn).getAffinities()));
+		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(itemStackIn.getItemDamage());
+		HashMap<Affinity, Float> map = AffinityShiftUtils.finalize(aff, 0.2F, AffinityShiftUtils.shiftAffinity(aff, 0.2F, AffinityData.For(playerIn).getAffinities()));
 		ItemStack newStack = itemStackIn.copy();
 		newStack.stackSize--;
 		AffinityShiftUtils.setAffinityData(map, playerIn, false);
@@ -55,13 +48,7 @@ public class ItemAffinityTome extends ItemArsMagica2 {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		Affinity aff = AffinityRegistry.getAffinityFromName("none");
-		int i = 0;
-		for (Entry<String, Affinity> entry : AffinityRegistry.getAffinityMap().entrySet()) {
-			if (i == stack.getItemDamage())
-				aff = entry.getValue();
-			i++;
-		}
+		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
 		return I18n.translateToLocal("item.tome.name") + aff.getLocalizedName();
 	}
 	

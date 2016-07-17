@@ -6,10 +6,9 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.api.extensions.IEntityExtension;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
@@ -106,7 +105,7 @@ public class LifeTap implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.LIFE, SkillDefs.ENDER);
+		return Sets.newHashSet(Affinity.LIFE, Affinity.ENDER);
 	}
 
 	@Override
@@ -131,7 +130,7 @@ public class LifeTap implements IComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.mobFocus),
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ENDER)
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ENDER)
 		};
 	}
 

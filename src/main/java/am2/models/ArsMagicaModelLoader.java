@@ -21,8 +21,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.items.rendering.SpellModel;
 import am2.utils.ResourceUtils;
 import net.minecraft.client.Minecraft;
@@ -82,7 +82,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
 	@SubscribeEvent
 	public void preStitch(TextureStitchEvent.Pre e) {
-		for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
 			e.getMap().registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand"));
 			sprites.put(aff, e.getMap().getTextureExtry(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand").toString()));
 		}

@@ -2,7 +2,7 @@
 	"forge_marker": 1,
 	"defaults": {
 		"custom": { "flip-v": true },
-		"model": "arsmagica2:crystal_marker.obj"
+		"model": "arsmagica2:crystal_marker_cullface"
 	},
 	"variants": {
 		"normal": [{}],

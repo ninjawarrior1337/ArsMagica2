@@ -60,12 +60,11 @@ public class PowerNodeRegistry{
 		HashMap<Vec3d, PowerNodeEntry> nodeList;
 		TileEntity te = ((TileEntity)node);
 		World world = te.getWorld();
-
 		if (powerNodes.containsKey(chunk)){
 			nodeList = powerNodes.get(chunk);
-			ArsMagica2.LOGGER.trace("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+			ArsMagica2.LOGGER.trace(String.format("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 		}else{
-			ArsMagica2.LOGGER.trace("Node list not found.  Checking cache/files for prior data");
+			ArsMagica2.LOGGER.info("Node list not found.  Checking cache/files for prior data");
 			NBTTagCompound compound = PowerNodeCache.instance.getNBTForChunk(world, chunk);
 			nodeList = new HashMap<Vec3d, PowerNodeEntry>();
 			if (compound == null || !compound.hasKey("AM2PowerData")){
@@ -77,7 +76,7 @@ public class PowerNodeRegistry{
 				//sanity check
 				if (nodeList == null)
 					nodeList = new HashMap<Vec3d, PowerNodeEntry>();
-				ArsMagica2.LOGGER.trace("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+				ArsMagica2.LOGGER.trace(String.format("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 			}
 		}
 
@@ -219,7 +218,7 @@ public class PowerNodeRegistry{
 		if (curPower + amount > destination.getCapacity())
 			amount = destination.getCapacity() - curPower;
 		data.setPower(type, curPower + amount);
-
+		
 		return amount;
 	}
 
@@ -229,9 +228,10 @@ public class PowerNodeRegistry{
 		if (data == null){
 			return;
 		}
-
+		
 		if (amount > destination.getCapacity())
 			amount = destination.getCapacity();
+		
 		data.setPower(type, amount);
 	}
 

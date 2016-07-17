@@ -169,6 +169,13 @@ public class PowerNodeCache{
 			SaveNBTToFile(event.getWorld(), event.getChunk().getChunkCoordIntPair(), dataCompound, false);
 		}
 	}
+	
+	@SubscribeEvent
+	public void onChunkLoad(ChunkEvent.Load event) {
+		NBTTagCompound dataCompound = LoadNBTFromFile(event.getWorld(), event.getChunk().getChunkCoordIntPair());
+		if (dataCompound != null)
+			PowerNodeRegistry.For(event.getWorld()).LoadChunkFromNBT(event.getChunk().getChunkCoordIntPair(), dataCompound);
+	}
 
 	@SubscribeEvent
 	public void onWorldSave(WorldEvent.Save event){

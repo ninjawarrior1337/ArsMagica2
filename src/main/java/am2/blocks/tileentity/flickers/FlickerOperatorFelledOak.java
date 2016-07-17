@@ -1,13 +1,12 @@
 package am2.blocks.tileentity.flickers;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemBindingCatalyst;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
@@ -240,7 +239,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 
 		boolean hasNatureAugment = false;
 		for (Affinity aff : flickers){
-			if (aff == SkillDefs.NATURE){
+			if (aff == Affinity.NATURE){
 				hasNatureAugment = true;
 				break;
 			}
@@ -262,7 +261,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		int base = powered ? 300 : 3600;
 		float augments = 1.0f;
 		for (Affinity aff : flickers){
-			if (aff == SkillDefs.LIGHTNING)
+			if (aff == Affinity.LIGHTNING)
 				augments *= 0.5f;
 		}
 		return (int)Math.ceil(base * augments);
@@ -280,8 +279,8 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 				" OW",
 				Character.valueOf('W'), BlockDefs.witchwoodLog,
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.NATURE)),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.LIGHTNING)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
 				Character.valueOf('G'), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE)
 		};

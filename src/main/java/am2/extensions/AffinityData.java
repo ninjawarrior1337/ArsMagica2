@@ -3,10 +3,9 @@ package am2.extensions;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
-import am2.defs.SkillDefs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -45,11 +44,12 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	public void init(EntityPlayer entity) {
 		this.player = entity;
 		HashMap<Affinity, Float> map = new HashMap<Affinity, Float>();
-		for (Affinity DEPTH : AffinityRegistry.getAffinityMap().values())
+		for (Affinity DEPTH : ArsMagicaAPI.getAffinityRegistry().getValues())
 			map.put(DEPTH, 0F);
-		map.put(SkillDefs.NONE, 0F);
+		map.put(Affinity.NONE, 0F);
 		player.getDataManager().register(DataDefinitions.AFFINITY_DATA, map);
 		player.getDataManager().register(DataDefinitions.ICE_BRIDGE_STATE, false);
+		player.getDataManager().register(DataDefinitions.NIGHT_VISION_ACTIVE, false);
 		player.getDataManager().register(DataDefinitions.NATURE_SPEED, 0);
 		player.getDataManager().register(DataDefinitions.ICE_SPEED, 0);
 		player.getDataManager().register(DataDefinitions.DIMINISHING_RETURNS, 1.0F);
@@ -132,8 +132,8 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	public Affinity[] getHighestAffinities() {
 		float max1 = 0;
 		float max2 = 0;
-		Affinity maxAff1 = SkillDefs.NONE;
-		Affinity maxAff2 = SkillDefs.NONE;
+		Affinity maxAff1 = Affinity.NONE;
+		Affinity maxAff2 = Affinity.NONE;
 		for (Entry<Affinity, Float> entry : getAffinities().entrySet()) {
 			if (entry.getValue() > max1) {
 				max2 = max1;
@@ -146,6 +146,16 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 			}
 		}
 		return new Affinity[] {maxAff1, maxAff2};
+	}
+
+	@Override
+	public boolean hasNightVisionActive() {
+		return player.getDataManager().get(DataDefinitions.NIGHT_VISION_ACTIVE);
+	}
+
+	@Override
+	public void setNightVisionState(boolean bool) {
+		player.getDataManager().set(DataDefinitions.NIGHT_VISION_ACTIVE, bool);
 	}
 
 }

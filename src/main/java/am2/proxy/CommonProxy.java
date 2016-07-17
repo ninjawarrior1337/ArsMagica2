@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import com.google.common.collect.ImmutableMap;
 
 import am2.ArsMagica2;
+import am2.affinity.AffinityAbilityHelper;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IArcaneCompendium;
 import am2.api.extensions.IEntityExtension;
@@ -115,6 +116,7 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		MinecraftForge.EVENT_BUS.register(new PotionEffectHandler());
+		MinecraftForge.EVENT_BUS.register(new AffinityAbilityHelper());
 		MinecraftForge.EVENT_BUS.register(packetProcessor);
 		MinecraftForge.EVENT_BUS.register(PowerNodeCache.instance);
 		

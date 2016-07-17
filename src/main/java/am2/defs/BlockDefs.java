@@ -21,6 +21,7 @@ import am2.blocks.BlockOcculus;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
 import am2.blocks.BlockWizardsChalk;
+import am2.blocks.colorizers.ManaBatteryColorizer;
 import am2.items.rendering.IgnoreMetadataRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -100,6 +101,8 @@ public class BlockDefs {
 		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
+		
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ManaBatteryColorizer(), manaBattery);
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {
 			ModelResourceLocation blockLoc = new ModelResourceLocation("arsmagica2:block_" + BlockArsMagicaOre.EnumOreType.values()[i].getName(), "inventory");
 			ModelResourceLocation oreLoc = new ModelResourceLocation("arsmagica2:ore_" + BlockArsMagicaOre.EnumOreType.values()[i].getName(), "inventory");

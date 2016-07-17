@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.entity.EntitySpellProjectile;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
@@ -166,7 +166,7 @@ public class AoE implements IShape{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE),
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.AIR),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
 				//TODO String.format("E:%d|%d|%d", PowerTypes.LIGHT.ID(), PowerTypes.NEUTRAL.ID(), PowerTypes.DARK.ID()), 1000,
 				Blocks.TNT
 		};

@@ -6,10 +6,9 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -67,10 +66,10 @@ public class BanishRain implements IComponent, IRitualInteraction{
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){
 		int waterMeta = 0;
-		for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-			if (aff.equals(SkillDefs.NONE))
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			if (aff.equals(Affinity.NONE))
 				continue;				
-			if (aff.equals(SkillDefs.WATER))
+			if (aff.equals(Affinity.WATER))
 				break;
 			waterMeta++;
 		}
@@ -94,7 +93,7 @@ public class BanishRain implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.WATER);
+		return Sets.newHashSet(Affinity.WATER);
 	}
 
 	@Override

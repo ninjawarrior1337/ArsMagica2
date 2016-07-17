@@ -1,8 +1,8 @@
 package am2.spell.shape;
 
+import am2.api.affinity.Affinity;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
@@ -29,7 +29,7 @@ public class Contingency_Health implements IShape{
 				BlockDefs.tarmaRoot,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ),
 				"E:*", 5000,
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.LIFE)
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.LIFE)
 		};
 	}
 

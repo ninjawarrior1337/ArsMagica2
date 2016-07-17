@@ -2,7 +2,7 @@ package am2.spell.modifier;
 
 import java.util.EnumSet;
 
-import am2.defs.SkillDefs;
+import am2.api.affinity.Affinity;
 import am2.spell.IModifier;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
@@ -23,7 +23,7 @@ public class Bounce implements IModifier{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.EARTH),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH),
 				Items.SLIME_BALL
 		};
 	}

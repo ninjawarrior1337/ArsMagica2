@@ -5,9 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.spell.IComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
@@ -111,7 +110,7 @@ public class RandomTeleport implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.ENDER);
+		return Sets.newHashSet(Affinity.ENDER);
 	}
 
 	@Override

@@ -5,9 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.entity.EntityRiftStorage;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.rituals.IRitualInteraction;
@@ -103,7 +102,7 @@ public class Rift implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.NONE);
+		return Sets.newHashSet(Affinity.NONE);
 	}
 
 	@Override
@@ -130,7 +129,7 @@ public class Rift implements IComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.mobFocus),
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ENDER)
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ENDER)
 		};
 	}
 

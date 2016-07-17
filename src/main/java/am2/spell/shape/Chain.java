@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.spell.IModifier;
@@ -101,7 +100,7 @@ public class Chain implements IShape{
 
 		Affinity aff = AffinityShiftUtils.getMainShiftForStack(spellStack);
 
-		if (aff.equals(SkillDefs.LIGHTNING)){
+		if (aff.equals(Affinity.LIGHTNING)){
 			ArsMagica2.proxy.particleManager.BoltFromPointToPoint(world, startX, startY, startZ, endX, endY, endZ, 1, color);
 		}else{
 			if (color == -1)

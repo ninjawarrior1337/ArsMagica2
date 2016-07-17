@@ -9,7 +9,7 @@ import static am2.extensions.DataDefinitions.CURRENT_MANA_FATIGUE;
 import static am2.extensions.DataDefinitions.CURRENT_SUMMONS;
 import static am2.extensions.DataDefinitions.CURRENT_XP;
 import static am2.extensions.DataDefinitions.FLIP_ROTATION;
-import static am2.extensions.DataDefinitions.HAS_FALL_PROTECTION;
+import static am2.extensions.DataDefinitions.FALL_PROTECTION;
 import static am2.extensions.DataDefinitions.HEAL_COOLDOWN;
 import static am2.extensions.DataDefinitions.IS_INVERTED;
 import static am2.extensions.DataDefinitions.IS_SHRUNK;
@@ -265,8 +265,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	@Override
-	public void setFallProtection(boolean hasFallProtection) {
-		entity.getDataManager().set(HAS_FALL_PROTECTION, hasFallProtection);
+	public void setFallProtection(float hasFallProtection) {
+		entity.getDataManager().set(FALL_PROTECTION, hasFallProtection);
 	}
 	
 	@Override
@@ -275,8 +275,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	@Override
-	public boolean hasFallProtection() {
-		return entity.getDataManager().get(HAS_FALL_PROTECTION);
+	public float getFallProtection() {
+		return entity.getDataManager().get(FALL_PROTECTION);
 	}
 	
 	@Override
@@ -308,7 +308,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.entity.getDataManager().register(MARK_DIMENSION, -512);
 		this.entity.getDataManager().register(CONTENGENCY_STACK, Optional.<ItemStack>absent());
 		this.entity.getDataManager().register(CONTENGENCY_TYPE, "NULL");
-		this.entity.getDataManager().register(HAS_FALL_PROTECTION, false);
+		this.entity.getDataManager().register(FALL_PROTECTION, 0.0f);
 		this.entity.getDataManager().register(IS_INVERTED, false);
 		this.entity.getDataManager().register(IS_SHRUNK, false);
 		this.entity.getDataManager().register(FLIP_ROTATION, 0.0f);

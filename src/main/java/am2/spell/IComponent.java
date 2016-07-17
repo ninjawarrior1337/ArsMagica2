@@ -3,13 +3,13 @@ package am2.spell;
 import java.util.Random;
 import java.util.Set;
 
+import am2.api.affinity.Affinity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import am2.affinity.Affinity;
 
 public interface IComponent extends ISpellPart{
 	/**

@@ -6,9 +6,8 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
@@ -98,7 +97,7 @@ public class Drought implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.FIRE, SkillDefs.AIR);
+		return Sets.newHashSet(Affinity.FIRE, Affinity.AIR);
 	}
 
 	@Override
@@ -112,7 +111,7 @@ public class Drought implements IComponent{
 
 	@Override
 	public float getAffinityShift(Affinity affinity){
-		if (affinity == SkillDefs.FIRE)
+		if (affinity == Affinity.FIRE)
 			return 0.008f;
 		else
 			return 0.004f;

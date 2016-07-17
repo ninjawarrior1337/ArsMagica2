@@ -3,7 +3,7 @@ package am2.blocks.tileentity.flickers;
 import java.util.HashMap;
 import java.util.List;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.blocks.tileentity.TileEntityAMPower;

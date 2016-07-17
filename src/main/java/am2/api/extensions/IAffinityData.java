@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.extensions.AffinityData;
 
 public interface IAffinityData {	
@@ -26,7 +26,11 @@ public interface IAffinityData {
 	
 	public boolean getIceBridgeState();
 	
+	public boolean hasNightVisionActive();
+	
 	public void setIceBridgeState(boolean bool);
+	
+	public void setNightVisionState(boolean bool);
 	
 	public int getNatureSpeed();
 	

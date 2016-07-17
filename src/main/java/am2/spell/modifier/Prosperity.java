@@ -26,7 +26,7 @@ public class Prosperity implements IModifier{
 	public Object[] getRecipe(){
 		return new Object[]{
 				Items.GOLD_INGOT,
-				//TODO AffinityShiftUtils.getEssenceForAffinity(SkillDefs.BASE_CORE),
+				//TODO AffinityShiftUtils.getEssenceForAffinity(Affinity.BASE_CORE),
 				Items.GOLD_INGOT
 		};
 	}

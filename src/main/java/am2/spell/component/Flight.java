@@ -6,11 +6,10 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectFlight;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
@@ -78,7 +77,7 @@ public class Flight implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.AIR);
+		return Sets.newHashSet(Affinity.AIR);
 	}
 
 	@Override
@@ -104,7 +103,7 @@ public class Flight implements IComponent, IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.FEATHER),
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.AIR),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
 				//TODO new ItemStack(BlocksCommonProxy.tarmaRoot)
 		};
 	}

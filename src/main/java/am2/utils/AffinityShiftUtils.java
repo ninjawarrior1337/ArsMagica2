@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.spell.IComponent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,11 +73,11 @@ public class AffinityShiftUtils {
 	}
 	
 	public static void setAffinityData (HashMap<Affinity, Float> map, EntityPlayer player, boolean isChanneled) {
-		for (Entry<String, Affinity> entry : AffinityRegistry.getAffinityMap().entrySet()) {
-			if (map.containsKey(entry.getValue()))
-				AffinityData.For(player).setAffinityDepth(entry.getValue(), map.get(entry.getValue()));
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			if (map.containsKey(aff))
+				AffinityData.For(player).setAffinityDepth(aff, map.get(aff));
 			else
-				AffinityData.For(player).setAffinityDepth(entry.getValue(), 0.0F);
+				AffinityData.For(player).setAffinityDepth(aff, 0.0F);
 		}
 	}
 	
@@ -97,13 +96,11 @@ public class AffinityShiftUtils {
 	}
 	
 	public static Affinity getMainShiftForStack(ItemStack stack) {
-		Affinity aff = SkillDefs.NONE;
+		Affinity aff = Affinity.NONE;
 		float maxDepth = 0F;
 		HashMap<Affinity, Float> customDepthMap = new HashMap<>();
-		//System.out.println(NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"));
 		ArrayList<IComponent> components = SpellUtils.getComponentsForStage(stack, -1);
 		for (IComponent component : components) {
-			//System.out.println("Stage " + i + " Component " + component.getClass().getSimpleName());
 			for (Affinity aff1 : component.getAffinity()) {
 				if (customDepthMap.get(aff1) != null) {
 					customDepthMap.put(aff1, customDepthMap.get(aff1) + component.getAffinityShift(aff1));
@@ -124,8 +121,8 @@ public class AffinityShiftUtils {
 	
 	public static ItemStack getEssenceForAffinity (Affinity affinity) {
 		int meta = 0;
-		for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-			if (aff.equals(SkillDefs.NONE))
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			if (aff.equals(Affinity.NONE))
 				continue;				
 			if (aff.equals(affinity))
 				break;

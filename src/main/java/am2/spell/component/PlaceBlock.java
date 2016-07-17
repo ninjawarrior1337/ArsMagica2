@@ -5,9 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.spell.IComponent;
 import am2.utils.InventoryUtilities;
 import am2.utils.SpellUtils;
@@ -134,7 +133,7 @@ public class PlaceBlock implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.EARTH, SkillDefs.ENDER);
+		return Sets.newHashSet(Affinity.EARTH, Affinity.ENDER);
 	}
 
 	@Override

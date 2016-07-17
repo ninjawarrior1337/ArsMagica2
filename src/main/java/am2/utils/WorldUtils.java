@@ -2,8 +2,12 @@ package am2.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class WorldUtils {
 	
@@ -33,5 +37,21 @@ public class WorldUtils {
 	
 	public static int getBlockMeta(IBlockState state) {
 		return state.getBlock().getMetaFromState(state);
+	}
+	
+	public static void freeze(BlockPos pos, World world) {
+		Block block = WorldUtils.getBlockAt(world, pos);
+		if (block.equals(Blocks.WATER) || block.equals(Blocks.FLOWING_WATER))
+			world.setBlockState(pos, Blocks.ICE.getDefaultState(), 3);
+		else if ((block.equals(Blocks.LAVA) || block.equals(Blocks.FLOWING_LAVA))) {
+			world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState(), 3);
+		}
+	}
+	
+	public static void runSided(Side side, Runnable runnable) {
+		if (side == Side.CLIENT)
+			Minecraft.getMinecraft().addScheduledTask(runnable);
+		else if (side == Side.SERVER)
+			FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(runnable);
 	}
 }

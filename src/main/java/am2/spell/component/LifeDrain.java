@@ -6,9 +6,8 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
 import am2.particles.ParticleArcToEntity;
@@ -79,7 +78,7 @@ public class LifeDrain implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.LIFE);
+		return Sets.newHashSet(Affinity.LIFE);
 	}
 
 	@Override

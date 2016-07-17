@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.particles.AMBeam;
@@ -104,7 +103,7 @@ public class Beam implements IShape{
 					beam.setBeamLocationAndTarget(startX, startY, startZ, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord);
 				}
 			}else{
-				if (affinity.equals(SkillDefs.LIGHTNING)){
+				if (affinity.equals(Affinity.LIGHTNING)){
 					ArsMagica2.proxy.particleManager.BoltFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, 1, color == -1 ? affinity.getColor() : color);
 				}else{
 					beam = (AMBeam)ArsMagica2.proxy.particleManager.BeamFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, color == -1 ? affinity.getColor() : color);

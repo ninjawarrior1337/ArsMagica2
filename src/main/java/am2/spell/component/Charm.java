@@ -6,11 +6,10 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectCharmed;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
@@ -43,7 +42,7 @@ public class Charm implements IComponent, IRitualInteraction{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.LIFE),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.LIFE),
 				//TODO new ItemStack(ItemDefs.crystalPhylactery, 1, ItemsCommonProxy.crystalPhylactery.META_EMPTY)
 		};
 	}
@@ -119,7 +118,7 @@ public class Charm implements IComponent, IRitualInteraction{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.LIFE);
+		return Sets.newHashSet(Affinity.LIFE);
 	}
 
 	@Override

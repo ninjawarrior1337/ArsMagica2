@@ -6,9 +6,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.entity.EntitySpellEffect;
 import am2.items.ItemOre;
 import am2.spell.IComponent;
@@ -30,10 +29,10 @@ public class Blizzard implements IComponent{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ICE),
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ICE),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ),
 				Blocks.ICE,
-				AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ICE)
+				AffinityShiftUtils.getEssenceForAffinity(Affinity.ICE)
 		};
 	}
 
@@ -91,7 +90,7 @@ public class Blizzard implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.ICE);
+		return Sets.newHashSet(Affinity.ICE);
 	}
 
 	@Override

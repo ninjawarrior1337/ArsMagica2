@@ -6,10 +6,9 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.spell.IComponent;
@@ -63,7 +62,7 @@ public class EnderIntervention implements IComponent{
 
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){
-		return new ItemStack[]{AffinityShiftUtils.getEssenceForAffinity(SkillDefs.ENDER)};
+		return new ItemStack[]{AffinityShiftUtils.getEssenceForAffinity(Affinity.ENDER)};
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class EnderIntervention implements IComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(SkillDefs.ENDER);
+		return Sets.newHashSet(Affinity.ENDER);
 	}
 
 	@Override

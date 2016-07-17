@@ -1,6 +1,6 @@
 package am2.api.flickers;
 
-import am2.affinity.Affinity;
+import am2.api.affinity.Affinity;
 import net.minecraft.world.World;
 
 public interface IFlickerFunctionality{

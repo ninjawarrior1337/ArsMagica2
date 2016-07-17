@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import am2.ArsMagica2;
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.defs.ItemDefs;
-import am2.defs.SkillDefs;
 import am2.entity.SpawnBlacklists;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -93,9 +92,9 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 				Character.valueOf('P'), new ItemStack(Items.PORKCHOP),
 				Character.valueOf('B'), new ItemStack(Items.BEEF),
 				Character.valueOf('C'), new ItemStack(Items.CHICKEN),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.FIRE)),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
 				Character.valueOf('G'), new ItemStack(Items.GOLDEN_SWORD),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, AffinityRegistry.getIdFor(SkillDefs.LIFE)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
 				Character.valueOf('E'), new ItemStack(ItemDefs.evilBook)
 		};

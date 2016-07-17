@@ -7,11 +7,11 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-import am2.affinity.Affinity;
-import am2.api.AffinityRegistry;
+import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
 import am2.api.SkillTreeRegistry;
+import am2.api.affinity.Affinity;
 import am2.api.extensions.ISkillData;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
@@ -311,15 +311,15 @@ public class GuiOcculus extends GuiScreen {
 			
 		} else {
 			RenderUtils.drawBox(posX + 7, posY + 7, 196, 196, zLevel, 0, 0, 1, 1);
-			int affNum = AffinityRegistry.getAffinityMap().values().size() - 1;
+			int affNum = ArsMagicaAPI.getAffinityRegistry().getValues().size() - 1;
 			int portion = 360 / affNum;
 			int currentID = 0;
 			int cX = posX + xSize/2;
 			int cY = posY + ySize/2;
 			//float finalPercentage = AffinityData.For(player).getAffinityDepth(SkillDefs.NONE) * 100;
 			int i = 0;
-			for (Affinity aff : AffinityRegistry.getAffinityMap().values()) {
-				if (aff == SkillDefs.NONE)
+			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+				if (aff == Affinity.NONE)
 					continue;
 				float depth = AffinityData.For(player).getAffinityDepth(aff);
 				double affEndX = Math.cos(Math.toRadians(portion*currentID)) * 10F + Math.cos(Math.toRadians(portion*currentID)) * depth * 60F;
