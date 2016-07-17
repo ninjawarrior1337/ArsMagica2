@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.config.AMConfig;
 import am2.defs.AMRecipes;
 import am2.defs.BindingsDefs;
@@ -46,6 +47,7 @@ public class ArsMagica2 {
 	static {
 		new DataDefinitions();
 		new ArsMagicaAPI();
+		Affinity.registerAffinities();
 	}
 	
 	@EventHandler

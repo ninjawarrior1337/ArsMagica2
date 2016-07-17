@@ -1,7 +1,6 @@
 package am2.defs;
 
 import java.util.Iterator;
-import java.util.Map.Entry;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
@@ -96,6 +95,8 @@ public class ItemDefs {
 
 	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 
+	public static final Item waterGuardianOrbs = null;
+
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	
 	public static void init () {
@@ -130,19 +131,19 @@ public class ItemDefs {
 		
 		renderItem.getItemModelMesher().register(crystalWrench, new CrystalWrenchRenderer(crystalWrench));
 		Item essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2", "essence"));
-		Iterator<Entry<ResourceLocation, Affinity>> iter = ArsMagicaAPI.getAffinityRegistry().getEntries().iterator();
+		Iterator<Affinity> iter = ArsMagicaAPI.getAffinityRegistry().getValues().iterator();
 		int effMeta = 0;
 		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
 			if (!iter.hasNext())
 				break;
-			Entry<ResourceLocation, Affinity> entry = iter.next();
-			ModelBakery.registerItemVariants(affinityTome, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getValue().getName(), "inventory"));
-			renderItem.getItemModelMesher().register(affinityTome, i, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getValue().getName(), "inventory"));
-			if (entry.getValue().equals(Affinity.NONE)) {
+			Affinity entry = iter.next();
+			ModelBakery.registerItemVariants(affinityTome, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getName(), "inventory"));
+			renderItem.getItemModelMesher().register(affinityTome, i, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getName(), "inventory"));
+			if (entry.equals(Affinity.NONE)) {
 				continue;
 			}
-			ModelBakery.registerItemVariants(essence, new ModelResourceLocation("arsmagica2:essence_" + entry.getValue().getName(), "inventory"));
-			renderItem.getItemModelMesher().register(essence, effMeta, new ModelResourceLocation("arsmagica2:essence_" + entry.getValue().getName(), "inventory"));
+			ModelBakery.registerItemVariants(essence, new ModelResourceLocation("arsmagica2:essence_" + entry.getName(), "inventory"));
+			renderItem.getItemModelMesher().register(essence, effMeta, new ModelResourceLocation("arsmagica2:essence_" + entry.getName(), "inventory"));
 			effMeta++;
 		}
 		for (int i = 0; i < 16; i++) {

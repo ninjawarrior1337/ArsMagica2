@@ -3,10 +3,14 @@ package am2.api.affinity;
 import javax.annotation.Nullable;
 
 import am2.api.extensions.IAffinityData;
+import am2.event.SpellCastEvent;
 import am2.extensions.AffinityData;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<AbstractAffinityAbility>{
@@ -69,8 +73,22 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	 * 
 	 * @param player : the current player
 	 */
-	public abstract void apply(EntityPlayer player);
+	public void applyTick(EntityPlayer player) {}
 	
+	public void applyKeyPress(EntityPlayer player) {};
+	
+	public void applyHurt(EntityPlayer player, LivingHurtEvent event) {}
+	
+	public void applyFall(EntityPlayer player, LivingFallEvent event) {}
+	
+	public void applySpellCast(EntityPlayer player, SpellCastEvent.Post event) {}
+	
+	public void applyEntityDeath(EntityPlayer player, LivingDeathEvent event) {}
+	
+	public void removeEffects(EntityPlayer player) {}
+	/**
+	 * For internal use
+	 */
 	public Runnable createRunnable(EntityPlayer player) {
 		return new Apply(player, this);
 	}
@@ -87,8 +105,7 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 		
 		@Override
 		public void run() {
-			ability.apply(player);
+			ability.applyKeyPress(player);
 		}
-		
 	}
 }

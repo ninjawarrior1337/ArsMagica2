@@ -12,15 +12,15 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class AbilityEnderTeleport extends AbstractAffinityAbility {
+public class AbilityPhasing extends AbstractAffinityAbility {
 
-	public AbilityEnderTeleport() {
-		super(new ResourceLocation("arsmagica2", "enderteleport"));
+	public AbilityPhasing() {
+		super(new ResourceLocation("arsmagica2", "phasing"));
 	}
 
 	@Override
 	protected float getMinimumDepth() {
-		return 1.0f;
+		return 0.75f;
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class AbilityEnderTeleport extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void apply(EntityPlayer player) {
+	public void applyKeyPress(EntityPlayer player) {
 		Vec3d playerPos = new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		RayTraceResult result = player.worldObj.rayTraceBlocks(playerPos, playerPos.add(new Vec3d(player.getLookVec().xCoord * 32, player.getLookVec().yCoord * 32, player.getLookVec().zCoord * 32)));
 		if (result != null) {

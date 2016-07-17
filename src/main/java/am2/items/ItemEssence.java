@@ -2,14 +2,12 @@ package am2.items;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 
@@ -24,11 +22,11 @@ public class ItemEssence extends ItemArsMagica2 {
 	
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		Iterator<Entry<ResourceLocation, Affinity>> iter = ArsMagicaAPI.getAffinityRegistry().getEntries().iterator();
+		Iterator<Affinity> iter = ArsMagicaAPI.getAffinityRegistry().getValues().iterator();
 		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
 			if (!iter.hasNext())
 				break;
-			if (iter.next().getValue().equals(Affinity.NONE)) {
+			if (iter.next().equals(Affinity.NONE)) {
 				i--;
 				continue;
 			}

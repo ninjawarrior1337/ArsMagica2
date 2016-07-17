@@ -30,7 +30,7 @@ public class AbilityNightVision extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	public void apply(EntityPlayer player) {
+	public void applyTick(EntityPlayer player) {
 		if (!player.worldObj.isRemote && (!player.isPotionActive(Potion.getPotionFromResourceLocation("night_vision")) || player.getActivePotionEffect(Potion.getPotionFromResourceLocation("night_vision")).getDuration() <= 220)){
 			player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("night_vision"), 300, 1));
 		}

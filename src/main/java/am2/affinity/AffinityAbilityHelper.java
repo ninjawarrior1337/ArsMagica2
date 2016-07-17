@@ -1,8 +1,12 @@
 package am2.affinity;
 
-import am2.affinity.abilities.AbilityEnderTeleport;
+import am2.affinity.abilities.AbilityPhasing;
+import am2.affinity.abilities.AbilityExpandedLungs;
+import am2.affinity.abilities.AbilityFluidity;
 import am2.affinity.abilities.AbilityLavaFreeze;
+import am2.affinity.abilities.AbilityLightningStep;
 import am2.affinity.abilities.AbilityNightVision;
+import am2.affinity.abilities.AbilitySwiftSwim;
 import am2.affinity.abilities.AbilityWaterFreeze;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.utils.WorldUtils;
@@ -18,10 +22,33 @@ import net.minecraftforge.fml.relauncher.Side;
 public class AffinityAbilityHelper {
 	
 	static {
-		GameRegistry.register(new AbilityEnderTeleport());
-		GameRegistry.register(new AbilityLavaFreeze());
+		//AIR
+		
+		//ARCANE
+		
+		//EARTH
+		
+		//ENDER
+		GameRegistry.register(new AbilityPhasing());
 		GameRegistry.register(new AbilityNightVision());
+		
+		//FIRE
+		
+		//ICE
+		GameRegistry.register(new AbilityLavaFreeze());
 		GameRegistry.register(new AbilityWaterFreeze());
+		
+		//LIFE
+		
+		//WATER
+		GameRegistry.register(new AbilityExpandedLungs());
+		GameRegistry.register(new AbilityFluidity());
+		GameRegistry.register(new AbilitySwiftSwim());
+		
+		//NATURE
+		
+		//LIGHTNING
+		GameRegistry.register(new AbilityLightningStep());
 	}
 	
 	
@@ -45,7 +72,9 @@ public class AffinityAbilityHelper {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
 				if (ability.getKey() == null) {
 					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
-						ability.apply((EntityPlayer) event.getEntityLiving());
+						ability.applyTick((EntityPlayer) event.getEntityLiving());
+					else
+						ability.removeEffects((EntityPlayer) event.getEntityLiving());
 				}
 			}
 		}

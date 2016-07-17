@@ -26,7 +26,7 @@ public class AbilityLavaFreeze extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	public void apply(EntityPlayer player) {
+	public void applyTick(EntityPlayer player) {
 		int n = player.onGround ? 1 : 2;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {

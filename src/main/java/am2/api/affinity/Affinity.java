@@ -27,7 +27,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	public static final Affinity LIFE = new Affinity("life", 0x34e122);
 	public static final Affinity ENDER = new Affinity("ender", 0x3f043d);
 	
-	static {
+	public static void registerAffinities() {
 		GameRegistry.register(NONE, new ResourceLocation("arsmagica2", "none"));
 		GameRegistry.register(ARCANE, new ResourceLocation("arsmagica2", "arcane"));
 		GameRegistry.register(WATER, new ResourceLocation("arsmagica2", "water"));
