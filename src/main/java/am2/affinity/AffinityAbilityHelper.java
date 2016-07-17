@@ -1,18 +1,30 @@
 package am2.affinity;
 
-import am2.affinity.abilities.AbilityPhasing;
+import am2.affinity.abilities.AbilityColdBlooded;
 import am2.affinity.abilities.AbilityExpandedLungs;
 import am2.affinity.abilities.AbilityFluidity;
+import am2.affinity.abilities.AbilityFulmination;
 import am2.affinity.abilities.AbilityLavaFreeze;
 import am2.affinity.abilities.AbilityLightningStep;
 import am2.affinity.abilities.AbilityNightVision;
+import am2.affinity.abilities.AbilityPhasing;
+import am2.affinity.abilities.AbilityReflexes;
+import am2.affinity.abilities.AbilityRooted;
+import am2.affinity.abilities.AbilityShortCircuit;
+import am2.affinity.abilities.AbilitySolidBones;
 import am2.affinity.abilities.AbilitySwiftSwim;
+import am2.affinity.abilities.AbilityThunderPunch;
 import am2.affinity.abilities.AbilityWaterFreeze;
 import am2.api.affinity.AbstractAffinityAbility;
+import am2.event.SpellCastEvent;
 import am2.utils.WorldUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -27,6 +39,7 @@ public class AffinityAbilityHelper {
 		//ARCANE
 		
 		//EARTH
+		GameRegistry.register(new AbilitySolidBones());
 		
 		//ENDER
 		GameRegistry.register(new AbilityPhasing());
@@ -37,6 +50,7 @@ public class AffinityAbilityHelper {
 		//ICE
 		GameRegistry.register(new AbilityLavaFreeze());
 		GameRegistry.register(new AbilityWaterFreeze());
+		GameRegistry.register(new AbilityColdBlooded());
 		
 		//LIFE
 		
@@ -46,9 +60,14 @@ public class AffinityAbilityHelper {
 		GameRegistry.register(new AbilitySwiftSwim());
 		
 		//NATURE
+		GameRegistry.register(new AbilityRooted());
 		
 		//LIGHTNING
 		GameRegistry.register(new AbilityLightningStep());
+		GameRegistry.register(new AbilityReflexes());
+		GameRegistry.register(new AbilityFulmination());
+		GameRegistry.register(new AbilityShortCircuit());
+		GameRegistry.register(new AbilityThunderPunch());
 	}
 	
 	
@@ -75,6 +94,74 @@ public class AffinityAbilityHelper {
 						ability.applyTick((EntityPlayer) event.getEntityLiving());
 					else
 						ability.removeEffects((EntityPlayer) event.getEntityLiving());
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerHurt(LivingHurtEvent event) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {
+			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
+				if (ability.getKey() == null) {
+					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+						ability.applyHurt((EntityPlayer) event.getEntityLiving(), event, false);
+				}
+			}
+		}
+		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
+			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
+				if (ability.getKey() == null) {
+					if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
+						ability.applyHurt((EntityPlayer) event.getSource().getEntity(), event, true);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerFall(LivingFallEvent event) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {
+			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
+				if (ability.getKey() == null) {
+					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+						ability.applyFall((EntityPlayer) event.getEntityLiving(), event);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerDeath(LivingDeathEvent event) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {
+			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
+				if (ability.getKey() == null) {
+					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+						ability.applyDeath((EntityPlayer) event.getEntityLiving(), event);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerJump(LivingJumpEvent event) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {
+			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
+				if (ability.getKey() == null) {
+					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+						ability.applyJump((EntityPlayer) event.getEntityLiving(), event);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onSpellCast(SpellCastEvent.Post event) {
+		if (event.entityLiving instanceof EntityPlayer) {
+			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
+				if (ability.getKey() == null) {
+					if (ability.canApply((EntityPlayer) event.entityLiving))
+						ability.applySpellCast((EntityPlayer) event.entityLiving, event);
 				}
 			}
 		}

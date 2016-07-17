@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<AbstractAffinityAbility>{
@@ -77,13 +78,15 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	
 	public void applyKeyPress(EntityPlayer player) {};
 	
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event) {}
+	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {}
 	
 	public void applyFall(EntityPlayer player, LivingFallEvent event) {}
 	
 	public void applySpellCast(EntityPlayer player, SpellCastEvent.Post event) {}
 	
-	public void applyEntityDeath(EntityPlayer player, LivingDeathEvent event) {}
+	public void applyDeath(EntityPlayer player, LivingDeathEvent event) {}
+	
+	public void applyJump(EntityPlayer player, LivingJumpEvent event) {}
 	
 	public void removeEffects(EntityPlayer player) {}
 	/**
