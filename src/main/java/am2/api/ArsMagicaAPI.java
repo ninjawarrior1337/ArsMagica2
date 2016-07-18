@@ -5,35 +5,55 @@ import java.util.Map;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.api.items.armor.ArmorImbuement;
+import am2.skill.Skill;
+import am2.spell.AbstractSpellPart;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
 
 public class ArsMagicaAPI {
-	private static final int MIN_AFFINITY_ID = 0;
-	private static final int MAX_AFFINITY_ID = Short.MAX_VALUE;
 	
 	private static final FMLControlledNamespacedRegistry<Affinity> AFFINITY_REGISTRY;
 	private static final FMLControlledNamespacedRegistry<AbstractAffinityAbility> ABILITY_REGISTRY;
 	private static final FMLControlledNamespacedRegistry<ArmorImbuement> IMBUEMENTS_REGISTRY;
+	private static final FMLControlledNamespacedRegistry<AbstractSpellPart> SPELL_REGISTRY;
+	private static final FMLControlledNamespacedRegistry<Skill> SKILL_REGISTRY;
 
 	static {
-		ABILITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinityabilities"), AbstractAffinityAbility.class, null, MIN_AFFINITY_ID, MAX_AFFINITY_ID, false, AffinityAbilityCallbacks.INSTANCE, AffinityAbilityCallbacks.INSTANCE, AffinityAbilityCallbacks.INSTANCE);
-		AFFINITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinities"), Affinity.class, new ResourceLocation("arsmagica2", "none"), MIN_AFFINITY_ID, MAX_AFFINITY_ID, false, AffinityCallbacks.INSTANCE, AffinityCallbacks.INSTANCE, AffinityCallbacks.INSTANCE);
-		IMBUEMENTS_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "armorimbuments"), ArmorImbuement.class, null, 0, Short.MAX_VALUE, true, ImbuementCallbacks.INSTANCE, ImbuementCallbacks.INSTANCE, ImbuementCallbacks.INSTANCE);
+		ABILITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinityabilities"), AbstractAffinityAbility.class, null, 0, Short.MAX_VALUE, false, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY);
+		AFFINITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinities"), Affinity.class, new ResourceLocation("arsmagica2", "none"), 0, Short.MAX_VALUE, false, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY);
+		IMBUEMENTS_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "armorimbuments"), ArmorImbuement.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT);
+		SPELL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "spells"), AbstractSpellPart.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL);
+		SKILL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "skills"), Skill.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL);
 	}
 	
 	public static FMLControlledNamespacedRegistry<Affinity> getAffinityRegistry() {return AFFINITY_REGISTRY;};
 	public static FMLControlledNamespacedRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return ABILITY_REGISTRY;}
 	public static FMLControlledNamespacedRegistry<ArmorImbuement> getArmorImbuementRegistry() {return IMBUEMENTS_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<AbstractSpellPart> getSpellRegistry() {return SPELL_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry() {return SKILL_REGISTRY;}
 	
-    private static class AffinityAbilityCallbacks implements IForgeRegistry.AddCallback<AbstractAffinityAbility>,IForgeRegistry.ClearCallback<AbstractAffinityAbility>,IForgeRegistry.CreateCallback<AbstractAffinityAbility>
+	public static String getCurrentModId () {
+		ModContainer current = Loader.instance().activeModContainer();
+		String modid = "arsmagica2";
+		if (current != null)
+			modid = current.getModId();
+		return modid;
+	}
+	
+    private static class ObjectCallbacks<T> implements IForgeRegistry.AddCallback<T>,IForgeRegistry.ClearCallback<T>,IForgeRegistry.CreateCallback<T>
 	{
-		static final AffinityAbilityCallbacks INSTANCE = new AffinityAbilityCallbacks();
+		static final ObjectCallbacks<AbstractSpellPart> SPELL = new SpellCallbacks();
+		static final ObjectCallbacks<AbstractAffinityAbility> ABILITY = new ObjectCallbacks<>();
+		static final ObjectCallbacks<Affinity> AFFINITY = new ObjectCallbacks<>();
+		static final ObjectCallbacks<ArmorImbuement> IMBUEMENT = new ObjectCallbacks<>();
+		static final ObjectCallbacks<Skill> SKILL = new ObjectCallbacks<>();
 
 		@Override
-		public void onAdd(AbstractAffinityAbility ability, int id, Map<ResourceLocation, ?> slaves) {}
+		public void onAdd(T ability, int id, Map<ResourceLocation, ?> slaves) {}
 
 		@Override
 		public void onClear(Map<ResourceLocation, ?> slaveset) {}
@@ -42,31 +62,11 @@ public class ArsMagicaAPI {
 		public void onCreate(Map<ResourceLocation, ?> slaveset) {}
 	}
     
-    private static class ImbuementCallbacks implements IForgeRegistry.AddCallback<ArmorImbuement>,IForgeRegistry.ClearCallback<ArmorImbuement>,IForgeRegistry.CreateCallback<ArmorImbuement>
-	{
-		static final ImbuementCallbacks INSTANCE = new ImbuementCallbacks();
+    private static class SpellCallbacks extends ObjectCallbacks<AbstractSpellPart> {
 
 		@Override
-		public void onAdd(ArmorImbuement ability, int id, Map<ResourceLocation, ?> slaves) {}
-
-		@Override
-		public void onClear(Map<ResourceLocation, ?> slaveset) {}
-
-		@Override
-		public void onCreate(Map<ResourceLocation, ?> slaveset) {}
-	}
-    
-    private static class AffinityCallbacks implements IForgeRegistry.AddCallback<Affinity>,IForgeRegistry.ClearCallback<Affinity>,IForgeRegistry.CreateCallback<Affinity>
-	{
-		static final AffinityCallbacks INSTANCE = new AffinityCallbacks();
-
-		@Override
-		public void onAdd(Affinity aff, int id, Map<ResourceLocation, ?> slaves) {}
-
-		@Override
-		public void onClear(Map<ResourceLocation, ?> slaveset) {}
-
-		@Override
-		public void onCreate(Map<ResourceLocation, ?> slaveset) {}
+		public void onAdd(AbstractSpellPart ability, int id, Map<ResourceLocation, ?> slaves) {
+		}
+		
 	}
 }

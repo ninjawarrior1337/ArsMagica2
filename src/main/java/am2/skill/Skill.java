@@ -1,31 +1,36 @@
 package am2.skill;
 
+import am2.api.ArsMagicaAPI;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 @SuppressWarnings("deprecation")
-public class Skill {
+public class Skill extends IForgeRegistryEntry.Impl<Skill>{
 	
-	private String ID;
 	private int posX, posY;
 	private SkillTree tree;
 	private String[] parents;
 	private ResourceLocation icon;
 	private SkillPoint point;
 	
-	public Skill(String ID, ResourceLocation icon, SkillPoint point, int posX, int posY, SkillTree tree, String... string) {
+	public Skill(ResourceLocation icon, SkillPoint point, int posX, int posY, SkillTree tree, String... string) {
 		this.posX = posX;
 		this.posY = posY;
-		this.ID = ID.toLowerCase();
 		this.tree = tree;
 		this.parents = string;
 		this.icon = icon;
 		this.point = point;
 	}
 	
+	public Skill(String string, ResourceLocation icon, SkillPoint point, int posX, int posY, SkillTree tree, String... strings) {
+		this(icon, point, posX, posY, tree, strings);
+		this.setRegistryName(new ResourceLocation(ArsMagicaAPI.getCurrentModId(), string));
+	}
+
 	public String getID() {
-		return ID;
+		return getRegistryName().toString();
 	}
 	
 	public int getPosX() {
@@ -49,7 +54,7 @@ public class Skill {
 	}
 	
 	public void writeToNBT (NBTTagCompound tag) {
-		tag.setString("ID", ID);
+		tag.setString("ID", getID());
 	}
 	
 	public SkillPoint getPoint() {
@@ -58,7 +63,7 @@ public class Skill {
 	
 	@Override
 	public String toString() {
-		return ID;
+		return getID();
 	}
 	
 	public String getName() {

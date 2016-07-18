@@ -3,6 +3,7 @@ package am2.packet;
 import am2.ArsMagica2;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
+import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.container.ContainerSpellCustomization;
 import am2.extensions.EntityExtension;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -88,9 +90,9 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.M_BENCH_LOCK_RECIPE:
 //				handleMBenchLockRecipe(remaining, (EntityPlayerMP)player);
 //				break;
-//			case AMPacketIDs.IMBUE_ARMOR:
-//				handleImbueArmor(remaining, (EntityPlayerMP)player);
-//				break;
+			case AMPacketIDs.IMBUE_ARMOR:
+				handleImbueArmor(remaining, (EntityPlayerMP)player);
+				break;
 			case AMPacketIDs.REQUEST_PWR_PATHS:
 				handlePowerPathSync(remaining, (EntityPlayerMP)player);
 				break;
@@ -134,14 +136,14 @@ public class AMPacketProcessorServer{
 			}
 		}
 	}
-//
-//	private void handleImbueArmor(byte[] data, EntityPlayerMP player){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		TileEntity te = player.worldObj.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
-//		if (te != null && te instanceof TileEntityArmorImbuer){
-//			((TileEntityArmorImbuer)te).imbueCurrentArmor(rdr.getString());
-//		}
-//	}
+
+	private void handleImbueArmor(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data, false);
+		TileEntity te = player.worldObj.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
+		if (te != null && te instanceof TileEntityArmorImbuer){
+			((TileEntityArmorImbuer)te).imbueCurrentArmor(new ResourceLocation(rdr.getString()));
+		}
+	}
 //
 //	private void handleMBenchLockRecipe(byte[] data, EntityPlayerMP player){
 //		AMDataReader rdr = new AMDataReader(data, false);
@@ -239,7 +241,6 @@ public class AMPacketProcessorServer{
 //
 	private void handleSpellCustomize(byte[] data, EntityPlayerMP player){
 		AMDataReader rdr = new AMDataReader(data, false);
-		rdr.getInt();
 
 		if (player == null){
 			return;

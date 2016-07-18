@@ -3,13 +3,11 @@ package am2.lore;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-import am2.api.SkillRegistry;
-import am2.api.SpellRegistry;
-import am2.api.SpellRegistry.SpellData;
+import am2.api.ArsMagicaAPI;
 import am2.defs.ItemDefs;
 import am2.gui.GuiArcaneCompendium;
-import am2.items.ItemSpellComponent;
 import am2.skill.Skill;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import net.minecraft.item.ItemStack;
@@ -35,7 +33,7 @@ public class CompendiumEntrySpellPart extends CompendiumEntry{
 	@Override
 	public String[] getRelatedItems() {
 		ArrayList<String> str = new ArrayList<>();
-		for (Skill sk : SkillRegistry.getSkillMap().values()) {
+		for (Skill sk : ArsMagicaAPI.getSkillRegistry().getValues()) {
 			for (String parent : sk.getParents()) {
 				if (parent.equals(skill.getID())) {
 					str.add(sk.getID());
@@ -53,15 +51,16 @@ public class CompendiumEntrySpellPart extends CompendiumEntry{
 	public ArrayList<ItemStack> getModifiers() {
 		ArrayList<ItemStack> ret = new ArrayList<>();
 		if (mods != null) {
-			for (SpellData<SpellModifier> skill : SpellRegistry.getModifierMap().values()) {
-				if (skill.part == null) continue;
+			for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
+				if (part == null || !(part instanceof SpellModifier)) continue;
+				SpellModifier modifier = (SpellModifier)part;
 				for (SpellModifiers mod : mods) {
 					boolean shouldSkip = false;
-					for (SpellModifiers mod2 : skill.part.getAspectsModified()) {
+					for (SpellModifiers mod2 : modifier.getAspectsModified()) {
 						if (mod2.equals(mod)) {
-							ItemStack stack = new ItemStack(ItemDefs.spell_component, 1, ItemSpellComponent.getIdFor(SkillRegistry.getSkillFromName(skill.id)));
+							ItemStack stack = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(part.getRegistryName()));
 							if (!ret.contains(stack))
-								ret.add(new ItemStack(ItemDefs.spell_component, 1, ItemSpellComponent.getIdFor(SkillRegistry.getSkillFromName(skill.id))));
+								ret.add(new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(part.getRegistryName())));
 							shouldSkip = true;
 							break;
 						}
@@ -77,7 +76,7 @@ public class CompendiumEntrySpellPart extends CompendiumEntry{
 	@Override
 	public ItemStack getRepresentStack(){
 		if (skill != null){
-			return new ItemStack(ItemDefs.spell_component, 1, ItemSpellComponent.getIdFor(skill));
+			return new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(skill));
 		}
 		return null;
 	}

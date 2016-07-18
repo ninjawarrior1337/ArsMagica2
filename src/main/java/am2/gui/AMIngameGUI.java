@@ -11,6 +11,7 @@ import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
 import am2.api.math.AMVector2;
+import am2.armor.ArmorHelper;
 import am2.defs.ItemDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
@@ -265,59 +266,58 @@ public class AMIngameGUI{
 		if (!ArsMagica2.config.showArmorUI())
 			return;
 
-//		ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+		ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
 
 		for (int slot = 0; slot < 4; ++slot){
-//			if (ArmorHelper.PlayerHasArmorInSlot(mc.thePlayer, 3 - slot)){
-//
-//				AMVector2 position = getArmorSlotPosition(slot, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
-//				int blackoutTimer = AMGuiHelper.instance.getBlackoutTimer(3 - slot);
-//				int blackoutMaxTimer = AMGuiHelper.instance.getBlackoutTimerMax(3 - slot);
-//				GL11.glColor3f(1.0f, 1.0f, 1.0f);
-//				ItemStack armor = mc.thePlayer.inventory.armorInventory[3 - slot];
-//				float lineweight = 4f;
-//				//durability
-//				if (armor.isItemDamaged() && armor.getMaxDamage() > 0){
-//					float pct = 1 - (float)armor.getItemDamage() / (float)armor.getMaxDamage();
-//					AMGuiHelper.line2d(position.iX, position.iY + 10, position.iX + 10, position.iY + 10, this.zLevel + 100, lineweight, 0);
-//
-//					int color = (int)(255.0f * (1 - pct)) << 16 | (int)(255.0f * pct) << 8;
-//
-//					AMGuiHelper.line2d(position.iX, position.iY + 10, position.iX + (10 * pct), position.iY + 10, this.zLevel + 101, lineweight, color);
-//				}
-//				//cooldown
-//				if (blackoutMaxTimer > 0){
-//					float pct = (float)(blackoutMaxTimer - blackoutTimer) / (float)blackoutMaxTimer;
-//					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + 10, position.iY + 11, this.zLevel + 100, lineweight, 0);
-//					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + (10 * pct), position.iY + 11, this.zLevel + 101, lineweight, 0xFF0000);
-//				}else{
-//					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + 10, position.iY + 11, this.zLevel + 101, lineweight, 0x0000FF);
-//				}
-//
-//				TextureAtlasSprite icon = mc.getRenderItem().getItemModelMesher().getParticleIcon(mc.thePlayer.inventory.armorInventory[3 - slot].getItem(), mc.thePlayer.inventory.armorInventory[3 - slot].getItemDamage());
-//				if (icon != null){
-//					AMGuiHelper.DrawIconAtXY(icon, position.iX, position.iY, this.zLevel, 10, 10, true);
-//				}else{
-//					AMGuiHelper.DrawItemAtXY(mc.thePlayer.inventory.armorInventory[3 - slot], position.iX, position.iY, this.zLevel, 0.63f);
-//				}
-//			}
+			if (ArmorHelper.PlayerHasArmorInSlot(mc.thePlayer, 3 - slot)){
+				AMVector2 position = getArmorSlotPosition(slot, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
+				int blackoutTimer = AMGuiHelper.instance.getBlackoutTimer(3 - slot);
+				int blackoutMaxTimer = AMGuiHelper.instance.getBlackoutTimerMax(3 - slot);
+				GL11.glColor3f(1.0f, 1.0f, 1.0f);
+				ItemStack armor = mc.thePlayer.inventory.armorInventory[3 - slot];
+				float lineweight = 4f;
+				//durability
+				if (armor.isItemDamaged() && armor.getMaxDamage() > 0){
+					float pct = 1 - (float)armor.getItemDamage() / (float)armor.getMaxDamage();
+					AMGuiHelper.line2d(position.iX, position.iY + 10, position.iX + 10, position.iY + 10, this.zLevel + 100, lineweight, 0);
+
+					int color = (int)(255.0f * (1 - pct)) << 16 | (int)(255.0f * pct) << 8;
+
+					AMGuiHelper.line2d(position.iX, position.iY + 10, position.iX + (10 * pct), position.iY + 10, this.zLevel + 101, lineweight, color);
+				}
+				//cooldown
+				if (blackoutMaxTimer > 0){
+					float pct = (float)(blackoutMaxTimer - blackoutTimer) / (float)blackoutMaxTimer;
+					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + 10, position.iY + 11, this.zLevel + 100, lineweight, 0);
+					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + (10 * pct), position.iY + 11, this.zLevel + 101, lineweight, 0xFF0000);
+				}else{
+					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + 10, position.iY + 11, this.zLevel + 101, lineweight, 0x0000FF);
+				}
+
+				TextureAtlasSprite icon = mc.getRenderItem().getItemModelMesher().getParticleIcon(mc.thePlayer.inventory.armorInventory[3 - slot].getItem(), mc.thePlayer.inventory.armorInventory[3 - slot].getItemDamage());
+				if (icon != null){
+					AMGuiHelper.DrawIconAtXY(icon, position.iX, position.iY, this.zLevel, 10, 10, true);
+				}else{
+					AMGuiHelper.DrawItemAtXY(mc.thePlayer.inventory.armorInventory[3 - slot], position.iX, position.iY, this.zLevel, 0.63f);
+				}
+			}
 		}
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
 	}
 
-//	private AMVector2 getArmorSlotPosition(int slot, int screenWidth, int screenHeight){
-//		switch (slot){
-//		case 0:
-//			return getShiftedVector(ArsMagica2.config.getArmorPositionHead(), screenWidth, screenHeight);
-//		case 1:
-//			return getShiftedVector(ArsMagica2.config.getArmorPositionChest(), screenWidth, screenHeight);
-//		case 2:
-//			return getShiftedVector(ArsMagica2.config.getArmorPositionLegs(), screenWidth, screenHeight);
-//		case 3:
-//			return getShiftedVector(ArsMagica2.config.getArmorPositionBoots(), screenWidth, screenHeight);
-//		}
-//		return new AMVector2(0, 0);
-//	}
+	private AMVector2 getArmorSlotPosition(int slot, int screenWidth, int screenHeight){
+		switch (slot){
+		case 0:
+			return getShiftedVector(ArsMagica2.config.getArmorPositionHead(), screenWidth, screenHeight);
+		case 1:
+			return getShiftedVector(ArsMagica2.config.getArmorPositionChest(), screenWidth, screenHeight);
+		case 2:
+			return getShiftedVector(ArsMagica2.config.getArmorPositionLegs(), screenWidth, screenHeight);
+		case 3:
+			return getShiftedVector(ArsMagica2.config.getArmorPositionBoots(), screenWidth, screenHeight);
+		}
+		return new AMVector2(0, 0);
+	}
 
 	public void RenderAffinity(int i, int j){
 		AMVector2 affinityPos = getShiftedVector(ArsMagica2.config.getAffinityPosition(), i, j);
@@ -351,19 +351,19 @@ public class AMIngameGUI{
 		ContingencyType type = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getContingencyType();
 		switch (type){
 		case DAMAGE:
-			icon = SpellIconManager.INSTANCE.getSprite("contingency_damage");
+			icon = SpellIconManager.INSTANCE.getSprite("arsmagica2:contingency_damage");
 			break;
 		case FALL:
-			icon = SpellIconManager.INSTANCE.getSprite("contingency_fall");
+			icon = SpellIconManager.INSTANCE.getSprite("arsmagica2:contingency_fall");
 			break;
 		case HEALTH:
-			icon = SpellIconManager.INSTANCE.getSprite("contingency_health");
+			icon = SpellIconManager.INSTANCE.getSprite("arsmagica2:contingency_health");
 			break;
 		case FIRE:
-			icon = SpellIconManager.INSTANCE.getSprite("contingency_fire");
+			icon = SpellIconManager.INSTANCE.getSprite("arsmagica2:contingency_fire");
 			break;
 		case DEATH:
-			icon = SpellIconManager.INSTANCE.getSprite("contingency_death");
+			icon = SpellIconManager.INSTANCE.getSprite("arsmagica2:contingency_death");
 			break;
 		case NULL:
 		default:

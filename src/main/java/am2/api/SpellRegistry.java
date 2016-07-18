@@ -2,22 +2,20 @@ package am2.api;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
-
-import com.google.common.collect.ImmutableMap;
 
 import am2.lore.ArcaneCompendium;
 import am2.skill.Skill;
 import am2.skill.SkillPoint;
 import am2.skill.SkillTree;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellComponent;
 import am2.spell.SpellModifier;
-import am2.spell.SpellShape;
-import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifiers;
+import am2.spell.SpellShape;
 import am2.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
@@ -26,10 +24,6 @@ import net.minecraftforge.oredict.OreDictionary;
  *
  */
 public class SpellRegistry {
-	
-	private static final HashMap<String, SpellData<SpellComponent>> componentMap = new HashMap<String, SpellRegistry.SpellData<SpellComponent>>();
-	private static final HashMap<String, SpellData<SpellModifier>> modifierMap = new HashMap<String, SpellRegistry.SpellData<SpellModifier>>();
-	private static final HashMap<String, SpellData<SpellShape>> shapeMap = new HashMap<String, SpellRegistry.SpellData<SpellShape>>();
 	
 	/**
 	 * Register a spell component
@@ -45,9 +39,9 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
 		id = id.toLowerCase();
-		componentMap.put(id, new SpellData<SpellComponent>(icon, part, id));
-		SkillRegistry.registerSkill(false, id, icon, tier, posX, posY, tree, parents);
-		ArcaneCompendium.AddCompendiumEntry(part, id, mods, false);		
+		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
+		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
+		ArcaneCompendium.AddCompendiumEntry(part, part.getRegistryName().toString(), mods, false);		
 	}
 	
 	/**
@@ -64,9 +58,9 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, SpellModifier part, SkillTree tree, int posX, int posY, String... parents) {
 		id = id.toLowerCase();
-		modifierMap.put(id, new SpellData<SpellModifier>(icon, part, id));
-		SkillRegistry.registerSkill(false, id, icon, tier, posX, posY, tree, parents);
-		ArcaneCompendium.AddCompendiumEntry(part, id, null, false);
+		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
+		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
+		ArcaneCompendium.AddCompendiumEntry(part, part.getRegistryName().toString(), null, false);
 	}
 	
 	/**
@@ -83,96 +77,47 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
 		id = id.toLowerCase();
-		shapeMap.put(id, new SpellData<SpellShape>(icon, part, id));
-		SkillRegistry.registerSkill(false, id, icon, tier, posX, posY, tree, parents);
-		ArcaneCompendium.AddCompendiumEntry(part, id, mods, false);
+		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
+		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
+		ArcaneCompendium.AddCompendiumEntry(part, part.getRegistryName().toString(), mods, false);
 	}
 	
-	/**
-	 * Get a component from the name
-	 * 
-	 * @param name : Name of the component
-	 * @return the matching component
-	 */
-	public static SpellData<SpellComponent> getComponentFromName (String name) {
-		return componentMap.get(name.toLowerCase());
-	}
-
-	/**
-	 * Get a modifier from the name
-	 * 
-	 * @param name : Name of the modifier
-	 * @return the matching modifier
-	 */
-	public static SpellData<SpellModifier> getModifierFromName (String name) {
-		return modifierMap.get(name.toLowerCase());
-	}
-
-	/**
-	 * Get a shape from the name
-	 * 
-	 * @param name : Name of the shape
-	 * @return the matching shape
-	 */
-	public static SpellData<SpellShape> getShapeFromName (String name) {
-		return shapeMap.get(name.toLowerCase());
-	}
-	
-	public static ImmutableMap<String, SpellData<SpellComponent>> getComponentMap() {
-		return ImmutableMap.copyOf(componentMap);
-	}
-	
-	public static ImmutableMap<String, SpellData<SpellModifier>> getModifierMap() {
-		return ImmutableMap.copyOf(modifierMap);
-	}
-	
-	public static ImmutableMap<String, SpellData<SpellShape>> getShapeMap() {
-		return ImmutableMap.copyOf(shapeMap);
-	}
-	
-	public static ImmutableMap<String, SpellData<? extends AbstractSpellPart>> getCombinedMap() {
-		return ImmutableMap.<String, SpellData<? extends AbstractSpellPart>>builder().putAll(getComponentMap()).putAll(getModifierMap()).putAll(getShapeMap()).build();
-	}
-
-	public static class SpellData<K extends AbstractSpellPart> {
-		
-		public ResourceLocation icon;
-		public K part;
-		public String id;
-		
-		public SpellData(ResourceLocation icon, K part, String id) {
-			this.icon = icon;
-			this.id = id;
-			this.part = part;
-		}
-		
-	}
-
 	public static Skill getSkillFromPart(AbstractSpellPart part) {
-		for (SpellData<? extends AbstractSpellPart> comp : getCombinedMap().values()) {
-			if (comp == null || comp.part == null) continue;
-			if (part.getClass().isInstance(comp.part)) return SkillRegistry.getSkillFromName(comp.id);
-		}
-		return null;
+		return ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName());
 	}
 
 	public static AbstractSpellPart getPartByRecipe(ArrayList<ItemStack> currentAddedItems) {
-		for (SpellData<? extends AbstractSpellPart> data : getCombinedMap().values()) {
-			if (data != null && data.part != null && data.part.getRecipe() != null) {
-				ArrayList<ItemStack> convRecipe = RecipeUtils.getConvRecipe(data.part);
+		for (AbstractSpellPart data : ArsMagicaAPI.getSpellRegistry().getValues()) {
+			if (data != null) {
+				ArrayList<ItemStack> convRecipe = RecipeUtils.getConvRecipe(data);
 				boolean match = currentAddedItems.size() == convRecipe.size();
 				if (!match) continue;
-				System.out.println("Checking part : " + data.id);
+				System.out.println("Checking part : " + data.getRegistryName());
 				for (int i = 0; i < convRecipe.size(); i++) {
 					match &= OreDictionary.itemMatches(convRecipe.get(i), currentAddedItems.get(i), false);
 					System.out.println(convRecipe.get(i) + "vs" + currentAddedItems.get(i));
 					if (!match) continue;					
 				}
 				if (!match) continue;
-				System.out.println("Match found for " + data.id);
-				return data.part;
+				System.out.println("Match found for " + data.getRegistryName());
+				return data;
 			}
 		}
 		return null;
+	}
+
+	public static SpellShape getShapeFromName(String shapeName) {
+		AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(shapeName));
+		return part instanceof SpellShape ? (SpellShape) part : null;
+	}
+	
+	public static SpellModifier getModifierFromName(String shapeName) {
+		AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(shapeName));
+		return part instanceof SpellModifier ? (SpellModifier) part : null;
+	}
+	
+	public static SpellComponent getComponentFromName(String shapeName) {
+		AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(shapeName));
+		return part instanceof SpellComponent ? (SpellComponent) part : null;
 	}
 }

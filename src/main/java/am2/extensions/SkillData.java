@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
-import am2.api.SpellRegistry;
 import am2.api.extensions.ISkillData;
 import am2.defs.SkillDefs;
 import am2.skill.Skill;
 import am2.skill.SkillPoint;
+import am2.spell.AbstractSpellPart;
+import am2.spell.SpellComponent;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -66,7 +70,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		this.player = entity;
 		HashMap<Skill, Boolean> skillMap = new HashMap<Skill, Boolean>();
 		HashMap<SkillPoint, Integer> pointMap = new HashMap<SkillPoint, Integer>();
-		for (Skill aff : SkillRegistry.getSkillMap().values()) {
+		for (Skill aff : ArsMagicaAPI.getSkillRegistry().getValues()) {
 			skillMap.put(aff, false);
 		}
 		for (SkillPoint aff : SkillPointRegistry.getSkillPointMap().values()) {
@@ -116,7 +120,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	public ArrayList<String> getKnownShapes() {
 		ArrayList<String> out = new ArrayList<>();
 		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
-			if (entry.getValue() && SpellRegistry.getShapeFromName(entry.getKey().getID()) != null)
+			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(entry.getKey().getRegistryName());
+			if (entry.getValue() && part != null && part instanceof SpellShape)
 				out.add(entry.getKey().getID());
 		}
 		return out;
@@ -126,7 +131,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	public ArrayList<String> getKnownComponents() {
 		ArrayList<String> out = new ArrayList<>();
 		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
-			if (entry.getValue() && SpellRegistry.getComponentFromName(entry.getKey().getID()) != null)
+			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(entry.getKey().getRegistryName());
+			if (entry.getValue() && part != null && part instanceof SpellComponent)
 				out.add(entry.getKey().getID());
 		}
 		return out;
@@ -136,7 +142,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	public ArrayList<String> getKnownModifiers() {
 		ArrayList<String> out = new ArrayList<>();
 		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
-			if (entry.getValue() && SpellRegistry.getModifierFromName(entry.getKey().getID()) != null)
+			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(entry.getKey().getRegistryName());
+			if (entry.getValue() && part != null && part instanceof SpellModifier)
 				out.add(entry.getKey().getID());
 		}
 		return out;

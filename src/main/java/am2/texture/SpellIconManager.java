@@ -2,7 +2,7 @@ package am2.texture;
 
 import java.util.HashMap;
 
-import am2.api.SkillRegistry;
+import am2.api.ArsMagicaAPI;
 import am2.gui.AMGuiIcons;
 import am2.lore.CompendiumEntryTypes;
 import am2.skill.Skill;
@@ -27,7 +27,7 @@ public class SpellIconManager {
 	public void init (TextureStitchEvent.Pre e) {
 		sprites.clear();
 		AMGuiIcons.instance.init(e.getMap());
-		for (Skill skill : SkillRegistry.getSkillMap().values()) {
+		for (Skill skill : ArsMagicaAPI.getSkillRegistry().getValues()) {
 			if (skill.getIcon() != null)
 				sprites.put(skill.getID(), e.getMap().registerSprite(skill.getIcon()));
 		}

@@ -12,15 +12,14 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.SpellRegistry;
-import am2.api.SpellRegistry.SpellData;
 import am2.api.affinity.Affinity;
 import am2.blocks.BlockInscriptionTable;
 import am2.container.ContainerInscriptionTable;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.event.SpellRecipeItemsEvent;
-import am2.items.ItemSpellComponent;
 import am2.lore.Story;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
@@ -31,11 +30,11 @@ import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleHoldPosition;
 import am2.power.PowerTypes;
 import am2.skill.Skill;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellComponent;
 import am2.spell.SpellModifier;
-import am2.spell.SpellShape;
-import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifiers;
+import am2.spell.SpellShape;
 import am2.spell.SpellValidator;
 import am2.utils.KeyValuePair;
 import am2.utils.RecipeUtils;
@@ -56,6 +55,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -332,7 +332,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			ArrayList<AbstractSpellPart> parts = new ArrayList<>();
 			for (int j = 0; j < tmplist.tagCount(); j++) {
 				NBTTagCompound tmp = tmplist.getCompoundTagAt(j);
-				parts.add(tmp.getInteger("Slot"), SpellRegistry.getCombinedMap().get(tmp.getString("ID")).part);
+				parts.add(tmp.getInteger("Slot"), ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(tmp.getString("ID"))));
 			}
 			this.shapeGroups.add(parts);
 		}
@@ -340,7 +340,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		NBTTagList recipe = par1NBTTagCompound.getTagList("CurrentRecipe", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < recipe.tagCount(); i++){
 			NBTTagCompound tmp = recipe.getCompoundTagAt(i);
-			currentRecipe.add(tmp.getInteger("Slot"), SpellRegistry.getCombinedMap().get(tmp.getString("ID")).part);
+			currentRecipe.add(tmp.getInteger("Slot"), ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(tmp.getString("ID"))));
 		}
 		this.numStageGroups = Math.max(par1NBTTagCompound.getInteger("numShapeGroupSlots"), 2);
 	}
@@ -420,10 +420,10 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			currentRecipe.clear();
 			int partLength = rdr.getInt();
 			for (int i = 0; i < partLength; ++i){
-				Skill part = ItemSpellComponent.getPartFor(rdr.getInt());
-				SpellData<? extends AbstractSpellPart> spellData = SpellRegistry.getCombinedMap().get(part.getID());
-				if (spellData != null)
-					this.currentRecipe.add(spellData.part);
+				Skill part = ArsMagicaAPI.getSkillRegistry().getObjectById(rdr.getInt());
+				AbstractSpellPart spellPart = ArsMagicaAPI.getSpellRegistry().getObject(part.getRegistryName());
+				if (spellPart != null)
+					this.currentRecipe.add(spellPart);
 			}
 
 			this.shapeGroups.clear();
@@ -432,10 +432,10 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				ArrayList<AbstractSpellPart> group = new ArrayList<AbstractSpellPart>();
 				int[] partData = rdr.getIntArray();
 				for (int n : partData){
-					Skill part = ItemSpellComponent.getPartFor(n);
-					SpellData<? extends AbstractSpellPart> spellData = SpellRegistry.getCombinedMap().get(part.getID());
-					if (spellData != null)
-						group.add(spellData.part);
+					Skill part = ArsMagicaAPI.getSkillRegistry().getObjectById(n);
+					AbstractSpellPart spellPart = ArsMagicaAPI.getSpellRegistry().getObject(part.getRegistryName());
+					if (spellPart != null)
+						group.add(spellPart);
 				}
 				this.shapeGroups.add(group);
 			}
@@ -469,16 +469,14 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 		writer.add(this.currentRecipe.size());
 		for (int i = 0; i < this.currentRecipe.size(); ++i){
-			AbstractSpellPart part = this.currentRecipe.get(i);
-			Skill skill = SpellRegistry.getSkillFromPart(part);
-			writer.add(ItemSpellComponent.getIdFor(skill));
+			writer.add(ArsMagicaAPI.getSkillRegistry().getId(this.currentRecipe.get(i).getRegistryName()));
 		}
 
 		writer.add(this.shapeGroups.size());
 		for (ArrayList<AbstractSpellPart> shapeGroup : this.shapeGroups){
 			int[] groupData = new int[shapeGroup.size()];
 			for (int i = 0; i < shapeGroup.size(); ++i){
-				groupData[i] = ItemSpellComponent.getIdFor(SpellRegistry.getSkillFromPart(shapeGroup.get(i)));
+				groupData[i] = ArsMagicaAPI.getSkillRegistry().getId(shapeGroup.get(i).getRegistryName());
 			}
 			writer.add(groupData);
 		}
@@ -854,7 +852,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				}
 			}
 
-			outputCombo.add(ItemSpellComponent.getIdFor(SpellRegistry.getSkillFromPart(part)));
+			outputCombo.add(ArsMagicaAPI.getSkillRegistry().getId(part.getRegistryName()));
 		}
 
 		int[] outputData = new int[outputCombo.size()];

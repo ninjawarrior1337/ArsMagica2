@@ -12,8 +12,7 @@ import java.util.TreeMap;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.api.SpellRegistry;
-import am2.api.SpellRegistry.SpellData;
+import am2.api.ArsMagicaAPI;
 import am2.defs.ItemDefs;
 import am2.event.SpellRecipeItemsEvent;
 import am2.gui.controls.GuiButtonCompendiumNext;
@@ -143,7 +142,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 	}
 
 	public GuiArcaneCompendium(String id, Skill skill) {
-		this(id, ItemDefs.spell_component, ItemSpellComponent.getIdFor(skill));
+		this(id, ItemDefs.spell_component, ArsMagicaAPI.getSkillRegistry().getId(skill));
 		this.entrySkill = skill;
 		getAndAnalyzeRecipe();
 	}
@@ -151,7 +150,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 	public GuiArcaneCompendium(String id, Skill skill, ArrayList<ItemStack> mods) {
 		this(id, skill);
 		for (ItemStack stack : mods) {
-			if (ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).isUnlocked(ItemSpellComponent.getPartFor(stack.getItemDamage()).getID()))
+			if (ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).isUnlocked(ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage()).getID()))
 				this.modifiers.add(stack);			
 		}
 	}
@@ -612,9 +611,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 //		}
 		else if (entryItem.getItem() instanceof ItemSpellComponent){
 			if (entrySkill == null) return;
-			SpellData<? extends AbstractSpellPart> spellPart = SpellRegistry.getCombinedMap().get(entrySkill.getID());
-			if (spellPart == null) return;
-			AbstractSpellPart part = spellPart.part;
+			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(entrySkill.getRegistryName());
 			if (part == null) return;
 			ArrayList<Object> recipe = new ArrayList<Object>();
 
@@ -1255,7 +1252,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 			}else{
 				if (stack.getItem() == ItemDefs.spell_component){
 					list.clear();
-					Skill skill = ItemSpellComponent.getPartFor(stack.getItemDamage());
+					Skill skill = ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage());
 					if (skill == null)
 						return;
 					list.add(skill.getName());

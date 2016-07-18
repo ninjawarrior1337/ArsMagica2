@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GLContext;
 
 import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.extensions.IEntityExtension;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
@@ -299,7 +300,7 @@ public class AMGuiHelper{
 		}else {
 			if (stack.getItem() instanceof ItemSpellComponent) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
-				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ItemSpellComponent.getPartFor(stack.getItemDamage()).getID());
+				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ArsMagicaAPI.getSpellRegistry().getValue(ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage()).getRegistryName()).getRegistryName().toString());
 				GL11.glColor4f(1, 1, 1, 1);
 				if (icon != null)
 					DrawIconAtXY(icon, x, y, zLevel + 1, 16, 16, false);

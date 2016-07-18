@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerSpellCustomization extends Container{
 
 	private final InventoryPlayer inventoryPlayer;
-	private int iconIndex = 0;
+	private int iconIndex = -1;
 	private String name = "";
 
 	public ContainerSpellCustomization(EntityPlayer player){

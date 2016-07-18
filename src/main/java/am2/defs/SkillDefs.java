@@ -28,14 +28,14 @@ public class SkillDefs {
 	public static final SkillPoint SKILL_POINT_5 = new SkillPoint("Cyan", TextFormatting.AQUA, 0x00ffff, 60, 2);	
 	
 	public static final Skill MANA_REGEN_1 = new Skill("manaRegen1", ResourceUtils.getSkillIcon("ManaRegenI"), SKILL_POINT_0, 275, 75, TREE_TALENT);
-	public static final Skill MANA_REGEN_2 = new Skill("manaRegen2", ResourceUtils.getSkillIcon("ManaRegenII"), SKILL_POINT_1, 275, 120, TREE_TALENT, "manaRegen1");
-	public static final Skill MANA_REGEN_3 = new Skill("manaRegen3", ResourceUtils.getSkillIcon("ManaRegenIII"), SKILL_POINT_2, 275, 165, TREE_TALENT, "manaRegen2");
-	public static final Skill MAGE_POSSE_1 = new Skill("magePosse1", ResourceUtils.getSkillIcon("MageBandI"), SKILL_POINT_1, 320, 120, TREE_TALENT, "manaRegen2");
-	public static final Skill MAGE_POSSE_2 = new Skill("magePosse2", ResourceUtils.getSkillIcon("MageBandII"), SKILL_POINT_2, 320, 165, TREE_TALENT, "magePosse1");
-	public static final Skill SPELL_MOTION = new Skill("spellMotion", ResourceUtils.getSkillIcon("SpellMotion"), SKILL_POINT_1, 230, 120, TREE_TALENT, "manaRegen2");
-	public static final Skill AUGMENTED_CASTING = new Skill("augmentedCasting", ResourceUtils.getSkillIcon("AugmentedCasting"), SKILL_POINT_2, 230, 165, TREE_TALENT, "spellMotion");
-	public static final Skill AFFINITY_GAINS = new Skill("affinityGains", ResourceUtils.getSkillIcon("AffinityGains"), SKILL_POINT_0, 365, 120, TREE_TALENT, "manaRegen1");
-	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SKILL_POINT_2, 230, 210, TREE_TALENT, "augmentedCasting");
+	public static final Skill MANA_REGEN_2 = new Skill("manaRegen2", ResourceUtils.getSkillIcon("ManaRegenII"), SKILL_POINT_1, 275, 120, TREE_TALENT, "arsmagica2:manaRegen1");
+	public static final Skill MANA_REGEN_3 = new Skill("manaRegen3", ResourceUtils.getSkillIcon("ManaRegenIII"), SKILL_POINT_2, 275, 165, TREE_TALENT, "arsmagica2:manaRegen2");
+	public static final Skill MAGE_POSSE_1 = new Skill("magePosse1", ResourceUtils.getSkillIcon("MageBandI"), SKILL_POINT_1, 320, 120, TREE_TALENT, "arsmagica2:manaRegen2");
+	public static final Skill MAGE_POSSE_2 = new Skill("magePosse2", ResourceUtils.getSkillIcon("MageBandII"), SKILL_POINT_2, 320, 165, TREE_TALENT, "arsmagica2:magePosse1");
+	public static final Skill SPELL_MOTION = new Skill("spellMotion", ResourceUtils.getSkillIcon("SpellMotion"), SKILL_POINT_1, 230, 120, TREE_TALENT, "arsmagica2:manaRegen2");
+	public static final Skill AUGMENTED_CASTING = new Skill("augmentedCasting", ResourceUtils.getSkillIcon("AugmentedCasting"), SKILL_POINT_2, 230, 165, TREE_TALENT, "arsmagica2:spellMotion");
+	public static final Skill AFFINITY_GAINS = new Skill("affinityGains", ResourceUtils.getSkillIcon("AffinityGains"), SKILL_POINT_0, 365, 120, TREE_TALENT, "arsmagica2:manaRegen1");
+	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SKILL_POINT_2, 230, 210, TREE_TALENT, "arsmagica2:augmentedCasting");
 	
 	
 

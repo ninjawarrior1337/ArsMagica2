@@ -185,36 +185,6 @@ public class GuiOcculus extends GuiScreen {
 					if (!(offsetY2 == posY + 7 || offsetY2 == posY + 203))
 						RenderUtils.lineThick2d(offsetX, offsetY2, offsetX2, offsetY2, hasPrereq ? 0 : -1, color);
 				}
-
-//				List<String> parents = Lists.newArrayList(s.getParents());
-//				int offsetX = calcXOffset(posX, s);
-//				int offsetY = calcYOffset(posY, s);
-//				for (String parent : parents) {
-//					Skill skill = SkillRegistry.getSkillFromName(parent);
-//					if (skill == null)
-//						continue;
-//					//System.out.println(parent);
-//					int offsetX2 = calcXOffset(posX, skill);
-//					int offsetY2 = calcYOffset(posY, skill);
-//					if (skills.contains(skill)) {
-//						int xStart = (int) (offsetX + renderSize / 2);
-//						int xEnd = (int) (offsetX2 + renderSize / 2);
-//						int yStart = (int) (offsetY + renderSize / 2);
-//						int yEnd = (int) (offsetY2 + renderSize / 2);
-//						int color = (SkillData.For(player).hasSkill(s.getID()) ? s.getPoint().getColor() & 0x999999 : 0x000000);
-//						if (xStart < posX + 7 || xStart + renderSize > posX + 203 || yStart < posY + 7 || yStart + renderSize > posY + 203)
-//							continue;
-//						if (xEnd < posX + 7 || xEnd + renderSize > posX + 203 || yEnd < posY + 7 || yEnd + renderSize > posY + 203)
-//							continue;
-//						if (xEnd - xStart != 0 && yEnd - yStart != 0) {
-//							int xMid = xStart + (xEnd - xStart)/2;
-//							RenderUtils.lineThick2d(xStart, yStart, xMid, yStart, -1, color);
-//							RenderUtils.lineThick2d(xMid, yStart, xMid, yEnd, -1, color);
-//							RenderUtils.lineThick2d(xMid, yEnd, xEnd, yEnd, -1, color);
-//						} else
-//							RenderUtils.lineThick2d(xStart, yStart, xEnd, yEnd, -1, color);
-//					}
-//				}
 			}
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			for (Skill s : skills) {

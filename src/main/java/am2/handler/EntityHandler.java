@@ -7,6 +7,8 @@ import am2.api.IBoundItem;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
+import am2.armor.ArmorHelper;
+import am2.armor.infusions.GenericImbuement;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
@@ -19,7 +21,10 @@ import am2.spell.ContingencyType;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.MouseEvent;
@@ -143,6 +148,22 @@ public class EntityHandler {
 					else 
 						stack.getItem().onDroppedByPlayer(stack, player);
 				}
+			}
+		}
+		if (ArmorHelper.isInfusionPreset(player.getItemStackFromSlot(EntityEquipmentSlot.LEGS), GenericImbuement.stepAssist)){
+			player.stepHeight = 1.0111f;
+		}else if (player.stepHeight == 1.0111f){
+			player.stepHeight = 0.5f;
+		}
+
+		IAttributeInstance attr = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+		if (ArmorHelper.isInfusionPreset(player.getItemStackFromSlot(EntityEquipmentSlot.FEET), GenericImbuement.runSpeed)){
+			if (attr.getModifier(GenericImbuement.imbuedHasteID) == null){
+				attr.applyModifier(GenericImbuement.imbuedHaste);
+			}
+		}else{
+			if (attr.getModifier(GenericImbuement.imbuedHasteID) != null){
+				attr.removeModifier(GenericImbuement.imbuedHaste);
 			}
 		}
 		float lifeDepth = affData.getAffinityDepth(Affinity.LIFE);

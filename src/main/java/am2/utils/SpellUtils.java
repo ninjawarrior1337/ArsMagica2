@@ -2,13 +2,10 @@ package am2.utils;
 
 import java.util.ArrayList;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 
 import am2.ArsMagica2;
 import am2.api.SpellRegistry;
-import am2.api.SpellRegistry.SpellData;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
@@ -24,12 +21,12 @@ import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
 import am2.gui.AMGuiHelper;
 import am2.items.ItemSpellBase;
-import am2.spell.SpellComponent;
-import am2.spell.SpellModifier;
-import am2.spell.SpellShape;
 import am2.spell.AbstractSpellPart;
 import am2.spell.SpellCastResult;
+import am2.spell.SpellComponent;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
+import am2.spell.SpellShape;
 import am2.spell.modifier.Colour;
 import am2.spell.shape.MissingShape;
 import net.minecraft.client.Minecraft;
@@ -71,7 +68,7 @@ public class SpellUtils {
 			}
 		}
 
-		return SpellRegistry.getShapeFromName(shapeName) != null ? SpellRegistry.getShapeFromName(shapeName).part : SpellDefs.MISSING_SHAPE;
+		return SpellRegistry.getShapeFromName(shapeName) != null ? SpellRegistry.getShapeFromName(shapeName) : SpellDefs.MISSING_SHAPE;
 	}
 	
 	public static void changeEnchantmentsForShapeGroup(ItemStack stack){
@@ -228,13 +225,13 @@ public class SpellUtils {
 					NBTTagCompound tmp = stageTag.getCompoundTagAt(i);
 					String type = tmp.getString(TYPE);
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
-						parts.add(SpellRegistry.getComponentFromName(tmp.getString(ID)).part);
+						parts.add(SpellRegistry.getComponentFromName(tmp.getString(ID)));
 					}
 					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
-						parts.add(SpellRegistry.getModifierFromName(tmp.getString(ID)).part);
+						parts.add(SpellRegistry.getModifierFromName(tmp.getString(ID)));
 					}
 					if (type.equalsIgnoreCase(TYPE_SHAPE)) {
-						parts.add(SpellRegistry.getShapeFromName(tmp.getString(ID)).part);
+						parts.add(SpellRegistry.getShapeFromName(tmp.getString(ID)));
 					}
 				}
 			}
@@ -328,57 +325,6 @@ public class SpellUtils {
 		return newStack;
 	}
 	
-	@SafeVarargs
-	public static ItemStack createSpellStack_old(int id, SpellData<? extends AbstractSpellPart>... components) {
-		ItemStack stack = new ItemStack(ItemDefs.spell, 1, id);
-		NBTTagCompound tag = new NBTTagCompound();
-		NBTTagCompound am2 = NBTUtils.getAM2Tag(tag);
-		NBTTagCompound compound = NBTUtils.addTag(am2, SPELL_DATA);
-		Multimap<Integer, AbstractSpellPart> spellStageMap = HashMultimap.create();
-		int stage = 0;
-		int manaCost = 0;
-		float multiplier = 1F;
-		int finalCost = 0;
-		for (SpellData<? extends AbstractSpellPart> info : components) {
-			if (info == null)
-				continue;
-			spellStageMap.put(stage, info.part);
-			NBTTagList stageTag = NBTUtils.addCompoundList(am2, STAGE + stage);
-			NBTTagCompound tmp = new NBTTagCompound();
-			tmp.setString(ID, info.id);
-			String type = "";
-			if (info.part instanceof SpellShape) {
-				type = TYPE_SHAPE;
-				multiplier *= ((SpellShape)info.part).manaCostMultiplier(stack);
-			}
-			if (info.part instanceof SpellModifier) {
-				type = TYPE_MODIFIER;
-				multiplier *= ((SpellModifier)info.part).getManaCostMultiplier(stack, stage, 1);
-			}
-			if (info.part instanceof SpellComponent) {
-				type = TYPE_COMPONENT;
-				manaCost += ((SpellComponent)info.part).manaCost(null);
-			}
-			tmp.setString(TYPE, type);
-			info.part.encodeBasicData(compound, null);
-			stageTag.appendTag(tmp);
-			am2.setTag(STAGE + stage, stageTag);
-			if (info.part instanceof SpellShape) {
-				stage++;
-				finalCost += (int) ((float)manaCost * multiplier);
-				manaCost = 0;
-				multiplier = 1.0F;
-			}
-		}
-		finalCost += (int) ((float)manaCost * multiplier);
-		am2.setInteger("Cost", finalCost);
-		am2.setInteger("StageNum", stage + 1);
-		am2.setInteger("CurrentGroup", 0);
-		am2.setInteger("CurrentShapeGroup", -1);
-		stack.setTagCompound(tag);		
-		return stack;
-	}
-	
 	public static ItemStack popStackStage(ItemStack is) {
 		NBTUtils.getAM2Tag(is.getTagCompound()).setInteger("CurrentGroup", NBTUtils.getAM2Tag(is.getTagCompound()).getInteger("CurrentGroup") + 1);
 		return is;
@@ -401,15 +347,15 @@ public class SpellUtils {
 					NBTTagCompound tmp = stageTag.getCompoundTagAt(i);
 					String type = tmp.getString(TYPE);
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
-						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID)).part;
+						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID));
 						cost += component.manaCost(Minecraft.getMinecraft().thePlayer);
 					}
 					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
-						SpellModifier mod = SpellRegistry.getModifierFromName(tmp.getString(ID)).part;
+						SpellModifier mod = SpellRegistry.getModifierFromName(tmp.getString(ID));
 						modMultiplier *= mod.getManaCostMultiplier(mergedStack, j, 1);
 					}
 					if (type.equalsIgnoreCase(TYPE_SHAPE)) {
-						SpellShape shape = SpellRegistry.getShapeFromName(tmp.getString(ID)).part;
+						SpellShape shape = SpellRegistry.getShapeFromName(tmp.getString(ID));
 						modMultiplier *= shape.manaCostMultiplier(mergedStack);
 					}
 				}
@@ -477,9 +423,9 @@ public class SpellUtils {
 				String tagType = tag.getString(TYPE);
 				if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
 					String tagID = tag.getString(ID);
-					SpellData<SpellModifier> mod = SpellRegistry.getModifierFromName(tagID);
-					if (mod.part.getAspectsModified().contains(modified))
-						val = makeCalculation(operation, val, mod.part.getModifier(modified, caster, target, world, stack.getTagCompound()));
+					SpellModifier mod = SpellRegistry.getModifierFromName(tagID);
+					if (mod.getAspectsModified().contains(modified))
+						val = makeCalculation(operation, val, mod.getModifier(modified, caster, target, world, stack.getTagCompound()));
 				}
 			}
 		} else {
@@ -490,9 +436,9 @@ public class SpellUtils {
 					String tagType = tag.getString(TYPE);
 					if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
 						String tagID = tag.getString(ID);
-						SpellData<SpellModifier> mod = SpellRegistry.getModifierFromName(tagID);
-						if (mod.part.getAspectsModified().contains(modified)) {
-							val = makeCalculation(operation, val, mod.part.getModifier(modified, caster, target, world, stack.getTagCompound()));
+						SpellModifier mod = SpellRegistry.getModifierFromName(tagID);
+						if (mod.getAspectsModified().contains(modified)) {
+							val = makeCalculation(operation, val, mod.getModifier(modified, caster, target, world, stack.getTagCompound()));
 						}
 					}
 				}
@@ -537,7 +483,7 @@ public class SpellUtils {
 				NBTTagCompound tag = stageTag.getCompoundTagAt(i);
 				String tagType = tag.getString(TYPE);
 				if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
-					mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)).part);
+					mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)));
 				}
 			}
 		} else {
@@ -547,7 +493,7 @@ public class SpellUtils {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
 					String tagType = tag.getString(TYPE);
 					if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
-						mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)).part);
+						mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)));
 					}
 				}
 			}
@@ -565,10 +511,10 @@ public class SpellUtils {
 				NBTTagCompound tag = stageTag.getCompoundTagAt(i);
 				String tagType = tag.getString(TYPE);
 				if (tagType.equalsIgnoreCase(TYPE_MODIFIER)) {
-					mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)).part);
+					mods.add(SpellRegistry.getModifierFromName(tag.getString(ID)));
 				}
 				if (tagType.equalsIgnoreCase(TYPE_SHAPE)) {
-					mods.add(SpellRegistry.getShapeFromName(tag.getString(ID)).part);
+					mods.add(SpellRegistry.getShapeFromName(tag.getString(ID)));
 				}
 			}
 		}
@@ -587,7 +533,7 @@ public class SpellUtils {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
 					String tagType = tag.getString(TYPE);
 					if (tagType.equalsIgnoreCase(TYPE_COMPONENT)) {
-						mods.add(SpellRegistry.getComponentFromName(tag.getString(ID)).part);
+						mods.add(SpellRegistry.getComponentFromName(tag.getString(ID)));
 					}
 				}
 			} else {
@@ -597,7 +543,7 @@ public class SpellUtils {
 						NBTTagCompound tag = stageTag.getCompoundTagAt(i);
 						String tagType = tag.getString(TYPE);
 						if (tagType.equalsIgnoreCase(TYPE_COMPONENT)) {
-							mods.add(SpellRegistry.getComponentFromName(tag.getString(ID)).part);
+							mods.add(SpellRegistry.getComponentFromName(tag.getString(ID)));
 						}
 					}
 				}
@@ -785,7 +731,7 @@ public class SpellUtils {
 				NBTTagList stageTag = NBTUtils.addCompoundList(tag, STAGE + j);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tmp = stageTag.getCompoundTagAt(i);
-					mods.add(SpellRegistry.getComponentFromName(tmp.getString(ID)).part);
+					mods.add(SpellRegistry.getComponentFromName(tmp.getString(ID)));
 				}
 			}
 			return mods;

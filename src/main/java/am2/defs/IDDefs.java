@@ -16,5 +16,6 @@ public class IDDefs {
 	public static final int GUI_OBELISK = 4;
 	public static final int GUI_CRYSTAL_MARKER = 5;
 	public static final int GUI_INSCRIPTION_TABLE = 6;
+	public static final int GUI_ARMOR_INFUSION = 7;
 	
 }

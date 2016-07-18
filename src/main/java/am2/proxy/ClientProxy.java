@@ -1,5 +1,6 @@
 package am2.proxy;
 
+import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
@@ -15,11 +16,14 @@ import org.lwjgl.opengl.GL11;
 import am2.ArsMagica2;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
+import am2.armor.ArmorHelper;
+import am2.armor.infusions.GenericImbuement;
 import am2.blocks.render.TileBlackAuremRenderer;
 import am2.blocks.render.TileCelestialPrismRenderer;
 import am2.blocks.render.TileCraftingAltarRenderer;
 import am2.blocks.render.TileLecternRenderer;
 import am2.blocks.render.TileObeliskRenderer;
+import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
@@ -39,6 +43,7 @@ import am2.entity.render.RenderRiftStorage;
 import am2.entity.render.RenderSpellProjectile;
 import am2.entity.render.RenderThrownRock;
 import am2.extensions.RiftStorage;
+import am2.gui.GuiArmorImbuer;
 import am2.gui.GuiInscriptionTable;
 import am2.gui.GuiObelisk;
 import am2.gui.GuiOcculus;
@@ -93,6 +98,7 @@ public class ClientProxy extends CommonProxy {
 		case GUI_OBELISK: return new GuiObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
 		case GUI_INSCRIPTION_TABLE: return new GuiInscriptionTable(player.inventory, (TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_SPELL_CUSTOMIZATION: return new GuiSpellCustomization(player);
+		case GUI_ARMOR_INFUSION: return new GuiArmorImbuer(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
@@ -221,8 +227,7 @@ public class ClientProxy extends CommonProxy {
 		
 		if (Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null &&
 				(Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == ItemDefs.magitechGoggles)
-				//|| ArmorHelper.isInfusionPreset(ArsMagica2.proxy.getLocalPlayer().getCurrentArmor(3), GenericImbuement.magitechGoggleIntegration))
-				){
+					|| ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD), GenericImbuement.magitechGoggleIntegration)){
 			if (target.getBlockPos() == null)
 				return;
 			TileEntity te = player.worldObj.getTileEntity(target.getBlockPos());

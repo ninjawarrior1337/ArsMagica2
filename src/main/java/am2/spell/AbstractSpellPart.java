@@ -5,12 +5,12 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 
 public abstract class AbstractSpellPart extends IForgeRegistryEntry.Impl<AbstractSpellPart> {
-
+		
 	/**
 	 * Supports :
 	 *     ItemStacks
-	 *     String
-	 *     Essence
+	 *     OreDict String
+	 *     Essence Strings ("E:mask1|mask2" (* for any), num)
 	 * @return
 	 */
 	public abstract Object[] getRecipe();

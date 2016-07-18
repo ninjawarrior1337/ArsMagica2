@@ -8,6 +8,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import am2.api.ArsMagicaAPI;
 import am2.api.SkillRegistry;
 import am2.api.SpellRegistry;
 import am2.api.math.AMVector2;
@@ -477,7 +478,7 @@ public class GuiInscriptionTable extends GuiContainer{
 		for (String i : ids){
 			Skill part = SkillRegistry.getSkillFromName(i);
 
-			if (part == null || SpellRegistry.getCombinedMap().get(part.getID()) == null)// && SkillTreeManager.instance.isSkillDisabled(part))
+			if (part == null || ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName()) == null)// && SkillTreeManager.instance.isSkillDisabled(part))
 				continue;
 
 			String name = part.getName();
@@ -488,7 +489,7 @@ public class GuiInscriptionTable extends GuiContainer{
 			}
 
 			if (iconY < 0 || iconY > 42) return hovering;
-			if (drawIcon(SpellRegistry.getCombinedMap().get(part.getID()).part)){
+			if (drawIcon(ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName()))){
 				hovering = true;
 				labelText.add(name);
 			}

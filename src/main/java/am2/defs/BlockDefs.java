@@ -2,6 +2,7 @@ package am2.defs;
 
 import am2.blocks.BlockAM;
 import am2.blocks.BlockAMFlower;
+import am2.blocks.BlockArmorInfuser;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaOre;
 import am2.blocks.BlockCandle;
@@ -58,6 +59,7 @@ public class BlockDefs {
 	public static final Block wardingCandle = new BlockCandle().registerAndName(new ResourceLocation("arsmagica2:wardingCandle"));
 	public static final Block lectern = new BlockLectern().registerAndName(new ResourceLocation("arsmagica2:lectern"));
 	public static final Block inscriptionTable = new BlockInscriptionTable().registerAndName(new ResourceLocation("arsmagica2:inscriptionTable"));
+	public static final Block armorImbuer = new BlockArmorInfuser().registerAndName(new ResourceLocation("arsmagica2:armorImbuer"));
 	public static final Block witchwoodLog = null;
 	public static final Block essenceConduit = null;
 	
@@ -78,6 +80,7 @@ public class BlockDefs {
 		registerTexture(celestialPrism);
 		registerTexture(blackAurem);
 		registerTexture(manaBattery);
+		registerTexture(armorImbuer);
 		
 		//Flickers
 		registerTexture(crystalMarker);

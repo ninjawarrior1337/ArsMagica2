@@ -1,6 +1,11 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.*;
+import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
+import static am2.defs.IDDefs.GUI_OBELISK;
+import static am2.defs.IDDefs.GUI_OCCULUS;
+import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +22,25 @@ import am2.api.extensions.IRiftStorage;
 import am2.api.extensions.ISkillData;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
+import am2.armor.ArmorEventHandler;
+import am2.armor.infusions.DamageReductionImbuement;
+import am2.armor.infusions.Dispelling;
+import am2.armor.infusions.FallProtection;
+import am2.armor.infusions.FireProtection;
+import am2.armor.infusions.Freedom;
+import am2.armor.infusions.GenericImbuement;
+import am2.armor.infusions.Healing;
+import am2.armor.infusions.HungerBoost;
+import am2.armor.infusions.ImbuementRegistry;
+import am2.armor.infusions.JumpBoost;
+import am2.armor.infusions.LifeSaving;
+import am2.armor.infusions.Lightstep;
+import am2.armor.infusions.MiningSpeed;
+import am2.armor.infusions.Recoil;
+import am2.armor.infusions.SwimSpeed;
+import am2.armor.infusions.WaterBreathing;
+import am2.armor.infusions.WaterWalking;
+import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCandle;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
@@ -29,6 +53,7 @@ import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityManaBattery;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
+import am2.container.ContainerArmorInfuser;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerObelisk;
 import am2.container.ContainerRiftStorage;
@@ -61,6 +86,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -95,6 +121,7 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_OBELISK: return new ContainerObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
 		case GUI_INSCRIPTION_TABLE: return new ContainerInscriptionTable((TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
 		case GUI_SPELL_CUSTOMIZATION: return new ContainerSpellCustomization(player);
+		case GUI_ARMOR_INFUSION: return new ContainerArmorInfuser(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		return null;
 	}
@@ -119,7 +146,9 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(new AffinityAbilityHelper());
 		MinecraftForge.EVENT_BUS.register(packetProcessor);
 		MinecraftForge.EVENT_BUS.register(PowerNodeCache.instance);
+		MinecraftForge.EVENT_BUS.register(new ArmorEventHandler());
 		
+		registerInfusions();
 		
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 80, 1, false);
@@ -139,7 +168,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityFlickerHabitat.class, "TileEntityFlickerHabitat");
 		GameRegistry.registerTileEntity(TileEntityInscriptionTable.class, "TileEntityInscriptionTable");
 		GameRegistry.registerTileEntity(TileEntityManaBattery.class, "TileEntityManaBattery");
-		
+		GameRegistry.registerTileEntity(TileEntityArmorImbuer.class, "TileEntityArmorImbuer");
 		
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
@@ -222,6 +251,29 @@ public class CommonProxy implements IGuiHandler{
 
 	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getPowerPathVisuals() {
 		return null;
+	}
+
+	public void blackoutArmorPiece(EntityPlayerMP player, EntityEquipmentSlot slot, int cooldown){
+		serverTickHandler.blackoutArmorPiece(player, slot, cooldown);
+	}
+	
+	public void registerInfusions(){
+		DamageReductionImbuement.registerAll();
+		GenericImbuement.registerAll();
+		ImbuementRegistry.instance.registerImbuement(new Dispelling());
+		ImbuementRegistry.instance.registerImbuement(new FallProtection());
+		ImbuementRegistry.instance.registerImbuement(new FireProtection());
+		ImbuementRegistry.instance.registerImbuement(new Freedom());
+		ImbuementRegistry.instance.registerImbuement(new Healing());
+		ImbuementRegistry.instance.registerImbuement(new HungerBoost());
+		ImbuementRegistry.instance.registerImbuement(new JumpBoost());
+		ImbuementRegistry.instance.registerImbuement(new LifeSaving());
+		ImbuementRegistry.instance.registerImbuement(new Lightstep());
+		ImbuementRegistry.instance.registerImbuement(new MiningSpeed());
+		ImbuementRegistry.instance.registerImbuement(new Recoil());
+		ImbuementRegistry.instance.registerImbuement(new SwimSpeed());
+		ImbuementRegistry.instance.registerImbuement(new WaterBreathing());
+		ImbuementRegistry.instance.registerImbuement(new WaterWalking());
 	}
 
 }

@@ -2,6 +2,7 @@ package am2.packet;
 
 import am2.ArsMagica2;
 import am2.api.power.IPowerNode;
+import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.power.PowerNodeRegistry;
 import io.netty.buffer.Unpooled;
@@ -207,15 +208,15 @@ public class AMNetHandler{
 		}
 	}
 
-//	public void sendImbueToServer(TileEntityArmorImbuer tileEntity, String hoveredID){
-//		AMDataWriter writer = new AMDataWriter();
-//		writer.add(tileEntity.xCoord);
-//		writer.add(tileEntity.yCoord);
-//		writer.add(tileEntity.zCoord);
-//		writer.add(hoveredID);
-//
-//		sendPacketToServer(AMPacketIDs.IMBUE_ARMOR, writer.generate());
-//	}
+	public void sendImbueToServer(TileEntityArmorImbuer tileEntity, String hoveredID){
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(tileEntity.getPos().getX());
+		writer.add(tileEntity.getPos().getY());
+		writer.add(tileEntity.getPos().getZ());
+		writer.add(hoveredID);
+
+		sendPacketToServer(AMPacketIDs.IMBUE_ARMOR, writer.generate());
+	}
 
 	public void sendPowerRequestToServer(Vec3d location){
 		AMDataWriter writer = new AMDataWriter();

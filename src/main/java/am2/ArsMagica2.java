@@ -11,9 +11,11 @@ import am2.defs.BindingsDefs;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.extensions.DataDefinitions;
+import am2.network.SeventhSanctum;
 import am2.packet.MessageBoolean;
 import am2.packet.MessageCapabilities;
 import am2.proxy.CommonProxy;
+import am2.spell.AbstractSpellPart;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -66,6 +68,7 @@ public class ArsMagica2 {
 		OreDictionary.registerOre("fence", Blocks.SPRUCE_FENCE);
 		OreDictionary.registerOre("fence", Blocks.BIRCH_FENCE);
 		OreDictionary.registerOre("fence", Blocks.JUNGLE_FENCE);
+		SeventhSanctum.instance.init();
 	}
 	
 	@EventHandler
@@ -79,6 +82,10 @@ public class ArsMagica2 {
 	@EventHandler
 	public void postInit (FMLPostInitializationEvent e) {
 		AMRecipes.addRecipes();
+		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
+			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
+				throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");
+		}
 	}
 
 	public String getVersion() {

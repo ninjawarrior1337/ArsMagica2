@@ -7,6 +7,7 @@ import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.gui.AMGuiHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
 import am2.particles.ParticleFadeOut;
@@ -58,9 +59,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.PLAYER_VELOCITY_ADD:
 //				handleVelocityAdd(remaining);
 //				break;
-//			case AMPacketIDs.FLASH_ARMOR_PIECE:
-//				handleFlashArmor(remaining);
-//				break;
+			case AMPacketIDs.FLASH_ARMOR_PIECE:
+				handleFlashArmor(remaining);
+				break;
 //			case AMPacketIDs.REMOVE_BUFF_EFFECT:
 //				handleRemoveBuffEffect(remaining);
 //				break;
@@ -496,10 +497,10 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		localPlayer.removePotionEffect(buffID);
 //	}
 //
-//	private void handleFlashArmor(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		AMGuiHelper.instance.blackoutArmorPiece(rdr.getInt(), rdr.getInt());
-//	}
+	private void handleFlashArmor(byte[] data){
+		AMDataReader rdr = new AMDataReader(data, false);
+		AMGuiHelper.instance.blackoutArmorPiece(rdr.getInt(), rdr.getInt());
+	}
 //
 //	private void handleVelocityAdd(byte[] data){
 //		AMDataReader rdr = new AMDataReader(data, false);

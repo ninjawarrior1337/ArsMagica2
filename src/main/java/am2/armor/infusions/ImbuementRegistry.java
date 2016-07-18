@@ -11,8 +11,6 @@ import am2.armor.ArmorHelper;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ImbuementRegistry implements IImbuementRegistry{
@@ -26,11 +24,7 @@ public class ImbuementRegistry implements IImbuementRegistry{
 
 	@Override
 	public void registerImbuement(ArmorImbuement imbuementInstance) {
-		ModContainer current = Loader.instance().activeModContainer();
-		String modid = "arsmagica2";
-		if (current != null)
-			modid = current.getModId();
-		GameRegistry.register(imbuementInstance, new ResourceLocation(modid, imbuementInstance.getID()));
+		GameRegistry.register(imbuementInstance, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), imbuementInstance.getID()));
 		ArsMagica2.LOGGER.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 

@@ -57,6 +57,8 @@ public class SpellParticleRender extends ItemOverrideList{
 	public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 		if (world == null || entity == null)
 			return super.handleItemState(originalModel, stack, world, entity);
+		if (!Minecraft.getMinecraft().inGameHasFocus)
+			return super.handleItemState(originalModel, stack, world, entity);
 		renderItem(stack, entity);
 		return new BakedBlank();//model != null ? model : super.handleItemState(originalModel, stack, world, entity);
 	}
