@@ -7,7 +7,7 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class RandomTeleport implements IComponent{
+public class RandomTeleport extends SpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){

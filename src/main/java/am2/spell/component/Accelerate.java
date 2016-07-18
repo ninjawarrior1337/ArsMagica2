@@ -10,7 +10,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,7 +23,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Accelerate implements IComponent{
+public class Accelerate extends SpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){

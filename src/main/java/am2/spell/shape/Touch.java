@@ -3,7 +3,7 @@ package am2.spell.shape;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
@@ -17,7 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class Touch implements IShape{
+public class Touch extends SpellShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){

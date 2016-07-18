@@ -13,7 +13,7 @@ import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
 import am2.particles.ParticleArcToEntity;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.EnumDyeColor;
@@ -23,7 +23,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ManaDrain implements IComponent{
+public class ManaDrain extends SpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){

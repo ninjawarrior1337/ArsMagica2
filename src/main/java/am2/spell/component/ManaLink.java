@@ -10,7 +10,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.particles.AMLineArc;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ManaLink implements IComponent{
+public class ManaLink extends SpellComponent{
 
 	@Override
 	public Object[] getRecipe(){

@@ -3,7 +3,7 @@ package am2.spell.modifier;
 import java.util.EnumSet;
 
 import am2.api.affinity.Affinity;
-import am2.spell.IModifier;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
@@ -15,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.world.World;
 
-public class Healing implements IModifier{
+public class Healing extends SpellModifier{
 	@Override
 	public EnumSet<SpellModifiers> getAspectsModified(){
 		return EnumSet.of(SpellModifiers.HEALING);

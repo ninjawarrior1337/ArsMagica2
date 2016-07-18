@@ -11,7 +11,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -24,7 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class LightningDamage implements IComponent{
+public class LightningDamage extends SpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){

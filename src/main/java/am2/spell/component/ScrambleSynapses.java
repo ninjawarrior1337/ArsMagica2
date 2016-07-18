@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 import am2.api.affinity.Affinity;
 import am2.buffs.BuffEffectScrambleSynapses;
 import am2.defs.PotionEffectsDefs;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -19,7 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ScrambleSynapses implements IComponent{
+public class ScrambleSynapses extends SpellComponent{
 
 	@Override
 	public Object[] getRecipe(){

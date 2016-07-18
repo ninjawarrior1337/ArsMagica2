@@ -7,7 +7,7 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.extensions.EntityExtension;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
@@ -22,7 +22,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Dig implements IComponent {
+public class Dig extends SpellComponent {
 
 	@Override
 	public Object[] getRecipe() {

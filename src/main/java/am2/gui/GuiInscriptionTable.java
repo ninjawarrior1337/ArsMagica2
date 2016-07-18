@@ -16,10 +16,10 @@ import am2.container.ContainerInscriptionTable;
 import am2.extensions.SkillData;
 import am2.gui.controls.GuiButtonVariableDims;
 import am2.skill.Skill;
-import am2.spell.IComponent;
-import am2.spell.IModifier;
-import am2.spell.IShape;
-import am2.spell.ISpellPart;
+import am2.spell.SpellComponent;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellValidator.ValidationResult;
 import am2.spell.shape.MissingShape;
 import am2.texture.SpellIconManager;
@@ -47,7 +47,7 @@ public class GuiInscriptionTable extends GuiContainer{
 	private final ArrayList<String> knownComponents;
 	private final ArrayList<String> knownModifiers;
 
-	private ISpellPart hoveredItem;
+	private AbstractSpellPart hoveredItem;
 	private TextureAtlasSprite hoveredIcon;
 	private boolean dragging;
 	private boolean lowerHover;
@@ -166,12 +166,12 @@ public class GuiInscriptionTable extends GuiContainer{
 				dragging = true;
 			}else if (lowerHover){
 				if (lowerHoverShapeGroup == -1 && ((ContainerInscriptionTable)this.inventorySlots).currentRecipeContains(hoveredItem)){
-					if (hoveredItem instanceof IShape){
+					if (hoveredItem instanceof SpellShape){
 						int index = lowerHoverIndex;
 						int startIndex = index;
 						int count = 0;
 						index++;
-						while (index < ((ContainerInscriptionTable)this.inventorySlots).getCurrentRecipeSize() && !(((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index) instanceof IShape)){
+						while (index < ((ContainerInscriptionTable)this.inventorySlots).getCurrentRecipeSize() && !(((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index) instanceof SpellShape)){
 							count++;
 							index++;
 						}
@@ -181,13 +181,13 @@ public class GuiInscriptionTable extends GuiContainer{
 					}
 					result = ((ContainerInscriptionTable)this.inventorySlots).validateCurrentDefinition();
 				}else if (lowerHoverShapeGroup >= 0){
-					if (hoveredItem instanceof IShape){
+					if (hoveredItem instanceof SpellShape){
 						int index = lowerHoverIndex;
 						int startIndex = index;
 						int count = 0;
 						index++;
 						while (index < ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupSize(lowerHoverShapeGroup) &&
-								!(((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(lowerHoverShapeGroup, index) instanceof IShape)){
+								!(((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(lowerHoverShapeGroup, index) instanceof SpellShape)){
 							count++;
 							index++;
 						}
@@ -417,7 +417,7 @@ public class GuiInscriptionTable extends GuiContainer{
 
 		//main recipe
 		for (int i = 0; i < ((ContainerInscriptionTable)this.inventorySlots).getCurrentRecipeSize(); ++i){
-			ISpellPart part = ((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(i);
+			AbstractSpellPart part = ((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(i);
 			if (part == new MissingShape())
 				continue;
 			String name = SpellRegistry.getSkillFromPart(part).getName();
@@ -434,7 +434,7 @@ public class GuiInscriptionTable extends GuiContainer{
 		//shape groups
 		for (int i = 0; i < ((ContainerInscriptionTable)this.inventorySlots).getNumStageGroups(); ++i){
 			for (int n = 0; n < ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupSize(i); ++n){
-				ISpellPart part = ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(i, n);
+				AbstractSpellPart part = ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(i, n);
 				String name = SpellRegistry.getSkillFromPart(part).getName();
 
 				int SGX = shapeGroupX + ((shapeGroupWidth + shapeGroupPadding) * i) + 1;
@@ -496,41 +496,41 @@ public class GuiInscriptionTable extends GuiContainer{
 		return hovering;
 	}
 
-	private boolean spellPartIsValidAddition(ISpellPart part){
+	private boolean spellPartIsValidAddition(AbstractSpellPart part){
 		boolean hasShape = false;
 		for (int i = 0; i < ((ContainerInscriptionTable)this.inventorySlots).getNumStageGroups(); ++i){
 			for (int n = 0; n < ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupSize(i); ++n){
-				ISpellPart groupPart = ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(i, n);
-				if (groupPart instanceof IShape){
+				AbstractSpellPart groupPart = ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(i, n);
+				if (groupPart instanceof SpellShape){
 					hasShape = true;
 					break;
 				}
 			}
 		}
-		if (!hasShape && !(part instanceof IShape))
+		if (!hasShape && !(part instanceof SpellShape))
 			return false;
-		if (part instanceof IShape && ((ContainerInscriptionTable)this.inventorySlots).currentRecipeContains(part))
+		if (part instanceof SpellShape && ((ContainerInscriptionTable)this.inventorySlots).currentRecipeContains(part))
 			return false;
-		if (part instanceof IComponent){
+		if (part instanceof SpellComponent){
 			int index = ((ContainerInscriptionTable)this.inventorySlots).getCurrentRecipeSize() - 1;
-			while (index >= 0 && !(((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index) instanceof IShape)){
-				ISpellPart curPart = ((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index--);
-				if (curPart instanceof IComponent && SpellRegistry.getSkillFromPart(curPart).getID() == SpellRegistry.getSkillFromPart(part).getID()){
+			while (index >= 0 && !(((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index) instanceof SpellShape)){
+				AbstractSpellPart curPart = ((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index--);
+				if (curPart instanceof SpellComponent && SpellRegistry.getSkillFromPart(curPart).getID() == SpellRegistry.getSkillFromPart(part).getID()){
 					return false;
 				}
 			}
 		}
-		if (part instanceof IModifier){
-			return ((ContainerInscriptionTable)this.inventorySlots).modifierCanBeAdded((IModifier)part);
+		if (part instanceof SpellModifier){
+			return ((ContainerInscriptionTable)this.inventorySlots).modifierCanBeAdded((SpellModifier)part);
 		}
 		return true;
 	}
 
-	private boolean drawIcon(ISpellPart part){
+	private boolean drawIcon(AbstractSpellPart part){
 		return drawIcon(part, true);
 	}
 
-	private boolean drawIcon(ISpellPart part, boolean allowDarken){
+	private boolean drawIcon(AbstractSpellPart part, boolean allowDarken){
 
 		boolean hovering = false;
 		TextureAtlasSprite shapeIcon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(part).getID());

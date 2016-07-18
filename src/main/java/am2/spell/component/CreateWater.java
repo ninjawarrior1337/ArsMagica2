@@ -7,7 +7,7 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockFlower;
@@ -23,7 +23,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CreateWater implements IComponent{
+public class CreateWater extends SpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

@@ -9,7 +9,7 @@ import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
@@ -25,7 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Ignition implements IComponent{
+public class Ignition extends SpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

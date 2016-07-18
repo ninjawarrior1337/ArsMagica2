@@ -14,8 +14,8 @@ import am2.particles.AMParticleIcons;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleLeaveParticleTrail;
 import am2.particles.ParticleMoveOnHeading;
-import am2.spell.IModifier;
-import am2.spell.IShape;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
@@ -32,7 +32,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AoE implements IShape{
+public class AoE extends SpellShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
@@ -85,8 +85,8 @@ public class AoE implements IShape{
 
 		int color = 0xFFFFFF;
 		if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, stack)){
-			ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
-			for (IModifier mod : mods){
+			ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
+			for (SpellModifier mod : mods){
 				if (mod instanceof Colour){
 					color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, stack.getTagCompound());
 				}
@@ -180,8 +180,8 @@ public class AoE implements IShape{
 		for (int i = SpellUtils.currentStage(spellStack); i < stages; ++i){
 			if (!SpellUtils.getShapeForStage(spellStack, i).equals(this)) continue;
 
-			ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(spellStack, i);
-			for (IModifier modifier : mods){
+			ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, i);
+			for (SpellModifier modifier : mods){
 				if (modifier.getAspectsModified().contains(SpellModifiers.RADIUS)){
 					radiusMods++;
 				}

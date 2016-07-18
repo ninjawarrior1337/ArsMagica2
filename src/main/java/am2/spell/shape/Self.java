@@ -5,7 +5,7 @@ import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.power.PowerTypes;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class Self implements IShape{
+public class Self extends SpellShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){

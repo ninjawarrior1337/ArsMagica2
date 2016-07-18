@@ -11,7 +11,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -26,7 +26,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Drown implements IComponent{
+public class Drown extends SpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

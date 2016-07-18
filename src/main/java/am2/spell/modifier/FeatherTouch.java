@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
-import am2.spell.IModifier;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class FeatherTouch implements IModifier{
+public class FeatherTouch extends SpellModifier{
 	@Override
 	public EnumSet<SpellModifiers> getAspectsModified(){
 		return EnumSet.of(SpellModifiers.SILKTOUCH_LEVEL);

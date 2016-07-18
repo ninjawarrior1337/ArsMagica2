@@ -29,7 +29,7 @@ import am2.multiblock.TypedMultiblockGroup;
 import am2.power.PowerTypes;
 import am2.rituals.IRitualInteraction;
 import am2.skill.Skill;
-import am2.spell.ISpellPart;
+import am2.spell.AbstractSpellPart;
 import am2.texture.SpellIconManager;
 import am2.utils.RecipeUtils;
 import net.minecraft.block.Block;
@@ -612,14 +612,14 @@ public class GuiArcaneCompendium extends GuiScreen {
 //		}
 		else if (entryItem.getItem() instanceof ItemSpellComponent){
 			if (entrySkill == null) return;
-			SpellData<? extends ISpellPart> spellPart = SpellRegistry.getCombinedMap().get(entrySkill.getID());
+			SpellData<? extends AbstractSpellPart> spellPart = SpellRegistry.getCombinedMap().get(entrySkill.getID());
 			if (spellPart == null) return;
-			ISpellPart part = spellPart.part;
+			AbstractSpellPart part = spellPart.part;
 			if (part == null) return;
 			ArrayList<Object> recipe = new ArrayList<Object>();
 
-			if (part instanceof ISpellPart){
-				Object[] recipeItems = ((ISpellPart)part).getRecipe();
+			if (part instanceof AbstractSpellPart){
+				Object[] recipeItems = ((AbstractSpellPart)part).getRecipe();
 				SpellRecipeItemsEvent event = new SpellRecipeItemsEvent(entrySkill.getID(), recipeItems);
 				MinecraftForge.EVENT_BUS.post(event);
 				recipeItems = event.recipeItems;

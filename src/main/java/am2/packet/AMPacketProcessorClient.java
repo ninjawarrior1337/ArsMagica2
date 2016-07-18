@@ -14,7 +14,7 @@ import am2.particles.ParticleLeaveParticleTrail;
 import am2.particles.ParticleMoveOnHeading;
 import am2.power.PowerNodeEntry;
 import am2.power.PowerNodeRegistry;
-import am2.spell.IModifier;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
 import am2.utils.MathUtilities;
@@ -258,8 +258,8 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		int color = -1;
 		if (spellStack != null){
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (IModifier mod : mods){
+				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
+				for (SpellModifier mod : mods){
 					if (mod instanceof Colour){
 						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
 					}

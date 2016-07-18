@@ -10,7 +10,7 @@ import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.utils.DummyEntityPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class Plant implements IComponent{
+public class Plant extends SpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

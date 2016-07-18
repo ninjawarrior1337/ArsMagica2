@@ -4,8 +4,8 @@ import java.util.EnumSet;
 
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.container.slot.SlotInscriptionTable;
-import am2.spell.IModifier;
-import am2.spell.ISpellPart;
+import am2.spell.SpellModifier;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifiers;
 import am2.spell.SpellValidator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -119,11 +119,11 @@ public class ContainerInscriptionTable extends Container{
 		return table.getCurrentRecipe().size();
 	}
 
-	public boolean currentRecipeContains(ISpellPart part){
+	public boolean currentRecipeContains(AbstractSpellPart part){
 		return table.getCurrentRecipe().contains(part);
 	}
 
-	public ISpellPart getRecipeItemAt(int index){
+	public AbstractSpellPart getRecipeItemAt(int index){
 		return table.getCurrentRecipe().get(index);
 	}
 
@@ -135,11 +135,11 @@ public class ContainerInscriptionTable extends Container{
 		table.removeSpellPart(index);
 	}
 
-	public void addRecipePart(ISpellPart part){
+	public void addRecipePart(AbstractSpellPart part){
 		table.addSpellPart(part);
 	}
 
-	public void addRecipePartToGroup(int groupIndex, ISpellPart part){
+	public void addRecipePartToGroup(int groupIndex, AbstractSpellPart part){
 		table.addSpellPartToStageGroup(groupIndex, part);
 	}
 
@@ -159,7 +159,7 @@ public class ContainerInscriptionTable extends Container{
 		return table.getShapeGroupSize(groupIndex);
 	}
 
-	public ISpellPart getShapeGroupPartAt(int groupIndex, int index){
+	public AbstractSpellPart getShapeGroupPartAt(int groupIndex, int index){
 		return table.getShapeGroupPartAt(groupIndex, index);
 	}
 
@@ -190,7 +190,7 @@ public class ContainerInscriptionTable extends Container{
 		return table.currentRecipeIsValid();
 	}
 
-	public boolean modifierCanBeAdded(IModifier modifier){
+	public boolean modifierCanBeAdded(SpellModifier modifier){
 		EnumSet<SpellModifiers> modifiers = modifier.getAspectsModified();
 		for (SpellModifiers mod : modifiers){
 			if (table.getModifierCount(mod) > 2)

@@ -17,7 +17,7 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleOrbitPoint;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.utils.DummyEntityPlayer;
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.IGrowable;
@@ -37,7 +37,7 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 
 
-public class Grow implements IComponent{
+public class Grow extends SpellComponent{
 
 	private final static ArrayList<BlockAMFlower> growableAMflowers = new ArrayList<BlockAMFlower>(Arrays.asList(
 			BlockDefs.cerublossom, BlockDefs.desertNova, BlockDefs.wakebloom, BlockDefs.aum, BlockDefs.tarmaRoot));

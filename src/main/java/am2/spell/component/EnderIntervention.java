@@ -11,7 +11,7 @@ import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.DimensionUtilities;
 import net.minecraft.entity.Entity;
@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class EnderIntervention implements IComponent{
+public class EnderIntervention extends SpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){

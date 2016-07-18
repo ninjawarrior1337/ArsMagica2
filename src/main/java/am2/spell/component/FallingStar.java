@@ -11,8 +11,8 @@ import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.entity.EntityThrownRock;
 import am2.items.ItemOre;
-import am2.spell.IComponent;
-import am2.spell.IModifier;
+import am2.spell.SpellComponent;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
@@ -26,7 +26,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FallingStar implements IComponent{
+public class FallingStar extends SpellComponent{
 
 	@Override
 	public Object[] getRecipe(){
@@ -45,7 +45,7 @@ public class FallingStar implements IComponent{
 
 		int damageMultitplier = SpellUtils.getModifiedInt_Mul(15, spellStack, caster, target, world, SpellModifiers.DAMAGE);
 		System.out.println(damageMultitplier);
-		for (IModifier mod : SpellUtils.getModifiersForStage(spellStack, -1)) {
+		for (SpellModifier mod : SpellUtils.getModifiersForStage(spellStack, -1)) {
 			System.out.println(mod.getClass());
 		}
 		for (EntityThrownRock rock : rocks){

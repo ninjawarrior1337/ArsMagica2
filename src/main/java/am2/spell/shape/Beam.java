@@ -13,8 +13,8 @@ import am2.particles.AMParticle;
 import am2.particles.AMParticleIcons;
 import am2.particles.ParticleMoveOnHeading;
 import am2.power.PowerTypes;
-import am2.spell.IModifier;
-import am2.spell.IShape;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
@@ -32,7 +32,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Beam implements IShape{
+public class Beam extends SpellShape{
 
 	private final HashMap<Integer, AMBeam> beams;
 
@@ -88,8 +88,8 @@ public class Beam implements IShape{
 
 			int color = -1;
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, stack)){
-				ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
-				for (IModifier mod : mods){
+				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
+				for (SpellModifier mod : mods){
 					if (mod instanceof Colour){
 						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, stack.getTagCompound());
 					}

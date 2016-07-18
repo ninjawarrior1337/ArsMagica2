@@ -16,7 +16,7 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.EntityUtils;
@@ -36,7 +36,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class Charm implements IComponent, IRitualInteraction{
+public class Charm extends SpellComponent implements IRitualInteraction{
 
 	@Override
 	public Object[] getRecipe(){

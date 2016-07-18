@@ -12,7 +12,7 @@ import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -28,7 +28,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Storm implements IComponent{
+public class Storm extends SpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

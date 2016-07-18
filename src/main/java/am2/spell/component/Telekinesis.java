@@ -13,7 +13,7 @@ import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachPoint;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -30,7 +30,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Telekinesis implements IComponent{
+public class Telekinesis extends SpellComponent{
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return doTK_Extrapolated(stack, world, impactX, impactY, impactZ, caster);

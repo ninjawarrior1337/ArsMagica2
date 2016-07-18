@@ -1,7 +1,7 @@
 package am2.spell.shape;
 
 import am2.items.ItemSpellBase;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class MissingShape implements IShape {
+public class MissingShape extends SpellShape {
 
 	@Override
 	public Object[] getRecipe() {

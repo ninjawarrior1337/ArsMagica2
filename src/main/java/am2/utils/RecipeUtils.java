@@ -8,7 +8,7 @@ import am2.api.SpellRegistry;
 import am2.defs.ItemDefs;
 import am2.event.SpellRecipeItemsEvent;
 import am2.power.PowerTypes;
-import am2.spell.ISpellPart;
+import am2.spell.AbstractSpellPart;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -106,7 +106,7 @@ public class RecipeUtils {
 		return ids;
 	}
 	
-	public static ArrayList<ItemStack> getConvRecipe(ISpellPart part) {
+	public static ArrayList<ItemStack> getConvRecipe(AbstractSpellPart part) {
 		ArrayList<ItemStack> list = new ArrayList<>();
 		if (part == null){
 			ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe part is null!");

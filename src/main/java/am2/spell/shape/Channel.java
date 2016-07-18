@@ -4,7 +4,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.spell.component.Attract;
 import am2.spell.component.Repel;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class Channel implements IShape{
+public class Channel extends SpellShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){

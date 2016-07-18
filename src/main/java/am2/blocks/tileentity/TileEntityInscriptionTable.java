@@ -31,10 +31,10 @@ import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleHoldPosition;
 import am2.power.PowerTypes;
 import am2.skill.Skill;
-import am2.spell.IComponent;
-import am2.spell.IModifier;
-import am2.spell.IShape;
-import am2.spell.ISpellPart;
+import am2.spell.SpellComponent;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifiers;
 import am2.spell.SpellValidator;
 import am2.utils.KeyValuePair;
@@ -68,8 +68,8 @@ import net.minecraftforge.oredict.OreDictionary;
 public class TileEntityInscriptionTable extends TileEntity implements IInventory, ITickable{
 
 	private ItemStack inscriptionTableItemStacks[];
-	private final ArrayList<ISpellPart> currentRecipe;
-	private final ArrayList<ArrayList<ISpellPart>> shapeGroups;
+	private final ArrayList<AbstractSpellPart> currentRecipe;
+	private final ArrayList<ArrayList<AbstractSpellPart>> shapeGroups;
 	private int numStageGroups = 2;
 	public static final int MAX_STAGE_GROUPS = 5;
 	public static int bookIndex = 0;
@@ -90,18 +90,18 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		inscriptionTableItemStacks = new ItemStack[getSizeInventory()];
 		currentPlayerUsing = null;
 		currentSpellName = "";
-		currentRecipe = new ArrayList<ISpellPart>();
-		shapeGroups = new ArrayList<ArrayList<ISpellPart>>();
+		currentRecipe = new ArrayList<AbstractSpellPart>();
+		shapeGroups = new ArrayList<ArrayList<AbstractSpellPart>>();
 
 		for (int i = 0; i < MAX_STAGE_GROUPS; ++i){
-			shapeGroups.add(new ArrayList<ISpellPart>());
+			shapeGroups.add(new ArrayList<AbstractSpellPart>());
 		}
 
 		modifierCount = new HashMap<SpellModifiers, Integer>();
 		resetModifierCount();
 	}
 
-	public ArrayList<ISpellPart> getCurrentRecipe(){
+	public ArrayList<AbstractSpellPart> getCurrentRecipe(){
 		return this.currentRecipe;
 	}
 
@@ -329,7 +329,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		NBTTagList shapeGroups = par1NBTTagCompound.getTagList("ShapeGroups", Constants.NBT.TAG_LIST);
 		for (int i = 0; i < shapeGroups.tagCount(); i++){
 			NBTTagList tmplist = (NBTTagList) shapeGroups.get(i);
-			ArrayList<ISpellPart> parts = new ArrayList<>();
+			ArrayList<AbstractSpellPart> parts = new ArrayList<>();
 			for (int j = 0; j < tmplist.tagCount(); j++) {
 				NBTTagCompound tmp = tmplist.getCompoundTagAt(j);
 				parts.add(tmp.getInteger("Slot"), SpellRegistry.getCombinedMap().get(tmp.getString("ID")).part);
@@ -367,7 +367,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		}
 		NBTTagList shapeGroups = new NBTTagList();
 		for (int j = 0; j < this.shapeGroups.size(); j++) {
-			ArrayList<ISpellPart> parts = this.shapeGroups.get(j);
+			ArrayList<AbstractSpellPart> parts = this.shapeGroups.get(j);
 			NBTTagList list = new NBTTagList();
 			for (int i = 0; i < parts.size(); i++) {
 				NBTTagCompound tmp = new NBTTagCompound();
@@ -421,7 +421,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			int partLength = rdr.getInt();
 			for (int i = 0; i < partLength; ++i){
 				Skill part = ItemSpellComponent.getPartFor(rdr.getInt());
-				SpellData<? extends ISpellPart> spellData = SpellRegistry.getCombinedMap().get(part.getID());
+				SpellData<? extends AbstractSpellPart> spellData = SpellRegistry.getCombinedMap().get(part.getID());
 				if (spellData != null)
 					this.currentRecipe.add(spellData.part);
 			}
@@ -429,11 +429,11 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			this.shapeGroups.clear();
 			int numGroups = rdr.getInt();
 			for (int i = 0; i < numGroups; ++i){
-				ArrayList<ISpellPart> group = new ArrayList<ISpellPart>();
+				ArrayList<AbstractSpellPart> group = new ArrayList<AbstractSpellPart>();
 				int[] partData = rdr.getIntArray();
 				for (int n : partData){
 					Skill part = ItemSpellComponent.getPartFor(n);
-					SpellData<? extends ISpellPart> spellData = SpellRegistry.getCombinedMap().get(part.getID());
+					SpellData<? extends AbstractSpellPart> spellData = SpellRegistry.getCombinedMap().get(part.getID());
 					if (spellData != null)
 						group.add(spellData.part);
 				}
@@ -469,13 +469,13 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 		writer.add(this.currentRecipe.size());
 		for (int i = 0; i < this.currentRecipe.size(); ++i){
-			ISpellPart part = this.currentRecipe.get(i);
+			AbstractSpellPart part = this.currentRecipe.get(i);
 			Skill skill = SpellRegistry.getSkillFromPart(part);
 			writer.add(ItemSpellComponent.getIdFor(skill));
 		}
 
 		writer.add(this.shapeGroups.size());
-		for (ArrayList<ISpellPart> shapeGroup : this.shapeGroups){
+		for (ArrayList<AbstractSpellPart> shapeGroup : this.shapeGroups){
 			int[] groupData = new int[shapeGroup.size()];
 			for (int i = 0; i < shapeGroup.size(); ++i){
 				groupData[i] = ItemSpellComponent.getIdFor(SpellRegistry.getSkillFromPart(shapeGroup.get(i)));
@@ -513,9 +513,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.INSCRIPTION_TABLE_UPDATE, writer.generate());
 	}
 
-	public void addSpellPartToStageGroup(int groupIndex, ISpellPart part){
-		ArrayList<ISpellPart> group = this.shapeGroups.get(groupIndex);
-		if (!currentSpellIsReadOnly && group.size() < 4 && !(part instanceof IComponent)){
+	public void addSpellPartToStageGroup(int groupIndex, AbstractSpellPart part){
+		ArrayList<AbstractSpellPart> group = this.shapeGroups.get(groupIndex);
+		if (!currentSpellIsReadOnly && group.size() < 4 && !(part instanceof SpellComponent)){
 			group.add(part);
 			if (this.worldObj.isRemote)
 				this.sendDataToServer();
@@ -524,7 +524,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	public void removeSpellPartFromStageGroup(int index, int groupIndex){
-		ArrayList<ISpellPart> group = this.shapeGroups.get(groupIndex);
+		ArrayList<AbstractSpellPart> group = this.shapeGroups.get(groupIndex);
 		if (!this.currentSpellIsReadOnly){
 			group.remove(index);
 			if (this.worldObj.isRemote)
@@ -534,7 +534,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	public void removeMultipleSpellPartsFromStageGroup(int startIndex, int length, int groupIndex){
-		ArrayList<ISpellPart> group = this.shapeGroups.get(groupIndex);
+		ArrayList<AbstractSpellPart> group = this.shapeGroups.get(groupIndex);
 		if (!currentSpellIsReadOnly){
 			for (int i = 0; i <= length; ++i)
 				group.remove(startIndex);
@@ -544,7 +544,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		}
 	}
 
-	public void addSpellPart(ISpellPart part){
+	public void addSpellPart(AbstractSpellPart part){
 		if (!currentSpellIsReadOnly && this.currentRecipe.size() < 16){
 			this.currentRecipe.add(part);
 			if (this.worldObj.isRemote)
@@ -580,20 +580,20 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 		resetModifierCount();
 
-		for (ArrayList<ISpellPart> shapeGroup : this.shapeGroups){
+		for (ArrayList<AbstractSpellPart> shapeGroup : this.shapeGroups){
 			countModifiersInList(shapeGroup);
 		}
 
-		ArrayList<ArrayList<ISpellPart>> stages = SpellValidator.splitToStages(currentRecipe);
+		ArrayList<ArrayList<AbstractSpellPart>> stages = SpellValidator.splitToStages(currentRecipe);
 		if (stages.size() == 0) return;
-		ArrayList<ISpellPart> currentStage = stages.get(stages.size() - 1);
+		ArrayList<AbstractSpellPart> currentStage = stages.get(stages.size() - 1);
 		countModifiersInList(currentStage);
 	}
 
-	private void countModifiersInList(ArrayList<ISpellPart> currentStage){
-		for (ISpellPart part : currentStage){
-			if (part instanceof IModifier){
-				EnumSet<SpellModifiers> modifiers = ((IModifier)part).getAspectsModified();
+	private void countModifiersInList(ArrayList<AbstractSpellPart> currentStage){
+		for (AbstractSpellPart part : currentStage){
+			if (part instanceof SpellModifier){
+				EnumSet<SpellModifiers> modifiers = ((SpellModifier)part).getAspectsModified();
 				for (SpellModifiers modifier : modifiers){
 					int count = modifierCount.get(modifier) + 1;
 					modifierCount.put(modifier, count);
@@ -624,16 +624,16 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.INSCRIPTION_TABLE_UPDATE, writer.generate());
 		}else{
 
-			ArrayList<KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>> shapeGroupSetup = new ArrayList<>();
-			KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> curRecipeSetup = new KeyValuePair<>(currentRecipe, new NBTTagCompound());
+			ArrayList<KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>> shapeGroupSetup = new ArrayList<>();
+			KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> curRecipeSetup = new KeyValuePair<>(currentRecipe, new NBTTagCompound());
 
-			for (ArrayList<ISpellPart> arr : shapeGroups){
-				shapeGroupSetup.add(new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(arr, new NBTTagCompound()));
-				for (ISpellPart part : arr) {
+			for (ArrayList<AbstractSpellPart> arr : shapeGroups){
+				shapeGroupSetup.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(arr, new NBTTagCompound()));
+				for (AbstractSpellPart part : arr) {
 					System.out.println(part.getClass().getSimpleName());
 				}
 			}
-			for (ISpellPart part : curRecipeSetup.key) {
+			for (AbstractSpellPart part : curRecipeSetup.key) {
 				System.out.println(part.getClass().getSimpleName());
 			}
 			ItemStack stack = SpellUtils.createSpellStack(shapeGroupSetup, curRecipeSetup);
@@ -659,16 +659,16 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			materialsList.put(ItemDefs.blankRune.getItemStackDisplayName(new ItemStack(ItemDefs.blankRune)), 1);
 
 			ArrayList<ItemStack> componentRecipeList = new ArrayList<ItemStack>();
-			ArrayList<ISpellPart> allRecipeItems = new ArrayList<ISpellPart>();
+			ArrayList<AbstractSpellPart> allRecipeItems = new ArrayList<AbstractSpellPart>();
 
-			for (ArrayList<ISpellPart> shapeGroup : shapeGroups){
+			for (ArrayList<AbstractSpellPart> shapeGroup : shapeGroups){
 				if (shapeGroup == null || shapeGroup.size() == 0)
 					continue;
 				allRecipeItems.addAll(shapeGroup);
 			}
 
 			allRecipeItems.addAll(currentRecipe);
-			for (ISpellPart part : allRecipeItems){
+			for (AbstractSpellPart part : allRecipeItems){
 				
 				if (part == null){
 					ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe part is null!");
@@ -749,15 +749,15 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			StringBuilder sb = new StringBuilder();
 			int sgCount = 0;
 			int[][] shapeGroupCombos = new int[shapeGroups.size()][];
-			for (ArrayList<ISpellPart> shapeGroup : shapeGroups){
+			for (ArrayList<AbstractSpellPart> shapeGroup : shapeGroups){
 				sb.append("Shape Group " + ++sgCount + "\n\n");
-				Iterator<ISpellPart> it = shapeGroup.iterator();
+				Iterator<AbstractSpellPart> it = shapeGroup.iterator();
 				shapeGroupCombos[sgCount - 1] = SpellPartListToStringBuilder(it, sb, " -");
 				sb.append("\n");
 			}
 
 			sb.append("Combination:\n\n");
-			Iterator<ISpellPart> it = currentRecipe.iterator();
+			Iterator<AbstractSpellPart> it = currentRecipe.iterator();
 			int[] outputData = SpellPartListToStringBuilder(it, sb, null);
 			System.out.println(sb.toString());
 
@@ -777,9 +777,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			HashMap<Affinity, Integer> affinityData = new HashMap<Affinity, Integer>();
 			int cpCount = 0;
 			while (it.hasNext()){
-				ISpellPart part = it.next();
-				if (part instanceof IComponent){
-					Set<Affinity> aff = ((IComponent)part).getAffinity();
+				AbstractSpellPart part = it.next();
+				if (part instanceof SpellComponent){
+					Set<Affinity> aff = ((SpellComponent)part).getAffinity();
 					for (Affinity affinity : aff){
 						int qty = 1;
 						if (affinityData.containsKey(affinity)){
@@ -825,7 +825,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			bookstack.setStackDisplayName(currentSpellName);
 
 			this.currentRecipe.clear();
-			for (ArrayList<ISpellPart> list : shapeGroups)
+			for (ArrayList<AbstractSpellPart> list : shapeGroups)
 				list.clear();
 			currentSpellName = "";
 
@@ -838,16 +838,16 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return bookstack;
 	}
 
-	private int[] SpellPartListToStringBuilder(Iterator<ISpellPart> it, StringBuilder sb, String prefix){
+	private int[] SpellPartListToStringBuilder(Iterator<AbstractSpellPart> it, StringBuilder sb, String prefix){
 		ArrayList<Integer> outputCombo = new ArrayList<Integer>();
 		while (it.hasNext()){
-			ISpellPart part = it.next();
+			AbstractSpellPart part = it.next();
 			String displayName = SpellRegistry.getSkillFromPart(part).getName();
 
 			if (prefix != null){
 				sb.append(prefix + displayName + "\n");
 			}else{
-				if (part instanceof IShape){
+				if (part instanceof SpellShape){
 					sb.append(displayName + "\n");
 				}else{
 					sb.append("-" + displayName + "\n");
@@ -868,18 +868,18 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	public void clearCurrentRecipe(){
 		this.currentRecipe.clear();
-		for (ArrayList<ISpellPart> group : shapeGroups)
+		for (ArrayList<AbstractSpellPart> group : shapeGroups)
 			group.clear();
 		currentSpellName = "";
 		currentSpellIsReadOnly = false;
 	}
 
 	public SpellValidator.ValidationResult currentRecipeIsValid(){
-		ArrayList<ArrayList<ISpellPart>> segmented = SpellValidator.splitToStages(currentRecipe);
+		ArrayList<ArrayList<AbstractSpellPart>> segmented = SpellValidator.splitToStages(currentRecipe);
 		return SpellValidator.instance.spellDefIsValid(shapeGroups, segmented);
 	}
 
-	public boolean modifierCanBeAdded(IModifier modifier){
+	public boolean modifierCanBeAdded(SpellModifier modifier){
 		return false;
 	}
 
@@ -913,7 +913,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	public void reverseEngineerSpell(ItemStack stack){
 		this.currentRecipe.clear();
-		for (ArrayList<ISpellPart> group : shapeGroups){
+		for (ArrayList<AbstractSpellPart> group : shapeGroups){
 			group.clear();
 		}
 		currentSpellName = "";
@@ -922,21 +922,21 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		int numStages = SpellUtils.numStages(stack);
 
 		for (int i = 0; i < numStages; ++i){
-			IShape shape = SpellUtils.getShapeForStage(stack, i);
+			SpellShape shape = SpellUtils.getShapeForStage(stack, i);
 			this.currentRecipe.add(shape);
-			ArrayList<IComponent> components = SpellUtils.getComponentsForStage(stack, i);
-			for (IComponent component : components)
+			ArrayList<SpellComponent> components = SpellUtils.getComponentsForStage(stack, i);
+			for (SpellComponent component : components)
 				this.currentRecipe.add(component);
-			ArrayList<IModifier> modifiers = SpellUtils.getModifiersForStage(stack, i);
-			for (IModifier modifier : modifiers)
+			ArrayList<SpellModifier> modifiers = SpellUtils.getModifiersForStage(stack, i);
+			for (SpellModifier modifier : modifiers)
 				this.currentRecipe.add(modifier);
 		}
 
 		int numShapeGroups = SpellUtils.numShapeGroups(stack);
 		for (int i = 0; i < numShapeGroups; ++i){
-			ArrayList<ISpellPart> parts = SpellUtils.getShapeGroupParts(stack, i);
-			for (ISpellPart partID : parts){
-				if (partID != null && partID instanceof ISpellPart)
+			ArrayList<AbstractSpellPart> parts = SpellUtils.getShapeGroupParts(stack, i);
+			for (AbstractSpellPart partID : parts){
+				if (partID != null && partID instanceof AbstractSpellPart)
 					this.shapeGroups.get(i).add(partID);
 			}
 		}
@@ -966,7 +966,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.shapeGroups.get(groupIndex).size();
 	}
 
-	public ISpellPart getShapeGroupPartAt(int groupIndex, int index){
+	public AbstractSpellPart getShapeGroupPartAt(int groupIndex, int index){
 		return this.shapeGroups.get(groupIndex).get(index);
 	}
 

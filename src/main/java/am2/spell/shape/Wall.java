@@ -5,7 +5,7 @@ import am2.defs.ItemDefs;
 import am2.entity.EntitySpellEffect;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class Wall implements IShape{
+public class Wall extends SpellShape{
 
 	@Override
 	public Object[] getRecipe(){

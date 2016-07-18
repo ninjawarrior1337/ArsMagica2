@@ -56,7 +56,7 @@ import am2.particles.ParticleManagerClient;
 import am2.power.PowerNodeEntry;
 import am2.power.PowerTypes;
 import am2.proxy.tick.ClientTickHandler;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.component.Telekinesis;
 import am2.texture.SpellIconManager;
 import am2.utils.RenderFactory;
@@ -206,7 +206,7 @@ public class ClientProxy extends CommonProxy {
 				stack = activeStack;
 		}
 		if (stack.getItem() instanceof ItemSpellBase && stack.hasTagCompound() && Minecraft.getMinecraft().thePlayer.isHandActive()){
-			for (IComponent component : SpellUtils.getComponentsForStage(stack, -1)){
+			for (SpellComponent component : SpellUtils.getComponentsForStage(stack, -1)){
 				if (component instanceof Telekinesis){
 					return true;
 				}

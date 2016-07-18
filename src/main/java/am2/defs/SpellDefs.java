@@ -17,7 +17,7 @@ import static am2.spell.SpellModifiers.VELOCITY_ADDED;
 import java.util.EnumSet;
 
 import am2.api.SpellRegistry;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.spell.component.Accelerate;
 import am2.spell.component.Appropriation;
 import am2.spell.component.AstralDistortion;
@@ -133,7 +133,7 @@ import am2.spell.shape.Zone;
 import net.minecraft.util.ResourceLocation;
 
 public class SpellDefs {
-	public static final IShape MISSING_SHAPE = new MissingShape();
+	public static final SpellShape MISSING_SHAPE = new MissingShape();
 	
 	public static void init() {
 		SpellRegistry.registerSpellShape("null", null, null, MISSING_SHAPE, null, 0, 0, null);

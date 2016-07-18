@@ -8,8 +8,8 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.spell.IModifier;
-import am2.spell.IShape;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
@@ -26,7 +26,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class Chain implements IShape{
+public class Chain extends SpellShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
@@ -112,8 +112,8 @@ public class Chain implements IShape{
 	private int getPFXColor(ItemStack stack){
 		int color = -1;
 		if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, stack)){
-			ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
-			for (IModifier mod : mods){
+			ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
+			for (SpellModifier mod : mods){
 				if (mod instanceof Colour){
 					color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, stack.getTagCompound());
 				}

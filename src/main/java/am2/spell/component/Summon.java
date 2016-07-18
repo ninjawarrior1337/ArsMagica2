@@ -10,7 +10,7 @@ import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.power.PowerTypes;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
@@ -33,7 +33,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class Summon implements IComponent{
+public class Summon extends SpellComponent{
 	
 
 	public EntityLiving summonCreature(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z){

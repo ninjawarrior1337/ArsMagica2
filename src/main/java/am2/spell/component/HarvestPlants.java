@@ -10,7 +10,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -24,7 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class HarvestPlants implements IComponent{
+public class HarvestPlants extends SpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

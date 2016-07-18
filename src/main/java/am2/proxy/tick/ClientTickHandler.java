@@ -16,7 +16,7 @@ import am2.lore.CompendiumEntryTypes;
 import am2.packet.AMNetHandler;
 import am2.particles.AMLineArc;
 import am2.power.PowerNodeEntry;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.component.Telekinesis;
 import am2.utils.SpellUtils;
 import am2.world.MeteorSpawnHelper;
@@ -254,7 +254,7 @@ public class ClientTickHandler{
 				stack = activeStack;
 		}
 		if (stack.getItem() instanceof ItemSpellBase && stack.hasTagCompound() && this.usingItem){
-			for (IComponent component : SpellUtils.getComponentsForStage(stack, -1)){
+			for (SpellComponent component : SpellUtils.getComponentsForStage(stack, -1)){
 				if (component instanceof Telekinesis){
 					return true;
 				}

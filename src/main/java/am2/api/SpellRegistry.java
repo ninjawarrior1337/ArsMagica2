@@ -10,10 +10,10 @@ import am2.lore.ArcaneCompendium;
 import am2.skill.Skill;
 import am2.skill.SkillPoint;
 import am2.skill.SkillTree;
-import am2.spell.IComponent;
-import am2.spell.IModifier;
-import am2.spell.IShape;
-import am2.spell.ISpellPart;
+import am2.spell.SpellComponent;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifiers;
 import am2.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
@@ -27,9 +27,9 @@ import net.minecraftforge.oredict.OreDictionary;
  */
 public class SpellRegistry {
 	
-	private static final HashMap<String, SpellData<IComponent>> componentMap = new HashMap<String, SpellRegistry.SpellData<IComponent>>();
-	private static final HashMap<String, SpellData<IModifier>> modifierMap = new HashMap<String, SpellRegistry.SpellData<IModifier>>();
-	private static final HashMap<String, SpellData<IShape>> shapeMap = new HashMap<String, SpellRegistry.SpellData<IShape>>();
+	private static final HashMap<String, SpellData<SpellComponent>> componentMap = new HashMap<String, SpellRegistry.SpellData<SpellComponent>>();
+	private static final HashMap<String, SpellData<SpellModifier>> modifierMap = new HashMap<String, SpellRegistry.SpellData<SpellModifier>>();
+	private static final HashMap<String, SpellData<SpellShape>> shapeMap = new HashMap<String, SpellRegistry.SpellData<SpellShape>>();
 	
 	/**
 	 * Register a spell component
@@ -37,15 +37,15 @@ public class SpellRegistry {
 	 * @param id : Name of this component
 	 * @param icon : Icon
 	 * @param tier : Skill Point required to unlock
-	 * @param part : Actual Component, use new {@link IComponent} ()
+	 * @param part : Actual Component, use new {@link SpellComponent} ()
 	 * @param tree : Skill Tree
 	 * @param posX : Position in the tree
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, IComponent part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
+	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
 		id = id.toLowerCase();
-		componentMap.put(id, new SpellData<IComponent>(icon, part, id));
+		componentMap.put(id, new SpellData<SpellComponent>(icon, part, id));
 		SkillRegistry.registerSkill(false, id, icon, tier, posX, posY, tree, parents);
 		ArcaneCompendium.AddCompendiumEntry(part, id, mods, false);		
 	}
@@ -56,15 +56,15 @@ public class SpellRegistry {
 	 * @param id : Name of this modifier
 	 * @param icon : Icon
 	 * @param tier : Skill Point required to unlock
-	 * @param part : Actual Modifier, use new {@link IModifier} ()
+	 * @param part : Actual Modifier, use new {@link SpellModifier} ()
 	 * @param tree : Skill Tree
 	 * @param posX : Position in the tree
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, IModifier part, SkillTree tree, int posX, int posY, String... parents) {
+	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, SpellModifier part, SkillTree tree, int posX, int posY, String... parents) {
 		id = id.toLowerCase();
-		modifierMap.put(id, new SpellData<IModifier>(icon, part, id));
+		modifierMap.put(id, new SpellData<SpellModifier>(icon, part, id));
 		SkillRegistry.registerSkill(false, id, icon, tier, posX, posY, tree, parents);
 		ArcaneCompendium.AddCompendiumEntry(part, id, null, false);
 	}
@@ -75,15 +75,15 @@ public class SpellRegistry {
 	 * @param id : Name of this shape
 	 * @param icon : Icon
 	 * @param tier : Skill Point required to unlock
-	 * @param part : Actual Shape, use new {@link IShape} ()
+	 * @param part : Actual Shape, use new {@link SpellShape} ()
 	 * @param tree : Skill Tree
 	 * @param posX : Position in the tree
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, IShape part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
+	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
 		id = id.toLowerCase();
-		shapeMap.put(id, new SpellData<IShape>(icon, part, id));
+		shapeMap.put(id, new SpellData<SpellShape>(icon, part, id));
 		SkillRegistry.registerSkill(false, id, icon, tier, posX, posY, tree, parents);
 		ArcaneCompendium.AddCompendiumEntry(part, id, mods, false);
 	}
@@ -94,7 +94,7 @@ public class SpellRegistry {
 	 * @param name : Name of the component
 	 * @return the matching component
 	 */
-	public static SpellData<IComponent> getComponentFromName (String name) {
+	public static SpellData<SpellComponent> getComponentFromName (String name) {
 		return componentMap.get(name.toLowerCase());
 	}
 
@@ -104,7 +104,7 @@ public class SpellRegistry {
 	 * @param name : Name of the modifier
 	 * @return the matching modifier
 	 */
-	public static SpellData<IModifier> getModifierFromName (String name) {
+	public static SpellData<SpellModifier> getModifierFromName (String name) {
 		return modifierMap.get(name.toLowerCase());
 	}
 
@@ -114,27 +114,27 @@ public class SpellRegistry {
 	 * @param name : Name of the shape
 	 * @return the matching shape
 	 */
-	public static SpellData<IShape> getShapeFromName (String name) {
+	public static SpellData<SpellShape> getShapeFromName (String name) {
 		return shapeMap.get(name.toLowerCase());
 	}
 	
-	public static ImmutableMap<String, SpellData<IComponent>> getComponentMap() {
+	public static ImmutableMap<String, SpellData<SpellComponent>> getComponentMap() {
 		return ImmutableMap.copyOf(componentMap);
 	}
 	
-	public static ImmutableMap<String, SpellData<IModifier>> getModifierMap() {
+	public static ImmutableMap<String, SpellData<SpellModifier>> getModifierMap() {
 		return ImmutableMap.copyOf(modifierMap);
 	}
 	
-	public static ImmutableMap<String, SpellData<IShape>> getShapeMap() {
+	public static ImmutableMap<String, SpellData<SpellShape>> getShapeMap() {
 		return ImmutableMap.copyOf(shapeMap);
 	}
 	
-	public static ImmutableMap<String, SpellData<? extends ISpellPart>> getCombinedMap() {
-		return ImmutableMap.<String, SpellData<? extends ISpellPart>>builder().putAll(getComponentMap()).putAll(getModifierMap()).putAll(getShapeMap()).build();
+	public static ImmutableMap<String, SpellData<? extends AbstractSpellPart>> getCombinedMap() {
+		return ImmutableMap.<String, SpellData<? extends AbstractSpellPart>>builder().putAll(getComponentMap()).putAll(getModifierMap()).putAll(getShapeMap()).build();
 	}
 
-	public static class SpellData<K extends ISpellPart> {
+	public static class SpellData<K extends AbstractSpellPart> {
 		
 		public ResourceLocation icon;
 		public K part;
@@ -148,16 +148,16 @@ public class SpellRegistry {
 		
 	}
 
-	public static Skill getSkillFromPart(ISpellPart part) {
-		for (SpellData<? extends ISpellPart> comp : getCombinedMap().values()) {
+	public static Skill getSkillFromPart(AbstractSpellPart part) {
+		for (SpellData<? extends AbstractSpellPart> comp : getCombinedMap().values()) {
 			if (comp == null || comp.part == null) continue;
 			if (part.getClass().isInstance(comp.part)) return SkillRegistry.getSkillFromName(comp.id);
 		}
 		return null;
 	}
 
-	public static ISpellPart getPartByRecipe(ArrayList<ItemStack> currentAddedItems) {
-		for (SpellData<? extends ISpellPart> data : getCombinedMap().values()) {
+	public static AbstractSpellPart getPartByRecipe(ArrayList<ItemStack> currentAddedItems) {
+		for (SpellData<? extends AbstractSpellPart> data : getCombinedMap().values()) {
 			if (data != null && data.part != null && data.part.getRecipe() != null) {
 				ArrayList<ItemStack> convRecipe = RecipeUtils.getConvRecipe(data.part);
 				boolean match = currentAddedItems.size() == convRecipe.size();

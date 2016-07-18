@@ -13,7 +13,7 @@ import am2.particles.AMParticleIcons;
 import am2.particles.ParticleFleePoint;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleOrbitPoint;
-import am2.spell.IModifier;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
 import am2.utils.AMLineSegment;
@@ -186,8 +186,8 @@ public class EntitySpellEffect extends Entity{
 
 				int color = 0xFFFFFF;
 				if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-					ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-					for (IModifier mod : mods){
+					ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
+					for (SpellModifier mod : mods){
 						if (mod instanceof Colour){
 							color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
 						}
@@ -269,8 +269,8 @@ public class EntitySpellEffect extends Entity{
 
 			int color = 0xFFFFFF;
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (IModifier mod : mods){
+				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
+				for (SpellModifier mod : mods){
 					if (mod instanceof Colour){
 						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
 					}
@@ -336,8 +336,8 @@ public class EntitySpellEffect extends Entity{
 
 			int color = 0xFFFFFF;
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (IModifier mod : mods){
+				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
+				for (SpellModifier mod : mods){
 					if (mod instanceof Colour){
 						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
 					}
@@ -420,8 +420,8 @@ public class EntitySpellEffect extends Entity{
 
 			int color = 0xFFFFFF;
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (IModifier mod : mods){
+				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
+				for (SpellModifier mod : mods){
 					if (mod instanceof Colour){
 						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
 					}

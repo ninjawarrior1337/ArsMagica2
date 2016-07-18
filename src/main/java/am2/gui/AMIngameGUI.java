@@ -16,7 +16,7 @@ import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.items.ItemSpellBook;
 import am2.spell.ContingencyType;
-import am2.spell.ISpellPart;
+import am2.spell.AbstractSpellPart;
 import am2.texture.SpellIconManager;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
@@ -197,10 +197,10 @@ public class AMIngameGUI{
 					)){
 				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
 				if (spellStack != null){
-					ArrayList<ISpellPart> parts = SpellUtils.getPartsForGroup(spellStack, 0);//SpellUtils.getShapeGroupParts(spellStack);
+					ArrayList<AbstractSpellPart> parts = SpellUtils.getPartsForGroup(spellStack, 0);//SpellUtils.getShapeGroupParts(spellStack);
 					int sx = mana_hud.iX - 2 * parts.size() / 2;
 					int sy = mana_hud.iY - 2 * parts.size() / 2;
-					for (ISpellPart p : parts){
+					for (AbstractSpellPart p : parts){
 						TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(p).getID());
 						if (icon != null){
 							DrawIconAtXY(icon, "items", sx, sy, false);

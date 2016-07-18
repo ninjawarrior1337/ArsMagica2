@@ -7,7 +7,7 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.utils.InventoryUtilities;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 @SuppressWarnings("deprecation")
-public class PlaceBlock implements IComponent{
+public class PlaceBlock extends SpellComponent{
 
 	private static final String KEY_BLOCKID = "PlaceBlockID";
 	private static final String KEY_META = "PlaceMeta";

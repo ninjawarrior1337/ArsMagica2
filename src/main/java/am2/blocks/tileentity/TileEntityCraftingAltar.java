@@ -25,7 +25,7 @@ import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleMoveOnHeading;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
-import am2.spell.ISpellPart;
+import am2.spell.AbstractSpellPart;
 import am2.spell.component.Summon;
 import am2.spell.shape.Binding;
 import am2.utils.KeyValuePair;
@@ -78,9 +78,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private final ArrayList<ItemStack> allAddedItems;
 	private final ArrayList<ItemStack> currentAddedItems;
 
-	private final ArrayList<ISpellPart> spellDef;
+	private final ArrayList<AbstractSpellPart> spellDef;
 	private final NBTTagCompound savedData = new NBTTagCompound();
-	private final ArrayList<KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>> shapeGroups;
+	private final ArrayList<KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>> shapeGroups;
 //	private boolean allShapeGroupsAdded = false;
 
 	private int currentKey = -1;
@@ -125,7 +125,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		shapeGroups = new ArrayList<>();
 
 		for (int i = 0; i < 5; ++i){
-			shapeGroups.add(new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
+			shapeGroups.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
 		}
 	}
 	
@@ -501,7 +501,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private boolean currentDefinitionIsWithinStructurePower(){
 		int count = this.spellDef.size();
-		for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> part : shapeGroups)
+		for (KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> part : shapeGroups)
 			count += part.key.size();
 
 		return count <= this.maxEffects;
@@ -705,10 +705,10 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	}
 
 	private boolean matchCurrentRecipe(){
-		ISpellPart part = SpellRegistry.getPartByRecipe(currentAddedItems);
+		AbstractSpellPart part = SpellRegistry.getPartByRecipe(currentAddedItems);
 		if (part == null) return false;
 
-		KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> currentShapeGroupList = getShapeGroupToAddTo();
+		KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> currentShapeGroupList = getShapeGroupToAddTo();
 
 		if (part instanceof Summon)
 			handleSummonShape();
@@ -728,7 +728,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		return true;
 	}
 
-	private KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> getShapeGroupToAddTo(){
+	private KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> getShapeGroupToAddTo(){
 		for (int i = 0; i < shapeGroupGuide.length; ++i){
 			int guideLength = shapeGroupGuide[i].length;
 			int addedLength = shapeGroups.get(i).key.size();
@@ -871,7 +871,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			shapeGroups.clear();
 			
 			for (int i = 0; i < 5; ++i){
-				shapeGroups.add(new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
+				shapeGroups.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
 			}
 			
 			//find otherworld auras
@@ -961,7 +961,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		//TODO CRAFTING Altar...
 		
 		NBTTagList shapeGroupData = new NBTTagList();
-		for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> list : shapeGroups){
+		for (KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> list : shapeGroups){
 			shapeGroupData.appendTag(ISpellPartListToNBT(list));
 		}
 		altarCompound.setTag("shapeGroups", shapeGroupData);
@@ -973,11 +973,11 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		return nbttagcompound;
 	}
 
-	private NBTTagCompound ISpellPartListToNBT(KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> spellDef2){
+	private NBTTagCompound ISpellPartListToNBT(KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> spellDef2){
 		return SpellUtils.encode(spellDef2);
 	}
 
-	private KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> NBTToISpellPartList(NBTTagCompound compound){
+	private KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> NBTToISpellPartList(NBTTagCompound compound){
 		return SpellUtils.decode(compound);
 	}
 
@@ -1032,7 +1032,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		}
 
 		this.spellDef.clear();
-		for (KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound> groups : shapeGroups)
+		for (KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> groups : shapeGroups)
 			groups.key.clear();
 
 		NBTTagCompound currentSpellDef = altarCompound.getCompoundTag("spellDef");
@@ -1047,7 +1047,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				shapeGroups.get(i).key.addAll(NBTToISpellPartList(compound).key);
 				shapeGroups.get(i).value.merge(NBTToISpellPartList(compound).value);
 			} catch (IndexOutOfBoundsException | NullPointerException e) {
-				shapeGroups.add(i, new KeyValuePair<ArrayList<ISpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
+				shapeGroups.add(i, new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(new ArrayList<>(), new NBTTagCompound()));
 				shapeGroups.get(i).key.addAll(NBTToISpellPartList(compound).key);
 				shapeGroups.get(i).value.merge(NBTToISpellPartList(compound).value);
 			}

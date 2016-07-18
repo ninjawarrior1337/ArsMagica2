@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.spell.IModifier;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class RuneProcs implements IModifier{
+public class RuneProcs extends SpellModifier{
 	@Override
 	public EnumSet<SpellModifiers> getAspectsModified(){
 		return EnumSet.of(SpellModifiers.PROCS);

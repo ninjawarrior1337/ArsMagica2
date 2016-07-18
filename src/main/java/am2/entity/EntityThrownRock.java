@@ -16,7 +16,7 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
 import am2.particles.ParticleColorShift;
 import am2.particles.ParticleHoldPosition;
-import am2.spell.IModifier;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
 import am2.utils.MathUtilities;
@@ -194,8 +194,8 @@ public class EntityThrownRock extends EntityLiving{
 				int color = -1;
 				if (getSpellStack() != null){
 					if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, getSpellStack())){
-						ArrayList<IModifier> mods = SpellUtils.getModifiersForStage(getSpellStack(), -1);
-						for (IModifier mod : mods){
+						ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(getSpellStack(), -1);
+						for (SpellModifier mod : mods){
 							if (mod instanceof Colour){
 								color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, getSpellStack().getTagCompound());
 							}

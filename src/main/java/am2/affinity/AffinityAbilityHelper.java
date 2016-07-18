@@ -79,9 +79,9 @@ public class AffinityAbilityHelper {
 		for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
 			if (ability.getKey() != null && ability.getKey().isPressed()) {
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				player = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getPlayerEntityByUUID(player.getUniqueID());
 				if (ability.canApply(player)) {
 					WorldUtils.runSided(Side.CLIENT, ability.createRunnable(player));
-					player = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getPlayerEntityByUUID(player.getUniqueID());
 					WorldUtils.runSided(Side.SERVER, ability.createRunnable(player));
 				}
 			}

@@ -12,7 +12,7 @@ import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.defs.BlockDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitPoint;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.utils.DummyEntityPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -34,7 +34,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 
 @SuppressWarnings("deprecation")
-public class Appropriation implements IComponent{
+public class Appropriation extends SpellComponent{
 
 	private static final String storageKey = "stored_data";
 	private static final String storageType = "storage_type";

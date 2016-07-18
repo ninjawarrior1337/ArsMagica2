@@ -10,7 +10,7 @@ import am2.defs.ItemDefs;
 import am2.gui.GuiArcaneCompendium;
 import am2.items.ItemSpellComponent;
 import am2.skill.Skill;
-import am2.spell.IModifier;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -53,7 +53,7 @@ public class CompendiumEntrySpellPart extends CompendiumEntry{
 	public ArrayList<ItemStack> getModifiers() {
 		ArrayList<ItemStack> ret = new ArrayList<>();
 		if (mods != null) {
-			for (SpellData<IModifier> skill : SpellRegistry.getModifierMap().values()) {
+			for (SpellData<SpellModifier> skill : SpellRegistry.getModifierMap().values()) {
 				if (skill.part == null) continue;
 				for (SpellModifiers mod : mods) {
 					boolean shouldSkip = false;

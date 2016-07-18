@@ -10,7 +10,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.entity.EntitySpellEffect;
 import am2.items.ItemOre;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
@@ -24,7 +24,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Blizzard implements IComponent{
+public class Blizzard extends SpellComponent{
 
 	@Override
 	public Object[] getRecipe(){

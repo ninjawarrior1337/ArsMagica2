@@ -17,7 +17,7 @@ import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleHoldPosition;
 import am2.particles.ParticleOrbitEntity;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -30,7 +30,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Heal implements IComponent{
+public class Heal extends SpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

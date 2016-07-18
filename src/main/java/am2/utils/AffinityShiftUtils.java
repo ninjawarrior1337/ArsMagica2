@@ -8,7 +8,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
 import am2.extensions.AffinityData;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -99,8 +99,8 @@ public class AffinityShiftUtils {
 		Affinity aff = Affinity.NONE;
 		float maxDepth = 0F;
 		HashMap<Affinity, Float> customDepthMap = new HashMap<>();
-		ArrayList<IComponent> components = SpellUtils.getComponentsForStage(stack, -1);
-		for (IComponent component : components) {
+		ArrayList<SpellComponent> components = SpellUtils.getComponentsForStage(stack, -1);
+		for (SpellComponent component : components) {
 			for (Affinity aff1 : component.getAffinity()) {
 				if (customDepthMap.get(aff1) != null) {
 					customDepthMap.put(aff1, customDepthMap.get(aff1) + component.getAffinityShift(aff1));

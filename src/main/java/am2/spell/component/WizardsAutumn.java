@@ -7,7 +7,7 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.DummyEntityPlayer;
 import am2.utils.SpellUtils;
@@ -24,7 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class WizardsAutumn implements IComponent{
+public class WizardsAutumn extends SpellComponent{
 
 	@Override
 	public Object[] getRecipe(){

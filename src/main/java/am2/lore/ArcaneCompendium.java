@@ -19,10 +19,10 @@ import am2.event.CompendiumEntryRegistrationEvent;
 import am2.extensions.DataDefinitions;
 import am2.rituals.IRitualInteraction;
 import am2.skill.Skill;
-import am2.spell.IComponent;
-import am2.spell.IModifier;
-import am2.spell.IShape;
-import am2.spell.ISpellPart;
+import am2.spell.SpellComponent;
+import am2.spell.SpellModifier;
+import am2.spell.SpellShape;
+import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifiers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -47,7 +47,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	
 	/**
 	 * Allowed class are : <BR>
-	 * {@link Item}, {@link ItemStack}, {@link Block}, {@link IBlockState}, {@link Class}<{@link Entity}>, {@link IRitualInteraction}, {@link ISpellPart}
+	 * {@link Item}, {@link ItemStack}, {@link Block}, {@link IBlockState}, {@link Class}<{@link Entity}>, {@link IRitualInteraction}, {@link AbstractSpellPart}
 	 * 
 	 * @param entryItem
 	 * @param id : format : parent1.parent2.name, usually there wont be parents...
@@ -77,12 +77,12 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 					entry = new CompendiumEntryBlock(id, (IBlockState) entryItem, relatedKeys).setUnlocked(defaultUnlock);
 				else if (entryItem instanceof Skill)
 					entry = new CompendiumEntryTalent(id, (Skill) entryItem, relatedKeys).setUnlocked(defaultUnlock);
-				else if (entryItem instanceof IComponent)
-					entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((IComponent) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
-				else if (entryItem instanceof IShape)
-					entry = new CompendiumEntrySpellShape(id, SpellRegistry.getSkillFromPart((IShape) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
-				else if (entryItem instanceof IModifier)
-					entry = new CompendiumEntrySpellModifier(id, SpellRegistry.getSkillFromPart((IModifier) entryItem), ((IModifier) entryItem).getAspectsModified(), relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof SpellComponent)
+					entry = new CompendiumEntrySpellComponent(id, SpellRegistry.getSkillFromPart((SpellComponent) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof SpellShape)
+					entry = new CompendiumEntrySpellShape(id, SpellRegistry.getSkillFromPart((SpellShape) entryItem), mods, relatedKeys).setUnlocked(defaultUnlock);
+				else if (entryItem instanceof SpellModifier)
+					entry = new CompendiumEntrySpellModifier(id, SpellRegistry.getSkillFromPart((SpellModifier) entryItem), ((SpellModifier) entryItem).getAspectsModified(), relatedKeys).setUnlocked(defaultUnlock);
 				else if (entryItem instanceof Class && IRitualInteraction.class.isAssignableFrom((Class<?>) entryItem))
 					entry = new CompendiumEntryRitual(id, (Class<? extends IRitualInteraction>) entryItem, relatedKeys).setUnlocked(defaultUnlock);
 				else if (entryItem instanceof Class && IMultiblockStructureController.class.isAssignableFrom(((Class<?>)entryItem)) && TileEntity.class.isAssignableFrom(((Class<?>)entryItem)))

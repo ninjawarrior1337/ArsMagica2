@@ -7,7 +7,7 @@ import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.spell.ContingencyType;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class Contingency_Fire implements IShape{
+public class Contingency_Fire extends SpellShape{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{

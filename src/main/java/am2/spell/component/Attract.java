@@ -13,7 +13,7 @@ import am2.extensions.EntityExtension;
 import am2.items.SpellBase;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachPoint;
-import am2.spell.IComponent;
+import am2.spell.SpellComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +29,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
-public class Attract implements IComponent{
+public class Attract extends SpellComponent{
 
 	public Attract(){
 	}

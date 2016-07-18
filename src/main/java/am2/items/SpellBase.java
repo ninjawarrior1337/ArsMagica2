@@ -6,7 +6,7 @@ import am2.ArsMagica2;
 import am2.defs.IDDefs;
 import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
-import am2.spell.IShape;
+import am2.spell.SpellShape;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -91,7 +91,7 @@ public class SpellBase extends ItemSpellBase{
 	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World world,
 			EntityLivingBase player, int timeLeft) {
-		IShape shape = SpellUtils.getShapeForStage(stack, 0);
+		SpellShape shape = SpellUtils.getShapeForStage(stack, 0);
 		if (!stack.hasTagCompound()) return;
 		if (shape != null){
 			if (!shape.isChanneled())
@@ -104,7 +104,7 @@ public class SpellBase extends ItemSpellBase{
 	
 	@Override
 	public void onUsingTick(ItemStack stack, EntityLivingBase caster, int count) {
-		IShape shape = SpellUtils.getShapeForStage(stack, 0);
+		SpellShape shape = SpellUtils.getShapeForStage(stack, 0);
 		if (shape.isChanneled())
 			SpellUtils.applyStackStage(stack, caster, null, caster.posX, caster.posY, caster.posZ, EnumFacing.UP, caster.worldObj, true, true, count - 1);
 		super.onUsingTick(stack, caster, count);
