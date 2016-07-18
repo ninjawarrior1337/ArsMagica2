@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,18 +10,13 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class HungerBoost implements IArmorImbuement{
+public class HungerBoost extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "hungerup";
 	}
-
-	@Override
-	public int getIconIndex(){
-		return 20;
-	}
-
+	
 	@Override
 	public ImbuementTiers getTier(){
 		return ImbuementTiers.FOURTH;

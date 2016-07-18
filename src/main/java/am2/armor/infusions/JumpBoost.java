@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.extensions.EntityExtension;
@@ -12,16 +12,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class JumpBoost implements IArmorImbuement{
+public class JumpBoost extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "highjump";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 24;
 	}
 
 	@Override

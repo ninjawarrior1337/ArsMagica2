@@ -4,6 +4,7 @@ import java.util.Map;
 
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
+import am2.api.items.armor.ArmorImbuement;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
@@ -15,14 +16,17 @@ public class ArsMagicaAPI {
 	
 	private static final FMLControlledNamespacedRegistry<Affinity> AFFINITY_REGISTRY;
 	private static final FMLControlledNamespacedRegistry<AbstractAffinityAbility> ABILITY_REGISTRY;
+	private static final FMLControlledNamespacedRegistry<ArmorImbuement> IMBUEMENTS_REGISTRY;
 
 	static {
 		ABILITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinityabilities"), AbstractAffinityAbility.class, null, MIN_AFFINITY_ID, MAX_AFFINITY_ID, false, AffinityAbilityCallbacks.INSTANCE, AffinityAbilityCallbacks.INSTANCE, AffinityAbilityCallbacks.INSTANCE);
 		AFFINITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinities"), Affinity.class, new ResourceLocation("arsmagica2", "none"), MIN_AFFINITY_ID, MAX_AFFINITY_ID, false, AffinityCallbacks.INSTANCE, AffinityCallbacks.INSTANCE, AffinityCallbacks.INSTANCE);
+		IMBUEMENTS_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "armorimbuments"), ArmorImbuement.class, null, 0, Short.MAX_VALUE, true, ImbuementCallbacks.INSTANCE, ImbuementCallbacks.INSTANCE, ImbuementCallbacks.INSTANCE);
 	}
 	
 	public static FMLControlledNamespacedRegistry<Affinity> getAffinityRegistry() {return AFFINITY_REGISTRY;};
 	public static FMLControlledNamespacedRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return ABILITY_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<ArmorImbuement> getArmorImbuementRegistry() {return IMBUEMENTS_REGISTRY;}
 	
     private static class AffinityAbilityCallbacks implements IForgeRegistry.AddCallback<AbstractAffinityAbility>,IForgeRegistry.ClearCallback<AbstractAffinityAbility>,IForgeRegistry.CreateCallback<AbstractAffinityAbility>
 	{
@@ -30,6 +34,20 @@ public class ArsMagicaAPI {
 
 		@Override
 		public void onAdd(AbstractAffinityAbility ability, int id, Map<ResourceLocation, ?> slaves) {}
+
+		@Override
+		public void onClear(Map<ResourceLocation, ?> slaveset) {}
+
+		@Override
+		public void onCreate(Map<ResourceLocation, ?> slaveset) {}
+	}
+    
+    private static class ImbuementCallbacks implements IForgeRegistry.AddCallback<ArmorImbuement>,IForgeRegistry.ClearCallback<ArmorImbuement>,IForgeRegistry.CreateCallback<ArmorImbuement>
+	{
+		static final ImbuementCallbacks INSTANCE = new ImbuementCallbacks();
+
+		@Override
+		public void onAdd(ArmorImbuement ability, int id, Map<ResourceLocation, ?> slaves) {}
 
 		@Override
 		public void onClear(Map<ResourceLocation, ?> slaveset) {}

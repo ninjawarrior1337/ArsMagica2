@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.Entity;
@@ -13,16 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class Recoil implements IArmorImbuement{
+public class Recoil extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "recoil";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 14;
 	}
 
 	@Override

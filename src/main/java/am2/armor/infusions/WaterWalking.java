@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.api.math.AMVector3;
@@ -16,16 +16,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
-public class WaterWalking implements IArmorImbuement{
+public class WaterWalking extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "wtrwalk";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 28;
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,16 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
-public class LifeSaving implements IArmorImbuement{
+public class LifeSaving extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "lifesave";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 12;
 	}
 
 	@Override

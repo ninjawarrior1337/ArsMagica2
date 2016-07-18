@@ -3,7 +3,7 @@ package am2.armor.infusions;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,16 +13,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class Dispelling implements IArmorImbuement{
+public class Dispelling extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "dispel";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 25;
 	}
 
 	@Override

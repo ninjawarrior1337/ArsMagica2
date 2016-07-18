@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.buffs.BuffEffectSwiftSwim;
@@ -13,18 +13,13 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class SwimSpeed implements IArmorImbuement{
+public class SwimSpeed extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "swimspd";
 	}
-
-	@Override
-	public int getIconIndex(){
-		return 27;
-	}
-
+	
 	@Override
 	public ImbuementTiers getTier(){
 		return ImbuementTiers.FOURTH;

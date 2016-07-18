@@ -1,32 +1,27 @@
 package am2.api.items.armor;
 
+import java.util.EnumSet;
+
+import am2.extensions.AffinityData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
-import java.util.EnumSet;
-
-public interface IArmorImbuement{
-	/**
-	 * Gets the ID of the infusion effect.  Must be unique.
-	 */
-	String getID();
-
-	/**
-	 * Gets the IIcon index for the texture in the GUI
-	 */
-	int getIconIndex();
-
+public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbuement>{
+	
+	public abstract String getID();
+	
 	/**
 	 * Gets the tier for this infusion
 	 */
-	ImbuementTiers getTier();
+	public abstract ImbuementTiers getTier();
 
 	/**
 	 * Gets all situations under which this infusion applies
 	 */
-	EnumSet<ImbuementApplicationTypes> getApplicationTypes();
+	public abstract EnumSet<ImbuementApplicationTypes> getApplicationTypes();
 
 	/**
 	 * Applies the effect.  This will be called when any of the application types is matched in an event.
@@ -42,25 +37,32 @@ public interface IArmorImbuement{
 	 *                    In the case of ON_HIT, it will be a 1-length array with the first element being the LivingHurtEvent event<br/>
 	 *                    In the case of ON_MINING_SPEED, it will be a 1-length array with the first element being the BreakSpeed event <br/>
 	 */
-	boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params);
-
+	public abstract boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params);
+	
+	public boolean canApply(EntityPlayer player) {
+		if (canApplyOnCooldown())
+			return true;
+		if (AffinityData.For(player).getCooldown(this.getRegistryName().toString()) == 0) return true;
+		return false;
+	}
+	
 	/**
 	 * Gets all armor slots that this effect can be applied to
 	 */
-	EntityEquipmentSlot[] getValidSlots();
+	public abstract EntityEquipmentSlot[] getValidSlots();
 
 	/**
 	 * If the slot is on cooldown, can the effect still apply?
 	 */
-	boolean canApplyOnCooldown();
+	public abstract boolean canApplyOnCooldown();
 
 	/**
 	 * Get the amount of cooldown to add to the slot once the effect applies
 	 */
-	int getCooldown();
+	public abstract int getCooldown();
 
 	/**
 	 * How much does the infusion damage the armor?
 	 */
-	int getArmorDamage();
+	public abstract int getArmorDamage();
 }

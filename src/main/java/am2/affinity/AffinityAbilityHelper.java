@@ -1,5 +1,7 @@
 package am2.affinity;
 
+import java.util.Map.Entry;
+
 import am2.affinity.abilities.AbilityColdBlooded;
 import am2.affinity.abilities.AbilityExpandedLungs;
 import am2.affinity.abilities.AbilityFluidity;
@@ -17,6 +19,7 @@ import am2.affinity.abilities.AbilityThunderPunch;
 import am2.affinity.abilities.AbilityWaterFreeze;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.event.SpellCastEvent;
+import am2.extensions.AffinityData;
 import am2.utils.WorldUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -88,6 +91,12 @@ public class AffinityAbilityHelper {
 	@SubscribeEvent
 	public void onPlayerTick(LivingUpdateEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
+			if (!event.getEntityLiving().worldObj.isRemote) {
+				for (Entry<String, Integer> entry : AffinityData.For(event.getEntityLiving()).getCooldowns().entrySet()) {
+					if (entry.getValue() > 0)
+						AffinityData.For(event.getEntityLiving()).addCooldown(entry.getKey(), entry.getValue() - 1);
+				}
+			}
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
 				if (ability.getKey() == null) {
 					if (ability.canApply((EntityPlayer) event.getEntityLiving()))

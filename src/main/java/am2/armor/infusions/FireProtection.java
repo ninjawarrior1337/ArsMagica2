@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.block.Block;
@@ -14,16 +14,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FireProtection implements IArmorImbuement{
+public class FireProtection extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "fireprot";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 22;
 	}
 
 	@Override

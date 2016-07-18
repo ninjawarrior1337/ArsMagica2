@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.defs.BlockDefs;
@@ -13,16 +13,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-public class Lightstep implements IArmorImbuement{
+public class Lightstep extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "lightstep";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 30;
 	}
 
 	@Override

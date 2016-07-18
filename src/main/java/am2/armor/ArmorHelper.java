@@ -1,6 +1,6 @@
 package am2.armor;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementTiers;
 import am2.armor.infusions.ImbuementRegistry;
 import am2.utils.EntityUtils;
@@ -9,6 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 public class ArmorHelper{
 
@@ -157,27 +158,27 @@ public class ArmorHelper{
 //		return null;
 //	}
 
-	public static IArmorImbuement[] getInfusionsOnArmor(EntityPlayer player, EntityEquipmentSlot armorSlot){
+	public static ArmorImbuement[] getInfusionsOnArmor(EntityPlayer player, EntityEquipmentSlot armorSlot){
 		ItemStack stack = player.getItemStackFromSlot(armorSlot);
 		return getInfusionsOnArmor(stack);
 	}
 
-	public static IArmorImbuement[] getInfusionsOnArmor(ItemStack stack){
+	public static ArmorImbuement[] getInfusionsOnArmor(ItemStack stack){
 		if (stack == null || !stack.hasTagCompound() || !(stack.getItem() instanceof ItemArmor))
-			return new IArmorImbuement[0];
+			return new ArmorImbuement[0];
 		NBTTagCompound armorProps = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 			if (infusionList != null && infusionList != ""){
 				String[] ids = infusionList.split(AMArmor.INFUSION_DELIMITER);
-				IArmorImbuement[] infusions = new IArmorImbuement[ids.length];
+				ArmorImbuement[] infusions = new ArmorImbuement[ids.length];
 				for (int i = 0; i < ids.length; ++i){
-					infusions[i] = ImbuementRegistry.instance.getImbuementByID(ids[i]);
+					infusions[i] = ImbuementRegistry.instance.getImbuementByID(new ResourceLocation(ids[i]));
 				}
 				return infusions;
 			}
 		}
-		return new IArmorImbuement[0];
+		return new ArmorImbuement[0];
 	}
 
 	public static boolean isInfusionPreset(ItemStack stack, String id){
@@ -193,8 +194,8 @@ public class ArmorHelper{
 		return false;
 	}
 
-	public static void imbueArmor(ItemStack armorStack, String id, boolean ignoreLevelRequirement){
-		IArmorImbuement imbuement = ImbuementRegistry.instance.getImbuementByID(id);
+	public static void imbueArmor(ItemStack armorStack, ResourceLocation id, boolean ignoreLevelRequirement){
+		ArmorImbuement imbuement = ImbuementRegistry.instance.getImbuementByID(id);
 		if (armorStack != null && imbuement != null && armorStack.getItem() instanceof ItemArmor){
 
 			if (!ignoreLevelRequirement && getArmorLevel(armorStack) < getImbueCost(imbuement.getTier()))
@@ -209,7 +210,7 @@ public class ArmorHelper{
 						armorProps = new NBTTagCompound();
 					String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 					if (infusionList == null || infusionList == "")
-						infusionList = id;
+						infusionList = id.toString();
 					else
 						infusionList += "|" + id;
 					armorProps.setString(AMArmor.NBT_KEY_EFFECTS, infusionList);

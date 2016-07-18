@@ -2,17 +2,20 @@ package am2.api.extensions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import am2.api.affinity.Affinity;
 import am2.extensions.AffinityData;
+import am2.utils.NBTUtils;
 
 public interface IAffinityData {	
 	
@@ -32,14 +35,6 @@ public interface IAffinityData {
 	
 	public void setNightVisionState(boolean bool);
 	
-	public int getNatureSpeed();
-	
-	public void setNatureSpeed(int speed);
-	
-	public int getIceSpeed();
-	
-	public void setIceSpeed(int speed);
-	
 	public static class Storage implements IStorage<IAffinityData> {
 		
 		@Override
@@ -48,6 +43,15 @@ public interface IAffinityData {
 			for (Entry<Affinity, Float> entry : instance.getAffinities().entrySet()) {
 				Affinity.writeToNBT(nbt, entry.getKey(), entry.getValue());
 			}
+			NBTTagCompound am2Tag = NBTUtils.getAM2Tag(nbt);
+			NBTTagList cooldowns = NBTUtils.addCompoundList(am2Tag, "Cooldowns");
+			for (Entry<String, Integer> entry : instance.getCooldowns().entrySet()) {
+				NBTTagCompound tmp = new NBTTagCompound();
+				tmp.setString("Name", entry.getKey());
+				tmp.setInteger("Value", entry.getValue());
+				cooldowns.appendTag(tmp);
+			}
+			am2Tag.setTag("Cooldowns", cooldowns);
 			return nbt;
 		}
 
@@ -56,6 +60,12 @@ public interface IAffinityData {
 			ArrayList<Affinity> affinities = Affinity.readFromNBT((NBTTagCompound) nbt);
 			for (Affinity aff : affinities) {
 				instance.setAffinityDepth(aff, aff.readDepth((NBTTagCompound) nbt));
+			}
+			NBTTagCompound am2Tag = NBTUtils.getAM2Tag((NBTTagCompound) nbt);
+			NBTTagList cooldowns = NBTUtils.addCompoundList(am2Tag, "Cooldowns");
+			for (int i = 0; i < cooldowns.tagCount(); i++) {
+				NBTTagCompound tmp = cooldowns.getCompoundTagAt(i);
+				instance.addCooldown(tmp.getString("Name"), tmp.getInteger("Value"));
 			}
 		}
 	}
@@ -74,4 +84,10 @@ public interface IAffinityData {
 	public void tickDiminishingReturns();
 
 	public void addDiminishingReturns(boolean isChanneled);
+
+	public void addCooldown(String name, int cooldown);
+
+	public Map<String, Integer> getCooldowns();
+
+	public int getCooldown(String name);
 }

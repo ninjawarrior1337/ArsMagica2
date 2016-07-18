@@ -1,18 +1,21 @@
 package am2.armor.infusions;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 import am2.ArsMagica2;
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.ArsMagicaAPI;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
 import am2.api.items.armor.ImbuementTiers;
 import am2.armor.ArmorHelper;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ImbuementRegistry implements IImbuementRegistry{
-	private TreeMap<String, IArmorImbuement> registeredImbuements;
 
 	public static final ImbuementRegistry instance = new ImbuementRegistry();
 
@@ -21,26 +24,26 @@ public class ImbuementRegistry implements IImbuementRegistry{
 	public static final int SLOT_CHEST = 1;
 	public static final int SLOT_HELM = 0;
 
-	private ImbuementRegistry(){
-		registeredImbuements = new TreeMap<String, IArmorImbuement>();
-	}
-
 	@Override
-	public void registerImbuement(IArmorImbuement imbuementInstance){
-		registeredImbuements.put(imbuementInstance.getID(), imbuementInstance);
+	public void registerImbuement(ArmorImbuement imbuementInstance) {
+		ModContainer current = Loader.instance().activeModContainer();
+		String modid = "arsmagica2";
+		if (current != null)
+			modid = current.getModId();
+		GameRegistry.register(imbuementInstance, new ResourceLocation(modid, imbuementInstance.getID()));
 		ArsMagica2.LOGGER.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 
 	@Override
-	public IArmorImbuement getImbuementByID(String ID){
-		return registeredImbuements.get(ID);
+	public ArmorImbuement getImbuementByID(ResourceLocation ID){
+		return ArsMagicaAPI.getArmorImbuementRegistry().getObject(ID);
 	}
 
 	@Override
-	public IArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, EntityEquipmentSlot armorType){
-		ArrayList<IArmorImbuement> list = new ArrayList<IArmorImbuement>();
+	public ArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, EntityEquipmentSlot armorType){
+		ArrayList<ArmorImbuement> list = new ArrayList<ArmorImbuement>();
 
-		for (IArmorImbuement imbuement : registeredImbuements.values()){
+		for (ArmorImbuement imbuement : ArsMagicaAPI.getArmorImbuementRegistry().getValues()){
 			if (imbuement.getTier() == tier){
 				for (EntityEquipmentSlot i : imbuement.getValidSlots()){
 					if (i == armorType){
@@ -51,11 +54,11 @@ public class ImbuementRegistry implements IImbuementRegistry{
 			}
 		}
 
-		return list.toArray(new IArmorImbuement[list.size()]);
+		return list.toArray(new ArmorImbuement[list.size()]);
 	}
 
 	@Override
-	public boolean isImbuementPresent(ItemStack stack, IArmorImbuement imbuement){
+	public boolean isImbuementPresent(ItemStack stack, ArmorImbuement imbuement){
 		return isImbuementPresent(stack, imbuement.getID());
 	}
 

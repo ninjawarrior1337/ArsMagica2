@@ -35,11 +35,13 @@ public class DataDefinitions {
 		public Skill getKeyInstanceFromString(String str) {return SkillRegistry.getSkillFromName(str);}
 	};
 	
+	public static final MapSerializer<String, Integer> COOLDOWN_SERIALIZER = new MapSerializer<String, Integer>() {
+		public Integer getValueInstanceFromString(String str) {return Integer.valueOf(str);}
+		public String getKeyInstanceFromString(String str) {return str;}
+	};
+	
 	public static final ArraySerializer<String> STRING_SERIALIZER = new ArraySerializer<String>() {
-		public String getKeyInstanceFromString(String str) {
-			System.out.println(str);
-			return str;
-		}
+		public String getKeyInstanceFromString(String str) {return str;}
 	};
 	
 	static {
@@ -47,6 +49,7 @@ public class DataDefinitions {
 		DataSerializers.registerSerializer(SKILL_POINT_SERIALIZER);
 		DataSerializers.registerSerializer(SKILL_SERIALIZER);
 		DataSerializers.registerSerializer(STRING_SERIALIZER);
+		DataSerializers.registerSerializer(COOLDOWN_SERIALIZER);
 	}
 
 	static final DataParameter<Float> CURRENT_MANA = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
@@ -72,9 +75,9 @@ public class DataDefinitions {
 	static final DataParameter<HashMap<Skill, Boolean>> SKILL = EntityDataManager.createKey(Entity.class, SKILL_SERIALIZER);	
 	static final DataParameter<Boolean> ICE_BRIDGE_STATE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
 	static final DataParameter<Boolean> NIGHT_VISION_ACTIVE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
-	static final DataParameter<Integer> ICE_SPEED = EntityDataManager.createKey(Entity.class, DataSerializers.VARINT);
-	static final DataParameter<Integer> NATURE_SPEED = EntityDataManager.createKey(Entity.class, DataSerializers.VARINT);
-
+	static final DataParameter<HashMap<String, Integer>> COOLDOWNS = EntityDataManager.createKey(Entity.class, COOLDOWN_SERIALIZER);
+	
+	
 	static final DataParameter<Boolean> REVERSE_INPUT = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
 	
 	static final DataParameter<Float> SHRINK_PCT = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);

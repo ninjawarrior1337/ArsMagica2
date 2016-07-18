@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,16 +16,11 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class Freedom implements IArmorImbuement{
+public class Freedom extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "freedom";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 29;
 	}
 
 	@Override

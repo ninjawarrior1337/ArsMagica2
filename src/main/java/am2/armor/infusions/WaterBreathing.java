@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.buffs.BuffEffectWaterBreathing;
@@ -12,16 +12,11 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class WaterBreathing implements IArmorImbuement{
+public class WaterBreathing extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "wtrbrth";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 19;
 	}
 
 	@Override

@@ -54,7 +54,7 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	}
 	
 	/**
-	 * Checks if the player can use this ability. Most of the time you won't need change this unless you are using toggle {@link KeyBinding}s.
+	 * Checks if the player can use this ability. Most of the time you won't need change this unless you are using toggle {@link KeyBinding}s, in that case consider using {@link AbstractToggledAffinityAbility}.
 	 * 
 	 * @param player : the current player.
 	 * @return if the player can use this ability.

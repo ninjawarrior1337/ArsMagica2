@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.EnumSet;
 
-import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,16 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 
-public class MiningSpeed implements IArmorImbuement{
+public class MiningSpeed extends ArmorImbuement{
 
 	@Override
 	public String getID(){
 		return "minespd";
-	}
-
-	@Override
-	public int getIconIndex(){
-		return 18;
 	}
 
 	@Override

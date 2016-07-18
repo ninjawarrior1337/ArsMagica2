@@ -1,6 +1,7 @@
 package am2.extensions;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import am2.api.ArsMagicaAPI;
@@ -50,9 +51,8 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		player.getDataManager().register(DataDefinitions.AFFINITY_DATA, map);
 		player.getDataManager().register(DataDefinitions.ICE_BRIDGE_STATE, false);
 		player.getDataManager().register(DataDefinitions.NIGHT_VISION_ACTIVE, false);
-		player.getDataManager().register(DataDefinitions.NATURE_SPEED, 0);
-		player.getDataManager().register(DataDefinitions.ICE_SPEED, 0);
 		player.getDataManager().register(DataDefinitions.DIMINISHING_RETURNS, 1.0F);
+		player.getDataManager().register(DataDefinitions.COOLDOWNS, new HashMap<>());
 	}
 
 	@Override
@@ -65,7 +65,20 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		player.getDataManager().set(DataDefinitions.ICE_BRIDGE_STATE, bool);
 	}
 	
+	@Override
+	public void addCooldown(String name, int cooldown) {
+		getCooldowns().put(name, Integer.valueOf(cooldown));
+	}
 	
+	@Override
+	public int getCooldown(String name) {
+		return getCooldowns().get(name) == null ? 0 : getCooldowns().get(name);
+	}
+	
+	@Override
+	public Map<String, Integer> getCooldowns() {
+		return player.getDataManager().get(DataDefinitions.COOLDOWNS);
+	}
 	
 	@Override
 	public float getDiminishingReturnsFactor(){
@@ -83,26 +96,6 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	public void addDiminishingReturns(boolean isChanneled){
 		player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, getDiminishingReturnsFactor() - (isChanneled ? 0.1f : 0.3f));
 		if (this.getDiminishingReturnsFactor() < 0) player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, 0F);
-	}
-
-	@Override
-	public int getNatureSpeed() {
-		return player.getDataManager().get(DataDefinitions.NATURE_SPEED);
-	}
-
-	@Override
-	public void setNatureSpeed(int speed) {
-		player.getDataManager().set(DataDefinitions.NATURE_SPEED, speed);
-	}
-
-	@Override
-	public int getIceSpeed() {
-		return player.getDataManager().get(DataDefinitions.ICE_SPEED);
-	}
-
-	@Override
-	public void setIceSpeed(int speed) {
-		player.getDataManager().set(DataDefinitions.ICE_SPEED, speed);
 	}
 	
 	@Override
