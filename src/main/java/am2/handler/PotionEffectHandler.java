@@ -4,12 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import am2.api.event.EventPotionAdded;
 import am2.api.event.SpellCastEvent;
-import am2.api.extensions.IEntityExtension;
 import am2.buffs.BuffEffectTemporalAnchor;
 import am2.buffs.BuffStatModifiers;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.extensions.EntityExtension;
 import am2.utils.SelectionUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -44,7 +42,6 @@ public class PotionEffectHandler {
 	
 	@SubscribeEvent
 	public void livingUpdate (LivingUpdateEvent e) {
-		IEntityExtension ext = e.getEntityLiving().getCapability(EntityExtension.INSTANCE, null);
 		BuffStatModifiers.instance.applyStatModifiersBasedOnBuffs(e.getEntityLiving());
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.slowfall)) {
 			e.getEntityLiving().setPosition(e.getEntityLiving().posX, e.getEntityLiving().posY + (e.getEntityLiving().fallDistance / 1.1), e.getEntityLiving().posZ);

@@ -3,10 +3,10 @@ package am2.api;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
+import am2.api.skill.Skill;
+import am2.api.skill.SkillPoint;
+import am2.api.skill.SkillTree;
 import am2.lore.ArcaneCompendium;
-import am2.skill.Skill;
-import am2.skill.SkillPoint;
-import am2.skill.SkillTree;
 import am2.spell.AbstractSpellPart;
 import am2.spell.SpellComponent;
 import am2.spell.SpellModifier;

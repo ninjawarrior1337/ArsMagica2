@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.common.collect.ImmutableList;
 
-import am2.skill.SkillTree;
+import am2.api.skill.SkillTree;
 import net.minecraft.util.ResourceLocation;
 
 public class SkillTreeRegistry {

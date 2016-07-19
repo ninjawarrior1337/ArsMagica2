@@ -1,4 +1,4 @@
-package am2.skill;
+package am2.api.skill;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;

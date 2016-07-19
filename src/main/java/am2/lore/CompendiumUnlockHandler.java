@@ -6,7 +6,7 @@ import am2.api.event.PlayerMagicLevelChangeEvent;
 import am2.api.event.SkillLearnedEvent;
 import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IArcaneCompendium;
-import am2.defs.SkillDefs;
+import am2.api.skill.SkillPoint;
 import am2.extensions.EntityExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -112,7 +112,7 @@ public class CompendiumUnlockHandler{
 				instance.unlockEntry("summoner");
 			} else if (event.getSkill().equals(SkillRegistry.getSkillFromName("true_sight"))){
 				instance.unlockEntry("illusionBlocks");
-			} else if (event.getSkill().getPoint().equals(SkillDefs.SILVER_POINT)){
+			} else if (event.getSkill().getPoint().equals(SkillPoint.SILVER_POINT)){
 				instance.unlockEntry("silver_skills");
 			}
 		}

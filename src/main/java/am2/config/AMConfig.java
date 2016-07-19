@@ -232,7 +232,6 @@ public class AMConfig extends Configuration{
 	private boolean allowVersionChecks;
 	private boolean canDryadsDespawn;
 
-
 	public static final String DEFAULT_LANGUAGE = "en_US";
 
 	public AMConfig(File file){

@@ -3,9 +3,9 @@ package am2.texture;
 import java.util.HashMap;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.skill.Skill;
 import am2.gui.AMGuiIcons;
 import am2.lore.CompendiumEntryTypes;
-import am2.skill.Skill;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.skill.Skill;
 import am2.defs.ItemDefs;
 import am2.gui.GuiArcaneCompendium;
-import am2.skill.Skill;
 import am2.spell.AbstractSpellPart;
 import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;

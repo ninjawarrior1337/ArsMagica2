@@ -1,15 +1,15 @@
 package am2.defs;
 
 import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
 import am2.api.SkillTreeRegistry;
-import am2.skill.Skill;
-import am2.skill.SkillPoint;
-import am2.skill.SkillTree;
+import am2.api.skill.Skill;
+import am2.api.skill.SkillPoint;
+import am2.api.skill.SkillTree;
 import am2.utils.ResourceUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
 public class SkillDefs {
 	
@@ -18,27 +18,16 @@ public class SkillDefs {
 	public static final SkillTree TREE_UTILITY = new SkillTree("utility", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/utility.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/utility.png"));
 	public static final SkillTree TREE_AFFINITY = new SkillTree("affinity", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/affinity.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/affinity.png")).disableRender("affinity");
 	public static final SkillTree TREE_TALENT = new SkillTree("talent", new ResourceLocation(ArsMagica2.MODID, "textures/occulus/talent.png"), new ResourceLocation(ArsMagica2.MODID, "textures/icons/talent.png"));
-	
-	public static final SkillPoint SILVER_POINT = new SkillPoint("Silver", TextFormatting.GRAY, 0x999999, -1, -1).disableRender();
-	public static final SkillPoint SKILL_POINT_0 = new SkillPoint("Blue", TextFormatting.BLUE, 0x0000ff, 0, 1);
-	public static final SkillPoint SKILL_POINT_1 = new SkillPoint("Green", TextFormatting.GREEN, 0x00ff00, 20, 2);
-	public static final SkillPoint SKILL_POINT_2 = new SkillPoint("Red", TextFormatting.RED, 0xff0000, 30, 2);	
-	public static final SkillPoint SKILL_POINT_3 = new SkillPoint("Yellow", TextFormatting.YELLOW, 0xffff00, 40, 3);	
-	public static final SkillPoint SKILL_POINT_4 = new SkillPoint("Magenta", TextFormatting.LIGHT_PURPLE, 0xff00ff, 50, 3);	
-	public static final SkillPoint SKILL_POINT_5 = new SkillPoint("Cyan", TextFormatting.AQUA, 0x00ffff, 60, 2);	
-	
-	public static final Skill MANA_REGEN_1 = new Skill("manaRegen1", ResourceUtils.getSkillIcon("ManaRegenI"), SKILL_POINT_0, 275, 75, TREE_TALENT);
-	public static final Skill MANA_REGEN_2 = new Skill("manaRegen2", ResourceUtils.getSkillIcon("ManaRegenII"), SKILL_POINT_1, 275, 120, TREE_TALENT, "arsmagica2:manaRegen1");
-	public static final Skill MANA_REGEN_3 = new Skill("manaRegen3", ResourceUtils.getSkillIcon("ManaRegenIII"), SKILL_POINT_2, 275, 165, TREE_TALENT, "arsmagica2:manaRegen2");
-	public static final Skill MAGE_POSSE_1 = new Skill("magePosse1", ResourceUtils.getSkillIcon("MageBandI"), SKILL_POINT_1, 320, 120, TREE_TALENT, "arsmagica2:manaRegen2");
-	public static final Skill MAGE_POSSE_2 = new Skill("magePosse2", ResourceUtils.getSkillIcon("MageBandII"), SKILL_POINT_2, 320, 165, TREE_TALENT, "arsmagica2:magePosse1");
-	public static final Skill SPELL_MOTION = new Skill("spellMotion", ResourceUtils.getSkillIcon("SpellMotion"), SKILL_POINT_1, 230, 120, TREE_TALENT, "arsmagica2:manaRegen2");
-	public static final Skill AUGMENTED_CASTING = new Skill("augmentedCasting", ResourceUtils.getSkillIcon("AugmentedCasting"), SKILL_POINT_2, 230, 165, TREE_TALENT, "arsmagica2:spellMotion");
-	public static final Skill AFFINITY_GAINS = new Skill("affinityGains", ResourceUtils.getSkillIcon("AffinityGains"), SKILL_POINT_0, 365, 120, TREE_TALENT, "arsmagica2:manaRegen1");
-	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SKILL_POINT_2, 230, 210, TREE_TALENT, "arsmagica2:augmentedCasting");
-	
-	
-
+		
+	public static final Skill MANA_REGEN_1 = new Skill("manaRegen1", ResourceUtils.getSkillIcon("ManaRegenI"), SkillPoint.SKILL_POINT_1, 275, 75, TREE_TALENT);
+	public static final Skill MANA_REGEN_2 = new Skill("manaRegen2", ResourceUtils.getSkillIcon("ManaRegenII"), SkillPoint.SKILL_POINT_2, 275, 120, TREE_TALENT, "arsmagica2:manaRegen1");
+	public static final Skill MANA_REGEN_3 = new Skill("manaRegen3", ResourceUtils.getSkillIcon("ManaRegenIII"), SkillPoint.SKILL_POINT_3, 275, 165, TREE_TALENT, "arsmagica2:manaRegen2");
+	public static final Skill MAGE_POSSE_1 = new Skill("magePosse1", ResourceUtils.getSkillIcon("MageBandI"), SkillPoint.SKILL_POINT_2, 320, 120, TREE_TALENT, "arsmagica2:manaRegen2");
+	public static final Skill MAGE_POSSE_2 = new Skill("magePosse2", ResourceUtils.getSkillIcon("MageBandII"), SkillPoint.SKILL_POINT_3, 320, 165, TREE_TALENT, "arsmagica2:magePosse1");
+	public static final Skill SPELL_MOTION = new Skill("spellMotion", ResourceUtils.getSkillIcon("SpellMotion"), SkillPoint.SKILL_POINT_2, 230, 120, TREE_TALENT, "arsmagica2:manaRegen2");
+	public static final Skill AUGMENTED_CASTING = new Skill("augmentedCasting", ResourceUtils.getSkillIcon("AugmentedCasting"), SkillPoint.SKILL_POINT_3, 230, 165, TREE_TALENT, "arsmagica2:spellMotion");
+	public static final Skill AFFINITY_GAINS = new Skill("affinityGains", ResourceUtils.getSkillIcon("AffinityGains"), SkillPoint.SKILL_POINT_1, 365, 120, TREE_TALENT, "arsmagica2:manaRegen1");
+	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SkillPoint.SKILL_POINT_3, 230, 210, TREE_TALENT, "arsmagica2:augmentedCasting");
 	
 	public static void init() {
 		SkillTreeRegistry.registerSkillTree(TREE_OFFENSE);
@@ -47,10 +36,13 @@ public class SkillDefs {
 		SkillTreeRegistry.registerSkillTree(TREE_AFFINITY);
 		SkillTreeRegistry.registerSkillTree(TREE_TALENT);
 		
-		SkillPointRegistry.registerSkillPoint(-1, SILVER_POINT);
-		SkillPointRegistry.registerSkillPoint(0, SKILL_POINT_0);
-		SkillPointRegistry.registerSkillPoint(1, SKILL_POINT_1);
-		SkillPointRegistry.registerSkillPoint(2, SKILL_POINT_2);
+		SkillPointRegistry.registerSkillPoint(-1, SkillPoint.SILVER_POINT);
+		SkillPointRegistry.registerSkillPoint(0, SkillPoint.SKILL_POINT_1);
+		SkillPointRegistry.registerSkillPoint(1, SkillPoint.SKILL_POINT_2);
+		SkillPointRegistry.registerSkillPoint(2, SkillPoint.SKILL_POINT_3);
+		if (ArsMagicaAPI.hasTier4() || ArsMagicaAPI.hasTier5() || ArsMagicaAPI.hasTier6()) SkillPointRegistry.registerSkillPoint(3, SkillPoint.SKILL_POINT_4);
+		if (ArsMagicaAPI.hasTier5() || ArsMagicaAPI.hasTier6()) SkillPointRegistry.registerSkillPoint(4, SkillPoint.SKILL_POINT_5);
+		if (ArsMagicaAPI.hasTier6()) SkillPointRegistry.registerSkillPoint(5, SkillPoint.SKILL_POINT_6);
 		
 		SkillRegistry.registerSkill(MANA_REGEN_1);
 		SkillRegistry.registerSkill(MANA_REGEN_2);

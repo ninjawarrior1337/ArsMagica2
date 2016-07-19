@@ -30,6 +30,7 @@ import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
+import am2.api.event.PlayerMagicLevelChangeEvent;
 import am2.api.extensions.IEntityExtension;
 import am2.armor.ArmorHelper;
 import am2.armor.ArsMagicaArmorMaterial;
@@ -52,6 +53,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -211,6 +213,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public void setCurrentLevel(int currentLevel) {
 		ticksForFullRegen = (int)Math.round(baseTicksForFullRegen * (0.75 - (0.25 * (getCurrentLevel() / 99f))));
+		if (entity instanceof EntityPlayer)
+			MinecraftForge.EVENT_BUS.post(new PlayerMagicLevelChangeEvent((EntityPlayer) entity, currentLevel));
 		entity.getDataManager().set(CURRENT_LEVEL, currentLevel);
 	}
 	

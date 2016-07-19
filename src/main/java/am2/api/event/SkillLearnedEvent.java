@@ -1,6 +1,6 @@
 package am2.api.event;
 
-import am2.skill.Skill;
+import am2.api.skill.Skill;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 

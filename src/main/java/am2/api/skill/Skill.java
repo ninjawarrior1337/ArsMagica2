@@ -1,4 +1,4 @@
-package am2.skill;
+package am2.api.skill;
 
 import am2.api.ArsMagicaAPI;
 import net.minecraft.nbt.NBTTagCompound;

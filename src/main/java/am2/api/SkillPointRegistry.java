@@ -3,7 +3,7 @@ package am2.api;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import am2.skill.SkillPoint;
+import am2.api.skill.SkillPoint;
 
 public class SkillPointRegistry {
 	

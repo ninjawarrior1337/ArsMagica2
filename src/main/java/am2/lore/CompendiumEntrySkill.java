@@ -1,9 +1,9 @@
 package am2.lore;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.skill.Skill;
 import am2.defs.ItemDefs;
 import am2.gui.GuiArcaneCompendium;
-import am2.skill.Skill;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

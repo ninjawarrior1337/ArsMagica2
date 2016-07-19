@@ -2,10 +2,10 @@ package am2.api;
 
 import java.util.ArrayList;
 
+import am2.api.skill.Skill;
+import am2.api.skill.SkillPoint;
+import am2.api.skill.SkillTree;
 import am2.lore.ArcaneCompendium;
-import am2.skill.Skill;
-import am2.skill.SkillPoint;
-import am2.skill.SkillTree;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 

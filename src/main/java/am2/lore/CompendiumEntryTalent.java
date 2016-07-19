@@ -1,6 +1,6 @@
 package am2.lore;
 
-import am2.skill.Skill;
+import am2.api.skill.Skill;
 
 public class CompendiumEntryTalent extends CompendiumEntrySkill {
 

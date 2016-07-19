@@ -8,9 +8,8 @@ import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
 import am2.api.extensions.ISkillData;
-import am2.defs.SkillDefs;
-import am2.skill.Skill;
-import am2.skill.SkillPoint;
+import am2.api.skill.Skill;
+import am2.api.skill.SkillPoint;
 import am2.spell.AbstractSpellPart;
 import am2.spell.SpellComponent;
 import am2.spell.SpellModifier;
@@ -76,7 +75,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		for (SkillPoint aff : SkillPointRegistry.getSkillPointMap().values()) {
 			pointMap.put(aff, 0);
 		}
-		pointMap.put(SkillDefs.SKILL_POINT_0, 3);
+		pointMap.put(SkillPoint.SKILL_POINT_1, 3);
 		player.getDataManager().register(DataDefinitions.SKILL, skillMap);
 		player.getDataManager().register(DataDefinitions.POINT_TIER, pointMap);
 	}
