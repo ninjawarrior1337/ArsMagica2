@@ -8,8 +8,11 @@ import am2.api.math.AMVector3;
 import am2.codechicken.LightningBoltCommon.Segment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -194,12 +197,12 @@ public class LightningBolt extends Particle{
 		if ((!Minecraft.getMinecraft().gameSettings.fancyGraphics)) visibleDistance = 50;
 		if (renderentity.getDistance(this.posX, this.posY, this.posZ) > visibleDistance) return;
 
-		GL11.glPushMatrix();
-		GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
+		GlStateManager.pushMatrix();
+		GL11.glPushAttrib(GL11.GL_TEXTURE_BIT | GL11.GL_COLOR_BUFFER_BIT);
 
-		GL11.glDepthMask(false);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.depthMask(false);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/items/particles/smoke.png"));
 
 		this.particleRed = (this.particleGreen = this.particleBlue = 1.0F);
@@ -389,7 +392,7 @@ public class LightningBolt extends Particle{
 		}catch (Throwable t){
 		}
 
-		GL11.glDisable(GL11.GL_BLEND);
+		GlStateManager.disableBlend();
 		GL11.glDepthMask(true);
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();

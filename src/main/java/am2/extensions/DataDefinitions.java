@@ -22,7 +22,10 @@ public class DataDefinitions {
 	
 	public static final MapSerializer<Affinity, Float> AFFINITY_SERIALIZER = new MapSerializer<Affinity, Float>() {
 		public Float getValueInstanceFromString(String str) {return Float.valueOf(str);}
-		public Affinity getKeyInstanceFromString(String str) {return ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(str));}
+		public Affinity getKeyInstanceFromString(String str) {
+			System.out.println(str);
+			return ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(str));
+			}
 	};
 		
 	public static final MapSerializer<SkillPoint, Integer> SKILL_POINT_SERIALIZER = new MapSerializer<SkillPoint, Integer>() {

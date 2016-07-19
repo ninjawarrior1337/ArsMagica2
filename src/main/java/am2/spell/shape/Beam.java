@@ -41,8 +41,8 @@ public class Beam extends SpellShape{
 	}
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-
-		boolean shouldApplyEffect = useCount % 10 == 0;
+		boolean shouldApplyEffectBlock = useCount % 5 == 0;
+		boolean shouldApplyEffectEntity = useCount % 10 == 0;
 
 		double range = SpellUtils.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.RANGE);
 		boolean targetWater = SpellUtils.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack);
@@ -56,7 +56,7 @@ public class Beam extends SpellShape{
 			beamHitVec = MathUtilities.extrapolateEntityLook(world, caster, range);
 			spellVec = beamHitVec;
 		}else if (mop.typeOfHit == RayTraceResult.Type.ENTITY){
-			if (shouldApplyEffect){
+			if (shouldApplyEffectEntity && !world.isRemote){
 				Entity e = mop.entityHit;
 				if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 					e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
@@ -69,7 +69,7 @@ public class Beam extends SpellShape{
 			beamHitVec = MathUtilities.extrapolateEntityLook(world, caster, rng);
 			spellVec = beamHitVec;
 		}else{
-			if (shouldApplyEffect){
+			if (shouldApplyEffectBlock && !world.isRemote){
 				result = SpellUtils.applyStageToGround(stack, caster, world, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, giveXP);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
@@ -80,7 +80,7 @@ public class Beam extends SpellShape{
 		}
 
 		if (world.isRemote && beamHitVec != null){
-			AMBeam beam = (AMBeam)beams.get(caster.getEntityId());
+			AMBeam beam = beams.get(caster.getEntityId());
 			double startX = caster.posX;
 			double startY = caster.posY + caster.getEyeHeight() - 0.2f;
 			double startZ = caster.posZ;
@@ -127,7 +127,7 @@ public class Beam extends SpellShape{
 			}
 		}
 
-		if (result != null && spellVec != null && shouldApplyEffect){
+		if (result != null && spellVec != null && (mop.typeOfHit == RayTraceResult.Type.ENTITY ? shouldApplyEffectEntity : shouldApplyEffectBlock)){
 			//ItemStack newItemStack = SpellUtils.instance.popStackStage(stack);
 			return SpellUtils.applyStackStage(stack, caster, target, spellVec.xCoord, spellVec.yCoord, spellVec.zCoord, mop != null ? mop.sideHit : null, world, true, giveXP, 0);
 		}else{

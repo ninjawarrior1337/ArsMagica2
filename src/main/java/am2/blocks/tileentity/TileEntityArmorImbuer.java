@@ -25,6 +25,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	public TileEntityArmorImbuer(){
 		super(5);
 		inventory = new ItemStack[getSizeInventory()];
+		setupMultiblock();
 	}
 
 	private void setupMultiblock(){

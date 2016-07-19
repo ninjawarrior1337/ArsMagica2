@@ -2,12 +2,17 @@ package am2.particles;
 
 import org.lwjgl.opengl.GL11;
 
+import am2.ArsMagica2;
 import am2.api.particles.IBeamParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -169,9 +174,12 @@ public class AMBeam extends Particle implements IBeamParticle{
 
 	@Override
 	public void renderParticle(VertexBuffer tessellator, Entity ent, float par2, float par3, float par4, float par5, float par6, float par7){
-
 		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
+		//GlStateManager.disableBlend();
+		//GlStateManager.disableAlpha();
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		float scaleFactor = 1.0F;
 //		float slide = this.worldObj.getTotalWorldTime();
 		float rot = this.worldObj.provider.getWorldTime() % (360 / this.rotateSpeed) * this.rotateSpeed + this.rotateSpeed * par2;
@@ -197,7 +205,6 @@ public class AMBeam extends Particle implements IBeamParticle{
 
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
 		GL11.glTexParameterf(3553, 10243, 10497.0F);
-
 //		float var11 = slide + par2;
 //		float var12 = -var11 * 0.2F - MathHelper.floor_float(-var11 * 0.1F);
 
@@ -225,47 +232,41 @@ public class AMBeam extends Particle implements IBeamParticle{
 
 		GL11.glRotatef(rot, 0.0F, 1.0F, 0.0F);
 		int i = 5;
-//		float inc = 36.0F;
-//		if (AMCore.config.LowGFX()){
-//			i = 3;
-//			inc = 90;
-//		}else if (AMCore.config.NoGFX()){
-//			i = 1;
-//			inc = 180;
-//		}
+		float inc = 36.0F;
+		if (ArsMagica2.config.LowGFX()){
+			i = 3;
+			inc = 90;
+		}else if (ArsMagica2.config.NoGFX()){
+			i = 1;
+			inc = 180;
+		}
+		
 		for (int t = 0; t < i; t++){
+			Tessellator.getInstance().draw();
+			tessellator.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 			double l = this.length * size * scaleFactor;
 			double tl = beamIcon.getMinU();
 			double br = beamIcon.getMaxU();
-			double mU = beamIcon.getMinV(); //-1.0F + var12 + t / 3.0F;
-			double mV = beamIcon.getMaxV(); //this.length * size * scaleFactor + mU;
+			double mU = beamIcon.getMaxV(); //-1.0F + var12 + t / 3.0F;
+			double mV = beamIcon.getMinV(); //this.length * size * scaleFactor + mU;
 
-			GL11.glRotatef(36.0F, 0.0F, 1.0F, 0.0F);
-			boolean wasDrawing = false;
-			try {
-				tessellator.begin(7, DefaultVertexFormats.POSITION_TEX);
-			} catch (Throwable e) {
-				wasDrawing = true;
-				Tessellator.getInstance().draw();
-				tessellator.begin(7, DefaultVertexFormats.POSITION_TEX);
-			}
-			//tessellator.setBrightness(200);
-			if (t % 2 == 0){
-				GL11.glColor4f(this.particleRed, this.particleGreen, this.particleBlue, op);
-			}else{
-				GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.4f);
-			}
-			tessellator.pos(offset3, l, 0.0D).tex( br, mV).endVertex();;
-			tessellator.pos(offset1, 0.0D, 0.0D).tex( br, mU).endVertex();;
-			tessellator.pos(offset2, 0.0D, 0.0D).tex( tl, mU).endVertex();;
-			tessellator.pos(offset4, l, 0.0D).tex( tl, mV).endVertex();
+			GL11.glRotatef(inc, 0.0F, 1.0F, 0.0F);
+			GlStateManager.resetColor();
+//			if (t % 2 == 0){
+//				GL11.glColor4f(this.particleRed, this.particleGreen, this.particleBlue, op);
+//			}else{
+//				GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.4f);
+//			}
+	        int b = this.getBrightnessForRender(par7);
+	        int j = b >> 16 & 65535;
+	        int k = b & 65535;
+			tessellator.pos(offset3, l, 0.0D).tex( br, mV).color(this.particleRed, this.particleGreen, this.particleBlue, op).lightmap(j, k).endVertex();
+			tessellator.pos(offset1, 0.0D, 0.0D).tex( br, mU).color(this.particleRed, this.particleGreen, this.particleBlue, op).lightmap(j, k).endVertex();
+			tessellator.pos(offset2, 0.0D, 0.0D).tex( tl, mU).color(this.particleRed, this.particleGreen, this.particleBlue, op).lightmap(j, k).endVertex();
+			tessellator.pos(offset4, l, 0.0D).tex( tl, mV).color(this.particleRed, this.particleGreen, this.particleBlue, op).lightmap(j, k).endVertex();
 			Tessellator.getInstance().draw();
-			if (wasDrawing)
-				tessellator.begin(7, DefaultVertexFormats.POSITION_TEX);			
+			tessellator.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 		}
-
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
 		GL11.glPopMatrix();
 	}
 

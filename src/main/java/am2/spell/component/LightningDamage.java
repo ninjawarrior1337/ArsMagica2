@@ -47,7 +47,7 @@ public class LightningDamage extends SpellComponent{
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 		for (int i = 0; i < 5; ++i){
-			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "lightning", x, y, z);
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "lightning_hand", x, y, z);
 			if (particle != null){
 				particle.addRandomOffset(1, 0.5, 1);
 				particle.addVelocity(rand.nextDouble() * 0.2 - 0.1, rand.nextDouble() * 0.2, rand.nextDouble() * 0.2 - 0.1);

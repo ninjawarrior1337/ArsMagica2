@@ -5,8 +5,8 @@ import java.util.List;
 
 import am2.ArsMagica2;
 import am2.api.SpellRegistry;
+import am2.api.event.SpellRecipeItemsEvent;
 import am2.defs.ItemDefs;
-import am2.event.SpellRecipeItemsEvent;
 import am2.power.PowerTypes;
 import am2.spell.AbstractSpellPart;
 import net.minecraft.block.Block;

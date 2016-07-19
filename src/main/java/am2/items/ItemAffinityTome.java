@@ -24,7 +24,6 @@ public class ItemAffinityTome extends ItemArsMagica2 {
 	
 	public ItemAffinityTome() {
 		setHasSubtypes(true);
-		setMaxDamage(1);
 		setMaxDamage(0);
 	}
 	
@@ -38,12 +37,12 @@ public class ItemAffinityTome extends ItemArsMagica2 {
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
-			return EnumActionResult.PASS;
+			return EnumActionResult.SUCCESS;
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
 		HashMap<Affinity, Float> map = AffinityShiftUtils.finalize(aff, 0.2F, AffinityShiftUtils.shiftAffinity(aff, 0.2F, AffinityData.For(playerIn).getAffinities()));
 		stack.stackSize--;
 		AffinityShiftUtils.setAffinityData(map, playerIn, false);
-		return EnumActionResult.PASS;
+		return EnumActionResult.SUCCESS;
 	}
 	
 	@Override

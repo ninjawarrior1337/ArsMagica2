@@ -3,6 +3,7 @@ package am2.handler;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.IBoundItem;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
@@ -11,12 +12,12 @@ import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
 import am2.lore.ArcaneCompendium;
+import am2.packet.AMNetHandler;
 import am2.spell.ContingencyType;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
@@ -24,20 +25,24 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,10 +55,10 @@ public class EntityHandler {
 	}
 	
 	@SubscribeEvent
-	public void onEntityConstruction(AttachCapabilitiesEvent.Entity event) {
+	public void attachEntity(AttachCapabilitiesEvent.Entity event) {
 		if (event.getEntity() instanceof EntityLivingBase) {
 			EntityExtension ext = new EntityExtension();
-			ext.init(event.getEntity());
+			ext.init((EntityLivingBase) event.getEntity());
 			event.addCapability(EntityExtension.ID, ext);
 			if (event.getEntity() instanceof EntityPlayer) {
 				ArcaneCompendium compendium = new ArcaneCompendium();
@@ -68,6 +73,18 @@ public class EntityHandler {
 				event.addCapability(AffinityData.ID, affData);
 				event.addCapability(new ResourceLocation("arsmagica2", "RiftStorage"), storage);
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityConstructed(EntityConstructing event) {
+		if (event.getEntity() instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase)event.getEntity();
+			living.getAttributeMap().registerAttribute(ArsMagicaAPI.burnoutReductionRate);
+			living.getAttributeMap().registerAttribute(ArsMagicaAPI.manaRegenTimeModifier);
+			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxBurnoutBonus);
+			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxManaBonus);
+			living.getAttributeMap().registerAttribute(ArsMagicaAPI.xpGainModifier);
 		}
 	}
 	
@@ -118,26 +135,9 @@ public class EntityHandler {
 		//player.addPotionEffect(new BuffEffectTemporalAnchor(200, 0));
 		IEntityExtension ext = player.getCapability(EntityExtension.INSTANCE, null);
 		IAffinityData affData = player.getCapability(AffinityData.INSTANCE, null);
-		float manaMultiplier = 1;
-		if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_1.getID()))
-			manaMultiplier *= 1.5F;
-		if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_2.getID()))
-			manaMultiplier *= 1.5F;
-		if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_3.getID()))
-			manaMultiplier *= 1.5F;
-		float manaPerSecond = ext.getMaxMana() / 100F / 20F;
-		manaPerSecond *= manaMultiplier;
-		float burnoutPerSecond = Math.max(1, ext.getMaxBurnout() / 100F / 20F);
-		if (!player.worldObj.isRemote) {// && ext.getCurrentMana() < ext.getMaxMana() && player.ticksExisted % 40 == 0) {
-			ext.setCurrentMana(ext.getCurrentMana() + manaPerSecond);
-			if (ext.getCurrentMana() > ext.getMaxMana()) {
-				ext.setCurrentMana(ext.getMaxMana());
-			}
-			ext.setCurrentBurnout(ext.getCurrentBurnout() - burnoutPerSecond);
-			if (ext.getCurrentBurnout() < 0) {
-				ext.setCurrentBurnout(0);
-			}
+		if (!player.worldObj.isRemote) {
 			affData.tickDiminishingReturns();
+			ext.manaBurnoutTick();
 		}
 		if (!player.capabilities.isCreativeMode) {
 			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
@@ -214,6 +214,21 @@ public class EntityHandler {
 					stack.getItem().onDroppedByPlayer(stack, player);
 				}
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onItemPickup(ItemPickupEvent event) {
+		if (event.player == null)
+		return;
+
+		if (!event.player.worldObj.isRemote && EntityExtension.For(event.player).getCurrentLevel() <= 0 && event.pickedUp.getEntityItem().getItem() == ItemDefs.arcaneCompendium){
+			event.player.addChatMessage(new TextComponentString("You have unlocked the secrets of the arcane!"));
+			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.player, "shapes", true);
+			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.player, "components", true);
+			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.player, "modifiers", true);
+			EntityExtension.For(event.player).setMagicLevelWithMana(1);
+			return;
 		}
 	}
 }

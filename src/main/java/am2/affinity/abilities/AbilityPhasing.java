@@ -67,6 +67,11 @@ public class AbilityPhasing extends AbstractAffinityAbility {
 		double posY = event.getTargetY();
 		while (!player.worldObj.isAirBlock(new BlockPos(event.getTargetX(), posY, event.getTargetZ())) || !player.worldObj.isAirBlock(new BlockPos(event.getTargetX(), posY + 1, event.getTargetZ())))
 			posY++;
+		if (player.getDistanceSq(event.getTargetX(), posY, event.getTargetZ()) > 1024) {
+			if (!player.worldObj.isRemote)
+				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.enderTPOutOfRange")));
+			return;
+		}
 		player.setPosition(event.getTargetX(), posY, event.getTargetZ());
 		player.fallDistance = 0;
 		EntityExtension.For(player).setFallProtection(20000);

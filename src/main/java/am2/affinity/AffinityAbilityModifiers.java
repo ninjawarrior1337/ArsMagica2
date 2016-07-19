@@ -3,6 +3,7 @@ package am2.affinity;
 import java.util.UUID;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -85,8 +86,8 @@ public class AffinityAbilityModifiers {
 		for (int k1 = i; k1 < j && !isOnIce; ++k1){
 			for (int l1 = k; l1 < l && !isOnIce; ++l1){
 				for (int i2 = i1; i2 < j1 && !isOnIce; ++i2){
-					Block block = ent.worldObj.getBlockState(new BlockPos(k1, l1, i2)).getBlock();
-					if (block == Blocks.ICE){
+					Material block = ent.worldObj.getBlockState(new BlockPos(k1, l1, i2)).getMaterial();
+					if (block == Material.ICE || block == Material.PACKED_ICE){
 						return true;
 					}
 				}

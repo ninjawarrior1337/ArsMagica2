@@ -1,9 +1,5 @@
 package am2.defs;
 
-import java.util.Iterator;
-
-import am2.api.ArsMagicaAPI;
-import am2.api.affinity.Affinity;
 import am2.armor.ItemMagitechGoggles;
 import am2.items.InscriptionTableUpgrade;
 import am2.items.ItemAffinityTome;
@@ -25,6 +21,7 @@ import am2.items.ItemOre;
 import am2.items.ItemRune;
 import am2.items.ItemSpellComponent;
 import am2.items.SpellBase;
+import am2.items.rendering.AffinityRenderer;
 import am2.items.rendering.CrystalWrenchRenderer;
 import am2.items.rendering.DefaultWithMetaRenderer;
 import am2.items.rendering.IgnoreMetadataRenderer;
@@ -46,7 +43,6 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemDefs {
 	
@@ -130,22 +126,23 @@ public class ItemDefs {
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		
 		renderItem.getItemModelMesher().register(crystalWrench, new CrystalWrenchRenderer(crystalWrench));
-		Item essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2", "essence"));
-		Iterator<Affinity> iter = ArsMagicaAPI.getAffinityRegistry().getValues().iterator();
-		int effMeta = 0;
-		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
-			if (!iter.hasNext())
-				break;
-			Affinity entry = iter.next();
-			ModelBakery.registerItemVariants(affinityTome, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getName(), "inventory"));
-			renderItem.getItemModelMesher().register(affinityTome, i, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getName(), "inventory"));
-			if (entry.equals(Affinity.NONE)) {
-				continue;
-			}
-			ModelBakery.registerItemVariants(essence, new ModelResourceLocation("arsmagica2:essence_" + entry.getName(), "inventory"));
-			renderItem.getItemModelMesher().register(essence, effMeta, new ModelResourceLocation("arsmagica2:essence_" + entry.getName(), "inventory"));
-			effMeta++;
-		}
+//		Iterator<Affinity> iter = ArsMagicaAPI.getAffinityRegistry().getValues().iterator();
+//		int effMeta = 0;
+//		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
+//			if (!iter.hasNext())
+//				break;
+//			Affinity entry = iter.next();
+//			ModelBakery.registerItemVariants(affinityTome, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getName(), "inventory"));
+//			renderItem.getItemModelMesher().register(affinityTome, i, new ModelResourceLocation("arsmagica2:affinity_tome_" + entry.getName(), "inventory"));
+//			if (entry.equals(Affinity.NONE)) {
+//				continue;
+//			}
+//			ModelBakery.registerItemVariants(essence, new ModelResourceLocation("arsmagica2:essence_" + entry.getName(), "inventory"));
+//			renderItem.getItemModelMesher().register(essence, effMeta, new ModelResourceLocation("arsmagica2:essence_" + entry.getName(), "inventory"));
+//			effMeta++;
+//		}
+		renderItem.getItemModelMesher().register(essence, new AffinityRenderer("essence_").addModels(essence));
+		renderItem.getItemModelMesher().register(affinityTome, new AffinityRenderer("affinity_tome_").addModels(affinityTome));
 		for (int i = 0; i < 16; i++) {
 			ModelBakery.registerItemVariants(rune, new ModelResourceLocation("arsmagica2:rune_" + EnumDyeColor.byDyeDamage(i).getName().toLowerCase(), "inventory"));
 			renderItem.getItemModelMesher().register(rune, i, new ModelResourceLocation("arsmagica2:rune_" + EnumDyeColor.byDyeDamage(i).getName().toLowerCase(), "inventory"));

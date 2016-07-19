@@ -86,8 +86,10 @@ public class AMGuiHelper{
 
 	public void blackoutArmorPiece(int index, int duration){
 		flashTimers[index] = flashDuration;
-		blackoutTimers[index] = duration;
-		blackoutTimersMax[index] = duration;
+		if (duration > blackoutTimers[index]) {
+			blackoutTimers[index] = duration;
+			blackoutTimersMax[index] = duration;
+		}
 	}
 
 	public void flashArmorPiece(int index){

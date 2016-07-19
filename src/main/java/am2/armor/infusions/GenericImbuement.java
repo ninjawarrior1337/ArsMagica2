@@ -48,7 +48,7 @@ public class GenericImbuement extends ArmorImbuement{
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(flickerLure, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST}));
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(magicXP, ImbuementTiers.FOURTH, new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST}));
 
-		//HEADet
+		//helmet
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(pinpointOres, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD}));
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(magitechGoggleIntegration, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD}));
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(thaumcraftNodeReveal, ImbuementTiers.FOURTH, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD}));
@@ -56,7 +56,7 @@ public class GenericImbuement extends ArmorImbuement{
 		//legs
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(stepAssist, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.LEGS}));
 
-		//FEET
+		//boots
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(runSpeed, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET}));
 	}
 

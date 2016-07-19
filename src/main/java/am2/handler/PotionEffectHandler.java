@@ -2,13 +2,13 @@ package am2.handler;
 
 import org.lwjgl.opengl.GL11;
 
+import am2.api.event.EventPotionAdded;
+import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IEntityExtension;
 import am2.buffs.BuffEffectTemporalAnchor;
 import am2.buffs.BuffStatModifiers;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.event.EventPotionAdded;
-import am2.event.SpellCastEvent;
 import am2.extensions.EntityExtension;
 import am2.utils.SelectionUtils;
 import net.minecraft.client.Minecraft;
@@ -58,14 +58,6 @@ public class PotionEffectHandler {
 			e.getEntityLiving().stepHeight = 1.01f;
 		}else if (e.getEntityLiving().stepHeight == 1.01f) {
 			e.getEntityLiving().stepHeight = 0.5f;
-		}
-		
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.manaRegen) && e.getEntityLiving().ticksExisted % 20 == 0) {
-			int add = (ext.getCurrentLevel() + 1) * 22;
-			ext.setCurrentMana(ext.getCurrentMana() + add);
-			if (ext.getCurrentMana() > ext.getMaxMana()) {
-				ext.setCurrentMana(ext.getMaxMana());
-			}
 		}
 	}
 	

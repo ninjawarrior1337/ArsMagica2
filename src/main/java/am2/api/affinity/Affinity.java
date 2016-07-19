@@ -128,7 +128,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		NBTTagList affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
 		for (int i = 0; i < affinityTag.tagCount(); i++) {
 			NBTTagCompound tmp = affinityTag.getCompoundTagAt(i);
-			if (tmp.getString("Name").equals(name))
+			if (tmp.getString("Name").equals(this.getRegistryName().toString()))
 				return tmp.getFloat("Depth");
 		}
 		return 0.0F;

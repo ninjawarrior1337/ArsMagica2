@@ -13,8 +13,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.event.SpellRecipeItemsEvent;
 import am2.defs.ItemDefs;
-import am2.event.SpellRecipeItemsEvent;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import am2.gui.controls.GuiButtonCompendiumTab;
 import am2.gui.controls.GuiButtonVariableDims;

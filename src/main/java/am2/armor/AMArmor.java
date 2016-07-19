@@ -1,7 +1,7 @@
 package am2.armor;
 
 import am2.ArsMagica2;
-import am2.event.ArmorTextureEvent;
+import am2.api.event.ArmorTextureEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

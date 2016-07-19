@@ -95,9 +95,6 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.SET_MAG_WORK_REC:
 //				handleSetMagicicansWorkbenchRecipe(player);
 //				break;
-//			case AMPacketIDs.COMPENDIUM_UNLOCK:
-//				handleCompendiumUnlock(remaining);
-//				break;
 //			case AMPacketIDs.SYNC_WORLD_NAME:
 //				handleSyncWorldName(remaining);
 //				break;
@@ -305,15 +302,6 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		ClientTickHandler.worldName = worldName;
 //	}
 //
-//	private void handleCompendiumUnlock(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		String s = rdr.getString();
-//		boolean category = rdr.getBoolean();
-//		if (category)
-//			ArcaneCompendium.instance.unlockCategory(s);
-//		else
-//			ArcaneCompendium.instance.unlockEntry(s);
-//	}
 //
 //	private void handleSetMagicicansWorkbenchRecipe(EntityPlayer player){
 //		if (player.openContainer != null && player.openContainer instanceof ContainerMagiciansWorkbench){

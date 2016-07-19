@@ -35,10 +35,10 @@ public class Transformer implements IClassTransformer {
 						System.out.println("Patching addPotionEffect");
 						String className = mn.desc.equals("(Lpf;)V") ? "pf;" : "net/minecraft/potion/PotionEffect;";
 						InsnList list = new InsnList();
-						list.add(new TypeInsnNode(NEW, "am2/event/EventPotionAdded"));
+						list.add(new TypeInsnNode(NEW, "am2/api/event/EventPotionAdded"));
 						list.add(new InsnNode(DUP));
 						list.add(new VarInsnNode(ALOAD, 1));
-						list.add(new MethodInsnNode(INVOKESPECIAL, "am2/event/EventPotionAdded", "<init>", "(L" + className + ")V", false));
+						list.add(new MethodInsnNode(INVOKESPECIAL, "am2/api/event/EventPotionAdded", "<init>", "(L" + className + ")V", false));
 						list.add(new VarInsnNode(ASTORE, 2));
 						list.add(new LabelNode());
 						list.add(new FieldInsnNode(GETSTATIC, "net/minecraftforge/common/MinecraftForge", "EVENT_BUS", "Lnet/minecraftforge/fml/common/eventhandler/EventBus;"));
@@ -47,7 +47,7 @@ public class Transformer implements IClassTransformer {
 						list.add(new InsnNode(POP));
 						list.add(new LabelNode());
 						list.add(new VarInsnNode(ALOAD, 2));
-						list.add(new MethodInsnNode(INVOKEVIRTUAL, "am2/event/EventPotionAdded", "getEffect", "()L" + className, false));
+						list.add(new MethodInsnNode(INVOKEVIRTUAL, "am2/api/event/EventPotionAdded", "getEffect", "()L" + className, false));
 						list.add(new VarInsnNode(ASTORE, 1));
 						ListIterator<AbstractInsnNode> insns = mn.instructions.iterator();
 						while (insns.hasNext()) {

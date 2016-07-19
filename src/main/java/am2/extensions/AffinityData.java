@@ -87,7 +87,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public void tickDiminishingReturns(){
-		if (getDiminishingReturnsFactor() < 1.2f){
+		if (getDiminishingReturnsFactor() < 1.3f){
 			player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, player.getDataManager().get(DataDefinitions.DIMINISHING_RETURNS) + 0.005f);
 		}
 	}

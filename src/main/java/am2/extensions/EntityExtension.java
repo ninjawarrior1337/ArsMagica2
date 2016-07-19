@@ -8,8 +8,8 @@ import static am2.extensions.DataDefinitions.CURRENT_MANA;
 import static am2.extensions.DataDefinitions.CURRENT_MANA_FATIGUE;
 import static am2.extensions.DataDefinitions.CURRENT_SUMMONS;
 import static am2.extensions.DataDefinitions.CURRENT_XP;
-import static am2.extensions.DataDefinitions.FLIP_ROTATION;
 import static am2.extensions.DataDefinitions.FALL_PROTECTION;
+import static am2.extensions.DataDefinitions.FLIP_ROTATION;
 import static am2.extensions.DataDefinitions.HEAL_COOLDOWN;
 import static am2.extensions.DataDefinitions.IS_INVERTED;
 import static am2.extensions.DataDefinitions.IS_SHRUNK;
@@ -29,7 +29,13 @@ import java.util.Iterator;
 import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.extensions.IEntityExtension;
+import am2.armor.ArmorHelper;
+import am2.armor.ArsMagicaArmorMaterial;
+import am2.armor.infusions.GenericImbuement;
+import am2.armor.infusions.ImbuementRegistry;
+import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
@@ -42,6 +48,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -53,12 +60,14 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 public class EntityExtension implements IEntityExtension, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
 
 	public static final ResourceLocation ID = new ResourceLocation("arsmagica2:ExtendedProp");
-
+	private static int baseTicksForFullRegen = 2400;
+	private int ticksForFullRegen = baseTicksForFullRegen;
+	
 	@CapabilityInject(value = IEntityExtension.class)
 	public static Capability<IEntityExtension> INSTANCE = null;
 	
 	private ArrayList<Integer> summon_ent_ids = new ArrayList<Integer>();
-	private Entity entity;
+	private EntityLivingBase entity;
 
 	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
 		
@@ -173,7 +182,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public float getMaxMana() {
-		return (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99f)) + 100f) * 1.25F;
+		float mana = (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99f)) + 500f);
+		if (this.entity.isPotionActive(PotionEffectsDefs.manaBoost))
+			mana *= 1 + (0.25 * (this.entity.getActivePotionEffect(PotionEffectsDefs.manaBoost).getAmplifier()));
+		return (float)(mana + this.entity.getAttributeMap().getAttributeInstance(ArsMagicaAPI.maxManaBonus).getAttributeValue());
 	}
 	
 	@Override
@@ -198,12 +210,13 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setCurrentLevel(int currentLevel) {
+		ticksForFullRegen = (int)Math.round(baseTicksForFullRegen * (0.75 - (0.25 * (getCurrentLevel() / 99f))));
 		entity.getDataManager().set(CURRENT_LEVEL, currentLevel);
 	}
 	
 	@Override
 	public void setCurrentMana(float currentMana) {
-		entity.getDataManager().set(CURRENT_MANA, currentMana);
+		entity.getDataManager().set(CURRENT_MANA, Math.max(currentMana, 0));
 	}
 	
 	@Override
@@ -213,6 +226,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setCurrentXP(float currentXP) {
+		if (currentXP >= this.getMaxXP()) {
+			currentXP -= this.getMaxXP();
+			setMagicLevelWithMana(getCurrentLevel() + 1);
+		}
 		entity.getDataManager().set(CURRENT_XP, currentXP);
 	}
 	
@@ -280,12 +297,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	@Override
-	public void addEntityReference(Entity entity) {
+	public void addEntityReference(EntityLivingBase entity) {
 		this.entity = entity;
 	}
 	
 	@Override
-	public void init(Entity entity) {
+	public void init(EntityLivingBase entity) {
 		this.addEntityReference(entity);
 		if (this.entity instanceof EntityPlayer) {
 			this.entity.getDataManager().register(CURRENT_LEVEL, 0);
@@ -579,5 +596,87 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		writer.add(this.getTKDistance());
 		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.TK_DISTANCE_SYNC, writer.generate());
 	}
+	
+	@Override
+	public void manaBurnoutTick(){
+		float actualMaxMana = getMaxMana();
+		if (getCurrentMana() < actualMaxMana) {
+			if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) {
+				setCurrentMana(actualMaxMana);
+			} else {
+				if (getCurrentMana() < 0) {
+					setCurrentMana(0);
+				}
 
+				int regenTicks = (int) Math.ceil(ticksForFullRegen * entity.getAttributeMap()
+						.getAttributeInstance(ArsMagicaAPI.manaRegenTimeModifier).getAttributeValue());
+
+				if (entity.isPotionActive(PotionEffectsDefs.manaRegen)) {
+					PotionEffect pe = entity.getActivePotionEffect(PotionEffectsDefs.manaRegen);
+					regenTicks *= (1.0f - Math.max(0.9f, (0.25 * (pe.getAmplifier()))));
+				}
+
+				if (entity instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) entity;
+					int armorSet = ArmorHelper.getFullArsMagicaArmorSet(player);
+					if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()) {
+						regenTicks *= 0.8;
+					} else if (armorSet == ArsMagicaArmorMaterial.BATTLEMAGE.getMaterialID()) {
+						regenTicks *= 0.95;
+					} else if (armorSet == ArsMagicaArmorMaterial.ARCHMAGE.getMaterialID()) {
+						regenTicks *= 0.5;
+					}
+
+					if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_3.getID())) {
+						regenTicks *= 0.7f;
+					} else if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_2.getID())) {
+						regenTicks *= 0.85f;
+					} else if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_1.getID())) {
+						regenTicks *= 0.95f;
+					}
+
+					int numArmorPieces = 0;
+					for (int i = 0; i < 4; ++i) {
+						ItemStack stack = player.inventory.armorItemInSlot(i);
+						if (ImbuementRegistry.instance.isImbuementPresent(stack, GenericImbuement.manaRegen))
+							numArmorPieces++;
+					}
+					regenTicks *= 1.0f - (0.15f * numArmorPieces);
+				}
+
+				float manaToAdd = (actualMaxMana / regenTicks);
+
+				setCurrentMana(getCurrentMana() + manaToAdd);
+			}
+		}
+		if (getCurrentBurnout() > 0) {
+			int numArmorPieces = 0;
+			if (entity instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) entity;
+				for (int i = 0; i < 4; ++i) {
+					ItemStack stack = player.inventory.armorItemInSlot(i);
+					if (ImbuementRegistry.instance.isImbuementPresent(stack, GenericImbuement.burnoutReduction))
+						numArmorPieces++;
+				}
+			}
+			float factor = (float) ((0.01f + (0.015f * numArmorPieces)) * entity.getAttributeMap()
+					.getAttributeInstance(ArsMagicaAPI.burnoutReductionRate).getAttributeValue());
+			float decreaseamt = factor * getCurrentLevel();
+			setCurrentBurnout(getCurrentBurnout() - decreaseamt);
+			if (getCurrentBurnout() < 0) {
+				setCurrentBurnout(0);
+			}
+		}
+	}
+	
+	@Override
+	public boolean setMagicLevelWithMana(int level){
+
+		if (level > 99) level = 99;
+		if (level < 0) level = 0;
+		setCurrentLevel(level);
+		setCurrentMana(getMaxMana());
+		setCurrentBurnout(0);
+		return true;
+	}
 }

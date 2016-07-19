@@ -1,6 +1,5 @@
 package am2.items;
 
-import java.util.Iterator;
 import java.util.List;
 
 import am2.api.ArsMagicaAPI;
@@ -8,7 +7,6 @@ import am2.api.affinity.Affinity;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 
 @SuppressWarnings("deprecation")
@@ -22,33 +20,17 @@ public class ItemEssence extends ItemArsMagica2 {
 	
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		Iterator<Affinity> iter = ArsMagicaAPI.getAffinityRegistry().getValues().iterator();
 		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
-			if (!iter.hasNext())
-				break;
-			if (iter.next().equals(Affinity.NONE)) {
-				i--;
+			if (ArsMagicaAPI.getAffinityRegistry().getValues().get(i).equals(Affinity.NONE))
 				continue;
-			}
 			subItems.add(new ItemStack(this, 1, i));
 		}
-		//super.getSubItems(itemIn, tab, subItems);
 	}
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		int meta = MathHelper.clamp_int(stack.getItemDamage(), 0, ArsMagicaAPI.getAffinityRegistry().getValues().size() - 2);
 		String name = "";
-		int i = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			if (aff.equals(Affinity.NONE)) {
-				//i--;
-				continue;
-			}
-			if (i == meta)
-				name += aff.getLocalizedName();
-			i++;
-		}
+		name += ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName();
 		name += I18n.translateToLocal("item.essence.name");
 		return name;
 	}

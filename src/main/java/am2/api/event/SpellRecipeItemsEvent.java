@@ -1,4 +1,4 @@
-package am2.event;
+package am2.api.event;
 
 import net.minecraftforge.fml.common.eventhandler.Event;
 

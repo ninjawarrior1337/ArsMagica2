@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public abstract class MapSerializer<K, V> implements DataSerializer<HashMap<K, V>> {
 
@@ -16,13 +17,14 @@ public abstract class MapSerializer<K, V> implements DataSerializer<HashMap<K, V
 		for (Entry<K, V> entry : value.entrySet()) {
 			str += entry.getKey().toString() + "\0" + entry.getValue().toString() + "\0";
 		}
-		buf.writeString(str);
+		ByteBufUtils.writeUTF8String(buf, str);
+		//buf.writeString(str);
 	}
 
 	@Override
 	public HashMap<K, V> read(PacketBuffer buf) throws IOException {
 		HashMap<K, V> map = new HashMap<K, V>();
-		String str = buf.readStringFromBuffer(Integer.MAX_VALUE);
+		String str = ByteBufUtils.readUTF8String(buf);//buf.readStringFromBuffer(Integer.MAX_VALUE);
 		String[] list = str.split("\0");
 		boolean key = true;
 		String strKey = "";

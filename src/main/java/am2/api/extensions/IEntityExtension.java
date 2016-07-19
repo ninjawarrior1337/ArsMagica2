@@ -2,7 +2,9 @@ package am2.api.extensions;
 
 import java.util.concurrent.Callable;
 
-import net.minecraft.entity.Entity;
+import am2.extensions.EntityExtension;
+import am2.spell.ContingencyType;
+import am2.utils.NBTUtils;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -11,9 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
-import am2.extensions.EntityExtension;
-import am2.spell.ContingencyType;
-import am2.utils.NBTUtils;
 
 public interface IEntityExtension {
 
@@ -97,9 +96,9 @@ public interface IEntityExtension {
 	
 	public boolean isInverted();
 	
-	public void addEntityReference(Entity entity);
+	public void addEntityReference(EntityLivingBase entity);
 	
-	public void init(Entity entity);
+	public void init(EntityLivingBase entity);
 	
 	public boolean canHeal();
 	
@@ -221,4 +220,8 @@ public interface IEntityExtension {
 	public void syncTKDistance();
 
 	public float getFallProtection();
+
+	public void manaBurnoutTick();
+
+	public boolean setMagicLevelWithMana(int level);
 }

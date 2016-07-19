@@ -295,6 +295,27 @@ public class AMIngameGUI{
 				}
 
 				TextureAtlasSprite icon = mc.getRenderItem().getItemModelMesher().getParticleIcon(mc.thePlayer.inventory.armorInventory[3 - slot].getItem(), mc.thePlayer.inventory.armorInventory[3 - slot].getItemDamage());
+				//flash
+				float green = 0.5f;
+				float blue = 1.0f;
+				float red = 0.126f;
+				float flashTimer = AMGuiHelper.instance.getFlashTimer(3 - slot);
+				if (flashTimer > 0){
+					green = 0.0f;
+					float redShift = 1.0f - red;
+
+					float halfFlash = AMGuiHelper.instance.flashDuration / 2;
+
+					if (flashTimer > halfFlash){
+						float pct = (flashTimer - halfFlash) / halfFlash;
+						red += redShift - (redShift * pct);
+					}else{
+						float pct = flashTimer / halfFlash;
+						red += (redShift * pct);
+					}
+					GL11.glColor3f(red, green, blue);
+				}
+				
 				if (icon != null){
 					AMGuiHelper.DrawIconAtXY(icon, position.iX, position.iY, this.zLevel, 10, 10, true);
 				}else{

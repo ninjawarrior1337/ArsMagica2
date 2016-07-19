@@ -122,8 +122,6 @@ public class AffinityShiftUtils {
 	public static ItemStack getEssenceForAffinity (Affinity affinity) {
 		int meta = 0;
 		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			if (aff.equals(Affinity.NONE))
-				continue;				
 			if (aff.equals(affinity))
 				break;
 			meta++;

@@ -18,7 +18,7 @@ import am2.affinity.abilities.AbilitySwiftSwim;
 import am2.affinity.abilities.AbilityThunderPunch;
 import am2.affinity.abilities.AbilityWaterFreeze;
 import am2.api.affinity.AbstractAffinityAbility;
-import am2.event.SpellCastEvent;
+import am2.api.event.SpellCastEvent;
 import am2.extensions.AffinityData;
 import am2.utils.WorldUtils;
 import net.minecraft.client.Minecraft;
@@ -81,7 +81,7 @@ public class AffinityAbilityHelper {
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				player = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getPlayerEntityByUUID(player.getUniqueID());
 				if (ability.canApply(player)) {
-					WorldUtils.runSided(Side.CLIENT, ability.createRunnable(player));
+					WorldUtils.runSided(Side.CLIENT, ability.createRunnable(Minecraft.getMinecraft().thePlayer));
 					WorldUtils.runSided(Side.SERVER, ability.createRunnable(player));
 				}
 			}

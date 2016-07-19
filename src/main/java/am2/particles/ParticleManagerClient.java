@@ -151,9 +151,9 @@ public class ParticleManagerClient extends ParticleManagerServer{
 
 	@Override
 	public Object BeamFromPointToPoint(World world, double startX, double startY, double startZ, double endX, double endY, double endZ, int color){
-//		if (AMCore.config.NoGFX()){
-//			return null;
-//		}
+		if (ArsMagica2.config.NoGFX()){
+			return null;
+		}
 		AMBeam fx = new AMBeam(world, startX, startY, startZ, endX, endY, endZ);
 		fx.setRGBColor(color);
 		Minecraft.getMinecraft().effectRenderer.addEffect(fx);

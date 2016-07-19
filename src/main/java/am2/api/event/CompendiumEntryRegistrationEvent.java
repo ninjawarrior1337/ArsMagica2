@@ -1,4 +1,4 @@
-package am2.event;
+package am2.api.event;
 
 import java.util.Set;
 

@@ -7,6 +7,8 @@ import am2.api.affinity.Affinity;
 import am2.api.items.armor.ArmorImbuement;
 import am2.skill.Skill;
 import am2.spell.AbstractSpellPart;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
@@ -29,6 +31,18 @@ public class ArsMagicaAPI {
 		SPELL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "spells"), AbstractSpellPart.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL);
 		SKILL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "skills"), Skill.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL);
 	}
+	
+	//Bonus to max mana.  Applied additively.
+	public static final IAttribute maxManaBonus = new RangedAttribute(null, "am2.maxManaBonus", 0.0f, 0.0f, Double.MAX_VALUE).setDescription("Mana Bonus").setShouldWatch(true);
+	//Bonus to max burnout.  Applied additively.
+	public static final IAttribute maxBurnoutBonus = new RangedAttribute(null, "am2.maxBurnoutBonus", 0.0f, 0.0f, Double.MAX_VALUE).setDescription("Burnout Bonus").setShouldWatch(true);
+	//Bonus to XP gained.  Applied multiplicatively.
+	public static final IAttribute xpGainModifier = new RangedAttribute(null, "am2.xpMultiplier", 1.0f, 0.0f, Double.MAX_VALUE).setDescription("XP Mutiplier").setShouldWatch(true);
+	//Bonus to mana regen rate.  Applied multiplicatively.
+	public static final IAttribute manaRegenTimeModifier = new RangedAttribute(null, "am2.manaRegenModifier", 1.0f, 0.5f, 2.0f).setDescription("Mana Regen Rate Multiplier").setShouldWatch(true);
+	//Bonus to burnout reduction rate.  Applied multiplicatively.
+	public static final IAttribute burnoutReductionRate = new RangedAttribute(null, "am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
+
 	
 	public static FMLControlledNamespacedRegistry<Affinity> getAffinityRegistry() {return AFFINITY_REGISTRY;};
 	public static FMLControlledNamespacedRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return ABILITY_REGISTRY;}

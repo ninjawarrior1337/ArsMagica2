@@ -134,7 +134,7 @@ public class SpellBase extends ItemSpellBase{
 		float finalXOffset = offsetYawSin * offsetPitchCos;
 		float finalZOffset = offsetYawCos * offsetPitchCos;
 		Vec3d targetVector = vec3.addVector(finalXOffset * range, offsetPitchSin * range, finalZOffset * range);
-		RayTraceResult mop = world.rayTraceBlocks(vec3, targetVector, targetWater);
+		RayTraceResult mop = world.rayTraceBlocks(vec3, targetVector, targetWater, !targetWater, false);
 
 		if (entityPos != null && mop != null){
 			if (mop.hitVec.distanceTo(new RayTraceResult(caster).hitVec) < entityPos.hitVec.distanceTo(new RayTraceResult(caster).hitVec)){

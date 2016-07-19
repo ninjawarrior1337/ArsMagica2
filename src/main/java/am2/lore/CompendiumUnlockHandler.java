@@ -2,11 +2,11 @@ package am2.lore;
 
 import am2.ArsMagica2;
 import am2.api.SkillRegistry;
+import am2.api.event.PlayerMagicLevelChangeEvent;
+import am2.api.event.SkillLearnedEvent;
+import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IArcaneCompendium;
 import am2.defs.SkillDefs;
-import am2.event.PlayerMagicLevelChangeEvent;
-import am2.event.SkillLearnedEvent;
-import am2.event.SpellCastEvent;
 import am2.extensions.EntityExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.monster.EntityEnderman;
