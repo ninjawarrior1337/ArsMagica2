@@ -105,6 +105,12 @@ public class EntityHandler {
 	@SubscribeEvent
 	public void entityTick (LivingUpdateEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) playerTick((EntityPlayer) event.getEntityLiving());
+		
+		if (event.getEntity().worldObj.isRemote)
+			EntityExtension.For(event.getEntityLiving()).spawnManaLinkParticles();
+		else
+			EntityExtension.For(event.getEntityLiving()).manaBurnoutTick();
+		
 		IEntityExtension ext = EntityExtension.For(event.getEntityLiving());
 		ContingencyType type = ext.getContingencyType();
 		if (event.getEntityLiving().isBurning() && type == ContingencyType.FIRE) {
@@ -132,12 +138,10 @@ public class EntityHandler {
 	}
 	
 	public void playerTick (EntityPlayer player) {
-		//player.addPotionEffect(new BuffEffectTemporalAnchor(200, 0));
 		IEntityExtension ext = player.getCapability(EntityExtension.INSTANCE, null);
 		IAffinityData affData = player.getCapability(AffinityData.INSTANCE, null);
 		if (!player.worldObj.isRemote) {
 			affData.tickDiminishingReturns();
-			ext.manaBurnoutTick();
 		}
 		if (!player.capabilities.isCreativeMode) {
 			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
@@ -199,8 +203,9 @@ public class EntityHandler {
 			EntityPlayer player = (EntityPlayer) e.getEntityLiving();
 			ItemStack stack = player.getActiveItemStack();
 			if (e.getAmount() > 0.0F && stack != null && EntityUtils.canBlockDamageSource(player, e.getSource()) && stack.getItem() == ItemDefs.BoundShield) {
-				if (!EntityExtension.For(player).useMana(e.getAmount() * 10)) {
+				if (EntityExtension.For(player).hasEnoughtMana(e.getAmount() * 10)) {
 					stack.getItem().onDroppedByPlayer(stack, player);
+					EntityExtension.For(player).deductMana(e.getAmount() * 10);
 				} else if (EntityExtension.For(player).hasEnoughtMana(SpellUtils.getManaCost(stack))) {
 					EntityLivingBase target = e.getSource().getEntity() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getEntity() : null;
 					double posX = target != null ? target.posX : player.posX;

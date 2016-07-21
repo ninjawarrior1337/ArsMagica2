@@ -388,7 +388,7 @@ public class SpellUtils {
 				return SpellCastResult.NOT_ENOUGH_MANA;
 			}
 			if (!((EntityPlayer)caster).capabilities.isCreativeMode) {
-				ext.useMana(manaCost);
+				ext.deductMana(manaCost);
 				ext.setCurrentBurnout((int) (ext.getCurrentBurnout() + (manaCost * AMConfig.MANA_BURNOUT_RATIO)));
 				if (ext.getCurrentBurnout() > ext.getMaxBurnout())
 					ext.setCurrentBurnout(ext.getMaxBurnout());

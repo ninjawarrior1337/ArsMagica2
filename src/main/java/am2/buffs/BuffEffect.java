@@ -75,7 +75,7 @@ public abstract class BuffEffect extends PotionEffect{
 			return true;
 		}
 	}
-
+	
 	protected abstract String spellBuffName();
 
 	@Override

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 @SuppressWarnings("deprecation")
 public class ItemBindingCatalyst extends ItemArsMagica2{
@@ -55,6 +56,7 @@ public class ItemBindingCatalyst extends ItemArsMagica2{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
+		par3List.add(new ItemStack(par1, 1, OreDictionary.WILDCARD_VALUE));
 		par3List.add(new ItemStack(par1, 1, META_PICK));
 		par3List.add(new ItemStack(par1, 1, META_AXE));
 		par3List.add(new ItemStack(par1, 1, META_SHOVEL));

@@ -38,6 +38,7 @@ import am2.armor.infusions.GenericImbuement;
 import am2.armor.infusions.ImbuementRegistry;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
+import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
@@ -75,7 +76,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		
 	@Override
 	public boolean hasEnoughtMana(float cost) {
-		if (getCurrentMana() < cost)
+		if (getCurrentMana() + getBonusCurrentMana() < cost)
 			return false;
 		return true;
 	}
@@ -176,17 +177,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	@Override
-	public boolean useMana (float toUse) {
-		boolean canUse = toUse <= getCurrentMana();
-		if (canUse) setCurrentMana(getCurrentMana() - toUse);
-		return canUse;
-	}
-	
-	@Override
 	public float getMaxMana() {
 		float mana = (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99f)) + 500f);
 		if (this.entity.isPotionActive(PotionEffectsDefs.manaBoost))
-			mana *= 1 + (0.25 * (this.entity.getActivePotionEffect(PotionEffectsDefs.manaBoost).getAmplifier()));
+			mana *= 1 + (0.25 * (this.entity.getActivePotionEffect(PotionEffectsDefs.manaBoost).getAmplifier() + 1));
 		return (float)(mana + this.entity.getAttributeMap().getAttributeInstance(ArsMagicaAPI.maxManaBonus).getAttributeValue());
 	}
 	
@@ -424,10 +418,13 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public void updateManaLink(EntityLivingBase entity){
 		ManaLinkEntry mle = new ManaLinkEntry(entity.getEntityId(), 20);
-		if (!this.manaLinks .contains(mle))
+		if (!this.manaLinks.contains(mle))
 			this.manaLinks.add(mle);
 		else
 			this.manaLinks.remove(mle);
+		if (!this.entity.worldObj.isRemote)
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(entity.dimension, entity.posX, entity.posY, entity.posZ, 32, AMPacketIDs.MANA_LINK_UPDATE, getManaLinkUpdate());
+
 	}
 	
 	@Override
@@ -670,6 +667,25 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			if (getCurrentBurnout() < 0) {
 				setCurrentBurnout(0);
 			}
+		}
+	}
+	
+	public byte[] getManaLinkUpdate(){
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(this.entity.getEntityId());
+		writer.add(this.manaLinks.size());
+		for (ManaLinkEntry entry : this.manaLinks)
+			writer.add(entry.entityID);
+		return writer.generate();
+	}
+	
+	public void handleManaLinkUpdate(AMDataReader rdr) {
+		this.manaLinks.clear();
+		int numLinks = rdr.getInt();
+		for (int i = 0; i < numLinks; ++i){
+			Entity e = entity.worldObj.getEntityByID(rdr.getInt());
+			if (e != null && e instanceof EntityLivingBase)
+				updateManaLink((EntityLivingBase)e);
 		}
 	}
 	

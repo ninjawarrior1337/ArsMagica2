@@ -29,7 +29,6 @@ public class ObeliskFuelHelper implements IObeliskFuelHelper{
 			boolean itemCheck = stack.getItem() == possibleFuel.getItem();
 			boolean metaCheck = possibleFuel.getItemDamage() == Short.MAX_VALUE || possibleFuel.getItemDamage() == stack.getItemDamage();
 			boolean tagCheck = possibleFuel.getTagCompound() == null ? true : (stack.getTagCompound() == null ? false : stack.getTagCompound().equals(possibleFuel.getTagCompound()));
-			System.out.println(stack.getTagCompound());
 			if (itemCheck && metaCheck && tagCheck)
 				return validFuels.get(possibleFuel);
 		}

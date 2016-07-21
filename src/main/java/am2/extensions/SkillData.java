@@ -46,6 +46,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	}
 	
 	public void unlockSkill (String name) {
+		if (SkillRegistry.getSkillFromName(name) == null)
+			return;
 		HashMap<Skill, Boolean> map = player.getDataManager().get(DataDefinitions.SKILL);
 		map.put(SkillRegistry.getSkillFromName(name), true);
 		player.getDataManager().set(DataDefinitions.SKILL, map);

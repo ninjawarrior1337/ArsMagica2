@@ -47,4 +47,5 @@ public class AMPacketIDs{
 	public static final byte CALEFACTOR_DATA = 57;
 	public static final byte OBELISK_DATA = 58;
 	public static final byte AFFINITY_ACTIVATE = 59;
+	public static final byte MANA_LINK_UPDATE = 60;
 }

@@ -32,6 +32,7 @@ public class NBTUtils {
 	
 	public static Vec3d readVecFromNBT(NBTTagCompound nbt) {
 		Vec3d vec = new Vec3d(nbt.getDouble("X"), nbt.getDouble("Y"), nbt.getDouble("Z"));
+		//System.out.println(vec);
 		return vec;
 	}
 	

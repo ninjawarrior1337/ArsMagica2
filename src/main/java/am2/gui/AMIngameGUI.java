@@ -163,11 +163,13 @@ public class AMIngameGUI{
 		float BurnoutBarWidth = barWidth;
 		float Burnout = props.getCurrentBurnout();
 		float maxBurnout = props.getMaxBurnout();
+		
+		float renderMana = mana + bonusMana;
+		
+		if (renderMana > maxMana)
+			renderMana = maxMana;
 
-		if (mana + bonusMana > maxMana)
-			mana = maxMana;
-
-		float progressScaled = (mana / (maxMana + 0.01f));
+		float progressScaled = (renderMana / (maxMana + 0.01f));
 
 		if (ArsMagica2.config.showHudBars()){
 			//handle flashing of mana bar

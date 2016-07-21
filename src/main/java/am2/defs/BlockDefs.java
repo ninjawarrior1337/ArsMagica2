@@ -19,6 +19,7 @@ import am2.blocks.BlockMageLight;
 import am2.blocks.BlockMagicWall;
 import am2.blocks.BlockManaBattery;
 import am2.blocks.BlockOcculus;
+import am2.blocks.BlockSlipstreamGenerator;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
 import am2.blocks.BlockWizardsChalk;
@@ -74,6 +75,7 @@ public class BlockDefs {
 	public static final Block lectern = new BlockLectern().registerAndName(new ResourceLocation("arsmagica2:lectern"));
 	public static final Block inscriptionTable = new BlockInscriptionTable().registerAndName(new ResourceLocation("arsmagica2:inscriptionTable"));
 	public static final Block armorImbuer = new BlockArmorInfuser().registerAndName(new ResourceLocation("arsmagica2:armorImbuer"));
+	public static final Block slipstreamGenerator = new BlockSlipstreamGenerator().registerAndName(new ResourceLocation("arsmagica2:slipstreamGenerator"));
 	public static final Block witchwoodLog = null;
 	public static final Block essenceConduit = null;
 	

@@ -10,10 +10,10 @@ import am2.extensions.EntityExtension;
 import am2.spell.SpellComponent;
 import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -21,6 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class Dig extends SpellComponent {
 
@@ -35,17 +36,17 @@ public class Dig extends SpellComponent {
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
-		Block block = world.getBlockState(blockPos).getBlock();
-		@SuppressWarnings("deprecation")
-		float hardness = block.getBlockHardness(world.getBlockState(blockPos), world, blockPos);
-		if (block.equals(Blocks.AIR) || hardness == -1 || block.getHarvestLevel(world.getBlockState(blockPos)) > SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER))
+		if (!(caster instanceof EntityPlayer))
 			return false;
-		if (EntityExtension.For(caster).useMana((int) hardness)) {
+		IBlockState state = world.getBlockState(blockPos);
+		float hardness = state.getBlockHardness(world, blockPos);
+		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true)) {
 			IBlockState old = world.getBlockState(blockPos);
-			block.breakBlock(world, blockPos, old);
-			block.dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
+			state.getBlock().breakBlock(world, blockPos, old);
+			state.getBlock().dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
 			world.setBlockToAir(blockPos);
 			world.markAndNotifyBlock(blockPos, world.getChunkFromBlockCoords(blockPos), old, Blocks.AIR.getDefaultState(), 3);
+			EntityExtension.For(caster).deductMana(hardness * 1.28f);
 		}
 		return true;
 	}

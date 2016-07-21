@@ -225,46 +225,27 @@ public class PowerNodeEntry{
 		//power paths
 		//locate list of power paths
 		NBTTagList powerPathList = compound.getTagList("powerPathList", Constants.NBT.TAG_COMPOUND);
-		//sanity check
 		if (powerPathList != null){
-			//spin through list
 			for (int i = 0; i < powerPathList.tagCount(); ++i){
-				//reference current node
 				NBTTagCompound powerPathEntry = (NBTTagCompound)powerPathList.getCompoundTagAt(i);
-				//get the power type
 				PowerTypes type = PowerTypes.getByID(powerPathEntry.getInteger("powerType"));
-				//get the list of node paths for this power type
 				NBTTagList pathNodes = powerPathEntry.getTagList("nodePaths", Constants.NBT.TAG_LIST);
-				//initialize list of paths
 				ArrayList<LinkedList<Vec3d>> pathsList = new ArrayList<LinkedList<Vec3d>>();
-				//sanity check
 				if (pathNodes != null){
-					//spin through node paths
-					while (pathNodes.tagCount() > 0){
-						//reference current node
-						NBTTagList nodeList = (NBTTagList)pathNodes.removeTag(0);
-						//initialize linked list to hold the path
+					for (int j = 0; j < pathNodes.tagCount(); j++){
+						NBTTagList nodeList = (NBTTagList)pathNodes.get(j);
 						LinkedList<Vec3d> powerPath = new LinkedList<Vec3d>();
-						//sanity check
 						if (nodeList != null){
-							//spin through node list
 							for (int b = 0; b < nodeList.tagCount(); ++b){
-								//reference current node
 								NBTTagCompound node = (NBTTagCompound)nodeList.getCompoundTagAt(b);
-								//resolve Vec3d from node values								
 								Vec3d nodeLocation = NBTUtils.readVecFromNBT(node);
-								//tack the node on to the power path
 								powerPath.add(nodeLocation);
 							}
-							//tack the node path on to the paths list
 							pathsList.add(powerPath);
 						}
 					}
-
-					//register the list of paths and power type
 					nodePaths.put(type, pathsList);
-
-					//	LogHelper.info("Loaded %d node paths for %s etherium.", pathsList.size(), type.name());
+					//ArsMagica2.LOGGER.info(String.format("Loaded %d node paths for %s etherium.", pathsList.size(), type.name()));
 				}
 			}
 		}

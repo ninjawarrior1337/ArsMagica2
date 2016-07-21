@@ -14,6 +14,7 @@ public class AMPotion extends Potion {
 
 	public AMPotion(boolean badEffect, int potionColor) {
 		super(badEffect, potionColor);
+		if (!badEffect) this.setBeneficial();
 	}
 	
 	@Override

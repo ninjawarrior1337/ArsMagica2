@@ -7,6 +7,7 @@ import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
@@ -22,6 +23,7 @@ import am2.utils.MathUtilities;
 import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -128,6 +130,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			case AMPacketIDs.OBELISK_DATA:
 				handleObeliskData(remaining);
 				break;
+			case AMPacketIDs.MANA_LINK_UPDATE:
+				handleManaLinkUpdate(remaining);
+				break;
 			}
 		}catch (Throwable t){
 			ArsMagica2.LOGGER.error("Client Packet Failed to Handle!");
@@ -141,6 +146,11 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				t.printStackTrace();
 			}
 		}
+	}
+
+	private void handleManaLinkUpdate(byte[] remaining) {
+		AMDataReader reader = new AMDataReader(remaining, false);
+		((EntityExtension)EntityExtension.For((EntityLivingBase) Minecraft.getMinecraft().theWorld.getEntityByID(reader.getInt()))).handleManaLinkUpdate(reader);
 	}
 
 	private void handleObeliskData(byte[] remaining){

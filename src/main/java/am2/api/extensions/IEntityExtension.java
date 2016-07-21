@@ -54,8 +54,6 @@ public interface IEntityExtension {
 	
 	public void placeAffinityHealOnCooldown(boolean full);
 	
-	public boolean useMana (float toUse);
-	
 	public float getMaxMana();
 	
 	public float getMaxXP ();
