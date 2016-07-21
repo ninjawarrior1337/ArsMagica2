@@ -21,6 +21,7 @@ public class BlockArmorInfuser extends BlockAMPowered{
 		super(Material.IRON);
 		setHardness(4.0f);
 		setResistance(4.0f);
+		defaultRender = true;
 	}
 
 	@Override

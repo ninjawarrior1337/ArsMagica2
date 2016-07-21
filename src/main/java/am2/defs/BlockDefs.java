@@ -25,16 +25,30 @@ import am2.blocks.BlockWizardsChalk;
 import am2.blocks.colorizers.ManaBatteryColorizer;
 import am2.items.rendering.IgnoreMetadataRenderer;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
 public class BlockDefs {
+	
+	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
 	
 	public static final Block manaBattery = new BlockManaBattery().registerAndName(new ResourceLocation("arsmagica2:manaBattery"));
 	public static final BlockFrost frost = new BlockFrost().registerAndName(new ResourceLocation("arsmagica2:frost"));
@@ -63,9 +77,36 @@ public class BlockDefs {
 	public static final Block witchwoodLog = null;
 	public static final Block essenceConduit = null;
 	
+	public static void preInit () {
+		FluidRegistry.registerFluid(liquid_essence);
+		FluidRegistry.addBucketForFluid(liquid_essence);
+		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
+		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, new MaterialLiquid(MapColor.LIGHT_BLUE));
+		Item itemliquid_essence = new ItemBlock(blockliquid_essence);
+		GameRegistry.register(blockliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
+		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
+		ModelBakery.registerItemVariants(itemliquid_essence, new ModelResourceLocation(new ResourceLocation("arsmagica2:liquidEssence"), liquid_essence.getName()));
+		ModelLoader.setCustomMeshDefinition(itemliquid_essence, new ItemMeshDefinition() {
+			
+			@Override
+			public ModelResourceLocation getModelLocation(ItemStack stack) {
+				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquidEssence"), liquid_essence.getName());
+			}
+		});
+		
+		ModelLoader.setCustomStateMapper(blockliquid_essence, new StateMapperBase() {
+			
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquidEssence"), liquid_essence.getName());
+			}
+		});
+	}
+	
 	public static void init () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);
 		RenderItem renderer = Minecraft.getMinecraft().getRenderItem();
+		
 		//Utility Blocks
 		registerTexture(frost);
 		registerTexture(invisibleLight);

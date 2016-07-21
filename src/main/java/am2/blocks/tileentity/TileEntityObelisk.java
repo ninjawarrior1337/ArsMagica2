@@ -33,6 +33,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -231,8 +232,9 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 				burnTimeRemaining = ObeliskFuelHelper.instance.getFuelBurnTime(inventory[0]);
 				if (burnTimeRemaining > 0){
 					setMaxBurnTime(burnTimeRemaining);
-
-					if (this.inventory[0].getItem().hasContainerItem(this.inventory[0]))
+					if (this.inventory[0].getItem() instanceof UniversalBucket)
+						this.inventory[0] = ((UniversalBucket)this.inventory[0].getItem()).getEmpty().copy();
+					else if (this.inventory[0].getItem().hasContainerItem(this.inventory[0]))
 						this.inventory[0] = new ItemStack(this.inventory[0].getItem().getContainerItem());
 					else
 						InventoryUtilities.decrementStackQuantity(this, 0, 1);

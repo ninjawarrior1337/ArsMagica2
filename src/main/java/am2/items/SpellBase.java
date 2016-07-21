@@ -114,7 +114,7 @@ public class SpellBase extends ItemSpellBase{
 	public RayTraceResult getMovingObjectPosition(EntityLivingBase caster, World world, double range, boolean includeEntities, boolean targetWater){
 		RayTraceResult entityPos = null;
 		if (includeEntities){
-			Entity pointedEntity = EntityUtils.getPointedEntity(world, caster, range, 1.0f, false);
+			Entity pointedEntity = EntityUtils.getPointedEntity(world, caster, range, 1.0f, false, targetWater);
 			if (pointedEntity != null){
 				entityPos = new RayTraceResult(pointedEntity);
 			}

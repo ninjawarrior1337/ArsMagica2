@@ -48,8 +48,6 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		sprites.clear();
-		SpellModel.handRender = null;
-		
 	}
 
 	@Override

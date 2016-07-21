@@ -683,4 +683,9 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		setCurrentBurnout(0);
 		return true;
 	}
+
+	@Override
+	public void addMagicXP(float xp) {
+		this.setCurrentXP(this.getCurrentXP() + xp);
+	}
 }

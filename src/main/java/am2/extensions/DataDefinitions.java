@@ -43,6 +43,16 @@ public class DataDefinitions {
 		public String getKeyInstanceFromString(String str) {return str;}
 	};
 	
+	public static final MapSerializer<String, Float> DATA_SERIALIZER_FLOAT = new MapSerializer<String, Float>() {
+		public Float getValueInstanceFromString(String str) {return Float.valueOf(str);}
+		public String getKeyInstanceFromString(String str) {return str;}
+	};
+	
+	public static final MapSerializer<String, Boolean> DATA_SERIALIZER_BOOLEAN = new MapSerializer<String, Boolean>() {
+		public Boolean getValueInstanceFromString(String str) {return Boolean.valueOf(str);}
+		public String getKeyInstanceFromString(String str) {return str;}
+	};
+	
 	public static final ArraySerializer<String> STRING_SERIALIZER = new ArraySerializer<String>() {
 		public String getKeyInstanceFromString(String str) {return str;}
 	};
@@ -53,6 +63,9 @@ public class DataDefinitions {
 		DataSerializers.registerSerializer(SKILL_SERIALIZER);
 		DataSerializers.registerSerializer(STRING_SERIALIZER);
 		DataSerializers.registerSerializer(COOLDOWN_SERIALIZER);
+		DataSerializers.registerSerializer(DATA_SERIALIZER_FLOAT);
+		DataSerializers.registerSerializer(DATA_SERIALIZER_BOOLEAN);
+		
 	}
 
 	static final DataParameter<Float> CURRENT_MANA = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
@@ -75,11 +88,11 @@ public class DataDefinitions {
 	static final DataParameter<String> AFFINITY = EntityDataManager.createKey(Entity.class, DataSerializers.STRING);
 	static final DataParameter<HashMap<Affinity, Float>> AFFINITY_DATA = EntityDataManager.createKey(Entity.class, AFFINITY_SERIALIZER);
 	static final DataParameter<HashMap<SkillPoint, Integer>> POINT_TIER = EntityDataManager.createKey(Entity.class, SKILL_POINT_SERIALIZER);
-	static final DataParameter<HashMap<Skill, Boolean>> SKILL = EntityDataManager.createKey(Entity.class, SKILL_SERIALIZER);	
-	static final DataParameter<Boolean> ICE_BRIDGE_STATE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
-	static final DataParameter<Boolean> NIGHT_VISION_ACTIVE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
-	static final DataParameter<HashMap<String, Integer>> COOLDOWNS = EntityDataManager.createKey(Entity.class, COOLDOWN_SERIALIZER);
+	static final DataParameter<HashMap<Skill, Boolean>> SKILL = EntityDataManager.createKey(Entity.class, SKILL_SERIALIZER);
 	
+	static final DataParameter<HashMap<String, Integer>> COOLDOWNS = EntityDataManager.createKey(Entity.class, COOLDOWN_SERIALIZER);
+	static final DataParameter<HashMap<String, Boolean>> ABILITY_BOOLEAN = EntityDataManager.createKey(Entity.class, DATA_SERIALIZER_BOOLEAN);
+	static final DataParameter<HashMap<String, Float>> ABILITY_FLOAT = EntityDataManager.createKey(Entity.class, DATA_SERIALIZER_FLOAT);
 	
 	static final DataParameter<Boolean> REVERSE_INPUT = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
 	

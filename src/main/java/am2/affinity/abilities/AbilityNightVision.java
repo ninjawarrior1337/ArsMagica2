@@ -16,7 +16,7 @@ public class AbilityNightVision extends AbstractToggledAffinityAbility {
 
 	@Override
 	protected boolean isEnabled(EntityPlayer player) {
-		return AffinityData.For(player).hasNightVisionActive();
+		return AffinityData.For(player).getAbilityBoolean(AffinityData.NIGHT_VISION);
 	}
 
 	@Override

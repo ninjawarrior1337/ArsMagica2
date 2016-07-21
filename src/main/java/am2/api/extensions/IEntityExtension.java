@@ -224,4 +224,6 @@ public interface IEntityExtension {
 	public void manaBurnoutTick();
 
 	public boolean setMagicLevelWithMana(int level);
+
+	public void addMagicXP(float xp);
 }

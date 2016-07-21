@@ -75,7 +75,6 @@ public interface IArcaneCompendium {
 				NBTTagCompound tmp = unlocks.getCompoundTagAt(i);
 				if (tmp.getBoolean("Unlocked")) {
 					instance.unlockEntry(tmp.getString("ID"));
-					System.out.println("Unlocked " + tmp.getString("ID"));
 				}
 			}
 			for (int i = 0; i < categories.tagCount(); i++) {

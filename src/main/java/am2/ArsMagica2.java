@@ -17,6 +17,8 @@ import am2.packet.MessageCapabilities;
 import am2.proxy.CommonProxy;
 import am2.spell.AbstractSpellPart;
 import net.minecraft.init.Blocks;
+import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -50,6 +52,9 @@ public class ArsMagica2 {
 		new DataDefinitions();
 		new ArsMagicaAPI();
 		Affinity.registerAffinities();
+		if (!FluidRegistry.isUniversalBucketEnabled())
+			FluidRegistry.enableUniversalBucket();
+		ForgeModContainer.replaceVanillaBucketModel = true;
 	}
 	
 	@EventHandler

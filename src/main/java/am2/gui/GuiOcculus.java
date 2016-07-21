@@ -287,7 +287,6 @@ public class GuiOcculus extends GuiScreen {
 			int cX = posX + xSize/2;
 			int cY = posY + ySize/2;
 			//float finalPercentage = AffinityData.For(player).getAffinityDepth(SkillDefs.NONE) * 100;
-			int i = 0;
 			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
 				if (aff == Affinity.NONE)
 					continue;
@@ -320,8 +319,7 @@ public class GuiOcculus extends GuiScreen {
 				xMovement = affDrawTextX == 0 ? 0 : xMovement;
 				int yMovement = affDrawTextY > 0 ? 5 : -5;
 				yMovement = affDrawTextY == 0 ? 0 : yMovement;
-				this.itemRender.renderItemAndEffectIntoGUI(new ItemStack(ItemDefs.essence, 1, i) , (int)((affDrawTextX * 1.1) + cX + xMovement), (int)((affDrawTextY * 1.1) + cY + yMovement));
-				i++;
+				this.itemRender.renderItemAndEffectIntoGUI(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)) , (int)((affDrawTextX * 1.1) + cX + xMovement), (int)((affDrawTextY * 1.1) + cY + yMovement));
 				GlStateManager.color(1, 1, 1);
 			}
 		}

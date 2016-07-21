@@ -354,7 +354,7 @@ public class AMIngameGUI{
 
 			if (ArsMagica2.config.getShowNumerics()){
 				GL11.glEnable(GL11.GL_BLEND);
-				String display = String.format("%.2f%%", AffinityData.For(mc.thePlayer).getAffinityDepth(affinity) * 100);
+				String display = String.format("%.2f%%", AffinityData.For(mc.thePlayer).getAffinityDepth(affinity) * 100f);
 				if (x < i / 2)
 					Minecraft.getMinecraft().fontRendererObj.drawString(display, x + 14, y + 2, affinity.getColor());
 				else

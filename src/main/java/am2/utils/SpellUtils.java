@@ -6,19 +6,14 @@ import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
 import am2.api.SpellRegistry;
-import am2.api.affinity.Affinity;
 import am2.api.event.SpellCastEvent;
-import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
-import am2.api.extensions.ISkillData;
 import am2.config.AMConfig;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SpellDefs;
 import am2.enchantments.AMEnchantmentHelper;
-import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
-import am2.extensions.SkillData;
 import am2.gui.AMGuiHelper;
 import am2.items.ItemSpellBase;
 import am2.spell.AbstractSpellPart;
@@ -565,26 +560,9 @@ public class SpellUtils {
 		for (SpellComponent component : components){
 			if (component.applyEffectBlock(stack, world, pos, blockFace, impactX, impactY, impactZ, caster)){
 				if (isPlayer && !world.isRemote) {
-					IAffinityData data = AffinityData.For(caster);
-					ISkillData skills = SkillData.For(caster);
 					if (component.getAffinity() != null) {
-						for (Affinity aff : component.getAffinity()) {
-							float shift = component.getAffinityShift(aff);
-							float xp = 0.05f * data.getDiminishingReturnsFactor();
-							if (stageShape.isChanneled()) {
-								xp /= 4;
-								shift /= 4;
-							}
-							if (skills.hasSkill("affinitygains")) {
-								xp *= 0.9F;
-								shift *= 1.1F;
-							}
-							AffinityShiftUtils.applyShift((EntityPlayer)caster, stageShape.isChanneled(), shift, aff);
-							if (xp > 0)
-								EntityExtension.For(caster).setCurrentXP(EntityExtension.For(caster).getCurrentXP() + xp);
-						}
+						AffinityShiftUtils.doAffinityShift(caster, component, stageShape);
 					}
-					data.addDiminishingReturns(stageShape.isChanneled());
 				}
 				if (world.isRemote){
 					int color = -1;
@@ -624,26 +602,9 @@ public class SpellUtils {
 
 			if (component.applyEffectEntity(stack, world, caster, target)){
 				if (isPlayer && !world.isRemote) {
-					IAffinityData data = AffinityData.For(caster);
-					ISkillData skills = SkillData.For(caster);
 					if (component.getAffinity() != null) {
-						for (Affinity aff : component.getAffinity()) {
-							float shift = component.getAffinityShift(aff);
-							float xp = 0.05f * data.getDiminishingReturnsFactor();
-							if (stageShape.isChanneled()) {
-								xp /= 4;
-								shift /= 4;
-							}
-							if (skills.hasSkill("affinitygains")) {
-								xp *= 0.9F;
-								shift *= 1.1F;
-							}
-							AffinityShiftUtils.applyShift((EntityPlayer)caster, stageShape.isChanneled(), shift, aff);
-							if (xp > 0)
-								EntityExtension.For(caster).setCurrentXP(EntityExtension.For(caster).getCurrentXP() + xp);
-						}
+						AffinityShiftUtils.doAffinityShift(caster, component, stageShape);
 					}
-					data.addDiminishingReturns(stageShape.isChanneled());
 				}
 				appliedOneComponent = true;
 				if (world.isRemote){
@@ -659,9 +620,7 @@ public class SpellUtils {
 					component.spawnParticles(world, target.posX, target.posY + target.getEyeHeight(), target.posZ, caster, target, world.rand, color);
 				}
 				if (caster instanceof EntityPlayer) {
-					for (Affinity aff : component.getAffinity()) {
-						AffinityShiftUtils.applyShift((EntityPlayer)caster, stageShape.isChanneled(), component.getAffinityShift(aff), aff);
-					}
+					AffinityShiftUtils.doAffinityShift(caster, component, stageShape);
 				}
 			}
 		}

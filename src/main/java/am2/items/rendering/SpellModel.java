@@ -6,9 +6,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import am2.api.ArsMagicaAPI;
-import am2.api.affinity.Affinity;
-import am2.models.ArsMagicaModelLoader;
 import am2.utils.ResourceUtils;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -23,9 +20,7 @@ import net.minecraftforge.common.model.TRSRTransformation;
 
 public class SpellModel implements IModel {
 	
-	
 	private ImmutableList<ResourceLocation> textures;
-	public static HandBakedModel handRender = null;
 
 	public SpellModel(ImmutableList<ResourceLocation> textures) {
 		this.textures = textures;
@@ -45,14 +40,7 @@ public class SpellModel implements IModel {
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
 		ImmutableMap<TransformType, TRSRTransformation> map = IPerspectiveAwareModel.MapWrapper.getTransforms(state);
 		IBakedModel model = new ItemLayerModel(textures).bake(state, format, bakedTextureGetter);
-		if (handRender == null) {
-			handRender = new HandBakedModel(model, map);
-			for (Affinity affinity : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-				IBakedModel subModel = ItemLayerModel.INSTANCE.retexture(ImmutableMap.of("layer0", ArsMagicaModelLoader.sprites.get(affinity).getIconName())).bake(state, format, bakedTextureGetter);
-				handRender.addPart(affinity, subModel);
-			}
-		}
-		return new SpellBakedModel(model, handRender, map);
+		return new SpellBakedModel(model, map);
 	}
 
 	@Override

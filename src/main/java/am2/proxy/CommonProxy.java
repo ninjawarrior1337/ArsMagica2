@@ -182,7 +182,7 @@ public class CommonProxy implements IGuiHandler{
 		PotionEffectsDefs.init();
 		new ItemDefs();
 		new CreativeTabsDefs();
-		new BlockDefs();
+		BlockDefs.preInit();;
 
 	}
 	

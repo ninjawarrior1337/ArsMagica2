@@ -14,37 +14,81 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 @SuppressWarnings("deprecation")
 public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comparable<Affinity>{
 	
+	private static final ResourceLocation NONE_LOC = new ResourceLocation("arsmagica2", "none");
+	private static final ResourceLocation ARCANE_LOC = new ResourceLocation("arsmagica2", "arcane");
+	private static final ResourceLocation WATER_LOC = new ResourceLocation("arsmagica2", "water");
+	private static final ResourceLocation FIRE_LOC = new ResourceLocation("arsmagica2", "fire");
+	private static final ResourceLocation EARTH_LOC = new ResourceLocation("arsmagica2", "earth");
+	private static final ResourceLocation AIR_LOC = new ResourceLocation("arsmagica2", "air");
+	private static final ResourceLocation LIGHTNING_LOC = new ResourceLocation("arsmagica2", "lightning");
+	private static final ResourceLocation ICE_LOC = new ResourceLocation("arsmagica2", "ice");
+	private static final ResourceLocation NATURE_LOC = new ResourceLocation("arsmagica2", "nature");
+	private static final ResourceLocation LIFE_LOC = new ResourceLocation("arsmagica2", "life");
+	private static final ResourceLocation ENDER_LOC = new ResourceLocation("arsmagica2", "ender");
 	
-	public static final Affinity NONE = new Affinity("none", 0xFFFFFF);
-	public static final Affinity ARCANE = new Affinity("arcane", 0xb935cd);
-	public static final Affinity WATER = new Affinity("water", 0x0b5cef);
-	public static final Affinity FIRE = new Affinity("fire", 0xef260b);
-	public static final Affinity EARTH = new Affinity("earth", 0x61330b);
-	public static final Affinity AIR = new Affinity("air", 0x777777);
-	public static final Affinity LIGHTNING = new Affinity("lightning", 0xdece19);
-	public static final Affinity ICE = new Affinity("ice", 0xd3e8fc);
-	public static final Affinity NATURE = new Affinity("nature", 0x228718);
-	public static final Affinity LIFE = new Affinity("life", 0x34e122);
-	public static final Affinity ENDER = new Affinity("ender", 0x3f043d);
+	public static final Affinity NONE = new Affinity("none", 0xFFFFFF).setDirectOpposite(NONE_LOC);
+	public static final Affinity ARCANE = new Affinity("arcane", 0xb935cd)
+			.setDirectOpposite(NATURE_LOC)
+			.addMajorOpposite(LIFE_LOC, EARTH_LOC, WATER_LOC, ICE_LOC)
+			.addMinorOpposite(AIR_LOC, ENDER_LOC);
+	public static final Affinity WATER = new Affinity("water", 0x0b5cef)
+			.setDirectOpposite(FIRE_LOC)
+			.addMajorOpposite(LIGHTNING_LOC, EARTH_LOC, ARCANE_LOC, ENDER_LOC)
+			.addMinorOpposite(AIR_LOC, ICE_LOC);
+	public static final Affinity FIRE = new Affinity("fire", 0xef260b)
+			.setDirectOpposite(WATER_LOC)
+			.addMajorOpposite(AIR_LOC, ICE_LOC, NATURE_LOC, LIFE_LOC)
+			.addMinorOpposite(EARTH_LOC, LIGHTNING_LOC);
+	public static final Affinity EARTH = new Affinity("earth", 0x61330b)
+			.setDirectOpposite(AIR_LOC)
+			.addMajorOpposite(WATER_LOC, ARCANE_LOC, LIFE_LOC, LIGHTNING_LOC)
+			.addMinorOpposite(NATURE_LOC, FIRE_LOC);
+	public static final Affinity AIR = new Affinity("air", 0x777777)
+			.setDirectOpposite(EARTH_LOC)
+			.addMajorOpposite(NATURE_LOC, FIRE_LOC, ICE_LOC, ENDER_LOC)
+			.addMinorOpposite(WATER_LOC, ARCANE_LOC);
+	public static final Affinity LIGHTNING = new Affinity("lightning", 0xdece19)
+			.setDirectOpposite(ICE_LOC)
+			.addMajorOpposite(WATER_LOC, ENDER_LOC, NATURE_LOC, EARTH_LOC)
+			.addMinorOpposite(LIFE_LOC, FIRE_LOC);
+	public static final Affinity ICE = new Affinity("ice", 0xd3e8fc)
+			.setDirectOpposite(LIGHTNING_LOC)
+			.addMajorOpposite(LIFE_LOC, FIRE_LOC, AIR_LOC, ARCANE_LOC)
+			.addMinorOpposite(WATER_LOC, ENDER_LOC);
+	public static final Affinity NATURE = new Affinity("nature", 0x228718)
+			.setDirectOpposite(ARCANE_LOC)
+			.addMajorOpposite(AIR_LOC, ENDER_LOC, LIGHTNING_LOC, FIRE_LOC)
+			.addMinorOpposite(LIFE_LOC, EARTH_LOC);
+	public static final Affinity LIFE = new Affinity("life", 0x34e122)
+			.setDirectOpposite(ENDER_LOC)
+			.addMajorOpposite(ARCANE_LOC, ICE_LOC, FIRE_LOC, EARTH_LOC)
+			.addMinorOpposite(NATURE_LOC, LIGHTNING_LOC);
+	public static final Affinity ENDER = new Affinity("ender", 0x3f043d)
+			.setDirectOpposite(LIFE_LOC)
+			.addMajorOpposite(NATURE_LOC, LIGHTNING_LOC, WATER_LOC, AIR_LOC)
+			.addMinorOpposite(ARCANE_LOC, ICE_LOC);
 	
 	public static void registerAffinities() {
-		GameRegistry.register(NONE, new ResourceLocation("arsmagica2", "none"));
-		GameRegistry.register(ARCANE, new ResourceLocation("arsmagica2", "arcane"));
-		GameRegistry.register(WATER, new ResourceLocation("arsmagica2", "water"));
-		GameRegistry.register(FIRE, new ResourceLocation("arsmagica2", "fire"));
-		GameRegistry.register(EARTH, new ResourceLocation("arsmagica2", "earth"));
-		GameRegistry.register(AIR, new ResourceLocation("arsmagica2", "air"));
-		GameRegistry.register(LIGHTNING, new ResourceLocation("arsmagica2", "lightning"));
-		GameRegistry.register(ICE, new ResourceLocation("arsmagica2", "ice"));
-		GameRegistry.register(NATURE, new ResourceLocation("arsmagica2", "nature"));
-		GameRegistry.register(LIFE, new ResourceLocation("arsmagica2", "life"));
-		GameRegistry.register(ENDER, new ResourceLocation("arsmagica2", "ender"));
+		GameRegistry.register(NONE, NONE_LOC);
+		GameRegistry.register(ARCANE, ARCANE_LOC);
+		GameRegistry.register(WATER, WATER_LOC);
+		GameRegistry.register(FIRE, FIRE_LOC);
+		GameRegistry.register(EARTH, EARTH_LOC);
+		GameRegistry.register(AIR, AIR_LOC);
+		GameRegistry.register(LIGHTNING, LIGHTNING_LOC);
+		GameRegistry.register(ICE, ICE_LOC);
+		GameRegistry.register(NATURE, NATURE_LOC);
+		GameRegistry.register(LIFE, LIFE_LOC);
+		GameRegistry.register(ENDER, ENDER_LOC);
 	}
 	
 	private static int currentMask = 1;
 	private int color;
 	private String name;
 	private int mask;
+	private ResourceLocation directOpposite;
+	private ArrayList<ResourceLocation> majorOpposites = new ArrayList<>();
+	private ArrayList<ResourceLocation> minorOpposites = new ArrayList<>();
 	
 	public Affinity (String name, int color) {
 		this.color = color;
@@ -141,6 +185,56 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	public int compareTo(Affinity b) {
 		return ArsMagicaAPI.getAffinityRegistry().getId(b) - ArsMagicaAPI.getAffinityRegistry().getId(this);
 	}
-	
 
+	public ArrayList<Affinity> getMinorOpposingAffinities() {
+		ArrayList<Affinity> returnList = new ArrayList<>();
+		for (ResourceLocation rl : minorOpposites) {
+			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(rl);
+			if (aff != NONE)
+				returnList.add(aff);
+		}
+		return returnList;
+	}
+	
+	public ArrayList<Affinity> getMajorOpposingAffinities() {
+		ArrayList<Affinity> returnList = new ArrayList<>();
+		for (ResourceLocation rl : majorOpposites) {
+			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(rl);
+			if (aff != NONE)
+				returnList.add(aff);
+		}
+		return returnList;
+	}
+	
+	public ArrayList<Affinity> getAdjacentAffinities() {
+		ArrayList<Affinity> returnList = new ArrayList<>();
+		for (ResourceLocation rl : ArsMagicaAPI.getAffinityRegistry().getKeys()) {
+			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(rl);
+			if (aff == NONE || majorOpposites.contains(rl) || minorOpposites.contains(rl) || directOpposite == rl || aff == this)
+				continue;
+			returnList.add(aff);
+		}
+		return returnList;
+	}
+	
+	public Affinity getOpposingAffinity() {
+		return ArsMagicaAPI.getAffinityRegistry().getObject(directOpposite);
+	}
+	
+	public Affinity setDirectOpposite(ResourceLocation directOpposite) {
+		this.directOpposite = directOpposite;
+		return this;
+	}
+	
+	public Affinity addMajorOpposite(ResourceLocation... rls) {
+		for (ResourceLocation rl : rls)
+			majorOpposites.add(rl);
+		return this;
+	}
+	
+	public Affinity addMinorOpposite(ResourceLocation... rls) {
+		for (ResourceLocation rl : rls)
+			minorOpposites.add(rl);
+		return this;
+	}
 }

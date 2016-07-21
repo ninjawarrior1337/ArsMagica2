@@ -57,7 +57,7 @@ public class EntityUtils {
 		return level;
 	}
 	
-	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius, boolean nonCollide){
+	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius, boolean nonCollide, boolean targetWater){
 		Entity pointedEntity = null;
 		double d = range;
 		Vec3d vec3d = new Vec3d(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ);
@@ -72,7 +72,7 @@ public class EntityUtils {
 			RayTraceResult mop = world.rayTraceBlocks(
 					new Vec3d(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ),
 					new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ),
-					false);
+					targetWater, !targetWater, false);
 			if (((entity.canBeCollidedWith()) || (nonCollide)) && mop == null){
 				float f2 = Math.max(0.8F, entity.getCollisionBorderSize());
 				AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f2, f2, f2);

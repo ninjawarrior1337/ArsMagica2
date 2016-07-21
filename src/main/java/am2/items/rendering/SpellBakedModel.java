@@ -22,12 +22,10 @@ import net.minecraftforge.common.model.TRSRTransformation;
 public class SpellBakedModel implements IPerspectiveAwareModel{
 	
 	private IBakedModel parent;
-	private HandBakedModel spellRenderer;
 	private ImmutableMap<TransformType, TRSRTransformation> transforms;
 	
-	 public SpellBakedModel(IBakedModel parent, HandBakedModel spellRenderer, ImmutableMap<TransformType, TRSRTransformation> transforms) {
+	 public SpellBakedModel(IBakedModel parent, ImmutableMap<TransformType, TRSRTransformation> transforms) {
 		 this.parent = parent;
-		 this.spellRenderer = spellRenderer;
 		 this.transforms = transforms;
 	 }
 
@@ -69,8 +67,6 @@ public class SpellBakedModel implements IPerspectiveAwareModel{
 
 	@Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		if (TransformType.FIRST_PERSON_LEFT_HAND.equals(cameraTransformType) || TransformType.FIRST_PERSON_RIGHT_HAND.equals(cameraTransformType) || TransformType.THIRD_PERSON_LEFT_HAND.equals(cameraTransformType) || TransformType.THIRD_PERSON_RIGHT_HAND.equals(cameraTransformType))
-			return spellRenderer.handlePerspective(cameraTransformType);
 		return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
 	}
 

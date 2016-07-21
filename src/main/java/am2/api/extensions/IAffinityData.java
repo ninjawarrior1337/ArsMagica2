@@ -27,14 +27,6 @@ public interface IAffinityData {
 
 	public void init(EntityPlayer entity);
 	
-	public boolean getIceBridgeState();
-	
-	public boolean hasNightVisionActive();
-	
-	public void setIceBridgeState(boolean bool);
-	
-	public void setNightVisionState(boolean bool);
-	
 	public static class Storage implements IStorage<IAffinityData> {
 		
 		@Override
@@ -52,6 +44,23 @@ public interface IAffinityData {
 				cooldowns.appendTag(tmp);
 			}
 			am2Tag.setTag("Cooldowns", cooldowns);
+			NBTTagList floats = NBTUtils.addCompoundList(am2Tag, "Floats");
+			NBTTagList booleans = NBTUtils.addCompoundList(am2Tag, "Booleans");
+			for (Entry<String, Float> entry : instance.getAbilityFloatMap().entrySet()) {
+				NBTTagCompound tmp = new NBTTagCompound();
+				tmp.setString("Name", entry.getKey());
+				tmp.setFloat("Value", entry.getValue());
+				floats.appendTag(tmp);
+			}
+			for (Entry<String, Boolean> entry : instance.getAbilityBooleanMap().entrySet()) {
+				NBTTagCompound tmp = new NBTTagCompound();
+				tmp.setString("Name", entry.getKey());
+				tmp.setBoolean("Value", entry.getValue());
+				booleans.appendTag(tmp);
+			}
+			am2Tag.setTag("Floats", floats);
+			am2Tag.setTag("Booleans", booleans);
+			
 			return nbt;
 		}
 
@@ -63,9 +72,19 @@ public interface IAffinityData {
 			}
 			NBTTagCompound am2Tag = NBTUtils.getAM2Tag((NBTTagCompound) nbt);
 			NBTTagList cooldowns = NBTUtils.addCompoundList(am2Tag, "Cooldowns");
+			NBTTagList floats = NBTUtils.addCompoundList(am2Tag, "Floats");
+			NBTTagList booleans = NBTUtils.addCompoundList(am2Tag, "Booleans");
 			for (int i = 0; i < cooldowns.tagCount(); i++) {
 				NBTTagCompound tmp = cooldowns.getCompoundTagAt(i);
 				instance.addCooldown(tmp.getString("Name"), tmp.getInteger("Value"));
+			}
+			for (int i = 0; i < floats.tagCount(); i++) {
+				NBTTagCompound tmp = floats.getCompoundTagAt(i);
+				instance.addAbilityFloat(tmp.getString("Name"), tmp.getFloat("Value"));
+			}
+			for (int i = 0; i < booleans.tagCount(); i++) {
+				NBTTagCompound tmp = booleans.getCompoundTagAt(i);
+				instance.addAbilityBoolean(tmp.getString("Name"), tmp.getBoolean("Value"));
 			}
 		}
 	}
@@ -90,4 +109,22 @@ public interface IAffinityData {
 	public Map<String, Integer> getCooldowns();
 
 	public int getCooldown(String name);
+
+	public Map<String, Float> getAbilityFloatMap();
+
+	public Map<String, Boolean> getAbilityBooleanMap();
+
+	public boolean getAbilityBoolean(String name);
+
+	public void addAbilityBoolean(String name, boolean bool);
+
+	public float getAbilityFloat(String name);
+
+	public void addAbilityFloat(String name, float f);
+
+	public void incrementAffinity(Affinity affinity, float amount);
+
+	public void setLocked(boolean b);
+
+	public boolean isLocked();
 }

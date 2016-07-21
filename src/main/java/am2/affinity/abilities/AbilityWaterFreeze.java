@@ -39,7 +39,7 @@ public class AbilityWaterFreeze extends AbstractToggledAffinityAbility {
 
 	@Override
 	protected boolean isEnabled(EntityPlayer player) {
-		return AffinityData.For(player).getIceBridgeState();
+		return AffinityData.For(player).getAbilityBoolean(AffinityData.NIGHT_VISION);
 	}
 
 }
