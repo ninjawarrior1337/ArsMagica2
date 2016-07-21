@@ -224,4 +224,8 @@ public interface IEntityExtension {
 	public boolean setMagicLevelWithMana(int level);
 
 	public void addMagicXP(float xp);
+
+	public void setDisableGravity(boolean b);
+
+	boolean isGravityDisabled();
 }

@@ -331,6 +331,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.entity.getDataManager().register(SHRINK_PCT, 0.0f);
 		this.entity.getDataManager().register(PREV_SHRINK_PCT, 0.0f);
 		this.entity.getDataManager().register(TK_DISTANCE, 8.0f);
+		this.entity.getDataManager().register(DataDefinitions.DISABLE_GRAVITY, false);
 	}
 
 	@Override
@@ -600,6 +601,9 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void manaBurnoutTick(){
+		if (isGravityDisabled()){
+			this.entity.motionY = 0;
+		}
 		float actualMaxMana = getMaxMana();
 		if (getCurrentMana() < actualMaxMana) {
 			if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) {
@@ -704,4 +708,15 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public void addMagicXP(float xp) {
 		this.setCurrentXP(this.getCurrentXP() + xp);
 	}
+
+	@Override
+	public void setDisableGravity(boolean b) {
+		entity.getDataManager().set(DataDefinitions.DISABLE_GRAVITY, b);
+	}
+	
+	@Override
+	public boolean isGravityDisabled() {
+		return entity.getDataManager().get(DataDefinitions.DISABLE_GRAVITY);
+	}
+
 }

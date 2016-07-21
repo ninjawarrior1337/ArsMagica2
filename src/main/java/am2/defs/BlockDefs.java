@@ -49,8 +49,6 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
 public class BlockDefs {
 	
-	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
-	
 	public static final Block manaBattery = new BlockManaBattery().registerAndName(new ResourceLocation("arsmagica2:manaBattery"));
 	public static final BlockFrost frost = new BlockFrost().registerAndName(new ResourceLocation("arsmagica2:frost"));
 	public static final BlockOcculus occulus = new BlockOcculus().registerAndName(new ResourceLocation("arsmagica2:occulus"));
@@ -78,6 +76,14 @@ public class BlockDefs {
 	public static final Block slipstreamGenerator = new BlockSlipstreamGenerator().registerAndName(new ResourceLocation("arsmagica2:slipstreamGenerator"));
 	public static final Block witchwoodLog = null;
 	public static final Block essenceConduit = null;
+	public static final Block redstoneInlay = null;
+	public static final Block ironInlay = null;
+	public static final Block goldInlay = null;
+	public static final Block vinteumTorch = null;
+	
+	
+	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
+	
 	
 	public static void preInit () {
 		FluidRegistry.registerFluid(liquid_essence);

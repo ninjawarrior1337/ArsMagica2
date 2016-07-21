@@ -7,6 +7,8 @@ import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.bosses.BossActions;
+import am2.bosses.IArsMagicaBoss;
 import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
 import am2.particles.AMParticle;
@@ -16,6 +18,7 @@ import am2.particles.ParticleLeaveParticleTrail;
 import am2.particles.ParticleMoveOnHeading;
 import am2.power.PowerNodeEntry;
 import am2.power.PowerNodeRegistry;
+import am2.proxy.tick.ClientTickHandler;
 import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
@@ -23,7 +26,9 @@ import am2.utils.MathUtilities;
 import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -44,7 +49,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			}
 			//constant details all packets share:  ID, player, and remaining data
 			packetID = bbis.readByte();
-//			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 						
@@ -85,21 +90,21 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.SYNC_SPELL_KNOWLEDGE:
 //				handleSyncSpellKnowledge(remaining);
 //				break;
-//			case AMPacketIDs.ENTITY_ACTION_UPDATE:
-//				handleEntityActionUpdate(remaining, player);
-//				break;
-//			case AMPacketIDs.PLAYER_LOGIN_DATA:
-//				handlePlayerLoginData(remaining, player);
-//				break;
+			case AMPacketIDs.ENTITY_ACTION_UPDATE:
+				handleEntityActionUpdate(remaining, player);
+				break;
+			case AMPacketIDs.PLAYER_LOGIN_DATA:
+				handlePlayerLoginData(remaining, player);
+				break;
 //			case AMPacketIDs.NBT_DUMP:
 //				handleNBTDump(player);
 //				break;
 //			case AMPacketIDs.SET_MAG_WORK_REC:
 //				handleSetMagicicansWorkbenchRecipe(player);
 //				break;
-//			case AMPacketIDs.SYNC_WORLD_NAME:
-//				handleSyncWorldName(remaining);
-//				break;
+			case AMPacketIDs.SYNC_WORLD_NAME:
+				handleSyncWorldName(remaining);
+				break;
 			case AMPacketIDs.STAR_FALL:
 				handleStarFall(remaining);
 				break;
@@ -306,11 +311,11 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		Minecraft.getMinecraft().theWorld.playSound(x, y, z, "arsmagica2:spell.special.starfall", 2.0f, 1.0f, false);
 	}
 //
-//	private void handleSyncWorldName(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		String worldName = rdr.getString();
-//		ClientTickHandler.worldName = worldName;
-//	}
+	private void handleSyncWorldName(byte[] data){
+		AMDataReader rdr = new AMDataReader(data, false);
+		String worldName = rdr.getString();
+		ClientTickHandler.worldName = worldName;
+	}
 //
 //
 //	private void handleSetMagicicansWorkbenchRecipe(EntityPlayer player){
@@ -340,32 +345,32 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		player.addChatMessage(new ChatComponentText("NBT Saved to " + file.getAbsolutePath()));
 //	}
 //
-//	private void handlePlayerLoginData(byte[] data, EntityPlayer player){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		int skillTreeLock = rdr.getInt();
-//		AMCore.config.setSkillTreeSecondaryTierCap(skillTreeLock);
-//		int[] disabledSkills = rdr.getIntArray();
-//		double manaCap = rdr.getDouble();
-//
-//		AMCore.config.setManaCap(manaCap);
-//
-//		LogHelper.info("Received player login packet.");
-//		LogHelper.debug("Secondary tree cap: %d", skillTreeLock);
-//		LogHelper.debug("Disabled skills: %d", disabledSkills.length);
-//		LogHelper.debug("Mana cap: %.2f", manaCap);
-//
-//		SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
-//	}
-//
-//	private void handleEntityActionUpdate(byte[] data, EntityPlayer player){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		int entityID = rdr.getInt();
-//		int actionOrdinal = rdr.getInt();
-//
-//		Entity ent = player.worldObj.getEntityByID(entityID);
-//		if (ent == null || ent.isDead || !(ent instanceof IArsMagicaBoss)) return;
-//		((IArsMagicaBoss)ent).setCurrentAction(BossActions.values()[actionOrdinal]);
-//	}
+	private void handlePlayerLoginData(byte[] data, EntityPlayer player){
+		AMDataReader rdr = new AMDataReader(data, false);
+		int skillTreeLock = rdr.getInt();
+		ArsMagica2.config.setSkillTreeSecondaryTierCap(skillTreeLock);
+		int[] disabledSkills = rdr.getIntArray();
+		double manaCap = rdr.getDouble();
+
+		ArsMagica2.config.setManaCap(manaCap);
+
+		ArsMagica2.LOGGER.info("Received player login packet.");
+		ArsMagica2.LOGGER.debug("Secondary tree cap: %d", skillTreeLock);
+		ArsMagica2.LOGGER.debug("Disabled skills: %d", disabledSkills.length);
+		ArsMagica2.LOGGER.debug("Mana cap: %.2f", manaCap);
+		
+		//TODO SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
+	}
+
+	private void handleEntityActionUpdate(byte[] data, EntityPlayer player){
+		AMDataReader rdr = new AMDataReader(data, false);
+		int entityID = rdr.getInt();
+		int actionOrdinal = rdr.getInt();
+
+		Entity ent = player.worldObj.getEntityByID(entityID);
+		if (ent == null || ent.isDead || !(ent instanceof IArsMagicaBoss)) return;
+		((IArsMagicaBoss)ent).setCurrentAction(BossActions.values()[actionOrdinal]);
+	}
 //
 //	private void openUICustomization(){
 //		Minecraft.getMinecraft().displayGuiScreen(new GuiHudCustomization());

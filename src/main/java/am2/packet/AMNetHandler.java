@@ -4,6 +4,7 @@ import am2.ArsMagica2;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.bosses.IArsMagicaBoss;
 import am2.power.PowerNodeRegistry;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
@@ -145,15 +146,15 @@ public class AMNetHandler{
 		sendPacketToServer(AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE, packetData);
 	}
 
-//	public <T extends EntityLivingBase & IArsMagicaBoss> void sendActionUpdateToAllAround(T boss){
-//		if (boss.worldObj != null && !boss.worldObj.isRemote){
-//			AMDataWriter writer = new AMDataWriter();
-//			writer.add(boss.getEntityId());
-//			writer.add(boss.getCurrentAction().ordinal());
-//
-//			sendPacketToAllClientsNear(boss.worldObj.provider.getDimension(), boss.posX, boss.posY, boss.posZ, 64, AMPacketIDs.ENTITY_ACTION_UPDATE, writer.generate());
-//		}
-//	}
+	public <T extends EntityLivingBase & IArsMagicaBoss> void sendActionUpdateToAllAround(T boss){
+		if (boss.worldObj != null && !boss.worldObj.isRemote){
+			AMDataWriter writer = new AMDataWriter();
+			writer.add(boss.getEntityId());
+			writer.add(boss.getCurrentAction().ordinal());
+
+			sendPacketToAllClientsNear(boss.worldObj.provider.getDimension(), boss.posX, boss.posY, boss.posZ, 64, AMPacketIDs.ENTITY_ACTION_UPDATE, writer.generate());
+		}
+	}
 
 	public void sendStarImpactToClients(double x, double y, double z, World world, ItemStack spellStack){
 		AMDataWriter writer = new AMDataWriter().add(x).add(y).add(z);

@@ -40,6 +40,7 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
@@ -81,6 +82,7 @@ public class ItemDefs {
 	public static final ItemArsMagica2 liquidEssenceBottle = null;
 	public static final ItemArsMagica2 bindingCatalyst = new ItemBindingCatalyst().registerAndName("binding_catalyst");
 	public static final ItemArsMagica2 inscriptionUpgrade = new InscriptionTableUpgrade().registerAndName("inscription_upgrade");
+	public static final ItemArsMagica2 infinityOrb = null;
 	public static final ItemSword BoundSword = new ItemBoundSword().registerAndName("bound_sword");
 	public static final ItemAxe BoundAxe = new ItemBoundAxe().registerAndName("bound_axe");
 	public static final ItemPickaxe BoundPickaxe = new ItemBoundPickaxe().registerAndName("bound_pickaxe");
@@ -92,6 +94,14 @@ public class ItemDefs {
 	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 
 	public static final Item waterGuardianOrbs = null;
+
+	public static final Item woodenLeg = null;
+
+	public static final ItemStack natureScytheEnchanted = null;
+	public static final ItemStack winterArmEnchanted = null;
+	public static final ItemStack airSledEnchanted = null;
+	public static final ItemStack arcaneSpellBookEnchanted = null;
+
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	

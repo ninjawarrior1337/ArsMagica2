@@ -83,6 +83,8 @@ import am2.power.PowerNodeCache;
 import am2.power.PowerNodeEntry;
 import am2.power.PowerTypes;
 import am2.proxy.tick.ServerTickHandler;
+import am2.trackers.ItemFrameWatcher;
+import am2.trackers.PlayerTracker;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -112,8 +114,16 @@ public class CommonProxy implements IGuiHandler{
 	public ArrayList<Item> items = new ArrayList<>();
 	public AMEnchantments enchantments;
 	
+	public PlayerTracker playerTracker;
+	public ItemFrameWatcher itemFrameWatcher;
+	
 	public static HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> powerPathVisuals;
-
+	
+	public CommonProxy() {
+		playerTracker = new PlayerTracker();
+		itemFrameWatcher = new ItemFrameWatcher();
+	}
+	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
@@ -185,7 +195,14 @@ public class CommonProxy implements IGuiHandler{
 		new ItemDefs();
 		new CreativeTabsDefs();
 		BlockDefs.preInit();;
-
+	}
+	
+	public void init() {
+	}
+	
+	public void postInit() {
+		playerTracker.postInit();
+		MinecraftForge.EVENT_BUS.register(playerTracker);		
 	}
 	
 	public void initHandlers() {

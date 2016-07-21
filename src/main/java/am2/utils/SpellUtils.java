@@ -2,12 +2,16 @@ package am2.utils;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
 import am2.api.SpellRegistry;
 import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IEntityExtension;
+import am2.armor.ArmorHelper;
+import am2.armor.ArsMagicaArmorMaterial;
 import am2.config.AMConfig;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
@@ -114,7 +118,7 @@ public class SpellUtils {
 		if (target.worldObj.isRemote)
 			return true;
 
-//		EntityPlayer dmgSrcPlayer = null;
+		EntityPlayer dmgSrcPlayer = null;
 
 		if (damagesource.getSourceOfDamage() != null){
 			if (damagesource.getSourceOfDamage() instanceof EntityLivingBase){
@@ -134,29 +138,29 @@ public class SpellUtils {
 					magnitude += 4;
 			}
 
-//			if (damagesource.getSourceOfDamage() instanceof EntityPlayer){
-//				dmgSrcPlayer = (EntityPlayer)damagesource.getSourceOfDamage();
-//				int armorSet = ArmorHelper.getFullArsMagicaArmorSet(dmgSrcPlayer);
-//				if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()){
-//					magnitude *= 1.05f;
-//				}else if (armorSet == ArsMagicaArmorMaterial.BATTLEMAGE.getMaterialID()){
-//					magnitude *= 1.025f;
-//				}else if (armorSet == ArsMagicaArmorMaterial.ARCHMAGE.getMaterialID()){
-//					magnitude *= 1.1f;
-//				}
-//
+			if (damagesource.getSourceOfDamage() instanceof EntityPlayer){
+				dmgSrcPlayer = (EntityPlayer)damagesource.getSourceOfDamage();
+				int armorSet = ArmorHelper.getFullArsMagicaArmorSet(dmgSrcPlayer);
+				if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()){
+					magnitude *= 1.05f;
+				}else if (armorSet == ArsMagicaArmorMaterial.BATTLEMAGE.getMaterialID()){
+					magnitude *= 1.025f;
+				}else if (armorSet == ArsMagicaArmorMaterial.ARCHMAGE.getMaterialID()){
+					magnitude *= 1.1f;
+				}
+
 //				ItemStack equipped = (dmgSrcPlayer).getCurrentEquippedItem();
 //				if (equipped != null && equipped.getItem() == ItemsCommonProxy.arcaneSpellbook){
 //					magnitude *= 1.1f;
 //				}
-//			}
+			}
 		}
 
-//		if (target instanceof EntityLivingBase){
-//			if (EntityUtilities.isSummon((EntityLivingBase)target) && damagesource.damageType.equals("magic")){
-//				magnitude *= 3.0f;
-//			}
-//		}
+		if (target instanceof EntityLivingBase){
+			if (EntityUtils.isSummon((EntityLivingBase)target) && damagesource.damageType.equals("magic")){
+				magnitude *= 3.0f;
+			}
+		}
 
 		magnitude *= ArsMagica2.config.getDamageMultiplier();
 
@@ -286,7 +290,7 @@ public class SpellUtils {
 		}
 		am2.setInteger("StageNum", stage + 1);
 		am2.setInteger("NumShapeGroups", shapeGroupList.tagCount());
-		am2.setInteger("CurrentShapeGroup", 0);
+		am2.setInteger("CurrentShapeGroup", shapeGroupList.tagCount() == 0 ? -1 : 0);
 		am2.setInteger("CurrentGroup", 0);
 		stack.setTagCompound(tag);
 		return stack;
@@ -362,7 +366,7 @@ public class SpellUtils {
 		}
 	}
 	
-	public static SpellCastResult applyStackStage(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, double x, double y, double z, EnumFacing side, World world, boolean consumeMBR, boolean giveXP, int ticksUsed) {
+	public static SpellCastResult applyStackStage(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, double x, double y, double z, @Nullable EnumFacing side, World world, boolean consumeMBR, boolean giveXP, int ticksUsed) {
 		if (caster.isPotionActive(PotionEffectsDefs.silence))
 			return SpellCastResult.SILENCED;
 		

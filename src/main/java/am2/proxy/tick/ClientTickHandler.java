@@ -10,6 +10,7 @@ import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
+import am2.bosses.BossSpawnHelper;
 import am2.commands.ConfigureAMUICommand;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
@@ -25,6 +26,8 @@ import am2.power.PowerNodeEntry;
 import am2.power.PowerTypes;
 import am2.spell.SpellComponent;
 import am2.spell.component.Telekinesis;
+import am2.trackers.EntityItemWatcher;
+import am2.utils.DimensionUtilities;
 import am2.utils.SpellUtils;
 import am2.world.MeteorSpawnHelper;
 import net.minecraft.client.Minecraft;
@@ -96,7 +99,7 @@ public class ClientTickHandler{
 		if (compendiumLoad){
 			compendiumLoad = false;
 		}
-//		ArsMagica2.proxy.itemFrameWatcher.checkWatchedFrames();
+		ArsMagica2.proxy.itemFrameWatcher.checkWatchedFrames();
 	}
 
 	private void applyDeferredPotionEffects(){
@@ -110,9 +113,9 @@ public class ClientTickHandler{
 	}
 
 	private void applyDeferredDimensionTransfers(){
-//		for (EntityLivingBase ent : ArsMagica2.proxy.getDeferredDimensionTransfers().keySet()){
-//			DimensionUtilities.doDimensionTransfer(ent, ArsMagica2.proxy.getDeferredDimensionTransfers().get(ent));
-//		}
+		for (EntityLivingBase ent : ArsMagica2.proxy.getDeferredDimensionTransfers().keySet()){
+			DimensionUtilities.doDimensionTransfer(ent, ArsMagica2.proxy.getDeferredDimensionTransfers().get(ent));
+		}
 
 		ArsMagica2.proxy.clearDeferredDimensionTransfers();
 	}
@@ -120,7 +123,7 @@ public class ClientTickHandler{
 	private void gameTick_End(){
 
 		AMGuiHelper.instance.tick();
-		//EntityItemWatcher.instance.tick();
+		EntityItemWatcher.instance.tick();
 		checkMouseDWheel();
 
 		if (Minecraft.getMinecraft().isIntegratedServerRunning()){
@@ -291,7 +294,7 @@ public class ClientTickHandler{
 	}
 
 	private void localServerTick_End(){
-//		BossSpawnHelper.instance.tick();
+		BossSpawnHelper.instance.tick();
 	}
 
 	@SubscribeEvent

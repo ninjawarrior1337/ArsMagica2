@@ -4,9 +4,11 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+import am2.api.math.AMVector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -391,5 +393,9 @@ public class MathUtilities{
 			newArr[count++] = arr[i];
 		}
 		return newArr;
+	}
+
+	public static AMVector3 GetMovementVectorBetweenPoints(AMVector3 a, AMVector3 b) {
+		return new AMVector3(GetMovementVectorBetweenPoints(a.toVec3D(), b.toVec3D()));
 	}
 }

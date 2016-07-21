@@ -82,6 +82,7 @@ public class DataDefinitions {
 	static final DataParameter<Optional<ItemStack>> CONTENGENCY_STACK = EntityDataManager.<Optional<ItemStack>>createKey(Entity.class, DataSerializers.OPTIONAL_ITEM_STACK);
 	static final DataParameter<Boolean> IS_SHRUNK = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
 	static final DataParameter<Boolean> IS_INVERTED = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
+	static final DataParameter<Boolean> DISABLE_GRAVITY = EntityDataManager.<Boolean>createKey(Entity.class, DataSerializers.BOOLEAN);
 	static final DataParameter<Float> FALL_PROTECTION = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
 	static final DataParameter<String> CONTENGENCY_TYPE = EntityDataManager.<String>createKey(Entity.class, DataSerializers.STRING);
 	

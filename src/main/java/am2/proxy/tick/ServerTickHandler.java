@@ -1,43 +1,51 @@
 package am2.proxy.tick;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import am2.ArsMagica2;
+import am2.bosses.BossSpawnHelper;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
+import am2.trackers.EntityItemWatcher;
+import am2.utils.DimensionUtilities;
+import am2.world.MeteorSpawnHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ServerTickHandler{
 
-	//private boolean firstTick = true;
+	private boolean firstTick = true;
 	public static HashMap<EntityLiving, EntityLivingBase> targetsToSet = new HashMap<EntityLiving, EntityLivingBase>();
 
 	public static String lastWorldName;
 
 	private void gameTick_Start(){
-//
-//		if (MinecraftServer.getServer().getFolderName() != lastWorldName){
-//			lastWorldName = MinecraftServer.getServer().getFolderName();
-//			firstTick = true;
-//		}
-//
-//		if (firstTick){
-//			ItemsCommonProxy.crystalPhylactery.getSpawnableEntities(MinecraftServer.getServer().worldServers[0]);
-//			firstTick = false;
-//		}
-//
-//		AMCore.proxy.itemFrameWatcher.checkWatchedFrames();
+
+		if (FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName() != lastWorldName){
+			lastWorldName = FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName();
+			firstTick = true;
+		}
+
+		if (firstTick){
+//			ItemDefs.crystalPhylactery.getSpawnableEntities(FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0]);
+			firstTick = false;
+		}
+
+		ArsMagica2.proxy.itemFrameWatcher.checkWatchedFrames();
 	}
 
 	private void gameTick_End(){
-//		BossSpawnHelper.instance.tick();
-//		MeteorSpawnHelper.instance.tick();
-//		EntityItemWatcher.instance.tick();
+		BossSpawnHelper.instance.tick();
+		MeteorSpawnHelper.instance.tick();
+		EntityItemWatcher.instance.tick();
 	}
 	
 	@SubscribeEvent
@@ -55,29 +63,29 @@ public class ServerTickHandler{
 //		if (AMCore.config.retroactiveWorldgen())
 //			RetroactiveWorldgenerator.instance.continueRetrogen(event.world);
 //
-//		applyDeferredPotionEffects();
-//		if (event.phase == TickEvent.Phase.END){
-//			applyDeferredDimensionTransfers();
-//		}
+		applyDeferredPotionEffects();
+		if (event.phase == TickEvent.Phase.END){
+			applyDeferredDimensionTransfers();
+		}
 	}
 
-//	private void applyDeferredPotionEffects(){
-//		for (EntityLivingBase ent : ArsMagica2.proxy.getDeferredPotionEffects().keySet()){
-//			ArrayList<PotionEffect> potions = ArsMagica2.proxy.getDeferredPotionEffects().get(ent);
-//			for (PotionEffect effect : potions)
-//				ent.addPotionEffect(effect);
-//		}
-//
-//		ArsMagica2.proxy.clearDeferredPotionEffects();
-//	}
+	private void applyDeferredPotionEffects(){
+		for (EntityLivingBase ent : ArsMagica2.proxy.getDeferredPotionEffects().keySet()){
+			ArrayList<PotionEffect> potions = ArsMagica2.proxy.getDeferredPotionEffects().get(ent);
+			for (PotionEffect effect : potions)
+				ent.addPotionEffect(effect);
+		}
 
-//	private void applyDeferredDimensionTransfers(){
-//		for (EntityLivingBase ent : ArsMagica2.proxy.getDeferredDimensionTransfers().keySet()){
-//			DimensionUtilities.doDimensionTransfer(ent, ArsMagica2.proxy.getDeferredDimensionTransfers().get(ent));
-//		}
-//
-//		ArsMagica2.proxy.clearDeferredDimensionTransfers();
-//	}
+		ArsMagica2.proxy.clearDeferredPotionEffects();
+	}
+
+	private void applyDeferredDimensionTransfers(){
+		for (EntityLivingBase ent : ArsMagica2.proxy.getDeferredDimensionTransfers().keySet()){
+			DimensionUtilities.doDimensionTransfer(ent, ArsMagica2.proxy.getDeferredDimensionTransfers().get(ent));
+		}
+
+		ArsMagica2.proxy.clearDeferredDimensionTransfers();
+	}
 
 //	private void applyDeferredTargetSets(){
 //		Iterator<Entry<EntityLiving, EntityLivingBase>> it = targetsToSet.entrySet().iterator();
