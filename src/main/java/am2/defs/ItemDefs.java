@@ -90,6 +90,7 @@ public class ItemDefs {
 	public static final ItemHoe BoundHoe = new ItemBoundHoe().registerAndName("bound_hoe");
 	public static final ItemBow BoundBow = new ItemBoundBow().registerAndName("bound_bow");
 	public static final ItemShield BoundShield = new ItemBoundShield().registerAndName("bound_shield");
+	public static final Item manaCake = null;
 
 	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 
@@ -101,6 +102,13 @@ public class ItemDefs {
 	public static final ItemStack winterArmEnchanted = null;
 	public static final ItemStack airSledEnchanted = null;
 	public static final ItemStack arcaneSpellBookEnchanted = null;
+	public static final ItemStack earthArmorEnchanted = null;
+	public static final ItemStack enderBootsEnchanted = null;
+	public static final ItemStack fireEarsEnchanted = null;
+	public static final ItemStack lifeWardEnchanted = null;
+	public static final ItemStack lightningCharmEnchanted = null;
+	public static final ItemStack waterOrbsEnchanted = null;
+
 
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");

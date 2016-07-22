@@ -1,16 +1,21 @@
 package am2.bosses;
 
+import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
+import am2.api.affinity.Affinity;
 import am2.api.sources.DamageSourceFrost;
 import am2.api.sources.DamageSourceLightning;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAISmash;
 import am2.bosses.ai.EntityAIStrikeAttack;
 import am2.bosses.ai.EntityAIThrowRock;
+import am2.defs.AMSounds;
+import am2.defs.ItemDefs;
 import am2.packet.AMNetHandler;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityEarthGuardian extends AM2Boss{
@@ -84,18 +89,18 @@ public class EntityEarthGuardian extends AM2Boss{
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_BLUE), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.infinityOrb, 1, 0), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 0.0f);
 		}
 
 		i = rand.nextInt(10);
 
 		if (i < 3){
-			this.entityDropItem(ItemsCommonProxy.earthArmorEnchanted.copy(), 0.0f);
+			this.entityDropItem(ItemDefs.earthArmorEnchanted.copy(), 0.0f);
 		}
 	}
 
@@ -110,22 +115,22 @@ public class EntityEarthGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected String getHurtSound(){
-		return "arsmagica2:mob.earthguardian.hit";
+	protected SoundEvent getHurtSound(){
+		return AMSounds.EARTH_GUARDIAN_HIT;
 	}
 
 	@Override
-	protected String getDeathSound(){
-		return "arsmagica2:mob.earthguardian.death";
+	protected SoundEvent getDeathSound(){
+		return AMSounds.EARTH_GUARDIAN_DEATH;
 	}
 
 	@Override
-	protected String getLivingSound(){
-		return "arsmagica2:mob.earthguardian.idle";
+	protected SoundEvent getAmbientSound(){
+		return AMSounds.EARTH_GUARDIAN_HIT;
 	}
 
 	@Override
-	public String getAttackSound(){
-		return "arsmagica2:mob.earthguardian.attack";
+	public SoundEvent getAttackSound(){
+		return AMSounds.EARTH_GUARDIAN_ATTACK;
 	}
 }

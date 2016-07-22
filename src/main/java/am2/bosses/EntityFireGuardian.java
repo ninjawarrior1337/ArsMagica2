@@ -2,13 +2,18 @@ package am2.bosses;
 
 import java.util.List;
 
+import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
+import am2.api.affinity.Affinity;
 import am2.api.sources.DamageSourceFrost;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAIDive;
 import am2.bosses.ai.EntityAIFireRain;
 import am2.bosses.ai.EntityAIFlamethrower;
+import am2.defs.AMSounds;
+import am2.defs.ItemDefs;
 import am2.packet.AMNetHandler;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -22,6 +27,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityFireGuardian extends AM2Boss{
@@ -38,7 +45,7 @@ public class EntityFireGuardian extends AM2Boss{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250);
 	}
 
 	@Override
@@ -51,9 +58,9 @@ public class EntityFireGuardian extends AM2Boss{
 		this.tasks.addTask(1, new EntityAIFireRain(this));
 		this.tasks.addTask(1, new EntityAIDispel(this));
 		this.tasks.addTask(2, new EntityAIDive(this));
-		this.tasks.addTask(2, new EntityAICastSpell(this, NPCSpells.instance.meltArmor, 12, 23, 40, BossActions.CASTING));
+		this.tasks.addTask(2, new EntityAICastSpell<EntityFireGuardian>(this, NPCSpells.instance.meltArmor, 12, 23, 40, BossActions.CASTING));
 		this.tasks.addTask(3, new EntityAIFlamethrower(this));
-		this.tasks.addTask(4, new EntityAICastSpell(this, NPCSpells.instance.fireBolt, 12, 23, 5, BossActions.CASTING));
+		this.tasks.addTask(4, new EntityAICastSpell<EntityFireGuardian>(this, NPCSpells.instance.fireBolt, 12, 23, 5, BossActions.CASTING));
 	}
 
 	public boolean getIsUnderground(){
@@ -80,7 +87,7 @@ public class EntityFireGuardian extends AM2Boss{
 	private void nova(){
 		if (this.worldObj.isRemote){
 			for (int i = 0; i < 36; ++i){
-				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "explosion_2", posX, posY - 3, posZ);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "explosion_2", posX, posY - 3, posZ);
 				if (particle != null){
 					particle.AddParticleController(new ParticleMoveOnHeading(particle, i * 10, rand.nextInt(20) - 10, 0.2f, 1, false));
 					particle.AddParticleController(new ParticleLeaveParticleTrail(particle, "explosion_2", false, 10, 1, false)
@@ -93,19 +100,19 @@ public class EntityFireGuardian extends AM2Boss{
 				}
 			}
 		}else{
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(2.5, 2.5, 2.5).addCoord(0, -3, 0));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(0, -3, 0));
 			for (EntityLivingBase ent : entities){
 				if (ent == this)
 					continue;
-				ent.attackEntityFrom(DamageSources.causeEntityFireDamage(this), 5);
+				ent.attackEntityFrom(DamageSources.causeFireDamage(this), 5);
 			}
 		}
 	}
 
 	private void flamethrower(){
-		Vec3 look = this.getLook(1.0f);
+		Vec3d look = this.getLook(1.0f);
 		if (worldObj.isRemote){
-			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "explosion_2", posX + (Math.cos(Math.toRadians(this.renderYawOffset + 90)) * 2), posY + 3, posZ + (Math.sin(Math.toRadians(this.renderYawOffset + 90)) * 2));
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "explosion_2", posX + (Math.cos(Math.toRadians(this.renderYawOffset + 90)) * 2), posY + 3, posZ + (Math.sin(Math.toRadians(this.renderYawOffset + 90)) * 2));
 			if (particle != null){
 				particle.AddParticleController(new ParticleMoveOnHeading(particle, this.rotationYaw + 90 + rand.nextInt(20) - 10, rand.nextInt(20) - 10, 0.2f, 1, false));
 				particle.setMaxAge(40);
@@ -113,11 +120,11 @@ public class EntityFireGuardian extends AM2Boss{
 				particle.setIgnoreMaxAge(false);
 			}
 		}else{
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(2.5, 2.5, 2.5).addCoord(look.xCoord * 3, 0, look.zCoord * 3));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(look.xCoord * 3, 0, look.zCoord * 3));
 			for (EntityLivingBase ent : entities){
 				if (ent == this)
 					continue;
-				ent.attackEntityFrom(DamageSources.causeEntityFireDamage(this), 5);
+				ent.attackEntityFrom(DamageSources.causeFireDamage(this), 5);
 			}
 		}
 	}
@@ -129,7 +136,7 @@ public class EntityFireGuardian extends AM2Boss{
 			for (Object p : worldObj.playerEntities){
 				EntityPlayer player = (EntityPlayer)p;
 				if (this.getDistanceSqToEntity(player) < 9){
-					player.attackEntityFrom(DamageSources.causeEntityFireDamage(this), 2);
+					player.attackEntityFrom(DamageSources.causeFireDamage(this), 2);
 				}
 			}
 		}
@@ -159,12 +166,12 @@ public class EntityFireGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void fall(float par1){
+	public void fall(float par1, float par2){
 		if (this.getCurrentAction() == BossActions.SPINNING){
 			this.isUnderground = true;
 			return;
 		}
-		super.fall(par1);
+		super.fall(par1, par2);
 	}
 
 	@Override
@@ -173,7 +180,7 @@ public class EntityFireGuardian extends AM2Boss{
 		if (par1DamageSource.isFireDamage()){
 			this.heal(par2);
 			if (this.worldObj.isRemote){
-				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle", posX, posY - 1, posZ);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle", posX, posY - 1, posZ);
 				if (particle != null){
 					particle.addRandomOffset(1, 1, 1);
 					particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.1f, 1, false));
@@ -206,23 +213,23 @@ public class EntityFireGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected String getHurtSound(){
-		return "arsmagica2:mob.fireguardian.hit";
+	protected SoundEvent getHurtSound(){
+		return AMSounds.FIRE_GUARDIAN_HIT;
 	}
 
 	@Override
-	protected String getDeathSound(){
-		return "arsmagica2:mob.fireguardian.death";
+	protected SoundEvent getDeathSound(){
+		return AMSounds.FIRE_GUARDIAN_DEATH;
 	}
 
 	@Override
-	protected String getLivingSound(){
-		return "arsmagica2:mob.fireguardian.idle";
+	protected SoundEvent getAmbientSound(){
+		return AMSounds.FIRE_GUARDIAN_IDLE;
 	}
 
 	@Override
-	public String getAttackSound(){
-		return "arsmagica2:mob.fireguardian.attack";
+	public SoundEvent getAttackSound(){
+		return AMSounds.FIRE_GUARDIAN_ATTACK;
 	}
 
 	public int getNumHits(){
@@ -232,18 +239,18 @@ public class EntityFireGuardian extends AM2Boss{
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_RED), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.infinityOrb, 1, 2), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_FIRE), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)), 0.0f);
 		}
 
 		i = rand.nextInt(10);
 
 		if (i < 3 && par1){
-			this.entityDropItem(ItemsCommonProxy.fireEarsEnchanted.copy(), 0.0f);
+			this.entityDropItem(ItemDefs.fireEarsEnchanted.copy(), 0.0f);
 		}
 	}
 }

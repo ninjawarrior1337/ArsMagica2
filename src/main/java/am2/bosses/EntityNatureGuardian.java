@@ -1,6 +1,9 @@
 package am2.bosses;
 
+import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
+import am2.api.affinity.Affinity;
 import am2.api.sources.DamageSourceFire;
 import am2.api.sources.DamageSourceFrost;
 import am2.bosses.ai.EntityAICastSpell;
@@ -9,14 +12,19 @@ import am2.bosses.ai.EntityAIShieldBash;
 import am2.bosses.ai.EntityAISpinAttack;
 import am2.bosses.ai.EntityAIStrikeAttack;
 import am2.bosses.ai.ISpellCastCallback;
+import am2.defs.AMSounds;
+import am2.defs.ItemDefs;
 import am2.packet.AMNetHandler;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleOrbitEntity;
 import am2.utils.NPCSpells;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityNatureGuardian extends AM2Boss{
@@ -44,12 +52,12 @@ public class EntityNatureGuardian extends AM2Boss{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(500D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(500D);
 	}
 
 	@Override
 	protected void initSpecificAI(){
-		this.tasks.addTask(1, new EntityAICastSpell(this, NPCSpells.instance.dispel, 16, 23, 50, BossActions.CASTING, new ISpellCastCallback<EntityNatureGuardian>(){
+		this.tasks.addTask(1, new EntityAICastSpell<EntityNatureGuardian>(this, NPCSpells.instance.dispel, 16, 23, 50, BossActions.CASTING, new ISpellCastCallback<EntityNatureGuardian>(){
 			@Override
 			public boolean shouldCast(EntityNatureGuardian host, ItemStack spell){
 				return host.getActivePotionEffects().size() > 0;
@@ -76,7 +84,7 @@ public class EntityNatureGuardian extends AM2Boss{
 	}
 
 	private void spawnParticles(){
-		AMParticle leaf = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "leaf", posX + (rand.nextDouble() * 3) - 1.5f, posY + (rand.nextDouble() * 5f), posZ + (rand.nextDouble() * 3) - 1.5f);
+		AMParticle leaf = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "leaf", posX + (rand.nextDouble() * 3) - 1.5f, posY + (rand.nextDouble() * 5f), posZ + (rand.nextDouble() * 3) - 1.5f);
 		if (leaf != null){
 			leaf.setMaxAge(20);
 			leaf.setIgnoreMaxAge(false);
@@ -118,18 +126,11 @@ public class EntityNatureGuardian extends AM2Boss{
 	}
 
 	@Override
-	public ItemStack getHeldItem(){
+	public ItemStack getHeldItem(EnumHand hand){
 		return null;
 	}
-
-	@Override
-	public void setCurrentItemOrArmor(int i, ItemStack itemstack){
-	}
-
-	@Override
-	public ItemStack[] getLastActiveItems(){
-		return new ItemStack[0];
-	}
+	
+	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {};
 
 	@Override
 	public boolean isActionValid(BossActions action){
@@ -142,18 +143,17 @@ public class EntityNatureGuardian extends AM2Boss{
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_RED), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.infinityOrb, 1, 2), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_NATURE), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 0.0f);
 		}
-
 		i = rand.nextInt(10);
 
 		if (i < 3 && par1){
-			this.entityDropItem(ItemsCommonProxy.natureScytheEnchanted.copy(), 0.0f);
+			this.entityDropItem(ItemDefs.natureScytheEnchanted.copy(), 0.0f);
 		}
 	}
 
@@ -168,22 +168,22 @@ public class EntityNatureGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected String getHurtSound(){
-		return "arsmagica2:mob.natureguardian.hit";
+	protected SoundEvent getHurtSound(){
+		return AMSounds.NATURE_GUARDIAN_HIT;
 	}
 
 	@Override
-	protected String getDeathSound(){
-		return "arsmagica2:mob.natureguardian.death";
+	protected SoundEvent getDeathSound(){
+		return AMSounds.NATURE_GUARDIAN_DEATH;
 	}
 
 	@Override
-	protected String getLivingSound(){
-		return "arsmagica2:mob.natureguardian.idle";
+	protected SoundEvent getAmbientSound(){
+		return AMSounds.NATURE_GUARDIAN_IDLE;
 	}
 
 	@Override
-	public String getAttackSound(){
-		return "arsmagica2:mob.natureguardian.attack";
+	public SoundEvent getAttackSound(){
+		return AMSounds.NATURE_GUARDIAN_ATTACK;
 	}
 }

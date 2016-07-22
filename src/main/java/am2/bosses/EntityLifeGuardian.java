@@ -3,16 +3,29 @@ package am2.bosses;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAISummonAllies;
 import am2.bosses.ai.ISpellCastCallback;
+import am2.defs.AMSounds;
+import am2.defs.ItemDefs;
+import am2.entity.EntityDarkling;
+import am2.entity.EntityEarthElemental;
+import am2.entity.EntityFireElemental;
+import am2.entity.EntityManaElemental;
 import am2.utils.NPCSpells;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class EntityLifeGuardian extends AM2Boss{
@@ -20,7 +33,7 @@ public class EntityLifeGuardian extends AM2Boss{
 	private ArrayList<EntityLiving> minions;
 	public ArrayList<EntityLiving> queued_minions;
 
-	private static final int DATA_MINION_COUNT = 20;
+	private static final DataParameter<Integer> DATA_MINION_COUNT = EntityDataManager.createKey(EntityLifeGuardian.class, DataSerializers.VARINT);
 
 	public EntityLifeGuardian(World par1World){
 		super(par1World);
@@ -32,19 +45,19 @@ public class EntityLifeGuardian extends AM2Boss{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		this.dataWatcher.addObject(DATA_MINION_COUNT, 0);
+		this.dataManager.register(DATA_MINION_COUNT, 0);
 	}
 
 	@Override
 	protected void initSpecificAI(){
 		this.tasks.addTask(1, new EntityAIDispel(this));
-		this.tasks.addTask(1, new EntityAICastSpell(this, NPCSpells.instance.healSelf, 16, 23, 100, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
+		this.tasks.addTask(1, new EntityAICastSpell<EntityLifeGuardian>(this, NPCSpells.instance.healSelf, 16, 23, 100, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
 			@Override
 			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
 				return host.getHealth() < host.getMaxHealth();
 			}
 		}));
-		this.tasks.addTask(2, new EntityAICastSpell(this, NPCSpells.instance.nauseate, 16, 23, 20, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
+		this.tasks.addTask(2, new EntityAICastSpell<EntityLifeGuardian>(this, NPCSpells.instance.nauseate, 16, 23, 20, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
 			@Override
 			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
 				return minions.size() == 0;
@@ -73,13 +86,13 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	public int getNumMinions(){
-		return this.dataWatcher.getWatchableObjectInt(DATA_MINION_COUNT);
+		return this.dataManager.get(DATA_MINION_COUNT);
 	}
 
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200D);
 	}
 
 	@Override
@@ -95,11 +108,11 @@ public class EntityLifeGuardian extends AM2Boss{
 					it.remove();
 			}
 
-			this.dataWatcher.updateObject(DATA_MINION_COUNT, minions.size());
+			this.dataManager.set(DATA_MINION_COUNT, minions.size());
 
 			if (this.ticksExisted % 100 == 0){
 				for (EntityLivingBase e : minions)
-					AMCore.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", this, e);
+					ArsMagica2.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", this, e);
 			}
 		}
 
@@ -110,40 +123,39 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected String getHurtSound(){
-		return "arsmagica2:mob.lifeguardian.hit";
+	protected SoundEvent getHurtSound(){
+		return AMSounds.LIFE_GUARDIAN_HIT;
 	}
 
 	@Override
-	protected String getDeathSound(){
-		return "arsmagica2:mob.lifeguardian.death";
+	protected SoundEvent getDeathSound(){
+		return AMSounds.LIFE_GUARDIAN_DEATH;
 	}
 
 	@Override
-	protected String getLivingSound(){
-		return "arsmagica2:mob.lifeguardian.idle";
+	protected SoundEvent getAmbientSound(){
+		return AMSounds.LIFE_GUARDIAN_IDLE;
 	}
 
 	@Override
-	public String getAttackSound(){
-		return "arsmagica2:mob.lifeguardian.heal";
+	public SoundEvent getAttackSound(){
+		return AMSounds.LIFE_GUARDIAN_HEAL;
 	}
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_GREEN), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.infinityOrb, 1, 1), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_LIFE), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0.0f);
 		}
-
 		i = rand.nextInt(10);
 
 		if (i < 3 && par1){
-			this.entityDropItem(ItemsCommonProxy.lifeWardEnchanted.copy(), 0.0f);
+			this.entityDropItem(ItemDefs.lifeWardEnchanted.copy(), 0.0f);
 		}
 	}
 

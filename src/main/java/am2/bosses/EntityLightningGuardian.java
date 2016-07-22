@@ -1,16 +1,23 @@
 package am2.bosses;
 
+import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAILightningBolt;
 import am2.bosses.ai.EntityAILightningRod;
 import am2.bosses.ai.EntityAIStatic;
+import am2.defs.AMSounds;
+import am2.defs.ItemDefs;
+import am2.extensions.EntityExtension;
 import am2.particles.AMParticle;
 import am2.particles.ParticleHoldPosition;
 import am2.utils.NPCSpells;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import thehippomaster.AnimationAPI.IAnimatedEntity;
 
@@ -34,21 +41,21 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 		this.tasks.addTask(1, new EntityAIDispel(this));
 		this.tasks.addTask(2, new EntityAILightningRod(this));
 		this.tasks.addTask(3, new EntityAIStatic(this));
-		this.tasks.addTask(3, new EntityAICastSpell(this, NPCSpells.instance.lightningRune, 22, 27, 200, BossActions.CASTING));
-		this.tasks.addTask(3, new EntityAICastSpell(this, NPCSpells.instance.scrambleSynapses, 45, 60, 300, BossActions.SMASH));
+		this.tasks.addTask(3, new EntityAICastSpell<EntityLightningGuardian>(this, NPCSpells.instance.lightningRune, 22, 27, 200, BossActions.CASTING));
+		this.tasks.addTask(3, new EntityAICastSpell<EntityLightningGuardian>(this, NPCSpells.instance.scrambleSynapses, 45, 60, 300, BossActions.SMASH));
 		this.tasks.addTask(5, new EntityAILightningBolt(this));
 	}
 
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250D);
 	}
 
 	@Override
 	public void onDeath(DamageSource par1DamageSource){
 		if (this.getAttackTarget() != null)
-			ExtendedProperties.For(this.getAttackTarget()).setDisableGravity(false);
+			EntityExtension.For(this.getAttackTarget()).setDisableGravity(false);
 		super.onDeath(par1DamageSource);
 	}
 
@@ -63,7 +70,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 
 		if (this.getAttackTarget() != null){
 			if (this.getCurrentAction() != BossActions.LONG_CASTING){
-				ExtendedProperties.For(getAttackTarget()).setDisableGravity(false);
+				EntityExtension.For(getAttackTarget()).setDisableGravity(false);
 			}
 
 			if (!this.worldObj.isRemote && this.getDistanceSqToEntity(getAttackTarget()) > 64D && this.getCurrentAction() == BossActions.IDLE){
@@ -76,8 +83,8 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 			int dist = 16;
 			if (this.getCurrentAction() == BossActions.CHARGE){
 				if (ticksInCurrentAction > 50){
-					for (int i = 0; i < 2 * AMCore.config.getGFXLevel(); ++i){
-						AMParticle smoke = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
+					for (int i = 0; i < 2 * ArsMagica2.config.getGFXLevel(); ++i){
+						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
 						if (smoke != null){
 							smoke.addRandomOffset(halfDist, 1, halfDist);
 							smoke.SetParticleAlpha(1f);
@@ -89,7 +96,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 					}
 				}
 				if (ticksInCurrentAction > 66){
-					AMCore.proxy.particleManager.BoltFromPointToPoint(
+					ArsMagica2.proxy.particleManager.BoltFromPointToPoint(
 							worldObj,
 							posX + rand.nextDouble() - 0.5,
 							posY + rand.nextDouble() - 0.5 + 2,
@@ -100,8 +107,8 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 				}
 			}else if (this.getCurrentAction() == BossActions.LONG_CASTING){
 				if (ticksInCurrentAction > 25 && ticksInCurrentAction < 150){
-					for (int i = 0; i < 2 * AMCore.config.getGFXLevel(); ++i){
-						AMParticle smoke = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
+					for (int i = 0; i < 2 * ArsMagica2.config.getGFXLevel(); ++i){
+						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
 						if (smoke != null){
 							smoke.addRandomOffset(halfDist, 1, halfDist);
 							smoke.SetParticleAlpha(1f);
@@ -129,40 +136,39 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 	}
 
 	@Override
-	protected String getHurtSound(){
-		return "arsmagica2:mob.lightningguardian.hit";
+	protected SoundEvent getHurtSound(){
+		return AMSounds.LIGHTNING_GUARDIAN_HIT;
 	}
 
 	@Override
-	protected String getDeathSound(){
-		return "arsmagica2:mob.lightningguardian.death";
+	protected SoundEvent getDeathSound(){
+		return AMSounds.LIGHTNING_GUARDIAN_DEATH;
 	}
 
 	@Override
-	protected String getLivingSound(){
-		return "arsmagica2:mob.lightningguardian.idle";
+	protected SoundEvent getAmbientSound(){
+		return AMSounds.LIGHTNING_GUARDIAN_IDLE;
 	}
 
 	@Override
-	public String getAttackSound(){
-		return "arsmagica2:mob.lightningguardian.attack_static";
+	public SoundEvent getAttackSound(){
+		return AMSounds.LIGHTNING_GUARDIAN_ATTACK_STATIC;
 	}
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_GREEN), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.infinityOrb, 1, 1), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_LIGHTNING), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 0.0f);
 		}
-
 		i = rand.nextInt(10);
 
 		if (i < 3 && par1){
-			this.entityDropItem(ItemsCommonProxy.lightningCharmEnchanted.copy(), 0.0f);
+			this.entityDropItem(ItemDefs.lightningCharmEnchanted.copy(), 0.0f);
 		}
 	}
 

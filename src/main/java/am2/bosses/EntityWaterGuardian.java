@@ -1,27 +1,37 @@
 package am2.bosses;
 
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.sources.DamageSourceFrost;
 import am2.api.sources.DamageSourceLightning;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIChaosWaterBolt;
 import am2.bosses.ai.EntityAICloneSelf;
 import am2.bosses.ai.EntityAISpinAttack;
+import am2.defs.AMSounds;
+import am2.defs.ItemDefs;
+import am2.extensions.EntityExtension;
 import am2.packet.AMNetHandler;
 import am2.utils.NPCSpells;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityWaterGuardian extends AM2Boss{
+public class EntityWaterGuardian extends AM2Boss {
 
 	private EntityWaterGuardian master;
 	private final EntityWaterGuardian[] clones;
 	private float orbitRotation;
 	private boolean uberSpinAvailable = false;
 
-	private static final int IS_CLONE = 21;
+	private static final DataParameter<Boolean> IS_CLONE = EntityDataManager.createKey(EntityWaterGuardian.class, DataSerializers.BOOLEAN);
 
 	public float spinRotation = 0;
 
@@ -31,13 +41,13 @@ public class EntityWaterGuardian extends AM2Boss{
 		master = null;
 		clones = new EntityWaterGuardian[2];
 		this.setSize(1.0f, 2.0f);
-		ExtendedProperties.For(this).setMagicLevelWithMana(10);
+		EntityExtension.For(this).setMagicLevelWithMana(10);
 	}
 
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(75D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(75D);
 	}
 
 	public void setClones(EntityWaterGuardian clone1, EntityWaterGuardian clone2){
@@ -65,12 +75,12 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	public void setMaster(EntityWaterGuardian master){
-		dataWatcher.updateObject(IS_CLONE, (byte)1);
+		dataManager.set(IS_CLONE, true);
 		this.master = master;
 	}
 
 	public boolean isClone(){
-		return dataWatcher.getWatchableObjectByte(IS_CLONE) == 1;
+		return dataManager.get(IS_CLONE);
 	}
 
 	public void clearMaster(){
@@ -81,7 +91,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	protected void initSpecificAI(){
 		this.tasks.addTask(2, new EntityAIChaosWaterBolt(this));
 		this.tasks.addTask(3, new EntityAICloneSelf(this));
-		this.tasks.addTask(4, new EntityAICastSpell(this, NPCSpells.instance.waterBolt, 12, 23, 5, BossActions.CASTING));
+		this.tasks.addTask(4, new EntityAICastSpell<EntityWaterGuardian>(this, NPCSpells.instance.waterBolt, 12, 23, 5, BossActions.CASTING));
 		this.tasks.addTask(3, new EntityAISpinAttack(this, 0.5f, 4));
 	}
 
@@ -110,7 +120,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	protected void entityInit(){
 		super.entityInit();
 
-		this.dataWatcher.addObject(IS_CLONE, (byte)0);
+		this.dataManager.register(IS_CLONE, false);
 	}
 
 	private void updateRotations(){
@@ -151,7 +161,7 @@ public class EntityWaterGuardian extends AM2Boss{
 		}
 
 		if (!isClone() && rand.nextInt(10) < 6){
-			worldObj.playSoundAtEntity(this, getLivingSound(), 1.0f, 0.4f + rand.nextFloat() * 0.6f);
+			worldObj.playSound(posX, posY, posZ, getAmbientSound(), SoundCategory.HOSTILE, 1.0f, 0.4f + rand.nextFloat() * 0.6f, false);
 			return false;
 		}
 
@@ -198,45 +208,45 @@ public class EntityWaterGuardian extends AM2Boss{
 	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound){
 		super.readEntityFromNBT(par1nbtTagCompound);
 
-		dataWatcher.updateObject(IS_CLONE, par1nbtTagCompound.getBoolean("isClone") ? (byte)1 : (byte)0);
+		dataManager.set(IS_CLONE, par1nbtTagCompound.getBoolean("isClone"));
 	}
 
 
 	@Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_BLUE), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.infinityOrb, 1, 0), 0.0f);
 
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_WATER), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)), 0.0f);
 		}
-
+		
 		i = rand.nextInt(10);
 
 		if (i < 3){
-			this.entityDropItem(ItemsCommonProxy.waterOrbsEnchanted.copy(), 0.0f);
+			this.entityDropItem(ItemDefs.waterOrbsEnchanted.copy(), 0.0f);
 		}
 	}
 
 	@Override
-	protected String getHurtSound(){
-		return "arsmagica2:mob.waterguardian.hit";
+	protected SoundEvent getHurtSound(){
+		return AMSounds.WATER_GUARDIAN_HIT;
 	}
 
 	@Override
-	protected String getDeathSound(){
-		return "arsmagica2:mob.waterguardian.death";
+	protected SoundEvent getDeathSound(){
+		return AMSounds.WATER_GUARDIAN_DEATH;
 	}
 
 	@Override
-	protected String getLivingSound(){
-		return "arsmagica2:mob.waterguardian.idle";
+	protected SoundEvent getAmbientSound(){
+		return AMSounds.WATER_GUARDIAN_IDLE;
 	}
 
 	@Override
-	public String getAttackSound(){
-		return "arsmagica2:mob.waterguardian.attack";
+	public SoundEvent getAttackSound(){
+		return AMSounds.WATER_GUARDIAN_ATTACK;
 	}
 }

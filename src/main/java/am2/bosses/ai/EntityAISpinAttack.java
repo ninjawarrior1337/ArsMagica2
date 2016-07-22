@@ -11,7 +11,7 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 
-public class EntityAISpinAttack<T> extends EntityAIBase{
+public class EntityAISpinAttack extends EntityAIBase{
 
 	private final EntityLiving host;
 	private final float moveSpeed;
