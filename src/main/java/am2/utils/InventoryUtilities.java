@@ -1,5 +1,6 @@
 package am2.utils;
 
+import am2.entity.EntityBroomInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -248,15 +249,15 @@ public class InventoryUtilities{
 		}
 	}
 
-//	public static ItemStack getFirstStackInInventory(EntityBroomInventory inventory){
-//		for (int i = 0; i < inventory.getSizeInventory(); ++i){
-//			ItemStack invStack = inventory.getStackInSlot(i);
-//			if (invStack != null){
-//				return invStack;
-//			}
-//		}
-//		return null;
-//	}
+	public static ItemStack getFirstStackInInventory(EntityBroomInventory inventory){
+		for (int i = 0; i < inventory.getSizeInventory(); ++i){
+			ItemStack invStack = inventory.getStackInSlot(i);
+			if (invStack != null){
+				return invStack;
+			}
+		}
+		return null;
+	}
 
 	public static int getInventorySlotIndexFor(IInventory inventory, Item item){
 		return getInventorySlotIndexFor(inventory, item, Short.MAX_VALUE);

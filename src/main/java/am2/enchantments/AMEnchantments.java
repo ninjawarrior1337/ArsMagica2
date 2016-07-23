@@ -11,7 +11,7 @@ public class AMEnchantments{
 	public static EnchantMagicResist magicResist = new EnchantMagicResist(Rarity.COMMON);
 	public static EnchantmentSoulbound soulbound = new EnchantmentSoulbound(Rarity.RARE);
 
-	public void Init(){
+	public static void Init(){
 		GameRegistry.register(magicResist, new ResourceLocation("arsmagica2", "magicResist"));
 		GameRegistry.register(soulbound, new ResourceLocation("arsmagica2", "soulbound"));
 	}

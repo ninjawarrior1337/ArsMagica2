@@ -27,6 +27,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 import thehippomaster.AnimationAPI.IAnimatedEntity;
 
@@ -288,5 +289,10 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 	
 	@Override
 	public void fall(float distance, float damageMultiplier) {}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.RED;
+	}
 
 }

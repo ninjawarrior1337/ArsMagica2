@@ -67,7 +67,9 @@ import am2.spell.component.ManaDrain;
 import am2.spell.component.ManaLink;
 import am2.spell.component.ManaShield;
 import am2.spell.component.Mark;
+import am2.spell.component.MeltArmor;
 import am2.spell.component.Moonrise;
+import am2.spell.component.Nauseate;
 import am2.spell.component.NightVision;
 import am2.spell.component.PhysicalDamage;
 import am2.spell.component.PlaceBlock;
@@ -138,6 +140,8 @@ public class SpellDefs {
 	
 	public static void init() {
 		SpellRegistry.registerSpellShape("null", null, null, MISSING_SHAPE, null, 0, 0, null);
+		SpellRegistry.registerSpellComponent("melt_armor", null, null, new MeltArmor(), null, 0, 0, null);
+		SpellRegistry.registerSpellComponent("nauseate", null, null, new Nauseate(), null, 0, 0, null);
 		
 		SpellRegistry.registerSpellModifier("colour", getModifierTexture("Colour"), SkillPoint.SKILL_POINT_1, new Colour(), SkillDefs.TREE_TALENT, 230, 75);
 

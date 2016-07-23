@@ -1,9 +1,17 @@
 package am2.defs;
 
+import am2.armor.ArsMagicaArmorMaterial;
+import am2.armor.ItemEarthGuardianArmor;
+import am2.armor.ItemEnderBoots;
+import am2.armor.ItemFireGuardianEars;
 import am2.armor.ItemMagitechGoggles;
+import am2.armor.ItemWaterGuardianOrbs;
+import am2.enchantments.AMEnchantmentHelper;
 import am2.items.InscriptionTableUpgrade;
 import am2.items.ItemAffinityTome;
+import am2.items.ItemAirSled;
 import am2.items.ItemArcaneCompendium;
+import am2.items.ItemArcaneGuardianSpellbook;
 import am2.items.ItemArsMagica2;
 import am2.items.ItemBindingCatalyst;
 import am2.items.ItemBoundArrow;
@@ -17,9 +25,14 @@ import am2.items.ItemBoundSword;
 import am2.items.ItemChalk;
 import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
+import am2.items.ItemLifeWard;
+import am2.items.ItemLightningCharm;
+import am2.items.ItemMagicBroom;
+import am2.items.ItemNatureGuardianSickle;
 import am2.items.ItemOre;
 import am2.items.ItemRune;
 import am2.items.ItemSpellComponent;
+import am2.items.ItemWinterGuardianArm;
 import am2.items.SpellBase;
 import am2.items.rendering.AffinityRenderer;
 import am2.items.rendering.CrystalWrenchRenderer;
@@ -30,9 +43,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
@@ -49,6 +65,8 @@ public class ItemDefs {
 	
 	public static final ToolMaterial BOUND = EnumHelper.addToolMaterial("BOUND", 3, 1561, 8.0F, 3.0F, 10);
 	
+	private static final ArmorMaterial MAGITECH_GOOGLES = EnumHelper.addArmorMaterial("magitech_goggles", "arsmagica2:magitech_goggles", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
+	private static final ArmorMaterial ENDER = EnumHelper.addArmorMaterial("ender", "arsmagica2:ender", 7, new int[]{1, 3, 5, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
 	public static final ItemArsMagica2 spellParchment = new ItemArsMagica2().registerAndName("spell_parchment");
 	public static final ItemArsMagica2 affinityTome = new ItemAffinityTome().registerAndName("tome");
 	public static final ItemArsMagica2 itemOre = new ItemOre().registerAndName("itemOre");
@@ -66,7 +84,7 @@ public class ItemDefs {
 	public static final ItemArsMagica2 creatureFocus = new ItemArsMagica2().registerAndName("creatureFocus");
 	public static final ItemArsMagica2 arcaneCompendium = new ItemArcaneCompendium().registerAndName("arcaneCompendium");
 	public static final ItemArsMagica2 crystalWrench = new ItemCrystalWrench().registerAndName("crystalWrench");
-	public static final Item magitechGoggles = new ItemMagitechGoggles(0).registerAndName("magitechGoggles");
+	public static final Item magitechGoggles = new ItemMagitechGoggles(MAGITECH_GOOGLES, 0).registerAndName("magitechGoggles");
 	
 	// PlaceHolder items
 	public static final ItemArsMagica2 spell_component = new ItemSpellComponent().registerAndName("spellComponent");
@@ -91,23 +109,33 @@ public class ItemDefs {
 	public static final ItemBow BoundBow = new ItemBoundBow().registerAndName("bound_bow");
 	public static final ItemShield BoundShield = new ItemBoundShield().registerAndName("bound_shield");
 	public static final Item manaCake = null;
+	public static final Item woodenLeg = null;
 
 	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 
-	public static final Item waterGuardianOrbs = null;
+	public static final Item natureScythe = new ItemNatureGuardianSickle().registerAndName("nature_scythe");
+	public static final Item winterArm = new ItemWinterGuardianArm().registerAndName("winter_arm");
+	public static final Item airSled = new ItemAirSled().registerAndName("air_sled");
+	public static final Item arcaneSpellbook = new ItemArcaneGuardianSpellbook().registerAndName("arcane_spellbook");
+	public static final Item earthArmor = new ItemEarthGuardianArmor(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.CHEST).registerAndName("earth_armor");
+	public static final Item enderBoots = new ItemEnderBoots(ENDER, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.FEET).registerAndName("ender_boots");
+	public static final Item fireEars = new ItemFireGuardianEars(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.HEAD).registerAndName("fire_ears");
+	public static final Item lifeWard = new ItemLifeWard().registerAndName("life_ward");
+	public static final Item lightningCharm = new ItemLightningCharm().registerAndName("lighrining_charm");
+	public static final Item waterOrbs = new ItemWaterGuardianOrbs(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.LEGS).registerAndName("water_orbs");	
 
-	public static final Item woodenLeg = null;
+	public static ItemStack natureScytheEnchanted;
+	public static ItemStack winterArmEnchanted;
+	public static ItemStack airSledEnchanted;
+	public static ItemStack arcaneSpellBookEnchanted;
+	public static ItemStack earthArmorEnchanted;
+	public static ItemStack enderBootsEnchanted;
+	public static ItemStack fireEarsEnchanted;
+	public static ItemStack lifeWardEnchanted;
+	public static ItemStack lightningCharmEnchanted;
+	public static ItemStack waterOrbsEnchanted;
 
-	public static final ItemStack natureScytheEnchanted = null;
-	public static final ItemStack winterArmEnchanted = null;
-	public static final ItemStack airSledEnchanted = null;
-	public static final ItemStack arcaneSpellBookEnchanted = null;
-	public static final ItemStack earthArmorEnchanted = null;
-	public static final ItemStack enderBootsEnchanted = null;
-	public static final ItemStack fireEarsEnchanted = null;
-	public static final ItemStack lifeWardEnchanted = null;
-	public static final ItemStack lightningCharmEnchanted = null;
-	public static final ItemStack waterOrbsEnchanted = null;
+	public static final Item magicBroom = new ItemMagicBroom();
 
 
 
@@ -140,6 +168,17 @@ public class ItemDefs {
 		registerTexture(BoundHoe);
 		registerTexture(BoundBow);
 		registerTexture(BoundShield);
+		
+		registerTexture(natureScythe);
+		registerTexture(winterArm);
+		registerTexture(airSled);
+		registerTexture(arcaneSpellbook);
+		registerTexture(earthArmor);
+		registerTexture(enderBoots);
+		registerTexture(fireEars);
+		registerTexture(lifeWard);
+		registerTexture(lightningCharm);
+		registerTexture(waterOrbs);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		
@@ -183,6 +222,18 @@ public class ItemDefs {
 			renderItem.getItemModelMesher().register(inscriptionUpgrade, i, loc);
 		}
 		renderItem.getItemModelMesher().register(spell, new SpellRenderer());
+		
+		
+		natureScytheEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(natureScythe));
+		arcaneSpellBookEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(arcaneSpellbook));
+		winterArmEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(winterArm));
+		fireEarsEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(fireEars));
+		earthArmorEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(earthArmor));
+		airSledEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(airSled));
+		waterOrbsEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(waterOrbs));
+		enderBootsEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(enderBoots));
+		lightningCharmEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(lightningCharm));
+		lifeWardEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(lifeWard));
 
 	}
 	

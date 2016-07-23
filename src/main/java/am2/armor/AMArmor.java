@@ -2,6 +2,7 @@ package am2.armor;
 
 import am2.ArsMagica2;
 import am2.api.event.ArmorTextureEvent;
+import am2.defs.CreativeTabsDefs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,6 +40,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 		armorType = par4;
 		damageReduceAmount = 0;
 		setMaxDamage(enumarmormaterial.getDamageReductionAmount(par4));
+		setCreativeTab(CreativeTabsDefs.tabAM2Items);
 		maxStackSize = 1;
 		damageReduction = enumarmormaterial.getDamageReductionAmount(par4);
 		infusionCost = enumarmormaterial.getInfusionCost();

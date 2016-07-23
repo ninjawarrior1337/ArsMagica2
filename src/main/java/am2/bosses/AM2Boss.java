@@ -14,10 +14,13 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
 public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IArsMagicaBoss{
@@ -27,7 +30,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	protected EntityDragonPart[] parts;
 
 	public boolean playerCanSee = false;
-	;
+    private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(this.getDisplayName(), getBarColor(), BossInfo.Overlay.PROGRESS));
 
 	public AM2Boss(World par1World){
 		super(par1World);
@@ -91,7 +94,9 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	 * Initializer for class-specific AI
 	 */
 	protected abstract void initSpecificAI();
-
+	
+	protected abstract BossInfo.Color getBarColor();
+	
 	@Override
 	public BossActions getCurrentAction(){
 		return currentAction;
@@ -215,6 +220,8 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			playerCanSee = Minecraft.getMinecraft().thePlayer.canEntityBeSeen(this);
 			this.ignoreFrustumCheck = Minecraft.getMinecraft().thePlayer.getDistanceToEntity(this) < 32;
 		}
+		
+		bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 
 		super.onUpdate();
 	}
@@ -234,4 +241,26 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	public World getWorld(){
 		return this.worldObj;
 	}
+	
+    /**
+     * Add the given player to the list of players tracking this entity. For instance, a player may track a boss in
+     * order to view its associated boss bar.
+     */
+	@Override
+    public void addTrackingPlayer(EntityPlayerMP player)
+    {
+        super.addTrackingPlayer(player);
+        this.bossInfo.addPlayer(player);
+    }
+
+    /**
+     * Removes the given player from the list of players tracking this entity. See {@link Entity#addTrackingPlayer} for
+     * more information on tracking.
+     */
+	@Override
+    public void removeTrackingPlayer(EntityPlayerMP player)
+    {
+        super.removeTrackingPlayer(player);
+        this.bossInfo.removePlayer(player);
+    }
 }

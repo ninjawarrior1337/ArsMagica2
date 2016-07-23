@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 import am2.extensions.EntityExtension;
 import am2.spell.ContingencyType;
 import am2.utils.NBTUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -228,4 +229,8 @@ public interface IEntityExtension {
 	public void setDisableGravity(boolean b);
 
 	boolean isGravityDisabled();
+
+	public Entity getInanimateTarget();
+
+	public void setInanimateTarget(Entity ent);
 }

@@ -3,7 +3,6 @@ package am2.asm;
 import static org.objectweb.asm.Opcodes.*;
 
 import java.util.ListIterator;
-
 import net.minecraft.launchwrapper.IClassTransformer;
 
 import org.objectweb.asm.ClassReader;

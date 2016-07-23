@@ -130,6 +130,7 @@ public class BlockDefs {
 		registerTexture(blackAurem);
 		registerTexture(manaBattery);
 		registerTexture(armorImbuer);
+		registerTexture(slipstreamGenerator);
 		
 		//Flickers
 		registerTexture(crystalMarker);

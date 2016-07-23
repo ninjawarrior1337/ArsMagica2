@@ -18,6 +18,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 import thehippomaster.AnimationAPI.IAnimatedEntity;
 
@@ -194,6 +195,11 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 	@Override
 	public int getAnimTick(){
 		return this.ticksInCurrentAction;
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.GREEN;
 	}
 
 }

@@ -1,4 +1,4 @@
-package am2.entity.render;
+package am2.bosses.renderers;
 
 import am2.entity.EntityThrownRock;
 import am2.entity.model.ModelThrownRock;
@@ -13,11 +13,11 @@ public class RenderThrownRock extends RenderLiving<EntityThrownRock>{
 	public RenderThrownRock(RenderManager manager){
 		super(manager, new ModelThrownRock(), 0.5f);
 	}
-
+	
 	@Override
-	public void doRender(EntityThrownRock par1Entity, double par2, double par4, double par6, float par8, float par9){
-		if (!par1Entity.getIsShootingStar())
-			super.doRender(par1Entity, par2, par4, par6, par8, par9);
+	public void doRender(EntityThrownRock entity, double x, double y, double z, float entityYaw, float partialTicks) {
+		if (!((EntityThrownRock)entity).getIsShootingStar())
+			super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
 	@Override

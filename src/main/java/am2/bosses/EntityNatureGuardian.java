@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 
 public class EntityNatureGuardian extends AM2Boss{
@@ -185,5 +186,10 @@ public class EntityNatureGuardian extends AM2Boss{
 	@Override
 	public SoundEvent getAttackSound(){
 		return AMSounds.NATURE_GUARDIAN_ATTACK;
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.RED;
 	}
 }

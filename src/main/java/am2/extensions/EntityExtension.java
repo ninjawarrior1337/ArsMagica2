@@ -66,6 +66,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	private static int baseTicksForFullRegen = 2400;
 	private int ticksForFullRegen = baseTicksForFullRegen;
 	
+	private Entity ent;
+	
 	@CapabilityInject(value = IEntityExtension.class)
 	public static Capability<IEntityExtension> INSTANCE = null;
 	
@@ -717,6 +719,16 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public boolean isGravityDisabled() {
 		return entity.getDataManager().get(DataDefinitions.DISABLE_GRAVITY);
+	}
+
+	@Override
+	public Entity getInanimateTarget() {
+		return ent;
+	}
+
+	@Override
+	public void setInanimateTarget(Entity ent) {
+		this.ent = ent;
 	}
 
 }

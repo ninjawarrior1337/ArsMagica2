@@ -19,6 +19,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 
 public class EntityAirGuardian extends AM2Boss{
@@ -192,5 +193,10 @@ public class EntityAirGuardian extends AM2Boss{
 	@Override
 	public SoundEvent getAttackSound(){
 		return null;
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.GREEN;
 	}
 }

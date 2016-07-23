@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 
 public class ItemMagitechGoggles extends AMArmor{
 
-	public ItemMagitechGoggles(int renderIndex){
-		super(ArmorMaterial.LEATHER, ArsMagicaArmorMaterial.UNIQUE, renderIndex, EntityEquipmentSlot.HEAD);
+	public ItemMagitechGoggles(ArmorMaterial inheritFrom, int renderIndex){
+		super(inheritFrom, ArsMagicaArmorMaterial.UNIQUE, renderIndex, EntityEquipmentSlot.HEAD);
 	}
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot){

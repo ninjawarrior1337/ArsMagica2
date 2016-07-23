@@ -22,6 +22,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 
 public class EntityWaterGuardian extends AM2Boss {
@@ -248,5 +249,10 @@ public class EntityWaterGuardian extends AM2Boss {
 	@Override
 	public SoundEvent getAttackSound(){
 		return AMSounds.WATER_GUARDIAN_ATTACK;
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.BLUE;
 	}
 }

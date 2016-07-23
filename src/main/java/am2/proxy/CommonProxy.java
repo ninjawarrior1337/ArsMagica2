@@ -77,7 +77,9 @@ import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.defs.SpellDefs;
 import am2.enchantments.AMEnchantments;
+import am2.entity.EntityAirSled;
 import am2.entity.EntityBoundArrow;
+import am2.entity.EntityBroom;
 import am2.entity.EntityDarkMage;
 import am2.entity.EntityDarkling;
 import am2.entity.EntityDryad;
@@ -197,9 +199,9 @@ public class CommonProxy implements IGuiHandler{
 		EntityRegistry.registerModEntity(EntityManaElemental.class, "ManaElemental", 11, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityManaVortex.class, "ManaVortex", 12, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityShockwave.class, "Shockwave", 13, ArsMagica2.instance, 80, 1, false);
-		EntityRegistry.registerModEntity(EntityThrownSickle.class, "ThrownSickle", 14, ArsMagica2.instance, 80, 1, false);
+		EntityRegistry.registerModEntity(EntityThrownSickle.class, "ThrownSickle", 14, ArsMagica2.instance, 80, 1, true);
 		EntityRegistry.registerModEntity(EntityWhirlwind.class, "Whirlwind", 15, ArsMagica2.instance, 80, 1, false);
-		EntityRegistry.registerModEntity(EntityWinterGuardianArm.class, "WinterGuardianArm", 16, ArsMagica2.instance, 80, 1, false);
+		EntityRegistry.registerModEntity(EntityWinterGuardianArm.class, "WinterGuardianArm", 16, ArsMagica2.instance, 80, 1, true);
 		
 		EntityRegistry.registerModEntity(EntityAirGuardian.class, "AirGuardian", 17, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityArcaneGuardian.class, "ArcaneGuardian", 18, ArsMagica2.instance, 80, 1, false);
@@ -212,6 +214,9 @@ public class CommonProxy implements IGuiHandler{
 		EntityRegistry.registerModEntity(EntityWaterGuardian.class, "WaterGuardian", 25, ArsMagica2.instance, 80, 1, false);
 		EntityRegistry.registerModEntity(EntityWinterGuardian.class, "WinterGuardian", 26, ArsMagica2.instance, 80, 1, false);
 		
+		EntityRegistry.registerModEntity(EntityAirSled.class, "AirSled", 27, ArsMagica2.instance, 80, 1, true);
+		EntityRegistry.registerModEntity(EntityBroom.class, "Broom", 28, ArsMagica2.instance, 80, 1, true);
+
 		GameRegistry.registerTileEntity(TileEntityOcculus.class, "TileEntityOcculus");
 		GameRegistry.registerTileEntity(TileEntityCraftingAltar.class, "TileEntityCraftingAltar");
 		GameRegistry.registerTileEntity(TileEntityLectern.class, "TileEntityLectern");
@@ -233,6 +238,7 @@ public class CommonProxy implements IGuiHandler{
 		CapabilityManager.INSTANCE.register(IRiftStorage.class, new IRiftStorage.Storage(), new IRiftStorage.Factory());
 		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
 		
+		AMEnchantments.Init();
 		SkillDefs.init();
 		SpellDefs.init();
 		LoreDefs.init();
@@ -339,5 +345,7 @@ public class CommonProxy implements IGuiHandler{
 		ImbuementRegistry.instance.registerImbuement(new WaterBreathing());
 		ImbuementRegistry.instance.registerImbuement(new WaterWalking());
 	}
+
+	public void flashManaBar() {}
 
 }

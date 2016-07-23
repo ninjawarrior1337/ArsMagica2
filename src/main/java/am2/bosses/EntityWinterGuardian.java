@@ -30,6 +30,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 
 public class EntityWinterGuardian extends AM2Boss{
@@ -203,5 +204,10 @@ public class EntityWinterGuardian extends AM2Boss{
 	@Override
 	public SoundEvent getAttackSound(){
 		return AMSounds.WINTER_GUARDIAN_ATTACK;
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.RED;
 	}
 }

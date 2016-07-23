@@ -127,6 +127,8 @@ public class ArmorEventHandler{
 			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 				event.getToolTip().add(I18n.translateToLocalFormatted("am2.tooltip.armorxp", String.format("%.2f", xp)));
 				event.getToolTip().add(String.format(I18n.translateToLocal("am2.tooltip.armorlevel"), armorLevel));
+				if (effects.length > 0)
+					event.getToolTip().add(I18n.translateToLocal("am2.toolip.infusions"));
 				for (String s : effects){
 					event.getToolTip().add("-" + I18n.translateToLocal("am2.tooltip." + s.replaceAll("arsmagica2:", "")));
 				}

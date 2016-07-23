@@ -16,6 +16,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 
 public class EntityEarthGuardian extends AM2Boss{
@@ -72,7 +73,7 @@ public class EntityEarthGuardian extends AM2Boss{
 		if (worldObj.isRemote){
 			updateRotations();
 		}
-
+		
 		super.onUpdate();
 	}
 
@@ -126,11 +127,16 @@ public class EntityEarthGuardian extends AM2Boss{
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.EARTH_GUARDIAN_HIT;
+		return AMSounds.EARTH_GUARDIAN_IDLE;
 	}
 
 	@Override
 	public SoundEvent getAttackSound(){
 		return AMSounds.EARTH_GUARDIAN_ATTACK;
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.BLUE;
 	}
 }

@@ -8,8 +8,8 @@ import am2.bosses.EntityNatureGuardian;
 import am2.defs.ItemDefs;
 import am2.trackers.PlayerTracker;
 import am2.utils.DummyEntityPlayer;
+import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -63,7 +63,15 @@ public class EntityThrownSickle extends EntityLiving{
 		motionX = -MathHelper.sin((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
 		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
 		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F) * f;
-		setHeading(motionX, motionY, motionZ, projectileSpeed, projectileSpeed);
+		setHeading(motionX, motionY, motionZ, projectileSpeed, projectileSpeed);	
+	}
+	
+	public void setInMotion(double projectileSpeed) {
+		float f = 0.05F;
+		motionX = -MathHelper.sin((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
+		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
+		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F) * f;
+		setHeading(motionX, motionY, motionZ, projectileSpeed, projectileSpeed);	
 	}
 
 	public void setHeading(double movementX, double movementY, double movementZ, double projectileSpeed, double projectileSpeed2){
@@ -117,11 +125,10 @@ public class EntityThrownSickle extends EntityLiving{
 				return;
 			}
 		}
-
 		if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityNatureGuardian){
 			((EntityNatureGuardian)getThrowingEntity()).hasSickle = false;
 		}
-
+		
 		Vec3d vec3d = new Vec3d(posX, posY, posZ);
 		Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		RayTraceResult movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
@@ -159,10 +166,10 @@ public class EntityThrownSickle extends EntityLiving{
 		if (movingobjectposition != null){
 			HitObject(movingobjectposition);
 		}
-
 		posX += motionX;
 		posY += motionY;
 		posZ += motionZ;
+		setPosition(posX, posY, posZ);
 		float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 		rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
 		for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F){
@@ -181,7 +188,6 @@ public class EntityThrownSickle extends EntityLiving{
 				worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
 			}
 		}
-		setPosition(posX, posY, posZ);
 
 		if (this.ticksExisted > 30 && this.ticksExisted < 40){
 			this.motionX *= 0.8f;
@@ -205,6 +211,7 @@ public class EntityThrownSickle extends EntityLiving{
 				this.setDead();
 			}
 		}
+		
 	}
 
 	protected void HitObject(RayTraceResult movingobjectposition){
@@ -227,7 +234,7 @@ public class EntityThrownSickle extends EntityLiving{
 					for (int k = -radius; k <= radius; ++k){
 						IBlockState nextBlock = worldObj.getBlockState(movingobjectposition.getBlockPos().add(i, j, k));
 						if (nextBlock == null) continue;
-						if (nextBlock.getBlock() instanceof BlockLeaves || nextBlock.getBlock() instanceof BlockFlower || nextBlock.getBlock() instanceof BlockCrops){
+						if (nextBlock.getBlock() instanceof BlockLeaves || nextBlock.getBlock() instanceof BlockBush || nextBlock.getBlock() instanceof BlockCrops){
 							if (ForgeEventFactory.doPlayerHarvestCheck(DummyEntityPlayer.fromEntityLiving(getThrowingEntity()), nextBlock, true))
 								if (!worldObj.isRemote)
 									worldObj.destroyBlock(movingobjectposition.getBlockPos().add(i, j, k), true);
@@ -273,7 +280,8 @@ public class EntityThrownSickle extends EntityLiving{
 	}
 	
 	@Override
-	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {}
+	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
+	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){

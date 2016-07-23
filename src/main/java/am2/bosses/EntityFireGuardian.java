@@ -29,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 
 public class EntityFireGuardian extends AM2Boss{
@@ -252,5 +253,10 @@ public class EntityFireGuardian extends AM2Boss{
 		if (i < 3 && par1){
 			this.entityDropItem(ItemDefs.fireEarsEnchanted.copy(), 0.0f);
 		}
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.RED;
 	}
 }

@@ -16,8 +16,8 @@ import am2.defs.ItemDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.items.ItemSpellBook;
-import am2.spell.ContingencyType;
 import am2.spell.AbstractSpellPart;
+import am2.spell.ContingencyType;
 import am2.texture.SpellIconManager;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
@@ -296,7 +296,6 @@ public class AMIngameGUI{
 					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + 10, position.iY + 11, this.zLevel + 101, lineweight, 0x0000FF);
 				}
 
-				TextureAtlasSprite icon = mc.getRenderItem().getItemModelMesher().getParticleIcon(mc.thePlayer.inventory.armorInventory[3 - slot].getItem(), mc.thePlayer.inventory.armorInventory[3 - slot].getItemDamage());
 				//flash
 				float green = 0.5f;
 				float blue = 1.0f;
@@ -318,11 +317,11 @@ public class AMIngameGUI{
 					GL11.glColor3f(red, green, blue);
 				}
 				
-				if (icon != null){
-					AMGuiHelper.DrawIconAtXY(icon, position.iX, position.iY, this.zLevel, 10, 10, true);
-				}else{
-					AMGuiHelper.DrawItemAtXY(mc.thePlayer.inventory.armorInventory[3 - slot], position.iX, position.iY, this.zLevel, 0.63f);
-				}
+//				if (icon != null && icon != Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite()){
+//					AMGuiHelper.DrawIconAtXY(icon, position.iX, position.iY, this.zLevel, 10, 10, true);
+//				}else{
+				AMGuiHelper.DrawItemAtXY(mc.thePlayer.inventory.armorInventory[3 - slot], position.iX, position.iY, this.zLevel, 0.63f);
+//				}
 			}
 		}
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);

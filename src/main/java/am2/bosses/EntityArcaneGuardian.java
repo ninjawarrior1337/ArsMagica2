@@ -20,6 +20,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
 
 public class EntityArcaneGuardian extends AM2Boss{
@@ -237,5 +238,10 @@ public class EntityArcaneGuardian extends AM2Boss{
 	@Override
 	public SoundEvent getAttackSound(){
 		return AMSounds.ARCANE_GUARDIAN_SPELL;
+	}
+
+	@Override
+	protected Color getBarColor() {
+		return Color.GREEN;
 	}
 }
