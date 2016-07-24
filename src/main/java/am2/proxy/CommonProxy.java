@@ -88,6 +88,7 @@ import am2.entity.EntityDryad;
 import am2.entity.EntityEarthElemental;
 import am2.entity.EntityFireElemental;
 import am2.entity.EntityLightMage;
+import am2.entity.EntityManaCreeper;
 import am2.entity.EntityManaElemental;
 import am2.entity.EntityManaVortex;
 import am2.entity.EntityRiftStorage;
@@ -96,6 +97,7 @@ import am2.entity.EntitySpellEffect;
 import am2.entity.EntitySpellProjectile;
 import am2.entity.EntityThrownRock;
 import am2.entity.EntityThrownSickle;
+import am2.entity.EntityWaterElemental;
 import am2.entity.EntityWhirlwind;
 import am2.entity.EntityWinterGuardianArm;
 import am2.extensions.RiftStorage;
@@ -229,6 +231,8 @@ public class CommonProxy implements IGuiHandler{
 		
 		EntityRegistry.registerModEntity(EntityAirSled.class, "AirSled", 27, ArsMagica2.instance, 80, 1, true);
 		EntityRegistry.registerModEntity(EntityBroom.class, "Broom", 28, ArsMagica2.instance, 80, 1, true);
+		EntityRegistry.registerModEntity(EntityWaterElemental.class, "WaterElemental", 29, ArsMagica2.instance, 80, 1, true);
+		EntityRegistry.registerModEntity(EntityManaCreeper.class, "ManaCreeper", 30, ArsMagica2.instance, 80, 1, true);
 
 		GameRegistry.registerTileEntity(TileEntityOcculus.class, "TileEntityOcculus");
 		GameRegistry.registerTileEntity(TileEntityCraftingAltar.class, "TileEntityCraftingAltar");

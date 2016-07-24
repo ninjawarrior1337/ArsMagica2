@@ -28,8 +28,7 @@ public class RenderFactory<T extends Entity> implements IRenderFactory<T> {
 			ArsMagica2.LOGGER.info("Successfully created instance for : " + constructor.getDeclaringClass().getName());
 			return render;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 	}
 

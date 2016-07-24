@@ -1,7 +1,7 @@
 package am2.bosses.renderers;
 
+import am2.bosses.models.ModelThrownRock;
 import am2.entity.EntityThrownRock;
-import am2.entity.model.ModelThrownRock;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
