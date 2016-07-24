@@ -32,7 +32,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -114,9 +116,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //			case AMPacketIDs.SPELL_APPLY_EFFECT:
 //				handleSpellApplyEffect(remaining);
 //				break;
-//			case AMPacketIDs.HECATE_DEATH:
-//				handleHecateDeath(remaining);
-//				break;
+			case AMPacketIDs.HECATE_DEATH:
+				handleHecateDeath(remaining);
+				break;
 			case AMPacketIDs.REQUEST_PWR_PATHS:
 				handleRcvPowerPaths(remaining);
 				break;
@@ -221,19 +223,19 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).setDataCompoundForNode((IPowerNode<?>)te, compound);
 		}
 	}
-//
-//	private void handleHecateDeath(byte[] data){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		double x = rdr.getDouble();
-//		double y = rdr.getDouble();
-//		double z = rdr.getDouble();
-//
-//		World world = Minecraft.getMinecraft().theWorld;
-//
-//		for (int i = 0; i < 10 * AMCore.config.getGFXLevel(); ++i){
-//			world.spawnParticle("flame", x, y + 1, z, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5);
-//		}
-//	}
+
+	private void handleHecateDeath(byte[] data){
+		AMDataReader rdr = new AMDataReader(data, false);
+		double x = rdr.getDouble();
+		double y = rdr.getDouble();
+		double z = rdr.getDouble();
+
+		World world = Minecraft.getMinecraft().theWorld;
+
+		for (int i = 0; i < 10 * ArsMagica2.config.getGFXLevel(); ++i){
+			world.spawnParticle(EnumParticleTypes.FLAME, x, y + 1, z, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5);
+		}
+	}
 //
 //	private void handleSpellApplyEffect(byte[] data){
 //		AMDataReader rdr = new AMDataReader(data, false);

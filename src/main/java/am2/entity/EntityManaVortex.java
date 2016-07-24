@@ -119,8 +119,8 @@ public class EntityManaVortex extends Entity{
 					}
 					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", e.posX, e.posY + (e.getEyeHeight() / 2), e.posZ);
 					if (effect != null){
-						effect.AddParticleController(new ParticleArcToEntity(effect, 1, this, false).generateControlPoints().setKillParticleOnFinish(true));
 						effect.setRGBColorF(0.24f, 0.24f, 0.8f);
+						effect.AddParticleController(new ParticleArcToEntity(effect, 1, this, false).generateControlPoints().setKillParticleOnFinish(true));
 						effect.setIgnoreMaxAge(true);
 					}
 				}

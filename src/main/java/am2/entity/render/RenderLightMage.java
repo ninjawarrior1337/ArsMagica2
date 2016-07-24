@@ -22,7 +22,7 @@ public class RenderLightMage extends RenderBiped<EntityLightMage>{
 		if (resourceLocations.containsKey(tex)){
 			return resourceLocations.get(tex);
 		}else{
-			ResourceLocation rLoc = new ResourceLocation("arsmagica2", tex);
+			ResourceLocation rLoc = new ResourceLocation(tex);
 			resourceLocations.put(tex, rLoc);
 			return rLoc;
 		}

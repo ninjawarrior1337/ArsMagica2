@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
+import am2.api.ArsMagicaAPI;
 import am2.defs.SkillDefs;
 import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
-import am2.spell.component.ManaLink;
-import am2.spell.shape.Touch;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -17,11 +16,12 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 public class EntityAIAllyManaLink extends EntityAIBase{
 
 	private EntityCreature host;
-	private static final ItemStack spellStack = SpellUtils.createSpellStack(new ArrayList<>(), Lists.newArrayList(new Touch(), new ManaLink()), new NBTTagCompound());
+	private static final ItemStack spellStack = SpellUtils.createSpellStack(new ArrayList<>(), Lists.newArrayList(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "touch")), ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "mana_link"))), new NBTTagCompound());
 
 	public EntityAIAllyManaLink(EntityCreature host){
 		this.host = host;

@@ -226,18 +226,16 @@ public class AMPacketProcessorServer{
 	private void handleSpellBookChangeActiveSlot(byte[] data, EntityPlayerMP player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		byte subID = rdr.getByte();
-		int entityID = rdr.getInt();
+		rdr.getInt();
 		int inventorySlot = rdr.getInt();
 
 		ItemStack stack = player.inventory.getStackInSlot(inventorySlot);
 		if (stack == null || !(stack.getItem() instanceof ItemSpellBook)) return;
 
-		int newIndex = 0;
-
 		if (subID == ItemSpellBook.ID_NEXT_SPELL)
-			newIndex = ItemDefs.spellBook.SetNextSlot(stack);
+			ItemDefs.spellBook.SetNextSlot(stack);
 		else if (subID == ItemSpellBook.ID_PREV_SPELL)
-			newIndex = ItemDefs.spellBook.SetPrevSlot(stack);
+			ItemDefs.spellBook.SetPrevSlot(stack);
 		else
 			return;
 	}

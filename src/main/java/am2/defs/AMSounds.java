@@ -68,6 +68,10 @@ public class AMSounds {
 	public static final SoundEvent MANA_ELEMENTAL_IDLE = register("arsmagica2:mob.manaelemental.living");
 	public static final SoundEvent MANA_ELEMENTAL_DEATH = register("arsmagica2:mob.manaelemental.death");
 	
+	public static final SoundEvent HECATE_IDLE = register("arsmagica2:mob.hecate.idle");
+	public static final SoundEvent HECATE_DEATH = register("arsmagica2:mob.hecate.death");
+	public static final SoundEvent HECATE_HIT = register("arsmagica2:mob.hecate.hit");
+	
 	private static SoundEvent register(String str) {
 		return GameRegistry.register(new SoundEvent(new ResourceLocation(str)).setRegistryName(new ResourceLocation(str)));
 	}

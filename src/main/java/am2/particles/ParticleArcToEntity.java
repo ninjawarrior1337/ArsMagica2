@@ -60,7 +60,7 @@ public class ParticleArcToEntity extends ParticleController{
 	}
 
 	private void addParticleAtPoint(Vec3d point){
-		AMParticle p = (AMParticle)ArsMagica2.proxy.particleManager.spawn(particle.getWorldObj(), "hr_smoke", point.xCoord, point.yCoord, point.zCoord);
+		AMParticle p = (AMParticle)ArsMagica2.proxy.particleManager.spawn(particle.getWorldObj(), "smoke", point.xCoord, point.yCoord, point.zCoord);
 		if (p != null){
 			p.setIgnoreMaxAge(false);
 			p.setMaxAge(200);

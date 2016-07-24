@@ -5,6 +5,7 @@ import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.bosses.IArsMagicaBoss;
+import am2.entity.EntityHecate;
 import am2.power.PowerNodeRegistry;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
@@ -181,12 +182,12 @@ public class AMNetHandler{
 		sendPacketToAllClientsNear(world.provider.getDimension(), x, y, z, 64, AMPacketIDs.SPELL_APPLY_EFFECT, writer.generate());
 	}
 
-//	public void sendHecateDeathToAllAround(EntityHecate hecate){
-//		AMDataWriter writer = new AMDataWriter();
-//		writer.add(hecate.posX).add(hecate.posY).add(hecate.posZ);
-//
-//		sendPacketToAllClientsNear(hecate.worldObj.provider.getDimension(), hecate.posX, hecate.posY, hecate.posZ, 32, AMPacketIDs.HECATE_DEATH, writer.generate());
-//	}
+	public void sendHecateDeathToAllAround(EntityHecate hecate){
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(hecate.posX).add(hecate.posY).add(hecate.posZ);
+
+		sendPacketToAllClientsNear(hecate.worldObj.provider.getDimension(), hecate.posX, hecate.posY, hecate.posZ, 32, AMPacketIDs.HECATE_DEATH, writer.generate());
+	}
 
 	public void syncPowerPaths(IPowerNode<?> node, EntityPlayerMP player){
 		AMDataWriter writer = new AMDataWriter();

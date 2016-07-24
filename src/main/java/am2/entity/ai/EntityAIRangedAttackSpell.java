@@ -48,6 +48,8 @@ public class EntityAIRangedAttackSpell extends EntityAIBase{
 	 */
 	@Override
 	public boolean shouldExecute(){
+		if (entityHost == null)
+			return false;
 		EntityLivingBase entityliving = entityHost.getAttackTarget();
 
 		if (entityliving == null){
@@ -80,7 +82,7 @@ public class EntityAIRangedAttackSpell extends EntityAIBase{
 	@Override
 	public void updateTask(){
 		double d = 225D;
-		double d1 = entityHost.getDistanceSq(attackTarget.posX, attackTarget.getCollisionBoundingBox().minY, attackTarget.posZ);
+		double d1 = entityHost.getDistanceSq(attackTarget.posX, attackTarget.getEntityBoundingBox().minY, attackTarget.posZ);
 		boolean flag = entityHost.getEntitySenses().canSee(attackTarget);
 
 		if (flag){

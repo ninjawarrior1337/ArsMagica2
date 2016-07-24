@@ -62,6 +62,7 @@ import am2.entity.EntityBoundArrow;
 import am2.entity.EntityDarkMage;
 import am2.entity.EntityEarthElemental;
 import am2.entity.EntityFireElemental;
+import am2.entity.EntityHecate;
 import am2.entity.EntityLightMage;
 import am2.entity.EntityManaCreeper;
 import am2.entity.EntityManaElemental;
@@ -78,6 +79,7 @@ import am2.entity.render.RenderBoundArrow;
 import am2.entity.render.RenderDarkMage;
 import am2.entity.render.RenderEarthElemental;
 import am2.entity.render.RenderFireElemental;
+import am2.entity.render.RenderHecate;
 import am2.entity.render.RenderHidden;
 import am2.entity.render.RenderLightMage;
 import am2.entity.render.RenderManaCreeper;
@@ -198,6 +200,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityLightMage.class, new RenderFactory(RenderLightMage.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntityDarkMage.class, new RenderFactory(RenderDarkMage.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntityManaVortex.class, new RenderFactory(RenderManaVortex.class));
+		RenderingRegistry.registerEntityRenderingHandler(EntityHecate.class, new RenderFactory(RenderHecate.class));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());

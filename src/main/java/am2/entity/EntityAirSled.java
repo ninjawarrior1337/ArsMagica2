@@ -174,7 +174,7 @@ public class EntityAirSled extends EntityLiving{
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
-		if (this.getControllingPassenger() != null)
+		if (this.getControllingPassenger() != null && !this.getControllingPassenger().isEntityEqual(par1DamageSource.getEntity()))
 			this.getControllingPassenger().dismountRidingEntity();
 		return false;
 	}
