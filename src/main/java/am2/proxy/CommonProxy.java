@@ -5,6 +5,7 @@ import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ import am2.container.ContainerArmorInfuser;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerObelisk;
 import am2.container.ContainerRiftStorage;
+import am2.container.ContainerSpellBook;
 import am2.container.ContainerSpellCustomization;
 import am2.defs.BlockDefs;
 import am2.defs.CreativeTabsDefs;
@@ -99,6 +101,7 @@ import am2.entity.EntityWinterGuardianArm;
 import am2.extensions.RiftStorage;
 import am2.handler.EntityHandler;
 import am2.handler.PotionEffectHandler;
+import am2.items.ItemSpellBook;
 import am2.lore.CompendiumUnlockHandler;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketProcessorServer;
@@ -109,12 +112,14 @@ import am2.power.PowerTypes;
 import am2.proxy.tick.ServerTickHandler;
 import am2.trackers.ItemFrameWatcher;
 import am2.trackers.PlayerTracker;
+import am2.utils.NPCSpells;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
@@ -157,6 +162,13 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_INSCRIPTION_TABLE: return new ContainerInscriptionTable((TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
 		case GUI_SPELL_CUSTOMIZATION: return new ContainerSpellCustomization(player);
 		case GUI_ARMOR_INFUSION: return new ContainerArmorInfuser(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
+		case GUI_SPELL_BOOK: 
+			ItemStack bookStack = player.getHeldItemMainhand();
+			if (bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
+				return null;
+			}
+			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
+			return new ContainerSpellBook(player.inventory, bookStack, item.ConvertToInventory(bookStack));
 		}
 		return null;
 	}
@@ -182,6 +194,7 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(packetProcessor);
 		MinecraftForge.EVENT_BUS.register(PowerNodeCache.instance);
 		MinecraftForge.EVENT_BUS.register(new ArmorEventHandler());
+		MinecraftForge.EVENT_BUS.register(playerTracker);
 		
 		registerInfusions();
 		
@@ -241,6 +254,7 @@ public class CommonProxy implements IGuiHandler{
 		AMEnchantments.Init();
 		SkillDefs.init();
 		SpellDefs.init();
+		NPCSpells.instance.toString();
 		LoreDefs.init();
 		PotionEffectsDefs.init();
 		new ItemDefs();

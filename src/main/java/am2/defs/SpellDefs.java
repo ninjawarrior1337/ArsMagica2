@@ -81,6 +81,7 @@ import am2.spell.component.Reflect;
 import am2.spell.component.Regeneration;
 import am2.spell.component.Repel;
 import am2.spell.component.Rift;
+import am2.spell.component.ScrambleSynapses;
 import am2.spell.component.Shield;
 import am2.spell.component.Shrink;
 import am2.spell.component.Silence;
@@ -142,6 +143,7 @@ public class SpellDefs {
 		SpellRegistry.registerSpellShape("null", null, null, MISSING_SHAPE, null, 0, 0, null);
 		SpellRegistry.registerSpellComponent("melt_armor", null, null, new MeltArmor(), null, 0, 0, null);
 		SpellRegistry.registerSpellComponent("nauseate", null, null, new Nauseate(), null, 0, 0, null);
+		SpellRegistry.registerSpellComponent("scramble_synapses", null, null, new ScrambleSynapses(), null, 0, 0, null);
 		
 		SpellRegistry.registerSpellModifier("colour", getModifierTexture("Colour"), SkillPoint.SKILL_POINT_1, new Colour(), SkillDefs.TREE_TALENT, 230, 75);
 

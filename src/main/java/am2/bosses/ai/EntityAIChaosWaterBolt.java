@@ -4,23 +4,26 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
+import am2.api.ArsMagicaAPI;
 import am2.bosses.BossActions;
 import am2.bosses.EntityWaterGuardian;
-import am2.spell.component.Knockback;
-import am2.spell.component.MagicDamage;
-import am2.spell.component.WateryGrave;
-import am2.spell.shape.Projectile;
+import am2.spell.AbstractSpellPart;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 public class EntityAIChaosWaterBolt extends EntityAIBase{
 	private final EntityWaterGuardian host;
 	private static final ItemStack castStack = createDummyStack();
+	private static AbstractSpellPart WateryGrave() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "watery_grave"));}
+	private static AbstractSpellPart Projectile() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "projectile"));}
+	private static AbstractSpellPart MagicDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "magic_damage"));}
+	private static AbstractSpellPart Knockback() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "knockback"));}
 
 	private static ItemStack createDummyStack(){
-		ItemStack stack = SpellUtils.createSpellStack(new ArrayList<>(), Lists.newArrayList(new Projectile(), new WateryGrave(), new MagicDamage(), new Knockback()), new NBTTagCompound());
+		ItemStack stack = SpellUtils.createSpellStack(new ArrayList<>(), Lists.newArrayList(Projectile(), WateryGrave(), MagicDamage(), Knockback()), new NBTTagCompound());
 		return stack;
 	}
 

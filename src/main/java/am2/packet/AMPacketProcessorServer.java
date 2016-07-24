@@ -6,11 +6,14 @@ import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.container.ContainerSpellCustomization;
+import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
+import am2.items.ItemSpellBook;
 import am2.power.PowerNodeRegistry;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EntitySelectors;
@@ -58,9 +61,9 @@ public class AMPacketProcessorServer{
 			case AMPacketIDs.SPELL_CUSTOMIZE:
 				handleSpellCustomize(remaining, (EntityPlayerMP)player);
 				break;
-//			case AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT:
-//				handleSpellBookChangeActiveSlot(remaining, (EntityPlayerMP)player);
-//				break;
+			case AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT:
+				handleSpellBookChangeActiveSlot(remaining, (EntityPlayerMP)player);
+				break;
 //			case AMPacketIDs.SYNC_SPELL_KNOWLEDGE:
 //				handleSyncSpellKnowledge(remaining, (EntityPlayerMP)player);
 //				break;
@@ -220,24 +223,24 @@ public class AMPacketProcessorServer{
 //		SkillData.For(player).handlePacketData(data);
 //	}
 //
-//	private void handleSpellBookChangeActiveSlot(byte[] data, EntityPlayerMP player){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		byte subID = rdr.getByte();
-//		int entityID = rdr.getInt();
-//		int inventorySlot = rdr.getInt();
-//
-//		ItemStack stack = player.inventory.getStackInSlot(inventorySlot);
-//		if (stack == null || !(stack.getItem() instanceof ItemSpellBook)) return;
-//
-//		int newIndex = 0;
-//
-//		if (subID == ItemSpellBook.ID_NEXT_SPELL)
-//			newIndex = ItemsCommonProxy.spellBook.SetNextSlot(stack);
-//		else if (subID == ItemSpellBook.ID_PREV_SPELL)
-//			newIndex = ItemsCommonProxy.spellBook.SetPrevSlot(stack);
-//		else
-//			return;
-//	}
+	private void handleSpellBookChangeActiveSlot(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data, false);
+		byte subID = rdr.getByte();
+		int entityID = rdr.getInt();
+		int inventorySlot = rdr.getInt();
+
+		ItemStack stack = player.inventory.getStackInSlot(inventorySlot);
+		if (stack == null || !(stack.getItem() instanceof ItemSpellBook)) return;
+
+		int newIndex = 0;
+
+		if (subID == ItemSpellBook.ID_NEXT_SPELL)
+			newIndex = ItemDefs.spellBook.SetNextSlot(stack);
+		else if (subID == ItemSpellBook.ID_PREV_SPELL)
+			newIndex = ItemDefs.spellBook.SetPrevSlot(stack);
+		else
+			return;
+	}
 //
 	private void handleSpellCustomize(byte[] data, EntityPlayerMP player){
 		AMDataReader rdr = new AMDataReader(data, false);

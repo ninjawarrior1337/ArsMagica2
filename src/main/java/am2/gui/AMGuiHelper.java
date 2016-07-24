@@ -11,7 +11,6 @@ import java.util.Random;
 
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GLContext;
 
 import am2.ArsMagica2;
@@ -29,6 +28,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
@@ -202,11 +204,11 @@ public class AMGuiHelper{
 		if (IIcon == null)
 			return;
 
-		GL11.glMatrixMode(GL11.GL_TEXTURE);
-		GL11.glPushMatrix();
+		GlStateManager.matrixMode(GL11.GL_TEXTURE);
+		GlStateManager.pushMatrix();
 		if (semitransparent){
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		}
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
@@ -229,10 +231,10 @@ public class AMGuiHelper{
 		tessellator.draw();
 
 		if (semitransparent){
-			GL11.glDisable(GL11.GL_BLEND);
+			GlStateManager.disableBlend();
 		}
-		GL11.glPopMatrix();
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GlStateManager.popMatrix();
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 
 		if (drawing)
 			tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -243,8 +245,8 @@ public class AMGuiHelper{
 		if (IIcon == null)
 			return;
 
-		GL11.glMatrixMode(GL11.GL_TEXTURE);
-		GL11.glPushMatrix();
+		GlStateManager.matrixMode(GL11.GL_TEXTURE);
+		GlStateManager.pushMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 		Tessellator tessellator = Tessellator.getInstance();
@@ -271,8 +273,8 @@ public class AMGuiHelper{
 		.endVertex();
 		
 		tessellator.draw();
-		GL11.glPopMatrix();
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GlStateManager.popAttrib();
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 
 		if (drawing)
 			tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -286,25 +288,24 @@ public class AMGuiHelper{
 		Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 		if (stack == null)
 			return;
-		GL11.glPushAttrib(GL11.GL_TEXTURE_BIT | GL11.GL_LIGHTING_BIT | GL11.GL_COLOR_BUFFER_BIT);
-		GL11.glColor4f(1, 1, 1, 1);
+		GlStateManager.pushAttrib();
+		GlStateManager.color(1, 1, 1, 1);
 
 		RenderHelper.disableStandardItemLighting();
 		//GL11.glDisable(GL11.GL_BLEND);
 		//GL11.glDisable(GL11.GL_LIGHTING);
 
 		if (scale != 1.0f){
-			GL11.glPushMatrix();
-			GL11.glScalef(scale, scale, 1);
-			float invScale = scale - 0.045f;
-			itemRenderer.renderItemIntoGUI(stack, (int)(x + (x * invScale)), (int)(y + (y * invScale)));
-
-			GL11.glPopMatrix();
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(x, y, zLevel);
+			GlStateManager.scale(scale, scale, 1);
+			itemRenderer.renderItemIntoGUI(stack, 0, 0);
+			GlStateManager.popMatrix();
 		}else {
 			if (stack.getItem() instanceof ItemSpellComponent) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ArsMagicaAPI.getSpellRegistry().getValue(ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage()).getRegistryName()).getRegistryName().toString());
-				GL11.glColor4f(1, 1, 1, 1);
+				GlStateManager.color(1, 1, 1, 1);
 				if (icon != null)
 					DrawIconAtXY(icon, x, y, zLevel + 1, 16, 16, false);
 			} else if (stack.getItem().equals(ItemDefs.etherium)) {
@@ -316,7 +317,6 @@ public class AMGuiHelper{
 						color |= type.getColor();
 					}
 				}
-				//System.out.println(Integer.toHexString(color));
 				if (icon != null)
 					DrawIconAtXY(icon, x, y, zLevel, 16, 16, color);
 			} else {
@@ -326,7 +326,7 @@ public class AMGuiHelper{
 		}
 		RenderHelper.enableStandardItemLighting();
 		//GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glPopAttrib();
+		GlStateManager.popAttrib();
 	}
 
 	public static void drawCompendiumText(String text, int x_start, int y_start, int max_width, int start_color, FontRenderer fontRenderer){
@@ -380,10 +380,10 @@ public class AMGuiHelper{
 
 	protected static void drawHoveringText(List<String> par1List, int par2, int par3, FontRenderer font, int width, int height){
 		if (!par1List.isEmpty()){
-			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+			GlStateManager.disableRescaleNormal();
 			RenderHelper.disableStandardItemLighting();
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			GlStateManager.disableLighting();
+			GlStateManager.disableDepth();
 			int k = 0;
 			Iterator<String> iterator = par1List.iterator();
 
@@ -435,10 +435,10 @@ public class AMGuiHelper{
 
 				j1 += 10;
 			}
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GlStateManager.enableLighting();
+			GlStateManager.enableDepth();
 			RenderHelper.enableStandardItemLighting();
-			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+			GlStateManager.enableRescaleNormal();
 		}
 	}
 
@@ -451,11 +451,11 @@ public class AMGuiHelper{
 		float f5 = (par6 >> 16 & 255) / 255.0F;
 		float f6 = (par6 >> 8 & 255) / 255.0F;
 		float f7 = (par6 & 255) / 255.0F;
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GlStateManager.disableTexture2D();
+		GlStateManager.enableBlend();
+		GlStateManager.disableAlpha();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.shadeModel(GL11.GL_SMOOTH);
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_COLOR);
 		tessellator.getBuffer().pos(par3, par2, zLevel).color(f1, f2, f3, f).endVertex();
@@ -463,49 +463,49 @@ public class AMGuiHelper{
 		tessellator.getBuffer().pos(par1, par4, zLevel).color(f5, f6, f7, f4).endVertex();
 		tessellator.getBuffer().pos(par3, par4, zLevel).color(f5, f6, f7, f4).endVertex();
 		tessellator.draw();
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GlStateManager.shadeModel(GL11.GL_FLAT);
+		GlStateManager.disableBlend();
+		GlStateManager.enableAlpha();
+		GlStateManager.enableTexture2D();
 	}
 
 	public static void line2d(float src_x, float src_y, float dst_x, float dst_y, float zLevel, int color){
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glLineWidth(1f);
-		GL11.glColor3f(((color & 0xFF0000) >> 16) / 255.0f, ((color & 0x00FF00) >> 8) / 255.0f, (color & 0x0000FF) / 255.0f);
-		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(src_x, src_y, zLevel);
-		GL11.glVertex3f(dst_x, dst_y, zLevel);
-		GL11.glEnd();
-		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GlStateManager.disableTexture2D();
+		GlStateManager.glLineWidth(1f);
+		GlStateManager.color(((color & 0xFF0000) >> 16) / 255.0f, ((color & 0x00FF00) >> 8) / 255.0f, (color & 0x0000FF) / 255.0f);
+		GlStateManager.glBegin(GL11.GL_LINES);
+		GlStateManager.glVertex3f(src_x, src_y, zLevel);
+		GlStateManager.glVertex3f(dst_x, dst_y, zLevel);
+		GlStateManager.glEnd();
+		GlStateManager.color(1.0f, 1.0f, 1.0f);
+		GlStateManager.enableTexture2D();
 	}
 
 	public static void line2d(float src_x, float src_y, float dst_x, float dst_y, float zLevel, float weight, int color){
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glLineWidth(weight);
-		GL11.glColor3f(((color & 0xFF0000) >> 16) / 255.0f, ((color & 0x00FF00) >> 8) / 255.0f, (color & 0x0000FF) / 255.0f);
-		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(src_x, src_y, zLevel);
-		GL11.glVertex3f(dst_x, dst_y, zLevel);
-		GL11.glEnd();
-		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GlStateManager.disableTexture2D();
+		GlStateManager.glLineWidth(weight);
+		GlStateManager.color(((color & 0xFF0000) >> 16) / 255.0f, ((color & 0x00FF00) >> 8) / 255.0f, (color & 0x0000FF) / 255.0f);
+		GlStateManager.glBegin(GL11.GL_LINES);
+		GlStateManager.glVertex3f(src_x, src_y, zLevel);
+		GlStateManager.glVertex3f(dst_x, dst_y, zLevel);
+		GlStateManager.glEnd();
+		GlStateManager.color(1.0f, 1.0f, 1.0f);
+		GlStateManager.enableTexture2D();
 	}
 
 	public static void gradientline2d(float src_x, float src_y, float dst_x, float dst_y, float zLevel, int color1, int color2){
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		GL11.glLineWidth(1f);
-		GL11.glBegin(GL11.GL_LINES);
-		GL11.glColor3f((color1 & 0xFF0000) >> 16, (color1 & 0x00FF00) >> 8, color1 & 0x0000FF);
-		GL11.glVertex3f(src_x, src_y, zLevel);
-		GL11.glColor3f((color2 & 0xFF0000) >> 16, (color2 & 0x00FF00) >> 8, color2 & 0x0000FF);
-		GL11.glVertex3f(dst_x, dst_y, zLevel);
-		GL11.glEnd();
-		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GlStateManager.disableTexture2D();
+		GlStateManager.shadeModel(GL11.GL_SMOOTH);
+		GlStateManager.glLineWidth(1f);
+		GlStateManager.glBegin(GL11.GL_LINES);
+		GlStateManager.color((color1 & 0xFF0000) >> 16, (color1 & 0x00FF00) >> 8, color1 & 0x0000FF);
+		GlStateManager.glVertex3f(src_x, src_y, zLevel);
+		GlStateManager.color((color2 & 0xFF0000) >> 16, (color2 & 0x00FF00) >> 8, color2 & 0x0000FF);
+		GlStateManager.glVertex3f(dst_x, dst_y, zLevel);
+		GlStateManager.glEnd();
+		GlStateManager.color(1.0f, 1.0f, 1.0f);
+		GlStateManager.shadeModel(GL11.GL_FLAT);
+		GlStateManager.enableTexture2D();
 	}
 
 	public static void fractalLine2d(int src_x, int src_y, int dst_x, int dst_y, float zLevel, int color, float displace){
@@ -597,9 +597,9 @@ public class AMGuiHelper{
 
 	public static int createRenderTexture(){
 		int colorTextureID = GL11.glGenTextures();
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);                                    // Bind the colorbuffer texture
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);                // make it linear filterd
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, 512, 512, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer)null);    // Create the texture data
+		GlStateManager.bindTexture(colorTextureID);                                    // Bind the colorbuffer texture
+		GlStateManager.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);                // make it linear filterd
+		GlStateManager.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, 512, 512, 0, GL11.GL_RGBA, GL11.GL_INT, null);    // Create the texture data
 
 		return colorTextureID;
 	}
@@ -639,9 +639,9 @@ public class AMGuiHelper{
 	public static boolean bindFBOTexture(int FBOId, int w, int h){
 		try{
 			EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, FBOId);
-			GL11.glPushAttrib(GL11.GL_VIEWPORT_BIT);
-			GL11.glViewport(0, 0, w, h);
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+			GlStateManager.pushAttrib();
+			GlStateManager.viewport(0, 0, w, h);
+			GlStateManager.popAttrib();
 
 			return true;
 		}catch (Throwable t){
@@ -652,7 +652,7 @@ public class AMGuiHelper{
 	public static boolean unbindFBOTexture(){
 		try{
 			EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, 0);
-			GL11.glPopAttrib();
+			GlStateManager.popAttrib();
 
 			return true;
 		}catch (Throwable t){
@@ -663,7 +663,7 @@ public class AMGuiHelper{
 	public static void flipView(float f){
 		float flip = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getFlipRotation();
 		float lastFlip = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getPrevFlipRotation();
-		GL11.glRotatef(lastFlip + (flip - lastFlip) * f, 0, 0, 1);
+		GlStateManager.rotate(lastFlip + (flip - lastFlip) * f, 0, 0, 1);
 	}
 
 	public static void shiftView(float f){
@@ -673,7 +673,7 @@ public class AMGuiHelper{
 			IEntityExtension exProps = EntityExtension.For(entity);
 			if (exProps.getShrinkPct() > 0f){
 				float amt = exProps.getPrevShrinkPct() + (exProps.getShrinkPct() - exProps.getPrevShrinkPct()) * f;
-				GL11.glTranslatef(0, 1 * amt, 0);
+				GlStateManager.translate(0, 1 * amt, 0);
 			}
 		}
 
@@ -681,7 +681,7 @@ public class AMGuiHelper{
 		float prevFlip = EntityExtension.For(entity).getPrevFlipRotation();
 		if (flip > 0){
 			float smoothedFlip = prevFlip + ((flip - prevFlip) * f);
-			GL11.glTranslatef(0, (entity.height * (smoothedFlip / 180f)) - 0.1f, 0);
+			GlStateManager.translate(0, (entity.height * (smoothedFlip / 180f)) - 0.1f, 0);
 		}
 	}
 

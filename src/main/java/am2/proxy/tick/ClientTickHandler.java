@@ -20,7 +20,9 @@ import am2.gui.GuiHudCustomization;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
 import am2.lore.CompendiumEntryTypes;
+import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
+import am2.packet.AMPacketIDs;
 import am2.particles.AMLineArc;
 import am2.power.PowerNodeEntry;
 import am2.power.PowerTypes;
@@ -233,28 +235,28 @@ public class ClientTickHandler{
 				ArsMagica2.LOGGER.debug("TK Distance: %.2f", props.getTKDistance());
 				props.syncTKDistance();
 			}
-//				else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getMinecraft().thePlayer.isSneaking()){
-//				ItemSpellBook isb = (ItemSpellBook)stack.getItem();
-//				if (this.mouseWheelValue != 0){
-//					byte subID = 0;
-//					if (this.mouseWheelValue < 0){
-//						isb.SetNextSlot(Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND));
-//						subID = ItemSpellBook.ID_NEXT_SPELL;
-//					}else{
-//						isb.SetPrevSlot(Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND));
-//						subID = ItemSpellBook.ID_PREV_SPELL;
-//					}
-//					//send packet to server
-//					AMNetHandler.INSTANCE.sendPacketToServer(
-//							AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT,
-//							new AMDataWriter()
-//									.add(subID)
-//									.add(Minecraft.getMinecraft().thePlayer.getEntityId())
-//									.add(Minecraft.getMinecraft().thePlayer.inventory.currentItem)
-//									.generate()
-//					);
-//				}
-//			}
+				else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getMinecraft().thePlayer.isSneaking()){
+				ItemSpellBook isb = (ItemSpellBook)stack.getItem();
+				if (this.mouseWheelValue != 0){
+					byte subID = 0;
+					if (this.mouseWheelValue < 0){
+						isb.SetNextSlot(Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND));
+						subID = ItemSpellBook.ID_NEXT_SPELL;
+					}else{
+						isb.SetPrevSlot(Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND));
+						subID = ItemSpellBook.ID_PREV_SPELL;
+					}
+					//send packet to server
+					AMNetHandler.INSTANCE.sendPacketToServer(
+							AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT,
+							new AMDataWriter()
+									.add(subID)
+									.add(Minecraft.getMinecraft().thePlayer.getEntityId())
+									.add(Minecraft.getMinecraft().thePlayer.inventory.currentItem)
+									.generate()
+					);
+				}
+			}
 			this.currentSlot = -1;
 			this.mouseWheelValue = 0;
 		}

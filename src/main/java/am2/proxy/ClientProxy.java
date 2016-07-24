@@ -5,6 +5,7 @@ import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ import am2.gui.GuiInscriptionTable;
 import am2.gui.GuiObelisk;
 import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
+import am2.gui.GuiSpellBook;
 import am2.gui.GuiSpellCustomization;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
@@ -129,6 +131,13 @@ public class ClientProxy extends CommonProxy {
 		case GUI_INSCRIPTION_TABLE: return new GuiInscriptionTable(player.inventory, (TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_SPELL_CUSTOMIZATION: return new GuiSpellCustomization(player);
 		case GUI_ARMOR_INFUSION: return new GuiArmorImbuer(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
+		case GUI_SPELL_BOOK: 
+			ItemStack bookStack = player.getHeldItemMainhand();
+			if (bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
+				return null;
+			}
+			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
+			return new GuiSpellBook(player.inventory, bookStack, item.ConvertToInventory(bookStack));
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
@@ -237,7 +246,7 @@ public class ClientProxy extends CommonProxy {
 	public boolean setMouseDWheel(int dwheel){
 		if (dwheel == 0) return false;
 
-		ItemStack stack = Minecraft.getMinecraft().thePlayer.getActiveItemStack();
+		ItemStack stack = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
 		if (stack == null) return false;
 
 		boolean store = checkForTKMove(stack);

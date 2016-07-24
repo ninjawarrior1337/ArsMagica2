@@ -2,10 +2,8 @@ package am2.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
@@ -14,6 +12,7 @@ import am2.api.SkillTreeRegistry;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.ISkillData;
 import am2.api.skill.Skill;
+import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
@@ -79,11 +78,7 @@ public class GuiOcculus extends GuiScreen {
 		if (mouseButton == 0) {
 			if (hoverItem != null && !SkillData.For(player).hasSkill(hoverItem.getID())) {
 				ISkillData data = SkillData.For(player);
-				boolean hasPrereq = true;
-				for (String parent : hoverItem.getParents()) {
-					hasPrereq &= data.hasSkill(parent);
-				}
-				if (hasPrereq) {
+				if (data.canLearn(hoverItem.getID())) {
 					data.unlockSkill(hoverItem.getID());
 					ArcaneCompendium.For(player).unlockEntry(hoverItem.getID());
 				}
@@ -128,7 +123,7 @@ public class GuiOcculus extends GuiScreen {
 		drawTexturedModalRect(posX + 188, posY - 22, 210, 0, 22, 22);
         float f = 0.00390625F;
 		if (SkillPointRegistry.getPointForTier(3) != null || SkillPointRegistry.getPointForTier(4) != null || SkillPointRegistry.getPointForTier(5) != null)
-       RenderUtils.drawBox(posX + 188, posY + 210, 22, 22, -90F, 232 * f, 22 * f, 210 * f, 0 * f);
+			RenderUtils.drawBox(posX + 188, posY + 210, 22, 22, -90F, 232 * f, 22 * f, 210 * f, 0 * f);
 		//Tab Under
 		if (currentTabId < 8)
 			drawTexturedModalRect(posX + 7 + (currentTabId * 24), posY, 22, 210, 22, 7);
@@ -174,10 +169,7 @@ public class GuiOcculus extends GuiScreen {
 					offsetY = MathHelper.clamp_int(offsetY, posY + 7, posY + 203);
 					offsetX2 = MathHelper.clamp_int(offsetX2, posX + 7, posX + 203);
 					offsetY2 = MathHelper.clamp_int(offsetY2, posY + 7, posY + 203);
-					boolean hasPrereq = true;
-					for (String subParent : s.getParents()) {
-						hasPrereq &= data.hasSkill(subParent);
-					}
+					boolean hasPrereq = data.canLearn(s.getID());
 					int color = (!SkillData.For(player).hasSkill(s.getID()) ? s.getPoint().getColor() & 0x999999 : 0x00ff00);
 					if (!hasPrereq) color = 0x000000;
 					if (!(offsetX == posX + 7 || offsetX == posX + 203))
@@ -191,14 +183,8 @@ public class GuiOcculus extends GuiScreen {
 				if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
 					continue;
 				GlStateManager.color(1, 1, 1, 1.0F);
-				List<String> parents = Lists.newArrayList(s.getParents());
 				ISkillData skillData = SkillData.For(player);
-				boolean hasPrereq = true;
-				for (String parent : parents) {
-					hasPrereq &= skillData.hasSkill(parent);
-					if (!hasPrereq)
-						break;
-				}
+				boolean hasPrereq = skillData.canLearn(s.getID());
 				int offsetX = calcXOffset(posX, s);
 				int offsetY = calcYOffset(posY, s);
 				int tick = (player.ticksExisted % 80) >= 40 ? (player.ticksExisted % 40) - 20 : -(player.ticksExisted % 40) + 20;
@@ -324,12 +310,12 @@ public class GuiOcculus extends GuiScreen {
 			}
 		}
 		
-		int tier0 = 0;
-		int tier1 = 0;
-		int tier2 = 0;
-		int tier3 = 0;
-		int tier4 = 0;
-		int tier5 = 0;
+		int tier0 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_1);
+		int tier1 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_2);
+		int tier2 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_3);
+		int tier3 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_4);
+		int tier4 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_5);
+		int tier5 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_6);
 		GlStateManager.disableDepth();
 		fontRendererObj.drawString("" + tier0, posX + 191, posY - 19, SkillPointRegistry.getPointForTier(0).getColor());
 		fontRendererObj.drawString("" + tier1, posX + 203, posY - 19, SkillPointRegistry.getPointForTier(1).getColor());

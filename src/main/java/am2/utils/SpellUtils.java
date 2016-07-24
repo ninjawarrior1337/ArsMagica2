@@ -278,7 +278,7 @@ public class SpellUtils {
 		for (AbstractSpellPart part : spellDef) {
 			NBTTagList stageTag = NBTUtils.addCompoundList(am2, STAGE + stage);
 			NBTTagCompound tmp = new NBTTagCompound();
-			String id = part.getRegistryName().toString();
+			String id = SpellRegistry.getSkillFromPart(part).getID();
 			tmp.setString(ID, id);
 			String type = "";
 			if (part instanceof SpellShape) type = TYPE_SHAPE;

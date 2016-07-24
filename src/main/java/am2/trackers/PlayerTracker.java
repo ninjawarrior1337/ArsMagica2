@@ -92,7 +92,7 @@ public class PlayerTracker{
 		}
 		//================================================================================
 	}
-
+	
 	public void onPlayerDeath(EntityPlayer player){
 		storeSoulboundItemsForRespawn(player);
 	}

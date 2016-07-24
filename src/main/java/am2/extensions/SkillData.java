@@ -48,8 +48,10 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	public void unlockSkill (String name) {
 		if (SkillRegistry.getSkillFromName(name) == null)
 			return;
+		Skill skill = SkillRegistry.getSkillFromName(name);
+		setSkillPoint(skill.getPoint(), getSkillPoint(skill.getPoint()) - 1);
 		HashMap<Skill, Boolean> map = player.getDataManager().get(DataDefinitions.SKILL);
-		map.put(SkillRegistry.getSkillFromName(name), true);
+		map.put(skill, true);
 		player.getDataManager().set(DataDefinitions.SKILL, map);
 	}
 	
@@ -58,7 +60,10 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	}
 	
 	public int getSkillPoint(SkillPoint skill) {
-		return player.getDataManager().get(DataDefinitions.POINT_TIER).get(skill);
+		if (skill == null)
+			return 0;
+		Integer integer = player.getDataManager().get(DataDefinitions.POINT_TIER).get(skill);
+		return integer == null ? 0 : integer.intValue();
 	}
 	
 	public void setSkillPoint(SkillPoint point, int num) {
@@ -107,6 +112,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 
 	@Override
 	public boolean canLearn(String name) {
+		if (this.hasSkill(name)) return true;
 		if (SkillRegistry.getSkillFromName(name) == null) return false;
 		for (String skill : SkillRegistry.getSkillFromName(name).getParents()) {
 			Skill s = SkillRegistry.getSkillFromName(skill);
@@ -114,6 +120,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			if (hasSkill(skill)) continue;
 			return false;
 		}
+		if (getSkillPoint(SkillRegistry.getSkillFromName(name).getPoint()) <= 0)
+			return false;
 		return true;
 	}
 
@@ -122,7 +130,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(entry.getKey().getRegistryName());
-			if (entry.getValue() && part != null && part instanceof SpellShape)
+			if ((entry.getValue() || player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape)
 				out.add(entry.getKey().getID());
 		}
 		return out;
@@ -133,7 +141,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(entry.getKey().getRegistryName());
-			if (entry.getValue() && part != null && part instanceof SpellComponent)
+			if ((entry.getValue() || player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent)
 				out.add(entry.getKey().getID());
 		}
 		return out;
@@ -144,7 +152,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Entry<Skill, Boolean> entry : getSkills().entrySet()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(entry.getKey().getRegistryName());
-			if (entry.getValue() && part != null && part instanceof SpellModifier)
+			if ((entry.getValue() || player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier)
 				out.add(entry.getKey().getID());
 		}
 		return out;

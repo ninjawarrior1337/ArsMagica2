@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 
 public abstract class AbstractSpellPart extends IForgeRegistryEntry.Impl<AbstractSpellPart> {
-		
+	
 	/**
 	 * Supports :
 	 *     ItemStacks

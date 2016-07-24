@@ -25,12 +25,14 @@ import am2.items.ItemBoundSword;
 import am2.items.ItemChalk;
 import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
+import am2.items.ItemInfinityOrb;
 import am2.items.ItemLifeWard;
 import am2.items.ItemLightningCharm;
 import am2.items.ItemMagicBroom;
 import am2.items.ItemNatureGuardianSickle;
 import am2.items.ItemOre;
 import am2.items.ItemRune;
+import am2.items.ItemSpellBook;
 import am2.items.ItemSpellComponent;
 import am2.items.ItemWinterGuardianArm;
 import am2.items.SpellBase;
@@ -100,7 +102,7 @@ public class ItemDefs {
 	public static final ItemArsMagica2 liquidEssenceBottle = null;
 	public static final ItemArsMagica2 bindingCatalyst = new ItemBindingCatalyst().registerAndName("binding_catalyst");
 	public static final ItemArsMagica2 inscriptionUpgrade = new InscriptionTableUpgrade().registerAndName("inscription_upgrade");
-	public static final ItemArsMagica2 infinityOrb = null;
+	public static final ItemArsMagica2 infinityOrb = new ItemInfinityOrb().registerAndName("infinityOrb");
 	public static final ItemSword BoundSword = new ItemBoundSword().registerAndName("bound_sword");
 	public static final ItemAxe BoundAxe = new ItemBoundAxe().registerAndName("bound_axe");
 	public static final ItemPickaxe BoundPickaxe = new ItemBoundPickaxe().registerAndName("bound_pickaxe");
@@ -123,6 +125,7 @@ public class ItemDefs {
 	public static final Item lifeWard = new ItemLifeWard().registerAndName("life_ward");
 	public static final Item lightningCharm = new ItemLightningCharm().registerAndName("lighrining_charm");
 	public static final Item waterOrbs = new ItemWaterGuardianOrbs(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.LEGS).registerAndName("water_orbs");	
+	public static final ItemSpellBook spellBook = (ItemSpellBook) new ItemSpellBook().registerAndName("spell_book");
 
 	public static ItemStack natureScytheEnchanted;
 	public static ItemStack winterArmEnchanted;
@@ -136,6 +139,7 @@ public class ItemDefs {
 	public static ItemStack waterOrbsEnchanted;
 
 	public static final Item magicBroom = new ItemMagicBroom();
+
 
 
 

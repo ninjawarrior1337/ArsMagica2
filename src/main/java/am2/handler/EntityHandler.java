@@ -180,6 +180,9 @@ public class EntityHandler {
 		IEntityExtension ext = EntityExtension.For(e.getEntityLiving());
 		ContingencyType type = ext.getContingencyType();
 		EntityLivingBase target = null;
+		if (e.getEntityLiving() instanceof EntityPlayer){
+			ArsMagica2.proxy.playerTracker.onPlayerDeath((EntityPlayer)e.getEntityLiving());
+		}
 		if (e.getSource() != null && e.getSource().getSourceOfDamage() instanceof EntityLivingBase)
 			target = e.getSource().getSourceOfDamage() != null ? (EntityLivingBase)e.getSource().getSourceOfDamage() : null;
 		if (type == ContingencyType.DEATH) {

@@ -5,9 +5,11 @@ import org.lwjgl.opengl.GL11;
 import am2.api.event.RenderingItemEvent;
 import am2.bosses.models.ModelPlantGuardianSickle;
 import am2.defs.ItemDefs;
+import am2.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -42,12 +44,61 @@ public class ItemRenderer {
 		if (item == null) return;
 		bindTextureByItem(item);
 		GL11.glPushMatrix();
-
 		setupItemRender(type, item);
 
 		renderModelByItem(item);
-
 		GL11.glPopMatrix();
+		
+		GlStateManager.pushMatrix();
+		{
+			setupItemRender(type, item);
+			// SETUP
+			GlStateManager.depthMask(false);
+			GlStateManager.depthFunc(514);
+			GlStateManager.disableLighting();
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ONE);
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
+			GlStateManager.matrixMode(5890);
+			GlStateManager.pushMatrix(); 
+			{
+				GlStateManager.scale(8.0F, 8.0F, 8.0F);
+				float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+				GlStateManager.translate(f, 0.0F, 0.0F);
+				GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
+				RenderUtils.color(-8372020);
+				GlStateManager.matrixMode(5888);
+				GlStateManager.pushMatrix();
+				{
+					renderModelByItem(item);// this.renderModel(model, -8372020);
+				}
+				GlStateManager.popMatrix();
+				GlStateManager.matrixMode(5890);
+			}
+			GlStateManager.popMatrix();
+			GlStateManager.pushMatrix();
+			{
+				GlStateManager.scale(8.0F, 8.0F, 8.0F);
+				float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
+				GlStateManager.translate(-f1, 0.0F, 0.0F);
+				GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
+				GlStateManager.matrixMode(5888);
+				GlStateManager.pushMatrix();
+				{
+					renderModelByItem(item);// this.renderModel(model, -8372020);
+				}
+				GlStateManager.popMatrix();
+				GlStateManager.matrixMode(5890);
+			}
+			GlStateManager.popMatrix();
+			GlStateManager.matrixMode(5888);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			GlStateManager.enableLighting();
+			GlStateManager.depthFunc(515);
+			GlStateManager.depthMask(true);
+			GlStateManager.resetColor();
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		}
+		GlStateManager.popMatrix();
 
 //		if (item.getItem() == ItemDefs.wardingCandle && (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_RIGHT_HAND)){
 //			renderCandleFlame(type, item, data);
@@ -262,6 +313,24 @@ public class ItemRenderer {
 				GlStateManager.rotate(25, 0, 1, 0);
 				GlStateManager.scale(0.60, 0.60, 0.60);
 			}
+		} else if (stack.getItem() == ItemDefs.arcaneSpellbook) {
+			if (type == TransformType.GUI) {
+				GlStateManager.rotate(135, 0, 0, 1);
+				GlStateManager.rotate(25, 0, 1, 0);	
+				GlStateManager.scale(2.2, 2.2, 2.2);
+			}
+		} else if (stack.getItem() == ItemDefs.fireEars) {
+			if (type == TransformType.GUI) {
+				GlStateManager.rotate(25, 0, 0, 1);
+				GlStateManager.rotate(25, 0, 1, 0);	
+			}		
+		} else if (stack.getItem() == ItemDefs.waterOrbs) {
+			GlStateManager.translate(0, -0.5, 0);
+			GlStateManager.scale(0.8, 0.8, 0.8);
+			if (type == TransformType.GUI) {
+				GlStateManager.rotate(25, 1, 0, 0);
+				//GlStateManager.rotate(25, 0, 1, 0);	
+			}		
 		}
 	}
 
