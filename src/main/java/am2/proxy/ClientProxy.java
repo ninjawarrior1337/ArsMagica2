@@ -2,6 +2,9 @@ package am2.proxy;
 
 import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
+import static am2.defs.IDDefs.GUI_KEYSTONE;
+import static am2.defs.IDDefs.GUI_KEYSTONE_CHEST;
+import static am2.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
@@ -15,10 +18,12 @@ import java.util.LinkedList;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
+import am2.api.blocks.IKeystoneLockable;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
+import am2.blocks.render.TileKeystoneReceptacleRenderer;
 import am2.blocks.render.TileBlackAuremRenderer;
 import am2.blocks.render.TileCelestialPrismRenderer;
 import am2.blocks.render.TileCraftingAltarRenderer;
@@ -29,6 +34,8 @@ import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
+import am2.blocks.tileentity.TileEntityKeystoneChest;
+import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.bosses.EntityAirGuardian;
@@ -92,11 +99,15 @@ import am2.extensions.RiftStorage;
 import am2.gui.AMGuiHelper;
 import am2.gui.GuiArmorImbuer;
 import am2.gui.GuiInscriptionTable;
+import am2.gui.GuiKeystone;
+import am2.gui.GuiKeystoneChest;
+import am2.gui.GuiKeystoneLockable;
 import am2.gui.GuiObelisk;
 import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
 import am2.gui.GuiSpellBook;
 import am2.gui.GuiSpellCustomization;
+import am2.items.ItemKeystone;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
 import am2.lore.ArcaneCompendium;
@@ -114,6 +125,7 @@ import am2.proxy.tick.ClientTickHandler;
 import am2.spell.SpellComponent;
 import am2.spell.component.Telekinesis;
 import am2.texture.SpellIconManager;
+import am2.utils.InventoryUtilities;
 import am2.utils.RenderFactory;
 import am2.utils.RenderUtils;
 import am2.utils.SpellUtils;
@@ -142,6 +154,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch (ID) {
 		case GUI_OCCULUS: return new GuiOcculus(player);
 		case GUI_RIFT: return new GuiRiftStorage(player, RiftStorage.For(player));
@@ -156,6 +169,34 @@ public class ClientProxy extends CommonProxy {
 			}
 			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
 			return new GuiSpellBook(player.inventory, bookStack, item.ConvertToInventory(bookStack));
+		case GUI_KEYSTONE_CHEST:
+			if (!(te instanceof TileEntityKeystoneChest)){
+				return null;
+			}
+			return new GuiKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
+		case GUI_KEYSTONE:
+			ItemStack keystoneStack = player.getHeldItemMainhand();
+			if (keystoneStack.getItem() == null || !(keystoneStack.getItem() instanceof ItemKeystone)){
+				return null;
+			}
+			ItemKeystone keystone = (ItemKeystone)keystoneStack.getItem();
+
+			int runeBagSlot = InventoryUtilities.getInventorySlotIndexFor(player.inventory, ItemDefs.runeBag);
+			ItemStack runeBag = null;
+			if (runeBagSlot > -1)
+				runeBag = player.inventory.getStackInSlot(runeBagSlot);
+
+			return new GuiKeystone(player.inventory, player.getHeldItemMainhand(), runeBag, keystone.ConvertToInventory(keystoneStack), runeBag == null ? null : ItemDefs.runeBag.ConvertToInventory(runeBag), runeBagSlot);
+		case GUI_KEYSTONE_LOCKABLE:
+			if (!(te instanceof IKeystoneLockable)){
+				return null;
+			}
+			return new GuiKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
+//		case GUI_SPELL_SEALED_DOOR:
+//			if (!(te instanceof TileEntitySpellSealedDoor)){
+//				return null;
+//			}
+//			return new ContainerSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
@@ -207,6 +248,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCelestialPrism.class, new TileCelestialPrismRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlackAurem.class, new TileBlackAuremRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLectern.class, new TileLecternRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityKeystoneRecepticle.class, new TileKeystoneReceptacleRenderer());
 		
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());

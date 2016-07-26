@@ -1,6 +1,5 @@
 package am2.items;
 
-import am2.ArsMagica2;
 import am2.api.IBoundItem;
 import am2.defs.ItemDefs;
 import net.minecraft.creativetab.CreativeTabs;
@@ -43,7 +42,6 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 	public ItemBoundShield registerAndName(String name) {
 		this.setUnlocalizedName(name);
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
-		ArsMagica2.proxy.items.add(this);
 		return this;
 	}
 	

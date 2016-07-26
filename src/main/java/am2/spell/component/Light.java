@@ -8,14 +8,14 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.blocks.MultiblockGroup;
+import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.power.IPowerNode;
 import am2.buffs.BuffEffectIllumination;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.items.ItemOre;
-import am2.multiblock.MultiblockGroup;
-import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
 import am2.power.PowerNodeRegistry;
 import am2.rituals.IRitualInteraction;

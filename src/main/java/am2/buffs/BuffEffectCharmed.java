@@ -24,9 +24,9 @@ public class BuffEffectCharmed extends BuffEffect{
 
 	@Override
 	public void applyEffect(EntityLivingBase entityliving) {
-		if (getAmplifier() + 1 == CHARM_TO_PLAYER && entityliving instanceof EntityCreature && charmer instanceof EntityPlayer){
+		if (getAmplifier() == CHARM_TO_PLAYER && entityliving instanceof EntityCreature && charmer instanceof EntityPlayer){
 			EntityUtils.makeSummon_PlayerFaction((EntityCreature)entityliving, (EntityPlayer)charmer, true);
-		}else if (getAmplifier() + 1 == CHARM_TO_MONSTER && entityliving instanceof EntityCreature){
+		}else if (getAmplifier() == CHARM_TO_MONSTER && entityliving instanceof EntityCreature){
 			EntityUtils.makeSummon_MonsterFaction((EntityCreature)entityliving, true);
 		}
 		EntityUtils.setOwner(entityliving, charmer);

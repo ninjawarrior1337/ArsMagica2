@@ -7,10 +7,10 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.extensions.IEntityExtension;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
-import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
 import am2.particles.ParticleApproachEntity;
 import am2.rituals.IRitualInteraction;

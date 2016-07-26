@@ -72,6 +72,8 @@ public class AMSounds {
 	public static final SoundEvent HECATE_DEATH = register("arsmagica2:mob.hecate.death");
 	public static final SoundEvent HECATE_HIT = register("arsmagica2:mob.hecate.hit");
 	
+	public static final SoundEvent GATEWAY_OPEN = register("arsmagica2:misc.gateway.open");
+	
 	private static SoundEvent register(String str) {
 		return GameRegistry.register(new SoundEvent(new ResourceLocation(str)).setRegistryName(new ResourceLocation(str)));
 	}

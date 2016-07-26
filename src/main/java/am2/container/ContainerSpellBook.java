@@ -13,14 +13,14 @@ import net.minecraft.world.World;
 public class ContainerSpellBook extends Container{
 	private ItemStack bookStack;
 	private InventorySpellBook spellBookStack;
-	private int bookSlot;
+//	private int bookSlot;
 	public int specialSlotIndex;
 
 	public ContainerSpellBook(InventoryPlayer inventoryplayer, ItemStack bookStack, InventorySpellBook inventoryspellbook){
 		//addSlot(new Slot(spellBook,0, 21, 36)); //inventory, index, x, y
 		this.spellBookStack = inventoryspellbook;
 		this.bookStack = bookStack;
-		this.bookSlot = inventoryplayer.currentItem;
+//		this.bookSlot = inventoryplayer.currentItem;
 
 		int slotIndex = 0;
 		//Spell Book Pages - active spells

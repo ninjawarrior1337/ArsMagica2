@@ -17,5 +17,10 @@ public class IDDefs {
 	public static final int GUI_CRYSTAL_MARKER = 5;
 	public static final int GUI_INSCRIPTION_TABLE = 6;
 	public static final int GUI_ARMOR_INFUSION = 7;
+	public static final int GUI_KEYSTONE = 8;
+	public static final int GUI_KEYSTONE_LOCKABLE = 9;
+	public static final int GUI_SPELL_SEALED_DOOR = 10;
+	public static final int GUI_KEYSTONE_CHEST = 11;
+	public static final int GUI_RUNE_BAG = 12;
 	
 }

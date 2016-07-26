@@ -1,6 +1,6 @@
 package am2.api;
 
-import am2.multiblock.MultiblockStructureDefinition;
+import am2.api.blocks.MultiblockStructureDefinition;
 
 public interface IMultiblockStructureController {
 

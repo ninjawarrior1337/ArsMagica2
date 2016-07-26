@@ -65,6 +65,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public static final ResourceLocation ID = new ResourceLocation("arsmagica2:ExtendedProp");
 	private static int baseTicksForFullRegen = 2400;
 	private int ticksForFullRegen = baseTicksForFullRegen;
+	public boolean isRecoveringKeystone;
 	
 	private Entity ent;
 	
@@ -349,8 +350,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		return null;
 	}
 	
-	public static IEntityExtension For(EntityLivingBase thePlayer) {
-		return thePlayer.getCapability(INSTANCE, null);
+	public static EntityExtension For(EntityLivingBase thePlayer) {
+		return (EntityExtension) thePlayer.getCapability(INSTANCE, null);
 	}
 	
 	@Override

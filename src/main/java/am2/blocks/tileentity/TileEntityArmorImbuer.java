@@ -1,8 +1,8 @@
 package am2.blocks.tileentity;
 
 import am2.api.IMultiblockStructureController;
+import am2.api.blocks.MultiblockStructureDefinition;
 import am2.armor.ArmorHelper;
-import am2.multiblock.MultiblockStructureDefinition;
 import am2.power.PowerTypes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

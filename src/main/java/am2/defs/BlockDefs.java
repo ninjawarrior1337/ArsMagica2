@@ -1,5 +1,10 @@
 package am2.defs;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import am2.api.blocks.IKeystoneLockable;
+import am2.api.math.AMVector3;
 import am2.blocks.BlockAM;
 import am2.blocks.BlockAMFlower;
 import am2.blocks.BlockArmorInfuser;
@@ -13,6 +18,10 @@ import am2.blocks.BlockEssenceGenerator;
 import am2.blocks.BlockFrost;
 import am2.blocks.BlockInscriptionTable;
 import am2.blocks.BlockInvisibleUtility;
+import am2.blocks.BlockKeystoneChest;
+import am2.blocks.BlockKeystoneDoor;
+import am2.blocks.BlockKeystoneReceptacle;
+import am2.blocks.BlockKeystoneTrapdoor;
 import am2.blocks.BlockLectern;
 import am2.blocks.BlockLightDecay;
 import am2.blocks.BlockMageLight;
@@ -20,11 +29,14 @@ import am2.blocks.BlockMagicWall;
 import am2.blocks.BlockManaBattery;
 import am2.blocks.BlockOcculus;
 import am2.blocks.BlockSlipstreamGenerator;
+import am2.blocks.BlockSpellSealedDoor;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
 import am2.blocks.BlockWizardsChalk;
 import am2.blocks.colorizers.ManaBatteryColorizer;
+import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.items.rendering.IgnoreMetadataRenderer;
+import am2.utils.KeystoneUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.MaterialLiquid;
@@ -39,7 +51,10 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -80,12 +95,17 @@ public class BlockDefs {
 	public static final Block ironInlay = null;
 	public static final Block goldInlay = null;
 	public static final Block vinteumTorch = null;
+	public static final Block keystoneRecepticle = new BlockKeystoneReceptacle().registerAndName(new ResourceLocation("arsmagica2:keystone_recepticle"));
+	public static final Block keystoneDoor = new BlockKeystoneDoor().registerAndName(new ResourceLocation("arsmagica2:keystone_door"));
+	public static final Block keystoneTrapdoor = new BlockKeystoneTrapdoor().registerAndName(new ResourceLocation("arsmagica2:keystone_trapdoor"));
+	public static final Block keystoneChest = new BlockKeystoneChest().registerAndName(new ResourceLocation("arsmagica2:keystone_chest"));
+	public static final BlockSpellSealedDoor spellSealedDoor = (BlockSpellSealedDoor) new BlockSpellSealedDoor().registerAndName(new ResourceLocation("arsmagica2:spell_sealed_door"));
 	
-	
+	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();
 	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
 	
 	
-	public static void preInit () {
+	public void preInit () {
 		FluidRegistry.registerFluid(liquid_essence);
 		FluidRegistry.addBucketForFluid(liquid_essence);
 		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
@@ -170,5 +190,69 @@ public class BlockDefs {
 		ResourceLocation loc = block.getRegistryName();
 		Item item = GameRegistry.findRegistry(Item.class).getValue(loc);
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new IgnoreMetadataRenderer(new ModelResourceLocation(loc, "inventory")));
+	}
+	
+	public void registerKeystonePortal(BlockPos pos, int dimension){
+		AMVector3 location = new AMVector3(pos);
+		if (!KeystonePortalLocations.containsKey(dimension))
+			KeystonePortalLocations.put(dimension, new ArrayList<AMVector3>());
+
+		ArrayList<AMVector3> dimensionList = KeystonePortalLocations.get(dimension);
+
+		if (!dimensionList.contains(location))
+			dimensionList.add(location);
+	}
+
+	public void removeKeystonePortal(BlockPos pos, int dimension){
+		AMVector3 location = new AMVector3(pos);
+		if (KeystonePortalLocations.containsKey(dimension)){
+			ArrayList<AMVector3> dimensionList = KeystonePortalLocations.get(dimension);
+
+			if (dimensionList.contains(location))
+				dimensionList.remove(location);
+		}
+	}
+
+	public AMVector3 getNextKeystonePortalLocation(World world, BlockPos pos, boolean multidimensional, long key){
+		AMVector3 current = new AMVector3(pos);
+		if (!multidimensional){
+			AMVector3 next = getNextKeystoneLocationInWorld(world, pos, key);
+			if (next == null)
+				next = current;
+			return next;
+		}else{
+			return current;
+		}
+	}
+
+	public AMVector3 getNextKeystoneLocationInWorld(World world, BlockPos pos, long key){
+		AMVector3 location = new AMVector3(pos);
+		ArrayList<AMVector3> dimensionList = KeystonePortalLocations.get(world.provider.getDimension());
+		if (dimensionList == null || dimensionList.size() < 1){
+			return null;
+		}
+
+		int index = dimensionList.indexOf(location);
+		index++;
+		if (index >= dimensionList.size()) index = 0;
+		AMVector3 newLocation = dimensionList.get(index);
+
+		while (!newLocation.equals(location)){
+			TileEntity te = world.getTileEntity(newLocation.toBlockPos());
+			if (te != null && te instanceof TileEntityKeystoneRecepticle){
+				if (KeystoneUtilities.instance.getKeyFromRunes(((IKeystoneLockable<?>)te).getRunesInKey()) == key){
+					return newLocation;
+				}
+			}
+			index++;
+			if (index >= dimensionList.size()) index = 0;
+			newLocation = dimensionList.get(index);
+		}
+
+		return location;
+	}
+
+	public void resetKnownPortalLocations(){
+		KeystonePortalLocations.clear();
 	}
 }

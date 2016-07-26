@@ -1,12 +1,6 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
-import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
-import static am2.defs.IDDefs.GUI_OBELISK;
-import static am2.defs.IDDefs.GUI_OCCULUS;
-import static am2.defs.IDDefs.GUI_RIFT;
-import static am2.defs.IDDefs.GUI_SPELL_BOOK;
-import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
+import static am2.defs.IDDefs.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +10,7 @@ import com.google.common.collect.ImmutableMap;
 
 import am2.ArsMagica2;
 import am2.affinity.AffinityAbilityHelper;
+import am2.api.blocks.IKeystoneLockable;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IArcaneCompendium;
 import am2.api.extensions.IEntityExtension;
@@ -50,11 +45,15 @@ import am2.blocks.tileentity.TileEntityCrystalMarker;
 import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
+import am2.blocks.tileentity.TileEntityKeystoneChest;
+import am2.blocks.tileentity.TileEntityKeystoneDoor;
+import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityManaBattery;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
 import am2.blocks.tileentity.TileEntitySlipstreamGenerator;
+import am2.blocks.tileentity.TileEntitySpellSealedDoor;
 import am2.bosses.EntityAirGuardian;
 import am2.bosses.EntityArcaneGuardian;
 import am2.bosses.EntityEarthGuardian;
@@ -67,6 +66,8 @@ import am2.bosses.EntityWaterGuardian;
 import am2.bosses.EntityWinterGuardian;
 import am2.container.ContainerArmorInfuser;
 import am2.container.ContainerInscriptionTable;
+import am2.container.ContainerKeystoneChest;
+import am2.container.ContainerKeystoneLockable;
 import am2.container.ContainerObelisk;
 import am2.container.ContainerRiftStorage;
 import am2.container.ContainerSpellBook;
@@ -104,6 +105,8 @@ import am2.entity.EntityWinterGuardianArm;
 import am2.extensions.RiftStorage;
 import am2.handler.EntityHandler;
 import am2.handler.PotionEffectHandler;
+import am2.items.ContainerKeystone;
+import am2.items.ItemKeystone;
 import am2.items.ItemSpellBook;
 import am2.lore.CompendiumUnlockHandler;
 import am2.packet.AMNetHandler;
@@ -115,6 +118,7 @@ import am2.power.PowerTypes;
 import am2.proxy.tick.ServerTickHandler;
 import am2.trackers.ItemFrameWatcher;
 import am2.trackers.PlayerTracker;
+import am2.utils.InventoryUtilities;
 import am2.utils.NPCSpells;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -122,10 +126,10 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -148,7 +152,8 @@ public class CommonProxy implements IGuiHandler{
 	protected AMPacketProcessorServer packetProcessor;
 	private HashMap<EntityLivingBase, ArrayList<PotionEffect>> deferredPotionEffects = new HashMap<>();
 	private HashMap<EntityLivingBase, Integer> deferredDimensionTransfers = new HashMap<>();
-	public ArrayList<Item> items = new ArrayList<>();
+	public ItemDefs items;
+	public BlockDefs blocks;
 	public AMEnchantments enchantments;
 	
 	public PlayerTracker playerTracker;
@@ -163,6 +168,7 @@ public class CommonProxy implements IGuiHandler{
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch (ID) {
 		case GUI_OCCULUS: return null;
 		case GUI_RIFT: return new ContainerRiftStorage(player, RiftStorage.For(player));
@@ -177,6 +183,29 @@ public class CommonProxy implements IGuiHandler{
 			}
 			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
 			return new ContainerSpellBook(player.inventory, bookStack, item.ConvertToInventory(bookStack));
+		case GUI_KEYSTONE_CHEST:
+			if (!(te instanceof TileEntityKeystoneChest)){
+				return null;
+			}
+			return new ContainerKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
+		case GUI_KEYSTONE:
+			ItemStack keystoneStack = player.getHeldItemMainhand();
+			if (keystoneStack.getItem() == null || !(keystoneStack.getItem() instanceof ItemKeystone)){
+				return null;
+			}
+			ItemKeystone keystone = (ItemKeystone)keystoneStack.getItem();
+
+			int runeBagSlot = InventoryUtilities.getInventorySlotIndexFor(player.inventory, ItemDefs.runeBag);
+			ItemStack runeBag = null;
+			if (runeBagSlot > -1)
+				runeBag = player.inventory.getStackInSlot(runeBagSlot);
+
+			return new ContainerKeystone(player.inventory, player.getHeldItemMainhand(), runeBag, keystone.ConvertToInventory(keystoneStack), runeBag == null ? null : ItemDefs.runeBag.ConvertToInventory(runeBag), runeBagSlot);
+		case GUI_KEYSTONE_LOCKABLE:
+			if (!(te instanceof IKeystoneLockable)){
+				return null;
+			}
+			return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
 		}
 		return null;
 	}
@@ -257,7 +286,11 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityManaBattery.class, "TileEntityManaBattery");
 		GameRegistry.registerTileEntity(TileEntityArmorImbuer.class, "TileEntityArmorImbuer");
 		GameRegistry.registerTileEntity(TileEntitySlipstreamGenerator.class, "TileEntitySlipstramGenerator");
-		
+		GameRegistry.registerTileEntity(TileEntityKeystoneRecepticle.class, "TileEntityKeystoneRecepticle");
+		GameRegistry.registerTileEntity(TileEntityKeystoneDoor.class, "TileEntityKeystoneDoor");
+		GameRegistry.registerTileEntity(TileEntityKeystoneChest.class, "TileEntityKeystoneChest");
+		GameRegistry.registerTileEntity(TileEntitySpellSealedDoor.class, "TileEntitySpellSealedDoor");
+
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
 		CapabilityManager.INSTANCE.register(ISkillData.class, new ISkillData.Storage(), new ISkillData.Factory());
@@ -270,9 +303,10 @@ public class CommonProxy implements IGuiHandler{
 		NPCSpells.instance.toString();
 		LoreDefs.init();
 		PotionEffectsDefs.init();
-		new ItemDefs();
+		items = new ItemDefs();
+		blocks = new BlockDefs();
+		blocks.preInit();
 		new CreativeTabsDefs();
-		BlockDefs.preInit();;
 	}
 	
 	public void init() {

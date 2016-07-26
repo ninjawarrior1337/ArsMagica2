@@ -7,10 +7,10 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.blocks.MultiblockStructureDefinition;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.items.ItemOre;
-import am2.multiblock.MultiblockStructureDefinition;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;

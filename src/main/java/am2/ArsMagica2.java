@@ -17,6 +17,7 @@ import am2.packet.MessageCapabilities;
 import am2.proxy.CommonProxy;
 import am2.spell.AbstractSpellPart;
 import net.minecraft.init.Blocks;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -61,6 +62,7 @@ public class ArsMagica2 {
 	public void preInit (FMLPreInitializationEvent e) {
 		config = new AMConfig(e.getSuggestedConfigurationFile());
 		proxy.preInit();
+		ForgeChunkManager.setForcedChunkLoadingCallback(instance, AMChunkLoader.INSTANCE);
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("AM2");
 		network.registerMessage(MessageBoolean.IceBridgeHandler.class, MessageBoolean.class, 1, Side.SERVER);
 		network.registerMessage(MessageCapabilities.class, MessageCapabilities.class, 3, Side.SERVER);

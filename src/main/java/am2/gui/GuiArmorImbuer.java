@@ -28,6 +28,7 @@ import net.minecraft.util.text.translation.I18n;
 public class GuiArmorImbuer extends GuiContainer{
 
 	private TileEntityArmorImbuer tileEntity;
+	private EntityPlayer player;
 
 	private static final ResourceLocation foreground = new ResourceLocation("arsmagica2", "textures/gui/ArmorUpgradeGUI.png");
 
@@ -50,6 +51,7 @@ public class GuiArmorImbuer extends GuiContainer{
 	public GuiArmorImbuer(EntityPlayer player, TileEntityArmorImbuer infuser){
 		super(new ContainerArmorInfuser(player, infuser));
 		this.tileEntity = infuser;
+		this.player = player;
 		xSize = 247;
 		ySize = 250;
 	}
@@ -126,10 +128,13 @@ public class GuiArmorImbuer extends GuiContainer{
 			for (ImbuementTiers tier : ImbuementTiers.values()){
 				int offset = tier == ImbuementTiers.FIRST ? tier1Offset : tier == ImbuementTiers.SECOND ? tier2Offset : tier == ImbuementTiers.THIRD ? tier3Offset : tier4Offset;
 				int num = 0;
-				ArmorImbuement[] infusions = ImbuementRegistry.instance.getImbuementsForTier(tier, armorType);
+				ArrayList<ArmorImbuement> infusions = new ArrayList<>();
+				for (ArmorImbuement imbuement : ImbuementRegistry.instance.getImbuementsForTier(tier, armorType)) {
+					if (imbuement.canApplyToArmor(stack, player)) infusions.add(imbuement);
+				}
 				GuiButton buttonNext = tier == ImbuementTiers.FIRST ? tier1Next : (tier == ImbuementTiers.SECOND ? tier2Next : (tier == ImbuementTiers.THIRD ? tier3Next : tier4Next));
 				GuiButton buttonPrev = tier == ImbuementTiers.FIRST ? tier1Prev : (tier == ImbuementTiers.SECOND ? tier2Prev :( tier == ImbuementTiers.THIRD ? tier3Prev : tier4Prev));
-				if (infusions.length > 4) {
+				if (infusions.size() > 4) {
 					buttonNext.visible = true;
 					buttonPrev.visible = true;
 				} else {
@@ -140,7 +145,7 @@ public class GuiArmorImbuer extends GuiContainer{
 					buttonPrev.enabled = false;
 				else
 					buttonPrev.enabled = true;
-				if (offset >= infusions.length - 4)
+				if (offset >= infusions.size() - 4)
 					buttonNext.enabled = false;
 				else
 					buttonNext.enabled = true;
@@ -170,7 +175,10 @@ public class GuiArmorImbuer extends GuiContainer{
 
 			int highestSelectedTier = 0;
 			for (ImbuementTiers tier : ImbuementTiers.values()){
-				ArmorImbuement[] infusions = ImbuementRegistry.instance.getImbuementsForTier(tier, armorType);
+				ArrayList<ArmorImbuement> infusions = new ArrayList<>();
+				for (ArmorImbuement imbuement : ImbuementRegistry.instance.getImbuementsForTier(tier, armorType)) {
+					if (imbuement.canApplyToArmor(stack, player)) infusions.add(imbuement);
+				}
 				ArmorImbuement[] existingInfusions = ArmorHelper.getInfusionsOnArmor(stack);
 				ArmorImbuement tierInfusion = null;
 				int offset = tier == ImbuementTiers.FIRST ? tier1Offset : tier == ImbuementTiers.SECOND ? tier2Offset : tier == ImbuementTiers.THIRD ? tier3Offset : tier4Offset;

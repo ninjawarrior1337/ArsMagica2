@@ -1,4 +1,4 @@
-package am2.multiblock;
+package am2.api.blocks;
 
 import java.util.ArrayList;
 import java.util.HashMap;

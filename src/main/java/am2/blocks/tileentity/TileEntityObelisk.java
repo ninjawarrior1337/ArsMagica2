@@ -7,12 +7,12 @@ import com.google.common.collect.Lists;
 
 import am2.ObeliskFuelHelper;
 import am2.api.IMultiblockStructureController;
+import am2.api.blocks.MultiblockGroup;
+import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.blocks.TypedMultiblockGroup;
 import am2.buffs.BuffEffectManaRegen;
 import am2.defs.BlockDefs;
 import am2.defs.PotionEffectsDefs;
-import am2.multiblock.MultiblockGroup;
-import am2.multiblock.MultiblockStructureDefinition;
-import am2.multiblock.TypedMultiblockGroup;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;

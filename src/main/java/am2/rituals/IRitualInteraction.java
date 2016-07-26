@@ -1,7 +1,7 @@
 package am2.rituals;
 
+import am2.api.blocks.MultiblockStructureDefinition;
 import net.minecraft.item.ItemStack;
-import am2.multiblock.MultiblockStructureDefinition;
 
 public interface IRitualInteraction {
 	

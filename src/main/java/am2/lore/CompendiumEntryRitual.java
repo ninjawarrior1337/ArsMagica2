@@ -1,7 +1,7 @@
 package am2.lore;
 
+import am2.api.blocks.MultiblockStructureDefinition;
 import am2.gui.GuiArcaneCompendium;
-import am2.multiblock.MultiblockStructureDefinition;
 import am2.rituals.IRitualInteraction;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;

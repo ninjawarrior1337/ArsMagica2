@@ -125,9 +125,8 @@ public class EntityDarkMage extends EntityMob{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound){
 		super.writeEntityToNBT(par1nbtTagCompound);
-
-		par1nbtTagCompound.setInteger("am2_dm_skin", this.dataManager.get(MAGE_SKIN));
-		par1nbtTagCompound.setInteger("am2_dm_book", this.dataManager.get(MAGE_BOOK));
+		par1nbtTagCompound.setInteger("am2_dm_skin", this.dataManager.get(MAGE_SKIN).intValue());
+		par1nbtTagCompound.setInteger("am2_dm_book", this.dataManager.get(MAGE_BOOK).intValue());
 	}
 
 	private int getAverageNearbyPlayerMagicLevel(){
@@ -174,7 +173,7 @@ public class EntityDarkMage extends EntityMob{
 
 	@SideOnly(Side.CLIENT)
 	public String getTexture(){
-		return String.format("arsmagica2:textures/mobs/dark_mages/dark_mage_%d.png", this.dataManager.get(MAGE_SKIN));
+		return String.format("arsmagica2:textures/mobs/dark_mages/dark_mage_%d.png", this.dataManager.get(MAGE_SKIN).intValue());
 	}
 
 

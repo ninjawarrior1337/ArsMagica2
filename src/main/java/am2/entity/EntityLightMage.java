@@ -243,6 +243,6 @@ public class EntityLightMage extends EntityCreature{
 
 	@SideOnly(Side.CLIENT)
 	public String getTexture(){
-		return String.format("arsmagica2:textures/mobs/light_mages/light_mage_%d.png", this.dataManager.get(MAGE_SKIN));
+		return String.format("arsmagica2:textures/mobs/light_mages/light_mage_%d.png", this.dataManager.get(MAGE_SKIN).intValue());
 	}
 }

@@ -1,6 +1,5 @@
 package am2.utils;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ import am2.entity.ai.selectors.SummonEntitySelector;
 import am2.extensions.EntityExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -108,30 +106,7 @@ public class EntityUtils {
 	}
 	
 	public static boolean isAIEnabled(EntityCreature ent){
-		Method m = null;
-		try{
-			m = EntityLiving.class.getDeclaredMethod("func_70650_aV");
-		}catch (NoSuchMethodException nex){
-			try{
-				m = EntityLiving.class.getDeclaredMethod("isAIEnabled");
-			}catch (Throwable t){
-				t.printStackTrace();
-				return false;
-			}
-		}catch (Throwable t){
-			t.printStackTrace();
-			return false;
-		}
-		m.setAccessible(true);
-		boolean b;
-		try{
-			b = (Boolean)m.invoke(ent);
-		}catch (Throwable e){
-			e.printStackTrace();
-			return false;
-		}
-		m.setAccessible(false);
-		return b;
+		return !ent.isAIDisabled();
 	}
 	
 	public static void makeSummon_PlayerFaction(EntityCreature entityliving, EntityPlayer player, boolean storeForRevert){
@@ -159,7 +134,7 @@ public class EntityUtils {
 				if (speed <= 0) speed = 1.0f;
 				entityliving.tasks.addTask(3, new EntityAIAttackMelee(entityliving, speed, true));
 			}
-
+			
 			entityliving.targetTasks.taskEntries.clear();
 
 			entityliving.targetTasks.addTask(1, new EntityAIHurtByTarget(entityliving, true));

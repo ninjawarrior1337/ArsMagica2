@@ -26,12 +26,15 @@ import am2.items.ItemChalk;
 import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
 import am2.items.ItemInfinityOrb;
+import am2.items.ItemKeystone;
+import am2.items.ItemKeystoneDoor;
 import am2.items.ItemLifeWard;
 import am2.items.ItemLightningCharm;
 import am2.items.ItemMagicBroom;
 import am2.items.ItemNatureGuardianSickle;
 import am2.items.ItemOre;
 import am2.items.ItemRune;
+import am2.items.ItemRuneBag;
 import am2.items.ItemSpellBook;
 import am2.items.ItemSpellComponent;
 import am2.items.ItemWinterGuardianArm;
@@ -138,7 +141,13 @@ public class ItemDefs {
 	public static ItemStack lightningCharmEnchanted;
 	public static ItemStack waterOrbsEnchanted;
 
-	public static final Item magicBroom = new ItemMagicBroom();
+	public static final Item magicBroom = new ItemMagicBroom().registerAndName("magic_broom");
+
+	public static final ItemKeystone keystone = (ItemKeystone) new ItemKeystone().registerAndName("keystone");
+
+	public static final Item itemKeystoneDoor = new ItemKeystoneDoor().registerAndName("item_keystone_door");
+
+	public static final ItemRuneBag runeBag = (ItemRuneBag) new ItemRuneBag().registerAndName("rune_bag");
 
 
 
@@ -183,6 +192,9 @@ public class ItemDefs {
 		registerTexture(lifeWard);
 		registerTexture(lightningCharm);
 		registerTexture(waterOrbs);
+		
+		registerTexture(keystone);
+		registerTexture(magicBroom);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		

@@ -7,6 +7,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbuement>{
@@ -32,10 +36,10 @@ public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbue
 	 * @param matchedType The application type that was matched.
 	 * @param params      Depends on the application type.
 	 *                    <br/>
-	 *                    In the case of ON_TICK, it will be a 1-length array with the first element being the LivingEvent event <br/>
-	 *                    In the case of ON_JUMP, it will be a 1-length array with the first element being the LivingJumpEvent event<br/>
-	 *                    In the case of ON_HIT, it will be a 1-length array with the first element being the LivingHurtEvent event<br/>
-	 *                    In the case of ON_MINING_SPEED, it will be a 1-length array with the first element being the BreakSpeed event <br/>
+	 *                    In the case of ON_TICK, it will be a 1-length array with the first element being the {@link LivingEvent} event <br/>
+	 *                    In the case of ON_JUMP, it will be a 1-length array with the first element being the {@link LivingJumpEvent} event<br/>
+	 *                    In the case of ON_HIT, it will be a 1-length array with the first element being the {@link LivingHurtEvent} event<br/>
+	 *                    In the case of ON_MINING_SPEED, it will be a 1-length array with the first element being the {@link BreakSpeed} event <br/>
 	 */
 	public abstract boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params);
 	
@@ -65,4 +69,11 @@ public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbue
 	 * How much does the infusion damage the armor?
 	 */
 	public abstract int getArmorDamage();
+	
+	/**
+	 * Can the player apply the imbuement on current armor?
+	 */
+	public boolean canApplyToArmor(ItemStack stack, EntityPlayer player) {
+		return true;
+	}
 }

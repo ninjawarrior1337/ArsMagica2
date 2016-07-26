@@ -2,7 +2,6 @@ package am2.items;
 
 import java.util.List;
 
-import am2.ArsMagica2;
 import am2.entity.EntityBoundArrow;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -34,7 +33,6 @@ public class ItemBoundArrow extends ItemArrow {
 	public ItemBoundArrow registerAndName(String name) {
 		this.setUnlocalizedName(name);
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
-		ArsMagica2.proxy.items.add(this);
 		return this;
 	}
 }

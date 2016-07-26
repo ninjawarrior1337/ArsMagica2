@@ -271,8 +271,9 @@ public class ItemSpellBook extends ItemArsMagica2{
 		ItemStack stack = GetActiveItemStack(par1ItemStack);
 
 		String s = I18n.translateToLocal("am2.tooltip.open");
+		String s2 = I18n.translateToLocal("am2.tooltip.scroll");
 		par3List.add((new StringBuilder()).append("\2477").append(s).toString());
-
+		par3List.add((new StringBuilder()).append("\2477").append(s2).toString());
 		if (activeScroll != null){
 			activeScroll.addInformation(stack, par2EntityPlayer, par3List, par4);
 		}

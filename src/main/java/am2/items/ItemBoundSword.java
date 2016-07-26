@@ -1,6 +1,5 @@
 package am2.items;
 
-import am2.ArsMagica2;
 import am2.api.IBoundItem;
 import am2.defs.ItemDefs;
 import am2.utils.SpellUtils;
@@ -54,7 +53,6 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 	public ItemSword registerAndName(String name) {
 		this.setUnlocalizedName(name);
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
-		ArsMagica2.proxy.items.add(this);
 		return this;
 	}
 

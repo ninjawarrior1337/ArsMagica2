@@ -6,9 +6,9 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.blocks.MultiblockStructureDefinition;
 import am2.buffs.BuffEffectShrink;
 import am2.defs.PotionEffectsDefs;
-import am2.multiblock.MultiblockStructureDefinition;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
 import am2.spell.SpellComponent;
