@@ -681,7 +681,7 @@ public class AMGuiHelper{
 		float prevFlip = EntityExtension.For(entity).getPrevFlipRotation();
 		if (flip > 0){
 			float smoothedFlip = prevFlip + ((flip - prevFlip) * f);
-			GlStateManager.translate(0, (entity.height * (smoothedFlip / 180f)) - 0.1f, 0);
+			GlStateManager.translate(0, (entity.height * (smoothedFlip / 180f) * 0.5f) - 0.1f, 0);
 		}
 	}
 

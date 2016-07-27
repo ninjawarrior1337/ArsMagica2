@@ -81,8 +81,8 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		map.put(8, Blocks.STONEBRICK.getDefaultState());
 		map.put(9, Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED));
 		MultiblockGroup keystone = new MultiblockGroup("keystoneRecepticle", Lists.newArrayList(
-				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.NORTH),
-				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.SOUTH)), false);
+				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.EAST),
+				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.WEST)), false);
 		TypedMultiblockGroup struct = new TypedMultiblockGroup("struct", Lists.newArrayList(map), false);
 		//primary
 		//row 0
@@ -119,8 +119,8 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		//secondary
 		//row 0
 		MultiblockGroup keystone_alt = new MultiblockGroup("keystoneRecepticle_alt", Lists.newArrayList(
-				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.EAST),
-				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.WEST)), false);
+				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.NORTH),
+				BlockDefs.keystoneRecepticle.getDefaultState().withProperty(BlockKeystoneReceptacle.FACING, EnumFacing.SOUTH)), false);
 		TypedMultiblockGroup struct_alt = new TypedMultiblockGroup("struct_alt", Lists.newArrayList(map), false);
 		keystone_alt.addBlock(BlockPos.ORIGIN);
 		struct_alt.addBlock(new BlockPos (-1, 0, 0), 0);
@@ -248,11 +248,11 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		switch (worldObj.getBlockState(pos).getValue(BlockKeystoneReceptacle.FACING)){
 		case NORTH:
 		case SOUTH:
-			remainActive &= primary.matches(worldObj, pos);
+			remainActive &= secondary.matches(worldObj, pos);
 			break;
 		case EAST:
 		default:
-			remainActive &= secondary.matches(worldObj, pos);
+			remainActive &= primary.matches(worldObj, pos);
 			break;
 		}
 		return remainActive;

@@ -147,7 +147,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	public boolean isActive(){
-		return burnTimeRemaining > 0 || inventory[0] != null;
+		return burnTimeRemaining > 0 || (inventory[0] != null && ObeliskFuelHelper.instance.getFuelBurnTime(inventory[0]) > 0);
 	}
 
 	public boolean isHighPowerActive(){

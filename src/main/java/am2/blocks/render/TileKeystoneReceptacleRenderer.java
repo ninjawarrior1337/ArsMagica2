@@ -21,14 +21,14 @@ public class TileKeystoneReceptacleRenderer extends TileEntitySpecialRenderer<Ti
 	public TileKeystoneReceptacleRenderer(){
 		model = new ModelKeystoneRecepticle();
 
-		rLoc = new ResourceLocation("arsmagica2", "textures/block/custom/KeystoneReceptacle.png");
+		rLoc = new ResourceLocation("arsmagica2", "textures/blocks/custom/KeystoneReceptacle.png");
 	}
 
 	public void renderTileEntityAt(TileEntityKeystoneRecepticle tile, double x, double y, double z, float partialTicks,int destroyStage){
 		int i = 0;
 
 		if (tile.getWorld() != null){
-			i = tile.getBlockMetadata() + 1;
+			i = tile.getBlockMetadata();
 		}
 		int j = 0;
 

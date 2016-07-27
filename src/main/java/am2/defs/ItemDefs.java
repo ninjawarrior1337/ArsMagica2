@@ -1,5 +1,9 @@
 package am2.defs;
 
+import java.util.Map.Entry;
+
+import am2.api.SkillPointRegistry;
+import am2.api.skill.SkillPoint;
 import am2.armor.ArsMagicaArmorMaterial;
 import am2.armor.ItemEarthGuardianArmor;
 import am2.armor.ItemEnderBoots;
@@ -126,7 +130,7 @@ public class ItemDefs {
 	public static final Item enderBoots = new ItemEnderBoots(ENDER, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.FEET).registerAndName("ender_boots");
 	public static final Item fireEars = new ItemFireGuardianEars(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.HEAD).registerAndName("fire_ears");
 	public static final Item lifeWard = new ItemLifeWard().registerAndName("life_ward");
-	public static final Item lightningCharm = new ItemLightningCharm().registerAndName("lighrining_charm");
+	public static final Item lightningCharm = new ItemLightningCharm().registerAndName("lightning_charm");
 	public static final Item waterOrbs = new ItemWaterGuardianOrbs(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, EntityEquipmentSlot.LEGS).registerAndName("water_orbs");	
 	public static final ItemSpellBook spellBook = (ItemSpellBook) new ItemSpellBook().registerAndName("spell_book");
 
@@ -231,6 +235,18 @@ public class ItemDefs {
 			ModelBakery.registerItemVariants(bindingCatalyst, loc);
 			catalystRenderer.addModel(i, loc);
 		}
+		ModelBakery.registerItemVariants(bindingCatalyst, new ModelResourceLocation(bindingCatalyst.getRegistryName(), "inventory"));
+		
+		DefaultWithMetaRenderer inforbRenderer = new DefaultWithMetaRenderer(new ModelResourceLocation(infinityOrb.getRegistryName(), "inventory"));
+		for (Entry<Integer, SkillPoint> entry : SkillPointRegistry.getSkillPointMap().entrySet()) {
+			if (entry.getKey().intValue() < 0)
+				continue;
+			ModelResourceLocation loc = new ModelResourceLocation(infinityOrb.getRegistryName() + "_" + entry.getValue().toString().toLowerCase(), "inventory");
+			ModelBakery.registerItemVariants(infinityOrb, loc);
+			inforbRenderer.addModel(entry.getKey(), loc);
+		}
+		renderItem.getItemModelMesher().register(infinityOrb, inforbRenderer);
+		
 		renderItem.getItemModelMesher().register(bindingCatalyst, catalystRenderer);
 		for (int i = 0; i < 3; i++) {
 			ModelResourceLocation loc = new ModelResourceLocation(inscriptionUpgrade.getRegistryName() + "_" + (i + 1), "inventory");

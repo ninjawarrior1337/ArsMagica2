@@ -233,4 +233,8 @@ public interface IEntityExtension {
 	public Entity getInanimateTarget();
 
 	public void setInanimateTarget(Entity ent);
+
+	public void setFlipRotation(float rot);
+
+	public void setPrevFlipRotation(float rot);
 }

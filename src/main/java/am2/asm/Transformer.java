@@ -1,9 +1,19 @@
 package am2.asm;
 
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.objectweb.asm.Opcodes.ASTORE;
+import static org.objectweb.asm.Opcodes.DUP;
+import static org.objectweb.asm.Opcodes.FLOAD;
+import static org.objectweb.asm.Opcodes.FRETURN;
+import static org.objectweb.asm.Opcodes.GETSTATIC;
+import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
+import static org.objectweb.asm.Opcodes.NEW;
+import static org.objectweb.asm.Opcodes.POP;
 
+import java.util.Iterator;
 import java.util.ListIterator;
-import net.minecraft.launchwrapper.IClassTransformer;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -18,6 +28,9 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+
+import am2.ArsMagica2;
+import net.minecraft.launchwrapper.IClassTransformer;
 
 public class Transformer implements IClassTransformer {
 
@@ -80,10 +93,61 @@ public class Transformer implements IClassTransformer {
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 			cn.accept(cw);
 			return cw.toByteArray();
-		}
+		} else if (transformedName.equalsIgnoreCase("net.minecraft.client.renderer.EntityRenderer"))
+			return patchEntityRenderer(basicClass);
 		return basicClass;
 	}
 	
-	
+	private byte[] patchEntityRenderer(byte[] basicClass) {
+		ClassReader cr = new ClassReader(basicClass);
+		ClassNode cn = new ClassNode();
+		cr.accept(cn, 0);
+		for (MethodNode mn : cn.methods){
+			if (mn.name.equals("setupCameraTransform") && mn.desc.equals("(FI)V")){ // setupCameraTransform
+				AbstractInsnNode orientCameraNode = null;
+				AbstractInsnNode gluPerspectiveNode = null;
+				ArsMagica2.LOGGER.info("Core: Located target method " + mn.name + mn.desc);
+				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
+				while (instructions.hasNext()){
+					AbstractInsnNode node = instructions.next();
+					if (node instanceof MethodInsnNode){
+						MethodInsnNode method = (MethodInsnNode)node;
+						if (orientCameraNode == null && method.name.equals("orientCamera") && method.desc.equals("(F)V")){ //orientCamera
+							ArsMagica2.LOGGER.info("Core: Located target method insn node: " + method.name + method.desc);
+							orientCameraNode = node;
+							continue;
+						}else if (gluPerspectiveNode == null && method.name.equals("gluPerspective") && method.desc.equals("(FFFF)V")){
+							ArsMagica2.LOGGER.info("Core: Located target method insn node: " + method.name + method.desc);
+							gluPerspectiveNode = node;
+							continue;
+						}
+					}
+
+					if (orientCameraNode != null && gluPerspectiveNode != null){
+						//found all nodes we're looking for
+						break;
+					}
+				}
+				if (orientCameraNode != null){
+					VarInsnNode floatset = new VarInsnNode(FLOAD, 1);
+					MethodInsnNode callout = new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "shiftView", "(F)V", false);
+					mn.instructions.insert(orientCameraNode, callout);
+					mn.instructions.insert(orientCameraNode, floatset);
+					ArsMagica2.LOGGER.info("Core: Success!  Inserted callout function op (shift)!");
+				}
+				if (gluPerspectiveNode != null){
+					VarInsnNode floatset = new VarInsnNode(FLOAD, 1);
+					MethodInsnNode callout = new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "flipView", "(F)V", false);
+					mn.instructions.insert(gluPerspectiveNode, callout);
+					mn.instructions.insert(gluPerspectiveNode, floatset);
+					ArsMagica2.LOGGER.info("Core: Success!  Inserted callout function op (flip)!");
+				}
+
+			}
+		}
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+		return cw.toByteArray();
+	}
 
 }

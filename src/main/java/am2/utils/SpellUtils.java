@@ -401,7 +401,6 @@ public class SpellUtils {
 		
 		ItemStack stack2 = stack.copy();
 		NBTUtils.getAM2Tag(stack2.getTagCompound()).setInteger("CurrentGroup", group + 1);
-
 		if (group == 0)
 			shape.beginStackStage((ItemSpellBase)stack.getItem(), stack2, caster, target, world, x, y, z, side, giveXP, ticksUsed);
 		else {

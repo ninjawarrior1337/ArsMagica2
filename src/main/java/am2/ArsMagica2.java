@@ -50,6 +50,7 @@ public class ArsMagica2 {
 	public static final Logger LOGGER = LogManager.getLogger("ArsMagica2");
 	
 	static {
+		
 		new DataDefinitions();
 		new ArsMagicaAPI();
 		Affinity.registerAffinities();

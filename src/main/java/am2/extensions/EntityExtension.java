@@ -36,6 +36,7 @@ import am2.armor.ArmorHelper;
 import am2.armor.ArsMagicaArmorMaterial;
 import am2.armor.infusions.GenericImbuement;
 import am2.armor.infusions.ImbuementRegistry;
+import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
 import am2.packet.AMDataReader;
@@ -569,6 +570,16 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float getPrevFlipRotation() {
 		return entity.getDataManager().get(PREV_FLIP_ROTATION);
 	}
+	
+	@Override
+	public void setFlipRotation(float rot) {
+		entity.getDataManager().set(FLIP_ROTATION, rot);
+	}
+
+	@Override
+	public void setPrevFlipRotation(float rot) {
+		entity.getDataManager().set(PREV_FLIP_ROTATION, rot);
+	}
 
 	@Override
 	public float getShrinkPct() {
@@ -730,6 +741,20 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public void setInanimateTarget(Entity ent) {
 		this.ent = ent;
+	}
+	
+	public void flipTick(){
+		boolean flipped = getIsFlipped();
+
+		ItemStack boots = ((EntityPlayer)entity).inventory.armorInventory[0];
+		if (boots == null || boots.getItem() != ItemDefs.enderBoots)
+			setInverted(false);
+
+		setPrevFlipRotation(getFlipRotation());
+		if (flipped && getFlipRotation() < 180)
+			setFlipRotation(getFlipRotation() + 15);
+		else if (!flipped && getFlipRotation() > 0)
+			setFlipRotation(getFlipRotation() - 15);
 	}
 
 }

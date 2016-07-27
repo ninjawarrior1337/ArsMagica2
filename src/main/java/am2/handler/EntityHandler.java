@@ -21,6 +21,8 @@ import am2.packet.AMNetHandler;
 import am2.spell.ContingencyType;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -29,10 +31,13 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -110,8 +115,9 @@ public class EntityHandler {
 			EntityExtension.For(event.getEntityLiving()).spawnManaLinkParticles();
 		else
 			EntityExtension.For(event.getEntityLiving()).manaBurnoutTick();
+		EntityExtension ext = EntityExtension.For(event.getEntityLiving());
 		
-		IEntityExtension ext = EntityExtension.For(event.getEntityLiving());
+		//Contingency
 		ContingencyType type = ext.getContingencyType();
 		if (event.getEntityLiving().isBurning() && type == ContingencyType.FIRE) {
 			SpellUtils.applyStackStage(ext.getContingencyStack(), event.getEntityLiving(), null, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, null, event.getEntityLiving().worldObj, false, true, 0);
@@ -138,8 +144,9 @@ public class EntityHandler {
 	}
 	
 	public void playerTick (EntityPlayer player) {
-		IEntityExtension ext = player.getCapability(EntityExtension.INSTANCE, null);
+		EntityExtension ext = EntityExtension.For(player);
 		IAffinityData affData = player.getCapability(AffinityData.INSTANCE, null);
+		ext.flipTick();
 		if (!player.worldObj.isRemote) {
 			affData.tickDiminishingReturns();
 		}
@@ -152,6 +159,30 @@ public class EntityHandler {
 					else 
 						stack.getItem().onDroppedByPlayer(stack, player);
 				}
+			}
+		}
+		ext.setInverted(false);
+		if (ext.getIsFlipped()){
+			if ((player).motionY < 2)
+				(player).motionY += 0.15f;
+
+			double posY = player.posY + player.height;
+			World world = player.worldObj;
+			if (!world.isRemote)
+				posY += player.getEyeHeight();
+			if (world.rayTraceBlocks(new Vec3d(player.posX, posY, player.posZ), new Vec3d(player.posX, posY + 1, player.posZ), true) != null){
+				if (!player.onGround){
+					if (player.fallDistance > 0){
+						player.fall(player.fallDistance, 1.0f);
+						player.fallDistance = 0;
+					}
+				}
+				player.onGround = true;
+			}else{
+				if (player.motionY > 0){
+					player.fallDistance += player.posY - player.prevPosY;
+				}
+				player.onGround = false;
 			}
 		}
 		if (ArmorHelper.isInfusionPreset(player.getItemStackFromSlot(EntityEquipmentSlot.LEGS), GenericImbuement.stepAssist)){
@@ -223,6 +254,77 @@ public class EntityHandler {
 				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onPlayerRender(RenderPlayerEvent.Pre event){
+		ItemStack chestPlate = event.getEntityPlayer().inventory.armorInventory[2];
+
+		ModelBiped mainModel = event.getRenderer().getMainModel();
+
+		if (!ArsMagica2.proxy.playerTracker.hasCLS(event.getEntityPlayer().getUniqueID().toString())){
+			if (chestPlate != null && chestPlate.getItem() == ItemDefs.earthArmor){
+				if (mainModel != null){
+					mainModel.bipedLeftArm.isHidden = event.getEntityPlayer().getHeldItemOffhand() != null;
+					mainModel.bipedRightArm.isHidden = event.getEntityPlayer().getHeldItemMainhand() != null;
+				}
+			}else{
+				if (mainModel != null){
+					mainModel.bipedLeftArm.isHidden = false;
+					mainModel.bipedRightArm.isHidden = false;
+				}
+			}
+		}
+
+		double dX = Minecraft.getMinecraft().thePlayer.posX - event.getEntityPlayer().posX;
+		double dY = Minecraft.getMinecraft().thePlayer.posY - event.getEntityPlayer().posY;
+		double dZ = Minecraft.getMinecraft().thePlayer.posZ - event.getEntityPlayer().posZ;
+
+		double dpX = Minecraft.getMinecraft().thePlayer.prevPosX - event.getEntityPlayer().prevPosX;
+		double dpY = Minecraft.getMinecraft().thePlayer.prevPosY - event.getEntityPlayer().prevPosY;
+		double dpZ = Minecraft.getMinecraft().thePlayer.prevPosZ - event.getEntityPlayer().prevPosZ;
+
+		double transX = dpX + (dX - dpX) * event.getPartialRenderTick();
+		double transY = dpY + (dY - dpY) * event.getPartialRenderTick();
+		double transZ = dpZ + (dZ - dpZ) * event.getPartialRenderTick();
+
+		if (EntityExtension.For(event.getEntityPlayer()).getFlipRotation() > 0){
+			GL11.glPushMatrix();
+
+			GL11.glTranslated(-transX, -transY, -transZ);
+			GL11.glRotatef(EntityExtension.For(event.getEntityPlayer()).getFlipRotation(), 0, 0, 1.0f);
+			GL11.glTranslated(transX, transY, transZ);
+
+			float offset = event.getEntityPlayer().height * (EntityExtension.For(event.getEntityPlayer()).getFlipRotation() / 180.0f);
+			GL11.glTranslatef(0, -offset, 0);
+		}
+
+		float shrink = EntityExtension.For(event.getEntityPlayer()).getShrinkPct();
+		if (shrink > 0){
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0, 0 - 0.5f * shrink, 0);
+			GL11.glScalef(1 - 0.5f * shrink, 1 - 0.5f * shrink, 1 - 0.5f * shrink);
+		}
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onPlayerRender(RenderPlayerEvent.Post event){
+		ModelBiped mainModel = event.getRenderer().getMainModel();
+		if (mainModel != null){
+			mainModel.bipedLeftArm.isHidden = false;
+			mainModel.bipedRightArm.isHidden = false;
+		}
+		
+		if (EntityExtension.For(event.getEntityPlayer()).getFlipRotation() > 0){
+			GL11.glPopMatrix();
+		}
+		if (EntityExtension.For(event.getEntityPlayer()).getShrinkPct() > 0){
+			GL11.glPopMatrix();
+		}
+
+		//CloakUtils.renderCloakModel(event.entityPlayer, mainModel, event.partialRenderTick);
 	}
 	
 	@SubscribeEvent

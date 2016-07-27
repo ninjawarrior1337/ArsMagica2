@@ -59,19 +59,19 @@ public class ArsMagicaAPI {
 	 * Enable Tier 4, call in static{} for change to take effect.
 	 */
 	public static void enableTier4() {enableTier4 = true;}
-	public static boolean hasTier4() {return enableTier4;}
+	public static boolean hasTier4() {return enableTier4 || hasTier5();}
 
 	/**
 	 * Enable Tier 5, call in static{} for change to take effect.
 	 */
 	public static void enableTier5() {enableTier5 = true;}
-	public static boolean hasTier5() {return enableTier5;}
+	public static boolean hasTier5() {return enableTier5 || hasTier6();}
 	
 	/**
 	 * Enable Tier 6, call in static{} for change to take effect.
 	 */
 	public static void enableTier6() {enableTier6 = true;}
-	public static boolean hasTier6() {return enableTier6;}
+	public static boolean hasTier6() {return enableTier6 ;}
 
 	public static String getCurrentModId () {
 		ModContainer current = Loader.instance().activeModContainer();

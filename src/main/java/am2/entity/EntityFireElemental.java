@@ -18,7 +18,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -157,11 +157,11 @@ public class EntityFireElemental extends EntityMob{
 
 	@Override
 	public ItemStack getHeldItemMainhand(){
-		return defaultHeldItem;
+		return defaultHeldItem.copy();
 	}
 
 	static{
-		defaultHeldItem = new ItemStack(Blocks.FIRE, 1);
+		defaultHeldItem = new ItemStack(Items.FIRE_CHARGE, 1, 0);
 	}
 
 	@Override

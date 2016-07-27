@@ -114,10 +114,8 @@ public class AMParticleIcons{
 			icon = hiddenIcons.get("snowflake" + (rand.nextInt(9) + 1));
 		} else
 			icon = icons.get(name);
-		if (icon == null) {
-			System.out.println(name + " not found");
+		if (icon == null)
 			return icons.get("lights");
-		}
 		return icon;
 	}
 

@@ -10,6 +10,7 @@ public class ItemArsMagica2 extends Item{
 	public ItemArsMagica2() {
 		setCreativeTab(CreativeTabsDefs.tabAM2Items);
 		setMaxDamage(0);
+		setHasSubtypes(true);
 	}
 	
 	public ItemArsMagica2 registerAndName(String name) {
