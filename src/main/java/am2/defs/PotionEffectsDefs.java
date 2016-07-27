@@ -1,11 +1,10 @@
 package am2.defs;
 
-import static am2.ArsMagica2.LOGGER;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import am2.LogHelper;
 import am2.buffs.BuffEffect;
 import am2.buffs.BuffEffectAgility;
 import am2.buffs.BuffEffectAstralDistortion;
@@ -130,19 +129,19 @@ public class PotionEffectsDefs {
 			Constructor<? extends BuffEffect> constr = clazz.getDeclaredConstructor(int.class, int.class);
 			return constr.newInstance(effect.getDuration(), effect.getAmplifier());
 		} catch (NoSuchMethodException e) {
-			LOGGER.warn("Wrong definition for : " + clazz.getName());
+			LogHelper.warn("Wrong definition for : " + clazz.getName());
 		} catch (SecurityException e) {
-			LOGGER.warn("Is this even a thing ? (SecurityException:" + clazz.getName() + ")");
+			LogHelper.warn("Is this even a thing ? (SecurityException:" + clazz.getName() + ")");
 		} catch (InstantiationException e) {
-			LOGGER.warn("Could not create : " + clazz.getName());
+			LogHelper.warn("Could not create : " + clazz.getName());
 		} catch (IllegalAccessException e) {
-			LOGGER.warn("Could not access : " + clazz.getName());
+			LogHelper.warn("Could not access : " + clazz.getName());
 		} catch (IllegalArgumentException e) {
-			LOGGER.warn("Could not create : " + clazz.getName());
+			LogHelper.warn("Could not create : " + clazz.getName());
 		} catch (InvocationTargetException e) {
-			LOGGER.warn("InvocationTargetException" + clazz.getName());
+			LogHelper.warn("InvocationTargetException" + clazz.getName());
 		} catch (NullPointerException e) {
-			LOGGER.warn("This should never be a thing : NullPointerExecption at " + clazz.getName());
+			LogHelper.warn("This should never be a thing : NullPointerExecption at " + clazz.getName());
 		}
 		
 		return null;

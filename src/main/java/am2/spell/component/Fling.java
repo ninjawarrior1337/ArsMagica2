@@ -32,7 +32,6 @@ public class Fling extends SpellComponent{
 		if (target instanceof EntityPlayer){
 			AMNetHandler.INSTANCE.sendVelocityAddPacket(world, (EntityPlayer)target, 0.0f, velocity, 0.0f);
 		}
-		System.out.println(velocity);
 		target.addVelocity(0.0, velocity, 0.0);
 		return true;
 	}

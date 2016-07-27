@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.IMultiblockStructureController;
 import am2.api.SpellRegistry;
 import am2.api.event.CompendiumEntryRegistrationEvent;
@@ -97,14 +97,14 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 					entry = new CompendiumEntryMechanic(id, relatedKeys).setUnlocked(defaultUnlock);
 			}
 		} catch (Throwable t) {
-			ArsMagica2.LOGGER.error("Exception caught during " + id + " initialization...");
+			LogHelper.error("Exception caught during " + id + " initialization...");
 			t.printStackTrace();
 		}
 				
 		if (entry != null) {
 			if (allowReplace) compendiumEntries.put(id, entry);
 			else if (!compendiumEntries.containsKey(id)) compendiumEntries.put(id, entry);
-			else ArsMagica2.LOGGER.info("Trying to register entry with id " + id + " but it already exists, skipping...");
+			else LogHelper.info("Trying to register entry with id " + id + " but it already exists, skipping...");
 		}
 	}
 	
@@ -215,7 +215,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 
 	@Override
 	public void deserializeNBT(NBTBase nbt) {
-		System.out.println("Deserialize");
+		LogHelper.info("Deserialize");
 		new IArcaneCompendium.Storage().readNBT(INSTANCE, this, null, nbt);
 	}
 	
@@ -266,7 +266,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //			if (!file.exists())
 //				file.mkdirs();
 //		}catch (Throwable t){
-//			ArsMagica2.LOGGER.error("Could not create save location!");
+//			LogHelper.error("Could not create save location!");
 //			t.printStackTrace();
 //		}
 //	}
@@ -299,7 +299,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //
 //				writer.close();
 //			}catch (IOException e){
-//				ArsMagica2.LOGGER.error("Compendium unlock state failed to save!");
+//				LogHelper.error("Compendium unlock state failed to save!");
 //				e.printStackTrace();
 //			}
 //
@@ -322,7 +322,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //
 //				File file = new File(saveFileLocation + File.separatorChar + getWorldName() + ".txt");
 //				if (!file.exists()){
-//					ArsMagica2.LOGGER.info("Compendium unlock state not found to load.  Assuming it hasn't been created yet.");
+//					LogHelper.info("Compendium unlock state not found to load.  Assuming it hasn't been created yet.");
 //					return;
 //				}
 //				BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -341,7 +341,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //
 //				reader.close();
 //			}catch (IOException e){
-//				ArsMagica2.LOGGER.error("Compendium unlock state failed to load!");
+//				LogHelper.error("Compendium unlock state failed to load!");
 //				e.printStackTrace();
 //			}
 //		}
@@ -353,7 +353,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //
 //	public void init(Language lang){
 //		if (lang == null){
-//			ArsMagica2.LOGGER.error("Got a current language of NULL from Minecraft?!?  The compendium cannot load!");
+//			LogHelper.error("Got a current language of NULL from Minecraft?!?  The compendium cannot load!");
 //			return;
 //		}
 //		MCVersion = (String)ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "field_110447_Z", "launchedVersion");
@@ -368,7 +368,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //		if (ArsMagica2.config.allowVersionChecks())
 //			checkForModUpdates();
 //		else
-//			ArsMagica2.LOGGER.info("Skipping version check due to config");
+//			LogHelper.info("Skipping version check due to config");
 //
 //		//load the version of the compendium only
 //		loadDocumentVersion(lang);
@@ -377,12 +377,12 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //		if (ArsMagica2.config.allowCompendiumUpdates())
 //			updateCompendium(lang);
 //		else
-//			ArsMagica2.LOGGER.info("Skipping Compendium auto-update due to config");
+//			LogHelper.info("Skipping Compendium auto-update due to config");
 //
 //		//get the compendium stream again, either from an updated version or the default packaged one
 //		InputStream stream = getCompendium(lang);
 //		if (stream == null){
-//			ArsMagica2.LOGGER.error("Unable to load the Arcane Compendium!");
+//			LogHelper.error("Unable to load the Arcane Compendium!");
 //			return;
 //		}
 //		//load the entire document
@@ -418,13 +418,13 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //
 //						//we have the data, save it to the local repository
 //						saveCompendiumData(compendiumData, compendiumFileName);
-//						ArsMagica2.LOGGER.info("Updated Compendium");
+//						LogHelper.info("Updated Compendium");
 //						return true;
 //					}
 //				}
 //			}
 //		}catch (Throwable t){
-//			ArsMagica2.LOGGER.warn("Unable to update the compendium!");
+//			LogHelper.warn("Unable to update the compendium!");
 //			t.printStackTrace();
 //		}
 //		return false;
@@ -432,7 +432,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //
 //	private void checkForModUpdates(){
 //		try{
-//			ArsMagica2.LOGGER.info("Checking Version.  MC Version: %s", MCVersion);
+//			LogHelper.info("Checking Version.  MC Version: %s", MCVersion);
 //			this.latestModVersion = this.modVersion;
 //			String txt = WebRequestUtils.sendPost("http://arcanacraft.qorconcept.com/mc/AM2Versioning.txt", new HashMap<String, String>());
 //			String[] lines = txt.replace("\r\n", "\n").split("\n");
@@ -443,13 +443,13 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //				if (!MCVersion.startsWith(sections[0].trim()))
 //					continue;
 //				if (versionCompare(sections[1], this.latestModVersion) > 0){
-//					ArsMagica2.LOGGER.info("An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]);
+//					LogHelper.info("An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]);
 //					this.latestModVersion = sections[1];
 //					this.latestDownloadLink = sections.length >= 3 ? sections[2] : "";
 //					this.latestPatchNotesLink = sections.length >= 4 ? sections[3] : "";
 //					modUpdateAvailable = true;
 //				}else{
-//					ArsMagica2.LOGGER.info("You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion);
+//					LogHelper.info("You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion);
 //				}
 //			}
 //
@@ -633,9 +633,9 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //				if (f.exists())
 //					return new FileInputStream(f);
 //			}catch (Throwable t){
-//				ArsMagica2.LOGGER.trace("An error occurred when trying to create an inputstream from the updated compendium.  Reverting to default.");
+//				LogHelper.trace("An error occurred when trying to create an inputstream from the updated compendium.  Reverting to default.");
 //			}
-//			ArsMagica2.LOGGER.info("No updated compendium found.  Using packaged compendium.");
+//			LogHelper.info("No updated compendium found.  Using packaged compendium.");
 //		}
 //		return getPackagedCompendium(lang);
 //	}
@@ -648,7 +648,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //		}catch (IOException e){
 //		}finally{
 //			if (resource == null){
-//				ArsMagica2.LOGGER.info("Unable to find localized compendium.  Defaulting to en_US");
+//				LogHelper.info("Unable to find localized compendium.  Defaulting to en_US");
 //				rLoc = new ResourceLocation("arsmagica2", "docs/ArcaneCompendium_en_US.xml");
 //				try{
 //					resource = Minecraft.getMinecraft().getResourceManager().getResource(rLoc);
@@ -727,7 +727,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //				entry = getEntry(key.split("@")[0]);
 //			}
 //			if (entry == null){
-//				ArsMagica2.LOGGER.warn("Attempted to unlock a compendium entry for a non-existant key: " + key);
+//				LogHelper.warn("Attempted to unlock a compendium entry for a non-existant key: " + key);
 //				if (verbose){
 //					String message = String.format(I18n.translateToLocal("am2.tooltip.compEntryNotFound"), key);
 //					Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(message));
@@ -816,19 +816,19 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //	@Override
 //	public void AddCompenidumEntry(Object entryItem, String entryKey, String entryName, String entryDesc, String parent, boolean allowReplace, String... relatedKeys){
 //		if (entryItem == null){
-//			ArsMagica2.LOGGER.warn("Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey);
+//			LogHelper.warn("Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey);
 //			return;
 //		}
 //
 //		CompendiumEntry existingEntry = getEntry(entryKey);
 //		if (existingEntry != null && !allowReplace){
-//			ArsMagica2.LOGGER.warn("Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey);
+//			LogHelper.warn("Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey);
 //			return;
 //		}
 //
 //		CompendiumEntry parentEntry = parent == null ? null : getEntry(parent);
 //		if (parent != null && parentEntry == null){
-//			ArsMagica2.LOGGER.warn("The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey);
+//			LogHelper.warn("The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey);
 //		}
 //
 //		CompendiumEntry newEntry = null;
@@ -862,7 +862,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 //		}
 //
 //		this.compendium.put(entryKey, newEntry);
-//		ArsMagica2.LOGGER.debug("Successfully added compendium entry %s", entryKey);
+//		LogHelper.debug("Successfully added compendium entry %s", entryKey);
 //	}
 //	
 }

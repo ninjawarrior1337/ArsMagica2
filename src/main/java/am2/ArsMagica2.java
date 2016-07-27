@@ -1,8 +1,5 @@
 package am2;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.config.AMConfig;
@@ -47,7 +44,6 @@ public class ArsMagica2 {
 	@Instance(MODID)
 	public static ArsMagica2 instance = new ArsMagica2();
 	public static AMConfig config;
-	public static final Logger LOGGER = LogManager.getLogger("ArsMagica2");
 	
 	static {
 		

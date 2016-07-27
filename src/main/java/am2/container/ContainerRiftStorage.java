@@ -15,7 +15,6 @@ public class ContainerRiftStorage extends Container{
 
 	public ContainerRiftStorage(EntityPlayer player, IRiftStorage iRiftStorage){
 		this.inventory = iRiftStorage;
-		System.out.println(iRiftStorage);
 		int rows = 1;
 		switch (iRiftStorage.getAccessLevel()){
 		case 1:

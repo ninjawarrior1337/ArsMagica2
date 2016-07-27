@@ -4,8 +4,8 @@ import java.util.EnumSet;
 
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.container.slot.SlotInscriptionTable;
-import am2.spell.SpellModifier;
 import am2.spell.AbstractSpellPart;
+import am2.spell.SpellModifier;
 import am2.spell.SpellModifiers;
 import am2.spell.SpellValidator;
 import net.minecraft.entity.player.EntityPlayer;

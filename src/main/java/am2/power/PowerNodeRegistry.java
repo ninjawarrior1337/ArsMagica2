@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.power.IPowerNode;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -62,21 +62,21 @@ public class PowerNodeRegistry{
 		World world = te.getWorld();
 		if (powerNodes.containsKey(chunk)){
 			nodeList = powerNodes.get(chunk);
-			ArsMagica2.LOGGER.trace(String.format("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
+			LogHelper.trace(String.format("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 		}else{
-			ArsMagica2.LOGGER.info("Node list not found.  Checking cache/files for prior data");
+			LogHelper.info("Node list not found.  Checking cache/files for prior data");
 			NBTTagCompound compound = PowerNodeCache.instance.getNBTForChunk(world, chunk);
 			nodeList = new HashMap<Vec3d, PowerNodeEntry>();
 			if (compound == null || !compound.hasKey("AM2PowerData")){
 				powerNodes.put(chunk, nodeList);
-				ArsMagica2.LOGGER.trace("Prior node list not found.  Created Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+				LogHelper.trace("Prior node list not found.  Created Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
 			}else{
 				LoadChunkFromNBT(chunk, compound);
 				nodeList = powerNodes.get(chunk);
 				//sanity check
 				if (nodeList == null)
 					nodeList = new HashMap<Vec3d, PowerNodeEntry>();
-				ArsMagica2.LOGGER.trace(String.format("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
+				LogHelper.trace(String.format("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 			}
 		}
 
@@ -89,7 +89,7 @@ public class PowerNodeRegistry{
 		PowerNodeEntry pnd = new PowerNodeEntry();
 
 		nodeList.put(nodeLoc, pnd);
-		ArsMagica2.LOGGER.trace("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).getPos().getX(), ((TileEntity)node).getPos().getY(), ((TileEntity)node).getPos().getZ());
+		LogHelper.trace("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).getPos().getX(), ((TileEntity)node).getPos().getY(), ((TileEntity)node).getPos().getZ());
 
 		return pnd;
 	}
@@ -173,13 +173,13 @@ public class PowerNodeRegistry{
 			nodeList = powerNodes.get(chunk);
 			nodeList.remove(location);
 
-			ArsMagica2.LOGGER.trace("Successfully removed a node from chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+			LogHelper.trace("Successfully removed a node from chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
 			if (nodeList.size() == 0){
 				powerNodes.remove(chunk);
-				ArsMagica2.LOGGER.trace("No more nodes exist in chunk.  Removing tracking data for chunk.");
+				LogHelper.trace("No more nodes exist in chunk.  Removing tracking data for chunk.");
 			}
 		}else{
-			ArsMagica2.LOGGER.error("Power Node removal requested in a non-tracked chunk (%d, %d)!", chunk.chunkXPos, chunk.chunkZPos);
+			LogHelper.error("Power Node removal requested in a non-tracked chunk (%d, %d)!", chunk.chunkXPos, chunk.chunkZPos);
 		}
 	}
 
@@ -344,11 +344,11 @@ public class PowerNodeRegistry{
 		}
 
 		if (deadNodesRemoved > 0)
-			ArsMagica2.LOGGER.trace("Removed %d dead power nodes", deadNodesRemoved);
+			LogHelper.trace("Removed %d dead power nodes", deadNodesRemoved);
 
 		IPowerNode<?>[] nodeArray = nodes.toArray(new IPowerNode[nodes.size()]);
 
-		ArsMagica2.LOGGER.trace("Located %d nearby power providers", nodeArray.length);
+		LogHelper.trace("Located %d nearby power providers", nodeArray.length);
 
 		return nodeArray;
 	}
@@ -410,7 +410,7 @@ public class PowerNodeRegistry{
 			powerNodeTagList.appendTag(nodeCompound);
 		}
 
-		ArsMagica2.LOGGER.trace("Saved %d power node entries", powerNodeTagList.tagCount());
+		LogHelper.trace("Saved %d power node entries", powerNodeTagList.tagCount());
 
 		compound.setTag("AM2PowerData", powerNodeTagList);
 	}
@@ -429,7 +429,7 @@ public class PowerNodeRegistry{
 			chunkPowerData.put(nodeLocation, pnd);
 		}
 
-		ArsMagica2.LOGGER.trace("Loaded %d power node entries", chunkPowerData.size());
+		LogHelper.trace("Loaded %d power node entries", chunkPowerData.size());
 
 		powerNodes.put(chunk, chunkPowerData);
 	}

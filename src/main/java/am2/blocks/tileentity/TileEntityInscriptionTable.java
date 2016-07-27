@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.SpellRegistry;
 import am2.api.affinity.Affinity;
@@ -628,11 +629,11 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (ArrayList<AbstractSpellPart> arr : shapeGroups){
 				shapeGroupSetup.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(arr, new NBTTagCompound()));
 				for (AbstractSpellPart part : arr) {
-					System.out.println(part.getClass().getSimpleName());
+					LogHelper.info(part.getClass().getSimpleName());
 				}
 			}
 			for (AbstractSpellPart part : curRecipeSetup.key) {
-				System.out.println(part.getClass().getSimpleName());
+				LogHelper.info(part.getClass().getSimpleName());
 			}
 			ItemStack stack = SpellUtils.createSpellStack(shapeGroupSetup, curRecipeSetup);
 
@@ -669,7 +670,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (AbstractSpellPart part : allRecipeItems){
 				
 				if (part == null){
-					ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe part is null!");
+					LogHelper.error("Unable to write recipe to book.  Recipe part is null!");
 					return bookstack;
 				}
 				
@@ -679,7 +680,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				recipeItems = event.recipeItems;
 
 				if (recipeItems == null){
-					ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe items are null for part %s!", SpellRegistry.getSkillFromPart(part).getName());
+					LogHelper.error("Unable to write recipe to book.  Recipe items are null for part %s!", SpellRegistry.getSkillFromPart(part).getName());
 					return bookstack;
 				}
 				for (int i = 0; i < recipeItems.length; ++i){
@@ -757,7 +758,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			sb.append("Combination:\n\n");
 			Iterator<AbstractSpellPart> it = currentRecipe.iterator();
 			int[] outputData = SpellPartListToStringBuilder(it, sb, null);
-			System.out.println(sb.toString());
+			LogHelper.info(sb.toString());
 
 			ArrayList<NBTTagString> pages = Story.splitStoryPartIntoPages(sb.toString());
 

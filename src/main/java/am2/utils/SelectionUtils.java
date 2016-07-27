@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.mojang.authlib.GameProfile;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -39,7 +39,7 @@ public class SelectionUtils {
 		for (GameProfile profile : profiles) {
 			EntityPlayer player = server.getEntityWorld().getPlayerEntityByUUID(profile.getId());
 			if (player == null) {
-				ArsMagica2.LOGGER.error("Missing player " + profile.getName());
+				LogHelper.error("Missing player " + profile.getName());
 				continue;
 			}
 			

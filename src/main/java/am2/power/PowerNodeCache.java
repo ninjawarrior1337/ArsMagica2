@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
@@ -94,7 +95,7 @@ public class PowerNodeCache{
 		if (dataCompound == null){
 			File file = getFileFromChunk(world, chunk, true);
 			if (file == null || (!file.canWrite() && !file.setWritable(true)) || (!file.canRead() && !file.setReadable(true))){
-				ArsMagica2.LOGGER.error("Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
+				LogHelper.error("Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return;
 			}
 			try{
@@ -112,7 +113,7 @@ public class PowerNodeCache{
 		if (flushImmediate){
 			File file = getFileFromChunk(world, chunk, true);
 			if (file == null || (!file.canWrite() && !file.setWritable(true)) || (!file.canRead() && !file.setReadable(true))){
-				ArsMagica2.LOGGER.error("Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
+				LogHelper.error("Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return;
 			}
 			try{
@@ -136,7 +137,7 @@ public class PowerNodeCache{
 				return null;
 			}
 			if ((!file.canRead() && !file.setReadable(true))){
-				ArsMagica2.LOGGER.error("Unable to obtain readable file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
+				LogHelper.error("Unable to obtain readable file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return null;
 			}
 
@@ -217,7 +218,7 @@ public class PowerNodeCache{
 		if (world.isRemote)
 			return;
 
-		ArsMagica2.LOGGER.trace("Saving all cached power data for DIM %d to disk", world.provider.getDimension());
+		LogHelper.trace("Saving all cached power data for DIM %d to disk", world.provider.getDimension());
 
 		//cached data to file
 		Iterator<RegionCoordinates> it = dataCache.keySet().iterator();

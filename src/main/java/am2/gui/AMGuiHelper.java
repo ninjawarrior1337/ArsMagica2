@@ -13,7 +13,7 @@ import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.extensions.IEntityExtension;
 import am2.defs.ItemDefs;
@@ -257,7 +257,7 @@ public class AMGuiHelper{
 
 		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		
-		//System.out.println(color);
+		//LogHelper.info(color);
 		
 		tessellator.getBuffer().pos(x, y + h, zLevel).tex( IIcon.getMinU(), IIcon.getMaxV())
 		.color(RenderUtils.getRed(color), RenderUtils.getGreen(color), RenderUtils.getBlue(color), 1.0f)
@@ -690,12 +690,12 @@ public class AMGuiHelper{
 		if (mc.thePlayer != null && mc.theWorld != null && EntityExtension.For(mc.thePlayer).shouldReverseInput()){
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 			if (mc.gameSettings.keyBindLeft.isPressed()){
-				ArsMagica2.LOGGER.info("Override Left");
+				LogHelper.info("Override Left");
 				player.movementInput.moveStrafe -= 2;
 			}
 
 			if (mc.gameSettings.keyBindRight.isPressed()){
-				ArsMagica2.LOGGER.info("Override Rights");
+				LogHelper.info("Override Rights");
 				player.movementInput.moveStrafe += 2;
 			}
 

@@ -1,6 +1,7 @@
 package am2.blocks;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
@@ -94,8 +95,8 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		}
 
 		ItemStack curItem = playerIn.getHeldItem(hand);
-		ArsMagica2.LOGGER.info(te.writeToNBT(new NBTTagCompound()).toString());
-		ArsMagica2.LOGGER.info(tealt.writeToNBT(new NBTTagCompound()).toString());
+		LogHelper.info(te.writeToNBT(new NBTTagCompound()).toString());
+		LogHelper.info(tealt.writeToNBT(new NBTTagCompound()).toString());
 		if (curItem != null && curItem.getItem() == ItemDefs.inscriptionUpgrade){
 			if (te.getUpgradeState() == curItem.getItemDamage()){
 				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);

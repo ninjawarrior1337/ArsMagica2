@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ public class AMDataWriter{
 		try{
 			data.writeInt(Integer.valueOf(value));
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -33,7 +33,7 @@ public class AMDataWriter{
 		try{
 			data.writeBoolean(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error(e.getMessage());
+			LogHelper.error(e.getMessage());
 		}
 		return this;
 	}
@@ -42,7 +42,7 @@ public class AMDataWriter{
 		try{
 			data.writeByte(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -51,7 +51,7 @@ public class AMDataWriter{
 		try{
 			data.writeUTF(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -60,7 +60,7 @@ public class AMDataWriter{
 		try{
 			data.writeShort(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -69,7 +69,7 @@ public class AMDataWriter{
 		try{
 			data.writeDouble(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -78,7 +78,7 @@ public class AMDataWriter{
 		try{
 			data.writeFloat(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -87,7 +87,7 @@ public class AMDataWriter{
 		try{
 			data.writeLong(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -96,7 +96,7 @@ public class AMDataWriter{
 		try{
 			data.write(value);
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -107,7 +107,7 @@ public class AMDataWriter{
 			for (int i = 0; i < value.length; ++i)
 				data.writeInt(Integer.valueOf(value[i]));
 		}catch (IOException e){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -120,7 +120,7 @@ public class AMDataWriter{
 			data.writeInt(arr.length);
 			data.write(arr);
 		}catch (IOException ex){
-			ArsMagica2.LOGGER.error("AMDataWriter: " + ex.getMessage());
+			LogHelper.error("AMDataWriter: " + ex.getMessage());
 		}
 		return this;
 	}

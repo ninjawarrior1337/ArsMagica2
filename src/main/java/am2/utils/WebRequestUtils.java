@@ -36,9 +36,9 @@ public class WebRequestUtils{
 		wr.close();
 
 		//int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'POST' request to URL : " + webURL);
-		//System.out.println("Post parameters : " + urlParameters);
-		//System.out.println("Response Code : " + responseCode);
+		//LogHelper.info("\nSending 'POST' request to URL : " + webURL);
+		//LogHelper.info("Post parameters : " + urlParameters);
+		//LogHelper.info("Response Code : " + responseCode);
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;

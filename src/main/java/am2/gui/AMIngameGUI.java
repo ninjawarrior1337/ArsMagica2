@@ -410,7 +410,7 @@ public class AMIngameGUI{
 		default:
 			return;
 		}
-		//System.out.println(icon);
+		//LogHelper.info(icon);
 		DrawIconAtXY(icon, "items", contingencyPos.iX, contingencyPos.iY, 16, 16, true);
 		//GL11.glColor3f(1.0f, 1.0f, 1.0f);
 	}

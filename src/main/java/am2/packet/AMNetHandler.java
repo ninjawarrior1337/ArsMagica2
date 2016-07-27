@@ -1,6 +1,6 @@
 package am2.packet;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityObelisk;
@@ -50,7 +50,7 @@ public class AMNetHandler{
 			Channel.register(proc);
 			MinecraftForge.EVENT_BUS.register(proc);
 		}else{
-			ArsMagica2.LOGGER.info("Redundant call to register channels.");
+			LogHelper.info("Redundant call to register channels.");
 		}
 	}
 

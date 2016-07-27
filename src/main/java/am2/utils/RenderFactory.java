@@ -3,7 +3,7 @@ package am2.utils;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -25,7 +25,7 @@ public class RenderFactory<T extends Entity> implements IRenderFactory<T> {
 	public Render<T> createRenderFor(RenderManager manager) {
 		try {
 			Render<T> render = constructor.newInstance(manager);
-			ArsMagica2.LOGGER.info("Successfully created instance for : " + constructor.getDeclaringClass().getName());
+			LogHelper.info("Successfully created instance for : " + constructor.getDeclaringClass().getName());
 			return render;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			throw new RuntimeException(e);

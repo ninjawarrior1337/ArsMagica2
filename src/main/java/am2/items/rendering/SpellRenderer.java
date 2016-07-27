@@ -15,6 +15,7 @@ import java.util.jar.JarFile;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.defs.ItemDefs;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -36,7 +37,7 @@ public class SpellRenderer implements ItemMeshDefinition {
 				locations.add(new ModelResourceLocation(resource, "inventory"));
 				ModelBakery.registerItemVariants(ItemDefs.spell, new ModelResourceLocation(resource, "inventory"));
 			}
-			ArsMagica2.LOGGER.info("Sucessfully Loaded " + locations.size() + " Spell Icons");
+			LogHelper.info("Sucessfully Loaded " + locations.size() + " Spell Icons");
 	}
 	
 	public static List<ResourceLocation> getResourceListing() {

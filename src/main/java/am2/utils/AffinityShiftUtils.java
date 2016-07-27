@@ -86,7 +86,7 @@ public class AffinityShiftUtils {
 //				continue;
 //			float depth = entry.getValue();
 //			float percentage = (depth * convShift) / max;
-//			//System.out.println(percentage);
+//			//LogHelper.info(percentage);
 //			costMap.put(entry.getKey(), percentage);
 //		}
 //		for (Entry<Affinity, Float> entry : convMap.entrySet()) {

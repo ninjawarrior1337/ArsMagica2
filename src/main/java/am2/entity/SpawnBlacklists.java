@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.common.collect.ArrayListMultimap;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
@@ -24,9 +24,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = (Class<? extends Entity>) Class.forName(entityClass);
 			blacklistedDimensionSpawns.put(dimensionID, clazz);
-			ArsMagica2.LOGGER.info("Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID);
+			LogHelper.info("Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID);
 		}catch (ClassNotFoundException e){
-			ArsMagica2.LOGGER.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
+			LogHelper.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
 
@@ -36,9 +36,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = (Class<? extends Entity>) Class.forName(entityClass);
 			blacklistedBiomeSpawns.put(biomeID, clazz);
-			ArsMagica2.LOGGER.info("Blacklisted %s from spawning in biome %d.", entityClass, biomeID);
+			LogHelper.info("Blacklisted %s from spawning in biome %d.", entityClass, biomeID);
 		}catch (ClassNotFoundException e){
-			ArsMagica2.LOGGER.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
+			LogHelper.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
 

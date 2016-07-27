@@ -45,7 +45,7 @@ public class SeventhSanctum{
 	private void getSuggestions(){
 		try{
 			String s = am2.utils.WebRequestUtils.sendPost(webURL, postOptions);
-			//System.out.println(s);
+			//LogHelper.info(s);
 			int startIndex = s.lastIndexOf("SubSubContentTitle");
 			if (startIndex == -1) return;
 			startIndex = s.indexOf("<!--Title -->", startIndex) + 13;

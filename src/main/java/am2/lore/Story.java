@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.utils.InventoryUtilities;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -81,7 +82,7 @@ public class Story{
 	private String readResource(){
 		InputStream stream = getResourceAsStream(resourceName);
 		if (stream == null){
-			ArsMagica2.LOGGER.info("Missing Resource '" + resourceName + "'");
+			LogHelper.info("Missing Resource '" + resourceName + "'");
 			return "";
 		}
 
@@ -119,7 +120,7 @@ public class Story{
 			br.close();
 			stream.close();
 		}catch (Throwable t){
-			ArsMagica2.LOGGER.error("Error reading JRN File Data!");
+			LogHelper.error("Error reading JRN File Data!");
 			return "";
 		}
 
@@ -158,7 +159,7 @@ public class Story{
 		NBTTagList pages = new NBTTagList();
 		for (NBTTagString page : storyData){
 			NBTTagString newPage = new NBTTagString("{\"text\":\"" + page.getString() + "\"}");
-			System.out.println(newPage.getString());
+			LogHelper.info(newPage.getString());
 			pages.appendTag(newPage);
 		}
 		compound.setTag("pages", pages);

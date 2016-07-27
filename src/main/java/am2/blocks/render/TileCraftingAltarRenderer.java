@@ -35,7 +35,7 @@ public class TileCraftingAltarRenderer extends TileEntitySpecialRenderer<TileEnt
 		if (te.structureValid()) {
 			GL11.glPushMatrix();
 			IBlockState state = w.getBlockState(pos.down(4).north());
-			//System.out.println(state);
+			//LogHelper.info(state);
 			t.getBuffer().begin(7, DefaultVertexFormats.BLOCK);
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			GlStateManager.translate(-pos.getX(), -pos.getY(), -pos.getZ());
@@ -65,7 +65,7 @@ public class TileCraftingAltarRenderer extends TileEntitySpecialRenderer<TileEnt
 		float maxU = (sprite != null ? sprite.getMaxU() : 1F);
 		float minV = (sprite != null ? sprite.getMinV() : 0F);
 		float maxV = (sprite != null ? sprite.getMaxV() : 1F);
-		//System.out.println(sprite);
+		//LogHelper.info(sprite);
 		GL11.glPushMatrix();
 		RenderHelper.disableStandardItemLighting();
 		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

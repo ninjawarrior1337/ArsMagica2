@@ -1,6 +1,15 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.*;
+import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
+import static am2.defs.IDDefs.GUI_KEYSTONE;
+import static am2.defs.IDDefs.GUI_KEYSTONE_CHEST;
+import static am2.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
+import static am2.defs.IDDefs.GUI_OBELISK;
+import static am2.defs.IDDefs.GUI_OCCULUS;
+import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_SPELL_BOOK;
+import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +18,7 @@ import java.util.LinkedList;
 import com.google.common.collect.ImmutableMap;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.affinity.AffinityAbilityHelper;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.extensions.IAffinityData;
@@ -451,7 +461,7 @@ public class CommonProxy implements IGuiHandler{
 
 	private void initSpawnsForBiomeTypes(SpawnListEntry spawnListEntry, EnumCreatureType creatureType, Type[] types, Type[] exclusions){
 		if (spawnListEntry.itemWeight == 0){
-			ArsMagica2.LOGGER.info("Skipping spawn list entry for %s (as type %s), as the weight is set to 0.  This can be changed in config.", spawnListEntry.entityClass.getName(), creatureType.toString());
+			LogHelper.info("Skipping spawn list entry for %s (as type %s), as the weight is set to 0.  This can be changed in config.", spawnListEntry.entityClass.getName(), creatureType.toString());
 			return;
 		}
 		for (Type type : types){

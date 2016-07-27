@@ -59,7 +59,7 @@ public class ServerTickHandler{
 
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent event){
-//		System.out.println(event.side);
+//		LogHelper.info(event.side);
 //		if (AMCore.config.retroactiveWorldgen())
 //			RetroactiveWorldgenerator.instance.continueRetrogen(event.world);
 //

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.armor.ArmorHelper;
@@ -232,7 +233,7 @@ public class ClientTickHandler{
 				}else if (this.mouseWheelValue < 0 && props.getTKDistance() > 0.3){
 					props.addToTKDistance(-0.5f);
 				}
-				ArsMagica2.LOGGER.debug("TK Distance: %.2f", props.getTKDistance());
+				LogHelper.debug("TK Distance: %.2f", props.getTKDistance());
 				props.syncTKDistance();
 			}
 				else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getMinecraft().thePlayer.isSneaking()){

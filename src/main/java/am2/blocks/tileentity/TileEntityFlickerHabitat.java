@@ -3,7 +3,7 @@ package am2.blocks.tileentity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.math.AMVector3;
@@ -204,9 +204,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public void AddMarkerLocationIn(AMVector3 markerLocation){
 		if (!inList.contains(markerLocation)){
 			inList.add(markerLocation);
-			ArsMagica2.LOGGER.trace("In Link Created");
+			LogHelper.trace("In Link Created");
 		}else{
-			ArsMagica2.LOGGER.trace("Link Already Exists");
+			LogHelper.trace("Link Already Exists");
 		}
 	}
 
@@ -227,9 +227,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 		if (!outList.get(priority).contains(markerLocation)){
 			outList.get(priority).add(markerLocation);
-			ArsMagica2.LOGGER.trace("Out Link Create");
+			LogHelper.trace("Out Link Create");
 		}else{
-			ArsMagica2.LOGGER.trace("Link Already Exists");
+			LogHelper.trace("Link Already Exists");
 		}
 	}
 
@@ -323,7 +323,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			ArrayList<AMVector3> locationsInPriority = new ArrayList<AMVector3>();
 			//does the current compound tag contain the values we're looking for?
 			if (!priorityCompound.hasKey("priority") || !priorityCompound.hasKey("vectors")){
-				ArsMagica2.LOGGER.warn("Malformed save data for flicker item transport controller - cannot process records.");
+				LogHelper.warn("Malformed save data for flicker item transport controller - cannot process records.");
 				continue;
 			}
 			//get the priority from the compound

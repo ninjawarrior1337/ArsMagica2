@@ -1,6 +1,6 @@
 package am2.packet;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
@@ -74,7 +74,7 @@ public class AMPacketProcessorServer{
 				handleInscriptionTableUpdate(remaining, (EntityPlayerMP)player);
 				break;
 			case AMPacketIDs.TK_DISTANCE_SYNC:
-				System.out.println(remaining.length);
+				LogHelper.info("" + remaining.length);
 				float TK_Distance = new AMDataReader(remaining, false).getFloat();
 				EntityExtension.For((EntityPlayerMP)player).setTKDistance(TK_Distance);
 				break;
@@ -107,8 +107,8 @@ public class AMPacketProcessorServer{
 //				break;
 			}
 		}catch (Throwable t){
-			ArsMagica2.LOGGER.error("Server Packet Failed to Handle!");
-			ArsMagica2.LOGGER.error("Packet Type: " + packetID);
+			LogHelper.error("Server Packet Failed to Handle!");
+			LogHelper.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}finally{
 			try{

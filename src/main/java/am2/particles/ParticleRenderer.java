@@ -214,7 +214,7 @@ public class ParticleRenderer{
 
 		for (Particle particle : particles){
 			//tessellator.setBrightness(particle.getBrightnessForRender(partialTicks));
-			//System.out.println("Rendering");
+			//LogHelper.info("Rendering");
 			particle.renderParticle(tessellator.getBuffer(), Minecraft.getMinecraft().getRenderViewEntity(), partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
 		}
 

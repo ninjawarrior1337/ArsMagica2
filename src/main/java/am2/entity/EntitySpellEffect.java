@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.DamageSources;
 import am2.buffs.BuffEffectFrostSlowed;
 import am2.particles.AMParticle;
@@ -511,7 +512,7 @@ public class EntitySpellEffect extends Entity{
 					double hDistance = closest.distanceTo(target);
 					double vDistance = Math.abs(this.posY - e.posY);
 					
-					System.out.println(hDistance + " " + vDistance);
+					LogHelper.info(hDistance + " " + vDistance);
 					
 					if (e instanceof EntityLivingBase && hDistance < 0.75f && vDistance < 2){
 						//commented out in favor of line below so as to apply subsequent shapes as well

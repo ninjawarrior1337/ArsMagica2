@@ -39,7 +39,7 @@ public interface IRiftStorage extends IInventory {
 			NBTTagCompound am2Tag = NBTUtils.getAM2Tag((NBTTagCompound) nbt);
 			NBTTagList list = NBTUtils.addCompoundList(am2Tag, "RiftInventory");
 			for (int i = 0; i < list.tagCount(); i++) {
-				//System.out.println("Found a tag ");
+				//LogHelper.info("Found a tag ");
 				NBTTagCompound compound = list.getCompoundTagAt(i);
 				instance.setInventorySlotContents(compound.getInteger("Slot"), ItemStack.loadItemStackFromNBT(compound));
 			}

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.google.common.base.Optional;
 
+import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
@@ -23,7 +24,7 @@ public class DataDefinitions {
 	public static final MapSerializer<Affinity, Float> AFFINITY_SERIALIZER = new MapSerializer<Affinity, Float>() {
 		public Float getValueInstanceFromString(String str) {return Float.valueOf(str);}
 		public Affinity getKeyInstanceFromString(String str) {
-			System.out.println(str);
+			LogHelper.info(str);
 			return ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(str));
 			}
 	};

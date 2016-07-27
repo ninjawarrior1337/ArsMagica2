@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 
 public class StoryManager{
 	private ArrayList<Story> stories;
@@ -20,7 +20,7 @@ public class StoryManager{
 		try{
 			stories.add(new Story(resourceFileName));
 		}catch (Exception ex){
-			ArsMagica2.LOGGER.info(ex.getMessage());
+			LogHelper.info(ex.getMessage());
 		}
 	}
 

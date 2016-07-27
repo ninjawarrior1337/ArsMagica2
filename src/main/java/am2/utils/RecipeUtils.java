@@ -3,7 +3,7 @@ package am2.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.SpellRegistry;
 import am2.api.event.SpellRecipeItemsEvent;
 import am2.defs.ItemDefs;
@@ -99,7 +99,7 @@ public class RecipeUtils {
 			try{
 				ids[i] = Integer.parseInt(split[i]);
 			}catch (NumberFormatException nex){
-				ArsMagica2.LOGGER.warn("Invalid power type ID while parsing value " + s);
+				LogHelper.warn("Invalid power type ID while parsing value " + s);
 				ids[i] = 0;
 			}
 		}
@@ -109,7 +109,7 @@ public class RecipeUtils {
 	public static ArrayList<ItemStack> getConvRecipe(AbstractSpellPart part) {
 		ArrayList<ItemStack> list = new ArrayList<>();
 		if (part == null){
-			ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe part is null!");
+			LogHelper.error("Unable to write recipe to book.  Recipe part is null!");
 			return list;
 		}
 		
@@ -119,7 +119,7 @@ public class RecipeUtils {
 		recipeItems = event.recipeItems;
 
 		if (recipeItems == null){
-			ArsMagica2.LOGGER.error("Unable to write recipe to book.  Recipe items are null for part " + SpellRegistry.getSkillFromPart(part).getName() + "!");
+			LogHelper.error("Unable to write recipe to book.  Recipe items are null for part " + SpellRegistry.getSkillFromPart(part).getName() + "!");
 			return list;
 		}
 		for (int i = 0; i < recipeItems.length; ++i){

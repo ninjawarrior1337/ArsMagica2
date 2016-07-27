@@ -3,6 +3,7 @@ package am2.packet;
 import java.util.ArrayList;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityLectern;
@@ -142,8 +143,8 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				break;
 			}
 		}catch (Throwable t){
-			ArsMagica2.LOGGER.error("Client Packet Failed to Handle!");
-			ArsMagica2.LOGGER.error("Packet Type: " + packetID);
+			LogHelper.error("Client Packet Failed to Handle!");
+			LogHelper.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}finally{
 			try{
@@ -268,7 +269,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (rdr.getBoolean())
 			spellStack = rdr.getItemStack();
 		
-		System.out.println("Handling falling star");
+		LogHelper.info("Handling falling star");
 		
 		int color = -1;
 		if (spellStack != null){
@@ -356,10 +357,10 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
 		ArsMagica2.config.setManaCap(manaCap);
 
-		ArsMagica2.LOGGER.info("Received player login packet.");
-		ArsMagica2.LOGGER.debug("Secondary tree cap: %d", skillTreeLock);
-		ArsMagica2.LOGGER.debug("Disabled skills: %d", disabledSkills.length);
-		ArsMagica2.LOGGER.debug("Mana cap: %.2f", manaCap);
+		LogHelper.info("Received player login packet.");
+		LogHelper.debug("Secondary tree cap: %d", skillTreeLock);
+		LogHelper.debug("Disabled skills: %d", disabledSkills.length);
+		LogHelper.debug("Mana cap: %.2f", manaCap);
 		
 		//TODO SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
 	}

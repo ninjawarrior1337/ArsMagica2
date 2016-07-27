@@ -1,9 +1,8 @@
 package am2.packet;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.UUID;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.WorldServer;

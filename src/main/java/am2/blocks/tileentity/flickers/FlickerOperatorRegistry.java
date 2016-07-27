@@ -2,7 +2,7 @@ package am2.blocks.tileentity.flickers;
 
 import java.util.TreeMap;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.flickers.IFlickerRegistry;
@@ -18,11 +18,11 @@ public class FlickerOperatorRegistry implements IFlickerRegistry{
 	@Override
 	public boolean registerFlickerOperator(IFlickerFunctionality singleton, int mask){
 		if (registeredOperators.containsKey(mask)){
-			ArsMagica2.LOGGER.warn("An addon attempted to register a flicker operator (%s) with a mask (%d) that is already in use.  The operator was NOT registered!", singleton.getClass().getName(), mask);
+			LogHelper.warn("An addon attempted to register a flicker operator (%s) with a mask (%d) that is already in use.  The operator was NOT registered!", singleton.getClass().getName(), mask);
 			return false;
 		}
 		registeredOperators.put(mask, singleton);
-		ArsMagica2.LOGGER.debug("Registered Flicker operator %s to mask %d", singleton.getClass().getName(), mask);
+		LogHelper.debug("Registered Flicker operator %s to mask %d", singleton.getClass().getName(), mask);
 		return true;
 	}
 

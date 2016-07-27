@@ -76,7 +76,6 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 			storage.setPosition(blockPos.getX() + 0.5, blockPos.getY() - 1.5, blockPos.getZ() + 0.5);
 			break;
 		}
-		System.out.println(storage.getPosition());
 		world.spawnEntityInWorld(storage);
 		return true;
 	}

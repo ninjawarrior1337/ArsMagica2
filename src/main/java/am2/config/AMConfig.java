@@ -2,7 +2,7 @@ package am2.config;
 
 import java.io.File;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.math.AMVector2;
 import am2.particles.AMParticle;
 import am2.particles.ParticleController;
@@ -344,7 +344,7 @@ public class AMConfig extends Configuration{
 			try{
 				worldgenBlacklist[count] = Integer.parseInt(s.trim());
 			}catch (Throwable t){
-				ArsMagica2.LOGGER.info("Malformed item in worldgen blacklist (%s).  Skipping.", s);
+				LogHelper.info("Malformed item in worldgen blacklist (%s).  Skipping.", s);
 				t.printStackTrace();
 				worldgenBlacklist[count] = -1;
 			}finally{
@@ -364,7 +364,7 @@ public class AMConfig extends Configuration{
 			try{
 				appropriationMobBlacklist[count] = (Class<? extends Entity>) Class.forName(s);
 			}catch (Throwable t){
-				ArsMagica2.LOGGER.info("Malformed item in appropriation entity blacklist (%s).  Skipping.", s);
+				LogHelper.info("Malformed item in appropriation entity blacklist (%s).  Skipping.", s);
 				t.printStackTrace();
 				appropriationMobBlacklist[count] = null;
 			}finally{

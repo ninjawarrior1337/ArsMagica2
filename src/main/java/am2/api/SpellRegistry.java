@@ -3,6 +3,7 @@ package am2.api;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
+import am2.LogHelper;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
@@ -92,14 +93,14 @@ public class SpellRegistry {
 				ArrayList<ItemStack> convRecipe = RecipeUtils.getConvRecipe(data);
 				boolean match = currentAddedItems.size() == convRecipe.size();
 				if (!match) continue;
-				System.out.println("Checking part : " + data.getRegistryName());
+				LogHelper.info("Checking part : " + data.getRegistryName());
 				for (int i = 0; i < convRecipe.size(); i++) {
 					match &= OreDictionary.itemMatches(convRecipe.get(i), currentAddedItems.get(i), false);
-					System.out.println(convRecipe.get(i) + "vs" + currentAddedItems.get(i));
+					LogHelper.info(convRecipe.get(i) + "vs" + currentAddedItems.get(i));
 					if (!match) continue;					
 				}
 				if (!match) continue;
-				System.out.println("Match found for " + data.getRegistryName());
+				LogHelper.info("Match found for " + data.getRegistryName());
 				return data;
 			}
 		}

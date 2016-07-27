@@ -30,7 +30,7 @@ public class EntityRiftStorage extends EntityLiving {
 	public EntityRiftStorage(World worldIn) {
 		super(worldIn);
 		setSize(1.5F, 1.5F);
-		//System.out.println(worldIn.isRemote);
+		//LogHelper.info(worldIn.isRemote);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class EntityRiftStorage extends EntityLiving {
 		}else if (this.scale < 0.99f){
 			this.scale = (float)(Math.sin((float)this.ticksExisted / 50));
 		}
-		//System.out.println(worldObj.isRemote);
+		//LogHelper.info(worldObj.isRemote);
 
 		this.motionX = 0;
 		this.motionY = 0;

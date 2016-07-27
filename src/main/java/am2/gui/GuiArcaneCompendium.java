@@ -304,7 +304,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 		else if (this.entryItem.getItem() == ItemDefs.spell_component){
 			float angleStep = (360.0f / craftingComponents.length);
 			for (int i = 0; i < craftingComponents.length; ++i){
-				//System.out.println(framecount);
+				//LogHelper.info(framecount);
 				float angle = (float)(Math.toRadians((angleStep * i) + framecount % 360));
 				float nextangle = (float)(Math.toRadians((angleStep * ((i + 1) % craftingComponents.length)) + framecount % 360));
 				float dist = 45;

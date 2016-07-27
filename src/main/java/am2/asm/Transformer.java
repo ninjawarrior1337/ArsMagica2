@@ -29,7 +29,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import net.minecraft.launchwrapper.IClassTransformer;
 
 public class Transformer implements IClassTransformer {
@@ -44,7 +44,7 @@ public class Transformer implements IClassTransformer {
 			for (MethodNode mn : cn.methods) {
 				if (mn.name.equals("c") || mn.name.equals("addPotionEffect")) {
 					if (mn.desc.equals("(Lpf;)V") || mn.desc.equals("(Lnet/minecraft/potion/PotionEffect;)V")) {
-						System.out.println("Patching addPotionEffect");
+						LogHelper.info("Patching addPotionEffect");
 						String className = mn.desc.equals("(Lpf;)V") ? "pf;" : "net/minecraft/potion/PotionEffect;";
 						InsnList list = new InsnList();
 						list.add(new TypeInsnNode(NEW, "am2/api/event/EventPotionAdded"));
@@ -86,7 +86,7 @@ public class Transformer implements IClassTransformer {
 			newInsn.add(new InsnNode(FRETURN));
 			for (MethodNode mn : cn.methods) {
 				if (mn.name.equals("parseAngle")) {
-					System.out.println("Removing Model Rotation Limit...");
+					LogHelper.info("Removing Model Rotation Limit...");
 					mn.instructions = newInsn;
 				}
 			}
@@ -106,18 +106,18 @@ public class Transformer implements IClassTransformer {
 			if (mn.name.equals("setupCameraTransform") && mn.desc.equals("(FI)V")){ // setupCameraTransform
 				AbstractInsnNode orientCameraNode = null;
 				AbstractInsnNode gluPerspectiveNode = null;
-				ArsMagica2.LOGGER.info("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				while (instructions.hasNext()){
 					AbstractInsnNode node = instructions.next();
 					if (node instanceof MethodInsnNode){
 						MethodInsnNode method = (MethodInsnNode)node;
 						if (orientCameraNode == null && method.name.equals("orientCamera") && method.desc.equals("(F)V")){ //orientCamera
-							ArsMagica2.LOGGER.info("Core: Located target method insn node: " + method.name + method.desc);
+							LogHelper.info("Core: Located target method insn node: " + method.name + method.desc);
 							orientCameraNode = node;
 							continue;
 						}else if (gluPerspectiveNode == null && method.name.equals("gluPerspective") && method.desc.equals("(FFFF)V")){
-							ArsMagica2.LOGGER.info("Core: Located target method insn node: " + method.name + method.desc);
+							LogHelper.info("Core: Located target method insn node: " + method.name + method.desc);
 							gluPerspectiveNode = node;
 							continue;
 						}
@@ -133,14 +133,14 @@ public class Transformer implements IClassTransformer {
 					MethodInsnNode callout = new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "shiftView", "(F)V", false);
 					mn.instructions.insert(orientCameraNode, callout);
 					mn.instructions.insert(orientCameraNode, floatset);
-					ArsMagica2.LOGGER.info("Core: Success!  Inserted callout function op (shift)!");
+					LogHelper.info("Core: Success!  Inserted callout function op (shift)!");
 				}
 				if (gluPerspectiveNode != null){
 					VarInsnNode floatset = new VarInsnNode(FLOAD, 1);
 					MethodInsnNode callout = new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "flipView", "(F)V", false);
 					mn.instructions.insert(gluPerspectiveNode, callout);
 					mn.instructions.insert(gluPerspectiveNode, floatset);
-					ArsMagica2.LOGGER.info("Core: Success!  Inserted callout function op (flip)!");
+					LogHelper.info("Core: Success!  Inserted callout function op (flip)!");
 				}
 
 			}

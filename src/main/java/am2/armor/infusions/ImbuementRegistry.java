@@ -2,7 +2,7 @@ package am2.armor.infusions;
 
 import java.util.ArrayList;
 
-import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
@@ -25,7 +25,7 @@ public class ImbuementRegistry implements IImbuementRegistry{
 	@Override
 	public void registerImbuement(ArmorImbuement imbuementInstance) {
 		GameRegistry.register(imbuementInstance, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), imbuementInstance.getID()));
-		ArsMagica2.LOGGER.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
+		LogHelper.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 
 	@Override
