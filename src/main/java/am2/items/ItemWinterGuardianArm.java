@@ -73,7 +73,7 @@ public class ItemWinterGuardianArm extends ItemArsMagica2{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
 		if (flingArm(par1ItemStack, par2World, par3EntityPlayer)){
-			par3EntityPlayer.inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
+			par3EntityPlayer.setItemStackToSlot(hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, null);//inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par1ItemStack);
 	}

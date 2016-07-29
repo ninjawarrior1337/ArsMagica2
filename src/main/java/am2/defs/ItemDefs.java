@@ -29,12 +29,24 @@ import am2.items.ItemBoundSword;
 import am2.items.ItemChalk;
 import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
+import am2.items.ItemFlickerFocus;
+import am2.items.ItemFlickerJar;
+import am2.items.ItemFocusCharge;
+import am2.items.ItemFocusCreature;
+import am2.items.ItemFocusGreater;
+import am2.items.ItemFocusItem;
+import am2.items.ItemFocusLesser;
+import am2.items.ItemFocusMana;
+import am2.items.ItemFocusMob;
+import am2.items.ItemFocusPlayer;
+import am2.items.ItemFocusStandard;
 import am2.items.ItemInfinityOrb;
 import am2.items.ItemKeystone;
 import am2.items.ItemKeystoneDoor;
 import am2.items.ItemLifeWard;
 import am2.items.ItemLightningCharm;
 import am2.items.ItemMagicBroom;
+import am2.items.ItemManaCake;
 import am2.items.ItemNatureGuardianSickle;
 import am2.items.ItemOre;
 import am2.items.ItemRune;
@@ -43,6 +55,7 @@ import am2.items.ItemSpellBook;
 import am2.items.ItemSpellComponent;
 import am2.items.ItemWinterGuardianArm;
 import am2.items.SpellBase;
+import am2.items.colorizers.FlickerJarColorizer;
 import am2.items.rendering.AffinityRenderer;
 import am2.items.rendering.CrystalWrenchRenderer;
 import am2.items.rendering.DefaultWithMetaRenderer;
@@ -82,15 +95,15 @@ public class ItemDefs {
 	public static final ItemArsMagica2 essence = new ItemEssence().registerAndName("essence");
 	public static final ItemArsMagica2 rune = new ItemRune().registerAndName("rune");
 	
-	public static final ItemArsMagica2 mobFocus = new ItemArsMagica2().registerAndName("mobFocus");
-	public static final ItemArsMagica2 lesserFocus = new ItemArsMagica2().registerAndName("lesserFocus");
-	public static final ItemArsMagica2 standardFocus = new ItemArsMagica2().registerAndName("standardFocus");
-	public static final ItemArsMagica2 manaFocus = new ItemArsMagica2().registerAndName("manaFocus");
-	public static final ItemArsMagica2 greaterFocus = new ItemArsMagica2().registerAndName("greaterFocus");
-	public static final ItemArsMagica2 chargeFocus = new ItemArsMagica2().registerAndName("chargeFocus");
-	public static final ItemArsMagica2 itemFocus = new ItemArsMagica2().registerAndName("itemFocus");
-	public static final ItemArsMagica2 playerFocus = new ItemArsMagica2().registerAndName("playerFocus");
-	public static final ItemArsMagica2 creatureFocus = new ItemArsMagica2().registerAndName("creatureFocus");
+	public static final ItemArsMagica2 mobFocus = new ItemFocusMob().registerAndName("mobFocus");
+	public static final ItemArsMagica2 lesserFocus = new ItemFocusLesser().registerAndName("lesserFocus");
+	public static final ItemArsMagica2 standardFocus = new ItemFocusStandard().registerAndName("standardFocus");
+	public static final ItemArsMagica2 manaFocus = new ItemFocusMana().registerAndName("manaFocus");
+	public static final ItemArsMagica2 greaterFocus = new ItemFocusGreater().registerAndName("greaterFocus");
+	public static final ItemArsMagica2 chargeFocus = new ItemFocusCharge().registerAndName("chargeFocus");
+	public static final ItemArsMagica2 itemFocus = new ItemFocusItem().registerAndName("itemFocus");
+	public static final ItemArsMagica2 playerFocus = new ItemFocusPlayer().registerAndName("playerFocus");
+	public static final ItemArsMagica2 creatureFocus = new ItemFocusCreature().registerAndName("creatureFocus");
 	public static final ItemArsMagica2 arcaneCompendium = new ItemArcaneCompendium().registerAndName("arcaneCompendium");
 	public static final ItemArsMagica2 crystalWrench = new ItemCrystalWrench().registerAndName("crystalWrench");
 	public static final Item magitechGoggles = new ItemMagitechGoggles(MAGITECH_GOOGLES, 0).registerAndName("magitechGoggles");
@@ -102,8 +115,8 @@ public class ItemDefs {
 	public static final ItemArsMagica2 blankRune = new ItemArsMagica2().registerAndName("blankRune");
 	public static final ItemArsMagica2 chalk = new ItemChalk().registerAndName("chalk");
 	public static final ItemArsMagica2 spellStaffMagitech = null;
-	public static final ItemArsMagica2 flickerFocus = null;
-	public static final ItemArsMagica2 flickerJar = null;
+	public static final ItemArsMagica2 flickerFocus = new ItemFlickerFocus().registerAndName("flickerFocus");
+	public static final ItemFlickerJar flickerJar = (ItemFlickerJar) new ItemFlickerJar().registerAndName("flickerJar");
 	public static final ItemArsMagica2 evilBook = null;
 	public static final ItemArsMagica2 wardingCandle = null;
 	public static final ItemArsMagica2 liquidEssenceBottle = null;
@@ -117,8 +130,8 @@ public class ItemDefs {
 	public static final ItemHoe BoundHoe = new ItemBoundHoe().registerAndName("bound_hoe");
 	public static final ItemBow BoundBow = new ItemBoundBow().registerAndName("bound_bow");
 	public static final ItemShield BoundShield = new ItemBoundShield().registerAndName("bound_shield");
-	public static final Item manaCake = null;
-	public static final Item woodenLeg = null;
+	public static final ItemManaCake manaCake = new ItemManaCake().registerAndName("manaCake");
+	public static final Item woodenLeg = new ItemArsMagica2().registerAndName("woddenLeg");
 
 	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 
@@ -146,11 +159,8 @@ public class ItemDefs {
 	public static ItemStack waterOrbsEnchanted;
 
 	public static final Item magicBroom = new ItemMagicBroom().registerAndName("magic_broom");
-
 	public static final ItemKeystone keystone = (ItemKeystone) new ItemKeystone().registerAndName("keystone");
-
 	public static final Item itemKeystoneDoor = new ItemKeystoneDoor().registerAndName("item_keystone_door");
-
 	public static final ItemRuneBag runeBag = (ItemRuneBag) new ItemRuneBag().registerAndName("rune_bag");
 
 
@@ -199,6 +209,12 @@ public class ItemDefs {
 		
 		registerTexture(keystone);
 		registerTexture(magicBroom);
+		
+		registerTexture(manaCake);
+		registerTexture(flickerFocus);
+		registerTexture(flickerJar);
+		
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		

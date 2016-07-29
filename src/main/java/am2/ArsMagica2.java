@@ -66,12 +66,12 @@ public class ArsMagica2 {
 		ClientRegistry.registerKeyBinding(BindingsDefs.iceBridge);
 		ClientRegistry.registerKeyBinding(BindingsDefs.ENDER_TP);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
-		OreDictionary.registerOre("fence", Blocks.ACACIA_FENCE);
-		OreDictionary.registerOre("fence", Blocks.OAK_FENCE);
-		OreDictionary.registerOre("fence", Blocks.DARK_OAK_FENCE);
-		OreDictionary.registerOre("fence", Blocks.SPRUCE_FENCE);
-		OreDictionary.registerOre("fence", Blocks.BIRCH_FENCE);
-		OreDictionary.registerOre("fence", Blocks.JUNGLE_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.ACACIA_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.OAK_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.DARK_OAK_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.SPRUCE_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.BIRCH_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.JUNGLE_FENCE);
 		SeventhSanctum.instance.init();
 	}
 	

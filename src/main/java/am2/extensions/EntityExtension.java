@@ -19,7 +19,6 @@ import static am2.extensions.DataDefinitions.MARK_Y;
 import static am2.extensions.DataDefinitions.MARK_Z;
 import static am2.extensions.DataDefinitions.PREV_FLIP_ROTATION;
 import static am2.extensions.DataDefinitions.PREV_SHRINK_PCT;
-import static am2.extensions.DataDefinitions.REVERSE_INPUT;
 import static am2.extensions.DataDefinitions.SHRINK_PCT;
 import static am2.extensions.DataDefinitions.TK_DISTANCE;
 
@@ -553,7 +552,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean shouldReverseInput() {
-		return entity.getDataManager().get(REVERSE_INPUT);
+		return getFlipRotation() > 0 || this.entity.isPotionActive(PotionEffectsDefs.scrambleSynapses);
 	}
 
 	@Override
@@ -744,6 +743,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	public void flipTick(){
+		//this.setInverted(true);
 		boolean flipped = getIsFlipped();
 
 		ItemStack boots = ((EntityPlayer)entity).inventory.armorInventory[0];

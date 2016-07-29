@@ -8,12 +8,18 @@ import am2.buffs.BuffEffectTemporalAnchor;
 import am2.buffs.BuffStatModifiers;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
+import am2.extensions.EntityExtension;
 import am2.utils.SelectionUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -59,12 +65,58 @@ public class PotionEffectHandler {
 	}
 	
 	@SubscribeEvent
-	public void livingJump (LivingJumpEvent e) {
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.leap)) {
-			e.getEntityLiving().motionY +=(e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier() + 1) * 0.60;
+	public void playerJumpEvent(LivingJumpEvent event) {
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.agility)){
+			event.getEntityLiving().motionY *= 1.5f;
 		}
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.agility)) {
-			e.getEntityLiving().motionY *= 1.5;
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.leap)){
+
+			Entity velocityTarget = event.getEntityLiving();
+
+			if (event.getEntityLiving().getRidingEntity() != null){
+				if (event.getEntityLiving().getRidingEntity() instanceof EntityMinecart){
+					event.getEntityLiving().getRidingEntity().setPosition(event.getEntityLiving().getRidingEntity().posX, event.getEntityLiving().getRidingEntity().posY + 1.5, event.getEntityLiving().getRidingEntity().posZ);
+				}
+				velocityTarget = event.getEntityLiving().getRidingEntity();
+			}
+
+			double yVelocity = 0;
+			double xVelocity = 0;
+			double zVelocity = 0;
+
+			Vec3d vec = event.getEntityLiving().getLookVec().normalize();
+			yVelocity = 0.4 + (event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier() * 0.3);
+			xVelocity = velocityTarget.motionX * (Math.pow(2, event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier())) * Math.abs(vec.xCoord);
+			zVelocity = velocityTarget.motionZ * (Math.pow(2, event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier())) * Math.abs(vec.zCoord);
+
+			float maxHorizontalVelocity = 1.45f;
+
+			if (event.getEntityLiving().getRidingEntity() != null && (event.getEntityLiving().getRidingEntity() instanceof EntityMinecart || event.getEntityLiving().getRidingEntity() instanceof EntityBoat) || event.getEntityLiving().isPotionActive(PotionEffectsDefs.haste)){
+				maxHorizontalVelocity += 25;
+				xVelocity *= 2.5;
+				zVelocity *= 2.5;
+			}
+
+			if (xVelocity > maxHorizontalVelocity){
+				xVelocity = maxHorizontalVelocity;
+			}else if (xVelocity < -maxHorizontalVelocity){
+				xVelocity = -maxHorizontalVelocity;
+			}
+
+			if (zVelocity > maxHorizontalVelocity){
+				zVelocity = maxHorizontalVelocity;
+			}else if (zVelocity < -maxHorizontalVelocity){
+				zVelocity = -maxHorizontalVelocity;
+			}
+
+			if (EntityExtension.For(event.getEntityLiving()).getIsFlipped()){
+				yVelocity *= -1;
+			}
+
+			velocityTarget.addVelocity(xVelocity, yVelocity, zVelocity);
+		}
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.entangle)){
+			event.getEntityLiving().motionY = 0;
 		}
 	}
 	
@@ -87,6 +139,13 @@ public class PotionEffectHandler {
 		if (e.entityLiving.isPotionActive(PotionEffectsDefs.clarity)) {
 			e.manaCost = 0;
 			e.entityLiving.removePotionEffect(PotionEffectsDefs.clarity);
+		}
+	}
+	
+	@SubscribeEvent
+	public void teleportEvent(EnderTeleportEvent e) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.astralDistortion) || e.getEntity().isDead) {
+			e.setCanceled(true);
 		}
 	}
 	

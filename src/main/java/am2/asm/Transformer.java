@@ -1,16 +1,23 @@
 package am2.asm;
 
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.ASTORE;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.FLOAD;
 import static org.objectweb.asm.Opcodes.FRETURN;
+import static org.objectweb.asm.Opcodes.GETFIELD;
 import static org.objectweb.asm.Opcodes.GETSTATIC;
+import static org.objectweb.asm.Opcodes.IFNE;
+import static org.objectweb.asm.Opcodes.ILOAD;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
+import static org.objectweb.asm.Opcodes.ISTORE;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.POP;
+import static org.objectweb.asm.Opcodes.RETURN;
 
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -22,12 +29,15 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+
+import com.google.common.collect.Lists;
 
 import am2.LogHelper;
 import net.minecraft.launchwrapper.IClassTransformer;
@@ -36,46 +46,7 @@ public class Transformer implements IClassTransformer {
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] basicClass) {
-		if (transformedName.equals("net.minecraft.entity.EntityLivingBase")) {
-			ClassReader cr = new ClassReader(basicClass);
-			ClassNode cn = new ClassNode();
-			cr.accept(cn, 0);
-			
-			for (MethodNode mn : cn.methods) {
-				if (mn.name.equals("c") || mn.name.equals("addPotionEffect")) {
-					if (mn.desc.equals("(Lpf;)V") || mn.desc.equals("(Lnet/minecraft/potion/PotionEffect;)V")) {
-						LogHelper.info("Patching addPotionEffect");
-						String className = mn.desc.equals("(Lpf;)V") ? "pf;" : "net/minecraft/potion/PotionEffect;";
-						InsnList list = new InsnList();
-						list.add(new TypeInsnNode(NEW, "am2/api/event/EventPotionAdded"));
-						list.add(new InsnNode(DUP));
-						list.add(new VarInsnNode(ALOAD, 1));
-						list.add(new MethodInsnNode(INVOKESPECIAL, "am2/api/event/EventPotionAdded", "<init>", "(L" + className + ")V", false));
-						list.add(new VarInsnNode(ASTORE, 2));
-						list.add(new LabelNode());
-						list.add(new FieldInsnNode(GETSTATIC, "net/minecraftforge/common/MinecraftForge", "EVENT_BUS", "Lnet/minecraftforge/fml/common/eventhandler/EventBus;"));
-						list.add(new VarInsnNode(ALOAD, 2));
-						list.add(new MethodInsnNode(INVOKEVIRTUAL, "net/minecraftforge/fml/common/eventhandler/EventBus", "post", "(Lnet/minecraftforge/fml/common/eventhandler/Event;)Z", false));
-						list.add(new InsnNode(POP));
-						list.add(new LabelNode());
-						list.add(new VarInsnNode(ALOAD, 2));
-						list.add(new MethodInsnNode(INVOKEVIRTUAL, "am2/api/event/EventPotionAdded", "getEffect", "()L" + className, false));
-						list.add(new VarInsnNode(ASTORE, 1));
-						ListIterator<AbstractInsnNode> insns = mn.instructions.iterator();
-						while (insns.hasNext()) {
-							AbstractInsnNode insn = insns.next();
-							if (insn instanceof LabelNode) {
-								mn.instructions.insertBefore(insn, list);	
-								break;
-							}
-						}
-					}
-				}
-			}
-			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			cn.accept(cw);
-			return cw.toByteArray();
-		} else if (transformedName.equalsIgnoreCase("net.minecraft.client.renderer.block.model.BlockPart$Deserializer")) {
+		if (transformedName.equalsIgnoreCase("net.minecraft.client.renderer.block.model.BlockPart$Deserializer")) {
 			ClassReader cr = new ClassReader(basicClass);
 			ClassNode cn = new ClassNode();
 			cr.accept(cn, 0);
@@ -86,7 +57,7 @@ public class Transformer implements IClassTransformer {
 			newInsn.add(new InsnNode(FRETURN));
 			for (MethodNode mn : cn.methods) {
 				if (mn.name.equals("parseAngle")) {
-					LogHelper.info("Removing Model Rotation Limit...");
+					LogHelper.info("Core: Removing Model Rotation Limit...");
 					mn.instructions = newInsn;
 				}
 			}
@@ -94,14 +65,228 @@ public class Transformer implements IClassTransformer {
 			cn.accept(cw);
 			return cw.toByteArray();
 		} else if (transformedName.equalsIgnoreCase("net.minecraft.client.renderer.EntityRenderer"))
-			return patchEntityRenderer(basicClass);
+			return patchEntityRenderer(basicClass, !Preloader.isDevEnvironment);
+		else if (transformedName.equalsIgnoreCase("net.minecraft.client.entity.EntityPlayerSP"))
+			return alterEntityPlayerSP(basicClass, !Preloader.isDevEnvironment);
+		else if (transformedName.equalsIgnoreCase("net.minecraft.entity.EntityLivingBase"))
+			return alterEntityLivingBase(alterEntity(basicClass, !Preloader.isDevEnvironment), !Preloader.isDevEnvironment);
+		else if (transformedName.equalsIgnoreCase("net.minecraft.entity.Entity"))
+			return alterEntity(basicClass, !Preloader.isDevEnvironment);
+		else if (transformedName.equalsIgnoreCase("net.minecraft.entity.player.EntityPlayer"))
+			return alterEntityPlayer(basicClass, !Preloader.isDevEnvironment);
 		return basicClass;
 	}
 	
-	private byte[] patchEntityRenderer(byte[] basicClass) {
+	private byte[] alterEntity(byte[] bytes, boolean is_obfuscated) {
+		ClassReader cr = new ClassReader(bytes);
+		ClassNode cn = new ClassNode();
+		cr.accept(cn, 0);
+		for (MethodNode mn : cn.methods) {;
+			if (mn.name.equals("getLook")) {
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
+				while (iter.hasNext()) {
+					InsnList toAdd = new InsnList();
+					toAdd.add(new VarInsnNode(ALOAD, 0));
+					toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "correctLook", "(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/math/Vec3d;", false));
+					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
+					if (ain != null && ain.getOpcode() == ARETURN) {
+						LogHelper.debug("Core: Located target ARETURN insn node");
+						mn.instructions.insertBefore(ain, toAdd);
+					}
+				}
+			}
+		}
+		
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+		return cw.toByteArray();
+	}
+	
+	private byte[] alterEntityPlayer(byte[] bytes, boolean is_obfuscated) {
+		ClassReader cr = new ClassReader(bytes);
+		ClassNode cn = new ClassNode();
+		cr.accept(cn, 0);
+		for (MethodNode mn : cn.methods) {;
+			if (mn.name.equals("getEyeHeight")) {
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
+				while (iter.hasNext()) {
+					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
+					if (ain != null && ain.getOpcode() == FRETURN) {
+						InsnList toAdd = new InsnList();
+						toAdd.add(new VarInsnNode(ALOAD, 0));
+						toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "correctEyePos", "(FLnet/minecraft/entity/Entity;)F", false));
+						LogHelper.debug("Core: Located target ARETURN insn node");
+						mn.instructions.insertBefore(ain, toAdd);
+					}
+				}
+			}
+		}
+		
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+		return cw.toByteArray();
+	}
+	
+	private byte[] alterEntityLivingBase(byte[] bytes, boolean is_obfuscated) {
+		ClassReader cr = new ClassReader(bytes);
+		ClassNode cn = new ClassNode();
+		cr.accept(cn, 0);
+		for (MethodNode mn : cn.methods) {;
+			if (mn.name.equals("c") || mn.name.equals("addPotionEffect")) {
+				if (mn.desc.equals("(Lpf;)V") || mn.desc.equals("(Lnet/minecraft/potion/PotionEffect;)V")) {
+					LogHelper.debug("Patching addPotionEffect");
+					String className = is_obfuscated ? "pf;" : "net/minecraft/potion/PotionEffect;";
+					InsnList list = new InsnList();
+					list.add(new TypeInsnNode(NEW, "am2/api/event/EventPotionAdded"));
+					list.add(new InsnNode(DUP));
+					list.add(new VarInsnNode(ALOAD, 1));
+					list.add(new MethodInsnNode(INVOKESPECIAL, "am2/api/event/EventPotionAdded", "<init>", "(L" + className + ")V", false));
+					list.add(new VarInsnNode(ASTORE, 2));
+					list.add(new LabelNode());
+					list.add(new FieldInsnNode(GETSTATIC, "net/minecraftforge/common/MinecraftForge", "EVENT_BUS", "Lnet/minecraftforge/fml/common/eventhandler/EventBus;"));
+					list.add(new VarInsnNode(ALOAD, 2));
+					list.add(new MethodInsnNode(INVOKEVIRTUAL, "net/minecraftforge/fml/common/eventhandler/EventBus", "post", "(Lnet/minecraftforge/fml/common/eventhandler/Event;)Z", false));
+					list.add(new InsnNode(POP));
+					list.add(new LabelNode());
+					list.add(new VarInsnNode(ALOAD, 2));
+					list.add(new MethodInsnNode(INVOKEVIRTUAL, "am2/api/event/EventPotionAdded", "getEffect", "()L" + className, false));
+					list.add(new VarInsnNode(ASTORE, 1));
+					ListIterator<AbstractInsnNode> insns = mn.instructions.iterator();
+					while (insns.hasNext()) {
+						AbstractInsnNode insn = insns.next();
+						if (insn instanceof LabelNode) {
+							mn.instructions.insertBefore(insn, list);	
+							break;
+						}
+					}
+				}
+			}
+		}
+		{
+			MethodNode method = new MethodNode();
+			method.name = "moveRelative";
+			method.desc = "(FFF)V";
+			method.access = ACC_PUBLIC;
+			method.exceptions = Lists.newArrayList();
+			LabelNode endNode = new LabelNode();
+			method.instructions.add(new LabelNode());
+			method.instructions.add(new VarInsnNode(FLOAD, 1));
+			method.instructions.add(new VarInsnNode(FLOAD, 2));
+			method.instructions.add(new VarInsnNode(FLOAD, 3));
+			method.instructions.add(new VarInsnNode(ALOAD, 0));
+			method.instructions.add(new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "correctMouvement", "(FFFLnet/minecraft/entity/Entity;)Z", false));
+			method.instructions.add(new JumpInsnNode(IFNE, endNode));
+			method.instructions.add(new LabelNode());
+			method.instructions.add(new VarInsnNode(ALOAD, 0));
+			method.instructions.add(new VarInsnNode(FLOAD, 1));
+			method.instructions.add(new VarInsnNode(FLOAD, 2));
+			method.instructions.add(new VarInsnNode(FLOAD, 3));
+			method.instructions.add(new MethodInsnNode(INVOKESPECIAL, "net/minecraft/entity/Entity", "moveRelative", "(FFF)V", false));
+			method.instructions.add(endNode);
+			method.instructions.add(new InsnNode(RETURN));
+			method.visitMaxs(0, 0);
+			cn.methods.add(method);
+		}
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+		return cw.toByteArray();
+	}
+	
+	
+	private byte[] alterEntityPlayerSP(byte[] bytes, boolean is_obfuscated){
+		ClassReader cr = new ClassReader(bytes);
+		ClassNode cn = new ClassNode();
+		cr.accept(cn, 0);
+
+		// Minecraft r1.7.10: net.minecraft.client.entity.EntityPlayerSP.java = blk.class
+
+		// EntityPlayerSP.onLivingUpdate() = blk/e
+		// MCP mapping: blk/e ()V net/minecraft/client/entity/EntityPlayerSP/func_70636_d ()V
+		obf_deobf_pair method1_name = new obf_deobf_pair();
+		method1_name.setVal("onLivingUpdate", false);
+		method1_name.setVal("e", true);
+
+		String method1_desc = "()V";
+
+		// MovementInput.updatePlayerMoveState() = bli/a
+		// note that we don't need the class name, it's referencing an internal variable
+		obf_deobf_pair method1_searchinstruction = new obf_deobf_pair();
+		method1_searchinstruction.setVal("updatePlayerMoveState", false);
+		method1_searchinstruction.setVal("a", true);
+
+		String searchinstruction_desc = "()V";
+
+		for (MethodNode mn : cn.methods){
+			if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc)){ //onLivingUpdate
+				AbstractInsnNode target = null;
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
+				//look for the line:
+				//this.movementInput.updatePlayerMoveState();
+				while (instructions.hasNext()){
+					AbstractInsnNode node = instructions.next();
+					if (node instanceof VarInsnNode && ((VarInsnNode)node).getOpcode() == ALOAD){ //this.
+						node = instructions.next();
+						if (node instanceof FieldInsnNode && ((FieldInsnNode)node).getOpcode() == GETFIELD){ //movementInput.
+							node = instructions.next();
+							if (node instanceof MethodInsnNode){
+								MethodInsnNode method = (MethodInsnNode)node;
+								if (method.name.equals(method1_searchinstruction.getVal(is_obfuscated)) && method.desc.equals(searchinstruction_desc)){ //updatePlayerMoveState
+									LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
+									target = node;
+									break;
+								}
+							}
+						}
+					}
+				}
+
+				if (target != null){
+					MethodInsnNode callout = new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "overrideKeyboardInput", "()V", false);
+					mn.instructions.insert(target, callout);
+					LogHelper.debug("Core: Success!  Inserted operations!");
+					break;
+				}
+			}
+		}
+
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+		return cw.toByteArray();
+	}
+	
+	private byte[] patchEntityRenderer(byte[] basicClass, boolean isObf) {
 		ClassReader cr = new ClassReader(basicClass);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
+		
+		obf_deobf_pair method2_name = new obf_deobf_pair();
+		method2_name.setVal("updateCameraAndRender", false);
+		method2_name.setVal("b", true);
+		
+		String method2_desc = "(FJ)V";
+		
+		// search for this function call:
+		// net.minecraft.profiler.Profiler.startSection = qi.a
+		// MCP mapping: MD: qi/a (Ljava/lang/String;)V net/minecraft/profiler/Profiler/func_76320_a (Ljava/lang/String;)V
+		obf_deobf_pair method2_searchinstruction_class = new obf_deobf_pair();
+		method2_searchinstruction_class.setVal("net/minecraft/profiler/Profiler", false);
+		method2_searchinstruction_class.setVal("qi", true);
+
+		obf_deobf_pair method2_searchinstruction_function = new obf_deobf_pair();
+		method2_searchinstruction_function.setVal("startSection", false);
+		method2_searchinstruction_function.setVal("a", true);
+
+		String method2_searchinstruction_desc = "(Ljava/lang/String;)V";
+
+		// we will be inserting a call to am2.guis.AMGuiHelper.overrideMouseInput()
+		// description (Lnet/minecraft/client/renderer/EntityRenderer;FZ)Z
+		obf_deobf_pair method2_insertinstruction_desc = new obf_deobf_pair();
+		method2_insertinstruction_desc.setVal("(Lnet/minecraft/client/renderer/EntityRenderer;FZ)Z", false);
+		method2_insertinstruction_desc.setVal("(Lblt;FZ)Z", true);
+		
 		for (MethodNode mn : cn.methods){
 			if (mn.name.equals("setupCameraTransform") && mn.desc.equals("(FI)V")){ // setupCameraTransform
 				AbstractInsnNode orientCameraNode = null;
@@ -143,11 +328,82 @@ public class Transformer implements IClassTransformer {
 					LogHelper.info("Core: Success!  Inserted callout function op (flip)!");
 				}
 
+			}else if (mn.name.equals(method2_name.getVal(isObf)) && mn.desc.equals(method2_desc)){  //updateCameraAndRender
+				AbstractInsnNode target = null;
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
+				AbstractInsnNode node = null;
+				boolean mouseFound = false;
+				while (instructions.hasNext()){
+					node = instructions.next();
+					//look for the line:
+					//this.mc.mcProfiler.startSection("mouse");
+					if (!mouseFound){
+						if (node instanceof LdcInsnNode){
+							if (((LdcInsnNode)node).cst.equals("mouse")){
+								mouseFound = true;
+							}
+						}
+					}else{
+						if (node instanceof MethodInsnNode){
+							MethodInsnNode method = (MethodInsnNode)node;
+							if (method.owner.equals(method2_searchinstruction_class.getVal(isObf)) && method.name.equals(method2_searchinstruction_function.getVal(isObf)) && method.desc.equals(method2_searchinstruction_desc)){
+								LogHelper.debug("Core: Located target method insn node: " + method.owner + "." + method.name + ", " + method.desc);
+								target = node;
+								break;
+							}
+						}
+					}
+				}
+
+				if (target != null){
+					int iRegister = 4;
+
+					VarInsnNode aLoad = new VarInsnNode(ALOAD, 0);
+					VarInsnNode fLoad = new VarInsnNode(FLOAD, 1);
+					VarInsnNode iLoad = new VarInsnNode(ILOAD, iRegister);
+					MethodInsnNode callout = new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "overrideMouseInput", method2_insertinstruction_desc.getVal(isObf), false);
+					VarInsnNode iStore = new VarInsnNode(ISTORE, iRegister);
+
+					mn.instructions.insert(target, iStore);
+					mn.instructions.insert(target, callout);
+					mn.instructions.insert(target, iLoad);
+					mn.instructions.insert(target, fLoad);
+					mn.instructions.insert(target, aLoad);
+					LogHelper.debug("Core: Success!  Inserted opcodes!");
+				}
 			}
 		}
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		cn.accept(cw);
 		return cw.toByteArray();
+	}
+	
+	public class obf_deobf_pair{
+		private String deobf_val;
+		private String obf_val;
+
+		public obf_deobf_pair(){
+			deobf_val = "";
+			obf_val = "";
+		}
+
+		public void setVal(String value, boolean is_obfuscated){
+			if (is_obfuscated){
+				obf_val = value;
+			} else{
+				deobf_val = value;
+			}
+		}
+
+		public String getVal(boolean is_obfuscated){
+			if (is_obfuscated){
+				return obf_val;
+			}
+			else{
+				return deobf_val;
+			}
+		}
 	}
 
 }

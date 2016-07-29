@@ -120,7 +120,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 			String s = ((NBTTagCompound)stack.getTagCompound().getTag(NBT_KEY_AMPROPS)).getString(NBT_KEY_EFFECTS);
 			return s != null && s.length() > 0;
 		}
-		return false;
+		return super.hasEffect(stack);
 
 	}
 }

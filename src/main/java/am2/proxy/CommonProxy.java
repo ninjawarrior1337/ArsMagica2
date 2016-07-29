@@ -165,6 +165,7 @@ public class CommonProxy implements IGuiHandler{
 	public ItemDefs items;
 	public BlockDefs blocks;
 	public AMEnchantments enchantments;
+	private int totalFlickerCount = 0;
 	
 	public PlayerTracker playerTracker;
 	public ItemFrameWatcher itemFrameWatcher;
@@ -488,5 +489,19 @@ public class CommonProxy implements IGuiHandler{
 			}
 		}
 		return false;
+	}
+	
+	public void incrementFlickerCount(){
+		this.totalFlickerCount++;
+	}
+
+	public void decrementFlickerCount(){
+		this.totalFlickerCount--;
+		if (this.totalFlickerCount < 0)
+			this.totalFlickerCount = 0;
+	}
+
+	public int getTotalFlickerCount(){
+		return this.totalFlickerCount;
 	}
 }

@@ -3,6 +3,7 @@ package am2.enchantments;
 import am2.items.ItemSpellBook;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
@@ -15,7 +16,7 @@ public class EnchantmentSoulbound extends Enchantment{
 
 	@Override
 	public int getMinEnchantability(int par1){
-		return 1;
+		return 0;
 	}
 
 	@Override
@@ -35,6 +36,6 @@ public class EnchantmentSoulbound extends Enchantment{
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return stack != null && stack.getItem() instanceof ItemSpellBook;
+		return stack != null && (stack.getItem() instanceof ItemSpellBook || stack.getItem() == Items.BOOK);
 	}
 }

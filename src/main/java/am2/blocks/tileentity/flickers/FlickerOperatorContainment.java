@@ -163,7 +163,7 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 				"FWF",
 				"ARN",
 				"IWI",
-				Character.valueOf('F'), "fence",
+				Character.valueOf('F'), "fenceWood",
 				Character.valueOf('W'), Blocks.COBBLESTONE_WALL,
 				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage()),

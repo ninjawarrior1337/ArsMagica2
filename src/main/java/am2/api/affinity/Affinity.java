@@ -81,11 +81,8 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		GameRegistry.register(LIFE, LIFE_LOC);
 		GameRegistry.register(ENDER, ENDER_LOC);
 	}
-	
-	private static int currentMask = 1;
 	private int color;
 	private String name;
-	private int mask;
 	private ResourceLocation directOpposite;
 	private ArrayList<ResourceLocation> majorOpposites = new ArrayList<>();
 	private ArrayList<ResourceLocation> minorOpposites = new ArrayList<>();
@@ -93,8 +90,6 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	public Affinity (String name, int color) {
 		this.color = color;
 		this.name = name;
-		mask = currentMask;
-		currentMask *= 2;
 	}
 	
 	/**
@@ -179,7 +174,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	}
 
 	public int getAffinityMask() {
-		return mask;
+		return (int) Math.pow(2, ArsMagicaAPI.getAffinityRegistry().getId(this));
 	}
 
 	public int compareTo(Affinity b) {

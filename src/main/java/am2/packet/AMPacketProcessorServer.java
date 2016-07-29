@@ -105,6 +105,9 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.AFFINITY_ACTIVATE:
 //				handleAffinityActivate(remaining, player);
 //				break;
+			case AMPacketIDs.PLAYER_FLIP:
+				handlePlayerFlip(remaining, player);
+				break;
 			}
 		}catch (Throwable t){
 			LogHelper.error("Server Packet Failed to Handle!");
@@ -118,6 +121,10 @@ public class AMPacketProcessorServer{
 				t.printStackTrace();
 			}
 		}
+	}
+
+	private void handlePlayerFlip(byte[] remaining, EntityPlayerMP player) {
+		EntityExtension.For(player).setInverted(new AMDataReader(remaining, false).getBoolean());
 	}
 
 //	private void handleAffinityActivate(byte[] data, EntityPlayerMP entity){

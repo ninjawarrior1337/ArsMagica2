@@ -38,9 +38,13 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class AMGuiHelper{
@@ -670,7 +674,7 @@ public class AMGuiHelper{
 		EntityPlayer entity = Minecraft.getMinecraft().thePlayer;
 		int viewSet = Minecraft.getMinecraft().gameSettings.thirdPersonView;
 		if (viewSet == 0){
-			IEntityExtension exProps = EntityExtension.For(entity);
+			EntityExtension exProps = EntityExtension.For(entity);
 			if (exProps.getShrinkPct() > 0f){
 				float amt = exProps.getPrevShrinkPct() + (exProps.getShrinkPct() - exProps.getPrevShrinkPct()) * f;
 				GlStateManager.translate(0, 1 * amt, 0);
@@ -678,10 +682,12 @@ public class AMGuiHelper{
 		}
 
 		float flip = EntityExtension.For(entity).getFlipRotation();
-		float prevFlip = EntityExtension.For(entity).getPrevFlipRotation();
+		float lastFlip = EntityExtension.For(entity).getPrevFlipRotation();
 		if (flip > 0){
-			float smoothedFlip = prevFlip + ((flip - prevFlip) * f);
-			GlStateManager.translate(0, (entity.height * (smoothedFlip / 180f) * 0.5f) - 0.1f, 0);
+			//float smoothedFlip = lastFlip + ((flip - lastFlip) * f);
+			//GlStateManager.translate(0, (entity.eyeHeight * (smoothedFlip / 180f) - 0.1f), 0);
+			GlStateManager.rotate(lastFlip + (flip - lastFlip) * f, 0, 0, 1);
+			//flipView(f);
 		}
 	}
 
@@ -689,21 +695,21 @@ public class AMGuiHelper{
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.thePlayer != null && mc.theWorld != null && EntityExtension.For(mc.thePlayer).shouldReverseInput()){
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-			if (mc.gameSettings.keyBindLeft.isPressed()){
-				LogHelper.info("Override Left");
+			if (mc.gameSettings.keyBindLeft.isKeyDown()){
+				LogHelper.debug("Override Left");
 				player.movementInput.moveStrafe -= 2;
 			}
 
-			if (mc.gameSettings.keyBindRight.isPressed()){
-				LogHelper.info("Override Rights");
+			if (mc.gameSettings.keyBindRight.isKeyDown()){
+				LogHelper.debug("Override Rights");
 				player.movementInput.moveStrafe += 2;
 			}
 
 			if (mc.thePlayer.isPotionActive(PotionEffectsDefs.scrambleSynapses)){
-				if (mc.gameSettings.keyBindForward.isPressed()){
+				if (mc.gameSettings.keyBindForward.isKeyDown()){
 					player.movementInput.moveForward -= 2;
 				}
-				if (mc.gameSettings.keyBindBack.isPressed()){
+				if (mc.gameSettings.keyBindBack.isKeyDown()){
 					player.movementInput.moveForward += 2;
 				}
 			}
@@ -716,9 +722,7 @@ public class AMGuiHelper{
 		if (!mc.inGameHasFocus || mc.thePlayer == null || mc.theWorld == null)
 			return true;
 
-		IEntityExtension props = EntityExtension.For(mc.thePlayer);
-
-		if (!(mc.thePlayer.isPotionActive(PotionEffectsDefs.scrambleSynapses) ^ props.getIsFlipped())){
+		if (!mc.thePlayer.isPotionActive(PotionEffectsDefs.scrambleSynapses)){
 			return true;
 		}
 
@@ -757,6 +761,46 @@ public class AMGuiHelper{
 			mc.thePlayer.setAngles(-f3, f4 * (float)b0);
 		}
 
+		return false;
+	}
+	
+	public static Vec3d correctLook(Vec3d vecIn, Entity entityIn) {
+		if (entityIn instanceof EntityLivingBase && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+			return new Vec3d(-vecIn.xCoord, -vecIn.yCoord, vecIn.zCoord);
+		}
+		return vecIn;
+	}
+	
+	public static float correctEyePos(float floatIn, Entity entityIn) {
+		if (entityIn instanceof EntityPlayer && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+			EntityPlayer player = (EntityPlayer) entityIn;
+			return player.height - floatIn - 0.1f;
+		}
+		return floatIn;
+	}
+	
+	public static boolean correctMouvement(float strafe, float forward, float friction, Entity entityIn) {
+		if (entityIn instanceof EntityPlayer && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+	        float f = strafe * strafe + forward * forward;
+	        if (f >= 1.0E-4F)
+	        {
+	            f = MathHelper.sqrt_float(f);
+
+	            if (f < 1.0F)
+	            {
+	                f = 1.0F;
+	            }
+
+	            f = friction / f;
+	            strafe = strafe * f;
+	            forward = forward * f;
+	            float f1 = MathHelper.sin(-entityIn.rotationYaw * 0.017453292F);
+	            float f2 = MathHelper.cos(-entityIn.rotationYaw * 0.017453292F);
+	            entityIn.motionX += (double)(strafe * f2 - forward * f1);
+	            entityIn.motionZ += (double)(forward * f2 + strafe * f1);
+	        }
+			return true;
+		}
 		return false;
 	}
 }

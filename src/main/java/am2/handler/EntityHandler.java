@@ -11,13 +11,14 @@ import am2.api.extensions.IEntityExtension;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
 import am2.defs.ItemDefs;
-import am2.defs.PotionEffectsDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
 import am2.lore.ArcaneCompendium;
+import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
+import am2.packet.AMPacketIDs;
 import am2.spell.ContingencyType;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
@@ -31,6 +32,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -41,11 +43,12 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -161,27 +164,27 @@ public class EntityHandler {
 				}
 			}
 		}
-		ext.setInverted(false);
+		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.PLAYER_FLIP, new AMDataWriter().add(ext.getIsFlipped()).generate());
 		if (ext.getIsFlipped()){
-			if ((player).motionY < 2)
+			if ((player).motionY < 2 && !player.capabilities.isFlying)
 				(player).motionY += 0.15f;
-
 			double posY = player.posY + player.height;
 			World world = player.worldObj;
-			if (!world.isRemote)
-				posY += player.getEyeHeight();
-			if (world.rayTraceBlocks(new Vec3d(player.posX, posY, player.posZ), new Vec3d(player.posX, posY + 1, player.posZ), true) != null){
+			RayTraceResult mop = world.rayTraceBlocks(new Vec3d(player.posX, posY, player.posZ), new Vec3d(player.posX, posY + 1, player.posZ), true);
+			if (mop != null){
 				if (!player.onGround){
-					if (player.fallDistance > 0){
-						player.fall(player.fallDistance, 1.0f);
-						player.fallDistance = 0;
-					}
+					world.getBlockState(mop.getBlockPos()).getBlock().onFallenUpon(world, mop.getBlockPos(), player, Math.abs(player.fallDistance));
+					player.fallDistance = 0;
 				}
 				player.onGround = true;
+				player.isAirBorne = false;
 			}else{
+				//System.out.println(player.motionY);
 				if (player.motionY > 0){
 					player.fallDistance += player.posY - player.prevPosY;
+					player.setJumping(false);
 				}
+				player.isAirBorne = true;
 				player.onGround = false;
 			}
 		}
@@ -220,13 +223,6 @@ public class EntityHandler {
 			SpellUtils.applyStackStage(ext.getContingencyStack(), e.getEntityLiving(), target, e.getEntity().posX, e.getEntity().posY, e.getEntity().posZ, null, e.getEntityLiving().worldObj, false, true, 0);
 			if (ext.getContingencyType() == ContingencyType.DEATH)
 				ext.setContingency(ContingencyType.NULL, null);		
-		}
-	}
-	
-	@SubscribeEvent
-	public void teleportEvent(EnderTeleportEvent e) {
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.astralDistortion) || e.getEntity().isDead) {
-			e.setCanceled(true);
 		}
 	}
 	
@@ -339,6 +335,19 @@ public class EntityHandler {
 			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.player, "modifiers", true);
 			EntityExtension.For(event.player).setMagicLevelWithMana(1);
 			return;
+		}
+	}
+	
+	@SubscribeEvent(priority=EventPriority.LOWEST)
+	public void playerJumpEvent(LivingJumpEvent event) {
+		if (event.getEntityLiving() instanceof EntityPlayer){
+			ItemStack boots = ((EntityPlayer)event.getEntityLiving()).getItemStackFromSlot(EntityEquipmentSlot.FEET);
+			if (boots != null && boots.getItem() == ItemDefs.enderBoots && event.getEntityLiving().isSneaking()){
+				EntityExtension.For(event.getEntityLiving()).setInverted(!EntityExtension.For(event.getEntityLiving()).isInverted());
+			}
+
+			if (EntityExtension.For(event.getEntityLiving()).getFlipRotation() > 0)
+				((EntityPlayer)event.getEntityLiving()).addVelocity(0, -2 * event.getEntityLiving().motionY, 0);
 		}
 	}
 }

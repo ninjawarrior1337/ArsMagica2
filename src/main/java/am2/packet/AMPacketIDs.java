@@ -48,4 +48,5 @@ public class AMPacketIDs{
 	public static final byte OBELISK_DATA = 58;
 	public static final byte AFFINITY_ACTIVATE = 59;
 	public static final byte MANA_LINK_UPDATE = 60;
+	public static final byte PLAYER_FLIP = 61;
 }
