@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.math.AMVector3;
@@ -77,6 +75,7 @@ import am2.utils.RenderUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -282,7 +281,7 @@ public class ClientProxy extends CommonProxy {
 				Block block = player.worldObj.getBlockState(target.getBlockPos()).getBlock();
 				float yOff = 0.5f;
 				if (data != null){
-					GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
+					GlStateManager.pushAttrib();
 					for (PowerTypes type : ((IPowerNode<?>)te).getValidPowerTypes()){
 						float pwr = data.getPower(type);
 						float pct = pwr / ((IPowerNode<?>)te).getCapacity() * 100;
@@ -307,7 +306,8 @@ public class ClientProxy extends CommonProxy {
 							yOff -= 0.12f;
 						}
 					}
-					GL11.glPopAttrib();
+					GlStateManager.disableAlpha();
+					GlStateManager.popAttrib();
 				}
 			}
 		}

@@ -10,7 +10,6 @@ import am2.defs.BlockDefs;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
 import am2.items.ItemBlockSubtypes;
-import am2.lore.CompendiumUnlockHandler;
 import am2.utils.KeystoneUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -18,14 +17,13 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
@@ -40,31 +38,27 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos oldPos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		BlockPos pos = oldPos;
 		if (worldIn.getBlockState(pos.down()).getBlock() == BlockDefs.keystoneDoor)
-			pos = pos.down();
+			pos = oldPos.down();
 
 		TileEntity te = worldIn.getTileEntity(pos);
-
 		playerIn.swingArm(hand);
 
-		if (!worldIn.isRemote){
+		if (KeystoneUtilities.HandleKeystoneRecovery(playerIn, (IKeystoneLockable<?>)te))
+			return true;
 
-			if (KeystoneUtilities.HandleKeystoneRecovery(playerIn, (IKeystoneLockable<?>)te))
-				return true;
-
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<?>)te, playerIn, KeystoneAccessType.USE)){
-				if (playerIn.isSneaking()){
+		if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<?>)te, playerIn, KeystoneAccessType.USE)){
+			if (playerIn.isSneaking()){
+				if (!worldIn.isRemote)
 					FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_KEYSTONE_LOCKABLE, worldIn, pos.getX(), pos.getY(), pos.getZ());
-				}else{
-					worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOODEN_DOOR_OPEN, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
-					activateNeighbors(worldIn, pos, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
-					CompendiumUnlockHandler.unlockEntry(this.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", ""));
-					return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
-				}
+			}else{
+				activateNeighbors(worldIn, pos, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				//CompendiumUnlockHandler.unlockEntry(this.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", ""));
+				return super.onBlockActivated(worldIn, oldPos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 			}
 		}
-
 		return false;
 	}
 
@@ -134,5 +128,10 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
+	}
+	
+	@Override
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.TRANSLUCENT;
 	}
 }

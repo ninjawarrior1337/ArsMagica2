@@ -109,10 +109,10 @@ public class KeystoneUtilities {
 			}
 		}
 
-		if (accessMode == KeystoneAccessType.USE){
+		if (accessMode == KeystoneAccessType.USE && !player.worldObj.isRemote){
 			player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.wrongKeystoneUse")));
 		}
-		else if (accessMode == KeystoneAccessType.BREAK){
+		else if (accessMode == KeystoneAccessType.BREAK && !player.worldObj.isRemote){
 			player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.wrongKeystoneBreak")));
 		}
 		return false;

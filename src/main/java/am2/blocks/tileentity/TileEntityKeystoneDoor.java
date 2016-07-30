@@ -1,13 +1,16 @@
 package am2.blocks.tileentity;
 
 import am2.api.blocks.IKeystoneLockable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IKeystoneLockable<TileEntityKeystoneDoor>{
@@ -120,6 +123,11 @@ public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IK
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
+		return false;
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return false;
 	}
 
