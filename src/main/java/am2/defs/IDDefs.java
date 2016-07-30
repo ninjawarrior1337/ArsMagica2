@@ -22,5 +22,6 @@ public class IDDefs {
 	public static final int GUI_SPELL_SEALED_DOOR = 10;
 	public static final int GUI_KEYSTONE_CHEST = 11;
 	public static final int GUI_RUNE_BAG = 12;
+	public static final int GUI_FLICKER_HABITAT = 13;
 	
 }

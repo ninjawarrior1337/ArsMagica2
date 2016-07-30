@@ -1,6 +1,6 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.*;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_KEYSTONE;
 import static am2.defs.IDDefs.GUI_KEYSTONE_CHEST;
@@ -65,6 +65,7 @@ import am2.blocks.tileentity.TileEntityOcculus;
 import am2.blocks.tileentity.TileEntitySlipstreamGenerator;
 import am2.blocks.tileentity.TileEntitySpellSealedDoor;
 import am2.container.ContainerArmorInfuser;
+import am2.container.ContainerFlickerHabitat;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerKeystoneChest;
 import am2.container.ContainerKeystoneLockable;
@@ -83,6 +84,7 @@ import am2.defs.SpellDefs;
 import am2.enchantments.AMEnchantments;
 import am2.extensions.RiftStorage;
 import am2.handler.EntityHandler;
+import am2.handler.FlickerEvents;
 import am2.handler.PotionEffectHandler;
 import am2.items.ContainerKeystone;
 import am2.items.ItemKeystone;
@@ -180,6 +182,7 @@ public class CommonProxy implements IGuiHandler{
 				return null;
 			}
 			return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
+		case GUI_FLICKER_HABITAT: return new ContainerFlickerHabitat(player, (TileEntityFlickerHabitat) te);
 		}
 		return null;
 	}
@@ -206,6 +209,7 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(PowerNodeCache.instance);
 		MinecraftForge.EVENT_BUS.register(new ArmorEventHandler());
 		MinecraftForge.EVENT_BUS.register(playerTracker);
+		MinecraftForge.EVENT_BUS.register(new FlickerEvents());
 		
 		registerInfusions();
 				

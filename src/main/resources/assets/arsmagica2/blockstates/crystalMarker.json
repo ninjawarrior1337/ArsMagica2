@@ -1,13 +1,5 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"custom": { "flip-v": true },
-		"model": "arsmagica2:crystal_marker_cullface.json"
-	},
-	"variants": {
-		"normal": [{}],
-		"inventory": [{"submodel":"block"}],
-		"type":{0:{},1:{},2:{},3:{},4:{},5:{},6:{},7:{},8:{}},
-		"facing":{"south":{}, "east":{}, "north":{}, "west":{}, "up":{}, "down":{}}
-	}
+	"multipart": [{
+		"apply": {"model":"arsmagica2:null"}
+	}]
 }

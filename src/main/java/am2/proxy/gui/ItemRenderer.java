@@ -65,7 +65,7 @@ public class ItemRenderer {
 			GlStateManager.rotate(new Quaternion(transform.getLeftRot().x, transform.getLeftRot().y, transform.getLeftRot().z, transform.getLeftRot().w));
 			GlStateManager.scale(transform.getScale().x, transform.getScale().y, transform.getScale().z);
 		}
-		tesr.renderTileEntityAt(te, 0, 0, 0, 1, 0);
+		tesr.renderTileEntityAt(te, 0, 0, 0, event.getStack().getItemDamage(), -10);
 		GlStateManager.popMatrix();
 	}
 

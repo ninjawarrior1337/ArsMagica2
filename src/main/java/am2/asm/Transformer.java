@@ -1,23 +1,6 @@
 package am2.asm;
 
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.objectweb.asm.Opcodes.ASTORE;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.FLOAD;
-import static org.objectweb.asm.Opcodes.FRETURN;
-import static org.objectweb.asm.Opcodes.GETFIELD;
-import static org.objectweb.asm.Opcodes.GETSTATIC;
-import static org.objectweb.asm.Opcodes.IFNE;
-import static org.objectweb.asm.Opcodes.ILOAD;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.objectweb.asm.Opcodes.ISTORE;
-import static org.objectweb.asm.Opcodes.NEW;
-import static org.objectweb.asm.Opcodes.POP;
-import static org.objectweb.asm.Opcodes.RETURN;
+import static org.objectweb.asm.Opcodes.*;
 
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -74,7 +57,48 @@ public class Transformer implements IClassTransformer {
 			return alterEntity(basicClass, !Preloader.isDevEnvironment);
 		else if (transformedName.equalsIgnoreCase("net.minecraft.entity.player.EntityPlayer"))
 			return alterEntityPlayer(basicClass, !Preloader.isDevEnvironment);
+		else if (transformedName.equalsIgnoreCase("net.minecraftforge.client.model.obj.OBJModel$OBJBakedModel"))
+			return alterObjBakedModel(basicClass, !Preloader.isDevEnvironment);
 		return basicClass;
+	}
+	
+	private byte[] alterObjBakedModel(byte[] bytes, boolean is_obfuscated) {
+		ClassReader cr = new ClassReader(bytes);
+		ClassNode cn = new ClassNode();
+		cr.accept(cn, 0);
+		LogHelper.debug("Located OBJBakedModel");
+		for (MethodNode mn : cn.methods) {;
+			if (mn.name.equals("buildQuads")) {
+				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				while (iter.hasNext()) {
+					InsnList toAdd = new InsnList();
+					toAdd.add(new LabelNode());
+					toAdd.add(new VarInsnNode(ALOAD, 7));
+					toAdd.add(new VarInsnNode(ALOAD, 6));
+					toAdd.add(new MethodInsnNode(INVOKEVIRTUAL, "net/minecraftforge/client/model/obj/OBJModel$Face", "getMaterialName", "()Ljava/lang/String;", false));
+					toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/api/event/OBJQuadEvent", "post", "(Ljava/lang/String;)I", false));
+					toAdd.add(new MethodInsnNode(INVOKEVIRTUAL, "net/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder", "setQuadTint", "(I)V", false));
+					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
+					if (ain != null && ain instanceof MethodInsnNode && ain.getOpcode() == INVOKESPECIAL && ((MethodInsnNode)ain).owner.equalsIgnoreCase("net/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder")) {
+						MethodInsnNode min = (MethodInsnNode) ain;
+						LogHelper.debug("Located " + min.owner + " - " + min.name + min.desc);
+						if (!iter.hasNext())
+							break;
+						ain = iter.next();
+						if (ain != null && ain instanceof VarInsnNode && ain.getOpcode() == ASTORE && ((VarInsnNode)ain).var == 7) {
+							mn.instructions.insert(ain, toAdd);
+							LogHelper.debug("Adding colors to OBJ Models");
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+		return cw.toByteArray();
 	}
 	
 	private byte[] alterEntity(byte[] bytes, boolean is_obfuscated) {

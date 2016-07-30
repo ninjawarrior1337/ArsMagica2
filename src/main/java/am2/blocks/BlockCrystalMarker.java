@@ -346,6 +346,11 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	}
 	
 	@Override
+	public int getLightOpacity(IBlockState state) {
+		return 0;
+	}
+	
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(TYPE, meta);
 	}

@@ -1,6 +1,7 @@
 package am2.proxy;
 
 import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_KEYSTONE;
 import static am2.defs.IDDefs.GUI_KEYSTONE_CHEST;
@@ -24,6 +25,9 @@ import am2.armor.infusions.GenericImbuement;
 import am2.blocks.render.TileBlackAuremRenderer;
 import am2.blocks.render.TileCelestialPrismRenderer;
 import am2.blocks.render.TileCraftingAltarRenderer;
+import am2.blocks.render.TileCrystalMarkerRenderer;
+import am2.blocks.render.TileFlickerHabitatRenderer;
+import am2.blocks.render.TileKeystoneChestRenderer;
 import am2.blocks.render.TileKeystoneReceptacleRenderer;
 import am2.blocks.render.TileLecternRenderer;
 import am2.blocks.render.TileObeliskRenderer;
@@ -31,6 +35,8 @@ import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
+import am2.blocks.tileentity.TileEntityCrystalMarker;
+import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.blocks.tileentity.TileEntityKeystoneChest;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
@@ -43,6 +49,7 @@ import am2.defs.ItemDefs;
 import am2.extensions.RiftStorage;
 import am2.gui.AMGuiHelper;
 import am2.gui.GuiArmorImbuer;
+import am2.gui.GuiFlickerHabitat;
 import am2.gui.GuiInscriptionTable;
 import am2.gui.GuiKeystone;
 import am2.gui.GuiKeystoneChest;
@@ -52,6 +59,7 @@ import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
 import am2.gui.GuiSpellBook;
 import am2.gui.GuiSpellCustomization;
+import am2.handler.BakingHandler;
 import am2.items.ItemKeystone;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
@@ -136,6 +144,7 @@ public class ClientProxy extends CommonProxy {
 				return null;
 			}
 			return new GuiKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
+		case GUI_FLICKER_HABITAT: return new GuiFlickerHabitat(player, (TileEntityFlickerHabitat) te);
 //		case GUI_SPELL_SEALED_DOOR:
 //			if (!(te instanceof TileEntitySpellSealedDoor)){
 //				return null;
@@ -159,6 +168,9 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlackAurem.class, new TileBlackAuremRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLectern.class, new TileLecternRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityKeystoneRecepticle.class, new TileKeystoneReceptacleRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystalMarker.class, new TileCrystalMarkerRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlickerHabitat.class, new TileFlickerHabitatRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityKeystoneChest.class, new TileKeystoneChestRenderer());
 		
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());
@@ -167,6 +179,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new ArsMagicaModelLoader());
 		MinecraftForge.EVENT_BUS.register(clientTickHandler);
 		MinecraftForge.EVENT_BUS.register(ItemRenderer.instance);
+		MinecraftForge.EVENT_BUS.register(new BakingHandler());
 		
 		ArsMagica2.config.clientInit();
 		new AMSounds();

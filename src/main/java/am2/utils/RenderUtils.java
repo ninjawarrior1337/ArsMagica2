@@ -41,6 +41,13 @@ public class RenderUtils {
 		GL11.glColor4f(getRed(color), getGreen(color), getBlue(color), 0.5F);
 	}
 	
+	public static int getColor(float r, float g, float b) {
+		int red = (int)(r * 255f) << 16;
+		int green = (int)(g * 255f) << 8;
+		int blue = (int)(b * 255f);
+		return red + green + blue;
+	}
+	
 	public static void line2d (float xStart, float yStart, float xEnd, float yEnd, float zLevel, int color) {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GlStateManager.enableDepth();

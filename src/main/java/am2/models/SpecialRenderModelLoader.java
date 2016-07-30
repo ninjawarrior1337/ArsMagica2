@@ -140,7 +140,9 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 				modelLocation.toString().contains("water_orbs") ||
 				modelLocation.toString().contains("earth_armor") ||
 				modelLocation.toString().contains("arcane_spellbook") ||
-				modelLocation.toString().contains("keystone_recepticle")) && !modelLocation.toString().contains(".obj");
+				modelLocation.toString().contains("keystone_recepticle") ||
+				modelLocation.toString().contains("flickerHabitat") ||
+				modelLocation.toString().contains("crystalMarker")) && !modelLocation.toString().contains(".obj");
 	}
 
 	@Override

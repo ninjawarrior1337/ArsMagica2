@@ -15,6 +15,7 @@ import am2.blocks.BlockCraftingAltar;
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockDesertNova;
 import am2.blocks.BlockEssenceGenerator;
+import am2.blocks.BlockFlickerHabitat;
 import am2.blocks.BlockFlickerLure;
 import am2.blocks.BlockFrost;
 import am2.blocks.BlockInscriptionTable;
@@ -34,6 +35,8 @@ import am2.blocks.BlockSpellSealedDoor;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
 import am2.blocks.BlockWizardsChalk;
+import am2.blocks.colorizers.CrystalMarkerColorizer;
+import am2.blocks.colorizers.FlickerHabitatColorizer;
 import am2.blocks.colorizers.ManaBatteryColorizer;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.items.rendering.IgnoreMetadataRenderer;
@@ -101,6 +104,7 @@ public class BlockDefs {
 	public static final Block keystoneTrapdoor = new BlockKeystoneTrapdoor().registerAndName(new ResourceLocation("arsmagica2:keystone_trapdoor"));
 	public static final Block keystoneChest = new BlockKeystoneChest().registerAndName(new ResourceLocation("arsmagica2:keystone_chest"));
 	public static final Block flickerLure = new BlockFlickerLure().registerAndName(new ResourceLocation("arsmagica2:flickerLure"));
+	public static final Block elementalAttuner = new BlockFlickerHabitat().registerAndName(new ResourceLocation("arsmagica2:flickerHabitat"));
 	public static final BlockSpellSealedDoor spellSealedDoor = (BlockSpellSealedDoor) new BlockSpellSealedDoor().registerAndName(new ResourceLocation("arsmagica2:spell_sealed_door"));
 	
 	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();
@@ -156,6 +160,7 @@ public class BlockDefs {
 		
 		//Flickers
 		registerTexture(crystalMarker);
+		registerTexture(elementalAttuner);
 		
 		//Ritual Blocks
 		registerTexture(wardingCandle);
@@ -183,6 +188,8 @@ public class BlockDefs {
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ManaBatteryColorizer(), manaBattery);
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new CrystalMarkerColorizer(), crystalMarker);
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new FlickerHabitatColorizer(), elementalAttuner);
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {
 			ModelResourceLocation blockLoc = new ModelResourceLocation("arsmagica2:block_" + BlockArsMagicaOre.EnumOreType.values()[i].getName(), "inventory");
 			ModelResourceLocation oreLoc = new ModelResourceLocation("arsmagica2:ore_" + BlockArsMagicaOre.EnumOreType.values()[i].getName(), "inventory");
