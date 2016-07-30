@@ -133,13 +133,14 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 
 	@Override
 	public boolean accepts(ResourceLocation modelLocation) {
-		return modelLocation.toString().contains("nature_scythe") ||
+		return (modelLocation.toString().contains("nature_scythe") ||
 				modelLocation.toString().contains("winter_arm") ||
 				modelLocation.toString().contains("air_sled") ||
 				modelLocation.toString().contains("fire_ears") ||
 				modelLocation.toString().contains("water_orbs") ||
 				modelLocation.toString().contains("earth_armor") ||
-				modelLocation.toString().contains("arcane_spellbook");
+				modelLocation.toString().contains("arcane_spellbook") ||
+				modelLocation.toString().contains("keystone_recepticle")) && !modelLocation.toString().contains(".obj");
 	}
 
 	@Override

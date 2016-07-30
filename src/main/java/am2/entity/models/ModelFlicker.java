@@ -82,7 +82,7 @@ public class ModelFlicker extends ModelBase{
 		LegBase.render(f5);
 		RightHorn.render(f5);
 		LeftHorn.render(f5);
-
+		GL11.glColor3f(1.0f, 1.0f, 1.0f);
 		GL11.glPopMatrix();
 	}
 

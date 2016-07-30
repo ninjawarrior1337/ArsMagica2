@@ -174,6 +174,11 @@ public class BlockDefs {
 		registerTexture(tarmaRoot);
 		registerTexture(desertNova);
 		
+		registerTexture(keystoneRecepticle);
+		registerTexture(keystoneDoor);
+		registerTexture(keystoneChest);
+		registerTexture(keystoneTrapdoor);
+		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		

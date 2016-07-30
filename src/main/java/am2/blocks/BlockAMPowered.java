@@ -73,7 +73,7 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 	
 	@Override
 	public BlockRenderLayer getBlockLayer() {
-		if (defaultRender) return BlockRenderLayer.SOLID;
+		if (defaultRender) return BlockRenderLayer.CUTOUT;
 		return BlockRenderLayer.CUTOUT;
 	}
 	
@@ -84,8 +84,7 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 	}
 	
 	@Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 	

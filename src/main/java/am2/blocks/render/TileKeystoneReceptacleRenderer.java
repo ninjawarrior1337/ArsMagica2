@@ -25,7 +25,7 @@ public class TileKeystoneReceptacleRenderer extends TileEntitySpecialRenderer<Ti
 	}
 
 	public void renderTileEntityAt(TileEntityKeystoneRecepticle tile, double x, double y, double z, float partialTicks,int destroyStage){
-		int i = 0;
+		int i = 3;
 
 		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata();
@@ -37,7 +37,7 @@ public class TileKeystoneReceptacleRenderer extends TileEntitySpecialRenderer<Ti
 		}
 
 		if (i == 1){
-			j = 90;
+			j = 270;
 		}
 
 		if (i == 2){
@@ -45,7 +45,7 @@ public class TileKeystoneReceptacleRenderer extends TileEntitySpecialRenderer<Ti
 		}
 
 		if (i == 3){
-			j = 270;
+			j = 90;
 		}
 
 		bindTexture(rLoc);

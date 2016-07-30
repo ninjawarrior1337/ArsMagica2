@@ -29,6 +29,7 @@ public class ResourceUtils {
 	public static final Type mapType = new TypeToken<Map<String, String>>() {}.getType();
 	public static final Gson GSON = new GsonBuilder().registerTypeAdapter(mapType, ModelTextureDeserializer.INSTANCE).create();
 	public static final IModelState DEFAULT_ITEM_STATE;
+	public static final IModelState DEFAULT_BLOCK_STATE;
 	
 	public static ResourceLocation getSkillIcon (String iconName) {
 		return new ResourceLocation(ArsMagica2.MODID, "icons/skills/" + iconName);
@@ -54,6 +55,16 @@ public class ResourceUtils {
 	      builder.put(ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, get(1.13f, 3.2f, 1.13f, 0, -90, 25, 0.68f));
 	      builder.put(ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND, get(1.13f, 3.2f, 1.13f, 0, 90, -25, 0.68f));
 	      DEFAULT_ITEM_STATE = new SimpleModelState(builder.build());
+	      
+	      ImmutableMap.Builder<IModelPart, TRSRTransformation> builderBlock = ImmutableMap.builder();
+	      builderBlock.put(ItemCameraTransforms.TransformType.GUI, get(0, 0, 0, 30, 225, 0, 0.625f));
+	      builderBlock.put(ItemCameraTransforms.TransformType.GROUND, get(0, 3, 0, 0, 0, 0, 0.25f));
+	      builderBlock.put(ItemCameraTransforms.TransformType.FIXED, get(0, 0, 0, 0, 0, 0, 0.5f));
+	      builderBlock.put(ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, get(0, 2.5f, 0, 75, 45, 0, 0.375f));
+	      builderBlock.put(ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, get(0, 2.5f, 0, 75, 225, 0, 0.375f));
+	      builderBlock.put(ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, get(0, 0, 0, 0, 45, 0, 0.40f));
+	      builderBlock.put(ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND, get(0, 0, 0, 0, 225, 0, 0.40f));
+	      DEFAULT_BLOCK_STATE = new SimpleModelState(builderBlock.build());
 	}
 	
 	private static TRSRTransformation get(float tx, float ty, float tz,

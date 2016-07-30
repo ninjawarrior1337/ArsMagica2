@@ -1,17 +1,27 @@
 package am2.proxy.gui;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Quaternion;
+
+import com.google.common.base.Optional;
 
 import am2.api.event.RenderingItemEvent;
 import am2.bosses.models.ModelPlantGuardianSickle;
 import am2.defs.ItemDefs;
 import am2.utils.RenderUtils;
+import am2.utils.ResourceUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemRenderer {
@@ -38,6 +48,25 @@ public class ItemRenderer {
 	@SubscribeEvent
 	public void renderItemEvent(RenderingItemEvent event) {
 		renderItem(event.getCameraTransformType(), event.getStack());
+		if (event.getStack() == null || event.getStack().getItem() == null || Block.getBlockFromItem(event.getStack().getItem()) == null) return;
+		Block block = Block.getBlockFromItem(event.getStack().getItem());
+		if (!(block instanceof ITileEntityProvider)) return;
+		TileEntity te = ((ITileEntityProvider)block).createNewTileEntity(Minecraft.getMinecraft().theWorld, event.getStack().getItemDamage());
+		if (te == null) return;
+		TileEntitySpecialRenderer<TileEntity> tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(te);
+		if (tesr == null) return;
+		GlStateManager.pushMatrix();
+		GlStateManager.disableBlend();
+		GlStateManager.color(1f, 1f, 1f);
+		GlStateManager.translate(-0.5, -0.5, -0.5);
+		TRSRTransformation transform = ResourceUtils.DEFAULT_BLOCK_STATE.apply(Optional.fromNullable(event.getCameraTransformType())).orNull();
+		if (transform != null) {
+			GlStateManager.translate(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
+			GlStateManager.rotate(new Quaternion(transform.getLeftRot().x, transform.getLeftRot().y, transform.getLeftRot().z, transform.getLeftRot().w));
+			GlStateManager.scale(transform.getScale().x, transform.getScale().y, transform.getScale().z);
+		}
+		tesr.renderTileEntityAt(te, 0, 0, 0, 1, 0);
+		GlStateManager.popMatrix();
 	}
 
 	public void renderItem(TransformType type, ItemStack item, Object... data){
