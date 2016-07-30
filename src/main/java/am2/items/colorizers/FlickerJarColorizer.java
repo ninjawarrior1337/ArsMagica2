@@ -9,6 +9,8 @@ public class FlickerJarColorizer implements IItemColor{
 
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+		if (tintIndex == 0)
+			return 0xffffff;
 		int meta = stack.getItemDamage();
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
 		return aff.getColor();

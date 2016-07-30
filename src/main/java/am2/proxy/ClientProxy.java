@@ -38,65 +38,10 @@ import am2.blocks.tileentity.TileEntityKeystoneChest;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
-import am2.bosses.EntityAirGuardian;
-import am2.bosses.EntityArcaneGuardian;
-import am2.bosses.EntityEarthGuardian;
-import am2.bosses.EntityEnderGuardian;
-import am2.bosses.EntityFireGuardian;
-import am2.bosses.EntityLifeGuardian;
-import am2.bosses.EntityLightningGuardian;
-import am2.bosses.EntityNatureGuardian;
-import am2.bosses.EntityWaterGuardian;
-import am2.bosses.EntityWinterGuardian;
-import am2.bosses.renderers.RenderAirGuardian;
-import am2.bosses.renderers.RenderArcaneGuardian;
-import am2.bosses.renderers.RenderEarthGuardian;
-import am2.bosses.renderers.RenderEnderGuardian;
-import am2.bosses.renderers.RenderFireGuardian;
-import am2.bosses.renderers.RenderIceGuardian;
-import am2.bosses.renderers.RenderLifeGuardian;
-import am2.bosses.renderers.RenderLightningGuardian;
-import am2.bosses.renderers.RenderPlantGuardian;
-import am2.bosses.renderers.RenderThrownRock;
-import am2.bosses.renderers.RenderThrownSickle;
-import am2.bosses.renderers.RenderWaterGuardian;
-import am2.bosses.renderers.RenderWinterGuardianArm;
 import am2.commands.ConfigureAMUICommand;
 import am2.defs.AMSounds;
+import am2.defs.EntityManager;
 import am2.defs.ItemDefs;
-import am2.entity.EntityAirSled;
-import am2.entity.EntityBoundArrow;
-import am2.entity.EntityDarkMage;
-import am2.entity.EntityDryad;
-import am2.entity.EntityEarthElemental;
-import am2.entity.EntityFireElemental;
-import am2.entity.EntityHecate;
-import am2.entity.EntityLightMage;
-import am2.entity.EntityManaCreeper;
-import am2.entity.EntityManaElemental;
-import am2.entity.EntityManaVortex;
-import am2.entity.EntityRiftStorage;
-import am2.entity.EntitySpellEffect;
-import am2.entity.EntitySpellProjectile;
-import am2.entity.EntityThrownRock;
-import am2.entity.EntityThrownSickle;
-import am2.entity.EntityWaterElemental;
-import am2.entity.EntityWinterGuardianArm;
-import am2.entity.render.RenderAirSled;
-import am2.entity.render.RenderBoundArrow;
-import am2.entity.render.RenderDarkMage;
-import am2.entity.render.RenderDryad;
-import am2.entity.render.RenderEarthElemental;
-import am2.entity.render.RenderFireElemental;
-import am2.entity.render.RenderHecate;
-import am2.entity.render.RenderHidden;
-import am2.entity.render.RenderLightMage;
-import am2.entity.render.RenderManaCreeper;
-import am2.entity.render.RenderManaElemental;
-import am2.entity.render.RenderManaVortex;
-import am2.entity.render.RenderRiftStorage;
-import am2.entity.render.RenderSpellProjectile;
-import am2.entity.render.RenderWaterElemental;
 import am2.extensions.RiftStorage;
 import am2.gui.AMGuiHelper;
 import am2.gui.GuiArmorImbuer;
@@ -128,7 +73,6 @@ import am2.spell.SpellComponent;
 import am2.spell.component.Telekinesis;
 import am2.texture.SpellIconManager;
 import am2.utils.InventoryUtilities;
-import am2.utils.RenderFactory;
 import am2.utils.RenderUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
@@ -148,7 +92,6 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -202,8 +145,6 @@ public class ClientProxy extends CommonProxy {
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void preInit() {
 		super.preInit();
@@ -213,39 +154,6 @@ public class ClientProxy extends CommonProxy {
 		AMParticleIcons.instance.toString();
 		SpellIconManager.INSTANCE.toString();
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityRiftStorage.class, new RenderFactory(RenderRiftStorage.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new RenderFactory(RenderSpellProjectile.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellEffect.class, new RenderFactory(RenderHidden.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityThrownRock.class, new RenderFactory(RenderThrownRock.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBoundArrow.class, new RenderFactory(RenderBoundArrow.class));
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityThrownSickle.class, new RenderFactory(RenderThrownSickle.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityWinterGuardianArm.class, new RenderFactory(RenderWinterGuardianArm.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityAirSled.class, new RenderFactory(RenderAirSled.class));
-		//Bosses
-		RenderingRegistry.registerEntityRenderingHandler(EntityAirGuardian.class, new RenderFactory(RenderAirGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityArcaneGuardian.class, new RenderFactory(RenderArcaneGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityEarthGuardian.class, new RenderFactory(RenderEarthGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFireGuardian.class, new RenderFactory(RenderFireGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityEnderGuardian.class, new RenderFactory(RenderEnderGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFireGuardian.class, new RenderFactory(RenderFireGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityLifeGuardian.class, new RenderFactory(RenderLifeGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityLightningGuardian.class, new RenderFactory(RenderLightningGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityNatureGuardian.class, new RenderFactory(RenderPlantGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityWaterGuardian.class, new RenderFactory(RenderWaterGuardian.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityWinterGuardian.class, new RenderFactory(RenderIceGuardian.class));
-
-		RenderingRegistry.registerEntityRenderingHandler(EntityManaElemental.class, new RenderFactory(RenderManaElemental.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityWaterElemental.class, new RenderFactory(RenderWaterElemental.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFireElemental.class, new RenderFactory(RenderFireElemental.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityEarthElemental.class, new RenderFactory(RenderEarthElemental.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityManaCreeper.class, new RenderFactory(RenderManaCreeper.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityLightMage.class, new RenderFactory(RenderLightMage.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityDarkMage.class, new RenderFactory(RenderDarkMage.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityManaVortex.class, new RenderFactory(RenderManaVortex.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityHecate.class, new RenderFactory(RenderHecate.class));
-		RenderingRegistry.registerEntityRenderingHandler(EntityDryad.class, new RenderFactory(RenderDryad.class));
-
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCelestialPrism.class, new TileCelestialPrismRenderer());
@@ -263,6 +171,7 @@ public class ClientProxy extends CommonProxy {
 		
 		ArsMagica2.config.clientInit();
 		new AMSounds();
+		EntityManager.instance.registerRenderers();
 		
 		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}

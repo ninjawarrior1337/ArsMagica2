@@ -5,7 +5,6 @@ import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.bosses.BossSpawnHelper;
 import am2.defs.ItemDefs;
-import am2.gui.AMGuiHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
 import net.minecraft.entity.EntityCreature;

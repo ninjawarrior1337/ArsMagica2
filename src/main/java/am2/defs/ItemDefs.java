@@ -212,7 +212,7 @@ public class ItemDefs {
 		
 		registerTexture(manaCake);
 		registerTexture(flickerFocus);
-		registerTexture(flickerJar);
+		registerTexture(flickerJar, 0, "_empty");
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		
@@ -287,5 +287,12 @@ public class ItemDefs {
 	
 	private static void registerTexture(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new IgnoreMetadataRenderer( new ModelResourceLocation(item.getRegistryName(), "inventory")));
+	}
+	
+	private static void registerTexture(Item item, int meta, String suffix) {
+		DefaultWithMetaRenderer renderer = new DefaultWithMetaRenderer(new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		renderer.addModel(meta, new ModelResourceLocation(item.getRegistryName().toString() + suffix, "inventory"));
+		ModelBakery.registerItemVariants(item, new ModelResourceLocation(item.getRegistryName().toString() + suffix, "inventory"), new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, renderer);
 	}
 }

@@ -15,6 +15,7 @@ import am2.blocks.BlockCraftingAltar;
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockDesertNova;
 import am2.blocks.BlockEssenceGenerator;
+import am2.blocks.BlockFlickerLure;
 import am2.blocks.BlockFrost;
 import am2.blocks.BlockInscriptionTable;
 import am2.blocks.BlockInvisibleUtility;
@@ -99,6 +100,7 @@ public class BlockDefs {
 	public static final Block keystoneDoor = new BlockKeystoneDoor().registerAndName(new ResourceLocation("arsmagica2:keystone_door"));
 	public static final Block keystoneTrapdoor = new BlockKeystoneTrapdoor().registerAndName(new ResourceLocation("arsmagica2:keystone_trapdoor"));
 	public static final Block keystoneChest = new BlockKeystoneChest().registerAndName(new ResourceLocation("arsmagica2:keystone_chest"));
+	public static final Block flickerLure = new BlockFlickerLure().registerAndName(new ResourceLocation("arsmagica2:flickerLure"));
 	public static final BlockSpellSealedDoor spellSealedDoor = (BlockSpellSealedDoor) new BlockSpellSealedDoor().registerAndName(new ResourceLocation("arsmagica2:spell_sealed_door"));
 	
 	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();

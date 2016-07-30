@@ -313,7 +313,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (ArsMagica2.proxy.getTotalFlickerCount() > 8 * worldObj.playerEntities.size() || worldObj.rand.nextDouble() > 0.2f){
+		if (ArsMagica2.proxy.getTotalFlickerCount() > 16 * worldObj.playerEntities.size() || worldObj.rand.nextDouble() > 0.2f){
 			return false;
 		}
 		//get the biome we're trying to spawn in
@@ -331,6 +331,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 			case END:
 				validAffinities.add(Affinity.ENDER);
 				break;
+			case PLAINS:
 			case FOREST:
 			case CONIFEROUS:
 			case JUNGLE:
@@ -366,7 +367,6 @@ public class EntityFlicker extends EntityAmbientCreature{
 			case SPARSE:
 			case SPOOKY:
 			case WASTELAND:
-			case PLAINS:
 			case HILLS:
 			case MOUNTAIN:
 			case MUSHROOM:

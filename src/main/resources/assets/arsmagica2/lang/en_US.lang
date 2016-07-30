@@ -29,6 +29,8 @@ item.arsmagica2:bindingCatalystShovel.name=: Shovel
 item.arsmagica2:bindingCatalystSword.name=: Sword
 item.arsmagica2:bindingCatalystShield.name=: Shield
 
+item.arsmagica2:flickerJar.name=%s Flicker Jar
+
 etherium.any.name=Any
 etherium.light.name=Light
 etherium.dark.name=Dark

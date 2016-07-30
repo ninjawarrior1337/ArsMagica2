@@ -15,7 +15,6 @@ import org.lwjgl.opengl.GLContext;
 
 import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
-import am2.api.extensions.IEntityExtension;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
