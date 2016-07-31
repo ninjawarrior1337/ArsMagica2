@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import am2.api.IBoundItem;
 import am2.defs.ItemDefs;
 import am2.utils.SpellUtils;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -28,7 +27,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 		super();
 		this.maxStackSize = 1;
 		this.setMaxDamage(0);
-		this.setCreativeTab(CreativeTabs.COMBAT);
+		this.setCreativeTab(null);
 		this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter()
         {
             @SideOnly(Side.CLIENT)

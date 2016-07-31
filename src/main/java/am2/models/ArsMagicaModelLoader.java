@@ -113,6 +113,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/celestial_prism"));
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/crystalmarker"));
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/habitat"));
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/essenceCrystal"));
 	}
 	
 	private void registerParticle(TextureMap map, String name) {

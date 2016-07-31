@@ -45,6 +45,7 @@ import am2.items.ItemKeystone;
 import am2.items.ItemKeystoneDoor;
 import am2.items.ItemLifeWard;
 import am2.items.ItemLightningCharm;
+import am2.items.ItemLiquidEssenceBottle;
 import am2.items.ItemMagicBroom;
 import am2.items.ItemManaCake;
 import am2.items.ItemNatureGuardianSickle;
@@ -53,12 +54,14 @@ import am2.items.ItemRune;
 import am2.items.ItemRuneBag;
 import am2.items.ItemSpellBook;
 import am2.items.ItemSpellComponent;
+import am2.items.ItemSpellStaff;
 import am2.items.ItemWinterGuardianArm;
 import am2.items.SpellBase;
 import am2.items.colorizers.FlickerJarColorizer;
 import am2.items.rendering.AffinityRenderer;
 import am2.items.rendering.CrystalWrenchRenderer;
 import am2.items.rendering.DefaultWithMetaRenderer;
+import am2.items.rendering.FlickerOperatorRenderer;
 import am2.items.rendering.IgnoreMetadataRenderer;
 import am2.items.rendering.SpellRenderer;
 import net.minecraft.client.Minecraft;
@@ -114,12 +117,12 @@ public class ItemDefs {
 	
 	public static final ItemArsMagica2 blankRune = new ItemArsMagica2().registerAndName("blankRune");
 	public static final ItemArsMagica2 chalk = new ItemChalk().registerAndName("chalk");
-	public static final ItemArsMagica2 spellStaffMagitech = null;
+	public static final ItemArsMagica2 spellStaffMagitech = new ItemSpellStaff(0, -1).registerAndName("spell_staff_magitech");
 	public static final ItemArsMagica2 flickerFocus = new ItemFlickerFocus().registerAndName("flickerFocus");
 	public static final ItemFlickerJar flickerJar = (ItemFlickerJar) new ItemFlickerJar().registerAndName("flickerJar");
-	public static final ItemArsMagica2 evilBook = null;
+	public static final ItemArsMagica2 evilBook = new ItemArsMagica2().registerAndName("evilBook");
 	public static final ItemArsMagica2 wardingCandle = null;
-	public static final ItemArsMagica2 liquidEssenceBottle = null;
+	public static final ItemArsMagica2 liquidEssenceBottle = new ItemLiquidEssenceBottle().registerAndName("liquid_essence_bottle");
 	public static final ItemArsMagica2 bindingCatalyst = new ItemBindingCatalyst().registerAndName("binding_catalyst");
 	public static final ItemArsMagica2 inscriptionUpgrade = new InscriptionTableUpgrade().registerAndName("inscription_upgrade");
 	public static final ItemArsMagica2 infinityOrb = new ItemInfinityOrb().registerAndName("infinityOrb");
@@ -131,7 +134,7 @@ public class ItemDefs {
 	public static final ItemBow BoundBow = new ItemBoundBow().registerAndName("bound_bow");
 	public static final ItemShield BoundShield = new ItemBoundShield().registerAndName("bound_shield");
 	public static final ItemManaCake manaCake = new ItemManaCake().registerAndName("manaCake");
-	public static final Item woodenLeg = new ItemArsMagica2().registerAndName("woddenLeg");
+	public static final Item woodenLeg = new ItemArsMagica2().registerAndName("woodenLeg");
 
 	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 
@@ -179,11 +182,13 @@ public class ItemDefs {
 		registerTexture(itemFocus);
 		registerTexture(playerFocus);
 		registerTexture(creatureFocus);
+		registerTexture(evilBook);
 		
 		registerTexture(spellParchment);
 		
 		registerTexture(arcaneCompendium);
 		registerTexture(blankRune);
+		registerTexture(spellStaffMagitech);
 		
 		registerTexture(magitechGoggles);
 		registerTexture(etherium);
@@ -195,6 +200,7 @@ public class ItemDefs {
 		registerTexture(BoundHoe);
 		registerTexture(BoundBow);
 		registerTexture(BoundShield);
+		registerTexture(liquidEssenceBottle);
 		
 		registerTexture(natureScythe);
 		registerTexture(winterArm);
@@ -211,14 +217,20 @@ public class ItemDefs {
 		registerTexture(magicBroom);
 		
 		registerTexture(manaCake);
-		registerTexture(flickerFocus);
 		registerTexture(flickerJar, 0, "_empty");
+		
+		registerTexture(itemKeystoneDoor);
+		registerTexture(spellBook);
+		registerTexture(runeBag);
+		registerTexture(woodenLeg);
+		registerTexture(manaCake);
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		
 		renderItem.getItemModelMesher().register(crystalWrench, new CrystalWrenchRenderer(crystalWrench));
+		renderItem.getItemModelMesher().register(flickerFocus, new FlickerOperatorRenderer().addModels(flickerFocus));
 //		Iterator<Affinity> iter = ArsMagicaAPI.getAffinityRegistry().getValues().iterator();
 //		int effMeta = 0;
 //		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {

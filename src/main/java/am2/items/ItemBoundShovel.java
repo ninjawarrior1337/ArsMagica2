@@ -4,7 +4,6 @@ import am2.api.IBoundItem;
 import am2.defs.ItemDefs;
 import am2.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSpade;
@@ -20,7 +19,7 @@ public class ItemBoundShovel extends ItemSpade implements IBoundItem {
 		super(ItemDefs.BOUND);
 		this.maxStackSize = 1;
 		this.setMaxDamage(0);
-		this.setCreativeTab(CreativeTabs.COMBAT);
+		this.setCreativeTab(null);
 	}
 	
 	@SuppressWarnings("deprecation")

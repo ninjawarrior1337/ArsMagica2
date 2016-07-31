@@ -41,6 +41,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	}
 	
 	public boolean hasSkill (String name) {
+		if (player.capabilities.isCreativeMode) return true;
 		Boolean bool = player.getDataManager().get(DataDefinitions.SKILL).get(SkillRegistry.getSkillFromName(name));
 		return bool == null ? false : bool;
 	}

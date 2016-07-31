@@ -22,6 +22,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -285,4 +286,10 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 				Character.valueOf('G'), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE)
 		};
 	}
+	
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation("arsmagica2", "FlickerOperatorFelledOak");
+	}
+
 }

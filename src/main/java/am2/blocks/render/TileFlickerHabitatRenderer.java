@@ -112,6 +112,7 @@ public class TileFlickerHabitatRenderer extends TileEntitySpecialRenderer<TileEn
 			}
 		}
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.disableAlpha();
 		RenderHelper.enableStandardItemLighting();
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();

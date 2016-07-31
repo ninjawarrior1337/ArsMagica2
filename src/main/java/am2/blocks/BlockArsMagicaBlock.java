@@ -41,6 +41,11 @@ public class BlockArsMagicaBlock extends BlockAM {
 	}
 	
 	@Override
+	public int damageDropped(IBlockState state) {
+		return getMetaFromState(state);
+	}
+	
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(BLOCK_TYPE, EnumBlockType.values()[MathHelper.clamp_int(meta, 0, EnumBlockType.values().length - 1)]);
 	}

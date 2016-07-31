@@ -328,6 +328,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 			//populate the list
 			//DO NOT USE THIS LIST FOR AIR/EARTH/LIFE - they are handled by special cases.
 			switch (tagType){
+			case DEAD:
 			case END:
 				validAffinities.add(Affinity.ENDER);
 				break;
@@ -344,6 +345,9 @@ public class EntityFlicker extends EntityAmbientCreature{
 			case MAGICAL:
 				validAffinities.add(Affinity.ARCANE);
 				break;
+			case DRY:
+			case HOT:
+			case SAVANNA:
 			case NETHER:
 				validAffinities.add(Affinity.FIRE);
 				break;
@@ -356,14 +360,10 @@ public class EntityFlicker extends EntityAmbientCreature{
 			case BEACH:
 				validAffinities.add(Affinity.WATER);
 				break;
-			case DEAD:
 			case DENSE:
-			case DRY:
-			case HOT:
 			case LUSH:
 			case MESA:
 			case SANDY:
-			case SAVANNA:
 			case SPARSE:
 			case SPOOKY:
 			case WASTELAND:

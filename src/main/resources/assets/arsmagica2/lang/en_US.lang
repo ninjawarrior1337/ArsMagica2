@@ -28,7 +28,20 @@ item.arsmagica2:bindingCatalystPick.name=: Pickaxe
 item.arsmagica2:bindingCatalystShovel.name=: Shovel
 item.arsmagica2:bindingCatalystSword.name=: Sword
 item.arsmagica2:bindingCatalystShield.name=: Shield
-
+item.arsmagica2:FlickerFocusPrefix=Flicker Focus: %s
+item.arsmagica2:FlickerOperatorButchery.name=Butchery
+item.arsmagica2:FlickerOperatorContainment.name=Containment
+item.arsmagica2:FlickerOperatorFelledOak.name=Felled Oak
+item.arsmagica2:FlickerOperatorFishing.name=Fishing
+item.arsmagica2:FlickerOperatorFlatLands.name=Flat Lands
+item.arsmagica2:FlickerOperatorGentleRains.name=Gentle Rains
+item.arsmagica2:FlickerOperatorInterdiction.name=Interdiction
+item.arsmagica2:FlickerOperatorItemTransport.name=Item Transport
+item.arsmagica2:FlickerOperatorLight.name=Light
+item.arsmagica2:FlickerOperatorMoonstoneAttractor.name=Lunar Tides
+item.arsmagica2:FlickerOperatorNaturesBounty.name=Nature's Bounty
+item.arsmagica2:FlickerOperatorPackedEarth.name=Packed Earth
+item.arsmagica2:FlickerOperatorProgeny.name=Progeny
 item.arsmagica2:flickerJar.name=%s Flicker Jar
 
 etherium.any.name=Any
@@ -347,7 +360,13 @@ am2.tooltip.wrongKeystoneUse=You do not have the right keystone to use this bloc
 am2.tooltip.wrongWrenchMode=The wrench isn't in the right mode to interact with that.
 am2.tooltip.wtrbrth=Water Breathing
 am2.tooltip.wtrwalk=Water Walking
+am2.tooltip.infusions=Imbuements :
+am2.tooltip.missingReagents=You are missing some reagents : 
 
+am2.gui.flicker_doesntneedpower=Does not require etherium.  Might use it if provided.
+am2.gui.flicker_needspower=Requires etherium to function.
+am2.gui.flicker_optime=Op time: %s seconds
+am2.gui.flicker_powerperop=Etherium per operation: %s
 
 compendium.projectile.pages=You are able to focus your will into a concentrated ball, which you can propel forwards away from you. The projectile will last for 5 seconds of flight, or until it strikes something. It will by default pass through water and non-collidable blocks unless you modify it with target non-solid blocks.
 compendium.channel.pages=Through intense concentration, a mage can maintain a flow of magic on themselves. This is useful for things like Telekinesis, Healing, Attract, and Storm.

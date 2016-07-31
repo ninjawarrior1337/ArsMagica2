@@ -8,6 +8,7 @@ import am2.container.ContainerSpellBook;
 import am2.container.InventorySpellBook;
 import am2.items.ItemSpellBook;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -65,7 +66,9 @@ public class GuiSpellBook extends GuiContainer{
 		int y = 3 + bookActiveSlot * 18;
 		mc.renderEngine.bindTexture(extras);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.enableBlend();
 		drawTexturedModalRect(x, y, 0, 0, 20, 20);
+		GlStateManager.disableBlend();
 
 		//special slot
 		int index = ((ContainerSpellBook)this.inventorySlots).specialSlotIndex - 67;

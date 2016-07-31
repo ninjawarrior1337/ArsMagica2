@@ -14,6 +14,7 @@ import am2.utils.AffinityShiftUtils;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
@@ -88,5 +89,11 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 				Character.valueOf('T'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH)
 		};
 	}
+	
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation("arsmagica2", "FlickerOperatorMoonstoneAttractor");
+	}
+
 
 }

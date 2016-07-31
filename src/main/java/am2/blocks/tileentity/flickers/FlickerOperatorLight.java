@@ -18,6 +18,7 @@ import am2.particles.ParticleFloatUpward;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -141,6 +142,11 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 				Character.valueOf('I'), ItemDefs.liquidEssenceBottle
 
 		};
+	}
+	
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation("arsmagica2", "FlickerOperatorLight");
 	}
 
 }

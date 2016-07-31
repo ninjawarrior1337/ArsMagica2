@@ -2,7 +2,6 @@ package am2.items;
 
 import am2.api.IBoundItem;
 import am2.defs.ItemDefs;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 		super();
 		this.maxStackSize = 1;
 		this.setMaxDamage(0);
-		this.setCreativeTab(CreativeTabs.COMBAT);
+		this.setCreativeTab(null);
 	}
 
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {

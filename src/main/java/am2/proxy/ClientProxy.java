@@ -1,6 +1,7 @@
 package am2.proxy;
 
 import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
 import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_KEYSTONE;
@@ -11,6 +12,7 @@ import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
 import static am2.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
+import static am2.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import am2.blocks.render.TileBlackAuremRenderer;
 import am2.blocks.render.TileCelestialPrismRenderer;
 import am2.blocks.render.TileCraftingAltarRenderer;
 import am2.blocks.render.TileCrystalMarkerRenderer;
+import am2.blocks.render.TileEssenceConduitRenderer;
 import am2.blocks.render.TileFlickerHabitatRenderer;
 import am2.blocks.render.TileKeystoneChestRenderer;
 import am2.blocks.render.TileKeystoneReceptacleRenderer;
@@ -36,19 +39,24 @@ import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
+import am2.blocks.tileentity.TileEntityEssenceConduit;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.blocks.tileentity.TileEntityKeystoneChest;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.blocks.tileentity.TileEntitySpellSealedDoor;
 import am2.commands.ConfigureAMUICommand;
 import am2.defs.AMSounds;
+import am2.defs.BindingsDefs;
+import am2.defs.BlockDefs;
 import am2.defs.EntityManager;
 import am2.defs.ItemDefs;
 import am2.extensions.RiftStorage;
 import am2.gui.AMGuiHelper;
 import am2.gui.GuiArmorImbuer;
+import am2.gui.GuiCrystalMarker;
 import am2.gui.GuiFlickerHabitat;
 import am2.gui.GuiInscriptionTable;
 import am2.gui.GuiKeystone;
@@ -59,6 +67,7 @@ import am2.gui.GuiOcculus;
 import am2.gui.GuiRiftStorage;
 import am2.gui.GuiSpellBook;
 import am2.gui.GuiSpellCustomization;
+import am2.gui.GuiSpellSealedDoor;
 import am2.handler.BakingHandler;
 import am2.items.ItemKeystone;
 import am2.items.ItemSpellBase;
@@ -145,11 +154,8 @@ public class ClientProxy extends CommonProxy {
 			}
 			return new GuiKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
 		case GUI_FLICKER_HABITAT: return new GuiFlickerHabitat(player, (TileEntityFlickerHabitat) te);
-//		case GUI_SPELL_SEALED_DOOR:
-//			if (!(te instanceof TileEntitySpellSealedDoor)){
-//				return null;
-//			}
-//			return new ContainerSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
+		case GUI_CRYSTAL_MARKER: return new GuiCrystalMarker(player, (TileEntityCrystalMarker)te);		
+		case GUI_SPELL_SEALED_DOOR: return new GuiSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
@@ -162,6 +168,9 @@ public class ClientProxy extends CommonProxy {
 		AMParticleIcons.instance.toString();
 		SpellIconManager.INSTANCE.toString();
 		
+		ClientRegistry.registerKeyBinding(BindingsDefs.iceBridge);
+		ClientRegistry.registerKeyBinding(BindingsDefs.ENDER_TP);
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCelestialPrism.class, new TileCelestialPrismRenderer());
@@ -171,6 +180,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystalMarker.class, new TileCrystalMarkerRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlickerHabitat.class, new TileFlickerHabitatRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityKeystoneChest.class, new TileKeystoneChestRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceConduit.class, new TileEssenceConduitRenderer());
 		
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());
@@ -201,6 +211,13 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void unlockCompendiumEntry(String id){
 		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).unlockEntry(id);
+	}
+	
+	@Override
+	public void init() {
+		super.init();
+		BlockDefs.init();
+		ItemDefs.init();
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -102,4 +103,10 @@ public class FlickerOperatorFlatLands implements IFlickerFunctionality{
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage())
 		};
 	}
+	
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation("arsmagica2", "FlickerOperatorFlatLands");
+	}
+
 }

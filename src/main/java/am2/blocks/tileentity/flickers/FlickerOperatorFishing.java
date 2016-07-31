@@ -14,6 +14,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -124,6 +125,11 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
 				Character.valueOf('R'), Items.FISHING_ROD
 		};
+	}
+	
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation("arsmagica2", "FlickerOperatorFishing");
 	}
 
 }

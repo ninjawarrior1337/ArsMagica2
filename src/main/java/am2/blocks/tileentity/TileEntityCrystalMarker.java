@@ -5,6 +5,7 @@ import java.util.List;
 import am2.api.math.AMVector3;
 import am2.blocks.BlockCrystalMarker;
 import am2.utils.InventoryUtilities;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 @SuppressWarnings("deprecation")
@@ -201,7 +203,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		super.readFromNBT(par1);
 		filterItems = new ItemStack[FILTER_SIZE];
 		if (par1.hasKey("facing")){
-			this.facing = EnumFacing.values()[par1.getInteger("facing")];
+			facing = EnumFacing.values()[par1.getInteger("facing")];
 		}
 
 		if (par1.hasKey("priority")){
@@ -434,30 +436,31 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public int getField(int id) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setField(int id, int value) {}
 
 	@Override
 	public int getFieldCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void update() {
-		worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BlockCrystalMarker.FACING, getFacing()));
+		if (!worldObj.isRemote)
+			worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockCrystalMarker.FACING, facing));
+		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		return oldState.getBlock() != newSate.getBlock();
 	}
 }

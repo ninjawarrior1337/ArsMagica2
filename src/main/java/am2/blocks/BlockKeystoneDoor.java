@@ -9,7 +9,6 @@ import am2.blocks.tileentity.TileEntityKeystoneDoor;
 import am2.defs.BlockDefs;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
-import am2.items.ItemBlockSubtypes;
 import am2.utils.KeystoneUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -126,7 +125,6 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
 		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 	

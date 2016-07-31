@@ -1,7 +1,5 @@
 package am2.blocks.colorizers;
 
-import am2.api.ArsMagicaAPI;
-import am2.api.affinity.Affinity;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
@@ -13,14 +11,17 @@ public class FlickerHabitatColorizer implements IBlockColor{
 
 	@Override
 	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-		if (tintIndex == 0)
-			return 0xffffff;
+//		if (tintIndex == 0)
+//			return 0xffffff;
+//		TileEntity te = worldIn.getTileEntity(pos);
+//		if (te == null || !(te instanceof TileEntityFlickerHabitat))
+//			return 0xffffff;
+//		int meta = ArsMagicaAPI.getAffinityRegistry().getId(((TileEntityFlickerHabitat)te).getSelectedAffinity());
+//		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te == null || !(te instanceof TileEntityFlickerHabitat))
 			return 0xffffff;
-		int meta = ArsMagicaAPI.getAffinityRegistry().getId(((TileEntityFlickerHabitat)te).getSelectedAffinity());
-		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
-		return aff.getColor();
+		return ((TileEntityFlickerHabitat)te).getCrystalColor();
 	}
 
 }

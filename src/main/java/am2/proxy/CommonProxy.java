@@ -1,6 +1,8 @@
 package am2.proxy;
 
-import static am2.defs.IDDefs.*;
+import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
+import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_KEYSTONE;
 import static am2.defs.IDDefs.GUI_KEYSTONE_CHEST;
@@ -10,6 +12,7 @@ import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
 import static am2.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
+import static am2.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +20,11 @@ import java.util.LinkedList;
 
 import com.google.common.collect.ImmutableMap;
 
+import am2.AMChunkLoader;
 import am2.ArsMagica2;
 import am2.affinity.AffinityAbilityHelper;
+import am2.api.ArsMagicaAPI;
+import am2.api.affinity.Affinity;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IArcaneCompendium;
@@ -52,6 +58,7 @@ import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
 import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
+import am2.blocks.tileentity.TileEntityEssenceConduit;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityFlickerLure;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
@@ -64,7 +71,22 @@ import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
 import am2.blocks.tileentity.TileEntitySlipstreamGenerator;
 import am2.blocks.tileentity.TileEntitySpellSealedDoor;
+import am2.blocks.tileentity.flickers.FlickerOperatorButchery;
+import am2.blocks.tileentity.flickers.FlickerOperatorContainment;
+import am2.blocks.tileentity.flickers.FlickerOperatorFelledOak;
+import am2.blocks.tileentity.flickers.FlickerOperatorFishing;
+import am2.blocks.tileentity.flickers.FlickerOperatorFlatLands;
+import am2.blocks.tileentity.flickers.FlickerOperatorGentleRains;
+import am2.blocks.tileentity.flickers.FlickerOperatorInterdiction;
+import am2.blocks.tileentity.flickers.FlickerOperatorItemTransport;
+import am2.blocks.tileentity.flickers.FlickerOperatorLight;
+import am2.blocks.tileentity.flickers.FlickerOperatorMoonstoneAttractor;
+import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
+import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
+import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
+import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
 import am2.container.ContainerArmorInfuser;
+import am2.container.ContainerCrystalMarker;
 import am2.container.ContainerFlickerHabitat;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerKeystoneChest;
@@ -73,6 +95,8 @@ import am2.container.ContainerObelisk;
 import am2.container.ContainerRiftStorage;
 import am2.container.ContainerSpellBook;
 import am2.container.ContainerSpellCustomization;
+import am2.container.ContainerSpellSealedDoor;
+import am2.defs.AMRecipes;
 import am2.defs.BlockDefs;
 import am2.defs.CreativeTabsDefs;
 import am2.defs.EntityManager;
@@ -90,6 +114,7 @@ import am2.items.ContainerKeystone;
 import am2.items.ItemKeystone;
 import am2.items.ItemSpellBook;
 import am2.lore.CompendiumUnlockHandler;
+import am2.network.SeventhSanctum;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketProcessorServer;
 import am2.particles.ParticleManagerServer;
@@ -97,14 +122,17 @@ import am2.power.PowerNodeCache;
 import am2.power.PowerNodeEntry;
 import am2.power.PowerTypes;
 import am2.proxy.tick.ServerTickHandler;
+import am2.spell.AbstractSpellPart;
 import am2.trackers.ItemFrameWatcher;
 import am2.trackers.PlayerTracker;
 import am2.utils.InventoryUtilities;
 import am2.utils.NPCSpells;
+import am2.world.BiomeWitchwoodForest;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -114,10 +142,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.common.BiomeManager.BiomeType;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 
 public class CommonProxy implements IGuiHandler{
@@ -183,6 +219,8 @@ public class CommonProxy implements IGuiHandler{
 			}
 			return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
 		case GUI_FLICKER_HABITAT: return new ContainerFlickerHabitat(player, (TileEntityFlickerHabitat) te);
+		case GUI_CRYSTAL_MARKER: return new ContainerCrystalMarker(player, (TileEntityCrystalMarker)te);
+		case GUI_SPELL_SEALED_DOOR: return new ContainerSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
 		}
 		return null;
 	}
@@ -193,6 +231,17 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void preInit() {
+		
+		ForgeChunkManager.setForcedChunkLoadingCallback(ArsMagica2.instance, AMChunkLoader.INSTANCE);
+		NetworkRegistry.INSTANCE.registerGuiHandler(ArsMagica2.instance, this);
+		OreDictionary.registerOre("fenceWood", Blocks.ACACIA_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.OAK_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.DARK_OAK_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.SPRUCE_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.BIRCH_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.JUNGLE_FENCE);
+		SeventhSanctum.instance.init();
+		
 		initHandlers();
 		ArsMagica2.config.init();
 		serverTickHandler = new ServerTickHandler();
@@ -212,6 +261,7 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(new FlickerEvents());
 		
 		registerInfusions();
+		registerFlickerOperators();
 				
 		GameRegistry.registerTileEntity(TileEntityOcculus.class, "TileEntityOcculus");
 		GameRegistry.registerTileEntity(TileEntityCraftingAltar.class, "TileEntityCraftingAltar");
@@ -232,6 +282,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityKeystoneChest.class, "TileEntityKeystoneChest");
 		GameRegistry.registerTileEntity(TileEntitySpellSealedDoor.class, "TileEntitySpellSealedDoor");
 		GameRegistry.registerTileEntity(TileEntityFlickerLure.class, "TileEntityFlickerLure");
+		GameRegistry.registerTileEntity(TileEntityEssenceConduit.class, "TileEntityEssenceConduit");
 
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
@@ -254,11 +305,21 @@ public class CommonProxy implements IGuiHandler{
 	}
 	
 	public void init() {
+		if (ArsMagica2.config.getEnableWitchwoodForest()){
+			BiomeDictionary.registerBiomeType(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
+			BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(BiomeWitchwoodForest.instance, 6));
+		}
 	}
 	
 	public void postInit() {
 		playerTracker.postInit();
-		MinecraftForge.EVENT_BUS.register(playerTracker);		
+		MinecraftForge.EVENT_BUS.register(playerTracker);
+		
+		AMRecipes.addRecipes();
+		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
+			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
+				throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");
+		}
 	}
 	
 	public void initHandlers() {
@@ -365,5 +426,60 @@ public class CommonProxy implements IGuiHandler{
 
 	public int getTotalFlickerCount(){
 		return this.totalFlickerCount;
+	}
+	
+	private void registerFlickerOperators(){
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorItemTransport(),
+				Affinity.AIR
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorButchery(),
+				Affinity.FIRE, Affinity.LIFE
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorContainment(),
+				Affinity.AIR, Affinity.ENDER
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorFelledOak(),
+				Affinity.NATURE, Affinity.LIGHTNING
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorFlatLands(),
+				Affinity.EARTH, Affinity.ICE
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorGentleRains(),
+				Affinity.WATER
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorInterdiction(),
+				Affinity.AIR, Affinity.ARCANE
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorLight(),
+				Affinity.FIRE, Affinity.LIGHTNING
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorMoonstoneAttractor(),
+				Affinity.LIGHTNING, Affinity.ARCANE, Affinity.EARTH
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorNaturesBounty(),
+				Affinity.NATURE, Affinity.WATER, Affinity.LIFE
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorPackedEarth(),
+				Affinity.EARTH
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorProgeny(),
+				Affinity.LIFE
+		);
+		FlickerOperatorRegistry.instance.registerFlickerOperator(
+				new FlickerOperatorFishing(),
+				Affinity.WATER, Affinity.NATURE
+		);
 	}
 }

@@ -3,13 +3,14 @@ package am2.world;
 import java.util.Random;
 
 import am2.ArsMagica2;
+import am2.api.math.AMVector3;
+import am2.blocks.tileentity.flickers.FlickerOperatorMoonstoneAttractor;
 import am2.entity.EntityThrownRock;
 import am2.extensions.EntityExtension;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
@@ -34,7 +35,7 @@ public class MeteorSpawnHelper{
 	}
 
 	public void spawnMeteor(){
-		ticksSinceLastMeteor = 48000;
+		ticksSinceLastMeteor = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().rand.nextInt(36000) + 12000;
 		if ( FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length < 1) return;
 
 		WorldServer ws = null;
@@ -55,35 +56,34 @@ public class MeteorSpawnHelper{
 
 			if (EntityExtension.For(player).getCurrentLevel() < ArsMagica2.config.getMeteorMinSpawnLevel()) return;
 
-			BlockPos spawnCoord = player.getPosition();
+			AMVector3 spawnCoord = new AMVector3(player);
 			boolean found = false;
 			int meteorOffsetRadius = 64;
 
-//			Vec3d attractorCoord = FlickerOperatorMoonstoneAttractor.getMeteorAttractor(spawnCoord);
-//			if (attractorCoord != null){
-//				spawnCoord = attractorCoord;
-//				meteorOffsetRadius = 4;
-//			}
+			AMVector3 attractorCoord = FlickerOperatorMoonstoneAttractor.getMeteorAttractor(spawnCoord);
+			if (attractorCoord != null){
+				spawnCoord = attractorCoord;
+				meteorOffsetRadius = 4;
+			}
 			for (int i = 0; i < 10; ++i){
-				BlockPos offsetCoord = spawnCoord.add(new BlockPos(rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2), 0, rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2)));
+				BlockPos offsetCoord = spawnCoord.add(new AMVector3(rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2), 0, rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2))).toBlockPos();
 				offsetCoord = correctYCoord(ws, offsetCoord);
 
 				if (offsetCoord.getY() < 0)
 					return;
 
 				if (topBlockIsBiomeGeneric(ws, offsetCoord)){
-					spawnCoord = offsetCoord;
+					spawnCoord = new AMVector3(offsetCoord);
 					found = true;
 					break;
 				}
 			}
-
 			if (!found) return;
 
 			EntityThrownRock meteor = new EntityThrownRock(ws);
-			meteor.setPosition(spawnCoord.getY() + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2), ws.getActualHeight(), spawnCoord.getZ() + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2));
+			meteor.setPosition(spawnCoord.x + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2), ws.getActualHeight(), spawnCoord.z + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2));
 			meteor.setMoonstoneMeteor();
-			meteor.setMoonstoneMeteorTarget(new Vec3d(spawnCoord));
+			meteor.setMoonstoneMeteorTarget(spawnCoord.toVec3D());
 			ws.spawnEntityInWorld(meteor);
 		}
 
@@ -94,14 +94,12 @@ public class MeteorSpawnHelper{
 			return false;
 
 		pos = correctYCoord(world, pos);
-
 		if (pos.getY() < 0) return false;
 
 		Biome biome = world.getBiomeGenForCoords(pos);
 
 		Block block = world.getBlockState(pos).getBlock();
-
-		return (block == Blocks.OBSIDIAN || block == biome.topBlock) && world.canBlockSeeSky(pos.up());
+		return (block == Blocks.OBSIDIAN || block == biome.topBlock.getBlock()) && world.canBlockSeeSky(pos.up());
 	}
 
 	private BlockPos correctYCoord(World world, BlockPos pos){

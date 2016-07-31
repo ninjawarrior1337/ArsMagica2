@@ -360,6 +360,13 @@ public class ItemRenderer {
 				GlStateManager.rotate(25, 1, 0, 0);
 				//GlStateManager.rotate(25, 0, 1, 0);	
 			}		
+		} else if (stack.getItem() == ItemDefs.magicBroom) {
+			if (type == TransformType.GUI) {
+				GlStateManager.translate(0.25, 0, 0);
+				GlStateManager.scale(0.5, 0.5, 0.5);
+				GlStateManager.rotate(25, 1, 0, 0);
+				GlStateManager.rotate(105, 0, 0, 1);	
+			}		
 		}
 	}
 

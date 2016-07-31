@@ -18,6 +18,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -100,4 +101,8 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 		};
 	}
 
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation("arsmagica2", "FlickerOperatorButchery");
+	}
 }

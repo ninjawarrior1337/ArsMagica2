@@ -14,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -101,5 +102,11 @@ public class FlickerOperatorGentleRains implements IFlickerFunctionality{
 				Character.valueOf('B'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage())
 		};
 	}
+	
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation("arsmagica2", "FlickerOperatorGentleRains");
+	}
+
 
 }

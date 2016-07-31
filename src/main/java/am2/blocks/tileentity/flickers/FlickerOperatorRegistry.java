@@ -2,6 +2,8 @@ package am2.blocks.tileentity.flickers;
 
 import java.util.TreeMap;
 
+import com.google.common.collect.ImmutableList;
+
 import am2.LogHelper;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerFunctionality;
@@ -53,6 +55,10 @@ public class FlickerOperatorRegistry implements IFlickerRegistry{
 			maskList[count++] = i != null ? i.intValue() : -1;
 		}
 		return maskList;
+	}
+	
+	public ImmutableList<IFlickerFunctionality> getAllOperators() {
+		return ImmutableList.copyOf(registeredOperators.values());
 	}
 
 }

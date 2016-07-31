@@ -1,7 +1,10 @@
 package am2.blocks;
 
 import java.util.List;
+import java.util.Random;
 
+import am2.defs.ItemDefs;
+import am2.items.ItemOre;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -20,6 +23,9 @@ public class BlockArsMagicaOre extends BlockAM {
 	public BlockArsMagicaOre() {
 		super(Material.ROCK);
 		setDefaultState(blockState.getBaseState().withProperty(ORE_TYPE, EnumOreType.VINTEUM));
+		setHardness(3.0F);
+		setResistance(5.0F);
+		setHarvestLevel("pickaxe", 2);
 	}
 	
 	@Override
@@ -37,6 +43,27 @@ public class BlockArsMagicaOre extends BlockAM {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(ORE_TYPE).ordinal();
+	}
+	
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return state.getValue(ORE_TYPE) == EnumOreType.VINTEUM ? Item.getItemFromBlock(this) : ItemDefs.itemOre;
+	}
+	
+	@Override
+	public int damageDropped(IBlockState state) {
+		EnumOreType type = state.getValue(ORE_TYPE);
+		if (type == EnumOreType.VINTEUM)
+			return ItemOre.META_VINTEUM;
+		if (type == EnumOreType.CHIMERITE)
+			return ItemOre.META_CHIMERITE;
+		if (type == EnumOreType.BLUETOPAZ)
+			return ItemOre.META_BLUE_TOPAZ;
+		if (type == EnumOreType.MOONSTONE)
+			return ItemOre.META_MOONSTONE;
+		if (type == EnumOreType.SUNSTONE)
+			return ItemOre.META_SUNSTONE;
+		return super.damageDropped(state);
 	}
 	
 	@Override

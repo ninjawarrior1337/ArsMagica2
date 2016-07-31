@@ -14,6 +14,7 @@ import am2.blocks.BlockCandle;
 import am2.blocks.BlockCraftingAltar;
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockDesertNova;
+import am2.blocks.BlockEssenceConduit;
 import am2.blocks.BlockEssenceGenerator;
 import am2.blocks.BlockFlickerHabitat;
 import am2.blocks.BlockFlickerLure;
@@ -34,16 +35,19 @@ import am2.blocks.BlockSlipstreamGenerator;
 import am2.blocks.BlockSpellSealedDoor;
 import am2.blocks.BlockTarmaRoot;
 import am2.blocks.BlockWakebloom;
+import am2.blocks.BlockWitchwoodLeaves;
+import am2.blocks.BlockWitchwoodLog;
 import am2.blocks.BlockWizardsChalk;
+import am2.blocks.WitchwoodSapling;
 import am2.blocks.colorizers.CrystalMarkerColorizer;
 import am2.blocks.colorizers.FlickerHabitatColorizer;
 import am2.blocks.colorizers.ManaBatteryColorizer;
+import am2.blocks.colorizers.MonoColorizer;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.items.rendering.IgnoreMetadataRenderer;
 import am2.utils.KeystoneUtilities;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -93,8 +97,8 @@ public class BlockDefs {
 	public static final Block inscriptionTable = new BlockInscriptionTable().registerAndName(new ResourceLocation("arsmagica2:inscriptionTable"));
 	public static final Block armorImbuer = new BlockArmorInfuser().registerAndName(new ResourceLocation("arsmagica2:armorImbuer"));
 	public static final Block slipstreamGenerator = new BlockSlipstreamGenerator().registerAndName(new ResourceLocation("arsmagica2:slipstreamGenerator"));
-	public static final Block witchwoodLog = null;
-	public static final Block essenceConduit = null;
+	public static final Block witchwoodLog = new BlockWitchwoodLog().registerAndName(new ResourceLocation("arsmagica2:witchwoodLog"));
+	public static final Block essenceConduit = new BlockEssenceConduit().registerAndName(new ResourceLocation("arsmagica2:essenceConduit"));
 	public static final Block redstoneInlay = null;
 	public static final Block ironInlay = null;
 	public static final Block goldInlay = null;
@@ -106,6 +110,8 @@ public class BlockDefs {
 	public static final Block flickerLure = new BlockFlickerLure().registerAndName(new ResourceLocation("arsmagica2:flickerLure"));
 	public static final Block elementalAttuner = new BlockFlickerHabitat().registerAndName(new ResourceLocation("arsmagica2:flickerHabitat"));
 	public static final BlockSpellSealedDoor spellSealedDoor = (BlockSpellSealedDoor) new BlockSpellSealedDoor().registerAndName(new ResourceLocation("arsmagica2:spell_sealed_door"));
+	public static final Block witchwoodLeaves = new BlockWitchwoodLeaves().registerAndName(new ResourceLocation("arsmagica2:witchwoodLeaves"));
+	public static final Block witchwoodSapling = new WitchwoodSapling().registerAndName(new ResourceLocation("arsmagica2:witchwoodSapling"));
 	
 	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();
 	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
@@ -115,7 +121,7 @@ public class BlockDefs {
 		FluidRegistry.registerFluid(liquid_essence);
 		FluidRegistry.addBucketForFluid(liquid_essence);
 		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
-		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, new MaterialLiquid(MapColor.LIGHT_BLUE));
+		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER);
 		Item itemliquid_essence = new ItemBlock(blockliquid_essence);
 		GameRegistry.register(blockliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
 		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
@@ -161,6 +167,7 @@ public class BlockDefs {
 		//Flickers
 		registerTexture(crystalMarker);
 		registerTexture(elementalAttuner);
+		registerTexture(flickerLure);
 		
 		//Ritual Blocks
 		registerTexture(wardingCandle);
@@ -184,12 +191,18 @@ public class BlockDefs {
 		registerTexture(keystoneChest);
 		registerTexture(keystoneTrapdoor);
 		
+		registerTexture(witchwoodLeaves);
+		registerTexture(witchwoodLog);
+		registerTexture(witchwoodSapling);
+		registerTexture(essenceConduit);
+		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
 		
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ManaBatteryColorizer(), manaBattery);
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new CrystalMarkerColorizer(), crystalMarker);
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new FlickerHabitatColorizer(), elementalAttuner);
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new MonoColorizer(0x00ffff), essenceConduit);
 		for (int i = 0; i < BlockArsMagicaOre.EnumOreType.values().length; i++) {
 			ModelResourceLocation blockLoc = new ModelResourceLocation("arsmagica2:block_" + BlockArsMagicaOre.EnumOreType.values()[i].getName(), "inventory");
 			ModelResourceLocation oreLoc = new ModelResourceLocation("arsmagica2:ore_" + BlockArsMagicaOre.EnumOreType.values()[i].getName(), "inventory");

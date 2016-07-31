@@ -9,7 +9,6 @@ import am2.blocks.tileentity.TileEntitySpellSealedDoor;
 import am2.defs.BlockDefs;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
-import am2.items.ItemBlockSubtypes;
 import am2.items.ItemKeystoneDoor;
 import am2.spell.SpellComponent;
 import am2.utils.KeystoneUtilities;
@@ -200,7 +199,6 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
 		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 	

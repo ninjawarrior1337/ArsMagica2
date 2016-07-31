@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import am2.blocks.tileentity.TileEntityKeystoneChest;
 import net.minecraft.client.model.ModelChest;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 
@@ -55,6 +57,8 @@ public class TileKeystoneChestRenderer extends TileEntitySpecialRenderer<TileEnt
 		f1 = 1.0F - f1 * f1 * f1;
 		model.chestLid.rotateAngleX = -(f1 * (float)Math.PI / 2.0F);
 		model.renderAll();
+		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.enableBlend();
 		GL11.glPopMatrix(); //end
 	}
 

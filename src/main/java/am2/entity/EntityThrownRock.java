@@ -143,7 +143,7 @@ public class EntityThrownRock extends EntityLiving{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-
+		System.out.println("PLS");
 		if (this.target != null && this.posY > this.target.yCoord){
 			double deltaX = this.posX - target.xCoord;
 			double deltaY = this.posY - target.yCoord;
@@ -311,7 +311,7 @@ public class EntityThrownRock extends EntityLiving{
 					}
 					this.worldObj.newExplosion(this, this.target.xCoord, this.target.yCoord, this.target.zCoord, 0.8f, false, ArsMagica2.config.moonstoneMeteorsDestroyTerrain());
 
-					int numOres = rand.nextInt(6) + 1;
+					int numOres = rand.nextInt(12) + 1;
 
 					for (int i = 0; i < numOres; ++i){
 						generateSurfaceOreAtOffset(worldObj, new BlockPos(target), i == 0);

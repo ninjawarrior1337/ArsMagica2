@@ -30,7 +30,7 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		bakedModel = model.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
+		bakedModel = model.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
 		return bakedModel;
 	}
 
@@ -92,33 +92,6 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 		}else{
 			blockType = (int)partialTicks;
 		}
-
-//		switch (blockType){
-//		case BlockCrystalMarker.META_IN:
-//			GlStateManager.color(0.94f, 0.69f, 0.01f); //yellow
-//			break;
-//		case BlockCrystalMarker.META_LIKE_EXPORT:
-//			GlStateManager.color(0.10f, 0.65f, 0.0f); //green
-//			break;
-//		case BlockCrystalMarker.META_OUT:
-//			GlStateManager.color(0.10f, 0.10f, 0.88f); //blue
-//			break;
-//		case BlockCrystalMarker.META_REGULATE_EXPORT:
-//			GlStateManager.color(0.56f, 0.08f, 0.66f); //purple
-//			break;
-//		case BlockCrystalMarker.META_SET_EXPORT:
-//			GlStateManager.color(0.085f, 0.72f, 0.88f); //light blue
-//			break;
-//		case BlockCrystalMarker.META_REGULATE_MULTI:
-//			GlStateManager.color(0.92f, 0.61f, 0.3f); //orange
-//			break;
-//		case BlockCrystalMarker.META_SET_IMPORT:
-//			GlStateManager.color(1.0f, 0.0f, 0.0f); //red
-//			break;
-//		case BlockCrystalMarker.META_SPELL_EXPORT:
-//			GlStateManager.color(0.0f, 0.5f, 1.0f); //cyan
-//			break;
-//		}
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(-tileentity.getPos().getX(), -tileentity.getPos().getY(), -tileentity.getPos().getZ());
@@ -130,6 +103,7 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 		RenderHelper.enableStandardItemLighting();
 		GL11.glPopAttrib();
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.enableBlend();
 		GL11.glPopMatrix();
 	}
 

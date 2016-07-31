@@ -30,7 +30,7 @@ public class ContainerFlickerHabitat extends AM2Container{
 		addSlotToContainer(slot);
 
 		this.addPlayerInventory(player, 8, 84);
-		this.addPlayerActionBar(player, 8, 143);
+		this.addPlayerActionBar(player, 8, 142);
 
 	}
 

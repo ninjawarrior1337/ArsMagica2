@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -122,10 +123,10 @@ public class BlockCrystalMarker extends BlockAMContainer{
 			}
 
 			return false;
-		}else if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.spellStaffMagitech){
+		}else if (heldItem != null && heldItem.getItem() == ItemDefs.spellStaffMagitech){
 			//if we're here, we are changing the crystal's priority level
 			//swing the item, first off.
-			player.swingArm(EnumHand.MAIN_HAND);
+			player.swingArm(hand);
 			//do nothing on client worlds other than this.
 			if (world.isRemote){
 				return true;
@@ -183,7 +184,6 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
 		TileEntity te = world.getTileEntity(pos);
-
 		if (te != null && te instanceof TileEntityCrystalMarker){
 			((TileEntityCrystalMarker)te).setFacing(state.getValue(FACING));
 
@@ -259,7 +259,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
+		return EnumBlockRenderType.INVISIBLE;
 	}
 
 	@Override
@@ -294,7 +294,9 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	}
 	
 	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor){
+	public void onNeighborChange(IBlockAccess iblockaccess, BlockPos pos, BlockPos neighbor){
+		if (!(iblockaccess instanceof World)) return;
+		World world = (World)iblockaccess;
 		TileEntity te = world.getTileEntity(pos);
 		TileEntityCrystalMarker cm = null;
 		boolean mustDrop = false;
@@ -307,7 +309,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 
 		mustDrop = world.isAirBlock(pos.offset(cm.getFacing()));
 
-		if (mustDrop){
+		if (mustDrop && !world.isRemote){
 			IBlockState block = world.getBlockState(pos);
 			ItemStack itemStack = new ItemStack(block.getBlock(), 1, block.getBlock().getMetaFromState(block));
 			EntityItem entityItem = new EntityItem((World) world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
@@ -358,6 +360,26 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, TYPE, FACING);
+	}
+	
+	@Override
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.TRANSLUCENT;
+	}
+	
+	@Override
+	public boolean isFullBlock(IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	public boolean isNormalCube(IBlockState state) {
+		return false;
 	}
 }
 

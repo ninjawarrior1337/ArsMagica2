@@ -12,7 +12,6 @@ import am2.blocks.tileentity.flickers.TileEntityFlickerControllerBase;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -425,7 +424,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			return 0;
 
 		if (this.flickerJar.getItem() == ItemDefs.flickerJar)
-			return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(flickerJar, 0);
+			return ArsMagicaAPI.getAffinityRegistry().getObjectById(flickerJar.getItemDamage()).getColor();
 		else if (this.flickerJar.getItem() == ItemDefs.flickerFocus){
 			ArrayList<Affinity> affinities = new ArrayList<Affinity>();
 			int meta = this.flickerJar.getItemDamage();
@@ -572,20 +571,19 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket(){
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
-		return new SPacketUpdateTileEntity(this.pos, 1, nbt);
+		return new SPacketUpdateTileEntity(this.pos, 1, this.writeToNBT(new NBTTagCompound()));
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.getNbtCompound());
+		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 0);
 	}
 
 	@Override
 	public void update(){
 		super.update();
-
+		
 		if (fadeCounter++ >= 30){
 			colorCounter++;
 			fadeCounter = 0;
