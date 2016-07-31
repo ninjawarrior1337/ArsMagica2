@@ -13,6 +13,7 @@ import scala.util.Random;
 public class RenderUtils {
 	
 	private static Random rand = new Random();
+
 	
 	public static void drawBox (float minX, float minZ, float maxX, float maxZ, float zLevel, float minU, float minV, float maxU, float maxV) {
 		Tessellator t = Tessellator.getInstance();

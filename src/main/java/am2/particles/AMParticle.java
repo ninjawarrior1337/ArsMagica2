@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -275,10 +281,10 @@ public class AMParticle extends Particle {
 		float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialframe - interpPosX);
 		float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * partialframe - interpPosY);
 		float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * partialframe - interpPosZ);
-//
-//		if (this.isRadiant){
-//			renderRadiant(Tessellator.instance, partialframe);
-//		}else{
+
+		if (this.isRadiant){
+			renderRadiant(Tessellator.getInstance(), partialframe);
+		}else{
 			if (this.particleTexture == null){ //|| this.renderManager.renderEngine == null){
 				return;
 			}
@@ -298,50 +304,50 @@ public class AMParticle extends Particle {
 			tessellator.pos(f11 - cosyaw * scaleFactorX + sinsinpitch * scaleFactorX, f12 + cospitch * scaleFactorY, f13 - sinyaw * scaleFactorZ + cossinpitch * scaleFactorZ).tex( max_u, min_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
 			tessellator.pos(f11 + cosyaw * scaleFactorX + sinsinpitch * scaleFactorX, f12 + cospitch * scaleFactorY, f13 + sinyaw * scaleFactorZ + cossinpitch * scaleFactorZ).tex( min_u, min_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
 			tessellator.pos(f11 + cosyaw * scaleFactorX - sinsinpitch * scaleFactorX, f12 - cospitch * scaleFactorY, f13 + sinyaw * scaleFactorZ - cossinpitch * scaleFactorZ).tex( min_u, max_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
-//		}
+		}
 	}
-//
-//	private void renderRadiant(Tessellator tessellator, float partialFrame){
-//		RenderHelper.disableStandardItemLighting();
-//		float var4 = (this.GetParticleAge() + partialFrame) / this.GetParticleMaxAge();
-//		float var5 = 0.0F;
-//
-//		if (var4 > 0.8F){
-//			var5 = (var4 - 0.8F) / 0.2F;
-//		}
-//
-//		Random var6 = new Random(432L);
-//		float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialFrame - RenderManager.renderPosX);
-//		float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * partialFrame - RenderManager.renderPosY);
-//		float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * partialFrame - RenderManager.renderPosZ);
-//
-//		GL11.glPushMatrix();
-//		GL11.glTranslatef(f11, f12, f13);
-//		GL11.glScalef(getParticleScaleX(), getParticleScaleY(), getParticleScaleZ());
-//
-//		for (int var7 = 0; var7 < 50.0F; ++var7){
-//			GL11.glRotatef(var6.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-//			GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-//			GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-//			GL11.glRotatef(var6.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-//			GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-//			GL11.glRotatef(var6.nextFloat() * 360.0F + var4 * 90.0F, 0.0F, 0.0F, 1.0F);
-//			tessellator.startDrawing(6);
-//			tessellator.setBrightness(0xF00F0);
-//			float var8 = var6.nextFloat() * 2.0F + 2.0F + var5 * 0.5F;
-//			float var9 = var6.nextFloat() * 2.0F + 1.0F + var5 * 2.0F;
-//			tessellator.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
-//			tessellator.addVertex(0.0D, 0.0D, 0.0D);
-//			tessellator.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, 0);
-//			tessellator.addVertex(-0.866D * var9, var8, -0.5F * var9);
-//			tessellator.addVertex(0.866D * var9, var8, -0.5F * var9);
-//			tessellator.addVertex(0.0D, var8, 1.0F * var9);
-//			tessellator.addVertex(-0.866D * var9, var8, -0.5F * var9);
-//			tessellator.draw();
-//		}
-//
-//		GL11.glPopMatrix();
-//	}
+
+	private void renderRadiant(Tessellator tessellator, float partialFrame){
+		RenderHelper.disableStandardItemLighting();
+		float var4 = (this.GetParticleAge() + partialFrame) / this.GetParticleMaxAge();
+		float var5 = 0.0F;
+
+		if (var4 > 0.8F){
+			var5 = (var4 - 0.8F) / 0.2F;
+		}
+
+		Random var6 = new Random(432L);
+		float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialFrame - Minecraft.getMinecraft().getRenderManager().viewerPosX);
+		float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * partialFrame - Minecraft.getMinecraft().getRenderManager().viewerPosY);
+		float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * partialFrame - Minecraft.getMinecraft().getRenderManager().viewerPosZ);
+
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(f11, f12, f13);
+		GlStateManager.scale(getParticleScaleX(), getParticleScaleY(), getParticleScaleZ());
+
+		for (int var7 = 0; var7 < 50.0F; ++var7){
+			GlStateManager.rotate(var6.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(var6.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(var6.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotate(var6.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(var6.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(var6.nextFloat() * 360.0F + var4 * 90.0F, 0.0F, 0.0F, 1.0F);
+			tessellator.getBuffer().begin(6, DefaultVertexFormats.POSITION_COLOR);
+//			int i = 0xF00F0;
+//	        int j = i >> 16 & 65535;
+//	        int k = i & 65535;
+			float var8 = var6.nextFloat() * 2.0F + 2.0F + var5 * 0.5F;
+			float var9 = var6.nextFloat() * 2.0F + 1.0F + var5 * 2.0F;
+			tessellator.getBuffer().pos(0.0D, 0.0D, 0.0D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).endVertex();
+			tessellator.getBuffer().pos(-0.866D * var9, var8, -0.5F * var9).color(this.particleRed, this.particleGreen, this.particleBlue, 0).endVertex();
+			tessellator.getBuffer().pos(0.866D * var9, var8, -0.5F * var9).color(this.particleRed, this.particleGreen, this.particleBlue, 0).endVertex();
+			tessellator.getBuffer().pos(0.0D, var8, 1.0F * var9).color(this.particleRed, this.particleGreen, this.particleBlue, 0).endVertex();
+			tessellator.getBuffer().pos(-0.866D * var9, var8, -0.5F * var9).color(this.particleRed, this.particleGreen, this.particleBlue, 0).endVertex();
+			tessellator.draw();
+		}
+
+		GlStateManager.popMatrix();
+	}
 	
 	public double getPosX() {
 		return posX;
@@ -382,6 +388,9 @@ public class AMParticle extends Particle {
 	}
 
 	public void SetParticleTextureByName(String name) {
+		if (name.equalsIgnoreCase("radiant")) {
+			this.isRadiant = true;
+		}
 		this.particleTexture = AMParticleIcons.instance.getIconByName(name);
 	}
 
@@ -398,4 +407,5 @@ public class AMParticle extends Particle {
 		this.motionY = e;
 		this.motionZ = f;
 	}
+	
 }

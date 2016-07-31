@@ -27,6 +27,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -48,6 +49,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
@@ -93,6 +95,15 @@ public class EntityHandler {
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxBurnoutBonus);
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxManaBonus);
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.xpGainModifier);
+		}else if (event.getEntity() instanceof EntityItemFrame){
+			ArsMagica2.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.getEntity());
+		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityInteract(EntityInteract event){
+		if (event.getTarget() instanceof EntityItemFrame){
+			ArsMagica2.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.getTarget());
 		}
 	}
 	

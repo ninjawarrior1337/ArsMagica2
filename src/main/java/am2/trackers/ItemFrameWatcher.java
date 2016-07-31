@@ -2,12 +2,13 @@ package am2.trackers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import am2.ArsMagica2;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
-import am2.particles.ParticleArcToEntity;
+import am2.particles.ParticleApproachEntity;
 import am2.particles.ParticleColorShift;
 import am2.particles.ParticleHoldPosition;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -65,7 +66,7 @@ public class ItemFrameWatcher{
 
 	private boolean checkFrameRadius(EntityItemFrameComparator frameComp){
 
-		int radius = 2;
+		int radius = 3;
 
 		boolean shouldRemove = true;
 
@@ -76,7 +77,6 @@ public class ItemFrameWatcher{
 				for (int k = -radius; k <= radius; ++k){
 
 					if (frame.worldObj.getBlockState(frame.getPosition().add(i, j, k)).getBlock() == BlockDefs.liquid_essence.getBlock()){
-
 						Integer time = watchedFrames.get(frameComp);
 						if (time == null){
 							time = 0;
@@ -146,11 +146,12 @@ public class ItemFrameWatcher{
 
 	@SideOnly(Side.CLIENT)
 	public void spawnCompendiumProgressParticles(EntityItemFrame frame, BlockPos pos){
-		AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(frame.worldObj, "symbols", pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+		Random rand = new Random();
+		AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(frame.worldObj, "symbols", pos.getX() + rand.nextDouble(), pos.getY() + rand.nextDouble(), pos.getZ() + rand.nextDouble());
 		if (particle != null){
 			particle.setIgnoreMaxAge(true);
-			//particle.AddParticleController(new ParticleApproachEntity(particle, frame, 0.02f, 0.04f, 1, false).setKillParticleOnFinish(true));
-			particle.AddParticleController(new ParticleArcToEntity(particle, 1, frame, false).SetSpeed(0.02f).setKillParticleOnFinish(true));
+			particle.AddParticleController(new ParticleApproachEntity(particle, frame, 0.02f, 0.04f, 1, false).setKillParticleOnFinish(true));
+			//particle.AddParticleController(new ParticleArcToEntity(particle, 1, frame, false).SetSpeed(0.02f).setKillParticleOnFinish(true));
 			particle.setRandomScale(0.05f, 0.12f);
 		}
 	}

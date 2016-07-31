@@ -127,6 +127,7 @@ import am2.trackers.ItemFrameWatcher;
 import am2.trackers.PlayerTracker;
 import am2.utils.InventoryUtilities;
 import am2.utils.NPCSpells;
+import am2.world.AM2WorldDecorator;
 import am2.world.BiomeWitchwoodForest;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -170,6 +171,7 @@ public class CommonProxy implements IGuiHandler{
 	
 	public PlayerTracker playerTracker;
 	public ItemFrameWatcher itemFrameWatcher;
+	private AM2WorldDecorator worldGen;
 	
 	public static HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> powerPathVisuals;
 	
@@ -289,6 +291,9 @@ public class CommonProxy implements IGuiHandler{
 		CapabilityManager.INSTANCE.register(ISkillData.class, new ISkillData.Storage(), new ISkillData.Factory());
 		CapabilityManager.INSTANCE.register(IRiftStorage.class, new IRiftStorage.Storage(), new IRiftStorage.Factory());
 		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
+		
+		worldGen = new AM2WorldDecorator();
+		GameRegistry.registerWorldGenerator(worldGen, 0);
 		
 		EntityManager.instance.registerEntities();
 		EntityManager.instance.initializeSpawns();
@@ -481,5 +486,9 @@ public class CommonProxy implements IGuiHandler{
 				new FlickerOperatorFishing(),
 				Affinity.WATER, Affinity.NATURE
 		);
+	}
+	
+	public AM2WorldDecorator getWorldGenerator() {
+		return worldGen;
 	}
 }
