@@ -804,6 +804,10 @@ public class SpellUtils {
 	public static void setSpellMetadata(ItemStack stack, String string, String s) {
 		NBTUtils.addTag(NBTUtils.getAM2Tag(stack.getTagCompound()), SPELL_DATA).setString(string, s);
 	}
+	
+	public static void setSpellMetadata(NBTTagCompound stack, String string, String s) {
+		NBTUtils.addTag(NBTUtils.getAM2Tag(stack), SPELL_DATA).setString(string, s);
+	}
 
 	public static int numShapeGroups(ItemStack stack) {
 		return NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("NumShapeGroups");
