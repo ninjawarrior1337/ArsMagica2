@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import am2.ArsMagica2;
 import am2.bosses.BossSpawnHelper;
+import am2.defs.ItemDefs;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
@@ -35,7 +36,7 @@ public class ServerTickHandler{
 		}
 
 		if (firstTick){
-//			ItemDefs.crystalPhylactery.getSpawnableEntities(FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0]);
+			ItemDefs.crystalPhylactery.getSpawnableEntities(FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0]);
 			firstTick = false;
 		}
 

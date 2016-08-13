@@ -36,6 +36,7 @@ import am2.armor.ArmorHelper;
 import am2.armor.ArsMagicaArmorMaterial;
 import am2.armor.infusions.GenericImbuement;
 import am2.armor.infusions.ImbuementRegistry;
+import am2.bosses.EntityLifeGuardian;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
@@ -392,7 +393,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public boolean addSummon(EntityCreature entityliving) {
 		if (!entity.worldObj.isRemote){
-			summon_ent_ids.add(entity.getEntityId());
+			summon_ent_ids.add(entityliving.getEntityId());
 			setCurrentSummons(getCurrentSummons() + 1);
 		}
 		return true;
@@ -400,11 +401,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean getCanHaveMoreSummons() {
-//		if (entity instanceof EntityLifeGuardian)
-//			return true;
-
+		if (entity instanceof EntityLifeGuardian)
+			return true;
+		
 		verifySummons();
-
 		return this.getCurrentSummons() < getMaxSummons();
 	}
 	

@@ -133,7 +133,7 @@ public class ItemCrystalPhylactery extends ItemArsMagica2{
 
 	public String getSpawnClass(ItemStack stack){
 		if (!stack.hasTagCompound())
-			return "";
+			return null;
 		return stack.getTagCompound().getString("SpawnClassName");
 	}
 	
