@@ -2,18 +2,15 @@ package am2.buffs;
 
 import java.util.UUID;
 
+import am2.defs.PotionEffectsDefs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import am2.defs.PotionEffectsDefs;
 
 public class BuffEffectFrostSlowed extends BuffEffect{
 
-	private static final UUID frostSlow = UUID.fromString("03B0A79B-9569-43AE-BFE3-820D993D4A64");
-	private static final AttributeModifier frostSlow_Diminished = (new AttributeModifier(frostSlow, "Frost Slow (Diminished)", -0.2, 2));
-	private static final AttributeModifier frostSlow_Normal = (new AttributeModifier(frostSlow, "Frost Slow (Normal)", -0.5, 2));
-	private static final AttributeModifier frostSlow_Augmented = (new AttributeModifier(frostSlow, "Frost Slow (Augmented)", -0.8, 2));
+	private static final UUID frostSlowID = UUID.fromString("03B0A79B-9569-43AE-BFE3-820D993D4A64");
 
 	public BuffEffectFrostSlowed(int duration, int amplifier){
 		super(PotionEffectsDefs.frostSlow, duration, amplifier);
@@ -33,33 +30,19 @@ public class BuffEffectFrostSlowed extends BuffEffect{
 	public void applyEffect(EntityLivingBase entityliving){
 		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
-		if (attributeinstance.getModifier(frostSlow) != null){
-			attributeinstance.removeModifier(frostSlow_Diminished);
-			attributeinstance.removeModifier(frostSlow_Normal);
-			attributeinstance.removeModifier(frostSlow_Augmented);
+		if (attributeinstance.getModifier(frostSlowID) != null){
+			attributeinstance.removeModifier(attributeinstance.getModifier(frostSlowID));
 		}
-
-		switch (this.getAmplifier()){
-		case 0:
-			attributeinstance.applyModifier(frostSlow_Diminished);
-			break;
-		case 1:
-			attributeinstance.applyModifier(frostSlow_Normal);
-			break;
-		case 2:
-			attributeinstance.applyModifier(frostSlow_Augmented);
-			break;
-		}
+		
+		attributeinstance.applyModifier(new AttributeModifier(frostSlowID, "Frost Slow", -0.2 -(0.3 * this.getAmplifier()), 2));
 	}
 
 	@Override
 	public void stopEffect(EntityLivingBase entityliving){
 		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
-		if (attributeinstance.getModifier(frostSlow) != null){
-			attributeinstance.removeModifier(frostSlow_Diminished);
-			attributeinstance.removeModifier(frostSlow_Normal);
-			attributeinstance.removeModifier(frostSlow_Augmented);
+		if (attributeinstance.getModifier(frostSlowID) != null){
+			attributeinstance.removeModifier(attributeinstance.getModifier(frostSlowID));
 		}
 	}
 

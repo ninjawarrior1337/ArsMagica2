@@ -3,6 +3,7 @@ package am2.affinity;
 import java.util.Map.Entry;
 
 import am2.affinity.abilities.AbilityAgile;
+import am2.affinity.abilities.AbilityAntiEndermen;
 import am2.affinity.abilities.AbilityClearCaster;
 import am2.affinity.abilities.AbilityColdBlooded;
 import am2.affinity.abilities.AbilityExpandedLungs;
@@ -13,6 +14,7 @@ import am2.affinity.abilities.AbilityFireWeakness;
 import am2.affinity.abilities.AbilityFluidity;
 import am2.affinity.abilities.AbilityFulmination;
 import am2.affinity.abilities.AbilityLavaFreeze;
+import am2.affinity.abilities.AbilityLeafLike;
 import am2.affinity.abilities.AbilityLightAsAFeather;
 import am2.affinity.abilities.AbilityLightningStep;
 import am2.affinity.abilities.AbilityMagicWeakness;
@@ -20,11 +22,14 @@ import am2.affinity.abilities.AbilityNightVision;
 import am2.affinity.abilities.AbilityOneWithMagic;
 import am2.affinity.abilities.AbilityPacifist;
 import am2.affinity.abilities.AbilityPhasing;
+import am2.affinity.abilities.AbilityPhotosynthesis;
+import am2.affinity.abilities.AbilityPoisonResistance;
 import am2.affinity.abilities.AbilityReflexes;
 import am2.affinity.abilities.AbilityRooted;
 import am2.affinity.abilities.AbilityShortCircuit;
 import am2.affinity.abilities.AbilitySolidBones;
 import am2.affinity.abilities.AbilitySwiftSwim;
+import am2.affinity.abilities.AbilityThorns;
 import am2.affinity.abilities.AbilityThunderPunch;
 import am2.affinity.abilities.AbilityWaterFreeze;
 import am2.affinity.abilities.AbilityWaterWeakness;
@@ -65,6 +70,7 @@ public class AffinityAbilityHelper {
 		GameRegistry.register(new AbilityPhasing());
 		GameRegistry.register(new AbilityNightVision());
 		GameRegistry.register(new AbilityWaterWeakness(Affinity.ENDER));
+		GameRegistry.register(new AbilityPoisonResistance());
 		
 		//FIRE
 		GameRegistry.register(new AbilityFireResistance());
@@ -80,14 +86,18 @@ public class AffinityAbilityHelper {
 		GameRegistry.register(new AbilityFastHealing());
 		GameRegistry.register(new AbilityPacifist());
 		
-		//TODO WATER
+		//WATER
 		GameRegistry.register(new AbilityExpandedLungs());
 		GameRegistry.register(new AbilityFluidity());
 		GameRegistry.register(new AbilitySwiftSwim());
 		GameRegistry.register(new AbilityFireWeakness());
+		GameRegistry.register(new AbilityAntiEndermen());
 		
-		//TODO NATURE
+		//NATURE
 		GameRegistry.register(new AbilityRooted());
+		GameRegistry.register(new AbilityThorns());
+		GameRegistry.register(new AbilityLeafLike());
+		GameRegistry.register(new AbilityPhotosynthesis());
 		
 		//LIGHTNING
 		GameRegistry.register(new AbilityLightningStep());

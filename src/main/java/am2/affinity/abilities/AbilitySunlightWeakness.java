@@ -12,9 +12,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class AbilityColdBlooded extends AbstractAffinityAbility {
+public class AbilitySunlightWeakness extends AbstractAffinityAbility {
 
-	public AbilityColdBlooded() {
+	public AbilitySunlightWeakness() {
 		super(new ResourceLocation("arsmagica2", "coldblooded"));
 	}
 

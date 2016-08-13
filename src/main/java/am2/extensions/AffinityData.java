@@ -28,6 +28,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	private static final float MAJOR_OPPOSING_FACTOR = 0.75f;
 	private EntityPlayer player;
 	public float accumulatedLifeRegen = 0.0f;
+	public float accumulatedHungerRegen = 0.0f;
 	
 	@CapabilityInject(value = IAffinityData.class)
 	public static Capability<IAffinityData> INSTANCE = null;
