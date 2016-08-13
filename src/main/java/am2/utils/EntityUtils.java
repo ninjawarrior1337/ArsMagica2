@@ -1,5 +1,6 @@
 package am2.utils;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class EntityUtils {
 	
@@ -36,6 +38,7 @@ public class EntityUtils {
 //	private static final String summonEntityIDs = "AM2_Summon_Entity_IDs";
 	private static final String summonDurationKey = "AM2_Summon_Duration";
 	private static final String summonOwnerKey = "AM2_Summon_Owner";
+	private static Method ptrSetSize = null;
 //	private static final String summonTileXKey = "AM2_Summon_Tile_X";
 //	private static final String summonTileYKey = "AM2_Summon_Tile_Y";
 //	private static final String summonTileZKey = "AM2_Summon_Tile_Z";
@@ -257,5 +260,28 @@ public class EntityUtils {
 			}
 		}
 		return false;
+	}
+
+	public static void setSize(EntityLivingBase entityliving, float width, float height){
+		if (entityliving.width == width && entityliving.height == height)
+			return;
+		if (ptrSetSize == null){
+			try{
+				ptrSetSize = ReflectionHelper.findMethod(Entity.class, entityliving, new String[]{"func_70105_a", "setSize"}, Float.TYPE, Float.TYPE);
+			}catch (Throwable t){
+				t.printStackTrace();
+				return;
+			}
+		}
+		if (ptrSetSize != null){
+			try{
+				ptrSetSize.setAccessible(true);
+				ptrSetSize.invoke(entityliving, width, height);
+				//entityliving.yOffset = entityliving.height * 0.8f;
+			}catch (Throwable t){
+				t.printStackTrace();
+				return;
+			}
+		}
 	}
 }

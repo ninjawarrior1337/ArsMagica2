@@ -671,14 +671,14 @@ public class AMGuiHelper{
 
 	public static void shiftView(float f){
 		EntityPlayer entity = Minecraft.getMinecraft().thePlayer;
-		int viewSet = Minecraft.getMinecraft().gameSettings.thirdPersonView;
-		if (viewSet == 0){
-			EntityExtension exProps = EntityExtension.For(entity);
-			if (exProps.getShrinkPct() > 0f){
-				float amt = exProps.getPrevShrinkPct() + (exProps.getShrinkPct() - exProps.getPrevShrinkPct()) * f;
-				GlStateManager.translate(0, 1 * amt, 0);
-			}
-		}
+//		int viewSet = Minecraft.getMinecraft().gameSettings.thirdPersonView;
+//		if (viewSet == 0){
+//			EntityExtension exProps = EntityExtension.For(entity);
+//			if (exProps.getShrinkPct() > 0f){
+//				float amt = exProps.getPrevShrinkPct() + (exProps.getShrinkPct() - exProps.getPrevShrinkPct()) * f;
+//				GlStateManager.translate(0, 1 * amt, 0);
+//			}
+//		}
 
 		float flip = EntityExtension.For(entity).getFlipRotation();
 		float lastFlip = EntityExtension.For(entity).getPrevFlipRotation();
@@ -771,11 +771,14 @@ public class AMGuiHelper{
 	}
 	
 	public static float correctEyePos(float floatIn, Entity entityIn) {
+		float curHeight = floatIn;
 		if (entityIn instanceof EntityPlayer && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
 			EntityPlayer player = (EntityPlayer) entityIn;
-			return player.height - floatIn - 0.1f;
+			curHeight = player.height - floatIn - 0.1f;
 		}
-		return floatIn;
+		if (entityIn instanceof EntityLivingBase && EntityExtension.For((EntityLivingBase) entityIn).shrinkAmount != 0)
+			curHeight *= EntityExtension.For((EntityLivingBase) entityIn).shrinkAmount;
+		return curHeight;
 	}
 	
 	public static boolean correctMouvement(float strafe, float forward, float friction, Entity entityIn) {

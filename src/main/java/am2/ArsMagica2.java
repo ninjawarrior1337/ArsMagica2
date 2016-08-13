@@ -1,8 +1,11 @@
 package am2;
 
+import java.io.File;
+
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.config.AMConfig;
+import am2.config.SpellPartConfiguration;
 import am2.extensions.DataDefinitions;
 import am2.packet.MessageBoolean;
 import am2.packet.MessageCapabilities;
@@ -34,6 +37,7 @@ public class ArsMagica2 {
 	@Instance(MODID)
 	public static ArsMagica2 instance = new ArsMagica2();
 	public static AMConfig config;
+	public static SpellPartConfiguration disabledSkills;
 	
 	static {
 		
@@ -47,7 +51,8 @@ public class ArsMagica2 {
 	
 	@EventHandler
 	public void preInit (FMLPreInitializationEvent e) {
-		config = new AMConfig(e.getSuggestedConfigurationFile());
+		config = new AMConfig(new File(e.getModConfigurationDirectory() + "\\am2.cfg"));
+		disabledSkills = new SpellPartConfiguration(new File(e.getModConfigurationDirectory() + "\\skills.cfg"));
 		proxy.preInit();
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("AM2");
 		network.registerMessage(MessageBoolean.IceBridgeHandler.class, MessageBoolean.class, 1, Side.SERVER);

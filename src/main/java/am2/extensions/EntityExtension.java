@@ -31,6 +31,7 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.event.PlayerMagicLevelChangeEvent;
 import am2.api.extensions.IEntityExtension;
+import am2.api.math.AMVector2;
 import am2.armor.ArmorHelper;
 import am2.armor.ArsMagicaArmorMaterial;
 import am2.armor.infusions.GenericImbuement;
@@ -76,6 +77,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	private EntityLivingBase entity;
 
 	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
+	public AMVector2 originalSize;
+	public float shrinkAmount;
 		
 	@Override
 	public boolean hasEnoughtMana(float cost) {
@@ -300,8 +303,17 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public void addEntityReference(EntityLivingBase entity) {
 		this.entity = entity;
+		setOriginalSize(new AMVector2(entity.width, entity.height));
 	}
 	
+	public void setOriginalSize(AMVector2 amVector2) {
+		this.originalSize = amVector2;
+	}
+	
+	public AMVector2 getOriginalSize(){
+		return this.originalSize;
+	}
+
 	@Override
 	public void init(EntityLivingBase entity) {
 		this.addEntityReference(entity);
@@ -755,6 +767,11 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			setFlipRotation(getFlipRotation() + 15);
 		else if (!flipped && getFlipRotation() > 0)
 			setFlipRotation(getFlipRotation() - 15);
+	}
+
+	public void setShrinkPct(float shrinkPct) {
+		this.entity.getDataManager().set(PREV_SHRINK_PCT, getShrinkPct());
+		this.entity.getDataManager().set(SHRINK_PCT, shrinkPct);
 	}
 
 }

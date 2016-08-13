@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import am2.ArsMagica2;
 import am2.LogHelper;
+import am2.api.ArsMagicaAPI;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityLectern;
@@ -362,7 +363,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		LogHelper.debug("Disabled skills: %d", disabledSkills.length);
 		LogHelper.debug("Mana cap: %.2f", manaCap);
 		
-		//TODO SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
+		ArsMagica2.disabledSkills.disableAllSkillsIn(disabledSkills);
 	}
 
 	private void handleEntityActionUpdate(byte[] data, EntityPlayer player){

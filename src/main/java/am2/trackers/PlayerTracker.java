@@ -51,7 +51,7 @@ public class PlayerTracker{
 			AMNetHandler.INSTANCE.requestClientAuras((EntityPlayerMP)event.player);
 		}
 
-		int[] disabledSkills = {};//SkillTreeManager.instance.getDisabledSkillIDs();
+		int[] disabledSkills = ArsMagica2.disabledSkills.getDisabledSkillIDs();
 
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(ArsMagica2.config.getSkillTreeSecondaryTierCap()).add(disabledSkills);

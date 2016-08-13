@@ -46,6 +46,7 @@ import am2.items.ItemKeystoneDoor;
 import am2.items.ItemLifeWard;
 import am2.items.ItemLightningCharm;
 import am2.items.ItemLiquidEssenceBottle;
+import am2.items.ItemLostJournal;
 import am2.items.ItemMagicBroom;
 import am2.items.ItemManaCake;
 import am2.items.ItemNatureGuardianSickle;
@@ -58,6 +59,7 @@ import am2.items.ItemSpellStaff;
 import am2.items.ItemWinterGuardianArm;
 import am2.items.SpellBase;
 import am2.items.colorizers.FlickerJarColorizer;
+import am2.items.colorizers.LostJournalColorizer;
 import am2.items.rendering.AffinityRenderer;
 import am2.items.rendering.CrystalWrenchRenderer;
 import am2.items.rendering.DefaultWithMetaRenderer;
@@ -166,6 +168,8 @@ public class ItemDefs {
 	public static final Item itemKeystoneDoor = new ItemKeystoneDoor().registerAndName("item_keystone_door");
 	public static final ItemRuneBag runeBag = (ItemRuneBag) new ItemRuneBag().registerAndName("rune_bag");
 
+	public static final ItemLostJournal lostJournal = new ItemLostJournal().registerAndName("lostJournal");
+
 
 
 
@@ -224,8 +228,10 @@ public class ItemDefs {
 		registerTexture(runeBag);
 		registerTexture(woodenLeg);
 		registerTexture(manaCake);
+		registerTexture(lostJournal);
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new LostJournalColorizer(), lostJournal);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		
