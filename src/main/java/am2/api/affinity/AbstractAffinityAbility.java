@@ -84,6 +84,8 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	
 	public void applySpellCast(EntityPlayer player, SpellCastEvent.Post event) {}
 	
+	public void applyPreSpellCast(EntityPlayer player, SpellCastEvent.Pre event) {}
+	
 	public void applyDeath(EntityPlayer player, LivingDeathEvent event) {}
 	
 	public void applyJump(EntityPlayer player, LivingJumpEvent event) {}
