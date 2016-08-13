@@ -27,6 +27,7 @@ import am2.items.ItemBoundShield;
 import am2.items.ItemBoundShovel;
 import am2.items.ItemBoundSword;
 import am2.items.ItemChalk;
+import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
 import am2.items.ItemFlickerFocus;
@@ -58,6 +59,7 @@ import am2.items.ItemSpellComponent;
 import am2.items.ItemSpellStaff;
 import am2.items.ItemWinterGuardianArm;
 import am2.items.SpellBase;
+import am2.items.colorizers.CrystalPhylacteryColorizer;
 import am2.items.colorizers.FlickerJarColorizer;
 import am2.items.colorizers.LostJournalColorizer;
 import am2.items.rendering.AffinityRenderer;
@@ -169,7 +171,7 @@ public class ItemDefs {
 	public static final ItemRuneBag runeBag = (ItemRuneBag) new ItemRuneBag().registerAndName("rune_bag");
 
 	public static final ItemLostJournal lostJournal = new ItemLostJournal().registerAndName("lostJournal");
-
+	public static final ItemCrystalPhylactery crystalPhylactery = (ItemCrystalPhylactery) new ItemCrystalPhylactery().registerAndName("crystalPhylactery");
 
 
 
@@ -229,9 +231,11 @@ public class ItemDefs {
 		registerTexture(woodenLeg);
 		registerTexture(manaCake);
 		registerTexture(lostJournal);
+		registerTexture(crystalPhylactery);
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new LostJournalColorizer(), lostJournal);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new CrystalPhylacteryColorizer(), crystalPhylactery);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		

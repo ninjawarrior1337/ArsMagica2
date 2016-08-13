@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import am2.ArsMagica2;
 import am2.LogHelper;
-import am2.api.ArsMagicaAPI;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityLectern;
