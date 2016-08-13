@@ -88,6 +88,8 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	
 	public void applyDeath(EntityPlayer player, LivingDeathEvent event) {}
 	
+	public void applyKill(EntityPlayer player, LivingDeathEvent event) {}
+	
 	public void applyJump(EntityPlayer player, LivingJumpEvent event) {}
 	
 	public void removeEffects(EntityPlayer player) {}

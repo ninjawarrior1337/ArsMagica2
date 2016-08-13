@@ -27,12 +27,13 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	private static final float MINOR_OPPOSING_FACTOR = 0.5f;
 	private static final float MAJOR_OPPOSING_FACTOR = 0.75f;
 	private EntityPlayer player;
+	public float accumulatedLifeRegen = 0.0f;
 	
 	@CapabilityInject(value = IAffinityData.class)
 	public static Capability<IAffinityData> INSTANCE = null;
 		
-	public static IAffinityData For(EntityLivingBase living){
-		return living.getCapability(INSTANCE, null);
+	public static AffinityData For(EntityLivingBase living){
+		return (AffinityData) living.getCapability(INSTANCE, null);
 	}
 	
 	public float getAffinityDepth(Affinity aff) {

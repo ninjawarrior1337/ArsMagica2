@@ -18,7 +18,7 @@ import am2.extensions.AffinityData;
 import am2.utils.NBTUtils;
 
 public interface IAffinityData {	
-	
+
 	public float getAffinityDepth(Affinity aff);
 	
 	public void setAffinityDepth (Affinity name, float value);

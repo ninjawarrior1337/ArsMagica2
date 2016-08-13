@@ -6,8 +6,10 @@ import am2.affinity.abilities.AbilityAgile;
 import am2.affinity.abilities.AbilityClearCaster;
 import am2.affinity.abilities.AbilityColdBlooded;
 import am2.affinity.abilities.AbilityExpandedLungs;
+import am2.affinity.abilities.AbilityFastHealing;
 import am2.affinity.abilities.AbilityFirePunch;
 import am2.affinity.abilities.AbilityFireResistance;
+import am2.affinity.abilities.AbilityFireWeakness;
 import am2.affinity.abilities.AbilityFluidity;
 import am2.affinity.abilities.AbilityFulmination;
 import am2.affinity.abilities.AbilityLavaFreeze;
@@ -16,6 +18,7 @@ import am2.affinity.abilities.AbilityLightningStep;
 import am2.affinity.abilities.AbilityMagicWeakness;
 import am2.affinity.abilities.AbilityNightVision;
 import am2.affinity.abilities.AbilityOneWithMagic;
+import am2.affinity.abilities.AbilityPacifist;
 import am2.affinity.abilities.AbilityPhasing;
 import am2.affinity.abilities.AbilityReflexes;
 import am2.affinity.abilities.AbilityRooted;
@@ -74,13 +77,16 @@ public class AffinityAbilityHelper {
 		GameRegistry.register(new AbilityColdBlooded());
 		
 		//LIFE
+		GameRegistry.register(new AbilityFastHealing());
+		GameRegistry.register(new AbilityPacifist());
 		
-		//WATER
+		//TODO WATER
 		GameRegistry.register(new AbilityExpandedLungs());
 		GameRegistry.register(new AbilityFluidity());
 		GameRegistry.register(new AbilitySwiftSwim());
+		GameRegistry.register(new AbilityFireWeakness());
 		
-		//NATURE
+		//TODO NATURE
 		GameRegistry.register(new AbilityRooted());
 		
 		//LIGHTNING
@@ -160,12 +166,20 @@ public class AffinityAbilityHelper {
 	}
 	
 	@SubscribeEvent
-	public void onPlayerDeath(LivingDeathEvent event) {
+	public void onDeath(LivingDeathEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
 				if (ability.getKey() == null) {
 					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
 						ability.applyDeath((EntityPlayer) event.getEntityLiving(), event);
+				}
+			}
+		}
+		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
+			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
+				if (ability.getKey() == null) {
+					if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
+						ability.applyKill((EntityPlayer) event.getSource().getEntity(), event);
 				}
 			}
 		}
