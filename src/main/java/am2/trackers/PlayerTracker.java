@@ -50,7 +50,8 @@ public class PlayerTracker{
 		if (hasAA(event.player)){
 			AMNetHandler.INSTANCE.requestClientAuras((EntityPlayerMP)event.player);
 		}
-
+		
+		ArsMagica2.disabledSkills.getDisabledSkills(true);
 		int[] disabledSkills = ArsMagica2.disabledSkills.getDisabledSkillIDs();
 
 		AMDataWriter writer = new AMDataWriter();

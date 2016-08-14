@@ -322,6 +322,7 @@ public class CommonProxy implements IGuiHandler{
 			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
 				throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");
 		}
+		ArsMagica2.disabledSkills.getDisabledSkills(true);
 	}
 	
 	public void initHandlers() {

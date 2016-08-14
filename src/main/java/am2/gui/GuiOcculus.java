@@ -7,6 +7,7 @@ import java.util.Comparator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
@@ -172,7 +173,7 @@ public class GuiOcculus extends GuiScreen {
 					offsetY = MathHelper.clamp_int(offsetY, posY + 7, posY + 203);
 					offsetX2 = MathHelper.clamp_int(offsetX2, posX + 7, posX + 203);
 					offsetY2 = MathHelper.clamp_int(offsetY2, posY + 7, posY + 203);
-					boolean hasPrereq = data.canLearn(s.getID());
+					boolean hasPrereq = data.canLearn(s.getID()) || data.hasSkill(s.getID());
 					int color = (!SkillData.For(player).hasSkill(s.getID()) ? s.getPoint().getColor() & 0x999999 : 0x00ff00);
 					if (!hasPrereq) color = 0x000000;
 					if (!(offsetX == posX + 7 || offsetX == posX + 203))
@@ -187,7 +188,7 @@ public class GuiOcculus extends GuiScreen {
 					continue;
 				GlStateManager.color(1, 1, 1, 1.0F);
 				ISkillData skillData = SkillData.For(player);
-				boolean hasPrereq = skillData.canLearn(s.getID());
+				boolean hasPrereq = skillData.canLearn(s.getID()) || data.hasSkill(s.getID());
 				int offsetX = calcXOffset(posX, s);
 				int offsetY = calcYOffset(posY, s);
 				int tick = (player.ticksExisted % 80) >= 40 ? (player.ticksExisted % 40) - 20 : -(player.ticksExisted % 40) + 20;
@@ -222,6 +223,9 @@ public class GuiOcculus extends GuiScreen {
 					GlStateManager.color(0.1F, 0.1F, 0.1F);
 				else if (!skillData.hasSkill(s.getID()))
 					GlStateManager.color(Math.max(RenderUtils.getRed(s.getPoint().getColor()), 0.6F) * multiplier, Math.max(RenderUtils.getGreen(s.getPoint().getColor()), 0.6F) * multiplier, Math.max(RenderUtils.getBlue(s.getPoint().getColor()), 0.6F) * multiplier);
+				
+				if (ArsMagica2.disabledSkills.isSkillDisabled(s.getID()))
+					GlStateManager.color(0.3f, 0.3f, 0.3f);
 				RenderUtils.drawBox(offsetX + xStartMod,
 						offsetY + yStartMod,
 						renderSize - xStartMod - xEndMod,
@@ -232,6 +236,42 @@ public class GuiOcculus extends GuiScreen {
 						sprite.getMaxU() - (xEndMod / renderSize * spriteXSize),
 						sprite.getMaxV() - (yEndMod / renderSize * spriteYSize));
 				GlStateManager.color(1, 1, 1, 1.0F);
+				if (ArsMagica2.disabledSkills.isSkillDisabled(s.getID())){
+					sprite = AMGuiIcons.padlock;
+					spriteXSize = sprite.getMaxU() - sprite.getMinU();
+					spriteYSize = sprite.getMaxV() - sprite.getMinV();
+					xStartMod = 0;
+					yStartMod = 0;
+					xEndMod = 0;
+					yEndMod = 0;
+					if (offsetX + 8 < posX + 7) {
+						float mod = (posX + 7 - offsetX - 8);
+						xStartMod = mod;
+					}
+					else if (offsetX + 24 > posX + 203) {
+						float mod = 16 - (posX + 203 - offsetX - 8);
+						xEndMod = mod;
+					}
+					if (offsetY + 8 < posY + 7) {
+						float mod = (posY + 7 - offsetY - 8);
+						yStartMod = mod;
+					}
+					else if (offsetY + 24 > posY + 203) {
+						float mod = 16 - (posY + 203 - offsetY - 8);
+						yEndMod = mod;
+					}
+
+					RenderUtils.drawBox(offsetX + xStartMod + 8,
+							offsetY + yStartMod + 8,
+							16 - xStartMod - xEndMod,
+							16 - yStartMod - yEndMod,
+							0,
+							sprite.getMinU() + (xStartMod / 16 * spriteXSize),
+							sprite.getMinV() + (yStartMod / 16 * spriteYSize),
+							sprite.getMaxU() - (xEndMod / 16 * spriteXSize),
+							sprite.getMaxV() - (yEndMod / 16 * spriteYSize));
+					GlStateManager.color(1, 1, 1, 1.0F);
+				}
 				
 			}
 			
@@ -252,11 +292,13 @@ public class GuiOcculus extends GuiScreen {
 						hasPrereq &= data.hasSkill(subParent);
 					}
 					ArrayList<String> list = new ArrayList<String>();
-					list.add(s.getPoint().getChatColor().toString() + I18n.translateToLocal(s.getName()));
-					if (hasPrereq)
-						list.add(TextFormatting.DARK_GRAY.toString() + I18n.translateToLocal(s.getOcculusDesc()));
+					list.add(s.getPoint().getChatColor().toString() + s.getName());
+					if (ArsMagica2.disabledSkills.isSkillDisabled(s.getID()))
+						list.add(TextFormatting.DARK_RED.toString() + I18n.translateToLocal("am2.gui.occulus.disabled"));
+					else if (hasPrereq)
+						list.add(TextFormatting.DARK_GRAY.toString() + s.getOcculusDesc()); 
 					else
-						list.add(TextFormatting.DARK_RED.toString() + I18n.translateToLocal("occulus.missingrequirements"));
+						list.add(TextFormatting.DARK_RED.toString() + I18n.translateToLocal("am2.gui.occulus.missingrequirements"));
 					
 					drawHoveringText(list, mouseX, mouseY, Minecraft.getMinecraft().fontRendererObj);
 					flag = true;

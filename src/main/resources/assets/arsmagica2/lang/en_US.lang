@@ -367,6 +367,8 @@ am2.gui.flicker_doesntneedpower=Does not require etherium.  Might use it if prov
 am2.gui.flicker_needspower=Requires etherium to function.
 am2.gui.flicker_optime=Op time: %s seconds
 am2.gui.flicker_powerperop=Etherium per operation: %s
+am2.gui.occulus.disabled=Disabled via config.
+am2.gui.occulus.missingrequirements=Missing Requirements
 
 compendium.projectile.pages=You are able to focus your will into a concentrated ball, which you can propel forwards away from you. The projectile will last for 5 seconds of flight, or until it strikes something. It will by default pass through water and non-collidable blocks unless you modify it with target non-solid blocks.
 compendium.channel.pages=Through intense concentration, a mage can maintain a flow of magic on themselves. This is useful for things like Telekinesis, Healing, Attract, and Storm.

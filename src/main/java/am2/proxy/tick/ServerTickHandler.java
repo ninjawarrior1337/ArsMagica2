@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -78,6 +79,16 @@ public class ServerTickHandler{
 		}
 
 		ArsMagica2.proxy.clearDeferredPotionEffects();
+	}
+	
+	@SubscribeEvent
+	public void onConfigChanged (ConfigChangedEvent e) {
+		if (!e.getModID().equals(ArsMagica2.MODID))
+			return;
+		ArsMagica2.config.save();
+		ArsMagica2.config.init();
+		ArsMagica2.disabledSkills.save();
+		ArsMagica2.disabledSkills.getDisabledSkills(true);
 	}
 
 	private void applyDeferredDimensionTransfers(){

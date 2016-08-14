@@ -19,6 +19,7 @@ public class SpellPartConfiguration extends Configuration{
 	public ArrayList<String> getDisabledSkills(boolean reload) {
 		
 		if (reload) {
+			load();
 			disabled.clear();
 			for (ResourceLocation rl : ArsMagicaAPI.getSpellRegistry().getKeys()) {
 				String name = rl.toString();
@@ -28,17 +29,22 @@ public class SpellPartConfiguration extends Configuration{
 				if (!prop.getBoolean())
 					disabled.add(name);
 			}
+			save();
 		}
 		
 		return disabled;
 	}
 	
 	public boolean isSkillDisabled(String name) {
-		return disabled.contains(name);
+		name = name.replaceAll("arsmagica2:", "");
+		for (String str : disabled) {
+			if (str.equalsIgnoreCase(name)) return true;
+		}
+		return false;
 	}
 
 	public int[] getDisabledSkillIDs() {
-		ArrayList<Integer> intArray = new ArrayList<>();;
+		ArrayList<Integer> intArray = new ArrayList<>();
 		for (String disabled : disabled) {
 			ResourceLocation rl = new ResourceLocation(disabled);
 			if (!disabled.contains(":")) rl = new ResourceLocation("arsmagica2:" + disabled);
