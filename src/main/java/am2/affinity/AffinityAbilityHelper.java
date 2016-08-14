@@ -137,12 +137,10 @@ public class AffinityAbilityHelper {
 				}
 			}
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
-						ability.applyTick((EntityPlayer) event.getEntityLiving());
-					else
-						ability.removeEffects((EntityPlayer) event.getEntityLiving());
-				}
+				if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+					ability.applyTick((EntityPlayer) event.getEntityLiving());
+				else
+					ability.removeEffects((EntityPlayer) event.getEntityLiving());
 			}
 		}
 	}
@@ -151,18 +149,14 @@ public class AffinityAbilityHelper {
 	public void onPlayerHurt(LivingHurtEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
-						ability.applyHurt((EntityPlayer) event.getEntityLiving(), event, false);
-				}
+				if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+					ability.applyHurt((EntityPlayer) event.getEntityLiving(), event, false);
 			}
 		}
 		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
-						ability.applyHurt((EntityPlayer) event.getSource().getEntity(), event, true);
-				}
+				if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
+					ability.applyHurt((EntityPlayer) event.getSource().getEntity(), event, true);
 			}
 		}
 	}
@@ -171,10 +165,8 @@ public class AffinityAbilityHelper {
 	public void onPlayerFall(LivingFallEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
-						ability.applyFall((EntityPlayer) event.getEntityLiving(), event);
-				}
+				if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+					ability.applyFall((EntityPlayer) event.getEntityLiving(), event);
 			}
 		}
 	}
@@ -183,18 +175,14 @@ public class AffinityAbilityHelper {
 	public void onDeath(LivingDeathEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
-						ability.applyDeath((EntityPlayer) event.getEntityLiving(), event);
-				}
+				if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+					ability.applyDeath((EntityPlayer) event.getEntityLiving(), event);
 			}
 		}
 		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
-						ability.applyKill((EntityPlayer) event.getSource().getEntity(), event);
-				}
+				if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
+					ability.applyKill((EntityPlayer) event.getSource().getEntity(), event);
 			}
 		}
 	}
@@ -203,10 +191,8 @@ public class AffinityAbilityHelper {
 	public void onPlayerJump(LivingJumpEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.getEntityLiving()))
-						ability.applyJump((EntityPlayer) event.getEntityLiving(), event);
-				}
+				if (ability.canApply((EntityPlayer) event.getEntityLiving()))
+					ability.applyJump((EntityPlayer) event.getEntityLiving(), event);
 			}
 		}
 	}
@@ -215,10 +201,8 @@ public class AffinityAbilityHelper {
 	public void onSpellCast(SpellCastEvent.Post event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.entityLiving))
-						ability.applySpellCast((EntityPlayer) event.entityLiving, event);
-				}
+				if (ability.canApply((EntityPlayer) event.entityLiving))
+					ability.applySpellCast((EntityPlayer) event.entityLiving, event);
 			}
 		}
 	}
@@ -227,10 +211,8 @@ public class AffinityAbilityHelper {
 	public void onPreSpellCast(SpellCastEvent.Pre event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.getKey() == null) {
-					if (ability.canApply((EntityPlayer) event.entityLiving))
-						ability.applyPreSpellCast((EntityPlayer) event.entityLiving, event);
-				}
+				if (ability.canApply((EntityPlayer) event.entityLiving))
+					ability.applyPreSpellCast((EntityPlayer) event.entityLiving, event);
 			}
 		}
 	}

@@ -165,7 +165,8 @@ public class EntityHandler {
 				}
 			}
 		}
-		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.PLAYER_FLIP, new AMDataWriter().add(ext.getIsFlipped()).generate());
+		if (player.worldObj.isRemote)
+			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.PLAYER_FLIP, new AMDataWriter().add(ext.getIsFlipped()).generate());
 		if (ext.getIsFlipped()){
 			if ((player).motionY < 2 && !player.capabilities.isFlying)
 				(player).motionY += 0.15f;

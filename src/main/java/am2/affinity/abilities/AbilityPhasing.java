@@ -16,6 +16,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 public class AbilityPhasing extends AbstractAffinityAbility {
@@ -35,6 +37,7 @@ public class AbilityPhasing extends AbstractAffinityAbility {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public KeyBinding getKey() {
 		return BindingsDefs.ENDER_TP;
 	}

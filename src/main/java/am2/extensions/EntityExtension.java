@@ -667,7 +667,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 					int numArmorPieces = 0;
 					for (int i = 0; i < 4; ++i) {
-						ItemStack stack = player.inventory.armorItemInSlot(i);
+						ItemStack stack = player.inventory.armorInventory[i];
 						if (ImbuementRegistry.instance.isImbuementPresent(stack, GenericImbuement.manaRegen))
 							numArmorPieces++;
 					}
