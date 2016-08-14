@@ -25,6 +25,7 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -283,5 +284,48 @@ public class EntityUtils {
 				return;
 			}
 		}
+	}
+	
+	public static Vec3d correctLook(Vec3d vecIn, Entity entityIn) {
+		if (entityIn instanceof EntityLivingBase && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+			return new Vec3d(-vecIn.xCoord, -vecIn.yCoord, vecIn.zCoord);
+		}
+		return vecIn;
+	}
+	
+	public static float correctEyePos(float floatIn, Entity entityIn) {
+		float curHeight = floatIn;
+		if (entityIn instanceof EntityPlayer && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+			EntityPlayer player = (EntityPlayer) entityIn;
+			curHeight = player.height - floatIn - 0.1f;
+		}
+		if (entityIn instanceof EntityLivingBase && EntityExtension.For((EntityLivingBase) entityIn).shrinkAmount != 0)
+			curHeight *= EntityExtension.For((EntityLivingBase) entityIn).shrinkAmount;
+		return curHeight;
+	}
+	
+	public static boolean correctMouvement(float strafe, float forward, float friction, Entity entityIn) {
+		if (entityIn instanceof EntityPlayer && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+	        float f = strafe * strafe + forward * forward;
+	        if (f >= 1.0E-4F)
+	        {
+	            f = MathHelper.sqrt_float(f);
+
+	            if (f < 1.0F)
+	            {
+	                f = 1.0F;
+	            }
+
+	            f = friction / f;
+	            strafe = strafe * f;
+	            forward = forward * f;
+	            float f1 = MathHelper.sin(-entityIn.rotationYaw * 0.017453292F);
+	            float f2 = MathHelper.cos(-entityIn.rotationYaw * 0.017453292F);
+	            entityIn.motionX += (double)(strafe * f2 - forward * f1);
+	            entityIn.motionZ += (double)(forward * f2 + strafe * f1);
+	        }
+			return true;
+		}
+		return false;
 	}
 }

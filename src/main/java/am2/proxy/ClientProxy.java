@@ -93,6 +93,7 @@ import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -362,5 +363,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getPowerPathVisuals(){
 		return powerPathVisuals;
+	}
+	
+	@Override
+	public EntityLivingBase getLocalPlayer() {
+		return Minecraft.getMinecraft().thePlayer;
 	}
 }

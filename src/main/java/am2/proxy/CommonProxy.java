@@ -485,4 +485,8 @@ public class CommonProxy implements IGuiHandler{
 				Affinity.WATER, Affinity.NATURE
 		);
 	}
+
+	public EntityLivingBase getLocalPlayer() {
+		return null;
+	}
 }

@@ -223,6 +223,7 @@ public class BlockDefs {
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static void registerTexture(Block block) {
 		ResourceLocation loc = block.getRegistryName();
 		Item item = GameRegistry.findRegistry(Item.class).getValue(loc);

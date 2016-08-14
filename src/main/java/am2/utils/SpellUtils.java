@@ -31,7 +31,6 @@ import am2.spell.SpellModifiers;
 import am2.spell.SpellShape;
 import am2.spell.modifier.Colour;
 import am2.spell.shape.MissingShape;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
@@ -359,7 +358,7 @@ public class SpellUtils {
 					String type = tmp.getString(TYPE);
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
 						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID));
-						cost += component.manaCost(Minecraft.getMinecraft().thePlayer);
+						cost += component.manaCost(ArsMagica2.proxy.getLocalPlayer());
 					}
 					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
 						SpellModifier mod = SpellRegistry.getModifierFromName(tmp.getString(ID));

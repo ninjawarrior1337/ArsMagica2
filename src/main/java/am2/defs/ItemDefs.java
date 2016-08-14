@@ -310,10 +310,12 @@ public class ItemDefs {
 
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static void registerTexture(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new IgnoreMetadataRenderer( new ModelResourceLocation(item.getRegistryName(), "inventory")));
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static void registerTexture(Item item, int meta, String suffix) {
 		DefaultWithMetaRenderer renderer = new DefaultWithMetaRenderer(new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		renderer.addModel(meta, new ModelResourceLocation(item.getRegistryName().toString() + suffix, "inventory"));

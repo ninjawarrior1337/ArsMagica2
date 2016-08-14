@@ -13,6 +13,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 public class ItemEarthGuardianArmor extends AMArmor{
@@ -22,6 +24,7 @@ public class ItemEarthGuardianArmor extends AMArmor{
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
 		return ModelLibrary.instance.earthArmor;
 	}
@@ -32,6 +35,7 @@ public class ItemEarthGuardianArmor extends AMArmor{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.translateToLocal("am2.tooltip.earth_armor"));
 	}
@@ -42,6 +46,7 @@ public class ItemEarthGuardianArmor extends AMArmor{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(ItemDefs.earthArmorEnchanted.copy());
 	}
