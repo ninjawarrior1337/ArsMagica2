@@ -24,7 +24,7 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.items.rendering.SpellModel;
-import am2.utils.ResourceUtils;
+import am2.utils.ModelUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -67,7 +67,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	        Minecraft.getMinecraft().getResourceManager()
 	                 .getResource(new ResourceLocation(modelLocation.getResourceDomain(), modelLocation.getResourcePath() + ".json"));
 		    Reader reader = new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8);
-		    for (String s : ((Map<String,String>) ResourceUtils.GSON.fromJson(reader, ResourceUtils.mapType)).values()) {
+		    for (String s : ((Map<String,String>) ModelUtils.GSON.fromJson(reader, ModelUtils.mapType)).values()) {
 				builder.add(new ResourceLocation(s));
 			}
 			IModel model = new SpellModel(builder.build());

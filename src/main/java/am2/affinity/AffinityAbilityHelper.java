@@ -51,6 +51,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AffinityAbilityHelper {
 	
@@ -112,6 +113,7 @@ public class AffinityAbilityHelper {
 	
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onKeyInput(InputEvent.KeyInputEvent event) {
 		for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
 			if (ability.getKey() != null && ability.getKey().isPressed()) {

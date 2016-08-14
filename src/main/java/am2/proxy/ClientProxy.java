@@ -194,6 +194,7 @@ public class ClientProxy extends CommonProxy {
 		ArsMagica2.config.clientInit();
 		new AMSounds();
 		EntityManager.instance.registerRenderers();
+		blocks.preInitClient();
 		
 		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
@@ -216,8 +217,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 		super.init();
-		BlockDefs.init();
-		ItemDefs.init();
+		BlockDefs.initClient();
+		ItemDefs.initClient();
 	}
 	
 	@Override

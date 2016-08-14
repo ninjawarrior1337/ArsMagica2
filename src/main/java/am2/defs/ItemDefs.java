@@ -89,6 +89,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDefs {
 	
@@ -177,7 +179,8 @@ public class ItemDefs {
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	
-	public static void init () {
+	@SideOnly(Side.CLIENT)
+	public static void initClient () {
 		//Focus
 		registerTexture(mobFocus);
 		registerTexture(lesserFocus);
