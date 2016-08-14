@@ -2,13 +2,16 @@ package am2.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
 import am2.api.SkillTreeRegistry;
+import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.ISkillData;
 import am2.api.skill.Skill;
@@ -273,6 +276,7 @@ public class GuiOcculus extends GuiScreen {
 			int cX = posX + xSize/2;
 			int cY = posY + ySize/2;
 			//float finalPercentage = AffinityData.For(player).getAffinityDepth(SkillDefs.NONE) * 100;
+			ArrayList<String> drawString = new ArrayList<>();
 			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
 				if (aff == Affinity.NONE)
 					continue;
@@ -305,9 +309,34 @@ public class GuiOcculus extends GuiScreen {
 				xMovement = affDrawTextX == 0 ? 0 : xMovement;
 				int yMovement = affDrawTextY > 0 ? 5 : -5;
 				yMovement = affDrawTextY == 0 ? 0 : yMovement;
-				this.itemRender.renderItemAndEffectIntoGUI(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)) , (int)((affDrawTextX * 1.1) + cX + xMovement), (int)((affDrawTextY * 1.1) + cY + yMovement));
+				int drawX = (int)((affDrawTextX * 1.1) + cX + xMovement);
+				int drawY = (int)((affDrawTextY * 1.1) + cY + yMovement);
+				this.itemRender.renderItemAndEffectIntoGUI(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)) , drawX, drawY);
+				if (mouseX > drawX && mouseX < drawX + 16 && mouseY > drawY && mouseY < drawY + 16) {
+					drawString.add(TextFormatting.RESET.toString() + aff.getLocalizedName());
+					ArrayList<AbstractAffinityAbility> abilites = Lists.newArrayList(ArsMagicaAPI.getAffinityAbilityRegistry().getValues());
+					abilites.sort(new Comparator<AbstractAffinityAbility>() {
+
+						@Override
+						public int compare(AbstractAffinityAbility o1, AbstractAffinityAbility o2) {
+							return (int) ((o1.getMinimumDepth() * 100) - (o2.getMinimumDepth() * 100));
+						}
+					});
+					for (AbstractAffinityAbility ability : abilites) {
+						if (ability.getAffinity() == aff) {
+							drawString.add(TextFormatting.RESET.toString()
+									+ (ability.canApply(player) ? TextFormatting.GREEN.toString()
+											: TextFormatting.DARK_RED.toString())
+									+ I18n.translateToLocal("affinityability."
+											+ ability.getRegistryName().toString().replaceAll("arsmagica2:", "")
+											+ ".name"));
+						}
+					}
+				}
 				GlStateManager.color(1, 1, 1);
 			}
+			drawHoveringText(drawString, mouseX, mouseY);
+			RenderHelper.disableStandardItemLighting();
 		}
 		
 		int tier0 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_1);
@@ -331,6 +360,8 @@ public class GuiOcculus extends GuiScreen {
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
+	
+	
 	
 	@Override
 	public boolean doesGuiPauseGame() {

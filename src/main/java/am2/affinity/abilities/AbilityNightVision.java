@@ -20,12 +20,12 @@ public class AbilityNightVision extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 0.75f;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return Affinity.ENDER;
 	}
 

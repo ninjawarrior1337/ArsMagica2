@@ -28,6 +28,7 @@ import am2.affinity.abilities.AbilityReflexes;
 import am2.affinity.abilities.AbilityRooted;
 import am2.affinity.abilities.AbilityShortCircuit;
 import am2.affinity.abilities.AbilitySolidBones;
+import am2.affinity.abilities.AbilitySunlightWeakness;
 import am2.affinity.abilities.AbilitySwiftSwim;
 import am2.affinity.abilities.AbilityThorns;
 import am2.affinity.abilities.AbilityThunderPunch;
@@ -66,11 +67,12 @@ public class AffinityAbilityHelper {
 		//EARTH
 		GameRegistry.register(new AbilitySolidBones());
 		
-		//TODO ENDER
+		//ENDER
 		GameRegistry.register(new AbilityPhasing());
 		GameRegistry.register(new AbilityNightVision());
 		GameRegistry.register(new AbilityWaterWeakness(Affinity.ENDER));
 		GameRegistry.register(new AbilityPoisonResistance());
+		GameRegistry.register(new AbilitySunlightWeakness());
 		
 		//FIRE
 		GameRegistry.register(new AbilityFireResistance());

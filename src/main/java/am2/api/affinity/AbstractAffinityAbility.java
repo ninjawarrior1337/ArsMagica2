@@ -25,14 +25,14 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	 * 
 	 * @return a depth.
 	 */	
-	protected abstract float getMinimumDepth();
+	public abstract float getMinimumDepth();
 	
 	/**
 	 * At which point does this ability disables ?
 	 * 
 	 * @return a depth or any value under 0 or over 1 to ignore this.
 	 */
-	protected float getMaximumDepth() {
+	public float getMaximumDepth() {
 		return -1F;
 	}
 	
@@ -41,7 +41,7 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	 * 
 	 * @return the ability that is required.
 	 */
-	protected abstract Affinity getAffinity();
+	public abstract Affinity getAffinity();
 	
 	/**
 	 * If this Affinity Ability uses a key binding, return it, otherwise just return null

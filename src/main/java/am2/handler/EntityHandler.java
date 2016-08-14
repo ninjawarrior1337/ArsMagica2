@@ -233,7 +233,7 @@ public class EntityHandler {
 		}
 		
 		if (e.getSource() != null && e.getSource().getEntity() instanceof EntityLivingBase)
-			target = e.getSource().getSourceOfDamage() != null ? (EntityLivingBase)e.getSource().getSourceOfDamage() : null;
+			target = e.getSource().getEntity() != null ? (EntityLivingBase)e.getSource().getEntity() : null;
 		if (type == ContingencyType.DEATH) {
 			SpellUtils.applyStackStage(ext.getContingencyStack(), e.getEntityLiving(), target, e.getEntity().posX, e.getEntity().posY, e.getEntity().posZ, null, e.getEntityLiving().worldObj, false, true, 0);
 			if (ext.getContingencyType() == ContingencyType.DEATH)

@@ -18,17 +18,17 @@ public class AbilityWaterWeakness extends AbstractAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 0.5f;
 	}
 	
 	@Override
-	protected float getMaximumDepth() {
+	public float getMaximumDepth() {
 		return 0.9f;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return aff;
 	}
 	

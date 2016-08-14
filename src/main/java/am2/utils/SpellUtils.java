@@ -128,9 +128,9 @@ public class SpellUtils {
 
 		EntityPlayer dmgSrcPlayer = null;
 
-		if (damagesource.getSourceOfDamage() != null){
-			if (damagesource.getSourceOfDamage() instanceof EntityLivingBase){
-				EntityLivingBase source = (EntityLivingBase)damagesource.getSourceOfDamage();
+		if (damagesource.getEntity() != null){
+			if (damagesource.getEntity() instanceof EntityLivingBase){
+				EntityLivingBase source = (EntityLivingBase)damagesource.getEntity();
 //				if ((source instanceof EntityLightMage || source instanceof EntityDarkMage) && target.getClass() == EntityCreeper.class){
 //					return false;
 //				}else if (source instanceof EntityLightMage && target instanceof EntityLightMage){
@@ -146,8 +146,8 @@ public class SpellUtils {
 					magnitude += 4;
 			}
 
-			if (damagesource.getSourceOfDamage() instanceof EntityPlayer){
-				dmgSrcPlayer = (EntityPlayer)damagesource.getSourceOfDamage();
+			if (damagesource.getEntity() instanceof EntityPlayer){
+				dmgSrcPlayer = (EntityPlayer)damagesource.getEntity();
 				int armorSet = ArmorHelper.getFullArsMagicaArmorSet(dmgSrcPlayer);
 				if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()){
 					magnitude *= 1.05f;
