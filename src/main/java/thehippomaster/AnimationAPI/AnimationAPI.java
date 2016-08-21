@@ -55,6 +55,6 @@ public class AnimationAPI {
 	public static final String[] fTimer;
 	
 	static {
-		fTimer = new String[] {"field_71428_T", "S", "timer"};
+		fTimer = new String[] {"field_71428_T", "aa", "timer"};
 	}
 }

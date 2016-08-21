@@ -36,10 +36,10 @@ public class Transformer implements IClassTransformer {
 			InsnList newInsn = new InsnList();
 			newInsn.add(new VarInsnNode(ALOAD, 1));
 			newInsn.add(new LdcInsnNode("angle"));
-			newInsn.add(new MethodInsnNode(INVOKESTATIC, "net/minecraft/util/JsonUtils", "getFloat", "(Lcom/google/gson/JsonObject;Ljava/lang/String;)F", false));
+			newInsn.add(new MethodInsnNode(INVOKESTATIC, Preloader.isDevEnvironment ? "net/minecraft/util/JsonUtils" : "oe", Preloader.isDevEnvironment ? "getFloat" : "l", "(Lcom/google/gson/JsonObject;Ljava/lang/String;)F", false));
 			newInsn.add(new InsnNode(FRETURN));
 			for (MethodNode mn : cn.methods) {
-				if (mn.name.equals("parseAngle")) {
+				if ((mn.name.equals("parseAngle") || mn.name.equals("b")) && mn.desc.equals("(Lcom/google/gson/JsonObject;)F")) {
 					LogHelper.info("Core: Removing Model Rotation Limit...");
 					mn.instructions = newInsn;
 				}
@@ -66,11 +66,11 @@ public class Transformer implements IClassTransformer {
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
-		LogHelper.debug("Located OBJBakedModel");
+		LogHelper.info("Located OBJBakedModel");
 		for (MethodNode mn : cn.methods) {;
 			if (mn.name.equals("buildQuads")) {
 				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
-				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
 				while (iter.hasNext()) {
 					InsnList toAdd = new InsnList();
 					toAdd.add(new LabelNode());
@@ -82,13 +82,13 @@ public class Transformer implements IClassTransformer {
 					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
 					if (ain != null && ain instanceof MethodInsnNode && ain.getOpcode() == INVOKESPECIAL && ((MethodInsnNode)ain).owner.equalsIgnoreCase("net/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder")) {
 						MethodInsnNode min = (MethodInsnNode) ain;
-						LogHelper.debug("Located " + min.owner + " - " + min.name + min.desc);
+						LogHelper.info("Located " + min.owner + " - " + min.name + min.desc);
 						if (!iter.hasNext())
 							break;
 						ain = iter.next();
 						if (ain != null && ain instanceof VarInsnNode && ain.getOpcode() == ASTORE && ((VarInsnNode)ain).var == 7) {
 							mn.instructions.insert(ain, toAdd);
-							LogHelper.debug("Adding colors to OBJ Models");
+							LogHelper.info("Adding colors to OBJ Models");
 							break;
 						}
 					}
@@ -105,17 +105,17 @@ public class Transformer implements IClassTransformer {
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
-		for (MethodNode mn : cn.methods) {;
-			if (mn.name.equals("getLook")) {
-				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+		for (MethodNode mn : cn.methods) {
+			if (mn.name.equals("getLook") || (mn.name.equals("f") && mn.desc.equals("(F)Lbbh;"))) {
+				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
 				while (iter.hasNext()) {
 					InsnList toAdd = new InsnList();
 					toAdd.add(new VarInsnNode(ALOAD, 0));
-					toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctLook", "(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/math/Vec3d;", false));
+					toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctLook", is_obfuscated ? "(Lbbh;Lrr;)Lbbh;" : "(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/math/Vec3d;", false));
 					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
 					if (ain != null && ain.getOpcode() == ARETURN) {
-						LogHelper.debug("Core: Located target ARETURN insn node");
+						LogHelper.info("Core: Located target ARETURN insn node");
 						mn.instructions.insertBefore(ain, toAdd);
 					}
 				}
@@ -132,16 +132,16 @@ public class Transformer implements IClassTransformer {
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
 		for (MethodNode mn : cn.methods) {;
-			if (mn.name.equals("getEyeHeight")) {
-				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+			if (mn.name.equals("getEyeHeight") || (mn.name.equals("bo") && mn.desc.equals("()F"))) {
+				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
 				while (iter.hasNext()) {
 					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
 					if (ain != null && ain.getOpcode() == FRETURN) {
 						InsnList toAdd = new InsnList();
 						toAdd.add(new VarInsnNode(ALOAD, 0));
-						toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctEyePos", "(FLnet/minecraft/entity/Entity;)F", false));
-						LogHelper.debug("Core: Located target ARETURN insn node");
+						toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctEyePos", is_obfuscated ? "(FLrr;)F" : "(FLnet/minecraft/entity/Entity;)F", false));
+						LogHelper.info("Core: Located target ARETURN insn node");
 						mn.instructions.insertBefore(ain, toAdd);
 					}
 				}
@@ -159,9 +159,9 @@ public class Transformer implements IClassTransformer {
 		cr.accept(cn, 0);
 		for (MethodNode mn : cn.methods) {;
 			if (mn.name.equals("c") || mn.name.equals("addPotionEffect")) {
-				if (mn.desc.equals("(Lpf;)V") || mn.desc.equals("(Lnet/minecraft/potion/PotionEffect;)V")) {
-					LogHelper.debug("Patching addPotionEffect");
-					String className = is_obfuscated ? "pf;" : "net/minecraft/potion/PotionEffect;";
+				if (mn.desc.equals("(Lrl;)V") || mn.desc.equals("(Lnet/minecraft/potion/PotionEffect;)V")) {
+					LogHelper.info("Patching addPotionEffect");
+					String className = is_obfuscated ? "rl;" : "net/minecraft/potion/PotionEffect;";
 					InsnList list = new InsnList();
 					list.add(new TypeInsnNode(NEW, "am2/api/event/EventPotionAdded"));
 					list.add(new InsnNode(DUP));
@@ -190,7 +190,7 @@ public class Transformer implements IClassTransformer {
 		}
 		{
 			MethodNode method = new MethodNode();
-			method.name = "moveRelative";
+			method.name = !is_obfuscated ? "moveRelative" : "a";
 			method.desc = "(FFF)V";
 			method.access = ACC_PUBLIC;
 			method.exceptions = Lists.newArrayList();
@@ -200,14 +200,14 @@ public class Transformer implements IClassTransformer {
 			method.instructions.add(new VarInsnNode(FLOAD, 2));
 			method.instructions.add(new VarInsnNode(FLOAD, 3));
 			method.instructions.add(new VarInsnNode(ALOAD, 0));
-			method.instructions.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctMouvement", "(FFFLnet/minecraft/entity/Entity;)Z", false));
+			method.instructions.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctMouvement", is_obfuscated ? "(FFFLrr;)Z" : "(FFFLnet/minecraft/entity/Entity;)Z", false));
 			method.instructions.add(new JumpInsnNode(IFNE, endNode));
 			method.instructions.add(new LabelNode());
 			method.instructions.add(new VarInsnNode(ALOAD, 0));
 			method.instructions.add(new VarInsnNode(FLOAD, 1));
 			method.instructions.add(new VarInsnNode(FLOAD, 2));
 			method.instructions.add(new VarInsnNode(FLOAD, 3));
-			method.instructions.add(new MethodInsnNode(INVOKESPECIAL, "net/minecraft/entity/Entity", "moveRelative", "(FFF)V", false));
+			method.instructions.add(new MethodInsnNode(INVOKESPECIAL, is_obfuscated ? "rr" : "net/minecraft/entity/Entity", !is_obfuscated ? "moveRelative" : "a", "(FFF)V", false));
 			method.instructions.add(endNode);
 			method.instructions.add(new InsnNode(RETURN));
 			method.visitMaxs(0, 0);
@@ -228,15 +228,15 @@ public class Transformer implements IClassTransformer {
 
 		// EntityPlayerSP.onLivingUpdate() = blk/e
 		// MCP mapping: blk/e ()V net/minecraft/client/entity/EntityPlayerSP/func_70636_d ()V
-		obf_deobf_pair method1_name = new obf_deobf_pair();
+		ObfDeobfPair method1_name = new ObfDeobfPair();
 		method1_name.setVal("onLivingUpdate", false);
-		method1_name.setVal("e", true);
+		method1_name.setVal("n", true);
 
 		String method1_desc = "()V";
 
 		// MovementInput.updatePlayerMoveState() = bli/a
 		// note that we don't need the class name, it's referencing an internal variable
-		obf_deobf_pair method1_searchinstruction = new obf_deobf_pair();
+		ObfDeobfPair method1_searchinstruction = new ObfDeobfPair();
 		method1_searchinstruction.setVal("updatePlayerMoveState", false);
 		method1_searchinstruction.setVal("a", true);
 
@@ -245,7 +245,7 @@ public class Transformer implements IClassTransformer {
 		for (MethodNode mn : cn.methods){
 			if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc)){ //onLivingUpdate
 				AbstractInsnNode target = null;
-				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				//look for the line:
 				//this.movementInput.updatePlayerMoveState();
@@ -258,7 +258,7 @@ public class Transformer implements IClassTransformer {
 							if (node instanceof MethodInsnNode){
 								MethodInsnNode method = (MethodInsnNode)node;
 								if (method.name.equals(method1_searchinstruction.getVal(is_obfuscated)) && method.desc.equals(searchinstruction_desc)){ //updatePlayerMoveState
-									LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
+									LogHelper.info("Core: Located target method insn node: " + method.name + method.desc);
 									target = node;
 									break;
 								}
@@ -270,7 +270,7 @@ public class Transformer implements IClassTransformer {
 				if (target != null){
 					MethodInsnNode callout = new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "overrideKeyboardInput", "()V", false);
 					mn.instructions.insert(target, callout);
-					LogHelper.debug("Core: Success!  Inserted operations!");
+					LogHelper.info("Core: Success!  Inserted operations!");
 					break;
 				}
 			}
@@ -286,20 +286,24 @@ public class Transformer implements IClassTransformer {
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
 		
-		obf_deobf_pair method2_name = new obf_deobf_pair();
+		ObfDeobfPair method1_name = new ObfDeobfPair();
+		method1_name.setVal("setupCameraTransform", false);
+		method1_name.setVal("a", true);
+		
+		ObfDeobfPair method2_name = new ObfDeobfPair();
 		method2_name.setVal("updateCameraAndRender", false);
-		method2_name.setVal("b", true);
+		method2_name.setVal("a", true);
 		
 		String method2_desc = "(FJ)V";
 		
 		// search for this function call:
 		// net.minecraft.profiler.Profiler.startSection = qi.a
 		// MCP mapping: MD: qi/a (Ljava/lang/String;)V net/minecraft/profiler/Profiler/func_76320_a (Ljava/lang/String;)V
-		obf_deobf_pair method2_searchinstruction_class = new obf_deobf_pair();
+		ObfDeobfPair method2_searchinstruction_class = new ObfDeobfPair();
 		method2_searchinstruction_class.setVal("net/minecraft/profiler/Profiler", false);
-		method2_searchinstruction_class.setVal("qi", true);
+		method2_searchinstruction_class.setVal("oo", true);
 
-		obf_deobf_pair method2_searchinstruction_function = new obf_deobf_pair();
+		ObfDeobfPair method2_searchinstruction_function = new ObfDeobfPair();
 		method2_searchinstruction_function.setVal("startSection", false);
 		method2_searchinstruction_function.setVal("a", true);
 
@@ -307,12 +311,12 @@ public class Transformer implements IClassTransformer {
 
 		// we will be inserting a call to am2.guis.AMGuiHelper.overrideMouseInput()
 		// description (Lnet/minecraft/client/renderer/EntityRenderer;FZ)Z
-		obf_deobf_pair method2_insertinstruction_desc = new obf_deobf_pair();
+		ObfDeobfPair method2_insertinstruction_desc = new ObfDeobfPair();
 		method2_insertinstruction_desc.setVal("(Lnet/minecraft/client/renderer/EntityRenderer;FZ)Z", false);
-		method2_insertinstruction_desc.setVal("(Lblt;FZ)Z", true);
+		method2_insertinstruction_desc.setVal("(Lbnd;FZ)Z", true);
 		
 		for (MethodNode mn : cn.methods){
-			if (mn.name.equals("setupCameraTransform") && mn.desc.equals("(FI)V")){ // setupCameraTransform
+			if (mn.name.equals(method1_name.getVal(isObf)) && mn.desc.equals("(FI)V")){ // setupCameraTransform
 				AbstractInsnNode orientCameraNode = null;
 				AbstractInsnNode gluPerspectiveNode = null;
 				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
@@ -321,7 +325,7 @@ public class Transformer implements IClassTransformer {
 					AbstractInsnNode node = instructions.next();
 					if (node instanceof MethodInsnNode){
 						MethodInsnNode method = (MethodInsnNode)node;
-						if (orientCameraNode == null && method.name.equals("orientCamera") && method.desc.equals("(F)V")){ //orientCamera
+						if (orientCameraNode == null && (method.name.equals("orientCamera") || method.name.equals("f")) && method.desc.equals("(F)V")){ //orientCamera
 							LogHelper.info("Core: Located target method insn node: " + method.name + method.desc);
 							orientCameraNode = node;
 							continue;
@@ -354,7 +358,7 @@ public class Transformer implements IClassTransformer {
 
 			}else if (mn.name.equals(method2_name.getVal(isObf)) && mn.desc.equals(method2_desc)){  //updateCameraAndRender
 				AbstractInsnNode target = null;
-				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				AbstractInsnNode node = null;
 				boolean mouseFound = false;
@@ -372,7 +376,7 @@ public class Transformer implements IClassTransformer {
 						if (node instanceof MethodInsnNode){
 							MethodInsnNode method = (MethodInsnNode)node;
 							if (method.owner.equals(method2_searchinstruction_class.getVal(isObf)) && method.name.equals(method2_searchinstruction_function.getVal(isObf)) && method.desc.equals(method2_searchinstruction_desc)){
-								LogHelper.debug("Core: Located target method insn node: " + method.owner + "." + method.name + ", " + method.desc);
+								LogHelper.info("Core: Located target method insn node: " + method.owner + "." + method.name + ", " + method.desc);
 								target = node;
 								break;
 							}
@@ -394,7 +398,7 @@ public class Transformer implements IClassTransformer {
 					mn.instructions.insert(target, iLoad);
 					mn.instructions.insert(target, fLoad);
 					mn.instructions.insert(target, aLoad);
-					LogHelper.debug("Core: Success!  Inserted opcodes!");
+					LogHelper.info("Core: Success!  Inserted opcodes!");
 				}
 			}
 		}
@@ -403,11 +407,11 @@ public class Transformer implements IClassTransformer {
 		return cw.toByteArray();
 	}
 	
-	public class obf_deobf_pair{
+	public class ObfDeobfPair{
 		private String deobf_val;
 		private String obf_val;
 
-		public obf_deobf_pair(){
+		public ObfDeobfPair(){
 			deobf_val = "";
 			obf_val = "";
 		}

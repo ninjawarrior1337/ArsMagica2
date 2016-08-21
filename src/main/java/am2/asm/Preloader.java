@@ -6,9 +6,9 @@ import java.util.Map;
 import am2.LogHelper;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.Name;
 
-@SortingIndex(1001)
+@Name("ArsMagica2-Preloader")
 public class Preloader extends DummyModContainer implements IFMLLoadingPlugin {
 
 	public static boolean isDevEnvironment;

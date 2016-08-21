@@ -140,7 +140,7 @@ public class AMGuiHelper{
 			dummyItem = new EntityItem(Minecraft.getMinecraft().theWorld);
 		}else{
 			dummyItem.rotationYaw += 0.1f;
-			ReflectionHelper.setPrivateValue(EntityItem.class, dummyItem, (Integer)ReflectionHelper.getPrivateValue(EntityItem.class, dummyItem, "age") + 1, "age");
+			ReflectionHelper.setPrivateValue(EntityItem.class, dummyItem, (Integer)ReflectionHelper.getPrivateValue(EntityItem.class, dummyItem, "age", "field_70292_b", "d") + 1, "age", "field_70292_b", "d");
 		}
 
 		for (int i = 0; i < this.flashTimers.length; ++i){
