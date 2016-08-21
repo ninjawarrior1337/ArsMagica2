@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import org.lwjgl.input.Keyboard;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -364,20 +366,29 @@ public class GuiOcculus extends GuiScreen {
 							return (int) ((o1.getMinimumDepth() * 100) - (o2.getMinimumDepth() * 100));
 						}
 					});
+					
+					boolean isShiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+					
 					for (AbstractAffinityAbility ability : abilites) {
 						if (ability.getAffinity() == aff) {
+							String advancedTooltip = "";
+							if (isShiftDown) {
+								advancedTooltip = " (Min. : " + Math.round(ability.getMinimumDepth() * 100) + "%" + (ability.hasMax() ?(", Max. : " + Math.round(ability.getMaximumDepth() * 100) + "%")  : "") + ")";
+							}
 							drawString.add(TextFormatting.RESET.toString()
-									+ (ability.canApply(player) ? TextFormatting.GREEN.toString()
+									+ (ability.isEligible(player) ? TextFormatting.GREEN.toString()
 											: TextFormatting.DARK_RED.toString())
 									+ I18n.translateToLocal("affinityability."
 											+ ability.getRegistryName().toString().replaceAll("arsmagica2:", "")
-											+ ".name"));
+											+ ".name") + advancedTooltip);
 						}
 					}
+					if (!isShiftDown)
+						drawString.add(TextFormatting.GRAY.toString() + I18n.translateToLocal("am2.tooltip.shiftForDetails"));
+					drawHoveringText(drawString, mouseX, mouseY);
 				}
 				GlStateManager.color(1, 1, 1);
 			}
-			drawHoveringText(drawString, mouseX, mouseY);
 			RenderHelper.disableStandardItemLighting();
 		}
 		

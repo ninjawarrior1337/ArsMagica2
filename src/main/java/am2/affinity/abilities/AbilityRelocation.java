@@ -20,10 +20,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class AbilityPhasing extends AbstractAffinityAbility {
+public class AbilityRelocation extends AbstractAffinityAbility {
 
-	public AbilityPhasing() {
-		super(new ResourceLocation("arsmagica2", "phasing"));
+	public AbilityRelocation() {
+		super(new ResourceLocation("arsmagica2", "relocation"));
 	}
 
 	@Override

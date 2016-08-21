@@ -60,6 +60,10 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	 * @return if the player can use this ability.
 	 */
 	public boolean canApply(EntityPlayer player) {
+		return isEligible(player);
+	}
+	
+	public boolean isEligible(EntityPlayer player) {
 		Affinity aff = this.getAffinity();
 		if (aff == Affinity.NONE || aff == null)
 			return false;
@@ -69,6 +73,7 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 			return depth >= getMinimumDepth();
 		return depth >= getMinimumDepth() && depth <= getMaximumDepth();
 	}
+	
 	/**
 	 * The thing that this ability does
 	 * 
@@ -98,6 +103,10 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	 */
 	public Runnable createRunnable(EntityPlayer player) {
 		return new Apply(player, this);
+	}
+	
+	public boolean hasMax() {
+		return getMaximumDepth() >= 0F && getMaximumDepth() <= 1F && getMaximumDepth() > getMinimumDepth();
 	}
 	
 	private static class Apply implements Runnable {

@@ -22,7 +22,7 @@ import am2.affinity.abilities.AbilityMagicWeakness;
 import am2.affinity.abilities.AbilityNightVision;
 import am2.affinity.abilities.AbilityOneWithMagic;
 import am2.affinity.abilities.AbilityPacifist;
-import am2.affinity.abilities.AbilityPhasing;
+import am2.affinity.abilities.AbilityRelocation;
 import am2.affinity.abilities.AbilityPhotosynthesis;
 import am2.affinity.abilities.AbilityPoisonResistance;
 import am2.affinity.abilities.AbilityReflexes;
@@ -70,7 +70,7 @@ public class AffinityAbilityHelper {
 		GameRegistry.register(new AbilitySolidBones());
 		
 		//ENDER
-		GameRegistry.register(new AbilityPhasing());
+		GameRegistry.register(new AbilityRelocation());
 		GameRegistry.register(new AbilityNightVision());
 		GameRegistry.register(new AbilityWaterWeakness(Affinity.ENDER));
 		GameRegistry.register(new AbilityPoisonResistance());
