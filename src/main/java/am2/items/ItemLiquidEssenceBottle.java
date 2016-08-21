@@ -11,7 +11,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-public class ItemLiquidEssenceBottle extends ItemArsMagica2{
+public class ItemLiquidEssenceBottle extends ItemArsMagica{
 
 	public ItemLiquidEssenceBottle(){
 		super();

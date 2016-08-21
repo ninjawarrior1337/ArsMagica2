@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class ItemMagicBroom extends ItemArsMagica2{
+public class ItemMagicBroom extends ItemArsMagica{
 
 	public ItemMagicBroom(){
 		super();

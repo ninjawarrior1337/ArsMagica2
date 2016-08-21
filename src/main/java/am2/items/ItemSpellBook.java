@@ -32,7 +32,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 
 @SuppressWarnings("deprecation")
-public class ItemSpellBook extends ItemArsMagica2{
+public class ItemSpellBook extends ItemArsMagica{
 
 	public static final byte ID_NEXT_SPELL = 0;
 	public static final byte ID_PREV_SPELL = 1;

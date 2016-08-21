@@ -8,7 +8,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-public class ItemArcaneCompendium extends ItemArsMagica2{
+public class ItemArcaneCompendium extends ItemArsMagica{
 
 	public ItemArcaneCompendium(){
 		super();

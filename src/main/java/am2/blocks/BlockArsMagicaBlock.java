@@ -2,6 +2,7 @@ package am2.blocks;
 
 import java.util.List;
 
+import am2.items.ItemBlockOreBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -10,7 +11,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockArsMagicaBlock extends BlockAM {
 	
@@ -48,6 +51,14 @@ public class BlockArsMagicaBlock extends BlockAM {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(BLOCK_TYPE, EnumBlockType.values()[MathHelper.clamp_int(meta, 0, EnumBlockType.values().length - 1)]);
+	}
+	
+	@Override
+	public BlockAM registerAndName(ResourceLocation rl) {
+		this.setUnlocalizedName(rl.getResourcePath());
+		GameRegistry.register(this, rl);
+		GameRegistry.register(new ItemBlockOreBlock(this), rl);
+		return this;
 	}
 	
 	public static enum EnumBlockType implements IStringSerializable{

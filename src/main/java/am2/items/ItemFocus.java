@@ -1,6 +1,6 @@
 package am2.items;
 
-public abstract class ItemFocus extends ItemArsMagica2{
+public abstract class ItemFocus extends ItemArsMagica{
 	
 	public ItemFocus() {
 		super();

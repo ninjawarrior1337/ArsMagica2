@@ -16,7 +16,7 @@ import am2.items.ItemAffinityTome;
 import am2.items.ItemAirSled;
 import am2.items.ItemArcaneCompendium;
 import am2.items.ItemArcaneGuardianSpellbook;
-import am2.items.ItemArsMagica2;
+import am2.items.ItemArsMagica;
 import am2.items.ItemBindingCatalyst;
 import am2.items.ItemBoundArrow;
 import am2.items.ItemBoundAxe;
@@ -98,40 +98,40 @@ public class ItemDefs {
 	
 	private static final ArmorMaterial MAGITECH_GOOGLES = EnumHelper.addArmorMaterial("magitech_goggles", "arsmagica2:magitech_goggles", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
 	private static final ArmorMaterial ENDER = EnumHelper.addArmorMaterial("ender", "arsmagica2:ender", 7, new int[]{1, 3, 5, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
-	public static final ItemArsMagica2 spellParchment = new ItemArsMagica2().registerAndName("spell_parchment");
-	public static final ItemArsMagica2 affinityTome = new ItemAffinityTome().registerAndName("tome");
-	public static final ItemArsMagica2 itemOre = new ItemOre().registerAndName("itemOre");
-	public static final ItemArsMagica2 essence = new ItemEssence().registerAndName("essence");
-	public static final ItemArsMagica2 rune = new ItemRune().registerAndName("rune");
+	public static final ItemArsMagica spellParchment = new ItemArsMagica().registerAndName("spell_parchment");
+	public static final ItemArsMagica affinityTome = new ItemAffinityTome().registerAndName("tome");
+	public static final ItemArsMagica itemOre = new ItemOre().registerAndName("itemOre");
+	public static final ItemArsMagica essence = new ItemEssence().registerAndName("essence");
+	public static final ItemArsMagica rune = new ItemRune().registerAndName("rune");
 	
-	public static final ItemArsMagica2 mobFocus = new ItemFocusMob().registerAndName("mobFocus");
-	public static final ItemArsMagica2 lesserFocus = new ItemFocusLesser().registerAndName("lesserFocus");
-	public static final ItemArsMagica2 standardFocus = new ItemFocusStandard().registerAndName("standardFocus");
-	public static final ItemArsMagica2 manaFocus = new ItemFocusMana().registerAndName("manaFocus");
-	public static final ItemArsMagica2 greaterFocus = new ItemFocusGreater().registerAndName("greaterFocus");
-	public static final ItemArsMagica2 chargeFocus = new ItemFocusCharge().registerAndName("chargeFocus");
-	public static final ItemArsMagica2 itemFocus = new ItemFocusItem().registerAndName("itemFocus");
-	public static final ItemArsMagica2 playerFocus = new ItemFocusPlayer().registerAndName("playerFocus");
-	public static final ItemArsMagica2 creatureFocus = new ItemFocusCreature().registerAndName("creatureFocus");
-	public static final ItemArsMagica2 arcaneCompendium = new ItemArcaneCompendium().registerAndName("arcaneCompendium");
-	public static final ItemArsMagica2 crystalWrench = new ItemCrystalWrench().registerAndName("crystalWrench");
+	public static final ItemArsMagica mobFocus = new ItemFocusMob().registerAndName("mobFocus");
+	public static final ItemArsMagica lesserFocus = new ItemFocusLesser().registerAndName("lesserFocus");
+	public static final ItemArsMagica standardFocus = new ItemFocusStandard().registerAndName("standardFocus");
+	public static final ItemArsMagica manaFocus = new ItemFocusMana().registerAndName("manaFocus");
+	public static final ItemArsMagica greaterFocus = new ItemFocusGreater().registerAndName("greaterFocus");
+	public static final ItemArsMagica chargeFocus = new ItemFocusCharge().registerAndName("chargeFocus");
+	public static final ItemArsMagica itemFocus = new ItemFocusItem().registerAndName("itemFocus");
+	public static final ItemArsMagica playerFocus = new ItemFocusPlayer().registerAndName("playerFocus");
+	public static final ItemArsMagica creatureFocus = new ItemFocusCreature().registerAndName("creatureFocus");
+	public static final ItemArsMagica arcaneCompendium = new ItemArcaneCompendium().registerAndName("arcaneCompendium");
+	public static final ItemArsMagica crystalWrench = new ItemCrystalWrench().registerAndName("crystalWrench");
 	public static final Item magitechGoggles = new ItemMagitechGoggles(MAGITECH_GOOGLES, 0).registerAndName("magitechGoggles");
 	
 	// PlaceHolder items
-	public static final ItemArsMagica2 spell_component = new ItemSpellComponent().registerAndName("spellComponent");
-	public static final Item etherium = new ItemArsMagica2().registerAndName("etherium").setCreativeTab(null);
+	public static final ItemArsMagica spell_component = new ItemSpellComponent().registerAndName("spellComponent");
+	public static final Item etherium = new ItemArsMagica().registerAndName("etherium").setCreativeTab(null);
 	
-	public static final ItemArsMagica2 blankRune = new ItemArsMagica2().registerAndName("blankRune");
-	public static final ItemArsMagica2 chalk = new ItemChalk().registerAndName("chalk");
-	public static final ItemArsMagica2 spellStaffMagitech = new ItemSpellStaff(0, -1).registerAndName("spell_staff_magitech");
-	public static final ItemArsMagica2 flickerFocus = new ItemFlickerFocus().registerAndName("flickerFocus");
+	public static final ItemArsMagica blankRune = new ItemArsMagica().registerAndName("blankRune");
+	public static final ItemArsMagica chalk = new ItemChalk().registerAndName("chalk");
+	public static final ItemArsMagica spellStaffMagitech = new ItemSpellStaff(0, -1).registerAndName("spell_staff_magitech");
+	public static final ItemArsMagica flickerFocus = new ItemFlickerFocus().registerAndName("flickerFocus");
 	public static final ItemFlickerJar flickerJar = (ItemFlickerJar) new ItemFlickerJar().registerAndName("flickerJar");
-	public static final ItemArsMagica2 evilBook = new ItemArsMagica2().registerAndName("evilBook");
-	public static final ItemArsMagica2 wardingCandle = null;
-	public static final ItemArsMagica2 liquidEssenceBottle = new ItemLiquidEssenceBottle().registerAndName("liquid_essence_bottle");
-	public static final ItemArsMagica2 bindingCatalyst = new ItemBindingCatalyst().registerAndName("binding_catalyst");
-	public static final ItemArsMagica2 inscriptionUpgrade = new InscriptionTableUpgrade().registerAndName("inscription_upgrade");
-	public static final ItemArsMagica2 infinityOrb = new ItemInfinityOrb().registerAndName("infinityOrb");
+	public static final ItemArsMagica evilBook = new ItemArsMagica().registerAndName("evilBook");
+	public static final ItemArsMagica wardingCandle = null;
+	public static final ItemArsMagica liquidEssenceBottle = new ItemLiquidEssenceBottle().registerAndName("liquid_essence_bottle");
+	public static final ItemArsMagica bindingCatalyst = new ItemBindingCatalyst().registerAndName("binding_catalyst");
+	public static final ItemArsMagica inscriptionUpgrade = new InscriptionTableUpgrade().registerAndName("inscription_upgrade");
+	public static final ItemArsMagica infinityOrb = new ItemInfinityOrb().registerAndName("infinityOrb");
 	public static final ItemSword BoundSword = new ItemBoundSword().registerAndName("bound_sword");
 	public static final ItemAxe BoundAxe = new ItemBoundAxe().registerAndName("bound_axe");
 	public static final ItemPickaxe BoundPickaxe = new ItemBoundPickaxe().registerAndName("bound_pickaxe");
@@ -140,7 +140,7 @@ public class ItemDefs {
 	public static final ItemBow BoundBow = new ItemBoundBow().registerAndName("bound_bow");
 	public static final ItemShield BoundShield = new ItemBoundShield().registerAndName("bound_shield");
 	public static final ItemManaCake manaCake = new ItemManaCake().registerAndName("manaCake");
-	public static final Item woodenLeg = new ItemArsMagica2().registerAndName("woodenLeg");
+	public static final Item woodenLeg = new ItemArsMagica().registerAndName("woodenLeg");
 
 	public static final ItemArrow BoundArrow = new ItemBoundArrow().registerAndName("bound_arrow");
 

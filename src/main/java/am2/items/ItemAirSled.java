@@ -16,7 +16,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemAirSled extends ItemArsMagica2{
+public class ItemAirSled extends ItemArsMagica{
 
 	public ItemAirSled(){
 		super();

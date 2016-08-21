@@ -17,7 +17,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemAffinityTome extends ItemArsMagica2 {
+public class ItemAffinityTome extends ItemArsMagica {
 
 	
 	public ItemAffinityTome() {
@@ -56,7 +56,7 @@ public class ItemAffinityTome extends ItemArsMagica2 {
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
-		return I18n.translateToLocal("item.tome.name") + aff.getLocalizedName();
+		return I18n.translateToLocal("item.arsmagica2:tome.name") + aff.getLocalizedName();
 	}
 	
 	@Override

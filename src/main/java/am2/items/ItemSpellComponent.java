@@ -6,7 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemSpellComponent extends ItemArsMagica2 {
+public class ItemSpellComponent extends ItemArsMagica {
 	
 	public ItemSpellComponent() {
 		setCreativeTab(null);

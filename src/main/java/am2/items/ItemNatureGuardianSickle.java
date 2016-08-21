@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
 @SuppressWarnings("deprecation")
-public class ItemNatureGuardianSickle extends ItemArsMagica2{
+public class ItemNatureGuardianSickle extends ItemArsMagica{
 
 	public ItemNatureGuardianSickle(){
 		super();

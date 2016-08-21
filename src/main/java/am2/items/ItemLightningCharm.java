@@ -17,7 +17,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemLightningCharm extends ItemArsMagica2{
+public class ItemLightningCharm extends ItemArsMagica{
 
 	private static final String KEY_ACTIVE = "IsActive";
 

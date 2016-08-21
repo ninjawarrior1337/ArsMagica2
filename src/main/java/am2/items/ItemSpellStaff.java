@@ -33,7 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class ItemSpellStaff extends ItemArsMagica2{
+public class ItemSpellStaff extends ItemArsMagica{
 
 	private final int castingMode;
 	private final int maxCharge;

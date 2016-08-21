@@ -1,7 +1,7 @@
 package am2.items;
 
 //class to identify items that are part of the Ars Magica mod, mainly used for rendering
-public class ArsMagicaRotatedItem extends ItemArsMagica2{
+public class ItemArsMagicaRotated extends ItemArsMagica{
 
 	@Override
 	public boolean isFull3D(){

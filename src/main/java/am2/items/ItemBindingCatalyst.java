@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class ItemBindingCatalyst extends ItemArsMagica2{
+public class ItemBindingCatalyst extends ItemArsMagica{
 
 	public static final int META_PICK = 0;
 	public static final int META_AXE = 1;

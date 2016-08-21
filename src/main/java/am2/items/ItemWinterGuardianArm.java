@@ -26,7 +26,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemWinterGuardianArm extends ItemArsMagica2{
+public class ItemWinterGuardianArm extends ItemArsMagica{
 
 	public ItemWinterGuardianArm(){
 		super();

@@ -10,7 +10,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemLifeWard extends ItemArsMagica2{
+public class ItemLifeWard extends ItemArsMagica{
 
 	public ItemLifeWard(){
 		super();

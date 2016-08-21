@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 @SuppressWarnings("deprecation")
-public class ItemFlickerFocus extends ItemArsMagica2{
+public class ItemFlickerFocus extends ItemArsMagica{
 
 	public ItemFlickerFocus(){
 		super();

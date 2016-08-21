@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 @SuppressWarnings("deprecation")
-public class ItemEssence extends ItemArsMagica2 {
+public class ItemEssence extends ItemArsMagica {
 	
 	public ItemEssence() {
 		super();

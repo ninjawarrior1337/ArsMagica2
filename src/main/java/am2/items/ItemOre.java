@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 
-public class ItemOre extends ItemArsMagica2 {
+public class ItemOre extends ItemArsMagica {
 	
 	public static final String[] names = {
 			"vinteum",
@@ -41,6 +41,6 @@ public class ItemOre extends ItemArsMagica2 {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return "item.ore." + names[MathHelper.clamp_int(stack.getItemDamage(), 0, names.length - 1)];
+		return "item.arsmagica2:ore." + names[MathHelper.clamp_int(stack.getItemDamage(), 0, names.length - 1)];
 	}
 }

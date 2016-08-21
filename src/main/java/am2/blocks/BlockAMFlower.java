@@ -18,7 +18,7 @@ public class BlockAMFlower extends BlockBush{
 	}
 
 	public BlockAMFlower registerAndName(ResourceLocation loc){
-		setUnlocalizedName(loc.getResourcePath());
+		setUnlocalizedName(loc.toString());
 		GameRegistry.register(this, loc);
 		GameRegistry.register(new ItemBlock(this), loc);
 		return this;

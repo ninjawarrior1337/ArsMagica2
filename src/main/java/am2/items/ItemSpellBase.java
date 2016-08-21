@@ -9,7 +9,7 @@ import net.minecraft.world.World;
  *
  * @author Mithion
  */
-public abstract class ItemSpellBase extends ItemArsMagica2{
+public abstract class ItemSpellBase extends ItemArsMagica{
 	public ItemSpellBase(){
 		super();
 	}

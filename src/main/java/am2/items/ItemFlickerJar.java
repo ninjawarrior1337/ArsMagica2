@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 @SuppressWarnings("deprecation")
-public class ItemFlickerJar extends ItemArsMagica2{
+public class ItemFlickerJar extends ItemArsMagica{
 
 	public ItemFlickerJar(){
 		super();

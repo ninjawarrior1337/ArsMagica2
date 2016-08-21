@@ -19,7 +19,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemInfinityOrb extends ItemArsMagica2 {
+public class ItemInfinityOrb extends ItemArsMagica {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {

@@ -7,7 +7,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemRune extends ItemArsMagica2 {
+public class ItemRune extends ItemArsMagica {
 
 	public ItemRune() {
 	}

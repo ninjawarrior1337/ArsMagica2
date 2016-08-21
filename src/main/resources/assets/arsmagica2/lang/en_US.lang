@@ -10,15 +10,15 @@ affinity.earth=Earth
 affinity.ice=Ice
 affinity.ender=Ender
 
-item.tome.name=§eTome of affinity : §f
-item.essence.name= Essence
-item.ore.vinteum.name=Vinteum Dust
-item.ore.purified_vinteum.name=Purified Vinteum Dust
-item.ore.chimerite.name=Chimerite
-item.ore.moonstone.name=Moonstone
-item.ore.sunstone.name=Sunstone
-item.spell_parchment.name=Spell Parchment
-item.etherium.name=Etherium
+item.arsmagica2:tome.name=§eTome of affinity : §f
+item.arsmagica2:essence.name= Essence
+item.arsmagica2:ore.vinteum.name=Vinteum Dust
+item.arsmagica2:ore.purified_vinteum.name=Purified Vinteum Dust
+item.arsmagica2:ore.chimerite.name=Chimerite
+item.arsmagica2:ore.moonstone.name=Moonstone
+item.arsmagica2:ore.sunstone.name=Sunstone
+item.arsmagica2:spell_parchment.name=Spell Parchment
+item.arsmagica2:etherium.name=Etherium
 
 item.arsmagica2:bindingCatalyst.name=Binding Catalyst
 item.arsmagica2:bindingCatalystAxe.name=: Axe

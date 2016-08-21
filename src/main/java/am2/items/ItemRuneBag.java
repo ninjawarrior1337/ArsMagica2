@@ -11,7 +11,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
-public class ItemRuneBag extends ItemArsMagica2{
+public class ItemRuneBag extends ItemArsMagica{
 
 	public ItemRuneBag(){
 		super();

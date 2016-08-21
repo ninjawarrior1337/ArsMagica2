@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 @SuppressWarnings("deprecation")
-public class ItemKeystone extends ItemArsMagica2{
+public class ItemKeystone extends ItemArsMagica{
 
 	public static final int KEYSTONE_INVENTORY_SIZE = 3;
 

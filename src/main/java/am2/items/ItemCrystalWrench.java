@@ -23,7 +23,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemCrystalWrench extends ArsMagicaRotatedItem{
+public class ItemCrystalWrench extends ItemArsMagicaRotated{
 
 	private static String KEY_PAIRLOC = "PAIRLOC";
 	private static String HAB_PAIRLOC = "HABLOC";

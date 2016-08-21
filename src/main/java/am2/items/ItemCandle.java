@@ -21,7 +21,7 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemCandle extends ItemArsMagica2{
+public class ItemCandle extends ItemArsMagica{
 
 	private static final int radius = 10;
 	private static final int short_radius = 5;
