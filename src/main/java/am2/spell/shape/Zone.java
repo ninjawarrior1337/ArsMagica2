@@ -1,12 +1,12 @@
 package am2.spell.shape;
 
+import am2.api.spell.SpellModifiers;
+import am2.api.spell.SpellShape;
 import am2.defs.ItemDefs;
 import am2.entity.EntitySpellEffect;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
-import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;

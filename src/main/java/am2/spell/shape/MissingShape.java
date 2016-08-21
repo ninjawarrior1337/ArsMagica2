@@ -1,7 +1,7 @@
 package am2.spell.shape;
 
+import am2.api.spell.SpellShape;
 import am2.items.ItemSpellBase;
-import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;

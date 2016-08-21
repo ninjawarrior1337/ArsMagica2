@@ -2,8 +2,8 @@ package am2.spell.modifier;
 
 import java.util.EnumSet;
 
-import am2.spell.SpellModifier;
-import am2.spell.SpellModifiers;
+import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellModifiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;

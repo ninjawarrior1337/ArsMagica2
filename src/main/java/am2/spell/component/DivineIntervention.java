@@ -7,12 +7,12 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellComponent;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
 import am2.particles.ParticleOrbitPoint;
-import am2.spell.SpellComponent;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.DimensionUtilities;
 import net.minecraft.entity.Entity;

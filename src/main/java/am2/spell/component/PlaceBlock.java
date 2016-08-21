@@ -6,8 +6,8 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellComponent;
 import am2.defs.ItemDefs;
-import am2.spell.SpellComponent;
 import am2.utils.InventoryUtilities;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;

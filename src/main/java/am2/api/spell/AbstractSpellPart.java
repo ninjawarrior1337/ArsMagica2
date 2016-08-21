@@ -1,4 +1,4 @@
-package am2.spell;
+package am2.api.spell;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;

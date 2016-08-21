@@ -5,11 +5,11 @@ import java.util.EnumSet;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.skill.Skill;
+import am2.api.spell.AbstractSpellPart;
+import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.gui.GuiArcaneCompendium;
-import am2.spell.AbstractSpellPart;
-import am2.spell.SpellModifier;
-import am2.spell.SpellModifiers;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

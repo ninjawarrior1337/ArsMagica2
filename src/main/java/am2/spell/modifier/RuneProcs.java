@@ -3,9 +3,9 @@ package am2.spell.modifier;
 import java.util.EnumSet;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
-import am2.spell.SpellModifier;
-import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

@@ -3,7 +3,7 @@ package am2.lore;
 import java.util.EnumSet;
 
 import am2.api.skill.Skill;
-import am2.spell.SpellModifiers;
+import am2.api.spell.SpellModifiers;
 
 public class CompendiumEntrySpellComponent extends CompendiumEntrySpellPart{
 

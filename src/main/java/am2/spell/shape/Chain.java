@@ -5,13 +5,13 @@ import java.util.List;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellModifiers;
+import am2.api.spell.SpellShape;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.spell.SpellModifier;
-import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
-import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;

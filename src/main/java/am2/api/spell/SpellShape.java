@@ -1,10 +1,11 @@
-package am2.spell;
+package am2.api.spell;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import am2.items.ItemSpellBase;
+import am2.spell.SpellCastResult;
 
 public abstract class SpellShape extends AbstractSpellPart{
 		

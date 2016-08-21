@@ -3,6 +3,7 @@ package am2.items;
 import java.util.List;
 
 import am2.api.power.IPowerNode;
+import am2.api.spell.SpellShape;
 import am2.defs.ItemDefs;
 import am2.defs.SkillDefs;
 import am2.extensions.SkillData;
@@ -10,7 +11,6 @@ import am2.packet.AMNetHandler;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
 import am2.spell.SpellCastResult;
-import am2.spell.SpellShape;
 import am2.utils.SpellUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;

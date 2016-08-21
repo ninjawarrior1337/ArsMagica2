@@ -7,6 +7,8 @@ import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
 import am2.api.DamageSources;
+import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellModifiers;
 import am2.blocks.BlockArsMagicaOre;
 import am2.blocks.BlockArsMagicaOre.EnumOreType;
 import am2.defs.BlockDefs;
@@ -16,8 +18,6 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
 import am2.particles.ParticleColorShift;
 import am2.particles.ParticleHoldPosition;
-import am2.spell.SpellModifier;
-import am2.spell.SpellModifiers;
 import am2.spell.modifier.Colour;
 import am2.utils.MathUtilities;
 import am2.utils.SpellUtils;

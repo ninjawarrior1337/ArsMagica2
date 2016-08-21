@@ -3,6 +3,10 @@ package am2.spell;
 import java.util.ArrayList;
 
 import am2.api.SpellRegistry;
+import am2.api.spell.AbstractSpellPart;
+import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellShape;
 import am2.spell.component.Summon;
 import net.minecraft.util.text.translation.I18n;
 

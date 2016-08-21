@@ -7,12 +7,12 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.buffs.BuffEffectShrink;
 import am2.defs.PotionEffectsDefs;
 import am2.rituals.IRitualInteraction;
 import am2.rituals.RitualShapeHelper;
-import am2.spell.SpellComponent;
-import am2.spell.SpellModifiers;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

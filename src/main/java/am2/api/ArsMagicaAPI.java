@@ -6,7 +6,7 @@ import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.skill.Skill;
-import am2.spell.AbstractSpellPart;
+import am2.api.spell.AbstractSpellPart;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;

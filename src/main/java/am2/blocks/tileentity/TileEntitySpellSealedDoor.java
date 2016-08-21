@@ -3,8 +3,8 @@ package am2.blocks.tileentity;
 import java.util.ArrayList;
 
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.spell.SpellComponent;
 import am2.defs.BlockDefs;
-import am2.spell.SpellComponent;
 import am2.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

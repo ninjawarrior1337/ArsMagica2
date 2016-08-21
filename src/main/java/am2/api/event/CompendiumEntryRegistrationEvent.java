@@ -2,8 +2,8 @@ package am2.api.event;
 
 import java.util.Set;
 
+import am2.api.spell.SpellModifiers;
 import am2.lore.CompendiumEntry;
-import am2.spell.SpellModifiers;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class CompendiumEntryRegistrationEvent extends Event {

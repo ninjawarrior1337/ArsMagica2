@@ -3,7 +3,7 @@ package am2.utils;
 import com.google.common.collect.Lists;
 
 import am2.api.ArsMagicaAPI;
-import am2.spell.AbstractSpellPart;
+import am2.api.spell.AbstractSpellPart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;

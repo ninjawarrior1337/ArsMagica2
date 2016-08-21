@@ -1,24 +1,24 @@
 package am2.defs;
 
-import static am2.spell.SpellModifiers.BOUNCE;
-import static am2.spell.SpellModifiers.BUFF_POWER;
-import static am2.spell.SpellModifiers.DAMAGE;
-import static am2.spell.SpellModifiers.DURATION;
-import static am2.spell.SpellModifiers.GRAVITY;
-import static am2.spell.SpellModifiers.HEALING;
-import static am2.spell.SpellModifiers.PIERCING;
-import static am2.spell.SpellModifiers.PROCS;
-import static am2.spell.SpellModifiers.RADIUS;
-import static am2.spell.SpellModifiers.RANGE;
-import static am2.spell.SpellModifiers.SPEED;
-import static am2.spell.SpellModifiers.TARGET_NONSOLID_BLOCKS;
-import static am2.spell.SpellModifiers.VELOCITY_ADDED;
+import static am2.api.spell.SpellModifiers.BOUNCE;
+import static am2.api.spell.SpellModifiers.BUFF_POWER;
+import static am2.api.spell.SpellModifiers.DAMAGE;
+import static am2.api.spell.SpellModifiers.DURATION;
+import static am2.api.spell.SpellModifiers.GRAVITY;
+import static am2.api.spell.SpellModifiers.HEALING;
+import static am2.api.spell.SpellModifiers.PIERCING;
+import static am2.api.spell.SpellModifiers.PROCS;
+import static am2.api.spell.SpellModifiers.RADIUS;
+import static am2.api.spell.SpellModifiers.RANGE;
+import static am2.api.spell.SpellModifiers.SPEED;
+import static am2.api.spell.SpellModifiers.TARGET_NONSOLID_BLOCKS;
+import static am2.api.spell.SpellModifiers.VELOCITY_ADDED;
 
 import java.util.EnumSet;
 
 import am2.api.SpellRegistry;
 import am2.api.skill.SkillPoint;
-import am2.spell.SpellShape;
+import am2.api.spell.SpellShape;
 import am2.spell.component.Accelerate;
 import am2.spell.component.Appropriation;
 import am2.spell.component.AstralDistortion;

@@ -3,10 +3,10 @@ package am2.items;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.api.spell.SpellShape;
 import am2.defs.IDDefs;
 import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
-import am2.spell.SpellShape;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.client.entity.EntityPlayerSP;

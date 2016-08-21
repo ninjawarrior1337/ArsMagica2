@@ -5,8 +5,8 @@ import java.util.List;
 import com.google.common.base.Optional;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
-import am2.spell.SpellModifiers;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.NBTUtils;
 import am2.utils.SpellUtils;

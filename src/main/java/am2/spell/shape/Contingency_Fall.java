@@ -1,13 +1,13 @@
 package am2.spell.shape;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellShape;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
 import am2.spell.ContingencyType;
-import am2.spell.SpellShape;
 import am2.spell.SpellCastResult;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.EntityLivingBase;

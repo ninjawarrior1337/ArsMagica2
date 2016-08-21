@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.google.common.collect.Lists;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.spell.AbstractSpellPart;
 import am2.bosses.BossActions;
 import am2.bosses.EntityWaterGuardian;
-import am2.spell.AbstractSpellPart;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.item.ItemStack;

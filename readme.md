@@ -1,3 +1,15 @@
-This is a recoded version of ArsMagica2 for 1.9.4.
+#Ars Magica 2 - Rework 1.9.4
 
-This version is much more open for addons since I used few enums... Though this means that some functionalities might be missing
+This is a reworked version of the Ars Magica 2 mod by Mithion.
+
+This version is focused on the API, allowing modders to add AM2-related content in a simple way.
+
+I'd say i'm 60-65% done with this update
+
+##Currently in the API
+-Affinities
+-Abilities
+-Imbuements
+-Spell Parts (Shapes, Component, Modifier)
+-Flickers
+-Skills
