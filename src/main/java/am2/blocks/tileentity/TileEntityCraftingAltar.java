@@ -3,16 +3,17 @@ package am2.blocks.tileentity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
+import am2.api.CraftingAltarMaterials;
 import am2.api.IMultiblockStructureController;
 import am2.api.SpellRegistry;
 import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
-import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockLectern;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
@@ -32,7 +33,6 @@ import am2.utils.KeyValuePair;
 import am2.utils.SpellUtils;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockLever.EnumOrientation;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockStairs.EnumHalf;
 import net.minecraft.block.state.IBlockState;
@@ -143,75 +143,72 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		return map;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void setupMultiblock(){
 		
-		capsPower.put(Blocks.GLASS.getDefaultState(), 1);
-		capsPower.put(Blocks.COAL_BLOCK.getDefaultState(), 2);
-		capsPower.put(Blocks.REDSTONE_BLOCK.getDefaultState(), 3);
-		capsPower.put(Blocks.IRON_BLOCK.getDefaultState(), 4);
-		capsPower.put(Blocks.LAPIS_BLOCK.getDefaultState(), 5);
-		capsPower.put(Blocks.GOLD_BLOCK.getDefaultState(), 6);
-		capsPower.put(Blocks.DIAMOND_BLOCK.getDefaultState(), 7);
-		capsPower.put(Blocks.EMERALD_BLOCK.getDefaultState(), 8);
-		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE), 9);
-		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE), 10);
+//		capsPower.put(Blocks.GLASS.getDefaultState(), 1);
+//		capsPower.put(Blocks.COAL_BLOCK.getDefaultState(), 2);
+//		capsPower.put(Blocks.REDSTONE_BLOCK.getDefaultState(), 3);
+//		capsPower.put(Blocks.IRON_BLOCK.getDefaultState(), 4);
+//		capsPower.put(Blocks.LAPIS_BLOCK.getDefaultState(), 5);
+//		capsPower.put(Blocks.GOLD_BLOCK.getDefaultState(), 6);
+//		capsPower.put(Blocks.DIAMOND_BLOCK.getDefaultState(), 7);
+//		capsPower.put(Blocks.EMERALD_BLOCK.getDefaultState(), 8);
+//		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE), 9);
+//		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE), 10);
 		
-		structurePower.put(Blocks.PLANKS.getDefaultState(), 1);
-		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), 1);
-		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), 1);
-		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 1);
-		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 1);
-		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 1);
-		structurePower.put(Blocks.NETHER_BRICK.getDefaultState(), 3);
-		structurePower.put(Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
-		structurePower.put(Blocks.STONEBRICK.getDefaultState(), 1);
-		structurePower.put(Blocks.SANDSTONE.getDefaultState(), 1);
-		structurePower.put(Blocks.PURPUR_BLOCK.getDefaultState(), 4);
-		structurePower.put(Blocks.BRICK_BLOCK.getDefaultState(), 2);
-		structurePower.put(Blocks.RED_SANDSTONE.getDefaultState(), 2);
+//		structurePower.put(Blocks.PLANKS.getDefaultState(), 1);
+//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), 1);
+//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), 1);
+//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 1);
+//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 1);
+//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 1);
+//		structurePower.put(Blocks.NETHER_BRICK.getDefaultState(), 3);
+//		structurePower.put(Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
+//		structurePower.put(Blocks.STONEBRICK.getDefaultState(), 1);
+//		structurePower.put(Blocks.SANDSTONE.getDefaultState(), 1);
+//		structurePower.put(Blocks.PURPUR_BLOCK.getDefaultState(), 4);
+//		structurePower.put(Blocks.BRICK_BLOCK.getDefaultState(), 2);
+//		structurePower.put(Blocks.RED_SANDSTONE.getDefaultState(), 2);
 
 		
-		HashMap<Integer, IBlockState> glass = new HashMap<>();
-		HashMap<Integer, IBlockState> coal = new HashMap<>();
-		HashMap<Integer, IBlockState> redstone = new HashMap<>();
-		HashMap<Integer, IBlockState> iron = new HashMap<>();
-		HashMap<Integer, IBlockState> lapis = new HashMap<>();
-		HashMap<Integer, IBlockState> gold = new HashMap<>();
-		HashMap<Integer, IBlockState> diamond = new HashMap<>();
-		HashMap<Integer, IBlockState> emerald = new HashMap<>();
-		HashMap<Integer, IBlockState> moonstone = new HashMap<>();
-		HashMap<Integer, IBlockState> sunstone = new HashMap<>();
-		glass.put(0, Blocks.GLASS.getDefaultState());
-		coal.put(0, Blocks.COAL_BLOCK.getDefaultState());
-		redstone.put(0, Blocks.REDSTONE_BLOCK.getDefaultState());
-		iron.put(0, Blocks.IRON_BLOCK.getDefaultState());
-		lapis.put(0, Blocks.LAPIS_BLOCK.getDefaultState());
-		gold.put(0, Blocks.GOLD_BLOCK.getDefaultState());
-		diamond.put(0, Blocks.DIAMOND_BLOCK.getDefaultState());
-		emerald.put(0, Blocks.EMERALD_BLOCK.getDefaultState());
-		moonstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE));
-		sunstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE));
+//		HashMap<Integer, IBlockState> glass = new HashMap<>();
+//		HashMap<Integer, IBlockState> coal = new HashMap<>();
+//		HashMap<Integer, IBlockState> redstone = new HashMap<>();
+//		HashMap<Integer, IBlockState> iron = new HashMap<>();
+//		HashMap<Integer, IBlockState> lapis = new HashMap<>();
+//		HashMap<Integer, IBlockState> gold = new HashMap<>();
+//		HashMap<Integer, IBlockState> diamond = new HashMap<>();
+//		HashMap<Integer, IBlockState> emerald = new HashMap<>();
+//		HashMap<Integer, IBlockState> moonstone = new HashMap<>();
+//		HashMap<Integer, IBlockState> sunstone = new HashMap<>();
+//		glass.put(0, Blocks.GLASS.getDefaultState());
+//		coal.put(0, Blocks.COAL_BLOCK.getDefaultState());
+//		redstone.put(0, Blocks.REDSTONE_BLOCK.getDefaultState());
+//		iron.put(0, Blocks.IRON_BLOCK.getDefaultState());
+//		lapis.put(0, Blocks.LAPIS_BLOCK.getDefaultState());
+//		gold.put(0, Blocks.GOLD_BLOCK.getDefaultState());
+//		diamond.put(0, Blocks.DIAMOND_BLOCK.getDefaultState());
+//		emerald.put(0, Blocks.EMERALD_BLOCK.getDefaultState());
+//		moonstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE));
+//		sunstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE));
 		
-		catalysts = new TypedMultiblockGroup("catalysts", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
 		
-		out = new TypedMultiblockGroup("out", 
-				Lists.newArrayList(
-						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), Blocks.BIRCH_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.SPRUCE_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), Blocks.JUNGLE_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.DARK_OAK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.QUARTZ_BLOCK.getDefaultState(), Blocks.QUARTZ_STAIRS.getDefaultState()),
-						createStateMap(Blocks.NETHER_BRICK.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.STONEBRICK.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PURPUR_BLOCK.getDefaultState(), Blocks.PURPUR_STAIRS.getDefaultState()),
-						createStateMap(Blocks.RED_SANDSTONE.getDefaultState(), Blocks.RED_SANDSTONE_STAIRS.getDefaultState())
-						), 
-				false);
+		ArrayList<HashMap<Integer, IBlockState>> structureMaterials = new ArrayList<>();
+		for (Entry<KeyValuePair<IBlockState, IBlockState>, Integer> entry : CraftingAltarMaterials.getMainMap().entrySet()) {
+			structureMaterials.add(createStateMap(entry.getKey().key, entry.getKey().value));
+			structurePower.put(entry.getKey().key, entry.getValue().intValue());
+		}
+		
+		ArrayList<HashMap<Integer, IBlockState>> capsMaterials = new ArrayList<>();
+		for (Entry<IBlockState, Integer> entry : CraftingAltarMaterials.getCapsMap().entrySet()) {
+			HashMap<Integer, IBlockState> capMat = new HashMap<>();
+			capMat.put(0, entry.getKey());
+			capsMaterials.add(capMat);
+			capsPower.put(entry.getKey(), entry.getValue().intValue());
+		}
+		
+		catalysts = new TypedMultiblockGroup("catalysts", capsMaterials, false);
+		out = new TypedMultiblockGroup("out", structureMaterials, false);
 		
 		catalysts.addBlock(new BlockPos(-1, 0, -2), 0);
 		catalysts.addBlock(new BlockPos(1, 0, -2), 0);
@@ -325,25 +322,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		primary.addGroup(catalysts);
 		primary.addGroup(podium1, podium2, podium3, podium4);
 		
-		catalysts_alt = new TypedMultiblockGroup("catalysts_alt", Lists.newArrayList(glass, coal, redstone, iron, lapis, gold, diamond, emerald, moonstone, sunstone), false);
+		catalysts_alt = new TypedMultiblockGroup("catalysts_alt", capsMaterials, false);
 		
-		out_alt = new TypedMultiblockGroup("out_alt", 
-				Lists.newArrayList(
-						createStateMap(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), Blocks.BIRCH_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.SPRUCE_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), Blocks.JUNGLE_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.DARK_OAK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.QUARTZ_BLOCK.getDefaultState(), Blocks.QUARTZ_STAIRS.getDefaultState()),
-						createStateMap(Blocks.NETHER_BRICK.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.STONEBRICK.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState()),
-						createStateMap(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState()),
-						createStateMap(Blocks.PURPUR_BLOCK.getDefaultState(), Blocks.PURPUR_STAIRS.getDefaultState()),
-						createStateMap(Blocks.RED_SANDSTONE.getDefaultState(), Blocks.RED_SANDSTONE_STAIRS.getDefaultState())
-						), 
-				false);
+		out_alt = new TypedMultiblockGroup("out_alt", structureMaterials, false);
 		
 		MultiblockGroup wall_alt = new MultiblockGroup("wall_alt", Lists.newArrayList(BlockDefs.magicWall.getDefaultState()), true);
 		wall_alt.addBlock(new BlockPos(-2, -1, 0));

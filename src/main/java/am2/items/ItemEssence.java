@@ -29,9 +29,6 @@ public class ItemEssence extends ItemArsMagica {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		String name = "";
-		name += ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName();
-		name += I18n.translateToLocal("item.essence.name");
-		return name;
+		return String.format(I18n.translateToLocal("item.essence.name"), ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName());
 	}
 }

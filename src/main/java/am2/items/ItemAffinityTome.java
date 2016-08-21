@@ -56,7 +56,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
-		return I18n.translateToLocal("item.arsmagica2:tome.name") + aff.getLocalizedName();
+		return String.format(I18n.translateToLocal("item.arsmagica2:tome.name"), aff.getLocalizedName());
 	}
 	
 	@Override

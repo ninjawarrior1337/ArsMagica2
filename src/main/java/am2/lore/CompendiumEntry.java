@@ -2,11 +2,13 @@ package am2.lore;
 
 import java.util.ArrayList;
 
+import am2.api.event.GenerateCompendiumLoreEvent;
 import am2.gui.GuiArcaneCompendium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.common.MinecraftForge;
 
 @SuppressWarnings("deprecation")
 public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
@@ -50,7 +52,9 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 	public ArrayList<String> getPages() {
 		FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
 		String text = I18n.translateToLocal("compendium." + id + ".pages");//.replaceAll("!d", "\n\n").replace("!l", "\n");
-		return splitStringToLines(fontRendererObj, text, GuiArcaneCompendium.lineWidth, GuiArcaneCompendium.maxLines);
+		GenerateCompendiumLoreEvent event = new GenerateCompendiumLoreEvent(text, id);
+		MinecraftForge.EVENT_BUS.post(event);
+		return splitStringToLines(fontRendererObj, event.lore, GuiArcaneCompendium.lineWidth, GuiArcaneCompendium.maxLines);
 	}
 	
 	public String[] getParents() {

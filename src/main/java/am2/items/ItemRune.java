@@ -21,7 +21,7 @@ public class ItemRune extends ItemArsMagica {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return "item.rune." + EnumDyeColor.byDyeDamage(stack.getItemDamage()).getUnlocalizedName();
+		return "item.arsmagica2:rune." + EnumDyeColor.byDyeDamage(stack.getItemDamage()).getUnlocalizedName();
 	}
 	
 	public int getKeyIndex(ItemStack stack) {

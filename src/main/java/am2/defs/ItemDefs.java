@@ -98,6 +98,7 @@ public class ItemDefs {
 	
 	private static final ArmorMaterial MAGITECH_GOOGLES = EnumHelper.addArmorMaterial("magitech_goggles", "arsmagica2:magitech_goggles", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
 	private static final ArmorMaterial ENDER = EnumHelper.addArmorMaterial("ender", "arsmagica2:ender", 7, new int[]{1, 3, 5, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
+	
 	public static final ItemArsMagica spellParchment = new ItemArsMagica().registerAndName("spell_parchment");
 	public static final ItemArsMagica affinityTome = new ItemAffinityTome().registerAndName("tome");
 	public static final ItemArsMagica itemOre = new ItemOre().registerAndName("itemOre");
