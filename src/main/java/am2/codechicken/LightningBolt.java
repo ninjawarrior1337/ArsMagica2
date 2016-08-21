@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
+import am2.ArsMagica2;
 import am2.api.math.AMVector3;
 import am2.codechicken.LightningBoltCommon.Segment;
 import net.minecraft.client.Minecraft;
@@ -128,7 +129,7 @@ public class LightningBolt extends Particle{
 	}
 
 	private static AMVector3 getRelativeViewVector(AMVector3 pos){
-		EntityPlayer renderentity = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer renderentity = ArsMagica2.proxy.getLocalPlayer();
 		return new AMVector3((float)renderentity.posX - pos.x, (float)renderentity.posY - pos.y, (float)renderentity.posZ - pos.z);
 	}
 
@@ -192,7 +193,7 @@ public class LightningBolt extends Particle{
 	@Override
 	public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch) {
 		Tessellator tessellator = Tessellator.getInstance();
-		EntityPlayer renderentity = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer renderentity = ArsMagica2.proxy.getLocalPlayer();
 		int visibleDistance = 100;
 		if ((!Minecraft.getMinecraft().gameSettings.fancyGraphics)) visibleDistance = 50;
 		if (renderentity.getDistance(this.posX, this.posY, this.posZ) > visibleDistance) return;

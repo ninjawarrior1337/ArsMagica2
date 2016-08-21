@@ -8,7 +8,6 @@ import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
 import am2.particles.AMParticle;
 import am2.particles.AMParticleIcons;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -61,7 +60,7 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 		if (!show && worldObj.isRemote && ((forceShow && showTicks++ > 100) || !forceShow)){
 			showTicks = 0;
 			forceShow = false;
-			EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
+			EntityPlayer localPlayer = ArsMagica2.proxy.getLocalPlayer();
 			if (localPlayer != null && localPlayer.inventory.getCurrentItem() != null && localPlayer.inventory.getCurrentItem().getItem() == ItemDefs.crystalWrench){
 				AMVector3 myLoc = new AMVector3(pos);
 				AMVector3 playerLoc = new AMVector3(localPlayer);
@@ -209,7 +208,7 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 		if (worldObj.isRemote && show){
 			forceShow = false;
 			showTicks = 0;
-			EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
+			EntityPlayer localPlayer = ArsMagica2.proxy.getLocalPlayer();
 			if (localPlayer != null && localPlayer.inventory.getCurrentItem() != null && localPlayer.inventory.getCurrentItem().getItem() == ItemDefs.crystalWrench){
 				AMVector3 myLoc = new AMVector3(pos);
 				AMVector3 playerLoc = new AMVector3(localPlayer);

@@ -1,5 +1,6 @@
 package am2.blocks;
 
+import am2.ArsMagica2;
 import am2.blocks.tileentity.TileEntityLectern;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -63,7 +64,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 					te.setStack(null);
 				}
 			}else{
-				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == Minecraft.getMinecraft().thePlayer)
+				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == ArsMagica2.proxy.getLocalPlayer())
 					openBook(player, te);
 				else
 					te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);

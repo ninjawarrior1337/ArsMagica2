@@ -1,10 +1,10 @@
 package am2.bosses;
 
+import am2.ArsMagica2;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.entity.EntityLightMage;
 import am2.extensions.EntityExtension;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -217,8 +217,8 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 		}
 
 		if (worldObj.isRemote){
-			playerCanSee = Minecraft.getMinecraft().thePlayer.canEntityBeSeen(this);
-			this.ignoreFrustumCheck = Minecraft.getMinecraft().thePlayer.getDistanceToEntity(this) < 32;
+			playerCanSee = ArsMagica2.proxy.getLocalPlayer().canEntityBeSeen(this);
+			this.ignoreFrustumCheck = ArsMagica2.proxy.getLocalPlayer().getDistanceToEntity(this) < 32;
 		}
 		
 		bossInfo.setPercent(this.getHealth() / this.getMaxHealth());

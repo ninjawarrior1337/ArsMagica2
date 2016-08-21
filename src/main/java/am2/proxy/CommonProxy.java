@@ -495,7 +495,7 @@ public class CommonProxy implements IGuiHandler{
 		return worldGen;
 	}
 
-	public EntityLivingBase getLocalPlayer() {
+	public EntityPlayer getLocalPlayer() {
 		return null;
 	}
 }

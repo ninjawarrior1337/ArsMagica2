@@ -2,6 +2,7 @@ package am2.affinity;
 
 import java.util.Map.Entry;
 
+import am2.ArsMagica2;
 import am2.affinity.abilities.AbilityAgile;
 import am2.affinity.abilities.AbilityAntiEndermen;
 import am2.affinity.abilities.AbilityClearCaster;
@@ -117,7 +118,7 @@ public class AffinityAbilityHelper {
 	public void onKeyInput(InputEvent.KeyInputEvent event) {
 		for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
 			if (ability.getKey() != null && ability.getKey().isPressed()) {
-				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				EntityPlayer player = ArsMagica2.proxy.getLocalPlayer();
 				player = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getPlayerEntityByUUID(player.getUniqueID());
 				if (ability.canApply(player)) {
 					WorldUtils.runSided(Side.CLIENT, ability.createRunnable(Minecraft.getMinecraft().thePlayer));
