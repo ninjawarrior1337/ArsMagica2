@@ -20,6 +20,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockLectern extends BlockAMSpecialRenderContainer{
 
@@ -62,7 +64,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 				}
 			}else{
 				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == Minecraft.getMinecraft().thePlayer)
-					Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, te.getStack(), false));
+					openBook(player, te);
 				else
 					te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
 				return true;
@@ -79,6 +81,11 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 		}
 		
 		return true;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private void openBook(EntityPlayer player, TileEntityLectern te) {
+		Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, te.getStack(), false));
 	}
 	
 	@Override

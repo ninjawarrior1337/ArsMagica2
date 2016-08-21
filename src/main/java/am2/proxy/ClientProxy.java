@@ -93,6 +93,7 @@ import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -194,6 +195,7 @@ public class ClientProxy extends CommonProxy {
 		ArsMagica2.config.clientInit();
 		new AMSounds();
 		EntityManager.instance.registerRenderers();
+		blocks.preInitClient();
 		
 		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
@@ -216,8 +218,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 		super.init();
-		BlockDefs.init();
-		ItemDefs.init();
+		BlockDefs.initClient();
+		ItemDefs.initClient();
 	}
 	
 	@Override
@@ -361,5 +363,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getPowerPathVisuals(){
 		return powerPathVisuals;
+	}
+	
+	@Override
+	public EntityLivingBase getLocalPlayer() {
+		return Minecraft.getMinecraft().thePlayer;
 	}
 }

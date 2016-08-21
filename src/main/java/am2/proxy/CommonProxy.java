@@ -110,6 +110,7 @@ import am2.extensions.RiftStorage;
 import am2.handler.EntityHandler;
 import am2.handler.FlickerEvents;
 import am2.handler.PotionEffectHandler;
+import am2.handler.ShrinkHandler;
 import am2.items.ContainerKeystone;
 import am2.items.ItemKeystone;
 import am2.items.ItemSpellBook;
@@ -261,6 +262,7 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(new ArmorEventHandler());
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new FlickerEvents());
+		MinecraftForge.EVENT_BUS.register(new ShrinkHandler());
 		
 		registerInfusions();
 		registerFlickerOperators();
@@ -325,6 +327,7 @@ public class CommonProxy implements IGuiHandler{
 			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
 				throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");
 		}
+		ArsMagica2.disabledSkills.getDisabledSkills(true);
 	}
 	
 	public void initHandlers() {
@@ -490,5 +493,9 @@ public class CommonProxy implements IGuiHandler{
 	
 	public AM2WorldDecorator getWorldGenerator() {
 		return worldGen;
+	}
+
+	public EntityLivingBase getLocalPlayer() {
+		return null;
 	}
 }

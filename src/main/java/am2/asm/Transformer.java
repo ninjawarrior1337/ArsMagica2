@@ -112,7 +112,7 @@ public class Transformer implements IClassTransformer {
 				while (iter.hasNext()) {
 					InsnList toAdd = new InsnList();
 					toAdd.add(new VarInsnNode(ALOAD, 0));
-					toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "correctLook", "(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/math/Vec3d;", false));
+					toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctLook", "(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/math/Vec3d;", false));
 					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
 					if (ain != null && ain.getOpcode() == ARETURN) {
 						LogHelper.debug("Core: Located target ARETURN insn node");
@@ -140,7 +140,7 @@ public class Transformer implements IClassTransformer {
 					if (ain != null && ain.getOpcode() == FRETURN) {
 						InsnList toAdd = new InsnList();
 						toAdd.add(new VarInsnNode(ALOAD, 0));
-						toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "correctEyePos", "(FLnet/minecraft/entity/Entity;)F", false));
+						toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctEyePos", "(FLnet/minecraft/entity/Entity;)F", false));
 						LogHelper.debug("Core: Located target ARETURN insn node");
 						mn.instructions.insertBefore(ain, toAdd);
 					}
@@ -200,7 +200,7 @@ public class Transformer implements IClassTransformer {
 			method.instructions.add(new VarInsnNode(FLOAD, 2));
 			method.instructions.add(new VarInsnNode(FLOAD, 3));
 			method.instructions.add(new VarInsnNode(ALOAD, 0));
-			method.instructions.add(new MethodInsnNode(INVOKESTATIC, "am2/gui/AMGuiHelper", "correctMouvement", "(FFFLnet/minecraft/entity/Entity;)Z", false));
+			method.instructions.add(new MethodInsnNode(INVOKESTATIC, "am2/utils/EntityUtils", "correctMouvement", "(FFFLnet/minecraft/entity/Entity;)Z", false));
 			method.instructions.add(new JumpInsnNode(IFNE, endNode));
 			method.instructions.add(new LabelNode());
 			method.instructions.add(new VarInsnNode(ALOAD, 0));

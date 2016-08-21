@@ -12,12 +12,12 @@ public class AbilityExpandedLungs extends AbstractAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 0.4f;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return Affinity.WATER;
 	}
 

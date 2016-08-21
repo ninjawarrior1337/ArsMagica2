@@ -8,8 +8,8 @@ import com.google.common.base.Optional;
 import am2.api.event.RenderingItemEvent;
 import am2.bosses.models.ModelPlantGuardianSickle;
 import am2.defs.ItemDefs;
+import am2.utils.ModelUtils;
 import am2.utils.RenderUtils;
-import am2.utils.ResourceUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.Minecraft;
@@ -59,7 +59,7 @@ public class ItemRenderer {
 		GlStateManager.disableBlend();
 		GlStateManager.color(1f, 1f, 1f);
 		GlStateManager.translate(-0.5, -0.5, -0.5);
-		TRSRTransformation transform = ResourceUtils.DEFAULT_BLOCK_STATE.apply(Optional.fromNullable(event.getCameraTransformType())).orNull();
+		TRSRTransformation transform = ModelUtils.DEFAULT_BLOCK_STATE.apply(Optional.fromNullable(event.getCameraTransformType())).orNull();
 		if (transform != null) {
 			GlStateManager.translate(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
 			GlStateManager.rotate(new Quaternion(transform.getLeftRot().x, transform.getLeftRot().y, transform.getLeftRot().z, transform.getLeftRot().w));

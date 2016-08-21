@@ -69,6 +69,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockDefs {
 	
@@ -125,6 +127,12 @@ public class BlockDefs {
 		Item itemliquid_essence = new ItemBlock(blockliquid_essence);
 		GameRegistry.register(blockliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
 		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void preInitClient() {
+		Block blockliquid_essence = GameRegistry.findRegistry(Block.class).getValue(new ResourceLocation("arsmagica2:liquidEssence"));
+		Item itemliquid_essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2:liquidEssence"));
 		ModelBakery.registerItemVariants(itemliquid_essence, new ModelResourceLocation(new ResourceLocation("arsmagica2:liquidEssence"), liquid_essence.getName()));
 		ModelLoader.setCustomMeshDefinition(itemliquid_essence, new ItemMeshDefinition() {
 			
@@ -143,7 +151,9 @@ public class BlockDefs {
 		});
 	}
 	
-	public static void init () {
+	
+	@SideOnly(Side.CLIENT)
+	public static void initClient () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);
 		RenderItem renderer = Minecraft.getMinecraft().getRenderItem();
 		
@@ -213,6 +223,7 @@ public class BlockDefs {
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static void registerTexture(Block block) {
 		ResourceLocation loc = block.getRegistryName();
 		Item item = GameRegistry.findRegistry(Item.class).getValue(loc);

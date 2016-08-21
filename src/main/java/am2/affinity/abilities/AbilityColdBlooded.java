@@ -3,10 +3,14 @@ package am2.affinity.abilities;
 import am2.affinity.AffinityAbilityModifiers;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
+import am2.buffs.BuffEffectFrostSlowed;
+import am2.extensions.AffinityData;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class AbilityColdBlooded extends AbstractAffinityAbility {
 
@@ -15,12 +19,12 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 0.1f;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return Affinity.ICE;
 	}
 	
@@ -28,6 +32,24 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 	public void applyTick(EntityPlayer player) {
 		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.iceAffinityColdBlooded, !AffinityAbilityModifiers.instance.isOnIce(player));
+	}
+	
+	@Override
+	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
+		if (!isAttacker && event.getSource().getEntity() instanceof EntityLivingBase){
+			float iceDepth = AffinityData.For(player).getAffinityDepth(Affinity.ICE);
+			BuffEffectFrostSlowed effect = new BuffEffectFrostSlowed(40, 0);
+			if (iceDepth == 1.0f){
+				effect = new BuffEffectFrostSlowed(200, 3);
+			}else if (iceDepth >= 0.75f){
+				effect = new BuffEffectFrostSlowed(160, 2);
+			}else if (iceDepth >= 0.5f){
+				effect = new BuffEffectFrostSlowed(100, 1);
+			}
+			if (effect != null){
+				((EntityLivingBase)event.getSource().getEntity()).addPotionEffect(effect);
+			}
+		}
 	}
 	
 	@Override

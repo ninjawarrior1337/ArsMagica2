@@ -39,8 +39,7 @@ import net.minecraftforge.fml.common.eventhandler.Event.Result;
 
 public class Grow extends SpellComponent{
 
-	private final static ArrayList<BlockAMFlower> growableAMflowers = new ArrayList<BlockAMFlower>(Arrays.asList(
-			BlockDefs.cerublossom, BlockDefs.desertNova, BlockDefs.wakebloom, BlockDefs.aum, BlockDefs.tarmaRoot));
+	private final static ArrayList<BlockAMFlower> growableAMflowers = new ArrayList<BlockAMFlower>(Arrays.asList(BlockDefs.cerublossom, BlockDefs.desertNova, BlockDefs.wakebloom, BlockDefs.aum, BlockDefs.tarmaRoot));
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){

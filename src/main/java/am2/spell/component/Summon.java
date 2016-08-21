@@ -6,8 +6,10 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
+import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemOre;
 import am2.power.PowerTypes;
 import am2.spell.SpellComponent;
@@ -79,20 +81,17 @@ public class Summon extends SpellComponent{
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
-				//TODO BlocksCommonProxy.cerublossom,
+				BlockDefs.cerublossom,
 				ItemDefs.mobFocus,
-				//TODO new ItemStack(ItemDefs.crystalPhylactery, 1, ItemDefs.crystalPhylactery.META_FULL),
+				new ItemStack(ItemDefs.crystalPhylactery, 1, ItemCrystalPhylactery.META_FULL),
 				"E:" + PowerTypes.DARK.ID(), 1500
 		};
 	}
 
-	public void setSummonType(ItemStack stack, ItemStack phylacteryStack){
-//		if (phylacteryStack.getItemDamage() == ItemDefs.crystalPhylactery.META_FULL && phylacteryStack.getItem() instanceof ItemCrystalPhylactery){
-//			if (!stack.hasTagCompound())
-//				stack.setTagCompound(new NBTTagCompound());
-//
-//			setSummonType(stack, ItemDefs.crystalPhylactery.getSpawnClass(phylacteryStack));
-//		}
+	public void setSummonType(NBTTagCompound stack, ItemStack phylacteryStack){
+		if (phylacteryStack.getItemDamage() == ItemCrystalPhylactery.META_FULL && phylacteryStack.getItem() instanceof ItemCrystalPhylactery){
+			setSummonType(stack, ItemDefs.crystalPhylactery.getSpawnClass(phylacteryStack));
+		}
 	}
 
 	public Class<? extends Entity> getSummonType(ItemStack stack){
@@ -103,15 +102,12 @@ public class Summon extends SpellComponent{
 		return clazz;
 	}
 
-	public void setSummonType(ItemStack stack, String s){
+	public void setSummonType(NBTTagCompound stack, String s){
 		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
 		setSummonType(stack, clazz);
 	}
 
-	public void setSummonType(ItemStack stack, Class<? extends Entity> clazz){
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-
+	public void setSummonType(NBTTagCompound stack, Class<? extends Entity> clazz){
 		clazz = checkForSpecialSpawns(stack, clazz);
 
 		String s = (String)EntityList.CLASS_TO_NAME.get(clazz);
@@ -122,7 +118,7 @@ public class Summon extends SpellComponent{
 		SpellUtils.setSpellMetadata(stack, "SummonType", s);
 	}
 
-	private Class<? extends Entity> checkForSpecialSpawns(ItemStack stack, Class<? extends Entity> clazz){
+	private Class<? extends Entity> checkForSpecialSpawns(NBTTagCompound tag, Class<? extends Entity> clazz){
 //		if (clazz == EntityChicken.class){
 //			if (SpellUtils.modifierIsPresent(SpellModifiers.DAMAGE, stack) && SpellUtils.componentIsPresent(stack, Haste.class)){
 //				return EntityBattleChicken.class;
@@ -199,5 +195,13 @@ public class Summon extends SpellComponent{
 	}
 
 	@Override
-	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
+	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
+		for (Object obj : recipe) {
+			if (obj instanceof ItemStack) {
+				ItemStack is = (ItemStack) obj;
+				if (is.getItem().equals(ItemDefs.crystalPhylactery))
+					setSummonType(tag, is);
+			}
+		}
+	}
 }

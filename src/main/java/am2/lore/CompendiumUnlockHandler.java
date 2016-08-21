@@ -84,14 +84,14 @@ public class CompendiumUnlockHandler{
 	 */
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event){
-		if (event.getEntityLiving().worldObj.isRemote && event.getSource().getSourceOfDamage() instanceof EntityPlayer){
+		if (event.getEntityLiving().worldObj.isRemote && event.getSource().getEntity() instanceof EntityPlayer){
 			if (event.getEntity() instanceof EntityEnderman){
-				ArcaneCompendium.For((EntityPlayer)event.getSource().getSourceOfDamage()).unlockEntry("blockastralbarrier");
+				ArcaneCompendium.For((EntityPlayer)event.getSource().getEntity()).unlockEntry("blockastralbarrier");
 			}else{
 				EntityRegistration reg = EntityRegistry.instance().lookupModSpawn(event.getEntityLiving().getClass(), true);
 				if (reg != null && reg.getContainer().matches(ArsMagica2.instance)){
 					String id = reg.getEntityName();
-					ArcaneCompendium.For((EntityPlayer)event.getSource().getSourceOfDamage()).unlockEntry(id);
+					ArcaneCompendium.For((EntityPlayer)event.getSource().getEntity()).unlockEntry(id);
 				}
 			}
 		}

@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import am2.api.event.RenderingItemEvent;
-import am2.utils.ResourceUtils;
+import am2.utils.ModelUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -120,11 +120,11 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 
 		@Override
 		public IModelState getDefaultState() {
-			return ResourceUtils.DEFAULT_ITEM_STATE;
+			return ModelUtils.DEFAULT_ITEM_STATE;
 		}
 	}
 
-	static ImmutableMap<TransformType, TRSRTransformation> transforms = IPerspectiveAwareModel.MapWrapper.getTransforms(ResourceUtils.DEFAULT_ITEM_STATE);
+	static ImmutableMap<TransformType, TRSRTransformation> transforms = IPerspectiveAwareModel.MapWrapper.getTransforms(ModelUtils.DEFAULT_ITEM_STATE);
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {

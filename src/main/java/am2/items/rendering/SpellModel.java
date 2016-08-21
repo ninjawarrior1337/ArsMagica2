@@ -6,7 +6,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import am2.utils.ResourceUtils;
+import am2.utils.ModelUtils;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -45,7 +45,7 @@ public class SpellModel implements IModel {
 
 	@Override
 	public IModelState getDefaultState() {
-		return ResourceUtils.DEFAULT_ITEM_STATE;
+		return ModelUtils.DEFAULT_ITEM_STATE;
 	}
 
 }

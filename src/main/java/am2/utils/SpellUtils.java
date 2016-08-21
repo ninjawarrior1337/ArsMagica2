@@ -31,7 +31,6 @@ import am2.spell.SpellModifiers;
 import am2.spell.SpellShape;
 import am2.spell.modifier.Colour;
 import am2.spell.shape.MissingShape;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
@@ -128,9 +127,9 @@ public class SpellUtils {
 
 		EntityPlayer dmgSrcPlayer = null;
 
-		if (damagesource.getSourceOfDamage() != null){
-			if (damagesource.getSourceOfDamage() instanceof EntityLivingBase){
-				EntityLivingBase source = (EntityLivingBase)damagesource.getSourceOfDamage();
+		if (damagesource.getEntity() != null){
+			if (damagesource.getEntity() instanceof EntityLivingBase){
+				EntityLivingBase source = (EntityLivingBase)damagesource.getEntity();
 //				if ((source instanceof EntityLightMage || source instanceof EntityDarkMage) && target.getClass() == EntityCreeper.class){
 //					return false;
 //				}else if (source instanceof EntityLightMage && target instanceof EntityLightMage){
@@ -146,8 +145,8 @@ public class SpellUtils {
 					magnitude += 4;
 			}
 
-			if (damagesource.getSourceOfDamage() instanceof EntityPlayer){
-				dmgSrcPlayer = (EntityPlayer)damagesource.getSourceOfDamage();
+			if (damagesource.getEntity() instanceof EntityPlayer){
+				dmgSrcPlayer = (EntityPlayer)damagesource.getEntity();
 				int armorSet = ArmorHelper.getFullArsMagicaArmorSet(dmgSrcPlayer);
 				if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()){
 					magnitude *= 1.05f;
@@ -359,7 +358,7 @@ public class SpellUtils {
 					String type = tmp.getString(TYPE);
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
 						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID));
-						cost += component.manaCost(Minecraft.getMinecraft().thePlayer);
+						cost += component.manaCost(ArsMagica2.proxy.getLocalPlayer());
 					}
 					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
 						SpellModifier mod = SpellRegistry.getModifierFromName(tmp.getString(ID));
@@ -803,6 +802,10 @@ public class SpellUtils {
 
 	public static void setSpellMetadata(ItemStack stack, String string, String s) {
 		NBTUtils.addTag(NBTUtils.getAM2Tag(stack.getTagCompound()), SPELL_DATA).setString(string, s);
+	}
+	
+	public static void setSpellMetadata(NBTTagCompound stack, String string, String s) {
+		NBTUtils.addTag(NBTUtils.getAM2Tag(stack), SPELL_DATA).setString(string, s);
 	}
 
 	public static int numShapeGroups(ItemStack stack) {

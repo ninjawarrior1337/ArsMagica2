@@ -9,6 +9,7 @@ public class SpellCastEvent extends Event {
 	public ItemStack spell;
 	public float manaCost;
 	public EntityLivingBase entityLiving;
+	public float burnout;
 	
 	public SpellCastEvent(EntityLivingBase caster, ItemStack spell, float manaCost) {
 		this.spell = spell;
@@ -17,6 +18,7 @@ public class SpellCastEvent extends Event {
 	}
 	
 	public static class Pre extends SpellCastEvent {
+
 
 		public Pre(EntityLivingBase caster, ItemStack spell, float manaCost) {
 			super(caster, spell, manaCost);

@@ -1,5 +1,6 @@
 package am2.utils;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +25,11 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class EntityUtils {
 	
@@ -36,6 +39,7 @@ public class EntityUtils {
 //	private static final String summonEntityIDs = "AM2_Summon_Entity_IDs";
 	private static final String summonDurationKey = "AM2_Summon_Duration";
 	private static final String summonOwnerKey = "AM2_Summon_Owner";
+	private static Method ptrSetSize = null;
 //	private static final String summonTileXKey = "AM2_Summon_Tile_X";
 //	private static final String summonTileYKey = "AM2_Summon_Tile_Y";
 //	private static final String summonTileZKey = "AM2_Summon_Tile_Z";
@@ -255,6 +259,72 @@ public class EntityUtils {
 					return true;
 				}
 			}
+		}
+		return false;
+	}
+
+	public static void setSize(EntityLivingBase entityliving, float width, float height){
+		if (entityliving.width == width && entityliving.height == height)
+			return;
+		if (ptrSetSize == null){
+			try{
+				ptrSetSize = ReflectionHelper.findMethod(Entity.class, entityliving, new String[]{"func_70105_a", "setSize"}, Float.TYPE, Float.TYPE);
+			}catch (Throwable t){
+				t.printStackTrace();
+				return;
+			}
+		}
+		if (ptrSetSize != null){
+			try{
+				ptrSetSize.setAccessible(true);
+				ptrSetSize.invoke(entityliving, width, height);
+				//entityliving.yOffset = entityliving.height * 0.8f;
+			}catch (Throwable t){
+				t.printStackTrace();
+				return;
+			}
+		}
+	}
+	
+	public static Vec3d correctLook(Vec3d vecIn, Entity entityIn) {
+		if (entityIn instanceof EntityLivingBase && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+			return new Vec3d(-vecIn.xCoord, -vecIn.yCoord, vecIn.zCoord);
+		}
+		return vecIn;
+	}
+	
+	public static float correctEyePos(float floatIn, Entity entityIn) {
+		float curHeight = floatIn;
+		if (entityIn instanceof EntityPlayer && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+			EntityPlayer player = (EntityPlayer) entityIn;
+			curHeight = player.height - floatIn - 0.1f;
+		}
+		if (entityIn instanceof EntityLivingBase && EntityExtension.For((EntityLivingBase) entityIn).shrinkAmount != 0)
+			curHeight *= EntityExtension.For((EntityLivingBase) entityIn).shrinkAmount;
+		return curHeight;
+	}
+	
+	public static boolean correctMouvement(float strafe, float forward, float friction, Entity entityIn) {
+		if (entityIn instanceof EntityPlayer && EntityExtension.For((EntityLivingBase) entityIn).isInverted()) {
+	        float f = strafe * strafe + forward * forward;
+	        if (f >= 1.0E-4F)
+	        {
+	            f = MathHelper.sqrt_float(f);
+
+	            if (f < 1.0F)
+	            {
+	                f = 1.0F;
+	            }
+
+	            f = friction / f;
+	            strafe = strafe * f;
+	            forward = forward * f;
+	            float f1 = MathHelper.sin(-entityIn.rotationYaw * 0.017453292F);
+	            float f2 = MathHelper.cos(-entityIn.rotationYaw * 0.017453292F);
+	            entityIn.motionX += (double)(strafe * f2 - forward * f1);
+	            entityIn.motionZ += (double)(forward * f2 + strafe * f1);
+	        }
+			return true;
 		}
 		return false;
 	}

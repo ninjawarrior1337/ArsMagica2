@@ -23,17 +23,17 @@ public class AbilityFulmination extends AbstractAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 0.5f;
 	}
 	
 	@Override
-	protected float getMaximumDepth() {
+	public float getMaximumDepth() {
 		return 0.95F;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return Affinity.LIGHTNING;
 	}
 

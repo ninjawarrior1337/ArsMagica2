@@ -14,12 +14,12 @@ public class AbilityThunderPunch extends AbstractAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 0.75f;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return Affinity.LIGHTNING;
 	}
 	

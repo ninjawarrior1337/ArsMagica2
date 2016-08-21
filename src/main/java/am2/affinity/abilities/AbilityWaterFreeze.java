@@ -16,12 +16,12 @@ public class AbilityWaterFreeze extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 0.5F;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return Affinity.ICE;
 	}
 

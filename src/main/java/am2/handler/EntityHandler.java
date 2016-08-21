@@ -24,6 +24,7 @@ import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -175,7 +176,8 @@ public class EntityHandler {
 				}
 			}
 		}
-		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.PLAYER_FLIP, new AMDataWriter().add(ext.getIsFlipped()).generate());
+		if (player.worldObj.isRemote)
+			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.PLAYER_FLIP, new AMDataWriter().add(ext.getIsFlipped()).generate());
 		if (ext.getIsFlipped()){
 			if ((player).motionY < 2 && !player.capabilities.isFlying)
 				(player).motionY += 0.15f;
@@ -228,8 +230,22 @@ public class EntityHandler {
 		if (e.getEntityLiving() instanceof EntityPlayer){
 			ArsMagica2.proxy.playerTracker.onPlayerDeath((EntityPlayer)e.getEntityLiving());
 		}
-		if (e.getSource() != null && e.getSource().getSourceOfDamage() instanceof EntityLivingBase)
-			target = e.getSource().getSourceOfDamage() != null ? (EntityLivingBase)e.getSource().getSourceOfDamage() : null;
+		
+		if (e.getSource() != null && e.getEntityLiving() != null && e.getEntityLiving() instanceof EntityLiving && e.getSource().getEntity() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) e.getSource().getEntity();
+			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+				ItemStack stack = player.inventory.getStackInSlot(i);
+				if (stack == null || stack.getItem() != ItemDefs.crystalPhylactery) continue;
+				if (ItemDefs.crystalPhylactery.getSpawnClass(stack) == null)
+					ItemDefs.crystalPhylactery.setSpawnClass(stack, e.getEntityLiving().getClass());
+				if (ItemDefs.crystalPhylactery.canStore(stack, (EntityLiving) e.getEntityLiving())) {
+					ItemDefs.crystalPhylactery.addFill(stack);
+				}
+			}
+		}
+		
+		if (e.getSource() != null && e.getSource().getEntity() instanceof EntityLivingBase)
+			target = e.getSource().getEntity() != null ? (EntityLivingBase)e.getSource().getEntity() : null;
 		if (type == ContingencyType.DEATH) {
 			SpellUtils.applyStackStage(ext.getContingencyStack(), e.getEntityLiving(), target, e.getEntity().posX, e.getEntity().posY, e.getEntity().posZ, null, e.getEntityLiving().worldObj, false, true, 0);
 			if (ext.getContingencyType() == ContingencyType.DEATH)
@@ -310,7 +326,7 @@ public class EntityHandler {
 		float shrink = EntityExtension.For(event.getEntityPlayer()).getShrinkPct();
 		if (shrink > 0){
 			GL11.glPushMatrix();
-			GL11.glTranslatef(0, 0 - 0.5f * shrink, 0);
+			//GL11.glTranslatef(0, 0 - 0.5f * shrink, 0);
 			GL11.glScalef(1 - 0.5f * shrink, 1 - 0.5f * shrink, 1 - 0.5f * shrink);
 		}
 	}

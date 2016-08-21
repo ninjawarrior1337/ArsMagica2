@@ -31,10 +31,12 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.event.PlayerMagicLevelChangeEvent;
 import am2.api.extensions.IEntityExtension;
+import am2.api.math.AMVector2;
 import am2.armor.ArmorHelper;
 import am2.armor.ArsMagicaArmorMaterial;
 import am2.armor.infusions.GenericImbuement;
 import am2.armor.infusions.ImbuementRegistry;
+import am2.bosses.EntityLifeGuardian;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
@@ -76,6 +78,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	private EntityLivingBase entity;
 
 	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
+	public AMVector2 originalSize;
+	public float shrinkAmount;
 		
 	@Override
 	public boolean hasEnoughtMana(float cost) {
@@ -300,8 +304,17 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public void addEntityReference(EntityLivingBase entity) {
 		this.entity = entity;
+		setOriginalSize(new AMVector2(entity.width, entity.height));
 	}
 	
+	public void setOriginalSize(AMVector2 amVector2) {
+		this.originalSize = amVector2;
+	}
+	
+	public AMVector2 getOriginalSize(){
+		return this.originalSize;
+	}
+
 	@Override
 	public void init(EntityLivingBase entity) {
 		this.addEntityReference(entity);
@@ -380,7 +393,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public boolean addSummon(EntityCreature entityliving) {
 		if (!entity.worldObj.isRemote){
-			summon_ent_ids.add(entity.getEntityId());
+			summon_ent_ids.add(entityliving.getEntityId());
 			setCurrentSummons(getCurrentSummons() + 1);
 		}
 		return true;
@@ -388,11 +401,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean getCanHaveMoreSummons() {
-//		if (entity instanceof EntityLifeGuardian)
-//			return true;
-
+		if (entity instanceof EntityLifeGuardian)
+			return true;
+		
 		verifySummons();
-
 		return this.getCurrentSummons() < getMaxSummons();
 	}
 	
@@ -655,7 +667,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 					int numArmorPieces = 0;
 					for (int i = 0; i < 4; ++i) {
-						ItemStack stack = player.inventory.armorItemInSlot(i);
+						ItemStack stack = player.inventory.armorInventory[i];
 						if (ImbuementRegistry.instance.isImbuementPresent(stack, GenericImbuement.manaRegen))
 							numArmorPieces++;
 					}
@@ -755,6 +767,11 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			setFlipRotation(getFlipRotation() + 15);
 		else if (!flipped && getFlipRotation() > 0)
 			setFlipRotation(getFlipRotation() - 15);
+	}
+
+	public void setShrinkPct(float shrinkPct) {
+		this.entity.getDataManager().set(PREV_SHRINK_PCT, getShrinkPct());
+		this.entity.getDataManager().set(SHRINK_PCT, shrinkPct);
 	}
 
 }

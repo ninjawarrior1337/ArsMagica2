@@ -21,7 +21,7 @@ public abstract class ArraySerializer<K> implements DataSerializer<ArrayList<K>>
 	@Override
 	public ArrayList<K> read(PacketBuffer buf) throws IOException {
 		ArrayList<K> map = new ArrayList<K>();
-		String str = buf.readStringFromBuffer(Integer.MAX_VALUE);
+		String str = buf.readStringFromBuffer(Short.MAX_VALUE);
 		String[] list = str.split("\0");
 		for (String li : list) {
 			map.add(getKeyInstanceFromString(li));

@@ -362,7 +362,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		LogHelper.debug("Disabled skills: %d", disabledSkills.length);
 		LogHelper.debug("Mana cap: %.2f", manaCap);
 		
-		//TODO SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
+		ArsMagica2.disabledSkills.disableAllSkillsIn(disabledSkills);
 	}
 
 	private void handleEntityActionUpdate(byte[] data, EntityPlayer player){

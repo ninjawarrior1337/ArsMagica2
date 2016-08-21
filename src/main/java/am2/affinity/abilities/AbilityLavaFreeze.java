@@ -16,12 +16,12 @@ public class AbilityLavaFreeze extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	protected float getMinimumDepth() {
+	public float getMinimumDepth() {
 		return 1F;
 	}
 
 	@Override
-	protected Affinity getAffinity() {
+	public Affinity getAffinity() {
 		return Affinity.ICE;
 	}
 

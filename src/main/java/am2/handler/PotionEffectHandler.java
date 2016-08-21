@@ -26,6 +26,8 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 
 public class PotionEffectHandler {
@@ -150,6 +152,7 @@ public class PotionEffectHandler {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void playerRender(RenderPlayerEvent.Pre e) {
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.trueSight)) {
 			GL11.glPushMatrix();

@@ -240,6 +240,7 @@ public class AMConfig extends Configuration{
 		addCustomCategoryComment(CATEGORY_BETA, "This applies to those who have beta auras unlocked only");
 		addCustomCategoryComment(CATEGORY_ENCHANTMENTS, "Allows control over various enchantments in the mod.");
 		addCustomCategoryComment(CATEGORY_MOBS, "Spawn control for different AM mobs.");
+		getCategory(CATEGORY_UI).setShowInGui(false);
 	}
 
 	@SuppressWarnings("unchecked")

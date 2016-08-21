@@ -27,6 +27,7 @@ import am2.items.ItemBoundShield;
 import am2.items.ItemBoundShovel;
 import am2.items.ItemBoundSword;
 import am2.items.ItemChalk;
+import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
 import am2.items.ItemFlickerFocus;
@@ -46,6 +47,7 @@ import am2.items.ItemKeystoneDoor;
 import am2.items.ItemLifeWard;
 import am2.items.ItemLightningCharm;
 import am2.items.ItemLiquidEssenceBottle;
+import am2.items.ItemLostJournal;
 import am2.items.ItemMagicBroom;
 import am2.items.ItemManaCake;
 import am2.items.ItemNatureGuardianSickle;
@@ -57,7 +59,9 @@ import am2.items.ItemSpellComponent;
 import am2.items.ItemSpellStaff;
 import am2.items.ItemWinterGuardianArm;
 import am2.items.SpellBase;
+import am2.items.colorizers.CrystalPhylacteryColorizer;
 import am2.items.colorizers.FlickerJarColorizer;
+import am2.items.colorizers.LostJournalColorizer;
 import am2.items.rendering.AffinityRenderer;
 import am2.items.rendering.CrystalWrenchRenderer;
 import am2.items.rendering.DefaultWithMetaRenderer;
@@ -85,6 +89,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDefs {
 	
@@ -166,12 +172,15 @@ public class ItemDefs {
 	public static final Item itemKeystoneDoor = new ItemKeystoneDoor().registerAndName("item_keystone_door");
 	public static final ItemRuneBag runeBag = (ItemRuneBag) new ItemRuneBag().registerAndName("rune_bag");
 
+	public static final ItemLostJournal lostJournal = new ItemLostJournal().registerAndName("lostJournal");
+	public static final ItemCrystalPhylactery crystalPhylactery = (ItemCrystalPhylactery) new ItemCrystalPhylactery().registerAndName("crystalPhylactery");
 
 
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
 	
-	public static void init () {
+	@SideOnly(Side.CLIENT)
+	public static void initClient () {
 		//Focus
 		registerTexture(mobFocus);
 		registerTexture(lesserFocus);
@@ -224,8 +233,12 @@ public class ItemDefs {
 		registerTexture(runeBag);
 		registerTexture(woodenLeg);
 		registerTexture(manaCake);
+		registerTexture(lostJournal);
+		registerTexture(crystalPhylactery);
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new LostJournalColorizer(), lostJournal);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new CrystalPhylacteryColorizer(), crystalPhylactery);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		
@@ -297,10 +310,12 @@ public class ItemDefs {
 
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static void registerTexture(Item item) {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new IgnoreMetadataRenderer( new ModelResourceLocation(item.getRegistryName(), "inventory")));
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static void registerTexture(Item item, int meta, String suffix) {
 		DefaultWithMetaRenderer renderer = new DefaultWithMetaRenderer(new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		renderer.addModel(meta, new ModelResourceLocation(item.getRegistryName().toString() + suffix, "inventory"));
