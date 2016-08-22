@@ -2,6 +2,7 @@ package am2.spell.shape;
 
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.items.ItemSpellBase;
 import am2.spell.SpellCastResult;
@@ -18,21 +19,20 @@ public class Rune extends SpellShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean consumeMBR, int useCount){
-//		int procs = SpellUtils.getModifiedInt_Add(1, stack, caster, target, world, SpellModifiers.PROCS);
+		int procs = SpellUtils.getModifiedInt_Add(1, stack, caster, target, world, SpellModifiers.PROCS);
 		boolean targetWater = SpellUtils.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack);
 		RayTraceResult mop = item.getMovingObjectPosition(caster, world, 8.0f, true, targetWater);
 		if (mop == null || mop.typeOfHit == RayTraceResult.Type.ENTITY) return SpellCastResult.EFFECT_FAILED;
 
-//		if (!BlockDefs.spellRune.placeAt(world, mop.blockX, mop.blockY + 1, mop.blockZ, SpellUtils.instance.mainAffinityFor(stack).ordinal())){
-//			return SpellCastResult.EFFECT_FAILED;
-//		}
-//		if (!world.isRemote){
-//			world.setTileEntity(mop.blockX, mop.blockY + 1, mop.blockZ, BlockDefs.spellRune.createTileEntity(world, 0));
-//			BlockDefs.spellRune.setSpellStack(world, mop.blockX, mop.blockY + 1, mop.blockZ, SpellUtils.instance.popStackStage(stack));
-//			BlockDefs.spellRune.setPlacedBy(world, mop.blockX, mop.blockY + 1, mop.blockZ, caster);
-//			int meta = world.getBlockMetadata(mop.blockX, mop.blockY + 1, mop.blockZ);
-//			BlockDefs.spellRune.setNumTriggers(world, mop.blockX, mop.blockY + 1, mop.blockZ, meta, procs);
-//		}
+		if (!BlockDefs.spellRune.placeAt(world, mop.getBlockPos().up(), BlockDefs.spellRune.getDefaultState())){
+			return SpellCastResult.EFFECT_FAILED;
+		}
+		if (!world.isRemote){
+			world.setTileEntity(mop.getBlockPos().up(), BlockDefs.spellRune.createNewTileEntity(world, 0));
+			BlockDefs.spellRune.setSpellStack(world, mop.getBlockPos().up(), stack);
+			BlockDefs.spellRune.setPlacedBy(world, mop.getBlockPos().up(), caster);
+			BlockDefs.spellRune.setNumTriggers(world, mop.getBlockPos().up(), world.getBlockState(mop.getBlockPos().up()), procs);
+		}
 
 		return SpellCastResult.SUCCESS;
 	}

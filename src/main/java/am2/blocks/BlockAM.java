@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockAM extends Block {
-	
 
 	public BlockAM(Material materialIn) {
 		super(materialIn);

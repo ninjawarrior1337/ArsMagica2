@@ -23,5 +23,9 @@ public class IDDefs {
 	public static final int GUI_KEYSTONE_CHEST = 11;
 	public static final int GUI_RUNE_BAG = 12;
 	public static final int GUI_FLICKER_HABITAT = 13;
+	public static final int GUI_ARCANE_DECONSTRUCTOR = 14;
+	public static final int GUI_ARCANE_RECONSTRUCTOR = 15;
+	public static final int GUI_ASTRAL_BARRIER = 16;
+	public static final int GUI_ESSENCE_REFINER = 17;
 	
 }

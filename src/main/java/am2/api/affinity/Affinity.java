@@ -11,6 +11,16 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
+/**
+ * Affinity :<BR>
+ * When creating an affinity you are going to need a few textures :<BR>
+ * -An essence texture, located at (domain):essence_(name)<BR>
+ * -An affinity tome texture, located at (domain):affinity_tome_(name)<BR>
+ * -A rune texture, located at (domain):runes/rune_(name)<BR>
+ * 
+ * @author EdwinMindcraft
+ *
+ */
 @SuppressWarnings("deprecation")
 public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comparable<Affinity>{
 	

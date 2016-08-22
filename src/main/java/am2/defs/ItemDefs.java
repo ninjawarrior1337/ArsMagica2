@@ -27,6 +27,7 @@ import am2.items.ItemBoundShield;
 import am2.items.ItemBoundShovel;
 import am2.items.ItemBoundSword;
 import am2.items.ItemChalk;
+import am2.items.ItemCore;
 import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemCrystalWrench;
 import am2.items.ItemEssence;
@@ -175,6 +176,9 @@ public class ItemDefs {
 
 	public static final ItemLostJournal lostJournal = new ItemLostJournal().registerAndName("lostJournal");
 	public static final ItemCrystalPhylactery crystalPhylactery = (ItemCrystalPhylactery) new ItemCrystalPhylactery().registerAndName("crystalPhylactery");
+
+	public static final Item core = new ItemCore().registerAndName("core");
+	public static final Item deficitCrystal = null;
 
 
 

@@ -14,8 +14,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeUtils {
 //	public static ItemStack parsePotionMeta(String potionDefinition){
@@ -171,5 +176,36 @@ public class RecipeUtils {
 			list.add(recipeStack);
 		}
 		return list;
+	}
+
+	public static Object[] getRecipeItems(Object recipe){
+		if (recipe instanceof ShapedRecipes){
+			return getShapedRecipeItems((ShapedRecipes)recipe);
+		}else if (recipe instanceof ShapelessRecipes){
+			return getShapelessRecipeItems((ShapelessRecipes)recipe);
+		}else if (recipe instanceof ShapedOreRecipe){
+			return getShapedOreRecipeItems((ShapedOreRecipe)recipe);
+		}else if (recipe instanceof ShapelessOreRecipe){
+			return getShapelessOreRecipeItems((ShapelessOreRecipe)recipe);
+		}
+		return new Object[0];
+	}
+	
+	private static Object[] getShapedRecipeItems(ShapedRecipes recipe){
+		return recipe.recipeItems;
+	}
+
+	private static Object[] getShapelessRecipeItems(ShapelessRecipes recipe){
+		return recipe.recipeItems.toArray();
+	}
+
+	private static Object[] getShapedOreRecipeItems(ShapedOreRecipe recipe){
+		Object[] components = ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, recipe, "input");
+		return components;
+	}
+
+	private static Object[] getShapelessOreRecipeItems(ShapelessOreRecipe recipe){
+		ArrayList<Object> components = ReflectionHelper.getPrivateValue(ShapelessOreRecipe.class, recipe, "input");
+		return components.toArray();
 	}
 }

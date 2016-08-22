@@ -13,3 +13,4 @@ I'd say i'm 60-65% done with this update
 -Spell Parts (Shapes, Component, Modifier)
 -Flickers
 -Skills
+-Crafting Altar Materials

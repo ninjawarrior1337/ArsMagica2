@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.Name;
 
-@Name("ArsMagica2-Preloader")
+@Name("ArsMagica2")
 public class Preloader extends DummyModContainer implements IFMLLoadingPlugin {
 
 	public static boolean isDevEnvironment;

@@ -7,6 +7,8 @@ import am2.api.blocks.IKeystoneLockable;
 import am2.api.math.AMVector3;
 import am2.blocks.BlockAM;
 import am2.blocks.BlockAMFlower;
+import am2.blocks.BlockArcaneDeconstructor;
+import am2.blocks.BlockArcaneReconstructor;
 import am2.blocks.BlockArmorInfuser;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaOre;
@@ -16,9 +18,12 @@ import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockDesertNova;
 import am2.blocks.BlockEssenceConduit;
 import am2.blocks.BlockEssenceGenerator;
+import am2.blocks.BlockEssenceRefiner;
+import am2.blocks.BlockEverstone;
 import am2.blocks.BlockFlickerHabitat;
 import am2.blocks.BlockFlickerLure;
 import am2.blocks.BlockFrost;
+import am2.blocks.BlockGroundRuneSpell;
 import am2.blocks.BlockInscriptionTable;
 import am2.blocks.BlockInvisibleUtility;
 import am2.blocks.BlockKeystoneChest;
@@ -114,6 +119,11 @@ public class BlockDefs {
 	public static final BlockSpellSealedDoor spellSealedDoor = (BlockSpellSealedDoor) new BlockSpellSealedDoor().registerAndName(new ResourceLocation("arsmagica2:spell_sealed_door"));
 	public static final Block witchwoodLeaves = new BlockWitchwoodLeaves().registerAndName(new ResourceLocation("arsmagica2:witchwoodLeaves"));
 	public static final Block witchwoodSapling = new WitchwoodSapling().registerAndName(new ResourceLocation("arsmagica2:witchwoodSapling"));
+	public static final Block everstone = new BlockEverstone().registerAndName(new ResourceLocation("arsmagica2:everstone"));
+	public static final BlockGroundRuneSpell spellRune = (BlockGroundRuneSpell) new BlockGroundRuneSpell().registerAndName(new ResourceLocation("arsmagica2:spellRune"));
+	public static final Block arcaneDeconstructor = new BlockArcaneDeconstructor().registerAndName(new ResourceLocation("arsmagica2:arcaneDeconstructor"));
+	public static final Block arcaneReconstructor = new BlockArcaneReconstructor().registerAndName(new ResourceLocation("arsmagica2:arcaneReconstructor"));
+	public static final Block essenceRefiner = new BlockEssenceRefiner().registerAndName(new ResourceLocation("arsmagica2:essenceRefiner"));
 	
 	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();
 	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
@@ -205,6 +215,7 @@ public class BlockDefs {
 		registerTexture(witchwoodLog);
 		registerTexture(witchwoodSapling);
 		registerTexture(essenceConduit);
+		registerTexture(everstone);
 		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));
