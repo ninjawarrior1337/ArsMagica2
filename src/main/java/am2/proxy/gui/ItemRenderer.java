@@ -304,6 +304,7 @@ public class ItemRenderer {
 //			GL11.glTranslated(-0.25, 0.55, 0);
 //		}
 //		GL11.glScalef(scale, scale, scale);
+
 		if (stack.getItem() == ItemDefs.natureScythe) {
 			if (type != TransformType.GUI) {
 				GlStateManager.translate(0.05, 0, -0.3);

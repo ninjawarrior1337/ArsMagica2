@@ -74,7 +74,8 @@ public class BlockEverstone extends BlockAMPowered{
 			}
 			return false;
 		}
-		everstone.onBreak();
+		if (!player.capabilities.isCreativeMode)
+			everstone.onBreak();
 		if (player.capabilities.isCreativeMode){
 			world.setTileEntity(pos, null);
 			world.setBlockToAir(pos);
@@ -167,6 +168,14 @@ public class BlockEverstone extends BlockAMPowered{
 		if (everstone == null || everstone.isSolid())
 			return super.getSelectedBoundingBox(state, worldIn, pos);
 		return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
+	}
+	
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		TileEntityEverstone everstone = getTE(source, pos);
+		if (everstone == null || everstone.isSolid())
+			return super.getBoundingBox(state, source, pos);
+		return NULL_AABB;
 	}
 	
 	@Override

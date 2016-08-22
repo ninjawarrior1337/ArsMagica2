@@ -3,12 +3,12 @@ package am2.blocks.render;
 import org.lwjgl.opengl.GL11;
 
 import am2.blocks.tileentity.TileEntityEverstone;
-import am2.defs.BlockDefs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -22,19 +22,22 @@ public class TileEverstoneRenderer extends TileEntitySpecialRenderer<TileEntityE
 		if (te.isSolid()) {
 			if (te.getFacade() != null) {
 				GlStateManager.pushMatrix();
+				RenderHelper.disableStandardItemLighting();
 				GlStateManager.translate(x, y, z);
 				GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 				Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
 				Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(te.getFacade(), te.getPos(), te.getWorld(), Tessellator.getInstance().getBuffer());
 				Tessellator.getInstance().draw();
+				if (destroyStage >= 0) {
+					Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
+					TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/destroy_stage_" + destroyStage);
+		            IBakedModel ibakedmodel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(te.getFacade());
+		            IBakedModel ibakedmodel1 = net.minecraftforge.client.ForgeHooksClient.getDamageModel(ibakedmodel, sprite, te.getFacade(), te.getWorld(), te.getPos());
+					Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), ibakedmodel1, te.getFacade(), te.getPos(), Tessellator.getInstance().getBuffer(), true);
+					Tessellator.getInstance().draw();
+				}
 				GlStateManager.popMatrix();
-			} else {
-				GlStateManager.pushMatrix();
-				GlStateManager.translate(x, y, z);
-				Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
-				Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(BlockDefs.everstone.getDefaultState()), te.getWorld().getBlockState(te.getPos()), te.getPos(), Tessellator.getInstance().getBuffer(), false);
-				Tessellator.getInstance().draw();
-				GlStateManager.popMatrix();
+				RenderHelper.enableStandardItemLighting();
 			}
 		}
 	}
