@@ -25,6 +25,7 @@ import am2.api.power.IPowerNode;
 import am2.api.spell.SpellComponent;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
+import am2.blocks.render.TileArcaneReconstructorRenderer;
 import am2.blocks.render.TileBlackAuremRenderer;
 import am2.blocks.render.TileCelestialPrismRenderer;
 import am2.blocks.render.TileCraftingAltarRenderer;
@@ -37,6 +38,7 @@ import am2.blocks.render.TileKeystoneReceptacleRenderer;
 import am2.blocks.render.TileLecternRenderer;
 import am2.blocks.render.TileObeliskRenderer;
 import am2.blocks.render.TileRuneRenderer;
+import am2.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
@@ -187,6 +189,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceConduit.class, new TileEssenceConduitRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGroundRuneSpell.class, new TileRuneRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEverstone.class, new TileEverstoneRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityArcaneReconstructor.class, new TileArcaneReconstructorRenderer());
 		
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());
