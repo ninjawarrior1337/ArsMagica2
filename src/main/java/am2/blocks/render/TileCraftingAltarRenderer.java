@@ -48,12 +48,12 @@ public class TileCraftingAltarRenderer extends TileEntitySpecialRenderer<TileEnt
 		} else {
 			render(te, def);
 		}
-		GL11.glEnable(GL11.GL_BLEND);
+		GlStateManager.enableBlend();
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glTranslated(-0.005, -0.005, -0.005);
 		GL11.glScaled(1.01, 1.01, 1.01);
 		render(te, SpellIconManager.INSTANCE.getSprite("RuneStone"));
-		GL11.glDisable(GL11.GL_BLEND);
+		GlStateManager.disableBlend();
 		RenderHelper.enableStandardItemLighting();
 		GL11.glPopMatrix();
 	}
