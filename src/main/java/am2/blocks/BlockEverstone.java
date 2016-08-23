@@ -175,7 +175,7 @@ public class BlockEverstone extends BlockAMPowered{
 		TileEntityEverstone everstone = getTE(source, pos);
 		if (everstone == null || everstone.isSolid())
 			return super.getBoundingBox(state, source, pos);
-		return NULL_AABB;
+		return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 	}
 	
 	@Override

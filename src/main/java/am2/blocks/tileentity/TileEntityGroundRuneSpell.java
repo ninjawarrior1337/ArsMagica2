@@ -14,9 +14,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
 public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
-	private ItemStack spellStack;
-	private EntityPlayer caster;
-	private String placedByName;
+	private ItemStack spellStack = null;
+	private EntityPlayer caster = null;
+	private String placedByName = null;
 
 	private int numTriggers = 1;
 	private boolean isPermanent = false;
@@ -79,8 +79,10 @@ public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound){
-		compound.setString("placedByName", placedByName);
-		compound.setTag("spellStack", spellStack.writeToNBT(new NBTTagCompound()));
+		if (placedByName != null)
+			compound.setString("placedByName", placedByName);
+		if (spellStack != null)
+			compound.setTag("spellStack", spellStack.writeToNBT(new NBTTagCompound()));
 		compound.setInteger("numTrigger", numTriggers);
 		compound.setBoolean("permanent", isPermanent);
 		return compound;
@@ -88,8 +90,10 @@ public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound){
-		placedByName = compound.getString("placedByName");
-		spellStack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("spellStack"));
+		if (compound.hasKey("placedByName"))
+			placedByName = compound.getString("placedByName");
+		if (compound.hasKey("spellStack"))
+			spellStack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("spellStack"));
 		numTriggers = compound.getInteger("numTrigger");
 		isPermanent = compound.getBoolean("permanent");
 	}

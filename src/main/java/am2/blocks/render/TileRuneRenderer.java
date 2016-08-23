@@ -5,6 +5,7 @@ import am2.blocks.tileentity.TileEntityGroundRuneSpell;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -25,6 +26,7 @@ public class TileRuneRenderer extends TileEntitySpecialRenderer<TileEntityGround
 			GlStateManager.translate(x, y, z);
 			GlStateManager.enableBlend();
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			RenderHelper.disableStandardItemLighting();
 			int i = 0xF00F0;
 	        int j = i >> 16 & 65535;
 	        int k = i & 65535;
@@ -48,6 +50,7 @@ public class TileRuneRenderer extends TileEntitySpecialRenderer<TileEntityGround
 			wr.pos(0, height, 0).tex(minU, minV).lightmap(j, k).color(1.0f, 1.0f, 1.0f, 1.0f).endVertex();
 			tesselator.draw();
 			GlStateManager.disableBlend();
+			RenderHelper.enableStandardItemLighting();
 			GlStateManager.popMatrix();
 		}
 	}

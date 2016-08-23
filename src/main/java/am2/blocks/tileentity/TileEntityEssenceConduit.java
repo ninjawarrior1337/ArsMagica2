@@ -30,7 +30,6 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 			rotationX = worldObj.rand.nextInt(360);
 			rotationY = worldObj.rand.nextInt(360);
 			rotationZ = worldObj.rand.nextInt(360);
-			System.out.println("firstTick");
 			rotationIncrementX = worldObj.rand.nextFloat() * 0.002f + 0.005f;
 			rotationIncrementY = worldObj.rand.nextFloat() * 0.002f + 0.005f;
 			rotationIncrementZ = worldObj.rand.nextFloat() * 0.002f + 0.005f;
@@ -41,6 +40,7 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 		}else{
 			redstonePowered = false;
 		}
+		incrementRotations();
 		super.update();
 	}
 

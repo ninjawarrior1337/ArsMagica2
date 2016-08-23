@@ -27,13 +27,18 @@ public class BlockGroundRuneSpell extends BlockGroundRune{
 		TileEntityGroundRuneSpell te = getTileEntity(world, pos);
 		if (te == null)
 			return false;
+		
+		boolean hasApplied = false;
+		
 		for (Entity e : entitiesInRange){
 			if (e instanceof EntityLivingBase){
-				te.applySpellEffect((EntityLivingBase)e);
-				break;
+				if (te.canApply((EntityLivingBase)e)) {
+					hasApplied = te.applySpellEffect((EntityLivingBase)e);
+					break;
+				}
 			}
 		}
-		return true;
+		return hasApplied;
 	}
 
 	@Override

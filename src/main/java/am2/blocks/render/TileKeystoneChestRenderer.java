@@ -20,31 +20,31 @@ public class TileKeystoneChestRenderer extends TileEntitySpecialRenderer<TileEnt
 		rLoc = new ResourceLocation("arsmagica2", "textures/blocks/custom/keystoneChest.png");
 	}
 	public void renderTileEntityAt(TileEntityKeystoneChest chest, double d, double d1, double d2, float var8, int destroyStage){
-		int i = 0;
+		int i = 2;
 
 		if (chest.getWorld() != null){
 			i = chest.getBlockMetadata() & 3;
 		}
 		int j = 0;
 
-		if (i == 0){
+		if (i == 3){
 			j = 90;
-		}else if (i == 1){
-			j = 180;
 		}else if (i == 2){
+			j = 180;
+		}else if (i == 1){
 			j = 270;
-		}else if (i == 3){
+		}else if (i == 0){
 			j = 0;
 		}
 
 		bindTexture(rLoc);
 		GL11.glPushMatrix(); //start
 
-		if (i == 1){
+		if (i == 2){
 			GL11.glTranslatef((float)d + 1f, (float)d1 + 1f, (float)d2); //size
-		}else if (i == 2){
+		}else if (i == 1){
 			GL11.glTranslatef((float)d, (float)d1 + 1f, (float)d2); //size
-		}else if (i == 3){
+		}else if (i == 0){
 			GL11.glTranslatef((float)d, (float)d1 + 1f, (float)d2 + 1f); //size
 		}else{
 			GL11.glTranslatef((float)d + 1f, (float)d1 + 1f, (float)d2 + 1f); //size

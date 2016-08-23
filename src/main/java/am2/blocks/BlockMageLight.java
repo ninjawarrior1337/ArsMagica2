@@ -16,11 +16,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockMageLight extends BlockAMSpecialRender {
@@ -103,5 +105,12 @@ public class BlockMageLight extends BlockAMSpecialRender {
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		return null;
+	}
+	
+	@Override
+	public BlockAM registerAndName(ResourceLocation rl) {
+		this.setUnlocalizedName(rl.toString());
+		GameRegistry.register(this, rl);
+		return this;
 	}
 }

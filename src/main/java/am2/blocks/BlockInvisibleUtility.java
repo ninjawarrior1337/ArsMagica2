@@ -20,12 +20,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * This is my invisible utility block.  I use it for illumination (meta 0-2), as well as invisible walls (meta 3-10).
@@ -291,6 +293,13 @@ public class BlockInvisibleUtility extends BlockAM{
 			return this.name().toLowerCase();
 		}
 		
+	}
+	
+	@Override
+	public BlockAM registerAndName(ResourceLocation rl) {
+		this.setUnlocalizedName(rl.toString());
+		GameRegistry.register(this, rl);
+		return this;
 	}
 	
 	private enum EnumType {

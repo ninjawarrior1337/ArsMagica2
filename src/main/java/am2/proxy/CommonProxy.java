@@ -67,6 +67,7 @@ import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
 import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
+import am2.blocks.tileentity.TileEntityEssenceConduit;
 import am2.blocks.tileentity.TileEntityEssenceRefiner;
 import am2.blocks.tileentity.TileEntityEverstone;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
@@ -101,6 +102,7 @@ import am2.container.ContainerArcaneReconstructor;
 import am2.container.ContainerArmorInfuser;
 import am2.container.ContainerAstralBarrier;
 import am2.container.ContainerCrystalMarker;
+import am2.container.ContainerEssenceRefiner;
 import am2.container.ContainerFlickerHabitat;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerKeystoneChest;
@@ -233,7 +235,7 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_ARCANE_DECONSTRUCTOR: return new ContainerArcaneDeconstructor(player.inventory, (TileEntityArcaneDeconstructor) te);
 		case GUI_ARCANE_RECONSTRUCTOR: return new ContainerArcaneReconstructor(player.inventory, (TileEntityArcaneReconstructor) te);
 		case GUI_ASTRAL_BARRIER: return new ContainerAstralBarrier(player.inventory, (TileEntityAstralBarrier) te);
-		case GUI_ESSENCE_REFINER: break; //TODO
+		case GUI_ESSENCE_REFINER: return new ContainerEssenceRefiner(player.inventory, (TileEntityEssenceRefiner) te);
 		}
 		return null;
 	}
@@ -302,6 +304,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityEssenceRefiner.class, "TileEntityEssenceRefiner");
 		GameRegistry.registerTileEntity(TileEntityEverstone.class, "TileEntityEverstone");
 		GameRegistry.registerTileEntity(TileEntityGroundRuneSpell.class, "TileEntityGroundRuneSpell");
+		GameRegistry.registerTileEntity(TileEntityEssenceConduit.class, "TileEntityEssenceConduit");
 
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());

@@ -178,7 +178,7 @@ public class ItemDefs {
 	public static final ItemCrystalPhylactery crystalPhylactery = (ItemCrystalPhylactery) new ItemCrystalPhylactery().registerAndName("crystalPhylactery");
 
 	public static final Item core = new ItemCore().registerAndName("core");
-	public static final Item deficitCrystal = null;
+	public static final Item deficitCrystal = new ItemArsMagica().registerAndName("deficit_crystal");
 
 
 
@@ -240,6 +240,7 @@ public class ItemDefs {
 		registerTexture(manaCake);
 		registerTexture(lostJournal);
 		registerTexture(crystalPhylactery);
+		registerTexture(deficitCrystal);
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new LostJournalColorizer(), lostJournal);
@@ -275,6 +276,15 @@ public class ItemDefs {
 			ModelBakery.registerItemVariants(itemOre, loc);
 			renderItem.getItemModelMesher().register(itemOre, i, loc);
 		}
+		DefaultWithMetaRenderer crystalPhylacteryRenderer = new DefaultWithMetaRenderer(new ModelResourceLocation(crystalPhylactery.getRegistryName(), "inventory"));
+		for(int i = 1; i < 4; i++) {
+			ModelResourceLocation loc = new ModelResourceLocation(crystalPhylactery.getRegistryName().toString() + (i == ItemCrystalPhylactery.META_QUARTER ? "_quarter" : (i == ItemCrystalPhylactery.META_HALF ? "_half" : "_full")), "inventory");
+			ModelBakery.registerItemVariants(crystalPhylactery, loc);
+			crystalPhylacteryRenderer.addModel(i, loc);
+		}
+		ModelBakery.registerItemVariants(crystalPhylactery, new ModelResourceLocation(crystalPhylactery.getRegistryName(), "inventory"));
+		renderItem.getItemModelMesher().register(crystalPhylactery, crystalPhylacteryRenderer);
+		
 		DefaultWithMetaRenderer catalystRenderer = new DefaultWithMetaRenderer(new ModelResourceLocation(bindingCatalyst.getRegistryName(), "inventory"));
 		for (int i = 0; i < 7; i++) {
 			ModelResourceLocation loc = new ModelResourceLocation(bindingCatalyst.getRegistryName() + "_" + ItemBindingCatalyst.NAMES[i], "inventory");

@@ -78,6 +78,8 @@ public class MagicDamage extends SpellComponent{
 
 	@Override
 	public float getAffinityShift(Affinity affinity){
+		if (affinity == Affinity.ENDER)
+			return 0.005f;
 		return 0.01f;
 	}
 

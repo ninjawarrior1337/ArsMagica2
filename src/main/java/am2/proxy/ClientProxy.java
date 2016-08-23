@@ -52,6 +52,7 @@ import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
 import am2.blocks.tileentity.TileEntityEssenceConduit;
+import am2.blocks.tileentity.TileEntityEssenceRefiner;
 import am2.blocks.tileentity.TileEntityEverstone;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityGroundRuneSpell;
@@ -74,6 +75,7 @@ import am2.gui.GuiArcaneReconstructor;
 import am2.gui.GuiArmorImbuer;
 import am2.gui.GuiAstralBarrier;
 import am2.gui.GuiCrystalMarker;
+import am2.gui.GuiEssenceRefiner;
 import am2.gui.GuiFlickerHabitat;
 import am2.gui.GuiInscriptionTable;
 import am2.gui.GuiKeystone;
@@ -172,7 +174,7 @@ public class ClientProxy extends CommonProxy {
 		case GUI_ARCANE_DECONSTRUCTOR: return new GuiArcaneDeconstructor(player.inventory, (TileEntityArcaneDeconstructor) te);
 		case GUI_ARCANE_RECONSTRUCTOR: return new GuiArcaneReconstructor(player.inventory, (TileEntityArcaneReconstructor) te);
 		case GUI_ASTRAL_BARRIER: return new GuiAstralBarrier(player.inventory, (TileEntityAstralBarrier) te);
-		case GUI_ESSENCE_REFINER: break; //TODO
+		case GUI_ESSENCE_REFINER: return new GuiEssenceRefiner(player.inventory, (TileEntityEssenceRefiner) te);
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}

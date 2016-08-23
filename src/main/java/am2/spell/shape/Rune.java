@@ -28,7 +28,7 @@ public class Rune extends SpellShape{
 			return SpellCastResult.EFFECT_FAILED;
 		}
 		if (!world.isRemote){
-			world.setTileEntity(mop.getBlockPos().up(), BlockDefs.spellRune.createNewTileEntity(world, 0));
+			//world.setTileEntity(mop.getBlockPos().up(), BlockDefs.spellRune.createNewTileEntity(world, 0));
 			BlockDefs.spellRune.setSpellStack(world, mop.getBlockPos().up(), stack);
 			BlockDefs.spellRune.setPlacedBy(world, mop.getBlockPos().up(), caster);
 			BlockDefs.spellRune.setNumTriggers(world, mop.getBlockPos().up(), world.getBlockState(mop.getBlockPos().up()), procs);
