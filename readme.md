@@ -21,6 +21,9 @@ I'd say i'm 60-65% done with this update
  * Flickers
  * Skills
  * Crafting Altar Materials
+ 
+## Things to note
+ * Due to the removal of metadata values, the Lightning Guardian and the Ice Guardian now requires a special block in place of the top one.
 
 ## License
 This mod is open sourced under the Creative Commons 3.0 Attribution Non-Commercial License
