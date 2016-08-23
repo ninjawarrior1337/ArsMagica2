@@ -3,6 +3,7 @@ package am2.items;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.defs.ItemDefs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -13,7 +14,7 @@ public class ItemFocusPlayer extends ItemFilterFocus{
 	}
 
 	@Override
-	public Class<?> getFilterClass(){
+	public Class<? extends Entity> getFilterClass(){
 		return EntityPlayer.class;
 	}
 

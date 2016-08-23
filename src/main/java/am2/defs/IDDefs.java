@@ -27,5 +27,10 @@ public class IDDefs {
 	public static final int GUI_ARCANE_RECONSTRUCTOR = 15;
 	public static final int GUI_ASTRAL_BARRIER = 16;
 	public static final int GUI_ESSENCE_REFINER = 17;
+	public static final int GUI_MAGICIANS_WORKBENCH = 18;
+	public static final int GUI_CALEFACTOR = 19;
+	public static final int GUI_SEER_STONE = 20;
+	public static final int GUI_INERT_SPAWNER = 21;
+	public static final int GUI_SUMMONER = 22;
 	
 }

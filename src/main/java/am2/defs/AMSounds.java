@@ -74,6 +74,8 @@ public class AMSounds {
 	
 	public static final SoundEvent GATEWAY_OPEN = register("arsmagica2:misc.gateway.open");
 	public static final SoundEvent RECONSTRUCTOR_COMPLETE = register("arsmagica2:misc.reconstructor.complete");
+	public static final SoundEvent CALEFACTOR_BURN = register("arsmagica2:misc.calefactor.burn");
+	public static final SoundEvent CRAFTING_ALTAR_CREATE_SPELL = register("arsmagica2:misc.craftingaltar.create_spell");
 	
 	private static SoundEvent register(String str) {
 		return GameRegistry.register(new SoundEvent(new ResourceLocation(str)).setRegistryName(new ResourceLocation(str)));

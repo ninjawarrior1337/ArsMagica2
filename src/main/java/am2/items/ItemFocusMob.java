@@ -1,7 +1,8 @@
 package am2.items;
 
 import am2.defs.ItemDefs;
-import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.init.Items;
 
 public class ItemFocusMob extends ItemFilterFocus{
@@ -11,8 +12,8 @@ public class ItemFocusMob extends ItemFilterFocus{
 	}
 
 	@Override
-	public Class<?> getFilterClass(){
-		return IMob.class;
+	public Class<? extends Entity> getFilterClass(){
+		return EntityMob.class;
 	}
 
 	@Override

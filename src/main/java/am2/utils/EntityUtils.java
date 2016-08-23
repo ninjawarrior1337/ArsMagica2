@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.api.math.AMVector3;
+import am2.blocks.tileentity.TileEntitySummoner;
+import am2.entity.ai.EntityAIGuardSpawnLocation;
 import am2.entity.ai.EntityAISummonFollowOwner;
 import am2.entity.ai.selectors.SummonEntitySelector;
 import am2.extensions.EntityExtension;
@@ -40,9 +43,9 @@ public class EntityUtils {
 	private static final String summonDurationKey = "AM2_Summon_Duration";
 	private static final String summonOwnerKey = "AM2_Summon_Owner";
 	private static Method ptrSetSize = null;
-//	private static final String summonTileXKey = "AM2_Summon_Tile_X";
-//	private static final String summonTileYKey = "AM2_Summon_Tile_Y";
-//	private static final String summonTileZKey = "AM2_Summon_Tile_Z";
+	private static final String summonTileXKey = "AM2_Summon_Tile_X";
+	private static final String summonTileYKey = "AM2_Summon_Tile_Y";
+	private static final String summonTileZKey = "AM2_Summon_Tile_Z";
 	
 	
 	public static int getLevelFromXP(float totalXP){
@@ -328,4 +331,17 @@ public class EntityUtils {
 		}
 		return false;
 	}
+	
+	public static void setTileSpawned(EntityLivingBase entityliving, TileEntitySummoner summoner){
+		entityliving.getEntityData().setInteger(summonTileXKey, summoner.getPos().getX());
+		entityliving.getEntityData().setInteger(summonTileYKey, summoner.getPos().getY());
+		entityliving.getEntityData().setInteger(summonTileZKey, summoner.getPos().getZ());
+	}
+	
+	public static void setGuardSpawnLocation(EntityCreature entity, double x, double y, double z){
+		float speed = entity.getAIMoveSpeed();
+		if (speed <= 0) speed = 1.0f;
+		entity.tasks.addTask(1, new EntityAIGuardSpawnLocation(entity, speed, 3, 16, new AMVector3(x, y, z)));
+	}
+
 }

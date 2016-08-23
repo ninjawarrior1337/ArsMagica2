@@ -1,6 +1,7 @@
 package am2.items;
 
 import am2.defs.ItemDefs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -12,7 +13,7 @@ public class ItemFocusItem extends ItemFilterFocus{
 	}
 
 	@Override
-	public Class<?> getFilterClass(){
+	public Class<? extends Entity> getFilterClass(){
 		return EntityItem.class;
 	}
 

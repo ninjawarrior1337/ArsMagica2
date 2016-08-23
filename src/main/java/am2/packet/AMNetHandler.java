@@ -2,6 +2,7 @@ package am2.packet;
 
 import am2.LogHelper;
 import am2.api.power.IPowerNode;
+import am2.blocks.tileentity.TileEntityCalefactor;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.bosses.IArsMagicaBoss;
@@ -270,15 +271,15 @@ public class AMNetHandler{
 		sendPacketToClientPlayer(player, AMPacketIDs.COMPENDIUM_UNLOCK, writer.generate());
 	}
 
-//	public void sendCalefactorCookUpdate(TileEntityCalefactor calefactor, byte[] data){
-//		AMDataWriter writer = new AMDataWriter();
-//		writer.add(calefactor.xCoord);
-//		writer.add(calefactor.yCoord);
-//		writer.add(calefactor.zCoord);
-//		writer.add(data);
-//		sendPacketToAllClientsNear(calefactor.getWorldObj().provider.getDimension(), calefactor.xCoord, calefactor.yCoord, calefactor.zCoord, 32, AMPacketIDs.CALEFACTOR_DATA, writer.generate());
-//	}
-//
+	public void sendCalefactorCookUpdate(TileEntityCalefactor calefactor, byte[] data){
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(calefactor.getPos().getX());
+		writer.add(calefactor.getPos().getY());
+		writer.add(calefactor.getPos().getZ());
+		writer.add(data);
+		sendPacketToAllClientsNear(calefactor.getWorld().provider.getDimension(), calefactor.getPos().getX(), calefactor.getPos().getY(), calefactor.getPos().getZ(), 32, AMPacketIDs.CALEFACTOR_DATA, writer.generate());
+	}
+
 	public void sendObeliskUpdate(TileEntityObelisk obelisk, byte[] data){
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(obelisk.getPos().getX());

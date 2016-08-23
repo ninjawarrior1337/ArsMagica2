@@ -4,20 +4,25 @@ import static am2.defs.IDDefs.GUI_ARCANE_DECONSTRUCTOR;
 import static am2.defs.IDDefs.GUI_ARCANE_RECONSTRUCTOR;
 import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
 import static am2.defs.IDDefs.GUI_ASTRAL_BARRIER;
+import static am2.defs.IDDefs.GUI_CALEFACTOR;
 import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
 import static am2.defs.IDDefs.GUI_ESSENCE_REFINER;
 import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
+import static am2.defs.IDDefs.GUI_INERT_SPAWNER;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_KEYSTONE;
 import static am2.defs.IDDefs.GUI_KEYSTONE_CHEST;
 import static am2.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
+import static am2.defs.IDDefs.GUI_MAGICIANS_WORKBENCH;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
 import static am2.defs.IDDefs.GUI_RUNE_BAG;
+import static am2.defs.IDDefs.GUI_SEER_STONE;
 import static am2.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 import static am2.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
+import static am2.defs.IDDefs.GUI_SUMMONER;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +67,7 @@ import am2.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityAstralBarrier;
 import am2.blocks.tileentity.TileEntityBlackAurem;
+import am2.blocks.tileentity.TileEntityCalefactor;
 import am2.blocks.tileentity.TileEntityCandle;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
@@ -73,16 +79,21 @@ import am2.blocks.tileentity.TileEntityEverstone;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityFlickerLure;
 import am2.blocks.tileentity.TileEntityGroundRuneSpell;
+import am2.blocks.tileentity.TileEntityInertSpawner;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.blocks.tileentity.TileEntityKeystoneChest;
 import am2.blocks.tileentity.TileEntityKeystoneDoor;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityLectern;
+import am2.blocks.tileentity.TileEntityMagiciansWorkbench;
 import am2.blocks.tileentity.TileEntityManaBattery;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
+import am2.blocks.tileentity.TileEntityParticleEmitter;
+import am2.blocks.tileentity.TileEntitySeerStone;
 import am2.blocks.tileentity.TileEntitySlipstreamGenerator;
 import am2.blocks.tileentity.TileEntitySpellSealedDoor;
+import am2.blocks.tileentity.TileEntitySummoner;
 import am2.blocks.tileentity.flickers.FlickerOperatorButchery;
 import am2.blocks.tileentity.flickers.FlickerOperatorContainment;
 import am2.blocks.tileentity.flickers.FlickerOperatorFelledOak;
@@ -101,17 +112,23 @@ import am2.container.ContainerArcaneDeconstructor;
 import am2.container.ContainerArcaneReconstructor;
 import am2.container.ContainerArmorInfuser;
 import am2.container.ContainerAstralBarrier;
+import am2.container.ContainerCalefactor;
 import am2.container.ContainerCrystalMarker;
 import am2.container.ContainerEssenceRefiner;
 import am2.container.ContainerFlickerHabitat;
+import am2.container.ContainerInertSpawner;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerKeystoneChest;
 import am2.container.ContainerKeystoneLockable;
+import am2.container.ContainerMagiciansWorkbench;
 import am2.container.ContainerObelisk;
 import am2.container.ContainerRiftStorage;
+import am2.container.ContainerRuneBag;
+import am2.container.ContainerSeerStone;
 import am2.container.ContainerSpellBook;
 import am2.container.ContainerSpellCustomization;
 import am2.container.ContainerSpellSealedDoor;
+import am2.container.ContainerSummoner;
 import am2.defs.AMRecipes;
 import am2.defs.BlockDefs;
 import am2.defs.CreativeTabsDefs;
@@ -129,6 +146,7 @@ import am2.handler.PotionEffectHandler;
 import am2.handler.ShrinkHandler;
 import am2.items.ContainerKeystone;
 import am2.items.ItemKeystone;
+import am2.items.ItemRuneBag;
 import am2.items.ItemSpellBook;
 import am2.lore.CompendiumUnlockHandler;
 import am2.network.SeventhSanctum;
@@ -188,6 +206,7 @@ public class CommonProxy implements IGuiHandler{
 	public PlayerTracker playerTracker;
 	public ItemFrameWatcher itemFrameWatcher;
 	private AM2WorldDecorator worldGen;
+	public NBTTagCompound cwCopyLoc = null;
 	
 	public static HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> powerPathVisuals;
 	
@@ -230,12 +249,24 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_KEYSTONE_LOCKABLE: return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);		
 		case GUI_SPELL_SEALED_DOOR: return new ContainerSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
 		case GUI_KEYSTONE_CHEST: return new ContainerKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
-		case GUI_RUNE_BAG: break; //TODO
+		case GUI_RUNE_BAG: 
+			ItemStack bagStack = player.getHeldItemMainhand();
+			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
+				return null;
+			}
+			ItemRuneBag runebag = (ItemRuneBag)bagStack.getItem();
+			return new ContainerRuneBag(player.inventory, player.getHeldItemMainhand(), runebag.ConvertToInventory(bagStack));
+
 		case GUI_FLICKER_HABITAT: return new ContainerFlickerHabitat(player, (TileEntityFlickerHabitat) te);
 		case GUI_ARCANE_DECONSTRUCTOR: return new ContainerArcaneDeconstructor(player.inventory, (TileEntityArcaneDeconstructor) te);
 		case GUI_ARCANE_RECONSTRUCTOR: return new ContainerArcaneReconstructor(player.inventory, (TileEntityArcaneReconstructor) te);
 		case GUI_ASTRAL_BARRIER: return new ContainerAstralBarrier(player.inventory, (TileEntityAstralBarrier) te);
 		case GUI_ESSENCE_REFINER: return new ContainerEssenceRefiner(player.inventory, (TileEntityEssenceRefiner) te);
+		case GUI_MAGICIANS_WORKBENCH: return new ContainerMagiciansWorkbench(player.inventory, (TileEntityMagiciansWorkbench) te);
+		case GUI_CALEFACTOR: return new ContainerCalefactor(player, (TileEntityCalefactor) te);
+		case GUI_SEER_STONE: return new ContainerSeerStone(player.inventory, (TileEntitySeerStone) te);
+		case GUI_INERT_SPAWNER: return new ContainerInertSpawner(player, (TileEntityInertSpawner) te);
+		case GUI_SUMMONER: return new ContainerSummoner(player.inventory, (TileEntitySummoner) te);
 		}
 		return null;
 	}
@@ -514,5 +545,8 @@ public class CommonProxy implements IGuiHandler{
 
 	public EntityPlayer getLocalPlayer() {
 		return null;
+	}
+
+	public void openParticleBlockGUI(World worldIn, EntityPlayer playerIn, TileEntityParticleEmitter te) {
 	}
 }

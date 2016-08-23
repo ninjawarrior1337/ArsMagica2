@@ -180,6 +180,8 @@ public class ItemDefs {
 	public static final Item core = new ItemCore().registerAndName("core");
 	public static final Item deficitCrystal = new ItemArsMagica().registerAndName("deficit_crystal");
 
+	public static final Item workbenchUpgrade = new ItemArsMagica().registerAndName("workbench_upgrade");
+
 
 
 	public static SpellBase spell = new SpellBase().registerAndName("spell");
