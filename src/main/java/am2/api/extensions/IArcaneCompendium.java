@@ -43,6 +43,10 @@ public interface IArcaneCompendium {
 	 */
 	public boolean isUnlocked(String string);
 	
+	public String getPath();
+	
+	public void setPath(String str);
+	
 	public static class Storage implements IStorage<IArcaneCompendium> {
 
 		@Override
@@ -63,6 +67,7 @@ public interface IArcaneCompendium {
 				tmp.setBoolean("Unlocked", instance.isUnlocked(type.getCategoryName()));
 				categories.appendTag(tmp);
 			}
+			am2tag.setString("Path", instance.getPath());
 			return compound;
 		}
 
@@ -82,6 +87,7 @@ public interface IArcaneCompendium {
 				if (tmp.getBoolean("Unlocked"))
 					instance.unlockCategory(tmp.getString("ID"));
 			}
+			instance.setPath(am2tag.getString("Path"));
 		}
 	}
 	

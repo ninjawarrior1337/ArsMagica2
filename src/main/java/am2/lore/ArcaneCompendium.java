@@ -60,7 +60,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static void AddCompendiumEntry(Object entryItem, String id, EnumSet<SpellModifiers> mods, boolean allowReplace, boolean defaultUnlock, String... relatedKeys) {		
+	public static void AddCompendiumEntry(Object entryItem, String id, EnumSet<SpellModifiers> mods, boolean allowReplace, boolean defaultUnlock, String... relatedKeys) {
 		CompendiumEntry entry = null;
 		CompendiumEntryRegistrationEvent event = new CompendiumEntryRegistrationEvent(entryItem, id, mods, relatedKeys);
 		try {
@@ -111,6 +111,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	private static final Map<String, CompendiumEntry> compendiumEntries = new HashMap<>();
 	
 	private EntityPlayer player;
+	private String path = "";
 	
 	public static ImmutableMap<String, CompendiumEntry> getCompendium() {
 		return ImmutableMap.copyOf(compendiumEntries);
@@ -217,6 +218,16 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	public void deserializeNBT(NBTBase nbt) {
 		LogHelper.info("Deserialize");
 		new IArcaneCompendium.Storage().readNBT(INSTANCE, this, null, nbt);
+	}
+
+	@Override
+	public String getPath() {
+		return path;
+	}
+
+	@Override
+	public void setPath(String str) {
+		this.path = str;
 	}
 	
 	

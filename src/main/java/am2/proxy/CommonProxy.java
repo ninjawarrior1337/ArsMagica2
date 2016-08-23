@@ -1,7 +1,11 @@
 package am2.proxy;
 
+import static am2.defs.IDDefs.GUI_ARCANE_DECONSTRUCTOR;
+import static am2.defs.IDDefs.GUI_ARCANE_RECONSTRUCTOR;
 import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_ASTRAL_BARRIER;
 import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
+import static am2.defs.IDDefs.GUI_ESSENCE_REFINER;
 import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_KEYSTONE;
@@ -10,6 +14,7 @@ import static am2.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_RUNE_BAG;
 import static am2.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 import static am2.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
@@ -91,7 +96,10 @@ import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
 import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
 import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
 import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
+import am2.container.ContainerArcaneDeconstructor;
+import am2.container.ContainerArcaneReconstructor;
 import am2.container.ContainerArmorInfuser;
+import am2.container.ContainerAstralBarrier;
 import am2.container.ContainerCrystalMarker;
 import am2.container.ContainerFlickerHabitat;
 import am2.container.ContainerInscriptionTable;
@@ -191,11 +199,8 @@ public class CommonProxy implements IGuiHandler{
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch (ID) {
 		case GUI_OCCULUS: return null;
-		case GUI_RIFT: return new ContainerRiftStorage(player, RiftStorage.For(player));
-		case GUI_OBELISK: return new ContainerObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
-		case GUI_INSCRIPTION_TABLE: return new ContainerInscriptionTable((TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
 		case GUI_SPELL_CUSTOMIZATION: return new ContainerSpellCustomization(player);
-		case GUI_ARMOR_INFUSION: return new ContainerArmorInfuser(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
+		case GUI_RIFT: return new ContainerRiftStorage(player, RiftStorage.For(player));
 		case GUI_SPELL_BOOK: 
 			ItemStack bookStack = player.getHeldItemMainhand();
 			if (bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
@@ -203,11 +208,10 @@ public class CommonProxy implements IGuiHandler{
 			}
 			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
 			return new ContainerSpellBook(player.inventory, bookStack, item.ConvertToInventory(bookStack));
-		case GUI_KEYSTONE_CHEST:
-			if (!(te instanceof TileEntityKeystoneChest)){
-				return null;
-			}
-			return new ContainerKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
+		case GUI_OBELISK: return new ContainerObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
+		case GUI_CRYSTAL_MARKER: return new ContainerCrystalMarker(player, (TileEntityCrystalMarker)te);
+		case GUI_INSCRIPTION_TABLE: return new ContainerInscriptionTable((TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
+		case GUI_ARMOR_INFUSION: return new ContainerArmorInfuser(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_KEYSTONE:
 			ItemStack keystoneStack = player.getHeldItemMainhand();
 			if (keystoneStack.getItem() == null || !(keystoneStack.getItem() instanceof ItemKeystone)){
@@ -221,14 +225,15 @@ public class CommonProxy implements IGuiHandler{
 				runeBag = player.inventory.getStackInSlot(runeBagSlot);
 
 			return new ContainerKeystone(player.inventory, player.getHeldItemMainhand(), runeBag, keystone.ConvertToInventory(keystoneStack), runeBag == null ? null : ItemDefs.runeBag.ConvertToInventory(runeBag), runeBagSlot);
-		case GUI_KEYSTONE_LOCKABLE:
-			if (!(te instanceof IKeystoneLockable)){
-				return null;
-			}
-			return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
-		case GUI_FLICKER_HABITAT: return new ContainerFlickerHabitat(player, (TileEntityFlickerHabitat) te);
-		case GUI_CRYSTAL_MARKER: return new ContainerCrystalMarker(player, (TileEntityCrystalMarker)te);
+		case GUI_KEYSTONE_LOCKABLE: return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);		
 		case GUI_SPELL_SEALED_DOOR: return new ContainerSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
+		case GUI_KEYSTONE_CHEST: return new ContainerKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
+		case GUI_RUNE_BAG: break; //TODO
+		case GUI_FLICKER_HABITAT: return new ContainerFlickerHabitat(player, (TileEntityFlickerHabitat) te);
+		case GUI_ARCANE_DECONSTRUCTOR: return new ContainerArcaneDeconstructor(player.inventory, (TileEntityArcaneDeconstructor) te);
+		case GUI_ARCANE_RECONSTRUCTOR: return new ContainerArcaneReconstructor(player.inventory, (TileEntityArcaneReconstructor) te);
+		case GUI_ASTRAL_BARRIER: return new ContainerAstralBarrier(player.inventory, (TileEntityAstralBarrier) te);
+		case GUI_ESSENCE_REFINER: break; //TODO
 		}
 		return null;
 	}
@@ -313,7 +318,6 @@ public class CommonProxy implements IGuiHandler{
 		SkillDefs.init();
 		SpellDefs.init();
 		NPCSpells.instance.toString();
-		LoreDefs.init();
 		PotionEffectsDefs.init();
 		items = new ItemDefs();
 		blocks = new BlockDefs();
@@ -331,7 +335,7 @@ public class CommonProxy implements IGuiHandler{
 	public void postInit() {
 		playerTracker.postInit();
 		MinecraftForge.EVENT_BUS.register(playerTracker);
-		
+		LoreDefs.postInit();	
 		AMRecipes.addRecipes();
 		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
 			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)

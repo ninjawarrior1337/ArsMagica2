@@ -84,5 +84,25 @@ public class NBTUtils {
 	public static NBTTagList addCompoundList(NBTTagCompound upper, String name) {
 		return addList(upper, 10, name);
 	}
+	
+	public static boolean contains(NBTTagCompound container, NBTTagCompound check) {
+		if (container == null) return true;
+		if (check == null) return false;
+		boolean match = true;
+		for (String key : container.getKeySet()) {
+			NBTBase tag = container.getTag(key);
+			NBTBase checkTag = check.getTag(key);
+			if (tag == null)
+				continue;
+			if (checkTag == null) return false;
+			if (tag instanceof NBTTagCompound && checkTag instanceof NBTTagCompound)
+				match &= contains((NBTTagCompound)tag, (NBTTagCompound) checkTag);
+			else
+				match &= tag.equals(checkTag);
+			if (!match)
+				break;
+		}
+		return match;
+	}
 
 }

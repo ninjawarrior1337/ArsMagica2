@@ -2,12 +2,17 @@ package am2.utils;
 
 import org.lwjgl.opengl.GL11;
 
+import am2.api.math.AMVector3;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import scala.util.Random;
 
 public class RenderUtils {
@@ -132,7 +137,37 @@ public class RenderUtils {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPopMatrix();
+	}
+	
+	public static void RenderRotatedModelGroup(TileEntity te, IBakedModel model, IBlockState defaultState, AMVector3 rotation){
+		GlStateManager.pushMatrix();
 
+		GlStateManager.rotate(rotation.x, 1.0f, 0.0f, 0.0f);
+		GlStateManager.rotate(rotation.y, 1.0f, 1.0f, 0.0f);
+		GlStateManager.rotate(rotation.z, 1.0f, 0.0f, 1.0f);
+		renderBlockModel(te, model, defaultState);
+		GlStateManager.popMatrix();
+	}
+	
+	public static void renderBlockModel(TileEntity te, IBakedModel model, IBlockState defaultState) {
+		try{
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			Tessellator t = Tessellator.getInstance();
+			VertexBuffer wr = t.getBuffer();
+			wr.begin(7, DefaultVertexFormats.BLOCK);
+			World world = te.getWorld();
+			if (world == null)
+				world = Minecraft.getMinecraft().theWorld;
+			IBlockState state = world.getBlockState(te.getPos());
+			if (state.getBlock() != defaultState.getBlock())
+				state = defaultState;
+			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, model, state, te.getPos(), wr, false);
+			t.draw();
+			GlStateManager.popMatrix();
+		}catch (Throwable t){
+			t.printStackTrace();
+		}
 	}
 
 }

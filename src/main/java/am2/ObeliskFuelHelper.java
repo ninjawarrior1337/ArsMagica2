@@ -1,9 +1,10 @@
 package am2;
 
-import am2.api.power.IObeliskFuelHelper;
-import net.minecraft.item.ItemStack;
-
 import java.util.HashMap;
+
+import am2.api.power.IObeliskFuelHelper;
+import am2.utils.NBTUtils;
+import net.minecraft.item.ItemStack;
 
 public class ObeliskFuelHelper implements IObeliskFuelHelper{
 	private HashMap<ItemStack, Integer> validFuels;
@@ -28,7 +29,7 @@ public class ObeliskFuelHelper implements IObeliskFuelHelper{
 		for (ItemStack possibleFuel : validFuels.keySet()){
 			boolean itemCheck = stack.getItem() == possibleFuel.getItem();
 			boolean metaCheck = possibleFuel.getItemDamage() == Short.MAX_VALUE || possibleFuel.getItemDamage() == stack.getItemDamage();
-			boolean tagCheck = possibleFuel.getTagCompound() == null ? true : (stack.getTagCompound() == null ? false : stack.getTagCompound().equals(possibleFuel.getTagCompound()));
+			boolean tagCheck = possibleFuel.getTagCompound() == null ? true : (stack.getTagCompound() == null ? false : NBTUtils.contains(possibleFuel.getTagCompound(), stack.getTagCompound()));
 			if (itemCheck && metaCheck && tagCheck)
 				return validFuels.get(possibleFuel);
 		}

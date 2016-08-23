@@ -7,7 +7,7 @@ import am2.spell.component.Light;
 
 public class LoreDefs {
 
-	public static void init() {
+	public static void postInit() {
 		ArcaneCompendium.AddCompendiumEntry("guide", "yourFirstSpell", null, false, true);
 		ArcaneCompendium.AddCompendiumEntry(TileEntityCraftingAltar.class, "craftingAltar", null, false, true);
 		ArcaneCompendium.AddCompendiumEntry(TileEntityKeystoneRecepticle.class, "gateways", null, false, true);

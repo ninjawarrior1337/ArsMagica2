@@ -1,7 +1,11 @@
 package am2.proxy;
 
+import static am2.defs.IDDefs.GUI_ARCANE_DECONSTRUCTOR;
+import static am2.defs.IDDefs.GUI_ARCANE_RECONSTRUCTOR;
 import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_ASTRAL_BARRIER;
 import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
+import static am2.defs.IDDefs.GUI_ESSENCE_REFINER;
 import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
 import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
 import static am2.defs.IDDefs.GUI_KEYSTONE;
@@ -10,6 +14,7 @@ import static am2.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
 import static am2.defs.IDDefs.GUI_OBELISK;
 import static am2.defs.IDDefs.GUI_OCCULUS;
 import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_RUNE_BAG;
 import static am2.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 import static am2.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
@@ -38,8 +43,10 @@ import am2.blocks.render.TileKeystoneReceptacleRenderer;
 import am2.blocks.render.TileLecternRenderer;
 import am2.blocks.render.TileObeliskRenderer;
 import am2.blocks.render.TileRuneRenderer;
+import am2.blocks.tileentity.TileEntityArcaneDeconstructor;
 import am2.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
+import am2.blocks.tileentity.TileEntityAstralBarrier;
 import am2.blocks.tileentity.TileEntityBlackAurem;
 import am2.blocks.tileentity.TileEntityCelestialPrism;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
@@ -62,7 +69,10 @@ import am2.defs.EntityManager;
 import am2.defs.ItemDefs;
 import am2.extensions.RiftStorage;
 import am2.gui.AMGuiHelper;
+import am2.gui.GuiArcaneDeconstructor;
+import am2.gui.GuiArcaneReconstructor;
 import am2.gui.GuiArmorImbuer;
+import am2.gui.GuiAstralBarrier;
 import am2.gui.GuiCrystalMarker;
 import am2.gui.GuiFlickerHabitat;
 import am2.gui.GuiInscriptionTable;
@@ -124,11 +134,8 @@ public class ClientProxy extends CommonProxy {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch (ID) {
 		case GUI_OCCULUS: return new GuiOcculus(player);
-		case GUI_RIFT: return new GuiRiftStorage(player, RiftStorage.For(player));
-		case GUI_OBELISK: return new GuiObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
-		case GUI_INSCRIPTION_TABLE: return new GuiInscriptionTable(player.inventory, (TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_SPELL_CUSTOMIZATION: return new GuiSpellCustomization(player);
-		case GUI_ARMOR_INFUSION: return new GuiArmorImbuer(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
+		case GUI_RIFT: return new GuiRiftStorage(player, RiftStorage.For(player));
 		case GUI_SPELL_BOOK: 
 			ItemStack bookStack = player.getHeldItemMainhand();
 			if (bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
@@ -136,11 +143,10 @@ public class ClientProxy extends CommonProxy {
 			}
 			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
 			return new GuiSpellBook(player.inventory, bookStack, item.ConvertToInventory(bookStack));
-		case GUI_KEYSTONE_CHEST:
-			if (!(te instanceof TileEntityKeystoneChest)){
-				return null;
-			}
-			return new GuiKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
+		case GUI_OBELISK: return new GuiObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
+		case GUI_CRYSTAL_MARKER: return new GuiCrystalMarker(player, (TileEntityCrystalMarker)te);		
+		case GUI_INSCRIPTION_TABLE: return new GuiInscriptionTable(player.inventory, (TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)));
+		case GUI_ARMOR_INFUSION: return new GuiArmorImbuer(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_KEYSTONE:
 			ItemStack keystoneStack = player.getHeldItemMainhand();
 			if (keystoneStack.getItem() == null || !(keystoneStack.getItem() instanceof ItemKeystone)){
@@ -159,9 +165,14 @@ public class ClientProxy extends CommonProxy {
 				return null;
 			}
 			return new GuiKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
-		case GUI_FLICKER_HABITAT: return new GuiFlickerHabitat(player, (TileEntityFlickerHabitat) te);
-		case GUI_CRYSTAL_MARKER: return new GuiCrystalMarker(player, (TileEntityCrystalMarker)te);		
 		case GUI_SPELL_SEALED_DOOR: return new GuiSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
+		case GUI_KEYSTONE_CHEST: return new GuiKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
+		case GUI_RUNE_BAG: break; //TODO
+		case GUI_FLICKER_HABITAT: return new GuiFlickerHabitat(player, (TileEntityFlickerHabitat) te);
+		case GUI_ARCANE_DECONSTRUCTOR: return new GuiArcaneDeconstructor(player.inventory, (TileEntityArcaneDeconstructor) te);
+		case GUI_ARCANE_RECONSTRUCTOR: return new GuiArcaneReconstructor(player.inventory, (TileEntityArcaneReconstructor) te);
+		case GUI_ASTRAL_BARRIER: return new GuiAstralBarrier(player.inventory, (TileEntityAstralBarrier) te);
+		case GUI_ESSENCE_REFINER: break; //TODO
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}

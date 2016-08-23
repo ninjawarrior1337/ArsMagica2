@@ -215,6 +215,10 @@ public class BlockDefs {
 		registerTexture(witchwoodLog);
 		registerTexture(witchwoodSapling);
 		registerTexture(essenceConduit);
+		
+		registerTexture(arcaneDeconstructor);
+		registerTexture(arcaneReconstructor);
+		registerTexture(essenceRefiner);
 		registerTexture(everstone);
 		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
