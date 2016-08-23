@@ -43,6 +43,7 @@ import am2.blocks.render.TileCrystalMarkerRenderer;
 import am2.blocks.render.TileEssenceConduitRenderer;
 import am2.blocks.render.TileEverstoneRenderer;
 import am2.blocks.render.TileFlickerHabitatRenderer;
+import am2.blocks.render.TileIllusionBlockRenderer;
 import am2.blocks.render.TileKeystoneChestRenderer;
 import am2.blocks.render.TileKeystoneReceptacleRenderer;
 import am2.blocks.render.TileLecternRenderer;
@@ -62,6 +63,7 @@ import am2.blocks.tileentity.TileEntityEssenceRefiner;
 import am2.blocks.tileentity.TileEntityEverstone;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.blocks.tileentity.TileEntityGroundRuneSpell;
+import am2.blocks.tileentity.TileEntityIllusionBlock;
 import am2.blocks.tileentity.TileEntityInertSpawner;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.blocks.tileentity.TileEntityKeystoneChest;
@@ -233,6 +235,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGroundRuneSpell.class, new TileRuneRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEverstone.class, new TileEverstoneRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityArcaneReconstructor.class, new TileArcaneReconstructorRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIllusionBlock.class, new TileIllusionBlockRenderer());
 		
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());

@@ -15,6 +15,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -73,8 +75,8 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 		bake();
 		float floatingOffset = te.getOffset();//(float) (Math.sin(te.getOffset()) * (Math.PI/ 180F) * 1.4f);
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 
 		if ((destructionStage != -10) && te.shouldRenderItemStack()){
 			renderStack = te.getCurrentItem();
@@ -112,7 +114,6 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 		//GL11.glEnable(GL11.GL_LIGHTING);
 		GlStateManager.popMatrix(); //end
 		RenderHelper.enableStandardItemLighting();
-		//GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	private void RenderRotatedModelGroup(TileEntityArcaneReconstructor te, IBakedModel model, AMVector3 rotation){

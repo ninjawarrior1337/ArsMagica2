@@ -162,7 +162,7 @@ public class RenderUtils {
 			IBlockState state = world.getBlockState(te.getPos());
 			if (state.getBlock() != defaultState.getBlock())
 				state = defaultState;
-			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, model, state, te.getPos(), wr, false);
+			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, model, state, te.getPos(), wr, true);
 			t.draw();
 			GlStateManager.popMatrix();
 		}catch (Throwable t){

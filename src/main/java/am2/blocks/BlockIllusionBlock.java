@@ -10,11 +10,14 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockIllusionBlock extends BlockAMContainer{
@@ -42,6 +45,14 @@ public class BlockIllusionBlock extends BlockAMContainer{
 	}
 	
 	@Override
+	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		TileEntityIllusionBlock te = (TileEntityIllusionBlock)blockAccess.getTileEntity(pos);
+		if (te != null && te.getMimicBlock() != null && te.getMimicBlock() != Blocks.AIR.getDefaultState())
+			return te.getMimicBlock().shouldSideBeRendered(blockAccess, pos, side);
+		return true;
+	}
+	
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(ILLUSION_TYPE, EnumIllusionType.values()[meta]);
 	}
@@ -65,16 +76,22 @@ public class BlockIllusionBlock extends BlockAMContainer{
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 		if (entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).isPotionActive(PotionEffectsDefs.trueSight))
 			return;
-		addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
+		if (getIllusionType(state).isSolid())
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
 	}
 	
 	public static EnumIllusionType getIllusionType(IBlockState state) {
 		return state.getValue(ILLUSION_TYPE);
 	}
 	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+	
 	public static enum EnumIllusionType implements IStringSerializable {
-		DEFAULT(true, false),
-		NON_COLLIDE(false, true);
+		DEFAULT(true, true),
+		NON_COLLIDE(false, false);
 		
 		private final boolean isSolid;
 		private final boolean canBeRevealed;
