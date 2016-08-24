@@ -1,11 +1,11 @@
 package am2.container;
 
+import am2.api.items.ItemFocus;
 import am2.blocks.tileentity.TileEntitySummoner;
 import am2.container.slot.AM2Container;
 import am2.container.slot.SlotFocusOnly;
 import am2.container.slot.SlotGhostRune;
 import am2.container.slot.SlotOneItemClassOnly;
-import am2.items.ItemFocus;
 import am2.items.ItemFocusCharge;
 import am2.items.ItemFocusMana;
 import am2.items.ItemSpellBase;

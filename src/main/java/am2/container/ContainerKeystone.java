@@ -1,9 +1,12 @@
-package am2.items;
+package am2.container;
 
 import java.util.HashMap;
 
 import am2.container.slot.SlotRuneOnly;
 import am2.defs.ItemDefs;
+import am2.items.ItemKeystone;
+import am2.items.ItemRune;
+import am2.items.ItemRuneBag;
 import am2.items.ItemKeystone.KeystoneCombination;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;

@@ -2,7 +2,6 @@ package am2.container;
 
 import am2.container.slot.SlotRuneOnly;
 import am2.defs.ItemDefs;
-import am2.items.InventoryRuneBag;
 import am2.items.ItemRuneBag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -32,5 +32,6 @@ public class IDDefs {
 	public static final int GUI_SEER_STONE = 20;
 	public static final int GUI_INERT_SPAWNER = 21;
 	public static final int GUI_SUMMONER = 22;
+	public static final int GUI_ESSENCE_BAG = 23;
 	
 }

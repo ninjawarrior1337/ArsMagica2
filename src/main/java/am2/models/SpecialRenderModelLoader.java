@@ -147,7 +147,8 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 				modelLocation.toString().contains("magic_broom") ||
 				modelLocation.toString().contains("essence_conduit") ||
 				modelLocation.toString().contains("arcane_reconstructor") ||
-				modelLocation.toString().contains("seer_stone")) && modelLocation.getResourceDomain().equals("arsmagica2") && !modelLocation.toString().contains(".obj");
+				modelLocation.toString().contains("seer_stone") ||
+				modelLocation.toString().contains("warding_candle")) && modelLocation.getResourceDomain().equals("arsmagica2") && !modelLocation.toString().contains(".obj");
 	}
 
 	@Override

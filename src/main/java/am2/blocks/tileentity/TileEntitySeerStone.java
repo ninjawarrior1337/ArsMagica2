@@ -7,10 +7,10 @@ import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.ISpellFocus;
+import am2.api.items.ItemFilterFocus;
 import am2.blocks.BlockSeerStone;
 import am2.defs.BlockDefs;
-import am2.items.ISpellFocus;
-import am2.items.ItemFilterFocus;
 import am2.models.SpriteRenderInfo;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;

@@ -1,5 +1,7 @@
 package am2.items;
 
+import am2.api.items.ISpellFocus;
+import am2.api.items.ItemFocus;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 

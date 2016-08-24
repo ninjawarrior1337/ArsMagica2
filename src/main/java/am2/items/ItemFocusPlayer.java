@@ -2,6 +2,7 @@ package am2.items;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.items.ItemFilterFocus;
 import am2.defs.ItemDefs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

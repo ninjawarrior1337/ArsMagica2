@@ -5,7 +5,10 @@ import java.util.List;
 import am2.ArsMagica2;
 import am2.blocks.BlockInvisibleUtility;
 import am2.defs.BlockDefs;
+import am2.particles.AMParticle;
+import am2.particles.ParticleHoldPosition;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +19,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -35,8 +39,43 @@ public class ItemCandle extends ItemArsMagica{
 	
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("search_block")){
+			IBlockState block = worldIn.getBlockState(pos);
+			if (playerIn.isSneaking() && block != null && block.getBlockHardness(worldIn, pos) > 0f && worldIn.getTileEntity(pos) == null){
+				if (!worldIn.isRemote){
+					setSearchBlock(block, stack);
+					worldIn.setBlockToAir(pos);
+				}else{
+					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldIn, "radiant", pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+					if (particle != null){
+						particle.AddParticleController(new ParticleHoldPosition(particle, 20, 1, false));
+						particle.setRGBColorF(0, 0.5f, 1);
+					}
+				}
+				return EnumActionResult.SUCCESS;
+			}
+		}
+
+		if (!worldIn.isRemote){
+
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
+				playerIn.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.candlecantplace")));
+				return EnumActionResult.PASS;
+			}
+
+			pos = pos.offset(facing);
+
+			IBlockState block = worldIn.getBlockState(pos);
+			if (block == null || block.getBlock().isReplaceable(worldIn, pos)){
+				worldIn.setBlockState(pos, BlockDefs.wardingCandle.getDefaultState(), 2);
+				if (!playerIn.capabilities.isCreativeMode)
+					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
+			}
+			return EnumActionResult.SUCCESS;
+		}
+		return EnumActionResult.PASS;
 	}
+	
 	
 //	@Override
 //	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
@@ -98,13 +137,12 @@ public class ItemCandle extends ItemArsMagica{
 //		return false;
 //	}
 
-	public void setSearchBlock(Block block, int meta, ItemStack item){
+	public void setSearchBlock(IBlockState state, ItemStack item){
 		if (!item.hasTagCompound())
 			item.setTagCompound(new NBTTagCompound());
 
 		setFlameColor(item, 0, 1, 0);
-		item.getTagCompound().setInteger("search_block", Block.getIdFromBlock(block));
-		item.getTagCompound().setInteger("search_meta", meta);
+		item.getTagCompound().setInteger("search_block", Block.getStateId(state));
 	}
 
 	private void setFlameColor(ItemStack stack, float r, float g, float b){
@@ -116,17 +154,16 @@ public class ItemCandle extends ItemArsMagica{
 		stack.getTagCompound().setFloat("flame_blue", b);
 	}
 
-	public void search(EntityPlayer player, ItemStack stack, World world, BlockPos pos, Block block, int meta){
+	public void search(EntityPlayer player, ItemStack stack, World world, BlockPos pos, IBlockState state){
 
 		boolean found = false;
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -1; j <= 1; ++j){
 				for (int k = -radius; k <= radius; ++k){
-					Block f_block = world.getBlockState(pos.add(i, j, k)).getBlock();
-					int f_meta = f_block.getMetaFromState(world.getBlockState(pos.add(i, j, k)));
+					IBlockState f_block = world.getBlockState(pos.add(i, j, k));
 
-					if (block == f_block && (meta == Short.MAX_VALUE || meta == f_meta)){
+					if (state == f_block){
 						if (Math.abs(i) <= immediate_radius && Math.abs(k) <= immediate_radius){// && player.getCurrentArmor(3) != null && ArmorHelper.isInfusionPreset(player.getCurrentArmor(3), GenericImbuement.pinpointOres)){
 							setFlameColor(stack, 0, 0, 0);
 						}else if (Math.abs(i) <= short_radius && Math.abs(k) <= short_radius){
@@ -154,10 +191,7 @@ public class ItemCandle extends ItemArsMagica{
 	public void onUpdate(ItemStack stack, World world, Entity entity, int indexInInventory, boolean isCurrentlyHeld){
 		if (isCurrentlyHeld && entity instanceof EntityPlayer){
 			if (!world.isRemote && stack.hasTagCompound() && stack.getItemDamage() % 40 == 0){
-				search((EntityPlayer)entity, stack, world,
-						entity.getPosition(),
-						Block.getBlockById(stack.getTagCompound().getInteger("search_block")),
-						stack.getTagCompound().getInteger("search_meta"));
+				search((EntityPlayer)entity, stack, world, entity.getPosition(), Block.getStateById(stack.getTagCompound().getInteger("search_block")));
 			}
 			stack.damageItem(1, (EntityPlayer)entity);
 			if (!world.isRemote && stack.getItemDamage() >= this.getMaxDamage())
@@ -174,7 +208,8 @@ public class ItemCandle extends ItemArsMagica{
 	public String getItemStackDisplayName(ItemStack stack){
 		String name = I18n.translateToLocal("item.arsmagica2:warding_candle.name");
 		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
-			ItemStack blockStack = new ItemStack(Block.getBlockById(stack.getTagCompound().getInteger("search_block")), 1, stack.getTagCompound().getInteger("search_meta"));
+			IBlockState state = Block.getStateById(stack.getTagCompound().getInteger("search_block"));
+			ItemStack blockStack = new ItemStack(state.getBlock(), 0, state.getBlock().getMetaFromState(state));
 			Item tempItem = blockStack.getItem();
 			if(tempItem == null){
 				name += " (" + stack.getTagCompound().getInteger("search_block") + ":" + stack.getTagCompound().getInteger("search_meta") + ")";

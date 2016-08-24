@@ -1,6 +1,6 @@
 package am2.container.slot;
 
-import am2.items.ItemFocus;
+import am2.api.items.ItemFocus;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

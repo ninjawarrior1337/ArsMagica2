@@ -15,6 +15,7 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -49,6 +50,8 @@ public class BlockInlay extends BlockRailBase {
 		super(false);
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
+		this.setSoundType(SoundType.METAL);
+		this.setHarvestLevel("pickaxe", -1);
 		this.setHardness(1);
 		this.setResistance(1);
 		this.setLightOpacity(0);

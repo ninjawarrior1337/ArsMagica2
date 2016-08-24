@@ -1,6 +1,7 @@
 package am2.items;
 
 import am2.ArsMagica2;
+import am2.container.InventoryRuneBag;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
 import net.minecraft.entity.player.EntityPlayer;

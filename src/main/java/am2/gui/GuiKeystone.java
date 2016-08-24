@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import am2.container.ContainerKeystone;
+import am2.container.InventoryKeyStone;
+import am2.container.InventoryRuneBag;
 import am2.defs.ItemDefs;
 import am2.gui.controls.GuiSlideControl;
 import am2.gui.controls.GuiStatedImageButton;
-import am2.items.ContainerKeystone;
-import am2.items.InventoryKeyStone;
-import am2.items.InventoryRuneBag;
 import am2.items.ItemKeystone.KeystoneCombination;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;

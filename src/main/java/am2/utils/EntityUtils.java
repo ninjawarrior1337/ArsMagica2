@@ -109,7 +109,7 @@ public class EntityUtils {
 	}
 	
 	public static int xpBarCap(int experienceLevel){
-		return experienceLevel >= 30 ? 62 + (experienceLevel - 30) * 7 : (experienceLevel >= 15 ? 17 + (experienceLevel - 15) * 3 : 17);
+		return experienceLevel >= 30 ? 112 + (experienceLevel - 30) * 9 : (experienceLevel >= 15 ? 37 + (experienceLevel - 15) * 5 : 7 + experienceLevel * 2);//experienceLevel >= 30 ? 62 + (experienceLevel - 30) * 7 : (experienceLevel >= 15 ? 17 + (experienceLevel - 15) * 3 : 17);
 	}
 	
 	public static boolean isAIEnabled(EntityCreature ent){
@@ -342,6 +342,29 @@ public class EntityUtils {
 		float speed = entity.getAIMoveSpeed();
 		if (speed <= 0) speed = 1.0f;
 		entity.tasks.addTask(1, new EntityAIGuardSpawnLocation(entity, speed, 3, 16, new AMVector3(x, y, z)));
+	}
+	
+	public static int deductXP(int amount, EntityPlayer player) {
+		int i = player.experienceTotal;
+
+		if (amount > i) {
+			amount = i;
+		}
+		player.experienceTotal -= amount;
+		player.experience = 0;
+		player.experienceLevel = 0;
+		int addedXP = 0;
+		while (addedXP < player.experienceTotal) {
+			int toAdd = player.experienceTotal - addedXP;
+			toAdd = Math.min(toAdd, player.xpBarCap());
+			player.experience = toAdd / (float)player.xpBarCap();
+			if (player.experience == 1f) {
+				player.experienceLevel++;
+				player.experience = 0;
+			}
+			addedXP += toAdd;
+		}
+		return amount;
 	}
 
 }

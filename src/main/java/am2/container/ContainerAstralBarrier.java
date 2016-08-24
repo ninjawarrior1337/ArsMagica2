@@ -1,10 +1,10 @@
 package am2.container;
 
+import am2.api.items.ISpellFocus;
 import am2.blocks.tileentity.TileEntityAstralBarrier;
 import am2.container.slot.AM2Container;
 import am2.container.slot.SlotGhostRune;
 import am2.container.slot.SlotSpellFocusOnly;
-import am2.items.ISpellFocus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

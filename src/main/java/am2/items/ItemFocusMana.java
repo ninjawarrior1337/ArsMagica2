@@ -1,5 +1,6 @@
 package am2.items;
 
+import am2.api.items.ItemFocus;
 import am2.defs.ItemDefs;
 import net.minecraft.item.ItemStack;
 

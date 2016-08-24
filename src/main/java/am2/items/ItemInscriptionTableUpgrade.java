@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 @SuppressWarnings("deprecation")
-public class InscriptionTableUpgrade extends ItemArsMagica{
+public class ItemInscriptionTableUpgrade extends ItemArsMagica{
 
-	public InscriptionTableUpgrade(){
+	public ItemInscriptionTableUpgrade(){
 		super();
 		setMaxDamage(0);
 		setMaxStackSize(1);

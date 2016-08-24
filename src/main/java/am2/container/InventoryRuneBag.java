@@ -1,15 +1,15 @@
-package am2.items;
+package am2.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
-public class InventoryKeyStone implements IInventory{
-	public static final int inventorySize = 3;
+public class InventoryRuneBag implements IInventory{
+	public static final int inventorySize = 16;
 	private ItemStack[] inventoryItems;
 
-	public InventoryKeyStone(){
+	public InventoryRuneBag(){
 		inventoryItems = new ItemStack[inventorySize];
 	}
 
@@ -59,7 +59,7 @@ public class InventoryKeyStone implements IInventory{
 
 	@Override
 	public String getName(){
-		return "Keystone";
+		return "Rune Bag";
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class InventoryKeyStone implements IInventory{
 	public ItemStack[] GetInventoryContents(){
 		return inventoryItems;
 	}
-	
+
 	@Override
 	public ItemStack removeStackFromSlot(int i){
 		if (inventoryItems[i] != null){
@@ -138,6 +138,4 @@ public class InventoryKeyStone implements IInventory{
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }

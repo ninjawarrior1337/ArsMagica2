@@ -3,6 +3,7 @@ package am2.items;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.container.InventoryKeyStone;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
 import am2.utils.KeystoneUtilities;

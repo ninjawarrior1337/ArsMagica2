@@ -1,4 +1,4 @@
-package am2.items;
+package am2.api.items;
 
 import net.minecraft.entity.Entity;
 

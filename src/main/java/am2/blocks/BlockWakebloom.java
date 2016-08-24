@@ -1,11 +1,14 @@
 package am2.blocks;
 
+import am2.items.ItemWakebloom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockWakebloom extends BlockAMFlower{
 
@@ -26,5 +29,13 @@ public class BlockWakebloom extends BlockAMFlower{
 	@Override
 	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state){
 		return canPlaceBlockAt(worldIn, pos);
+	}
+	
+	@Override
+	public BlockAMFlower registerAndName(ResourceLocation loc) {
+		setUnlocalizedName(loc.toString());
+		GameRegistry.register(this, loc);
+		GameRegistry.register(new ItemWakebloom(this), loc);
+		return this;
 	}
 }

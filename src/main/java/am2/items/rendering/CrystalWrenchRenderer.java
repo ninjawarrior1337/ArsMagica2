@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 
 public class CrystalWrenchRenderer implements ItemMeshDefinition {
 	
-	private ModelResourceLocation loc_default = new ModelResourceLocation("arsmagica2:crystalWrench", "inventory");
-	private ModelResourceLocation loc_disconnect = new ModelResourceLocation("arsmagica2:crystalWrench_disconnect", "inventory");
-	private ModelResourceLocation loc_stored = new ModelResourceLocation("arsmagica2:crystalWrench_stored", "inventory");
+	private ModelResourceLocation loc_default = new ModelResourceLocation("arsmagica2:crystal_wrench", "inventory");
+	private ModelResourceLocation loc_disconnect = new ModelResourceLocation("arsmagica2:crystal_wrench_disconnect", "inventory");
+	private ModelResourceLocation loc_stored = new ModelResourceLocation("arsmagica2:crystal_wrench_stored", "inventory");
 	
 	private static String KEEP_BINDING = "KEEPBINDING";
 	private static String MODE = "WRENCHMODE";

@@ -2,7 +2,7 @@ package am2.blocks.tileentity;
 
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
-import am2.items.ISpellFocus;
+import am2.api.items.ISpellFocus;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleHoldPosition;
