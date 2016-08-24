@@ -128,7 +128,10 @@ public class GuiParticleEmitter extends GuiScreen{
 		if (!tile.getShow()){
 			fontRendererObj.drawSplitString(I18n.translateToLocal("am2.gui.wrenchWarning"), 10, 125, 100, 0xff0000);
 		}
-
+		
+		if (activeButton != null && activeButton instanceof GuiSlideControl){
+			actionPerformed(activeButton);
+		}
 		super.drawScreen(par1, par2, par3);
 	}
 

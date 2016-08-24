@@ -13,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -83,14 +85,24 @@ public class BlockParticleEmitter extends BlockAMContainer{
 	}
 	
 	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.MODEL;
+	}
+	
+	@Override
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.TRANSLUCENT;
+	}
+	
+	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if (te != null && te instanceof TileEntityParticleEmitter) {
-				if (playerIn.inventory.getCurrentItem() != null
-						&& playerIn.inventory.getCurrentItem().getItem() == ItemDefs.crystalWrench) {
-					if (ItemCrystalWrench.getMode(playerIn.inventory.getCurrentItem()) == 0) {
+				if (heldItem != null
+						&& heldItem.getItem() == ItemDefs.crystalWrench) {
+					if (ItemCrystalWrench.getMode(heldItem) == 0) {
 						ArsMagica2.proxy.openParticleBlockGUI(worldIn, playerIn, (TileEntityParticleEmitter) te);
 					} else {
 						if (ArsMagica2.proxy.cwCopyLoc == null) {
@@ -111,6 +123,6 @@ public class BlockParticleEmitter extends BlockAMContainer{
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 }

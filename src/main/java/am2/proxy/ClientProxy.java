@@ -49,6 +49,7 @@ import am2.blocks.render.TileKeystoneReceptacleRenderer;
 import am2.blocks.render.TileLecternRenderer;
 import am2.blocks.render.TileObeliskRenderer;
 import am2.blocks.render.TileRuneRenderer;
+import am2.blocks.render.TileSeerStoneRenderer;
 import am2.blocks.tileentity.TileEntityArcaneDeconstructor;
 import am2.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
@@ -236,6 +237,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEverstone.class, new TileEverstoneRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityArcaneReconstructor.class, new TileArcaneReconstructorRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIllusionBlock.class, new TileIllusionBlockRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySeerStone.class, new TileSeerStoneRenderer());
 		
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());

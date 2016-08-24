@@ -59,9 +59,9 @@ public class BlockSeerStone extends BlockAMPowered{
 			return new AxisAlignedBB(0.0f, 0.6f, 0.0f, 1.0f, 1.0f, 1.0f);
 		case DOWN:
 			return new AxisAlignedBB(0.0f, 0.0f, 0.0f, 1.0f, 0.4f, 1.0f);
-		case NORTH:
-			return new AxisAlignedBB(0.0f, 0.0f, 0.6f, 1.0f, 1.0f, 1.0f);
 		case SOUTH:
+			return new AxisAlignedBB(0.0f, 0.0f, 0.6f, 1.0f, 1.0f, 1.0f);
+		case NORTH:
 			return new AxisAlignedBB(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.4f);
 		case EAST:
 			return new AxisAlignedBB(0.6f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);

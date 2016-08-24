@@ -102,7 +102,7 @@ public class GuiSlideControl extends GuiButton{
 			FontRenderer fontrenderer = par1Minecraft.fontRendererObj;
 			par1Minecraft.renderEngine.bindTexture(buttonImage);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			this.dragging = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+			//this.dragging = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 			int k = this.getHoverState(this.dragging);
 			if (!this.buttonOnly){
 				if (this.isVertical){
@@ -175,7 +175,7 @@ public class GuiSlideControl extends GuiButton{
 				}
 				formatDisplayString();
 			}
-
+			
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glPushMatrix();
 			GL11.glScalef(1.0f, scale, 0.0f);

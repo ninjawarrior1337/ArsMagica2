@@ -2,6 +2,8 @@ package am2.lore;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Lists;
+
 import am2.api.event.GenerateCompendiumLoreEvent;
 import am2.gui.GuiArcaneCompendium;
 import net.minecraft.client.Minecraft;
@@ -50,11 +52,15 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 	}
 	
 	public ArrayList<String> getPages() {
-		FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-		String text = I18n.translateToLocal("compendium." + id + ".pages");//.replaceAll("!d", "\n\n").replace("!l", "\n");
-		GenerateCompendiumLoreEvent event = new GenerateCompendiumLoreEvent(text, id);
-		MinecraftForge.EVENT_BUS.post(event);
-		return splitStringToLines(fontRendererObj, event.lore, GuiArcaneCompendium.lineWidth, GuiArcaneCompendium.maxLines);
+		try {
+			FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+			String text = I18n.translateToLocal("compendium." + id + ".pages");//.replaceAll("!d", "\n\n").replace("!l", "\n");
+			GenerateCompendiumLoreEvent event = new GenerateCompendiumLoreEvent(text, id);
+			MinecraftForge.EVENT_BUS.post(event);
+			return splitStringToLines(fontRendererObj, event.lore, GuiArcaneCompendium.lineWidth, GuiArcaneCompendium.maxLines);
+		} catch (Throwable t) {
+			return Lists.newArrayList("Shit Broke.", t.getMessage());
+		}
 	}
 	
 	public String[] getParents() {

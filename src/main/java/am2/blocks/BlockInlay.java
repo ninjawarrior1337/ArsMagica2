@@ -82,7 +82,7 @@ public class BlockInlay extends BlockRailBase {
 	
 	@Override
 	public void randomDisplayTick(IBlockState stateIn, World world, BlockPos pos, Random rand) {
-		if (world.isRemote && world.getBlockState(pos.down()).getBlock().isAir(world.getBlockState(pos.down()), world, pos.down()) && ArsMagica2.config.FullGFX() && rand.nextInt(10) < 4){
+		if (world.isRemote && world.getBlockState(pos.down()).getBlock().isAir(world.getBlockState(pos.down()), world, pos.down()) && ArsMagica2.config.FullGFX() && rand.nextInt(10) < 8){
 			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, ArsMagica2.config.FullGFX() ? "radiant" : "sparkle2", pos.getX() + rand.nextFloat(), pos.getY(), pos.getZ() + rand.nextFloat());
 			if (particle != null){
 				particle.setMaxAge(20);
@@ -102,6 +102,13 @@ public class BlockInlay extends BlockRailBase {
 	public boolean canMakeSlopes(IBlockAccess world, BlockPos pos) {
 		return false;
 	}
+	
+	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+		if (!worldIn.isRemote)
+			this.updateState(state, worldIn, pos, blockIn);
+	}
+	
 	
 	@Override
 	public int tickRate(World par1World){
@@ -304,8 +311,8 @@ public class BlockInlay extends BlockRailBase {
 	
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		if (!(entityIn instanceof EntityMinecart))
-			addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
+		if (entityIn instanceof EntityMinecart) return;
+		addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
 	}
 	
 	@Override

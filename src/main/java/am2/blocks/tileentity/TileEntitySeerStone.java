@@ -29,6 +29,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
 
@@ -321,7 +322,9 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 	private void notifyNeighborsOfPowerChange(){
 		this.worldObj.notifyBlockOfStateChange(pos, BlockDefs.seerStone);
-		this.worldObj.notifyBlockOfStateChange(pos.offset(worldObj.getBlockState(pos).getValue(BlockSeerStone.FACING)), BlockDefs.seerStone);
+		BlockPos otherPos = pos.offset(worldObj.getBlockState(pos).getValue(BlockSeerStone.FACING));
+		this.worldObj.notifyBlockOfStateChange(otherPos, BlockDefs.seerStone);
+		this.worldObj.markAndNotifyBlock(otherPos, worldObj.getChunkFromBlockCoords(otherPos), worldObj.getBlockState(otherPos), worldObj.getBlockState(otherPos), 3);
 	}
 
 	public boolean ShouldAnimate(){
