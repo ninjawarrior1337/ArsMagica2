@@ -54,8 +54,12 @@ import am2.blocks.BlockVinteumTorch;
 import am2.blocks.BlockWakebloom;
 import am2.blocks.BlockWitchwoodLeaves;
 import am2.blocks.BlockWitchwoodLog;
+import am2.blocks.BlockWitchwoodPlanks;
+import am2.blocks.BlockWitchwoodSapling;
+import am2.blocks.BlockWitchwoodSlabsDouble;
+import am2.blocks.BlockWitchwoodSlabsSimple;
+import am2.blocks.BlockWitchwoodStairs;
 import am2.blocks.BlockWizardsChalk;
-import am2.blocks.WitchwoodSapling;
 import am2.blocks.colorizers.CrystalMarkerColorizer;
 import am2.blocks.colorizers.FlickerHabitatColorizer;
 import am2.blocks.colorizers.ManaBatteryColorizer;
@@ -64,6 +68,7 @@ import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.items.rendering.IgnoreMetadataRenderer;
 import am2.utils.KeystoneUtilities;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -75,6 +80,7 @@ import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -91,33 +97,33 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockDefs {
 	
-	public static final Block manaBattery = new BlockManaBattery().registerAndName(new ResourceLocation("arsmagica2:manaBattery"));
+	public static final Block manaBattery = new BlockManaBattery().registerAndName(new ResourceLocation("arsmagica2:mana_battery"));
 	public static final BlockFrost frost = new BlockFrost().registerAndName(new ResourceLocation("arsmagica2:frost"));
 	public static final BlockOcculus occulus = new BlockOcculus().registerAndName(new ResourceLocation("arsmagica2:occulus"));
 	public static final BlockAM magicWall = new BlockMagicWall().registerAndName(new ResourceLocation("arsmagica2:magic_wall"));
 	public static final BlockAM invisibleLight = new BlockLightDecay().registerAndName(new ResourceLocation("arsmagica2:invisible_light"));
-	public static final BlockAM invisibleUtility = new BlockInvisibleUtility().registerAndName(new ResourceLocation("arsmagica2:invisibleUtility"));
+	public static final BlockAM invisibleUtility = new BlockInvisibleUtility().registerAndName(new ResourceLocation("arsmagica2:invisible_utility"));
 	public static final BlockAM ores = new BlockArsMagicaOre().registerAndName(new ResourceLocation("arsmagica2:ore"));
 	public static final BlockAM blocks = new BlockArsMagicaBlock().registerAndName(new ResourceLocation("arsmagica2:block"));
-	public static final BlockAM blockMageTorch = new BlockMageLight().registerAndName(new ResourceLocation("arsmagica2:blockMageLight"));
-	public static final BlockAMFlower desertNova = new BlockDesertNova().registerAndName(new ResourceLocation("arsmagica2:desertNova"));
+	public static final BlockAM blockMageTorch = new BlockMageLight().registerAndName(new ResourceLocation("arsmagica2:block_mage_light"));
+	public static final BlockAMFlower desertNova = new BlockDesertNova().registerAndName(new ResourceLocation("arsmagica2:desert_nova"));
 	public static final BlockAMFlower cerublossom = new BlockAMFlower().registerAndName(new ResourceLocation("arsmagica2:cerublossom"));
 	public static final BlockAMFlower wakebloom = new BlockWakebloom().registerAndName(new ResourceLocation("arsmagica2:wakebloom"));
 	public static final BlockAMFlower aum = new BlockAMFlower().registerAndName(new ResourceLocation("arsmagica2:aum"));
-	public static final BlockAMFlower tarmaRoot = new BlockTarmaRoot().registerAndName(new ResourceLocation("arsmagica2:tarmaRoot"));
-	public static final BlockCraftingAltar altar = new BlockCraftingAltar().registerAndName(new ResourceLocation("arsmagica2:craftingAltar"));
-	public static final Block wizardChalk = new BlockWizardsChalk().registerAndName(new ResourceLocation("arsmagica2:wizardChalkBlock"));
+	public static final BlockAMFlower tarmaRoot = new BlockTarmaRoot().registerAndName(new ResourceLocation("arsmagica2:tarma_root"));
+	public static final BlockCraftingAltar altar = new BlockCraftingAltar().registerAndName(new ResourceLocation("arsmagica2:crafting_altar"));
+	public static final Block wizardChalk = new BlockWizardsChalk().registerAndName(new ResourceLocation("arsmagica2:wizard_chalk_block"));
 	public static final Block obelisk = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_STANDARD).registerAndName(new ResourceLocation("arsmagica2:obelisk"));
-	public static final Block blackAurem = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_DARK).registerAndName(new ResourceLocation("arsmagica2:blackAurem"));
-	public static final Block celestialPrism = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_LIGHT).registerAndName(new ResourceLocation("arsmagica2:celestialPrism"));
-	public static final Block crystalMarker = new BlockCrystalMarker().registerAndName(new ResourceLocation("arsmagica2:crystalMarker"));
-	public static final Block wardingCandle = new BlockCandle().registerAndName(new ResourceLocation("arsmagica2:wardingCandle"));
+	public static final Block blackAurem = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_DARK).registerAndName(new ResourceLocation("arsmagica2:black_aurem"));
+	public static final Block celestialPrism = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_LIGHT).registerAndName(new ResourceLocation("arsmagica2:celestial_prism"));
+	public static final Block crystalMarker = new BlockCrystalMarker().registerAndName(new ResourceLocation("arsmagica2:crystal_marker"));
+	public static final Block wardingCandle = new BlockCandle().registerAndName(new ResourceLocation("arsmagica2:warding_candle"));
 	public static final Block lectern = new BlockLectern().registerAndName(new ResourceLocation("arsmagica2:lectern"));
-	public static final Block inscriptionTable = new BlockInscriptionTable().registerAndName(new ResourceLocation("arsmagica2:inscriptionTable"));
-	public static final Block armorImbuer = new BlockArmorInfuser().registerAndName(new ResourceLocation("arsmagica2:armorImbuer"));
-	public static final Block slipstreamGenerator = new BlockSlipstreamGenerator().registerAndName(new ResourceLocation("arsmagica2:slipstreamGenerator"));
-	public static final Block witchwoodLog = new BlockWitchwoodLog().registerAndName(new ResourceLocation("arsmagica2:witchwoodLog"));
-	public static final Block essenceConduit = new BlockEssenceConduit().registerAndName(new ResourceLocation("arsmagica2:essenceConduit"));
+	public static final Block inscriptionTable = new BlockInscriptionTable().registerAndName(new ResourceLocation("arsmagica2:inscription_table"));
+	public static final Block armorImbuer = new BlockArmorInfuser().registerAndName(new ResourceLocation("arsmagica2:armor_imbuer"));
+	public static final Block slipstreamGenerator = new BlockSlipstreamGenerator().registerAndName(new ResourceLocation("arsmagica2:slipstream_generator"));
+	public static final Block witchwoodLog = new BlockWitchwoodLog().registerAndName(new ResourceLocation("arsmagica2:witchwood_log"));
+	public static final Block essenceConduit = new BlockEssenceConduit().registerAndName(new ResourceLocation("arsmagica2:essence_conduit"));
 	public static final Block redstoneInlay = new BlockInlay(BlockInlay.TYPE_REDSTONE).registerAndName(new ResourceLocation("arsmagica2:redstone_inlay"));
 	public static final Block ironInlay = new BlockInlay(BlockInlay.TYPE_IRON).registerAndName(new ResourceLocation("arsmagica2:iron_inlay"));;
 	public static final Block goldInlay = new BlockInlay(BlockInlay.TYPE_GOLD).registerAndName(new ResourceLocation("arsmagica2:gold_inlay"));;
@@ -126,17 +132,17 @@ public class BlockDefs {
 	public static final Block keystoneDoor = new BlockKeystoneDoor().registerAndName(new ResourceLocation("arsmagica2:keystone_door"));
 	public static final Block keystoneTrapdoor = new BlockKeystoneTrapdoor().registerAndName(new ResourceLocation("arsmagica2:keystone_trapdoor"));
 	public static final Block keystoneChest = new BlockKeystoneChest().registerAndName(new ResourceLocation("arsmagica2:keystone_chest"));
-	public static final Block flickerLure = new BlockFlickerLure().registerAndName(new ResourceLocation("arsmagica2:flickerLure"));
-	public static final Block elementalAttuner = new BlockFlickerHabitat().registerAndName(new ResourceLocation("arsmagica2:flickerHabitat"));
+	public static final Block flickerLure = new BlockFlickerLure().registerAndName(new ResourceLocation("arsmagica2:flicker_lure"));
+	public static final Block elementalAttuner = new BlockFlickerHabitat().registerAndName(new ResourceLocation("arsmagica2:flicker_habitat"));
 	public static final BlockSpellSealedDoor spellSealedDoor = (BlockSpellSealedDoor) new BlockSpellSealedDoor().registerAndName(new ResourceLocation("arsmagica2:spell_sealed_door"));
-	public static final Block witchwoodLeaves = new BlockWitchwoodLeaves().registerAndName(new ResourceLocation("arsmagica2:witchwoodLeaves"));
-	public static final Block witchwoodSapling = new WitchwoodSapling().registerAndName(new ResourceLocation("arsmagica2:witchwoodSapling"));
+	public static final Block witchwoodLeaves = new BlockWitchwoodLeaves().registerAndName(new ResourceLocation("arsmagica2:witchwood_leaves"));
+	public static final Block witchwoodSapling = new BlockWitchwoodSapling().registerAndName(new ResourceLocation("arsmagica2:witchwood_sapling"));
 	public static final Block everstone = new BlockEverstone().registerAndName(new ResourceLocation("arsmagica2:everstone"));
-	public static final BlockGroundRuneSpell spellRune = (BlockGroundRuneSpell) new BlockGroundRuneSpell().registerAndName(new ResourceLocation("arsmagica2:spellRune"));
-	public static final Block arcaneDeconstructor = new BlockArcaneDeconstructor().registerAndName(new ResourceLocation("arsmagica2:arcaneDeconstructor"));
-	public static final Block arcaneReconstructor = new BlockArcaneReconstructor().registerAndName(new ResourceLocation("arsmagica2:arcaneReconstructor"));
-	public static final Block essenceRefiner = new BlockEssenceRefiner().registerAndName(new ResourceLocation("arsmagica2:essenceRefiner"));
-	public static final Block illusionBlock = new BlockIllusionBlock().registerAndName(new ResourceLocation("arsmagica2:illusionBlock"));
+	public static final BlockGroundRuneSpell spellRune = (BlockGroundRuneSpell) new BlockGroundRuneSpell().registerAndName(new ResourceLocation("arsmagica2:spell_rune"));
+	public static final Block arcaneDeconstructor = new BlockArcaneDeconstructor().registerAndName(new ResourceLocation("arsmagica2:arcane_deconstructor"));
+	public static final Block arcaneReconstructor = new BlockArcaneReconstructor().registerAndName(new ResourceLocation("arsmagica2:arcane_reconstructor"));
+	public static final Block essenceRefiner = new BlockEssenceRefiner().registerAndName(new ResourceLocation("arsmagica2:essence_refiner"));
+	public static final Block illusionBlock = new BlockIllusionBlock().registerAndName(new ResourceLocation("arsmagica2:illusion_block"));
 	public static final Block seerStone = new BlockSeerStone().registerAndName(new ResourceLocation("arsmagica2:seer_stone"));
 	public static final Block brokenPowerLink = new BlockBrokenPowerLink().registerAndName(new ResourceLocation("arsmagica2:broken_power_link"));
 	public static final Block calefactor = new BlockCalefactor().registerAndName(new ResourceLocation("arsmagica2:calefactor"));
@@ -147,6 +153,10 @@ public class BlockDefs {
 	public static final Block summoner = new BlockSummoner().registerAndName(new ResourceLocation("arsmagica2:summoner"));
 	public static final Block iceEffigy = new BlockEffigy(Material.ICE).registerAndName(new ResourceLocation("arsmagica2:ice_effigy"));
 	public static final Block lightningEffigy = new BlockEffigy(Material.IRON).registerAndName(new ResourceLocation("arsmagica2:lightning_effigy"));
+	public static final Block witchwoodPlanks = new BlockWitchwoodPlanks().registerAndName(new ResourceLocation("arsmagica2:witchwood_planks"));
+	public static final Block witchwoodStairs = new BlockWitchwoodStairs(witchwoodPlanks.getDefaultState()).registerAndName(new ResourceLocation("arsmagica2:witchwood_stairs"));
+	public static final BlockSlab witchwoodSingleSlab = new BlockWitchwoodSlabsSimple();
+	public static final BlockSlab witchwoodDoubleSlab = new BlockWitchwoodSlabsDouble();
 	
 	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();
 	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
@@ -158,20 +168,24 @@ public class BlockDefs {
 		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
 		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER);
 		Item itemliquid_essence = new ItemBlock(blockliquid_essence);
-		GameRegistry.register(blockliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
-		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquidEssence"));
+		GameRegistry.register(blockliquid_essence, new ResourceLocation("arsmagica2:liquid_essence"));
+		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquid_essence"));
+		
+		GameRegistry.register(witchwoodSingleSlab, new ResourceLocation("arsmagica2:witchwood_slab"));
+		GameRegistry.register(witchwoodDoubleSlab, new ResourceLocation("arsmagica2:witchwood_slab_double"));
+		GameRegistry.register(new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab), new ResourceLocation("arsmagica2:witchwood_slab"));
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
-		Block blockliquid_essence = GameRegistry.findRegistry(Block.class).getValue(new ResourceLocation("arsmagica2:liquidEssence"));
-		Item itemliquid_essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2:liquidEssence"));
-		ModelBakery.registerItemVariants(itemliquid_essence, new ModelResourceLocation(new ResourceLocation("arsmagica2:liquidEssence"), liquid_essence.getName()));
+		Block blockliquid_essence = GameRegistry.findRegistry(Block.class).getValue(new ResourceLocation("arsmagica2:liquid_essence"));
+		Item itemliquid_essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2:liquid_essence"));
+		ModelBakery.registerItemVariants(itemliquid_essence, new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName()));
 		ModelLoader.setCustomMeshDefinition(itemliquid_essence, new ItemMeshDefinition() {
 			
 			@Override
 			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquidEssence"), liquid_essence.getName());
+				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName());
 			}
 		});
 		
@@ -179,7 +193,7 @@ public class BlockDefs {
 			
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquidEssence"), liquid_essence.getName());
+				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName());
 			}
 		});
 	}
@@ -243,6 +257,24 @@ public class BlockDefs {
 		registerTexture(arcaneReconstructor);
 		registerTexture(essenceRefiner);
 		registerTexture(everstone);
+		
+		registerTexture(illusionBlock);
+		registerTexture(seerStone);
+		registerTexture(brokenPowerLink);
+		registerTexture(calefactor);
+		registerTexture(inertSpawner);
+		registerTexture(magiciansWorkbench);
+		registerTexture(otherworldAura);
+		registerTexture(particleEmitter);
+		registerTexture(summoner);
+		registerTexture(iceEffigy);
+		registerTexture(lightningEffigy);
+		registerTexture(witchwoodStairs);
+		registerTexture(witchwoodPlanks);
+		registerTexture(witchwoodSingleSlab);
+		registerTexture(redstoneInlay);
+		registerTexture(goldInlay);
+		registerTexture(ironInlay);
 		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));

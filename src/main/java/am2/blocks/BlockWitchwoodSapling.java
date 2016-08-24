@@ -23,11 +23,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class WitchwoodSapling extends BlockBush implements IGrowable{
+public class BlockWitchwoodSapling extends BlockBush implements IGrowable{
 	
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
 	
-	public WitchwoodSapling(){
+	public BlockWitchwoodSapling(){
 		super();
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
@@ -109,7 +109,7 @@ public class WitchwoodSapling extends BlockBush implements IGrowable{
 		return new BlockStateContainer(this, AGE);
 	}
 	
-	public WitchwoodSapling registerAndName(ResourceLocation rl) {
+	public BlockWitchwoodSapling registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlockSubtypes(this), rl);

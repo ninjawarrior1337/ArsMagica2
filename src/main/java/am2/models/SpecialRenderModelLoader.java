@@ -141,12 +141,12 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 				modelLocation.toString().contains("earth_armor") ||
 				modelLocation.toString().contains("arcane_spellbook") ||
 				modelLocation.toString().contains("keystone_recepticle") ||
-				modelLocation.toString().contains("flickerHabitat") ||
-				modelLocation.toString().contains("crystalMarker") ||
+				modelLocation.toString().contains("flicker_habitat") ||
+				modelLocation.toString().contains("crystal_marker") ||
 				modelLocation.toString().contains("keystone_chest") ||
 				modelLocation.toString().contains("magic_broom") ||
-				modelLocation.toString().contains("essenceConduit") ||
-				modelLocation.toString().contains("arcaneReconstructor")) && modelLocation.getResourceDomain().equals("arsmagica2") && !modelLocation.toString().contains(".obj");
+				modelLocation.toString().contains("essence_conduit") ||
+				modelLocation.toString().contains("arcane_reconstructor")) && modelLocation.getResourceDomain().equals("arsmagica2") && !modelLocation.toString().contains(".obj");
 	}
 
 	@Override

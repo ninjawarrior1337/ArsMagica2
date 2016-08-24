@@ -41,6 +41,7 @@ public class CraftingAltarMaterials {
 		addMainMaterial(Blocks.PURPUR_BLOCK.getDefaultState(), Blocks.PURPUR_STAIRS.getDefaultState(), 4);
 		addMainMaterial(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState(), 2);
 		addMainMaterial(Blocks.RED_SANDSTONE.getDefaultState(), Blocks.RED_SANDSTONE_STAIRS.getDefaultState(), 2);
+		addMainMaterial(BlockDefs.witchwoodPlanks.getDefaultState(), BlockDefs.witchwoodStairs.getDefaultState(), 3);
 	}
 	
 	public static void addCapsMaterial (IBlockState state, int value) {
