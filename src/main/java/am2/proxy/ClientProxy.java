@@ -6,6 +6,7 @@ import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
 import static am2.defs.IDDefs.GUI_ASTRAL_BARRIER;
 import static am2.defs.IDDefs.GUI_CALEFACTOR;
 import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
+import static am2.defs.IDDefs.GUI_ESSENCE_BAG;
 import static am2.defs.IDDefs.GUI_ESSENCE_REFINER;
 import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
 import static am2.defs.IDDefs.GUI_INERT_SPAWNER;
@@ -90,6 +91,7 @@ import am2.gui.GuiArmorImbuer;
 import am2.gui.GuiAstralBarrier;
 import am2.gui.GuiCalefactor;
 import am2.gui.GuiCrystalMarker;
+import am2.gui.GuiEssenceBag;
 import am2.gui.GuiEssenceRefiner;
 import am2.gui.GuiFlickerHabitat;
 import am2.gui.GuiInertSpawner;
@@ -109,6 +111,7 @@ import am2.gui.GuiSpellCustomization;
 import am2.gui.GuiSpellSealedDoor;
 import am2.gui.GuiSummoner;
 import am2.handler.BakingHandler;
+import am2.items.ItemEssenceBag;
 import am2.items.ItemKeystone;
 import am2.items.ItemRuneBag;
 import am2.items.ItemSpellBase;
@@ -208,6 +211,13 @@ public class ClientProxy extends CommonProxy {
 		case GUI_SEER_STONE: return new GuiSeerStone(player.inventory, (TileEntitySeerStone) te);
 		case GUI_INERT_SPAWNER: return new GuiInertSpawner(player, (TileEntityInertSpawner) te);
 		case GUI_SUMMONER: return new GuiSummoner(player.inventory, (TileEntitySummoner) te);
+		case GUI_ESSENCE_BAG: 
+			bagStack = player.getHeldItemMainhand();
+			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
+				return null;
+			}
+			ItemEssenceBag essenceBag = (ItemEssenceBag)bagStack.getItem();
+			return new GuiEssenceBag(player.inventory, player.getHeldItemMainhand(), essenceBag.ConvertToInventory(bagStack));
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}
@@ -220,8 +230,10 @@ public class ClientProxy extends CommonProxy {
 		AMParticleIcons.instance.toString();
 		SpellIconManager.INSTANCE.toString();
 		
-		ClientRegistry.registerKeyBinding(BindingsDefs.iceBridge);
+		ClientRegistry.registerKeyBinding(BindingsDefs.ICE_BRIDGE);
 		ClientRegistry.registerKeyBinding(BindingsDefs.ENDER_TP);
+		ClientRegistry.registerKeyBinding(BindingsDefs.AURA_CUSTOMIZATION);
+		ClientRegistry.registerKeyBinding(BindingsDefs.SHAPE_GROUP);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());
@@ -247,6 +259,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(clientTickHandler);
 		MinecraftForge.EVENT_BUS.register(ItemRenderer.instance);
 		MinecraftForge.EVENT_BUS.register(new BakingHandler());
+		MinecraftForge.EVENT_BUS.register(new BindingsDefs());
 		
 		ArsMagica2.config.clientInit();
 		new AMSounds();

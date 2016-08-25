@@ -254,6 +254,8 @@ public class SpellUtils {
 		am2.setTag(SPELL_DATA, encodedData);
 		NBTTagList shapeGroupList = NBTUtils.addCompoundList(am2, "ShapeGroups");
 		for (KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> shapeGroup : shapeGroups) {
+			if (shapeGroup.key.isEmpty())
+				continue;
 			NBTTagCompound group = new NBTTagCompound();
 			group.setTag(SPELL_DATA, shapeGroup.value);
 			int stage = 0;
@@ -862,6 +864,21 @@ public class SpellUtils {
 		}
 
 		return applyStackStage(stack, caster, target, x, y, z, null, world, consumeMBR, giveXP, ticks);
+	}
+
+	public static int cycleShapeGroup(ItemStack stack) {
+		if (!stack.hasTagCompound())
+			return 0;
+		int current = NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("CurrentShapeGroup");
+		int max = NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("NumShapeGroups");
+		if (max == 0)
+			return 0;
+		return (current + 1) % max;
+	}
+
+	public static void setShapeGroup(ItemStack stack, int newShapeGroupOrdinal) {
+		if (stack.hasTagCompound())
+			NBTUtils.getAM2Tag(stack.getTagCompound()).setInteger("CurrentShapeGroup", newShapeGroupOrdinal);
 	}
 
 }

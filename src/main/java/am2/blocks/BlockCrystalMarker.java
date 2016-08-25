@@ -272,7 +272,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 		TileEntity te = source.getTileEntity(pos);
 		TileEntityCrystalMarker cm = (TileEntityCrystalMarker)te;
 		if (cm == null)
-			return null;
+			return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 		EnumFacing facing = state.getValue(FACING);
 
 

@@ -10,9 +10,11 @@ import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemSpellBook;
 import am2.power.PowerNodeRegistry;
+import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
@@ -43,9 +45,9 @@ public class AMPacketProcessorServer{
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 			switch (packetID){
-//			case AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE:
-//				handleCastingModeChange(remaining, (EntityPlayerMP)player);
-//				break;
+			case AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE:
+				handleCastingModeChange(remaining, (EntityPlayerMP)player);
+				break;
 //			case AMPacketIDs.MAGIC_LEVEL_UP:
 //				handleMagicLevelUp(remaining, (EntityPlayerMP)player);
 //				break;
@@ -317,22 +319,23 @@ public class AMPacketProcessorServer{
 //		ExtendedProperties.For(player).updateAuraData(index, behaviour, scale, alpha, randomColor, defaultColor, color, delay, quantity, speed);
 //	}
 //
-//	private void handleCastingModeChange(byte[] data, EntityPlayerMP player){
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		int newShapeGroupOrdinal = rdr.getInt();
-//		int index = rdr.getInt();
-//
-//		ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-//		if (stack != null){
-//			if (stack.getItem() == ItemDefs.spell){
-//				SpellUtils.instance.setShapeGroup(stack, newShapeGroupOrdinal);
-//			}else if (stack.getItem() == ItemDefs.spellBook || stack.getItem() == ItemDefs.arcaneSpellbook){
-//				ItemStack spellStack = ((ItemSpellBook)stack.getItem()).GetActiveItemStack(stack);
-//				SpellUtils.instance.setShapeGroup(spellStack, newShapeGroupOrdinal);
-//				((ItemSpellBook)stack.getItem()).replaceAciveItemStack(stack, spellStack);
-//			}
-//		}
-//	}
+	private void handleCastingModeChange(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data, false);
+		int newShapeGroupOrdinal = rdr.getInt();
+		
+		@SuppressWarnings("unused") int index = rdr.getInt();
+
+		ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+		if (stack != null){
+			if (stack.getItem() == ItemDefs.spell){
+				SpellUtils.setShapeGroup(stack, newShapeGroupOrdinal);
+			}else if (stack.getItem() == ItemDefs.spellBook || stack.getItem() == ItemDefs.arcaneSpellbook){
+				ItemStack spellStack = ((ItemSpellBook)stack.getItem()).GetActiveItemStack(stack);
+				SpellUtils.setShapeGroup(spellStack, newShapeGroupOrdinal);
+				((ItemSpellBook)stack.getItem()).replaceAciveItemStack(stack, spellStack);
+			}
+		}
+	}
 //
 //	private void handleMagicLevelUp(byte[] data, EntityPlayerMP player){
 //		/*AMDataReader reader = new AMDataReader(data, false);

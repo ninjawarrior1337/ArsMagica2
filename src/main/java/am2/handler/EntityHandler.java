@@ -64,7 +64,7 @@ public class EntityHandler {
 	public void onMouseEvent(MouseEvent event){
 		event.setCanceled(ArsMagica2.proxy.setMouseDWheel(event.getDwheel()));
 	}
-	
+
 	@SubscribeEvent
 	public void attachEntity(AttachCapabilitiesEvent.Entity event) {
 		if (event.getEntity() instanceof EntityLivingBase) {

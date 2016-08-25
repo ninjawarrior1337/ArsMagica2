@@ -6,6 +6,7 @@ import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
 import static am2.defs.IDDefs.GUI_ASTRAL_BARRIER;
 import static am2.defs.IDDefs.GUI_CALEFACTOR;
 import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
+import static am2.defs.IDDefs.GUI_ESSENCE_BAG;
 import static am2.defs.IDDefs.GUI_ESSENCE_REFINER;
 import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
 import static am2.defs.IDDefs.GUI_INERT_SPAWNER;
@@ -117,6 +118,7 @@ import am2.container.ContainerArmorInfuser;
 import am2.container.ContainerAstralBarrier;
 import am2.container.ContainerCalefactor;
 import am2.container.ContainerCrystalMarker;
+import am2.container.ContainerEssenceBag;
 import am2.container.ContainerEssenceRefiner;
 import am2.container.ContainerFlickerHabitat;
 import am2.container.ContainerInertSpawner;
@@ -148,6 +150,7 @@ import am2.handler.EntityHandler;
 import am2.handler.FlickerEvents;
 import am2.handler.PotionEffectHandler;
 import am2.handler.ShrinkHandler;
+import am2.items.ItemEssenceBag;
 import am2.items.ItemKeystone;
 import am2.items.ItemRuneBag;
 import am2.items.ItemSpellBook;
@@ -259,7 +262,6 @@ public class CommonProxy implements IGuiHandler{
 			}
 			ItemRuneBag runebag = (ItemRuneBag)bagStack.getItem();
 			return new ContainerRuneBag(player.inventory, player.getHeldItemMainhand(), runebag.ConvertToInventory(bagStack));
-
 		case GUI_FLICKER_HABITAT: return new ContainerFlickerHabitat(player, (TileEntityFlickerHabitat) te);
 		case GUI_ARCANE_DECONSTRUCTOR: return new ContainerArcaneDeconstructor(player.inventory, (TileEntityArcaneDeconstructor) te);
 		case GUI_ARCANE_RECONSTRUCTOR: return new ContainerArcaneReconstructor(player.inventory, (TileEntityArcaneReconstructor) te);
@@ -270,6 +272,13 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_SEER_STONE: return new ContainerSeerStone(player.inventory, (TileEntitySeerStone) te);
 		case GUI_INERT_SPAWNER: return new ContainerInertSpawner(player, (TileEntityInertSpawner) te);
 		case GUI_SUMMONER: return new ContainerSummoner(player.inventory, (TileEntitySummoner) te);
+		case GUI_ESSENCE_BAG: 
+			bagStack = player.getHeldItemMainhand();
+			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
+				return null;
+			}
+			ItemEssenceBag essenceBag = (ItemEssenceBag)bagStack.getItem();
+			return new ContainerEssenceBag(player.inventory, player.getHeldItemMainhand(), essenceBag.ConvertToInventory(bagStack));
 		}
 		return null;
 	}

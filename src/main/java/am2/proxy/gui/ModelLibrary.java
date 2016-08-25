@@ -6,6 +6,7 @@ import am2.entity.EntityBroom;
 import am2.entity.models.ModelBroom;
 import am2.models.ModelAirGuardianHoverball;
 import am2.models.ModelArcaneGuardianSpellBook;
+import am2.models.ModelCandle;
 import am2.models.ModelEarthGuardianChest;
 import am2.models.ModelFireGuardianEars;
 import am2.models.ModelWaterGuardianOrbs;
@@ -28,7 +29,7 @@ public class ModelLibrary{
 		waterOrbs = new ModelWaterGuardianOrbs();
 		earthArmor = new ModelEarthGuardianChest();
 		airSled = new ModelAirGuardianHoverball();
-//		wardingCandle = new ModelCandle();
+		wardingCandle = new ModelCandle();
 	}
 
 	public final ModelPlantGuardianSickle sickle = new ModelPlantGuardianSickle();
@@ -44,5 +45,5 @@ public class ModelLibrary{
 
 	public final ModelAirGuardianHoverball airSled;
 
-//	public final ModelCandle wardingCandle;
+	public final ModelCandle wardingCandle;
 }

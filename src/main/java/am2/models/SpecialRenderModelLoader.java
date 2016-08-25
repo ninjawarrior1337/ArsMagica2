@@ -41,6 +41,7 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 	public class Baked implements IPerspectiveAwareModel {
 		
 		private ItemStack stack = null;
+		private EntityLivingBase entity = null;
 		
 		@Override
 		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
@@ -79,7 +80,7 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 
 		@Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-			MinecraftForge.EVENT_BUS.post(new RenderingItemEvent(stack, cameraTransformType));
+			MinecraftForge.EVENT_BUS.post(new RenderingItemEvent(stack, cameraTransformType, entity));
 			return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
 		}
 
@@ -97,6 +98,7 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			baked.stack = stack;
+			baked.entity = entity;
 			return super.handleItemState(originalModel, stack, world, entity);
 		}
 		

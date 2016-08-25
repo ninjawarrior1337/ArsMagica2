@@ -1,13 +1,17 @@
 package am2.proxy.gui;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Quaternion;
 
 import com.google.common.base.Optional;
 
+import am2.api.affinity.Affinity;
 import am2.api.event.RenderingItemEvent;
 import am2.bosses.models.ModelPlantGuardianSickle;
 import am2.defs.ItemDefs;
+import am2.items.rendering.SpellParticleRender;
 import am2.utils.ModelUtils;
 import am2.utils.RenderUtils;
 import net.minecraft.block.Block;
@@ -18,6 +22,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -33,7 +38,7 @@ public class ItemRenderer {
 	private static final ResourceLocation fireLocation = new ResourceLocation("arsmagica2", "textures/mobs/bosses/fire_guardian.png");
 	private static final ResourceLocation earthLocation = new ResourceLocation("arsmagica2", "textures/mobs/bosses/earth_guardian.png");
 	private static final ResourceLocation broomLocation = new ResourceLocation("arsmagica2", "textures/mobs/broom.png");
-//	private static final ResourceLocation candleLocation = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("candle.png"));
+	private static final ResourceLocation candleLocation = new ResourceLocation("arsmagica2", "textures/blocks/custom/candle.png");
 
 	protected ModelPlantGuardianSickle modelSickle;
 
@@ -47,7 +52,8 @@ public class ItemRenderer {
 	
 	@SubscribeEvent
 	public void renderItemEvent(RenderingItemEvent event) {
-		renderItem(event.getCameraTransformType(), event.getStack());
+		renderItem(event.getCameraTransformType(), event.getStack(), event.getEntity());
+		
 		if (event.getStack() == null || event.getStack().getItem() == null || Block.getBlockFromItem(event.getStack().getItem()) == null) return;
 		Block block = Block.getBlockFromItem(event.getStack().getItem());
 		if (!(block instanceof ITileEntityProvider)) return;
@@ -79,7 +85,7 @@ public class ItemRenderer {
 		GL11.glPopMatrix();
 		
 		GlStateManager.pushMatrix();
-		{
+		if (item.hasEffect()) {
 			setupItemRender(type, item);
 			// SETUP
 			GlStateManager.depthMask(false);
@@ -129,29 +135,30 @@ public class ItemRenderer {
 		}
 		GlStateManager.popMatrix();
 
-//		if (item.getItem() == ItemDefs.wardingCandle && (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_RIGHT_HAND)){
-//			renderCandleFlame(type, item, data);
-//		}
+		if (item.getItem() == ItemDefs.wardingCandle && (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_RIGHT_HAND)){
+			renderCandleFlame(type, item, data);
+			GlStateManager.enableCull();
+		}
 	}
 
-//	private void renderCandleFlame(ItemRenderType type, ItemStack item, Object... data){
-//
-//		if (item.hasTagCompound()){
-//			GL11.glColor3f(item.stackTagCompound.getFloat("flame_red"),
-//					item.stackTagCompound.getFloat("flame_green"),
-//					item.stackTagCompound.getFloat("flame_blue"));
-//		}
-//		GL11.glPushMatrix();
-//		if (type == ItemRenderType.EQUIPPED){
-//			GL11.glTranslatef(0.2f, 1f, 0f);
-//			GL11.glScalef(0.5f, 0.5f, 0.5f);
-//		}else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON){
-//			GL11.glTranslatef(-1.5f, 1.85f, 0.9f);
-//			GL11.glScalef(0.15f, 0.15f, 0.15f);
-//		}
-//		SpellScrollRenderer.instance.renderEffect(Affinity.FIRE, false, data);
-//		GL11.glPopMatrix();
-//	}
+	private void renderCandleFlame(TransformType type, ItemStack item, Object... data){
+
+		if (item.hasTagCompound()){
+			GL11.glColor3f(item.getTagCompound().getFloat("flame_red"),
+					item.getTagCompound().getFloat("flame_green"),
+					item.getTagCompound().getFloat("flame_blue"));
+		}
+		GL11.glPushMatrix();
+		if (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.THIRD_PERSON_LEFT_HAND){
+			GL11.glTranslatef(0.0f, 0.5f, 0f);
+			GL11.glScalef(0.5f, 0.5f, 0.5f);
+		}else if (type == TransformType.FIRST_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_LEFT_HAND){
+			GL11.glTranslatef(0, 0.5f, 0.3f);
+			GL11.glScalef(0.15f, 0.15f, 0.15f);
+		}
+		new SpellParticleRender(new ArrayList<>()).renderEffect(Affinity.FIRE, false, (EntityLivingBase) data[0]);
+		GL11.glPopMatrix();
+	}
 
 	private void setupItemRender(TransformType type, ItemStack stack){
 //		float scale = 1.0F;
@@ -368,6 +375,15 @@ public class ItemRenderer {
 				GlStateManager.rotate(25, 1, 0, 0);
 				GlStateManager.rotate(105, 0, 0, 1);	
 			}		
+		} else if (stack.getItem() == ItemDefs.wardingCandle) {
+			GlStateManager.disableCull();
+			GlStateManager.scale(1, -1, 1);
+			GlStateManager.translate(0, -1.5, 0);
+			if (type == TransformType.GUI) {
+				GlStateManager.rotate(-25, 1, 0, 0);
+				GlStateManager.rotate(-45, 0, 1, 0);
+				GlStateManager.translate(0, 0.5, 0);
+			}
 		}
 	}
 
@@ -391,9 +407,9 @@ public class ItemRenderer {
 			ModelLibrary.instance.fireEars.render(null, 0, 0, 0, 0, 0, 0.0625F);
 		else if (stack.getItem() == ItemDefs.earthArmor)
 			ModelLibrary.instance.earthArmor.render(null, 0, 0, 0, 0, 0, 0.0625F);
-//		else if (stack.getItem() == ItemDefs.wardingCandle){
-//			ModelLibrary.instance.wardingCandle.render(0.0625f);
-//		}
+		else if (stack.getItem() == ItemDefs.wardingCandle){
+			ModelLibrary.instance.wardingCandle.render(0.0625f);
+		}
 	}
 
 	private void bindTextureByItem(ItemStack stack){
@@ -416,7 +432,7 @@ public class ItemRenderer {
 			Minecraft.getMinecraft().renderEngine.bindTexture(fireLocation);
 		else if (stack.getItem() == ItemDefs.earthArmor)
 			Minecraft.getMinecraft().renderEngine.bindTexture(earthLocation);
-//		else if (stack.getItem() == ItemDefs.wardingCandle)
-//			Minecraft.getMinecraft().renderEngine.bindTexture(candleLocation);
+		else if (stack.getItem() == ItemDefs.wardingCandle)
+			Minecraft.getMinecraft().renderEngine.bindTexture(candleLocation);
 	}
 }

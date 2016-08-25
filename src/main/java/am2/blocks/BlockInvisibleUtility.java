@@ -64,8 +64,8 @@ public class BlockInvisibleUtility extends BlockAM{
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		if (getType(state).type == EnumType.LIGHT)
-			return null;
-		return new AxisAlignedBB(pos).expandXyz(1);
+			return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
+		return new AxisAlignedBB(pos);
 	}
 	
 	@Override
