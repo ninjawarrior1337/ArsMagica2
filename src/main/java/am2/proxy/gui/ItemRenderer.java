@@ -134,11 +134,12 @@ public class ItemRenderer {
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		}
 		GlStateManager.popMatrix();
-
+		if (item.getItem() == ItemDefs.wardingCandle)
+			GlStateManager.enableCull();
 		if (item.getItem() == ItemDefs.wardingCandle && (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_RIGHT_HAND)){
 			renderCandleFlame(type, item, data);
-			GlStateManager.enableCull();
 		}
+		GlStateManager.resetColor();
 	}
 
 	private void renderCandleFlame(TransformType type, ItemStack item, Object... data){

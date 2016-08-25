@@ -155,9 +155,7 @@ public class ItemCandle extends ItemArsMagica{
 	}
 
 	public void search(EntityPlayer player, ItemStack stack, World world, BlockPos pos, IBlockState state){
-
 		boolean found = false;
-
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -1; j <= 1; ++j){
 				for (int k = -radius; k <= radius; ++k){
@@ -166,10 +164,11 @@ public class ItemCandle extends ItemArsMagica{
 					if (state == f_block){
 						if (Math.abs(i) <= immediate_radius && Math.abs(k) <= immediate_radius){// && player.getCurrentArmor(3) != null && ArmorHelper.isInfusionPreset(player.getCurrentArmor(3), GenericImbuement.pinpointOres)){
 							setFlameColor(stack, 0, 0, 0);
+							return;
 						}else if (Math.abs(i) <= short_radius && Math.abs(k) <= short_radius){
 							setFlameColor(stack, 1, 0, 0);
-							return;
-						}else{
+							found = true;
+						}else if (!found){
 							setFlameColor(stack, 0, 0.5f, 1f);
 							found = true;
 						}
@@ -177,8 +176,7 @@ public class ItemCandle extends ItemArsMagica{
 				}
 			}
 		}
-
-		if (!found)
+		if(!found)
 			setFlameColor(stack, 0, 1, 0);
 	}
 
