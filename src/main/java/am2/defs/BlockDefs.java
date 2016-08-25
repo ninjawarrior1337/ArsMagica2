@@ -12,6 +12,7 @@ import am2.blocks.BlockArcaneReconstructor;
 import am2.blocks.BlockArmorInfuser;
 import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaOre;
+import am2.blocks.BlockAstralBarrier;
 import am2.blocks.BlockBrokenPowerLink;
 import am2.blocks.BlockCalefactor;
 import am2.blocks.BlockCandle;
@@ -141,8 +142,9 @@ public class BlockDefs {
 	public static final BlockGroundRuneSpell spellRune = (BlockGroundRuneSpell) new BlockGroundRuneSpell().registerAndName(new ResourceLocation("arsmagica2:spell_rune"));
 	public static final Block arcaneDeconstructor = new BlockArcaneDeconstructor().registerAndName(new ResourceLocation("arsmagica2:arcane_deconstructor"));
 	public static final Block arcaneReconstructor = new BlockArcaneReconstructor().registerAndName(new ResourceLocation("arsmagica2:arcane_reconstructor"));
+	public static final Block astralBarrier = new BlockAstralBarrier().registerAndName(new ResourceLocation("arsmagica2:astral_barrier"));
 	public static final Block essenceRefiner = new BlockEssenceRefiner().registerAndName(new ResourceLocation("arsmagica2:essence_refiner"));
-	public static final Block illusionBlock = new BlockIllusionBlock().registerAndName(new ResourceLocation("arsmagica2:illusion_block"));
+	public static final BlockIllusionBlock illusionBlock = (BlockIllusionBlock) new BlockIllusionBlock().registerAndName(new ResourceLocation("arsmagica2:illusion_block"));
 	public static final Block seerStone = new BlockSeerStone().registerAndName(new ResourceLocation("arsmagica2:seer_stone"));
 	public static final Block brokenPowerLink = new BlockBrokenPowerLink().registerAndName(new ResourceLocation("arsmagica2:broken_power_link"));
 	public static final Block calefactor = new BlockCalefactor().registerAndName(new ResourceLocation("arsmagica2:calefactor"));
@@ -275,6 +277,7 @@ public class BlockDefs {
 		registerTexture(redstoneInlay);
 		registerTexture(goldInlay);
 		registerTexture(ironInlay);
+		registerTexture(astralBarrier);
 		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));

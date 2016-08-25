@@ -17,7 +17,9 @@ public class ItemOre extends ItemArsMagica {
 			"moonstone",
 			"sunstone",
 			"bluetopaz",
-			"arcaneash"};
+			"arcaneash",
+			"arcane_compound",
+			"animal_fat"};
 	public static final int META_VINTEUM = 0;
 	public static final int META_PURIFIED_VINTEUM = 1;
 	public static final int META_CHIMERITE = 2;
@@ -25,6 +27,8 @@ public class ItemOre extends ItemArsMagica {
 	public static final int META_SUNSTONE = 4;	
 	public static final int META_BLUE_TOPAZ = 5;
 	public static final int META_ARCANEASH = 6;
+	public static final int META_ARCANECOMPOUND = 7;
+	public static final int META_ANIMALFAT = 8;
 	
 	public ItemOre() {
 		 setHasSubtypes(true);

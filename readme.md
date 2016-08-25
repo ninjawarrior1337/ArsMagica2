@@ -5,7 +5,7 @@ This is a reworked version of the Ars Magica 2 mod by Mithion.
 
 This version is focused on the API, allowing modders to add AM2-related content in a simple way.
 
-I'd say i'm 60-65% done with this update
+I'd say i'm 80-85% done with this update
 
 ## Useful Links
 * [Homepage](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1292222)

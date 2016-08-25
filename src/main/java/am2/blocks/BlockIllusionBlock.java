@@ -3,7 +3,9 @@ package am2.blocks;
 import java.util.List;
 
 import am2.blocks.tileentity.TileEntityIllusionBlock;
+import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
+import am2.items.ItemOre;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -11,6 +13,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -87,6 +91,27 @@ public class BlockIllusionBlock extends BlockAMContainer{
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
+	}
+	
+	public Object[] GetRecipeComponents(boolean alwaysPassable){
+		if (alwaysPassable){
+			return new Object[]{
+					"BRB", "RGR", "BRB",
+					Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
+					Character.valueOf('G'), Blocks.GLASS,
+					Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE)
+			};
+		}else{
+			return new Object[]{
+					"BRB", "R R", "BRB",
+					Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
+					Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE)
+			};
+		}
+	}
+
+	public int GetCraftingQuantity(){
+		return 4;
 	}
 	
 	public static enum EnumIllusionType implements IStringSerializable {

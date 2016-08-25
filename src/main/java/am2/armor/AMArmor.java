@@ -1,6 +1,5 @@
 package am2.armor;
 
-import am2.api.event.ArmorTextureEvent;
 import am2.defs.CreativeTabsDefs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ISpecialArmor;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class AMArmor extends ItemArmor implements ISpecialArmor{
@@ -47,7 +45,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 	}
 
 	public AMArmor registerAndName(String name) {
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName("arsmagica2:" + name);
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}
@@ -103,15 +101,15 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type){
-		int armorType = -1;
-		if (stack.getItem() instanceof AMArmor){
-			armorType = ((AMArmor)stack.getItem()).renderIndex;
-		}
+//		int armorType = -1;
+//		if (stack.getItem() instanceof AMArmor){
+//			armorType = ((AMArmor)stack.getItem()).renderIndex;
+//		}
+//
+//		ArmorTextureEvent event = new ArmorTextureEvent(slot, armorType);
+//		MinecraftForge.EVENT_BUS.post(event);
 
-		ArmorTextureEvent event = new ArmorTextureEvent(slot, armorType);
-		MinecraftForge.EVENT_BUS.post(event);
-
-		return event.texture;
+		return null; //event.texture;
 	}
 
 	@Override

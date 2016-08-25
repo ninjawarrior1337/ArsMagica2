@@ -63,6 +63,8 @@ import am2.armor.infusions.Recoil;
 import am2.armor.infusions.SwimSpeed;
 import am2.armor.infusions.WaterBreathing;
 import am2.armor.infusions.WaterWalking;
+import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
+import am2.blocks.BlockArsMagicaOre.EnumOreType;
 import am2.blocks.tileentity.TileEntityArcaneDeconstructor;
 import am2.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
@@ -152,6 +154,7 @@ import am2.handler.PotionEffectHandler;
 import am2.handler.ShrinkHandler;
 import am2.items.ItemEssenceBag;
 import am2.items.ItemKeystone;
+import am2.items.ItemOre;
 import am2.items.ItemRuneBag;
 import am2.items.ItemSpellBook;
 import am2.lore.CompendiumUnlockHandler;
@@ -292,12 +295,6 @@ public class CommonProxy implements IGuiHandler{
 		
 		ForgeChunkManager.setForcedChunkLoadingCallback(ArsMagica2.instance, AMChunkLoader.INSTANCE);
 		NetworkRegistry.INSTANCE.registerGuiHandler(ArsMagica2.instance, this);
-		OreDictionary.registerOre("fenceWood", Blocks.ACACIA_FENCE);
-		OreDictionary.registerOre("fenceWood", Blocks.OAK_FENCE);
-		OreDictionary.registerOre("fenceWood", Blocks.DARK_OAK_FENCE);
-		OreDictionary.registerOre("fenceWood", Blocks.SPRUCE_FENCE);
-		OreDictionary.registerOre("fenceWood", Blocks.BIRCH_FENCE);
-		OreDictionary.registerOre("fenceWood", Blocks.JUNGLE_FENCE);
 		SeventhSanctum.instance.init();
 		
 		initHandlers();
@@ -378,6 +375,7 @@ public class CommonProxy implements IGuiHandler{
 		blocks = new BlockDefs();
 		blocks.preInit();
 		new CreativeTabsDefs();
+		initOreDict();
 	}
 	
 	public void init() {
@@ -569,5 +567,36 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void openParticleBlockGUI(World worldIn, EntityPlayer playerIn, TileEntityParticleEmitter te) {
+	}
+	
+	private void initOreDict() {
+		OreDictionary.registerOre("fenceWood", Blocks.ACACIA_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.OAK_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.DARK_OAK_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.SPRUCE_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.BIRCH_FENCE);
+		OreDictionary.registerOre("fenceWood", Blocks.JUNGLE_FENCE);
+		OreDictionary.registerOre("oreBlueTopaz", new ItemStack(BlockDefs.ores, 1, EnumOreType.BLUETOPAZ.ordinal()));
+		OreDictionary.registerOre("oreVinteum", new ItemStack(BlockDefs.ores, 1, EnumOreType.VINTEUM.ordinal()));
+		OreDictionary.registerOre("oreChimerite", new ItemStack(BlockDefs.ores, 1, EnumOreType.CHIMERITE.ordinal()));
+		OreDictionary.registerOre("oreMoonstone", new ItemStack(BlockDefs.ores, 1, EnumOreType.MOONSTONE.ordinal()));
+		OreDictionary.registerOre("oreSunstone", new ItemStack(BlockDefs.ores, 1, EnumOreType.SUNSTONE.ordinal()));
+
+		OreDictionary.registerOre("blockBlueTopaz", new ItemStack(BlockDefs.blocks, 1, EnumBlockType.BLUETOPAZ.ordinal()));
+		OreDictionary.registerOre("blockVinteum", new ItemStack(BlockDefs.blocks, 1, EnumBlockType.VINTEUM.ordinal()));
+		OreDictionary.registerOre("blockChimerite", new ItemStack(BlockDefs.blocks, 1, EnumBlockType.CHIMERITE.ordinal()));
+		OreDictionary.registerOre("blockMoonstone", new ItemStack(BlockDefs.blocks, 1, EnumBlockType.MOONSTONE.ordinal()));
+		OreDictionary.registerOre("blockSunstone", new ItemStack(BlockDefs.blocks, 1, EnumBlockType.SUNSTONE.ordinal()));
+
+		OreDictionary.registerOre("chestWood", new ItemStack(Blocks.CHEST));
+		OreDictionary.registerOre("craftingTableWood", new ItemStack(Blocks.CRAFTING_TABLE));
+		
+		OreDictionary.registerOre("dustVinteum", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM));
+		OreDictionary.registerOre("arcaneAsh", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH));
+		OreDictionary.registerOre("gemBlueTopaz", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ));
+		OreDictionary.registerOre("gemChimerite", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE));
+		OreDictionary.registerOre("gemMoonstone", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE));
+		OreDictionary.registerOre("gemSunstone", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE));
+
 	}
 }

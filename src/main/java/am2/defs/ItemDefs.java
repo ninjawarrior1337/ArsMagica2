@@ -5,10 +5,12 @@ import java.util.Map.Entry;
 import am2.api.SkillPointRegistry;
 import am2.api.items.ItemFocus;
 import am2.api.skill.SkillPoint;
+import am2.armor.AMArmor;
 import am2.armor.ArsMagicaArmorMaterial;
 import am2.armor.ItemEarthGuardianArmor;
 import am2.armor.ItemEnderBoots;
 import am2.armor.ItemFireGuardianEars;
+import am2.armor.ItemMageHood;
 import am2.armor.ItemMagitechGoggles;
 import am2.armor.ItemWaterGuardianOrbs;
 import am2.enchantments.AMEnchantmentHelper;
@@ -71,6 +73,7 @@ import am2.items.SpellBase;
 import am2.items.colorizers.CrystalPhylacteryColorizer;
 import am2.items.colorizers.FlickerJarColorizer;
 import am2.items.colorizers.LostJournalColorizer;
+import am2.items.colorizers.SpellBookColorizer;
 import am2.items.rendering.AffinityRenderer;
 import am2.items.rendering.CrystalWrenchRenderer;
 import am2.items.rendering.DefaultWithMetaRenderer;
@@ -107,6 +110,8 @@ public class ItemDefs {
 	
 	private static final ArmorMaterial MAGITECH = EnumHelper.addArmorMaterial("magitech", "arsmagica2:magitech", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
 	private static final ArmorMaterial ENDER = EnumHelper.addArmorMaterial("ender", "arsmagica2:ender", 7, new int[]{1, 3, 5, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
+	private static final ArmorMaterial MAGE = EnumHelper.addArmorMaterial("mage", "arsmagica2:mage", 7, new int[]{1, 3, 5, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
+	private static final ArmorMaterial BATTLEMAGE = EnumHelper.addArmorMaterial("battlemage", "arsmagica2:battlemage", 15, new int[]{2, 5, 6, 2}, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
 	
 	public static final ItemArsMagica spellParchment = new ItemArsMagica().registerAndName("spell_parchment");
 	public static final ItemArsMagica affinityTome = new ItemAffinityTome().registerAndName("tome");
@@ -185,6 +190,16 @@ public class ItemDefs {
 	public static final Item journal = new ItemJournal().registerAndName("journal");
 	public static final Item manaMartini = new ItemManaMartini().registerAndName("mana_martini");
 	
+	public static final Item mageHood = new ItemMageHood(MAGE, ArsMagicaArmorMaterial.MAGE, 0, EntityEquipmentSlot.HEAD).registerAndName("helmet_mage");
+	public static final Item mageArmor = new AMArmor(MAGE, ArsMagicaArmorMaterial.MAGE, 0, EntityEquipmentSlot.CHEST).registerAndName("chest_mage");
+	public static final Item mageLeggings = new AMArmor(MAGE, ArsMagicaArmorMaterial.MAGE, 0, EntityEquipmentSlot.LEGS).registerAndName("legs_mage");
+	public static final Item mageBoots = new AMArmor(MAGE, ArsMagicaArmorMaterial.MAGE, 0, EntityEquipmentSlot.FEET).registerAndName("boots_mage");
+	public static final Item battlemageHood = new ItemMageHood(BATTLEMAGE, ArsMagicaArmorMaterial.BATTLEMAGE, 0, EntityEquipmentSlot.HEAD).registerAndName("helmet_battlemage");
+	public static final Item battlemageArmor = new AMArmor(BATTLEMAGE, ArsMagicaArmorMaterial.BATTLEMAGE, 0, EntityEquipmentSlot.CHEST).registerAndName("chest_battlemage");
+	public static final Item battlemageLeggings = new AMArmor(BATTLEMAGE, ArsMagicaArmorMaterial.BATTLEMAGE, 0, EntityEquipmentSlot.LEGS).registerAndName("legs_battlemage");
+	public static final Item battlemageBoots = new AMArmor(BATTLEMAGE, ArsMagicaArmorMaterial.BATTLEMAGE, 0, EntityEquipmentSlot.FEET).registerAndName("boots_battlemage");
+
+	
 	
 	public static ItemStack natureScytheEnchanted;
 	public static ItemStack winterArmEnchanted;
@@ -260,9 +275,20 @@ public class ItemDefs {
 		registerTexture(crystalPhylactery);
 		registerTexture(deficitCrystal);
 		
+		registerTexture(mageArmor);
+		registerTexture(mageHood);
+		registerTexture(mageLeggings);
+		registerTexture(mageBoots);
+		
+		registerTexture(battlemageArmor);
+		registerTexture(battlemageHood);
+		registerTexture(battlemageLeggings);
+		registerTexture(battlemageBoots);
+		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new LostJournalColorizer(), lostJournal);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new CrystalPhylacteryColorizer(), crystalPhylactery);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new SpellBookColorizer(), spellBook);
 		
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		
