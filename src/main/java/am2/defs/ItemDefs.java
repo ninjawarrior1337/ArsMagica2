@@ -79,6 +79,7 @@ import am2.items.rendering.CrystalWrenchRenderer;
 import am2.items.rendering.DefaultWithMetaRenderer;
 import am2.items.rendering.FlickerOperatorRenderer;
 import am2.items.rendering.IgnoreMetadataRenderer;
+import am2.items.rendering.ManaPotionBundleRenderer;
 import am2.items.rendering.SpellRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -183,7 +184,7 @@ public class ItemDefs {
 	public static final Item standardManaPotion = new ItemManaPotion().registerAndName("standard_mana_potion");
 	public static final Item greaterManaPotion = new ItemManaPotion().registerAndName("greater_mana_potion");
 	public static final Item epicManaPotion = new ItemManaPotion().registerAndName("epic_mana_potion");
-	public static final Item legendaryManaPotion = new ItemManaPotion().registerAndName("lengendary_mana_potion");
+	public static final Item legendaryManaPotion = new ItemManaPotion().registerAndName("legendary_mana_potion");
 	public static final Item manaPotionBundle = new ItemManaPotionBundle().registerAndName("mana_potion_bundle");
 	public static final Item essenceBag = new ItemEssenceBag().registerAndName("essence_bag");
 	public static final Item hellCowHorn = new ItemHellCowHorn().registerAndName("hell_cow_horn");
@@ -285,6 +286,14 @@ public class ItemDefs {
 		registerTexture(battlemageLeggings);
 		registerTexture(battlemageBoots);
 		
+		registerTexture(legendaryManaPotion);
+		registerTexture(epicManaPotion);
+		registerTexture(greaterManaPotion);
+		registerTexture(standardManaPotion);
+		registerTexture(lesserManaPotion);
+		
+		registerTexture(manaMartini);
+		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new LostJournalColorizer(), lostJournal);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new CrystalPhylacteryColorizer(), crystalPhylactery);
@@ -315,11 +324,16 @@ public class ItemDefs {
 			ModelBakery.registerItemVariants(rune, new ModelResourceLocation("arsmagica2:rune_" + EnumDyeColor.byDyeDamage(i).getName().toLowerCase(), "inventory"));
 			renderItem.getItemModelMesher().register(rune, i, new ModelResourceLocation("arsmagica2:rune_" + EnumDyeColor.byDyeDamage(i).getName().toLowerCase(), "inventory"));
 		}
+		
+		
 		for (int i = 0; i < ItemOre.names.length; i++) {
 			ModelResourceLocation loc = new ModelResourceLocation(new ResourceLocation("arsmagica2", "item_ore_" + ItemOre.names[i]), "inventory");
 			ModelBakery.registerItemVariants(itemOre, loc);
 			renderItem.getItemModelMesher().register(itemOre, i, loc);
 		}
+		
+		
+		renderItem.getItemModelMesher().register(manaPotionBundle, new ManaPotionBundleRenderer());
 		DefaultWithMetaRenderer crystalPhylacteryRenderer = new DefaultWithMetaRenderer(new ModelResourceLocation(crystalPhylactery.getRegistryName(), "inventory"));
 		for(int i = 1; i < 4; i++) {
 			ModelResourceLocation loc = new ModelResourceLocation(crystalPhylactery.getRegistryName().toString() + (i == ItemCrystalPhylactery.META_QUARTER ? "_quarter" : (i == ItemCrystalPhylactery.META_HALF ? "_half" : "_full")), "inventory");

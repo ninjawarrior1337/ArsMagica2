@@ -13,6 +13,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,8 +37,9 @@ public class ItemManaPotion extends ItemArsMagica{
 		EntityExtension props = EntityExtension.For(par3EntityPlayer);
 		if (props.getCurrentMana() < props.getMaxMana()){
 			par3EntityPlayer.setActiveHand(hand);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par1ItemStack);
 		}
-		return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer, hand);
+		return new ActionResult<ItemStack>(EnumActionResult.FAIL, par1ItemStack);
 	}
 
 
@@ -118,6 +120,7 @@ public class ItemManaPotion extends ItemArsMagica{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
+		super.getSubItems(par1, par2CreativeTabs, par3List);
 	}
 
 }

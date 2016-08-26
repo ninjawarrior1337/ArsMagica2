@@ -12,6 +12,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -20,9 +21,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 public class ItemManaPotionBundle extends ItemArsMagica{
-
-	public static final String[] textureFiles = {"potion_bundle_lesser", "potion_bundle_standard", "potion_bundle_greater", "potion_bundle_epic", "potion_bundle_legendary"};
-
 	public ItemManaPotionBundle(){
 		super();
 		this.setMaxDamage(0);
@@ -65,8 +63,9 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 		EntityExtension props = EntityExtension.For(par3EntityPlayer);
 		if (props.getCurrentMana() < props.getMaxMana()){
 			par3EntityPlayer.setActiveHand(hand);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par1ItemStack);
 		}
-		return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer, hand);
+		return new ActionResult<ItemStack>(EnumActionResult.FAIL, par1ItemStack);
 	}
 
 

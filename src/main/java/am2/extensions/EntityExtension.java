@@ -55,6 +55,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -80,6 +81,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	private ArrayList<ManaLinkEntry> manaLinks = new ArrayList<>();
 	public AMVector2 originalSize;
 	public float shrinkAmount;
+	public boolean astralBarrierBlocked = false;
 		
 	@Override
 	public boolean hasEnoughtMana(float cost) {
@@ -221,7 +223,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setCurrentMana(float currentMana) {
-		entity.getDataManager().set(CURRENT_MANA, Math.max(currentMana, 0));
+		entity.getDataManager().set(CURRENT_MANA, MathHelper.clamp_float(currentMana, 0, getMaxMana()));
 	}
 	
 	@Override

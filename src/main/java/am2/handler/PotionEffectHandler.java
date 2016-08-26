@@ -1,14 +1,19 @@
 package am2.handler;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.GL11;
 
 import am2.api.event.EventPotionAdded;
 import am2.api.event.SpellCastEvent;
+import am2.blocks.tileentity.TileEntityAstralBarrier;
 import am2.buffs.BuffEffectTemporalAnchor;
 import am2.buffs.BuffStatModifiers;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
+import am2.utils.DimensionUtilities;
+import am2.utils.KeystoneUtilities;
 import am2.utils.SelectionUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -17,6 +22,7 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
@@ -146,8 +152,15 @@ public class PotionEffectHandler {
 	
 	@SubscribeEvent
 	public void teleportEvent(EnderTeleportEvent e) {
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.astralDistortion) || e.getEntity().isDead) {
+		ArrayList<Long> keystoneKeys = KeystoneUtilities.instance.GetKeysInInvenory(e.getEntityLiving());
+		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.GetBlockingAstralBarrier(e.getEntityLiving().worldObj, new BlockPos(e.getTargetX(), e.getTargetY(), e.getTargetZ()), keystoneKeys);
+
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.astralDistortion) || blockingBarrier != null){
 			e.setCanceled(true);
+			if (blockingBarrier != null){
+				blockingBarrier.onEntityBlocked(e.getEntityLiving());
+			}
+			return;
 		}
 	}
 	

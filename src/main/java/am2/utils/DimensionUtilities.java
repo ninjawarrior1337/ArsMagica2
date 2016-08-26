@@ -1,11 +1,18 @@
 package am2.utils;
 
+import java.util.ArrayList;
+
+import am2.blocks.tileentity.TileEntityAstralBarrier;
+import am2.defs.BlockDefs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -42,33 +49,29 @@ public class DimensionUtilities{
 		}
 	}
 
-//	public static TileEntityAstralBarrier GetBlockingAstralBarrier(World world, int x, int y, int z, ArrayList<Long> keys){
-//		//check for Astral Barrier
-//		for (int i = -20; i <= 20; ++i){
-//			for (int j = -20; j <= 20; ++j){
-//				for (int k = -20; k <= 20; ++k){
-//					if (world.getBlock(x + i, y + j, z + k) == BlocksCommonProxy.astralBarrier){
-//
-//						TileEntity te = world.getTileEntity(x + i, y + j, z + k);
-//						if (te == null || !(te instanceof TileEntityAstralBarrier)){
-//							continue;
-//						}
-//						TileEntityAstralBarrier barrier = (TileEntityAstralBarrier)te;
-//
-//						long barrierKey = KeystoneUtilities.instance.getKeyFromRunes(barrier.getRunesInKey());
-//						if ((barrierKey != 0 && keys.contains(barrierKey)) || !barrier.IsActive()) continue;
-//
-//						int dx = x - barrier.xCoord;
-//						int dy = y - barrier.yCoord;
-//						int dz = z - barrier.zCoord;
-//
-//						int sqDist = (dx * dx + dy * dy + dz * dz);
-//
-//						if (sqDist < (barrier.getRadius() * barrier.getRadius())) return barrier;
-//					}
-//				}
-//			}
-//		}
-//		return null;
-//	}
+	public static TileEntityAstralBarrier GetBlockingAstralBarrier(World world, BlockPos pos, ArrayList<Long> keys){
+		//check for Astral Barrier
+		for (int i = -20; i <= 20; ++i){
+			for (int j = -20; j <= 20; ++j){
+				for (int k = -20; k <= 20; ++k){
+					if (world.getBlockState(pos.add(i, j, k)).getBlock() == BlockDefs.astralBarrier){
+
+						TileEntity te = world.getTileEntity(pos.add(i, j, k));
+						if (te == null || !(te instanceof TileEntityAstralBarrier)){
+							continue;
+						}
+						TileEntityAstralBarrier barrier = (TileEntityAstralBarrier)te;
+
+						long barrierKey = KeystoneUtilities.instance.getKeyFromRunes(barrier.getRunesInKey());
+						if ((barrierKey != 0 && keys.contains(barrierKey)) || !barrier.IsActive()) continue;
+
+						int sqDist = (int) pos.distanceSq(barrier.getPos());
+
+						if (sqDist < (barrier.getRadius() * barrier.getRadius())) return barrier;
+					}
+				}
+			}
+		}
+		return null;
+	}
 }
