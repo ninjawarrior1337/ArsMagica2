@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
@@ -9,11 +10,15 @@ import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
+import am2.blocks.tileentity.TileEntityAstralBarrier;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
+import am2.extensions.EntityExtension;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleMoveOnHeading;
+import am2.utils.DimensionUtilities;
+import am2.utils.KeystoneUtilities;
 import am2.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -36,9 +41,9 @@ public class Blink extends SpellComponent{
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase)) return false;
 
-//		if (world.isRemote){
-//			ExtendedProperties.For((EntityLivingBase)target).astralBarrierBlocked = false;
-//		}
+		if (world.isRemote){
+			EntityExtension.For((EntityLivingBase)target).astralBarrierBlocked = false;
+		}
 
 		double distance = GetTeleportDistance(stack, caster, target);
 
@@ -58,18 +63,16 @@ public class Blink extends SpellComponent{
 		motionX = d;
 		motionY = d1;
 		motionZ = d2;
-//		float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
-
-//		ArrayList<Long> keystoneKeys = KeystoneUtilities.instance.GetKeysInInvenory((EntityLivingBase)target);
+		ArrayList<Long> keystoneKeys = KeystoneUtilities.instance.GetKeysInInvenory((EntityLivingBase)target);
 
 		double newX = target.posX + motionX;
 		double newZ = target.posZ + motionZ;
 		double newY = target.posY + motionY;
 
 		boolean coordsValid = false;
-//		boolean astralBarrierBlocked = false;
+		boolean astralBarrierBlocked = false;
 
-//		TileEntityAstralBarrier finalBlocker = null;
+		TileEntityAstralBarrier finalBlocker = null;
 
 		while (!coordsValid && distance > 0){
 
@@ -80,46 +83,44 @@ public class Blink extends SpellComponent{
 				newZ = caster.posZ;
 			}
 
-//			TileEntityAstralBarrier blocker = DimensionUtilities.GetBlockingAstralBarrier(world, (int)newX, (int)newY, (int)newZ, keystoneKeys);
-//			while (blocker != null){
-//				finalBlocker = blocker;
-//				astralBarrierBlocked = true;
-//
-//				int dx = (int)newX - blocker.getPos().getX();
-//				int dy = (int)newY - blocker.getPos().getY();
-//				int dz = (int)newZ - blocker.getPos().getZ();
-//
-//				int sqDist = (dx * dx + dy * dy + dz * dz);
-//				int delta = blocker.getRadius() - (int)Math.floor(Math.sqrt(sqDist));
-//				distance -= delta;
-//				if (distance < 0) break;
-//
-//				motionX = -MathHelper.sin((target.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((target.rotationPitch / 180F) * 3.141593F) * distance;
-//				motionZ = MathHelper.cos((target.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((target.rotationPitch / 180F) * 3.141593F) * distance;
-//				motionY = -MathHelper.sin((target.rotationPitch / 180F) * 3.141593F) * distance;
-//
-//				d = motionX;
-//				d1 = motionY;
-//				d2 = motionZ;
-//
-//				f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
-//				d /= f2;
-//				d1 /= f2;
-//				d2 /= f2;
-//				d *= distance;
-//				d1 *= distance;
-//				d2 *= distance;
-//				motionX = d;
-//				motionY = d1;
-//				motionZ = d2;
-//				f3 = MathHelper.sqrt_double(d * d + d2 * d2);
-//
-//				newX = target.posX + motionX;
-//				newZ = target.posZ + motionZ;
-//				newY = target.posY + motionY;
-//
-//				blocker = DimensionUtilities.GetBlockingAstralBarrier(world, (int)newX, (int)newY, (int)newZ, keystoneKeys);
-//			}
+			TileEntityAstralBarrier blocker = DimensionUtilities.GetBlockingAstralBarrier(world, new BlockPos(newX, newY, newZ), keystoneKeys);
+			while (blocker != null){
+				finalBlocker = blocker;
+				astralBarrierBlocked = true;
+
+				int dx = (int)newX - blocker.getPos().getX();
+				int dy = (int)newY - blocker.getPos().getY();
+				int dz = (int)newZ - blocker.getPos().getZ();
+
+				int sqDist = (dx * dx + dy * dy + dz * dz);
+				int delta = blocker.getRadius() - (int)Math.floor(Math.sqrt(sqDist));
+				distance -= delta;
+				if (distance < 0) break;
+
+				motionX = -MathHelper.sin((target.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((target.rotationPitch / 180F) * 3.141593F) * distance;
+				motionZ = MathHelper.cos((target.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((target.rotationPitch / 180F) * 3.141593F) * distance;
+				motionY = -MathHelper.sin((target.rotationPitch / 180F) * 3.141593F) * distance;
+
+				d = motionX;
+				d1 = motionY;
+				d2 = motionZ;
+
+				f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
+				d /= f2;
+				d1 /= f2;
+				d2 /= f2;
+				d *= distance;
+				d1 *= distance;
+				d2 *= distance;
+				motionX = d;
+				motionY = d1;
+				motionZ = d2;
+				newX = target.posX + motionX;
+				newZ = target.posZ + motionZ;
+				newY = target.posY + motionY;
+
+				blocker = DimensionUtilities.GetBlockingAstralBarrier(world, new BlockPos(newX, newY, newZ), keystoneKeys);
+			}
 			if (distance < 0){
 				coordsValid = false;
 				break;
@@ -228,12 +229,12 @@ public class Blink extends SpellComponent{
 
 		}
 
-//		if (world.isRemote && astralBarrierBlocked && coordsValid){
-//			ExtendedProperties.For((EntityLivingBase)target).astralBarrierBlocked = true;
-//			if (finalBlocker != null){
-//				finalBlocker.onEntityBlocked((EntityLivingBase)target);
-//			}
-//		}
+		if (world.isRemote && astralBarrierBlocked && coordsValid){
+			EntityExtension.For((EntityLivingBase)target).astralBarrierBlocked = true;
+			if (finalBlocker != null){
+				finalBlocker.onEntityBlocked((EntityLivingBase)target);
+			}
+		}
 
 		if (!world.isRemote){
 			if (!coordsValid && target instanceof EntityPlayer){
