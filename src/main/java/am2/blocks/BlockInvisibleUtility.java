@@ -157,6 +157,16 @@ public class BlockInvisibleUtility extends BlockAM{
 				spawnBlockParticles(worldIn, pos);
 		}
 	}
+	
+	@Override
+	public boolean isFullBlock(IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
 
 	private void spawnBlockParticles(World world, BlockPos pos){
 		AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "symbols", pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
@@ -191,7 +201,7 @@ public class BlockInvisibleUtility extends BlockAM{
 	
 	@Override
 	public boolean isAir(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return false;
+		return true;
 	}
 	
 	@Override

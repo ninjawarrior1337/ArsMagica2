@@ -2,7 +2,6 @@ package am2.proxy.gui;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Quaternion;
 
 import com.google.common.base.Optional;
@@ -23,6 +22,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -53,7 +53,14 @@ public class ItemRenderer {
 	@SubscribeEvent
 	public void renderItemEvent(RenderingItemEvent event) {
 		renderItem(event.getCameraTransformType(), event.getStack(), event.getEntity());
-		
+		if (event.getStack().getItem() == ItemDefs.BoundShield) {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("arsmagica2:textures/models/bound_shield.png"));
+			GlStateManager.pushMatrix();
+			IItemPropertyGetter getter = ItemDefs.BoundShield.getPropertyGetter(new ResourceLocation("blocking"));
+			ModelUtils.renderShield(event.getStack(), getter.apply(event.getStack(), Minecraft.getMinecraft().theWorld, event.getEntity()) == 1.0f, event.getCameraTransformType(), event.getEntity());
+			GlStateManager.popMatrix();
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		}
 		if (event.getStack() == null || event.getStack().getItem() == null || Block.getBlockFromItem(event.getStack().getItem()) == null) return;
 		Block block = Block.getBlockFromItem(event.getStack().getItem());
 		if (!(block instanceof ITileEntityProvider)) return;
@@ -68,9 +75,12 @@ public class ItemRenderer {
 		TRSRTransformation transform = ModelUtils.DEFAULT_BLOCK_STATE.apply(Optional.fromNullable(event.getCameraTransformType())).orNull();
 		if (transform != null) {
 			GlStateManager.translate(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
-			GlStateManager.rotate(new Quaternion(transform.getLeftRot().x, transform.getLeftRot().y, transform.getLeftRot().z, transform.getLeftRot().w));
 			GlStateManager.scale(transform.getScale().x, transform.getScale().y, transform.getScale().z);
+			GlStateManager.rotate(new Quaternion(transform.getLeftRot().x, transform.getLeftRot().y, transform.getLeftRot().z, transform.getLeftRot().w));
 		}
+//		ModelUtils.transform(ModelUtils.DEFAULT_BLOCK_STATE, event.getCameraTransformType(),
+//				event.getCameraTransformType() == TransformType.FIRST_PERSON_LEFT_HAND
+//						|| event.getCameraTransformType() == TransformType.THIRD_PERSON_LEFT_HAND);
 		tesr.renderTileEntityAt(te, 0, 0, 0, event.getStack().getItemDamage(), -10);
 		GlStateManager.popMatrix();
 	}
@@ -78,11 +88,12 @@ public class ItemRenderer {
 	public void renderItem(TransformType type, ItemStack item, Object... data){
 		if (item == null) return;
 		bindTextureByItem(item);
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
+		//ModelUtils.transform(ModelUtils.DEFAULT_ITEM_STATE, type, type == TransformType.FIRST_PERSON_LEFT_HAND || type == TransformType.THIRD_PERSON_LEFT_HAND);
 		setupItemRender(type, item);
 
 		renderModelByItem(item);
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 		
 		GlStateManager.pushMatrix();
 		if (item.hasEffect()) {
@@ -136,7 +147,7 @@ public class ItemRenderer {
 		GlStateManager.popMatrix();
 		if (item.getItem() == ItemDefs.wardingCandle)
 			GlStateManager.enableCull();
-		if (item.getItem() == ItemDefs.wardingCandle && (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_RIGHT_HAND)){
+		if (item.getItem() == ItemDefs.wardingCandle && (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_LEFT_HAND || type == TransformType.THIRD_PERSON_LEFT_HAND)){
 			renderCandleFlame(type, item, data);
 		}
 		GlStateManager.resetColor();
@@ -145,20 +156,22 @@ public class ItemRenderer {
 	private void renderCandleFlame(TransformType type, ItemStack item, Object... data){
 
 		if (item.hasTagCompound()){
-			GL11.glColor3f(item.getTagCompound().getFloat("flame_red"),
+			GlStateManager.color(item.getTagCompound().getFloat("flame_red"),
 					item.getTagCompound().getFloat("flame_green"),
 					item.getTagCompound().getFloat("flame_blue"));
 		}
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 		if (type == TransformType.THIRD_PERSON_RIGHT_HAND || type == TransformType.THIRD_PERSON_LEFT_HAND){
-			GL11.glTranslatef(0.0f, 0.5f, 0f);
-			GL11.glScalef(0.5f, 0.5f, 0.5f);
+			GlStateManager.translate(0.0f, 0.5f, 0f);
+			GlStateManager.scale(0.5f, 0.5f, 0.5f);
 		}else if (type == TransformType.FIRST_PERSON_RIGHT_HAND || type == TransformType.FIRST_PERSON_LEFT_HAND){
-			GL11.glTranslatef(0, 0.5f, 0.3f);
-			GL11.glScalef(0.15f, 0.15f, 0.15f);
+			GlStateManager.translate(0, 0.5f, 0.3f);
+			if (type == TransformType.FIRST_PERSON_LEFT_HAND)
+				GlStateManager.translate(0, 0, 0.17);
+			GlStateManager.scale(0.15f, 0.15f, 0.15f);
 		}
 		new SpellParticleRender(new ArrayList<>()).renderEffect(Affinity.FIRE, false, (EntityLivingBase) data[0]);
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	private void setupItemRender(TransformType type, ItemStack stack){

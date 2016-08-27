@@ -28,7 +28,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ArsMagica2 {
 	
 	public static final String MODID = "arsmagica2";
-	public static final String VERSION = "$version";
+	public static final String VERSION = "${version}";
 	public static final String GUIFACTORY = "am2.config.AMGuiFactory";
 	public static SimpleNetworkWrapper network;
 	

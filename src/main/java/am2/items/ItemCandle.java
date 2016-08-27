@@ -12,6 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -67,11 +68,11 @@ public class ItemCandle extends ItemArsMagica{
 
 			IBlockState block = worldIn.getBlockState(pos);
 			if (block == null || block.getBlock().isReplaceable(worldIn, pos)){
-				worldIn.setBlockState(pos, BlockDefs.wardingCandle.getDefaultState(), 2);
+				worldIn.setBlockState(pos, BlockDefs.wardingCandle.getDefaultState(), 3);
 				if (!playerIn.capabilities.isCreativeMode)
 					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
 			}
-			return EnumActionResult.SUCCESS;
+			return EnumActionResult.PASS;
 		}
 		return EnumActionResult.PASS;
 	}
@@ -156,21 +157,27 @@ public class ItemCandle extends ItemArsMagica{
 
 	public void search(EntityPlayer player, ItemStack stack, World world, BlockPos pos, IBlockState state){
 		boolean found = false;
+		boolean foundLarge = false;
+		boolean foundSmall = false;
 		for (int i = -radius; i <= radius; ++i){
-			for (int j = -1; j <= 1; ++j){
+			for (int j = -radius; j <= radius; ++j){
 				for (int k = -radius; k <= radius; ++k){
 					IBlockState f_block = world.getBlockState(pos.add(i, j, k));
+					int dist = Math.abs(i) + Math.abs(j) + Math.abs(k);
+					if (dist > radius) continue;
 
 					if (state == f_block){
-						if (Math.abs(i) <= immediate_radius && Math.abs(k) <= immediate_radius){// && player.getCurrentArmor(3) != null && ArmorHelper.isInfusionPreset(player.getCurrentArmor(3), GenericImbuement.pinpointOres)){
+						if (dist <= immediate_radius){// && player.getCurrentArmor(3) != null && ArmorHelper.isInfusionPreset(player.getCurrentArmor(3), GenericImbuement.pinpointOres)){
 							setFlameColor(stack, 0, 0, 0);
 							return;
-						}else if (Math.abs(i) <= short_radius && Math.abs(k) <= short_radius){
+						}else if (dist <= short_radius && !foundSmall){
 							setFlameColor(stack, 1, 0, 0);
 							found = true;
-						}else if (!found){
+							foundSmall = true;
+						}else if (!found && !foundSmall && !foundLarge){
 							setFlameColor(stack, 0, 0.5f, 1f);
 							found = true;
+							foundLarge = true;
 						}
 					}
 				}
@@ -187,17 +194,22 @@ public class ItemCandle extends ItemArsMagica{
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int indexInInventory, boolean isCurrentlyHeld){
-		if (isCurrentlyHeld && entity instanceof EntityPlayer){
-			if (!world.isRemote && stack.hasTagCompound() && stack.getItemDamage() % 40 == 0){
-				search((EntityPlayer)entity, stack, world, entity.getPosition(), Block.getStateById(stack.getTagCompound().getInteger("search_block")));
+		if (entity instanceof EntityPlayer){
+			EntityPlayer player = (EntityPlayer)entity;
+			isCurrentlyHeld = player.getHeldItemMainhand() == stack;
+			isCurrentlyHeld |= player.getHeldItemOffhand() == stack;
+			if (isCurrentlyHeld && !world.isRemote && ArsMagica2.config.candlesAreRovingLights() && world.isAirBlock(player.getPosition()) && world.getLightFor(EnumSkyBlock.BLOCK, player.getPosition()) < 14){
+				world.setBlockState(player.getPosition(), BlockDefs.invisibleUtility.getDefaultState().withProperty(BlockInvisibleUtility.TYPE, BlockInvisibleUtility.EnumInvisibleType.HIGH_ILLUMINATED), 2);
 			}
-			stack.damageItem(1, (EntityPlayer)entity);
-			if (!world.isRemote && stack.getItemDamage() >= this.getMaxDamage())
-				((EntityPlayer)entity).inventory.setInventorySlotContents(indexInInventory, null);
-			if (!world.isRemote && ArsMagica2.config.candlesAreRovingLights() &&
-					world.isAirBlock(entity.getPosition()) &&
-					world.getLightFor(EnumSkyBlock.BLOCK, entity.getPosition()) < 14){
-				world.setBlockState(entity.getPosition(), BlockDefs.invisibleUtility.getDefaultState().withProperty(BlockInvisibleUtility.TYPE, BlockInvisibleUtility.EnumInvisibleType.HIGH_ILLUMINATED), 2);
+			if (isCurrentlyHeld) {
+				if (!world.isRemote && stack.hasTagCompound() && stack.getItemDamage() % 40 == 0){
+					search(player, stack, world, player.getPosition(), Block.getStateById(stack.getTagCompound().getInteger("search_block")));
+				}
+				
+				if (!player.capabilities.isCreativeMode)
+					stack.damageItem(1, player);
+				if (!world.isRemote && stack.getItemDamage() >= this.getMaxDamage())
+					player.setItemStackToSlot((player.getHeldItemOffhand() == stack ? EntityEquipmentSlot.OFFHAND : EntityEquipmentSlot.MAINHAND), null);
 			}
 		}
 	}
@@ -225,6 +237,14 @@ public class ItemCandle extends ItemArsMagica{
 	@Override
 	public boolean getHasSubtypes(){
 		return true;
+	}
+	
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+		if (oldStack == null) return slotChanged;
+		if (newStack == null) return slotChanged;
+		if (oldStack.getTagCompound().equals(newStack.getTagCompound())) return false;
+		return slotChanged;
 	}
 
 	@Override
