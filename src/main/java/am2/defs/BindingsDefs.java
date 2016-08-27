@@ -14,7 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class BindingsDefs {
 	public static final KeyBinding ICE_BRIDGE = new KeyBinding("key.bridge", Keyboard.KEY_I, "keybindings.am2");
 	public static final KeyBinding ENDER_TP = new KeyBinding("key.teleport", Keyboard.KEY_N, "keybindings.am2");

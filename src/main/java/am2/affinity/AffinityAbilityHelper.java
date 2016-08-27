@@ -22,10 +22,10 @@ import am2.affinity.abilities.AbilityMagicWeakness;
 import am2.affinity.abilities.AbilityNightVision;
 import am2.affinity.abilities.AbilityOneWithMagic;
 import am2.affinity.abilities.AbilityPacifist;
-import am2.affinity.abilities.AbilityRelocation;
 import am2.affinity.abilities.AbilityPhotosynthesis;
 import am2.affinity.abilities.AbilityPoisonResistance;
 import am2.affinity.abilities.AbilityReflexes;
+import am2.affinity.abilities.AbilityRelocation;
 import am2.affinity.abilities.AbilityRooted;
 import am2.affinity.abilities.AbilityShortCircuit;
 import am2.affinity.abilities.AbilitySolidBones;
@@ -40,7 +40,6 @@ import am2.api.affinity.Affinity;
 import am2.api.event.SpellCastEvent;
 import am2.extensions.AffinityData;
 import am2.utils.WorldUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -121,7 +120,7 @@ public class AffinityAbilityHelper {
 				EntityPlayer player = ArsMagica2.proxy.getLocalPlayer();
 				player = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getPlayerEntityByUUID(player.getUniqueID());
 				if (ability.canApply(player)) {
-					WorldUtils.runSided(Side.CLIENT, ability.createRunnable(Minecraft.getMinecraft().thePlayer));
+					WorldUtils.runSided(Side.CLIENT, ability.createRunnable(ArsMagica2.proxy.getLocalPlayer()));
 					WorldUtils.runSided(Side.SERVER, ability.createRunnable(player));
 				}
 			}

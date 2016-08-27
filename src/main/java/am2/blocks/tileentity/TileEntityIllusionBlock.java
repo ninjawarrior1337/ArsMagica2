@@ -1,10 +1,10 @@
 package am2.blocks.tileentity;
 
+import am2.ArsMagica2;
 import am2.blocks.BlockIllusionBlock;
 import am2.defs.BlockDefs;
 import am2.defs.PotionEffectsDefs;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +21,7 @@ public class TileEntityIllusionBlock extends TileEntity implements ITickable{
 	
 	@SideOnly(Side.CLIENT)
 	public boolean isRevealed(IBlockState state) {
-		return BlockIllusionBlock.getIllusionType(state).canBeRevealed() && Minecraft.getMinecraft().thePlayer.isPotionActive(PotionEffectsDefs.trueSight);
+		return BlockIllusionBlock.getIllusionType(state).canBeRevealed() && ArsMagica2.proxy.getLocalPlayer().isPotionActive(PotionEffectsDefs.trueSight);
 	}
 
 	@Override

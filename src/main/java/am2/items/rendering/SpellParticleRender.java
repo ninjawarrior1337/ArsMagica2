@@ -39,7 +39,10 @@ import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class SpellParticleRender extends ItemOverrideList{
 	private final Minecraft mc;
 	private final Map<Affinity, TextureAtlasSprite> icons;

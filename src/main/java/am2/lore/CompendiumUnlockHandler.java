@@ -8,7 +8,6 @@ import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IArcaneCompendium;
 import am2.api.skill.SkillPoint;
 import am2.extensions.EntityExtension;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -41,7 +40,7 @@ public class CompendiumUnlockHandler{
 	 */
 	@SubscribeEvent
 	public void onPlayerMagicLevelChange(PlayerMagicLevelChangeEvent event){
-		if (event.getEntity().worldObj.isRemote && event.getEntity() == Minecraft.getMinecraft().thePlayer){
+		if (event.getEntity().worldObj.isRemote && event.getEntity() instanceof EntityPlayer){
 			IArcaneCompendium instance = ArcaneCompendium.For(event.getEntityPlayer());
 			if (event.getLevel() >= 5){
 				instance.unlockCategory("talents");
@@ -105,16 +104,14 @@ public class CompendiumUnlockHandler{
 	 */
 	@SubscribeEvent
 	public void onSkillLearned(SkillLearnedEvent event){
-		if (event.getEntityPlayer() == Minecraft.getMinecraft().thePlayer){
-			IArcaneCompendium instance = ArcaneCompendium.For(event.getEntityPlayer());
-			if (event.getSkill().equals(SkillRegistry.getSkillFromName("summon"))){
-				instance.unlockEntry("crystal_phylactery");
-				instance.unlockEntry("summoner");
-			} else if (event.getSkill().equals(SkillRegistry.getSkillFromName("true_sight"))){
-				instance.unlockEntry("illusionBlocks");
-			} else if (event.getSkill().getPoint().equals(SkillPoint.SILVER_POINT)){
-				instance.unlockEntry("silver_skills");
-			}
+		IArcaneCompendium instance = ArcaneCompendium.For(event.getEntityPlayer());
+		if (event.getSkill().equals(SkillRegistry.getSkillFromName("summon"))){
+			instance.unlockEntry("crystal_phylactery");
+			instance.unlockEntry("summoner");
+		} else if (event.getSkill().equals(SkillRegistry.getSkillFromName("true_sight"))){
+			instance.unlockEntry("illusionBlocks");
+		} else if (event.getSkill().getPoint().equals(SkillPoint.SILVER_POINT)){
+			instance.unlockEntry("silver_skills");
 		}
 	}
 
@@ -125,7 +122,7 @@ public class CompendiumUnlockHandler{
 	 */
 	@SubscribeEvent
 	public void onSpellCast(SpellCastEvent.Pre event){
-		if (event.entityLiving == Minecraft.getMinecraft().thePlayer){
+		if (event.entityLiving instanceof EntityPlayer){
 			IArcaneCompendium instance = ArcaneCompendium.For((EntityPlayer) event.entityLiving);
 			instance.unlockEntry("unlockingPowers");
 			instance.unlockEntry("affinity");

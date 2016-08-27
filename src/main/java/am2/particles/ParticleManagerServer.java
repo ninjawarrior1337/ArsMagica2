@@ -1,9 +1,9 @@
 package am2.particles;
 
+import am2.ArsMagica2;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -157,7 +157,7 @@ public class ParticleManagerServer{
 	}
 
 	public Object BeamFromEntityToPoint(World world, Entity source, double endX, double endY, double endZ, int color){
-		if (!(source instanceof EntityPlayer) || source == Minecraft.getMinecraft().thePlayer){
+		if (!(source instanceof EntityPlayer) || source == ArsMagica2.proxy.getLocalPlayer()){
 			return BeamFromPointToPoint(world, source.posX, source.posY, source.posZ, endX, endY, endZ, color);
 		}else{
 			return BeamFromPointToPoint(world, source.posX, source.posY + source.getEyeHeight() - 0.2f, source.posZ, endX, endY, endZ, color);
