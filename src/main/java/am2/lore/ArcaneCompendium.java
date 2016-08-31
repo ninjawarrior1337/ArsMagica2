@@ -155,6 +155,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 		player.getDataManager().set(DataDefinitions.CATEGORIES, categories);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void unlockRelatedItems(ItemStack crafting) {
 		if (crafting == null)
@@ -163,14 +164,19 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 			return;
 		CompendiumEntry compendiumEntry = null;
 		for (Entry<String, CompendiumEntry> entry : getCompendium().entrySet()) {
-			if (crafting.getItem() instanceof ItemBlock && entry.getValue() instanceof CompendiumEntryBlock) {
+			if (crafting.getItem() instanceof ItemBlock && entry.getValue() instanceof CompendiumEntryBlock && ((CompendiumEntryBlock)entry.getValue()).state == Block.getBlockFromItem(crafting.getItem()).getStateFromMeta(crafting.getItemDamage())) {
 				compendiumEntry = entry.getValue();
-			} else if (entry.getValue() instanceof CompendiumEntryItem){
-				compendiumEntry = entry.getValue();
+			} else if (entry.getValue() instanceof CompendiumEntryItem) {
+				for (ItemStack is : ((CompendiumEntryItem)entry.getValue()).getMetaItems(((CompendiumEntryItem)entry.getValue()).item)) {
+					if (is.isItemEqual(crafting))
+					compendiumEntry = entry.getValue();
+				}
 			}
 		}
 		if (compendiumEntry == null)
 			return;
+		if (!isUnlocked(compendiumEntry.id))
+			unlockEntry(compendiumEntry.id);
 		for (String related : compendiumEntry.getRelatedItems()) {
 			this.unlockEntry(related);
 		}

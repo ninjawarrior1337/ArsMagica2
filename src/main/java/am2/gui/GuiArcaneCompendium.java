@@ -782,7 +782,7 @@ public class GuiArcaneCompendium extends GuiScreen {
 		prevPage = new GuiButtonCompendiumNext(0, l + 35, i1 + ySize - 25, false);
 		nextPage = new GuiButtonCompendiumNext(1, l + 315, i1 + ySize - 25, true);
 
-		backToIndex = new GuiButtonCompendiumTab(2, l - 10, i1 + 20, I18n.translateToLocal("am2.gui.back"), "back", null);
+		backToIndex = new GuiButtonCompendiumTab(2, l - 10, i1 + 20, null);
 		backToIndex.setActive(true);
 
 		prevLayer = new GuiButtonCompendiumNext(3, l + 180, i1 + 19, false);

@@ -33,7 +33,7 @@ public class CompendiumEntryItem extends CompendiumEntry{
 	public ItemStack[] getMetaItems(Item item){
 		ItemStack[] items = new ItemStack[upperMetaRange - lowerMetaRange];
 		for (int i = lowerMetaRange; i < upperMetaRange; ++i){
-			items[i] = new ItemStack(item, 1, i);
+			items[i - lowerMetaRange] = new ItemStack(item, 1, i);
 		}
 		return items;
 	}

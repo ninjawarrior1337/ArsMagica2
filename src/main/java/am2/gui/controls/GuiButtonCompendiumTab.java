@@ -7,6 +7,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import am2.compendium.CompendiumCategory;
 import am2.gui.AMGuiHelper;
 import am2.particles.AMParticleIcons;
 import net.minecraft.client.Minecraft;
@@ -30,11 +31,11 @@ public class GuiButtonCompendiumTab extends GuiButton{
 	//private static final int renderTextureID = AMGuiHelper.createRenderTexture();
 	//private static final int depthBufferTextureID = AMGuiHelper.instance.createFBO(renderTextureID, 100, 20, true);
 
-	public GuiButtonCompendiumTab(int id, int xPos, int yPos, String categoryDisplay, String categoryID, TextureAtlasSprite displayIcon){
-		super(id, xPos, yPos, sourceWidth, sourceHeight, categoryDisplay);
-		this.width = displayIcon == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(categoryDisplay) : 20;
-		this.categoryID = categoryID;
-		this.displayIcon = displayIcon;
+	public GuiButtonCompendiumTab(int id, int xPos, int yPos, CompendiumCategory category){
+		super(id, xPos, yPos, sourceWidth, sourceHeight, category.getCategoryName());
+		this.width = category.getTexture() == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(category.getCategoryName()) : 20;
+		this.categoryID = category.getID();
+		this.displayIcon = category.getTexture();
 	}
 
 	public void setActive(boolean active){

@@ -31,6 +31,8 @@ public class CompendiumUnlockHandler{
 	 */
 	@SubscribeEvent
 	public void onPlayerPickupItem(EntityItemPickupEvent event){
+		IArcaneCompendium instance = ArcaneCompendium.For(event.getEntityPlayer());
+		instance.unlockRelatedItems(event.getItem().getEntityItem());
 	}
 
 	/**
