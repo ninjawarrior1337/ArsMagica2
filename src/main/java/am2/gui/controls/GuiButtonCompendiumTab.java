@@ -28,6 +28,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 	private boolean hasNew;
 	public final String categoryID;
 	private final TextureAtlasSprite displayIcon;
+	public final CompendiumCategory category;
 	//private static final int renderTextureID = AMGuiHelper.createRenderTexture();
 	//private static final int depthBufferTextureID = AMGuiHelper.instance.createFBO(renderTextureID, 100, 20, true);
 
@@ -36,6 +37,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 		this.width = category.getTexture() == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(category.getCategoryName()) : 20;
 		this.categoryID = category.getID();
 		this.displayIcon = category.getTexture();
+		this.category = category;
 	}
 
 	public void setActive(boolean active){

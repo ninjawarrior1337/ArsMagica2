@@ -36,9 +36,9 @@ public class ArcaneCompendium extends GuiScreen {
 	public void initGui() {
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
-
-		prevPage = new GuiButtonCompendiumNext(0, l + 35, i1 + ySize - 25, false);
-		nextPage = new GuiButtonCompendiumNext(1, l + 315, i1 + ySize - 25, true);
+		
+		prevPage = new GuiButtonCompendiumNext(1, l + 35, i1 + ySize - 25, false);
+		nextPage = new GuiButtonCompendiumNext(2, l + 315, i1 + ySize - 25, true);
 		
 		prevPage.visible = false;
 		nextPage.visible = pages.size() > 2;

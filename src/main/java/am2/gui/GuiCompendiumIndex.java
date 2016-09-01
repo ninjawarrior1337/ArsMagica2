@@ -8,8 +8,11 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.ImmutableList;
 
 import am2.api.extensions.ISkillData;
+import am2.compendium.ArcaneCompendium;
 import am2.compendium.CompendiumCategory;
+import am2.compendium.CompendiumEntry;
 import am2.extensions.SkillData;
+import am2.gui.controls.GuiButtonCompendiumLink;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import am2.gui.controls.GuiButtonCompendiumTab;
 import am2.gui.controls.GuiSpellImageButton;
@@ -60,19 +63,53 @@ public class GuiCompendiumIndex extends GuiScreen{
 		int tabY = posY + 40;
 		int tabWidth = 1;
 		for (CompendiumCategory category : categories) {
-			GuiButtonCompendiumTab tab = new GuiButtonCompendiumTab(idCount++, posX + 10, tabY, category);
-			if (category == currentCategory)
-				tab.setActive(true);
-			buttonList.add(tab);
-			if (tabWidth < tab.getWidth())
-				tabWidth = tab.getWidth();
-			tabY += 18;
+			if (!category.hasParents()) {
+				GuiButtonCompendiumTab tab = new GuiButtonCompendiumTab(idCount++, posX + 10, tabY, category);
+				if (category == currentCategory)
+					tab.setActive(true);
+				buttonList.add(tab);
+				if (tabWidth < tab.getWidth())
+					tabWidth = tab.getWidth();
+				tabY += 18;
+			}
+			int buttonY = posY + 35;
+			int buttonX = posX + 40;
+			for (CompendiumCategory sub : categories) {
+				if (sub.getParentsString().equals(category.getID())) {
+					GuiButtonCompendiumLink tab = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, null, sub);
+					tab.visible = sub.getParentsString().equals(currentCategory.getID());
+					buttonY += 12;
+					if (buttonY > posY + (ySize) - 25){
+						if (buttonX > posX + 40){
+							buttonX = posX + 40;
+						}else{
+							buttonX += 155;
+						}
+						buttonY = posY + 30;
+					}
+					buttonList.add(tab);
+				}
+			}
+			for (CompendiumEntry entry : category.getEntries()) {
+				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, entry, null);
+				link.visible = entry.canBeDisplayed(category.getID());
+				buttonY += 12;
+				if (buttonY > posY + (ySize) - 25){
+					if (buttonX > posX + 40){
+						buttonX = posX + 40;
+					}else{
+						buttonX += 155;
+					}
+					buttonY = posY + 30;
+				}
+				buttonList.add(link);
+			}
 		}
 		for (GuiButton button : buttonList) {
 			if (button instanceof GuiButtonCompendiumTab)
 				((GuiButtonCompendiumTab)button).setDimensions(tabWidth, 16);
 		}
-		
+		switchCategory(currentCategory);
 		super.initGui();
 	}
 
@@ -101,7 +138,34 @@ public class GuiCompendiumIndex extends GuiScreen{
 
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
+		if (button instanceof GuiButtonCompendiumTab) {
+			switchCategory(((GuiButtonCompendiumTab)button).category);
+		} else if (button instanceof GuiButtonCompendiumLink) {
+			GuiButtonCompendiumLink target = (GuiButtonCompendiumLink)button;
+			if (target.getEntry() != null)
+				mc.displayGuiScreen(new ArcaneCompendium(target.getEntry()));
+			else if (target.getCategory() != null) {
+				switchCategory(target.getCategory());
+			}
+		}
 		super.actionPerformed(button);
+	}
+	
+	private void switchCategory(CompendiumCategory category) {
+		for (GuiButton button : buttonList) {
+			if (button instanceof GuiButtonCompendiumLink) {
+				GuiButtonCompendiumLink link = (GuiButtonCompendiumLink)button;
+				if (link.getEntry() != null)
+					link.visible = link.getEntry().canBeDisplayed(category.getID());
+				else if (link.getCategory() != null)
+					link.visible = link.getCategory().getParentsString().equals(category.getID());
+			} else if (button instanceof GuiButtonCompendiumTab) {
+				GuiButtonCompendiumTab tab = (GuiButtonCompendiumTab)button;
+				tab.setActive(tab.category == category);
+				if (tab.category == category)
+					this.currentCategory = tab.category;
+			}
+		}
 	}
 	
 	@Override

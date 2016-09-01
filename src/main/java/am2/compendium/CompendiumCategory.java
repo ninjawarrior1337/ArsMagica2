@@ -2,8 +2,6 @@ package am2.compendium;
 
 import java.util.ArrayList;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.client.Minecraft;
@@ -21,6 +19,7 @@ public final class CompendiumCategory {
 
 	public static final CompendiumCategory GUIDE = createCompendiumCategory("guide", new ResourceLocation("arsmagica2", "items/arcanecompendium"));
 	public static final CompendiumCategory MECHANIC = createCompendiumCategory("mechanic", new ResourceLocation("arsmagica2", "items/magitech_goggle"));
+	public static final CompendiumCategory MECHANIC_AFFINITY = createCompendiumCategory("mechanic.affinity", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM = createCompendiumCategory("item", new ResourceLocation("arsmagica2", "items/essence_ice"));
 	public static final CompendiumCategory BLOCK = createCompendiumCategory("block", new ResourceLocation("arsmagica2", "items/crystal_wrench"));
 	public static final CompendiumCategory SPELL_SHAPE = createCompendiumCategory("shape", new ResourceLocation("arsmagica2", "items/spells/shapes/Binding"));
@@ -35,7 +34,7 @@ public final class CompendiumCategory {
 	
 	public static CompendiumCategory createCompendiumCategory(String id, ResourceLocation sprite) {
 		if (id == null || id.isEmpty()) throw new NullPointerException("ID Can\'t be null");
-		int num = StringUtils.countMatches(id, "\\.");
+		int num = id.split("\\.").length - 1;
 		String[] parents = new String[num];
 		for (int i = 0; i < num; i++) {
 			parents[i] = id.split("\\.")[i];
@@ -48,15 +47,38 @@ public final class CompendiumCategory {
 	
 	private String id;
 	private ResourceLocation sprite;
+	private String[] parents;
 	
 	private CompendiumCategory(String id, ResourceLocation sprite, String[] parents) {
 		this.id = id;
 		this.sprite = sprite;
 		this.entries = new ArrayList<>();
+		this.parents = parents;
+	}
+	
+	public boolean hasParents() {
+		return parents.length > 0;
+	}
+	
+	public String[] getParents() {
+		return parents;
+	}
+	
+	public String getParentsString() {
+		String str = "";
+		boolean first = true;
+		for (String p : parents) {
+			if (first)
+				str += p;
+			else
+				str += "." + p;
+			first = false;
+		}
+		return str;
 	}
 	
 	public String getID() {
-		return id;
+		return (hasParents() ? getParentsString() + "." : "") + id;
 	}
 	
 	public ResourceLocation getSprite() {
@@ -78,7 +100,7 @@ public final class CompendiumCategory {
 	}
 	
 	public String getCategoryName() {
-		return I18n.translateToLocal("compendium.category." + id + ".name");
+		return I18n.translateToLocal("compendium.category." + getID() + ".name");
 	}
 	
 	public static ImmutableList<CompendiumCategory> getCategories() {

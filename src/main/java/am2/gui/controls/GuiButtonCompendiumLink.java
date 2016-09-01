@@ -2,6 +2,8 @@ package am2.gui.controls;
 
 import org.lwjgl.opengl.GL11;
 
+import am2.compendium.CompendiumCategory;
+import am2.compendium.CompendiumEntry;
 import am2.gui.AMGuiHelper;
 import am2.gui.AMGuiIcons;
 import net.minecraft.client.Minecraft;
@@ -10,24 +12,16 @@ import net.minecraft.client.gui.GuiButton;
 
 public class GuiButtonCompendiumLink extends GuiButton{
 	private final FontRenderer fontRenderer;
-	private final String entryID;
-	private final String category;
-	private final int pageNum;
-	private final boolean hasSubItems;
+	private final CompendiumEntry entry;
+	private final CompendiumCategory category;
 	private boolean isNewItem = false;
 	private boolean displayOnAllPages = false;
 
-	public GuiButtonCompendiumLink(int id, int xPos, int yPos, FontRenderer fontRenderer, String text, String entryID, String category, boolean hasSubItems, int pageNum){
-		super(id, xPos, yPos, fontRenderer.getStringWidth(text), 10, text);
+	public GuiButtonCompendiumLink(int id, int xPos, int yPos, FontRenderer fontRenderer, CompendiumEntry entry, CompendiumCategory category){
+		super(id, xPos, yPos, fontRenderer.getStringWidth(entry == null ? category.getCategoryName() : entry.getName()), 10, entry == null ? category.getCategoryName() : entry.getName());
 		this.fontRenderer = fontRenderer;
-		this.entryID = entryID;
+		this.entry = entry;
 		this.category = category;
-		this.hasSubItems = hasSubItems;
-		this.pageNum = pageNum;
-	}
-
-	public int getPageNum(){
-		return pageNum;
 	}
 
 	public void setNewItem(){
@@ -42,17 +36,13 @@ public class GuiButtonCompendiumLink extends GuiButton{
 		this.width = width;
 		this.height = height;
 	}
-
-	public String getEntryID(){
-		return this.entryID;
+	
+	public CompendiumEntry getEntry() {
+		return entry;
 	}
-
-	public String getCategory(){
-		return this.category;
-	}
-
-	public boolean hasSubItems(){
-		return this.hasSubItems;
+	
+	public CompendiumCategory getCategory() {
+		return category;
 	}
 
 	public void setShowOnAllPages(){

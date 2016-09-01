@@ -6,36 +6,121 @@ import am2.compendium.CompendiumEntry;
 public class LoreDefs {
 
 	public static void postInit() {
-		
+		initGuides();
+		initMechanics();
+		initItems();
+		initBlocks();
+		initShapes();
+		initModifiers();
+		initComponents();
+		initStructures();
+		initMobs();
+		initBosses();
+		initTalents();
+	}
+	
+	private static void initGuides() {
 		CompendiumCategory.GUIDE.addEntry(new CompendiumEntry("yourFirstSpell")
 				.addObject("compendium.yourFirstSpell.page1")
 				.addObject("compendium.yourFirstSpell.page2")
 				.addObject("compendium.yourFirstSpell.page3")
 				.addObject("compendium.yourFirstSpell.page4")
-				.addObject("compendium.yourFirstSpell.page5"));
+				.addObject("compendium.yourFirstSpell.page5"));		
+	}
+	
+	private static void initMechanics() {
+		initAffinities();
+		CompendiumCategory.MECHANIC.addEntry(new CompendiumEntry("spell_creation")
+				.addObject("compendium.spell_creation.page1")
+				.addObject("compendium.spell_creation.page2")
+				.addObject("compendium.spell_creation.page3"));
 		
-//		ArcaneCompendium.AddCompendiumEntry("guide", "yourFirstSpell", null, false, true);
-//		ArcaneCompendium.AddCompendiumEntry(TileEntityCraftingAltar.class, "craftingAltar", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(TileEntityKeystoneRecepticle.class, "gateways", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(BlockDefs.altar, "craftingAltarBlock", null, false, "craftingAltar");
-//		ArcaneCompendium.AddCompendiumEntry(BlockDefs.magicWall, "magicWall", null, false, "craftingAltarBlock");
-//		ArcaneCompendium.AddCompendiumEntry(Light.class, "purificationRitual", null, false, "obelisk", "celestialPrism");
-//		ArcaneCompendium.AddCompendiumEntry(BlockDefs.obelisk, "obelisk", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(BlockDefs.celestialPrism, "celestialPrism", null, false, "purificationRitual");
-//		ArcaneCompendium.AddCompendiumEntry(ItemDefs.itemOre, "item_ore", null, false, "calefactor");
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM), "item_ore.vinteum", null, false, "ores.vinteum", "calefactor", "vinteumTorch");
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM), "item_ore.purified_vinteum", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE), "item_ore.chimerite", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE), "item_ore.moonstone", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE), "item_ore.sunstone", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ), "item_ore.blue_topaz", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH), "item_ore.arcane_ash", null, false, "item_ore.arcane_compound", "calefactor");
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANECOMPOUND), "item_ore.arcane_compound", null, false, "item_ore.arcane_ash", "calefactor");
-//		ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ANIMALFAT), "item_ore.animal_fat", null, false);
-//		ArcaneCompendium.AddCompendiumEntry(ItemDefs.essence, "essence", null, false);
-//		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-//			ArcaneCompendium.AddCompendiumEntry(new ItemStack(ItemDefs.itemOre, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)), "essence." + aff.getName(), null, false);
-//		}
+		CompendiumCategory.MECHANIC.addEntry(new CompendiumEntry("infusion")
+				.addObject("compendium.infusion.page1"));
+		
+		CompendiumCategory.MECHANIC.addEntry(new CompendiumEntry("mana")
+				.addObject("compendium.mana.page1"));
+		
+		CompendiumCategory.MECHANIC.addEntry(new CompendiumEntry("magic_level")
+				.addObject("compendium.magic_level.page1"));
+	}
+	
+	private static void initAffinities() {
+		
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("affinities")
+				.addObject("compendium.affinities.page1")
+				.addObject("compendium.affinities.page2")
+				.addObject("compendium.affinities.page3")
+				.addObject("compendium.affinities.page4"));
+		
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("earth_affinity")
+				.addObject("compendium.earth_affinity.page1"));
+		
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("water_affinity")
+				.addObject("compendium.water_affinity.page1"));
+		
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("air_affinity")
+				.addObject("compendium.air_affinity.page1"));
+		
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("fire_affinity")
+				.addObject("compendium.fire_affinity.page1"));
+
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("nature_affinity")
+				.addObject("compendium.nature_affinity.page1")
+				.addObject("compendium.nature_affinity.page2")
+				.addObject("compendium.nature_affinity.page3"));
+
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("ice_affinity")
+				.addObject("compendium.ice_affinity.page1"));
+
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("lightning_affinity")
+				.addObject("compendium.lightning_affinity.page1"));
+
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("life_affinity")
+				.addObject("compendium.life_affinity.page1"));
+
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("arcane_affinity")
+				.addObject("compendium.arcane_affinity.page1"));
+
+		CompendiumCategory.MECHANIC_AFFINITY.addEntry(new CompendiumEntry("ender_affinity")
+				.addObject("compendium.ender_affinity.page1"));
+		
+	}
+	
+	private static void initItems() {
+		
+	}
+	
+	private static void initBlocks() {
+		
+	}
+	
+	private static void initShapes() {
+		
+	}
+	
+	private static void initComponents() {
+		
+	}
+	
+	private static void initModifiers() {
+		
+	}
+	
+	private static void initTalents() {
+		
+	}
+	
+	private static void initMobs() {
+		
+	}
+	
+	private static void initStructures() {
+		
+	}
+	
+	private static void initBosses() {
+		
 	}
 
 }
