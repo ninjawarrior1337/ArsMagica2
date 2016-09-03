@@ -32,6 +32,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 	int ySize = 256;
 
 	int page = 0;
+	int numPages = 0;
 	
 	ArrayList<String> lines;
 	int lineWidth = 140;
@@ -39,8 +40,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 
 	GuiButtonCompendiumNext nextPage;
 	GuiButtonCompendiumNext prevPage;
-	GuiButtonCompendiumTab backToIndex;
-
+	
 	GuiSpellImageButton updateButton;
 
 	ISkillData sk;
@@ -62,7 +62,11 @@ public class GuiCompendiumIndex extends GuiScreen{
 		int posY = (height - ySize) / 2;
 		int tabY = posY + 40;
 		int tabWidth = 1;
+		
+		nextPage = new GuiButtonCompendiumNext(idCount++, posX + 320, posY + 13, true);
+		prevPage = new GuiButtonCompendiumNext(idCount++, posX + 33, posY + 13, false);
 		for (CompendiumCategory category : categories) {
+			int locPage = 0;
 			if (!category.hasParents()) {
 				GuiButtonCompendiumTab tab = new GuiButtonCompendiumTab(idCount++, posX + 10, tabY, category);
 				if (category == currentCategory)
@@ -76,12 +80,13 @@ public class GuiCompendiumIndex extends GuiScreen{
 			int buttonX = posX + 40;
 			for (CompendiumCategory sub : categories) {
 				if (sub.getParentsString().equals(category.getID())) {
-					GuiButtonCompendiumLink tab = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, null, sub);
-					tab.visible = sub.getParentsString().equals(currentCategory.getID());
+					GuiButtonCompendiumLink tab = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, null, sub);
+					tab.visible = sub.getParentsString().equals(currentCategory.getID()) && page == locPage;
 					buttonY += 12;
 					if (buttonY > posY + (ySize) - 25){
 						if (buttonX > posX + 40){
 							buttonX = posX + 40;
+							locPage++;
 						}else{
 							buttonX += 155;
 						}
@@ -91,12 +96,13 @@ public class GuiCompendiumIndex extends GuiScreen{
 				}
 			}
 			for (CompendiumEntry entry : category.getEntries()) {
-				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, entry, null);
-				link.visible = entry.canBeDisplayed(category.getID());
+				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, entry, null);
+				link.visible = entry.canBeDisplayed(category.getID()) && page == locPage;
 				buttonY += 12;
 				if (buttonY > posY + (ySize) - 25){
 					if (buttonX > posX + 40){
 						buttonX = posX + 40;
+						locPage++;
 					}else{
 						buttonX += 155;
 					}
@@ -109,7 +115,11 @@ public class GuiCompendiumIndex extends GuiScreen{
 			if (button instanceof GuiButtonCompendiumTab)
 				((GuiButtonCompendiumTab)button).setDimensions(tabWidth, 16);
 		}
+		nextPage.visible = numPages > 0;
+		prevPage.visible = false;
 		switchCategory(currentCategory);
+		buttonList.add(nextPage);
+		buttonList.add(prevPage);
 		super.initGui();
 	}
 
@@ -138,7 +148,17 @@ public class GuiCompendiumIndex extends GuiScreen{
 
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
-		if (button instanceof GuiButtonCompendiumTab) {
+		if (button == nextPage) {
+			page++;
+			if (page > numPages)
+				page = numPages;
+			switchCategory(currentCategory);
+		} else if (button == prevPage) {
+			page--;
+			if (page < 0)
+				page = 0;
+			switchCategory(currentCategory);
+		} else if (button instanceof GuiButtonCompendiumTab) {
 			switchCategory(((GuiButtonCompendiumTab)button).category);
 		} else if (button instanceof GuiButtonCompendiumLink) {
 			GuiButtonCompendiumLink target = (GuiButtonCompendiumLink)button;
@@ -152,20 +172,30 @@ public class GuiCompendiumIndex extends GuiScreen{
 	}
 	
 	private void switchCategory(CompendiumCategory category) {
+		if (category != currentCategory) {
+			page = 0;
+			nextPage.visible = numPages > 0;
+			prevPage.visible = false;
+		}
+		int numButton = 0;
 		for (GuiButton button : buttonList) {
 			if (button instanceof GuiButtonCompendiumLink) {
 				GuiButtonCompendiumLink link = (GuiButtonCompendiumLink)button;
 				if (link.getEntry() != null)
-					link.visible = link.getEntry().canBeDisplayed(category.getID());
+					link.visible = link.getEntry().canBeDisplayed(category.getID()) && page == link.getPage();
 				else if (link.getCategory() != null)
-					link.visible = link.getCategory().getParentsString().equals(category.getID());
+					link.visible = link.getCategory().getParentsString().equals(category.getID()) && page == link.getPage();
+				if (link.visible)
+					numButton++;
 			} else if (button instanceof GuiButtonCompendiumTab) {
 				GuiButtonCompendiumTab tab = (GuiButtonCompendiumTab)button;
-				tab.setActive(tab.category == category);
-				if (tab.category == category)
-					this.currentCategory = tab.category;
+				tab.setActive(tab.category == category && page == numPages);
 			}
 		}
+		numPages = (int) Math.floor((double)numButton / 34D);
+		nextPage.visible = page < numPages;
+		prevPage.visible = page > 0;
+		this.currentCategory = category;
 	}
 	
 	@Override
@@ -200,7 +230,8 @@ public class GuiCompendiumIndex extends GuiScreen{
 		int y_start_title = i1 + 20;
 		int x_start_title = l + 100 - (fontRendererObj.getStringWidth(compendiumTitle) / 2);
 
-		fontRendererObj.drawString(compendiumTitle, x_start_title, y_start_title, 0);
+		if (page == 0)
+			fontRendererObj.drawString(compendiumTitle, x_start_title, y_start_title, 0);
 
 		int x_start_line = l + 35;
 		int y_start_line = i1 + 35;

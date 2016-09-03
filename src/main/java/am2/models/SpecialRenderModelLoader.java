@@ -151,7 +151,12 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 				modelLocation.toString().contains("arcane_reconstructor") ||
 				modelLocation.toString().contains("seer_stone") ||
 				modelLocation.toString().contains("warding_candle") ||
-				modelLocation.toString().contains("bound_shield")) && modelLocation.getResourceDomain().equals("arsmagica2") && !modelLocation.toString().contains(".obj");
+				modelLocation.toString().contains("bound_shield") ||
+				modelLocation.toString().contains("calefactor") ||
+				modelLocation.toString().contains("magicians_workbench") ||
+				modelLocation.toString().contains("summoner") ||
+				modelLocation.toString().contains("astral_barrier") ||
+				modelLocation.toString().contains("otherworld_aura")) && modelLocation.getResourceDomain().equals("arsmagica2") && !modelLocation.toString().contains(".obj");
 	}
 
 	@Override

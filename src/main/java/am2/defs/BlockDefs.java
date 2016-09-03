@@ -77,6 +77,7 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -190,6 +191,9 @@ public class BlockDefs {
 				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName());
 			}
 		});
+		
+		ModelLoader.setCustomStateMapper(iceEffigy, new StateMap.Builder().ignore(BlockEffigy.PROGRESS).build());
+		ModelLoader.setCustomStateMapper(lightningEffigy, new StateMap.Builder().ignore(BlockEffigy.PROGRESS).build());
 		
 		ModelLoader.setCustomStateMapper(blockliquid_essence, new StateMapperBase() {
 			

@@ -2,6 +2,7 @@ package am2.spell.shape;
 
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellShape;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
@@ -43,7 +44,7 @@ public class Channel extends SpellShape{
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.ARCANE),
-				//TODO BlockDefs.tarmaRoot,
+				BlockDefs.tarmaRoot,
 				"E:*", 500
 		};
 	}

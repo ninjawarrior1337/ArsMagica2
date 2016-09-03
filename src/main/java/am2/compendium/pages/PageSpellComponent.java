@@ -42,7 +42,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		RenderHelper.disableStandardItemLighting();
 		int cx = posX + 60;
 		int cy = posY + 92;
-		framecount += 1f;
+		framecount += 0.5f;
 		stackTip = null;
 		RenderRecipe(cx, cy, mouseX, mouseY);
 		TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(element.getRegistryName().toString());

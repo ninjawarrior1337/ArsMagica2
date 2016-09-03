@@ -8,6 +8,7 @@ import am2.api.affinity.Affinity;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
@@ -147,7 +148,7 @@ public class Beam extends SpellShape{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
-				//TODO BlockDefs.aum,
+				BlockDefs.aum,
 				"E:" + PowerTypes.NEUTRAL.ID(), 500
 		};
 	}

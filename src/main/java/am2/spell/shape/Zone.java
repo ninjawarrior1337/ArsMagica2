@@ -2,6 +2,7 @@ package am2.spell.shape;
 
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.entity.EntitySpellEffect;
 import am2.items.ItemOre;
@@ -41,7 +42,7 @@ public class Zone extends SpellShape{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				//TODO BlockDefs.tarmaRoot,
+				BlockDefs.tarmaRoot,
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE),
 				Items.DIAMOND

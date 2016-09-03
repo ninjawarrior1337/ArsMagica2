@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiCalefactor extends GuiContainer{
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "texxtures/gui/calefactorGui.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/calefactorGui.png");
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){

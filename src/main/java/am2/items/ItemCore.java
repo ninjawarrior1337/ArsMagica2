@@ -5,7 +5,9 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
 
+@SuppressWarnings("deprecation")
 public class ItemCore extends ItemArsMagica {
 	
 	public static final int BASE_CORE = 0;
@@ -17,6 +19,12 @@ public class ItemCore extends ItemArsMagica {
 		subItems.add(new ItemStack(this, 1, BASE_CORE));
 		subItems.add(new ItemStack(this, 1, HIGH_CORE));
 		subItems.add(new ItemStack(this, 1, PURE));
+	}
+	
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		String name = I18n.translateToLocal("item.arsmagica2:core." + (stack.getItemDamage() == BASE_CORE ? "base" : (stack.getItemDamage() == HIGH_CORE ? "high" : "pure")) + ".name");
+		return name;
 	}
 	
 }

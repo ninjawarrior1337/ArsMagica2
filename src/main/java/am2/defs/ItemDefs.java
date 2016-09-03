@@ -293,6 +293,11 @@ public class ItemDefs {
 		registerTexture(lesserManaPotion);
 		
 		registerTexture(manaMartini);
+		registerTexture(hellCowHorn);
+		registerTexture(journal);
+		registerTexture(essenceBag);
+		registerTexture(workbenchUpgrade);
+		
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new FlickerJarColorizer(), flickerJar);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new LostJournalColorizer(), lostJournal);
@@ -324,14 +329,20 @@ public class ItemDefs {
 			ModelBakery.registerItemVariants(rune, new ModelResourceLocation("arsmagica2:rune_" + EnumDyeColor.byDyeDamage(i).getName().toLowerCase(), "inventory"));
 			renderItem.getItemModelMesher().register(rune, i, new ModelResourceLocation("arsmagica2:rune_" + EnumDyeColor.byDyeDamage(i).getName().toLowerCase(), "inventory"));
 		}
-		
-		
 		for (int i = 0; i < ItemOre.names.length; i++) {
 			ModelResourceLocation loc = new ModelResourceLocation(new ResourceLocation("arsmagica2", "item_ore_" + ItemOre.names[i]), "inventory");
 			ModelBakery.registerItemVariants(itemOre, loc);
 			renderItem.getItemModelMesher().register(itemOre, i, loc);
 		}
 		
+		DefaultWithMetaRenderer coreRenderer = new DefaultWithMetaRenderer(new ModelResourceLocation(core.getRegistryName() + "_base", "inventory"));
+		for (int i = 0; i < 3; i++) {
+			ModelResourceLocation loc = new ModelResourceLocation(core.getRegistryName().toString() + (i == ItemCore.BASE_CORE ? "_base" : (i == ItemCore.HIGH_CORE ? "_high" : "_pure")), "inventory");
+			ModelBakery.registerItemVariants(core, loc);
+			coreRenderer.addModel(i, loc);			
+		}
+		ModelBakery.registerItemVariants(core, new ModelResourceLocation(core.getRegistryName() + "_base", "inventory"));
+		renderItem.getItemModelMesher().register(core, coreRenderer);
 		
 		renderItem.getItemModelMesher().register(manaPotionBundle, new ManaPotionBundleRenderer());
 		DefaultWithMetaRenderer crystalPhylacteryRenderer = new DefaultWithMetaRenderer(new ModelResourceLocation(crystalPhylactery.getRegistryName(), "inventory"));

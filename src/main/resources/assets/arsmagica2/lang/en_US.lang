@@ -391,7 +391,96 @@ am2.gui.flicker_powerperop=Etherium per operation: %s
 am2.gui.occulus.disabled=Disabled via config.
 am2.gui.occulus.missingrequirements=Missing Requirements
 
+#Components
+
+compendium.component.accelerate.name=Accelerate
+compendium.component.appropriation.name=Appropiation
+compendium.component.astral_distortion.name=Astral Distortion
+compendium.component.attract.name=Attract
+compendium.component.banish_rain.name=Banish Rain
+compendium.component.blind.name=Blind
+compendium.component.blizzard.name=Blizzard
+compendium.component.charm.name=Charm
+compendium.component.chrono_anchor.name=Chrono Anchor
+compendium.component.create_water.name=Create Water
+compendium.component.daylight.name=Daylight
+compendium.component.dig.name=Dig
+compendium.component.disarm.name=Disarm
+compendium.component.dispel.name=Dispel
+compendium.component.divine_intervention.name=Divine Intervention
+compendium.component.drought.name=Drought
+compendium.component.drown.name=Drown
+compendium.component.ender_intervention.name=Ender Intervention
+compendium.component.entangle.name=Entangle
+compendium.component.falling_star.name=Starstrike
+compendium.component.fire_damage.name=Fire Damage
+compendium.component.flight.name=Flight
+compendium.component.forge.name=Forge
+compendium.component.freeze.name=Freeze
+compendium.component.frost_damage.name=Frost Damage
+compendium.component.fury.name=Fury
+compendium.component.gravity_well.name=Gravity Well
+compendium.component.grow.name=Grow
+compendium.component.harvest_plants.name=Harvest Plants
+compendium.component.haste.name=Haste
+compendium.component.heal.name=Heal
+compendium.component.ignition.name=Ignition
+compendium.component.invisibility.name=Invisibility
+compendium.component.knockback.name=Knockback
+compendium.component.leap.name=Leap
+compendium.component.levitate.name=Levitate
+compendium.component.life_drain.name=Life Drain
+compendium.component.life_tap.name=Life Tap
+compendium.component.light.name=Light
+compendium.component.lightning_damage.name=Lightning Damage
+compendium.component.magic_damage.name=Magic Damage
+compendium.component.mana_drain.name=Mana Drain
+compendium.component.mana_link.name=Mana Link
+compendium.component.mana_shield.name=Mana Shield
+compendium.component.mark.name=Mark
+compendium.component.moonrise.name=Moonrise
+compendium.component.night_vision.name=Night Vision
+compendium.component.physical_damage.name=Physical Damage
+compendium.component.place_block.name=Place Block
+compendium.component.plant.name=Plant
+compendium.component.plow.name=Plow
+compendium.component.random_teleport.name=Random Teleport
+compendium.component.recall.name=Recall
+compendium.component.reflect.name=Reflect
+compendium.component.regeneration.name=Regeneration
+compendium.component.repel.name=Repel
+compendium.component.rift.name=Rift
+compendium.component.shield.name=Shield
+compendium.component.shrink.name=Shrink
+compendium.component.silence.name=Silence
+compendium.component.slow.name=Slow
+compendium.component.slowfall.name=Slowfall
+compendium.component.storm.name=Storm
+compendium.component.summon.name=Summon
+compendium.component.swift_swim.name=Swift Swim
+compendium.component.telekinesis.name=Telekinesis
+compendium.component.transplace.name=Transplace
+compendium.component.true_sight.name=True Sight
+
 #Shapes
+
+compendium.shape.projectile.name=Projectile
+compendium.shape.channel.name=Channel
+compendium.shape.beam.name=Beam
+compendium.shape.self.name=Self
+compendium.shape.touch.name=Touch
+compendium.shape.zone.name=Zone
+compendium.shape.aoe.name=AoE
+compendium.shape.chain.name=Chain
+compendium.shape.rune.name=Rune
+compendium.shape.contingency_fall.name=Contingency : Fall
+compendium.shape.contingency_damage.name=Contingency : Damage
+compendium.shape.contingency_fire.name=Contingency : Fire
+compendium.shape.contingency_health.name=Contingency : Health
+compendium.shape.contingency_death.name=Contingency : Death
+compendium.shape.binding.name=Binding
+compendium.shape.wall.name=Wall
+compendium.shape.wave.name=Wave
 
 compendium.projectile.page1=You are able to focus your will into a concentrated ball, which you can propel forwards away from you. The projectile will last for 5 seconds of flight, or until it strikes something. It will by default pass through water and non-collidable blocks unless you modify it with target non-solid blocks.
 compendium.channel.page1=Through intense concentration, a mage can maintain a flow of magic on themselves. This is useful for things like Telekinesis, Healing, Attract, and Storm.
@@ -413,14 +502,40 @@ compendium.wave.page1=Project a wave of magic in front of you that rolls forward
 
 #Guides
 
-compendium.guide.yourFirstSpell.name=Your First Spell
-compendium.yourFirstSpell.page1=Your First Spell !d To make a spell, you will first need to create an #5Occulus#0 and unlock at least one spell shape and one component. You start with three blue skill points to make this possible. Then, craft a writable book and head over to your #5Inscription Table#0. Place the book in the inscription table.
-compendium.yourFirstSpell.page2=There are three sections of the Inscription Table UI that are of note. The source region is the large grey square at the top, and will contain all of your known shapes, components, and modifiers. The Shape Group section is identified by brown squares. There are multiple brown squares as multiple shape groups can be created. Finally there is the Spell Grammar section, which is the gray rectangle at the bottom.
-compendium.yourFirstSpell.page3=Create #5Shape Groups#0 by dragging shapes and/or modifiers from the source region to any of the shape groups in the UI. You can create multiple shape groups in the same spell, three by default. Each shape group can have up to four shapes/modifiers. Shape groups cannot contain components. A good way to think about it is that shape groups are different means of targeting things with the spell, then the spell grammar is what the spell actually does.
-compendium.yourFirstSpell.page4=Once your shape groups are created, drag the spell parts you want, in order, from the source region to the spell grammar section. The spell grammar section can contain spell shapes, components, and modifiers in addition to the shape groups. Once your combination is completed, go to your #5Crafting Altar#0 and place your book containing the spell recipe on the lectern.
-compendium.yourFirstSpell.page5=Throw a #5blank rune#0 into the middle of the crafting altar to begin the process, then follow the book's prompts. The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell. Note that certain crafting altars can only craft spells that are so powerful. Too much power and bad things can happen. See the entry on the #5Crafting Altar#0 for more information.
+compendium.guide.your_first_spell.name=Your First Spell
+compendium.your_first_spell.page1=Your First Spell !d To make a spell, you will first need to create an #5Occulus#0 and unlock at least one spell shape and one component. You start with three blue skill points to make this possible. Then, craft a writable book and head over to your #5Inscription Table#0. Place the book in the inscription table.
+compendium.your_first_spell.page2=There are three sections of the Inscription Table UI that are of note. The source region is the large grey square at the top, and will contain all of your known shapes, components, and modifiers. The Shape Group section is identified by brown squares. There are multiple brown squares as multiple shape groups can be created. Finally there is the Spell Grammar section, which is the gray rectangle at the bottom.
+compendium.your_first_spell.page3=Create #5Shape Groups#0 by dragging shapes and/or modifiers from the source region to any of the shape groups in the UI. You can create multiple shape groups in the same spell, three by default. Each shape group can have up to four shapes/modifiers. Shape groups cannot contain components. A good way to think about it is that shape groups are different means of targeting things with the spell, then the spell grammar is what the spell actually does.
+compendium.your_first_spell.page4=Once your shape groups are created, drag the spell parts you want, in order, from the source region to the spell grammar section. The spell grammar section can contain spell shapes, components, and modifiers in addition to the shape groups. Once your combination is completed, go to your #5Crafting Altar#0 and place your book containing the spell recipe on the lectern.
+compendium.your_first_spell.page5=Throw a #5blank rune#0 into the middle of the crafting altar to begin the process, then follow the book's prompts. The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell. Note that certain crafting altars can only craft spells that are so powerful. Too much power and bad things can happen. See the entry on the #5Crafting Altar#0 for more information.
 
 #Mechanics
+
+compendium.category.mechanic.name=Mechanics
+compendium.category.mechanic.affinity.name=Affinities
+compendium.category.mechanic.enchants.name=Enchantments
+
+compendium.mechanic.spell_creation.name=Spell Creation
+compendium.mechanic.infusion.name=Infusion
+compendium.mechanic.mana.name=Mana
+compendium.mechanic.magic_level.name=Magic Level
+compendium.mechanic.burnout.name=Burnout
+compendium.mechanic.rituals.name=Rituals
+compendium.mechanic.moonstone_meteor.name=Moonstone Meteor
+compendium.mechanic.armor_xp_infusion.name=Armor XP Infusion
+compendium.mechanic.silver_skills.name=Silver Skills
+
+compendium.mechanic.affinity.affinities.name=Affinities
+compendium.mechanic.affinity.earth_affinity.name=Earth Affinity
+compendium.mechanic.affinity.water_affinity.name=Water Affinity
+compendium.mechanic.affinity.air_affinity.name=Air Affinity
+compendium.mechanic.affinity.fire_affinity.name=Fire Affinity
+compendium.mechanic.affinity.nature_affinity.name=Nature Affinity
+compendium.mechanic.affinity.ice_affinity.name=Ice Affinity
+compendium.mechanic.affinity.lightning_affinity.name=Lightning Affinity
+compendium.mechanic.affinity.life_affinity.name=Life Affinity
+compendium.mechanic.affinity.arcane_affinity.name=Arcane Affinity
+compendium.mechanic.affinity.ender_affinity.name=Ender Affinity
 
 compendium.affinities.page1=#5Affinity#0 represents a bond to certain areas of magic. You start with no affinity. Your affinity is represented as a small chart on the HUD, and can be viewed in more detail at an Occulus (craftable Block). 
 compendium.affinities.page2=Your affinity will shift based on what spells you cast, meaning as you cast certain types of spells more often, you will get better at them. Casting spells of a differing affinity will shift you towards that affinity. Once you reach 100% in an affinity, you become locked to that affinity, and will need to read an opposing affinity tome to unlock your affinity, at which point normal progression will resume.

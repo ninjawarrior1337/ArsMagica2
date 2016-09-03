@@ -64,7 +64,6 @@ public abstract class CompendiumPage<E> {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-		RenderHelper.enableStandardItemLighting();
 		GlStateManager.enableAlpha();
 		GlStateManager.popMatrix();
 	}
@@ -190,7 +189,7 @@ public abstract class CompendiumPage<E> {
 					entry = ArcaneCompendium.getCompendium().get(skill.getID());
 				}else if (stack.getItem() == ItemDefs.etherium){
 					list.clear();
-					list.add(stack.stackSize + " " + I18n.translateToLocal("item.etherium.name"));
+					list.add(stack.stackSize + " " + I18n.translateToLocal("item.arsmagica2:etherium.name"));
 					ArrayList<String> subList = new ArrayList<>();
 					for (PowerTypes type : PowerTypes.all()) {
 						if ((stack.getItemDamage() & type.ID()) == type.ID()) {

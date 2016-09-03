@@ -17,6 +17,7 @@ import am2.particles.AMParticleIcons;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleLeaveParticleTrail;
 import am2.particles.ParticleMoveOnHeading;
+import am2.power.PowerTypes;
 import am2.spell.SpellCastResult;
 import am2.spell.modifier.Colour;
 import am2.utils.AffinityShiftUtils;
@@ -167,7 +168,7 @@ public class AoE extends SpellShape{
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE),
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
-				//TODO String.format("E:%d|%d|%d", PowerTypes.LIGHT.ID(), PowerTypes.NEUTRAL.ID(), PowerTypes.DARK.ID()), 1000,
+				String.format("E:%d|%d|%d", PowerTypes.LIGHT.ID(), PowerTypes.NEUTRAL.ID(), PowerTypes.DARK.ID()), 1000,
 				Blocks.TNT
 		};
 	}
