@@ -82,6 +82,7 @@ public class ItemRenderer {
 //				event.getCameraTransformType() == TransformType.FIRST_PERSON_LEFT_HAND
 //						|| event.getCameraTransformType() == TransformType.THIRD_PERSON_LEFT_HAND);
 		tesr.renderTileEntityAt(te, 0, 0, 0, event.getStack().getItemDamage(), -10);
+		GlStateManager.enableBlend();
 		GlStateManager.popMatrix();
 	}
 

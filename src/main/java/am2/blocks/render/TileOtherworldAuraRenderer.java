@@ -1,11 +1,13 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
 
 import am2.blocks.tileentity.TileEntityOtherworldAura;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -19,13 +21,13 @@ public class TileOtherworldAuraRenderer extends TileEntitySpecialRenderer<TileEn
 	}
 
 	public void renderTileEntityAt(TileEntityOtherworldAura tile, double d1, double d2, double d3, float f, int destroyStage){
-		GL11.glPushMatrix();
-		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_TEXTURE_BIT);
+		GlStateManager.pushMatrix();
+		GlStateManager.pushAttrib();
 
-		GL11.glTranslatef((float)d1 + 0.5f, (float)d2 + 0.5f, (float)d3 + 0.5f);
-		GL11.glDepthMask(false);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.translate((float)d1 + 0.5f, (float)d2 + 0.5f, (float)d3 + 0.5f);
+		GlStateManager.depthMask(false);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 
 
 		RenderHelper.disableStandardItemLighting();
@@ -41,33 +43,33 @@ public class TileOtherworldAuraRenderer extends TileEntitySpecialRenderer<TileEn
 		}
 
 		RenderHelper.enableStandardItemLighting();
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDepthMask(true);
-		GL11.glPopAttrib();
-		GL11.glPopMatrix();
+		GlStateManager.disableBlend();
+		GlStateManager.depthMask(true);
+		GlStateManager.popAttrib();
+		GlStateManager.popMatrix();
 	}
 
 
 	private void renderArsMagicaEffect(Tessellator tessellator, float offset, float scale, float smooth, boolean rotate){
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 		if (rotate){
-			GL11.glRotatef(180F - Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(-Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(180F - Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(-Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
 		}else{
-			GL11.glRotatef(35, 0, 1, 0);
-			GL11.glTranslatef(0, -0.25f, 0);
+			GlStateManager.translate(0, -0.25f, 0);
+			GlStateManager.rotate(90, 0, 1, 0);
 		}
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(rLoc_aura);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4f(1, 0, 0.75f, 1);
-		GL11.glTranslatef(0.0f, 0.25f, 0.0f);
-		GL11.glRotatef((Minecraft.getMinecraft().thePlayer.ticksExisted + smooth) * (scale * 2) * offset, 0, 0, 1);
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color(1, 0, 0.75f, 1);
+		GlStateManager.translate(0.0f, 0.25f, 0.0f);
+		GlStateManager.rotate((Minecraft.getMinecraft().thePlayer.ticksExisted + smooth) * (scale * 2) * offset, 0, 0, 1);
 		float scalefactor = (float)Math.abs(Math.sin(System.currentTimeMillis() / 1000.0 * scale)) + 0.01f;
-		GL11.glScalef(scale * scalefactor, scale * scalefactor, scale * scalefactor);
-		GL11.glTranslatef(0.0f, -0.25f, 0.0f);
+		GlStateManager.scale(scale * scalefactor, scale * scalefactor, scale * scalefactor);
+		GlStateManager.translate(0.0f, -0.25f, 0.0f);
 		renderSprite(tessellator);
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 
 	}
 
