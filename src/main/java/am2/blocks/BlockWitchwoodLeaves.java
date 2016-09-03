@@ -35,6 +35,7 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 		this.setTickRandomly(true);
 		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
 		this.setDefaultState(blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
+		setGraphicsLevel(true);
 	}
 
 	@Override
@@ -82,7 +83,6 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		if (!ArsMagica2.config.witchwoodLeafPFX())
 			return;
-
 		if (rand.nextInt(300) == 0 && worldIn.isAirBlock(pos.down())){
 			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldIn, "leaf", pos.getX() + rand.nextDouble(), pos.getY() + rand.nextDouble(), pos.getZ() + rand.nextDouble());
 			if (particle != null){
