@@ -246,9 +246,8 @@ public class AMGuiHelper{
 
 		if (IIcon == null)
 			return;
-
-		GlStateManager.matrixMode(GL11.GL_TEXTURE);
-		GlStateManager.pushMatrix();
+		//GlStateManager.matrixMode(GL11.GL_TEXTURE);
+		//GlStateManager.pushMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 		Tessellator tessellator = Tessellator.getInstance();
@@ -275,8 +274,8 @@ public class AMGuiHelper{
 		.endVertex();
 		
 		tessellator.draw();
-		GlStateManager.popAttrib();
-		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+		//GlStateManager.popMatrix();
+		//GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 
 		if (drawing)
 			tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -310,7 +309,8 @@ public class AMGuiHelper{
 				GlStateManager.color(1, 1, 1, 1);
 				if (icon != null)
 					DrawIconAtXY(icon, x, y, zLevel + 1, 16, 16, false);
-			} else if (stack.getItem().equals(ItemDefs.etherium)) {
+			} 
+			else if (stack.getItem().equals(ItemDefs.etherium)) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 				TextureAtlasSprite icon = AMParticleIcons.instance.getIconByName("lights");
 				int color = 0;
@@ -319,9 +319,10 @@ public class AMGuiHelper{
 						color |= type.getColor();
 					}
 				}
-				if (icon != null)
+				if (icon != null);
 					DrawIconAtXY(icon, x, y, zLevel, 16, 16, color);
-			} else {
+			} 
+			else {
 				RenderHelper.enableStandardItemLighting();
 				itemRenderer.renderItemIntoGUI(stack, (int)x, (int)y);
 			}

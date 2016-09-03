@@ -243,6 +243,8 @@ public class ItemCandle extends ItemArsMagica{
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
 		if (oldStack == null) return slotChanged;
 		if (newStack == null) return slotChanged;
+		if (oldStack.getTagCompound() == null) return slotChanged;
+		if (newStack.getTagCompound() == null) return slotChanged;
 		if (oldStack.getTagCompound().equals(newStack.getTagCompound())) return false;
 		return slotChanged;
 	}

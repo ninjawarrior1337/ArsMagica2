@@ -20,6 +20,7 @@ public final class CompendiumCategory {
 	public static final CompendiumCategory GUIDE = createCompendiumCategory("guide", new ResourceLocation("arsmagica2", "items/arcanecompendium"));
 	public static final CompendiumCategory MECHANIC = createCompendiumCategory("mechanic", new ResourceLocation("arsmagica2", "items/magitech_goggle"));
 	public static final CompendiumCategory MECHANIC_AFFINITY = createCompendiumCategory("mechanic.affinity", new ResourceLocation("missingno"));
+	public static final CompendiumCategory MECHANIC_ENCHANTS = createCompendiumCategory("mechanic.enchants", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM = createCompendiumCategory("item", new ResourceLocation("arsmagica2", "items/essence_ice"));
 	public static final CompendiumCategory BLOCK = createCompendiumCategory("block", new ResourceLocation("arsmagica2", "items/crystal_wrench"));
 	public static final CompendiumCategory SPELL_SHAPE = createCompendiumCategory("shape", new ResourceLocation("arsmagica2", "items/spells/shapes/Binding"));

@@ -8,11 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.skill.Skill;
+import am2.api.spell.AbstractSpellPart;
 import am2.defs.ItemDefs;
 import am2.lore.ArcaneCompendium;
 import am2.lore.CompendiumEntry;
@@ -41,6 +39,7 @@ public abstract class CompendiumPage<E> {
 	static {
 		registerPageType(PageItemStack.class, ItemStack.class);
 		registerPageType(PageText.class, String.class);
+		registerPageType(PageSpellComponent.class, AbstractSpellPart.class);
 	}
 	
 	public static final <E> void registerPageType(Class<? extends CompendiumPage<E>> page, Class<E> clazz) {
@@ -65,15 +64,17 @@ public abstract class CompendiumPage<E> {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+		RenderHelper.enableStandardItemLighting();
+		GlStateManager.enableAlpha();
 		GlStateManager.popMatrix();
 	}
 	
 	protected void drawHoveringText(List<String> par1List, int par2, int par3, FontRenderer font){
 		if (!par1List.isEmpty()){
-			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+			GlStateManager.disableRescaleNormal();
 			RenderHelper.disableStandardItemLighting();
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			GlStateManager.disableLighting();
+			GlStateManager.disableDepth();
 			int k = 0;
 			Iterator<String> iterator = par1List.iterator();
 
@@ -130,10 +131,10 @@ public abstract class CompendiumPage<E> {
 
 			this.zLevel = 0.0F;
 			Minecraft.getMinecraft().getRenderItem().zLevel = 0.0F;
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GlStateManager.enableLighting();
+			GlStateManager.enableDepth();
 			RenderHelper.enableStandardItemLighting();
-			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+			GlStateManager.enableRescaleNormal();
 		}
 	}
 	
@@ -242,11 +243,8 @@ public abstract class CompendiumPage<E> {
 			FontRenderer font = stack.getItem().getFontRenderer(stack);
 			drawHoveringText(list, x, y, (font == null ? this.mc.fontRendererObj : font));
 		}catch (Throwable t){
-
 		}
 	}
-	
-	
 	
 	@SuppressWarnings("unchecked")
 	public static final <E> CompendiumPage<E> getCompendiumPage(Class<? extends E> clazz, E element) {

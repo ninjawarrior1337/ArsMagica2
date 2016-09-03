@@ -606,7 +606,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	public void flipSwitch(){
 		if (switchLocation == null) return;
 		IBlockState block = worldObj.getBlockState(pos.add(switchLocation));
-		if (block == Blocks.LEVER){
+		if (block.getBlock() == Blocks.LEVER){
 			worldObj.setBlockState(pos.add(switchLocation), block.withProperty(BlockLever.POWERED, false));
 		}
 	}
