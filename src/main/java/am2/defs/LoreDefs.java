@@ -1,17 +1,14 @@
 package am2.defs;
 
-import static am2.compendium.CompendiumCategory.GUIDE;
-import static am2.compendium.CompendiumCategory.MECHANIC;
-import static am2.compendium.CompendiumCategory.MECHANIC_AFFINITY;
-import static am2.compendium.CompendiumCategory.MECHANIC_ENCHANTS;
-import static am2.compendium.CompendiumCategory.SPELL_COMPONENT;
-import static am2.compendium.CompendiumCategory.SPELL_MODIFIER;
-import static am2.compendium.CompendiumCategory.SPELL_SHAPE;
+import static am2.compendium.CompendiumCategory.*;
 
+import am2.LogHelper;
+import am2.api.CraftingAltarMaterials;
 import am2.api.SpellRegistry;
 import am2.api.spell.AbstractSpellPart;
 import am2.compendium.CompendiumCategory;
 import am2.compendium.CompendiumEntry;
+import am2.compendium.wrapper.StackMapWrapper;
 
 public class LoreDefs {
 
@@ -101,6 +98,7 @@ public class LoreDefs {
 		createComponentEntry("attract", SpellRegistry.getComponentFromName("arsmagica2:attract"), 1);
 		createComponentEntry("banish_rain", SpellRegistry.getComponentFromName("arsmagica2:banish_rain"), 1);
 		createComponentEntry("blind", SpellRegistry.getComponentFromName("arsmagica2:blind"), 1);
+		createComponentEntry("blink", SpellRegistry.getComponentFromName("arsmagica2:blink"), 1);
 		createComponentEntry("blizzard", SpellRegistry.getComponentFromName("arsmagica2:blizzard"), 1);
 		createComponentEntry("charm", SpellRegistry.getComponentFromName("arsmagica2:charm"), 1);
 		createComponentEntry("chrono_anchor", SpellRegistry.getComponentFromName("arsmagica2:chrono_anchor"), 1);
@@ -116,6 +114,8 @@ public class LoreDefs {
 		createComponentEntry("entangle", SpellRegistry.getComponentFromName("arsmagica2:entangle"), 1);
 		createComponentEntry("falling_star", SpellRegistry.getComponentFromName("arsmagica2:falling_star"), 1);
 		createComponentEntry("fire_damage", SpellRegistry.getComponentFromName("arsmagica2:fire_damage"), 1);
+		createComponentEntry("fire_rain", SpellRegistry.getComponentFromName("arsmagica2:fire_rain"), 1);
+		createComponentEntry("fling", SpellRegistry.getComponentFromName("arsmagica2:fling"), 1);
 		createComponentEntry("flight", SpellRegistry.getComponentFromName("arsmagica2:flight"), 1);
 		createComponentEntry("forge", SpellRegistry.getComponentFromName("arsmagica2:forge"), 1);
 		createComponentEntry("freeze", SpellRegistry.getComponentFromName("arsmagica2:freeze"), 1);
@@ -137,13 +137,13 @@ public class LoreDefs {
 		createComponentEntry("lightning_damage", SpellRegistry.getComponentFromName("arsmagica2:lightning_damage"), 1);
 		createComponentEntry("magic_damage", SpellRegistry.getComponentFromName("arsmagica2:magic_damage"), 1);
 		createComponentEntry("mana_drain", SpellRegistry.getComponentFromName("arsmagica2:mana_drain"), 1);
-		createComponentEntry("mana_link", SpellRegistry.getComponentFromName("arsmagica2:mana_link"), 1);
+		createComponentEntry("mana_link", SpellRegistry.getComponentFromName("arsmagica2:mana_link"), 2);
 		createComponentEntry("mana_shield", SpellRegistry.getComponentFromName("arsmagica2:mana_shield"), 1);
 		createComponentEntry("mark", SpellRegistry.getComponentFromName("arsmagica2:mark"), 1);
 		createComponentEntry("moonrise", SpellRegistry.getComponentFromName("arsmagica2:moonrise"), 1);
 		createComponentEntry("night_vision", SpellRegistry.getComponentFromName("arsmagica2:night_vision"), 1);
 		createComponentEntry("physical_damage", SpellRegistry.getComponentFromName("arsmagica2:physical_damage"), 1);
-		createComponentEntry("place_block", SpellRegistry.getComponentFromName("arsmagica2:place_block"), 1);
+		createComponentEntry("place_block", SpellRegistry.getComponentFromName("arsmagica2:place_block"), 2);
 		createComponentEntry("plant", SpellRegistry.getComponentFromName("arsmagica2:plant"), 1);
 		createComponentEntry("plow", SpellRegistry.getComponentFromName("arsmagica2:plow"), 1);
 		createComponentEntry("random_teleport", SpellRegistry.getComponentFromName("arsmagica2:random_teleport"), 1);
@@ -158,7 +158,7 @@ public class LoreDefs {
 		createComponentEntry("slow", SpellRegistry.getComponentFromName("arsmagica2:slow"), 1);
 		createComponentEntry("slowfall", SpellRegistry.getComponentFromName("arsmagica2:slowfall"), 1);
 		createComponentEntry("storm", SpellRegistry.getComponentFromName("arsmagica2:storm"), 1);
-		createComponentEntry("summon", SpellRegistry.getComponentFromName("arsmagica2:summon"), 1);
+		createComponentEntry("summon", SpellRegistry.getComponentFromName("arsmagica2:summon"), 2);
 		createComponentEntry("swift_swim", SpellRegistry.getComponentFromName("arsmagica2:swift_swim"), 1);
 		createComponentEntry("telekinesis", SpellRegistry.getComponentFromName("arsmagica2:telekinesis"), 1);
 		createComponentEntry("transplace", SpellRegistry.getComponentFromName("arsmagica2:transplace"), 1);
@@ -169,6 +169,26 @@ public class LoreDefs {
 	}
 	
 	private static void initModifiers() {
+		createModifierEntry("bounce", SpellRegistry.getModifierFromName("arsmagica2:bounce"), 1);
+		createModifierEntry("buff_power", SpellRegistry.getModifierFromName("arsmagica2:buff_power"), 1);
+		createModifierEntry("colour", SpellRegistry.getModifierFromName("arsmagica2:colour"), 1);
+		createModifierEntry("damage", SpellRegistry.getModifierFromName("arsmagica2:damage"), 1);
+		createModifierEntry("dismembering", SpellRegistry.getModifierFromName("arsmagica2:dismembering"), 1);
+		createModifierEntry("duration", SpellRegistry.getModifierFromName("arsmagica2:duration"), 1);
+		createModifierEntry("feather_touch", SpellRegistry.getModifierFromName("arsmagica2:feather_touch"), 1);
+		createModifierEntry("gravity", SpellRegistry.getModifierFromName("arsmagica2:gravity"), 1);
+		createModifierEntry("healing", SpellRegistry.getModifierFromName("arsmagica2:healing"), 1);
+		createModifierEntry("lunar", SpellRegistry.getModifierFromName("arsmagica2:lunar"), 1);
+		createModifierEntry("mining_power", SpellRegistry.getModifierFromName("arsmagica2:mining_power"), 1);
+		createModifierEntry("piercing", SpellRegistry.getModifierFromName("arsmagica2:piercing"), 1);
+		createModifierEntry("prosperity", SpellRegistry.getModifierFromName("arsmagica2:prosperity"), 1);
+		createModifierEntry("radius", SpellRegistry.getModifierFromName("arsmagica2:radius"), 1);
+		createModifierEntry("range", SpellRegistry.getModifierFromName("arsmagica2:range"), 1);
+		createModifierEntry("rune_procs", SpellRegistry.getModifierFromName("arsmagica2:rune_procs"), 1);
+		createModifierEntry("solar", SpellRegistry.getModifierFromName("arsmagica2:solar"), 1);
+		createModifierEntry("speed", SpellRegistry.getModifierFromName("arsmagica2:speed"), 1);
+		createModifierEntry("target_non_solid", SpellRegistry.getModifierFromName("arsmagica2:target_non_solid"), 1);
+		createModifierEntry("velocity_added", SpellRegistry.getModifierFromName("arsmagica2:velocity_added"), 1);
 	}
 	
 	private static void initTalents() {
@@ -180,7 +200,9 @@ public class LoreDefs {
 	}
 	
 	private static void initStructures() {
-		
+		STRUCTURE.addEntry(new CompendiumEntry("crafting_altar")
+				.addObject(new StackMapWrapper(CraftingAltarMaterials.getCapsMap(), "am2.gui.catalysts", false))
+				.addObject(new StackMapWrapper(CraftingAltarMaterials.getSimpleMainMap(), "am2.gui.structuremat", false)));
 	}
 	
 	private static void initBosses() {
@@ -192,6 +214,8 @@ public class LoreDefs {
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
+		if (shape == null)
+			LogHelper.debug("Missing shape for : %s", name);
 		entry.addObject(shape);
 		SPELL_SHAPE.addEntry(entry);
 	}
@@ -201,6 +225,8 @@ public class LoreDefs {
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
+		if (component == null)
+			LogHelper.debug("Missing component for : %s", name);
 		entry.addObject(component);
 		SPELL_COMPONENT.addEntry(entry);
 	}
@@ -210,6 +236,8 @@ public class LoreDefs {
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
+		if (mod == null)
+			LogHelper.debug("Missing modifier for : %s", name);
 		entry.addObject(mod);
 		SPELL_MODIFIER.addEntry(entry);
 	}

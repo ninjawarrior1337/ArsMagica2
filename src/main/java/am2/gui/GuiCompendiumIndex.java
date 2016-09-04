@@ -182,11 +182,12 @@ public class GuiCompendiumIndex extends GuiScreen{
 			if (button instanceof GuiButtonCompendiumLink) {
 				GuiButtonCompendiumLink link = (GuiButtonCompendiumLink)button;
 				if (link.getEntry() != null)
-					link.visible = link.getEntry().canBeDisplayed(category.getID()) && page == link.getPage();
+					link.visible = link.getEntry().canBeDisplayed(category.getID());
 				else if (link.getCategory() != null)
-					link.visible = link.getCategory().getParentsString().equals(category.getID()) && page == link.getPage();
+					link.visible = link.getCategory().getParentsString().equals(category.getID());
 				if (link.visible)
 					numButton++;
+				link.visible &= page == link.getPage();
 			} else if (button instanceof GuiButtonCompendiumTab) {
 				GuiButtonCompendiumTab tab = (GuiButtonCompendiumTab)button;
 				tab.setActive(tab.category == category && page == numPages);

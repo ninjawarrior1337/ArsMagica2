@@ -1,6 +1,7 @@
 package am2.api;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -58,5 +59,13 @@ public class CraftingAltarMaterials {
 	
 	public static ImmutableMap<KeyValuePair<IBlockState, IBlockState>, Integer> getMainMap() {
 		return ImmutableMap.copyOf(main);
+	}
+	
+	public static ImmutableMap<IBlockState, Integer> getSimpleMainMap() {
+		ImmutableMap.Builder<IBlockState, Integer> builder = ImmutableMap.builder();
+		for (Entry<KeyValuePair<IBlockState, IBlockState>, Integer> entry : getMainMap().entrySet()) {
+			builder.put(entry.getKey().key, entry.getValue());
+		}
+		return builder.build();
 	}
 }

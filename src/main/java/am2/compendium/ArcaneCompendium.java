@@ -36,15 +36,23 @@ public class ArcaneCompendium extends GuiScreen {
 	public void initGui() {
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
-		
-		prevPage = new GuiButtonCompendiumNext(1, l + 35, i1 + ySize - 25, false);
-		nextPage = new GuiButtonCompendiumNext(2, l + 315, i1 + ySize - 25, true);
+		int idCount = 0;
+		prevPage = new GuiButtonCompendiumNext(idCount++, l + 35, i1 + ySize - 25, false);
+		nextPage = new GuiButtonCompendiumNext(idCount++, l + 315, i1 + ySize - 25, true);
 		
 		prevPage.visible = false;
 		nextPage.visible = pages.size() > 2;
 		
 		buttonList.add(nextPage);
 		buttonList.add(prevPage);
+		
+		boolean isRightPage = false;
+		for (CompendiumPage<?> page : pages) {
+			for (GuiButton button : page.getButtons(idCount, isRightPage ? l + 185 : l + 35, i1)) {
+				buttonList.add(button);
+			}
+			isRightPage = !isRightPage;
+		}
 		super.initGui();
 	}
 	
@@ -102,6 +110,9 @@ public class ArcaneCompendium extends GuiScreen {
 				prevPage.visible = false;
 			if (pages.size() > 2)
 				nextPage.visible = true;
+		}
+		for (CompendiumPage<?> page : pages) {
+			page.actionPerformed(button);
 		}
 		super.actionPerformed(button);
 	}

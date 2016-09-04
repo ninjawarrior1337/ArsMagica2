@@ -1,5 +1,6 @@
 package am2.compendium.pages;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Map.Entry;
 import am2.api.ArsMagicaAPI;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
+import am2.compendium.wrapper.StackMapWrapper;
 import am2.defs.ItemDefs;
 import am2.lore.ArcaneCompendium;
 import am2.lore.CompendiumEntry;
@@ -18,6 +20,7 @@ import am2.power.PowerTypes;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -40,6 +43,7 @@ public abstract class CompendiumPage<E> {
 		registerPageType(PageItemStack.class, ItemStack.class);
 		registerPageType(PageText.class, String.class);
 		registerPageType(PageSpellComponent.class, AbstractSpellPart.class);
+		registerPageType(PageStackMap.class, StackMapWrapper.class);
 	}
 	
 	public static final <E> void registerPageType(Class<? extends CompendiumPage<E>> page, Class<E> clazz) {
@@ -67,6 +71,12 @@ public abstract class CompendiumPage<E> {
 		GlStateManager.enableAlpha();
 		GlStateManager.popMatrix();
 	}
+	
+	public GuiButton[] getButtons(int id, int posX, int posY) {
+		return new GuiButton[0];
+	}
+	
+	public void actionPerformed(GuiButton button) throws IOException {}
 	
 	protected void drawHoveringText(List<String> par1List, int par2, int par3, FontRenderer font){
 		if (!par1List.isEmpty()){

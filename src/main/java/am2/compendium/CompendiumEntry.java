@@ -62,6 +62,7 @@ public class CompendiumEntry {
 	public ArrayList<CompendiumPage<?>> getPages() {
 		ArrayList<CompendiumPage<?>> pages = new ArrayList<>();
 		for (Object obj : objects) {
+			if (obj == null) continue;
 			CompendiumPage<?> page = CompendiumPage.getCompendiumPage(obj.getClass(), obj);
 			if (page != null)
 				pages.add(page);
