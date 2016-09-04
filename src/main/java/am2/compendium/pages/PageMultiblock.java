@@ -83,6 +83,9 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 			if (curLayer < -1){
 				curLayer = maxLayers;
 			}
+		} else if (button == pauseCycling) {
+			AMGuiHelper.instance.runCompendiumTicker = !AMGuiHelper.instance.runCompendiumTicker;
+			pauseCycling.displayString = AMGuiHelper.instance.runCompendiumTicker ? I18n.translateToLocal("am2.gui.pause") : I18n.translateToLocal("am2.gui.cycle");
 		}
 		super.actionPerformed(button);
 	}
@@ -212,29 +215,31 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 
 		RenderHelper.disableStandardItemLighting();
 
-		GL11.glPushMatrix();
-		GL11.glTranslatef(x + 15, y + 3, 12.0F * offsetZ);
-		GL11.glTranslatef(0, 0, 40);
-		GL11.glScalef(20.0F, 20.0F, 20.0F);
-		GL11.glTranslatef(1.0F, 0.5F, 1.0F);
-		GL11.glScalef(1.0F, 1.0F, -1.0F);
-		GL11.glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + 15, y + 3, 12.0F * offsetZ);
+		GlStateManager.translate(0, 0, 40);
+		GlStateManager.scale(20.0F, 20.0F, 20.0F);
+		GlStateManager.translate(1.0F, 0.5F, 1.0F);
+		GlStateManager.scale(1.0F, 1.0F, -1.0F);
+		GlStateManager.rotate(210.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
 		this.blockAccess.setFakeBlockAndMeta(state);
 		if (picked)
 			mc.renderEngine.bindTexture(red);
 		else
 			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GlStateManager.enableLighting();
 		if (state.getBlock() instanceof ITileEntityProvider)
 			TileEntityRendererDispatcher.instance.renderTileEntityAt(((ITileEntityProvider)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), 0, 0, 0, 0, 0);
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GlStateManager.disableLighting();
 		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
+		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, new BlockPos(0, 0, 0), blockAccess , Tessellator.getInstance().getBuffer());
 		Tessellator.getInstance().draw();
 		RenderHelper.disableStandardItemLighting();
-		GL11.glPopMatrix();
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
 	}
 }

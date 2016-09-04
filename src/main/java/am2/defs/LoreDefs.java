@@ -3,13 +3,22 @@ package am2.defs;
 import static am2.compendium.CompendiumCategory.*;
 
 import am2.LogHelper;
+import am2.api.ArsMagicaAPI;
 import am2.api.CraftingAltarMaterials;
 import am2.api.SpellRegistry;
+import am2.api.affinity.Affinity;
 import am2.api.spell.AbstractSpellPart;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
+import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
+import am2.blocks.tileentity.TileEntityObelisk;
 import am2.compendium.CompendiumCategory;
 import am2.compendium.CompendiumEntry;
 import am2.compendium.wrapper.StackMapWrapper;
+import am2.items.ItemCore;
+import am2.items.ItemOre;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class LoreDefs {
 
@@ -65,11 +74,96 @@ public class LoreDefs {
 	}
 	
 	private static void initItems() {
+		createItemEntry("keystone", ItemDefs.keystone, 1);
+		createItemEntry("mana_cake", ItemDefs.manaCake, 1);
+		createItemEntry("crystal_wrench", ItemDefs.crystalWrench, 1);
+		createItemEntry("spell_parchment", ItemDefs.spellParchment, 1);
+		createItemEntry("crystal_phylactery", ItemDefs.crystalPhylactery, 1);
+		createItemEntry("spell_staff_magitech", ItemDefs.spellStaffMagitech, 1);
+		createItemEntry("spell_book", ItemDefs.spellBook, 1);
+		createItemEntry("magic_broom", ItemDefs.magicBroom, 1);
+		createItemEntry("nature_scythe", ItemDefs.natureScythe, 1);
+		createItemEntry("arcane_spellbook", ItemDefs.arcaneSpellbook, 1);
+		createItemEntry("winter_arm", ItemDefs.winterArm, 1);
+		createItemEntry("air_sled", ItemDefs.airSled, 1);
+		createItemEntry("earth_armor", ItemDefs.earthArmor, 1);
+		createItemEntry("water_orbs", ItemDefs.waterOrbs, 1);
+		createItemEntry("fire_ears", ItemDefs.fireEars, 1);
+		createItemEntry("workbench_upgrade", ItemDefs.workbenchUpgrade, 1);
+		createItemEntry("warding_candle", ItemDefs.wardingCandle, 1);
+		createItemEntry("flicker_jar", ItemDefs.flickerJar, 1);
+		createItemEntry("ender_boots", ItemDefs.enderBoots, 1);
+		createItemEntry("lightning_charm", ItemDefs.lightningCharm, 1);
+		createItemEntry("lifeward", ItemDefs.lifeWard, 1);
+		createItemEntry("magitech_goggles", ItemDefs.magitechGoggles, 1);
+		createItemEntry("chalk", ItemDefs.chalk, 1);
+		createItemEntry("journal", ItemDefs.journal, 1);
+		createItemEntry("deficit_crystal", ItemDefs.deficitCrystal, 1);
 		
+		createItemEntry(ITEM_ORE, "vinteum_dust", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM), 1);
+		createItemEntry(ITEM_ORE, "arcane_compound", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANECOMPOUND), 1);
+		createItemEntry(ITEM_ORE, "arcane_ash", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH), 1);
+		createItemEntry(ITEM_ORE, "purified_vinteum_dust", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM), 1);
+		createItemEntry(ITEM_ORE, "chimerite", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE), 1);
+		createItemEntry(ITEM_ORE, "blue_topaz", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ), 1);
+		createItemEntry(ITEM_ORE, "sunstone", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE), 1);
+		createItemEntry(ITEM_ORE, "moonstone", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE), 1);
+
+		createEntry(ITEM_ESSENCE, "essence", 1);
+		createItemEntry(ITEM_ESSENCE, "essence_arcane", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_earth", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_air", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_fire", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_water", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_nature", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_ice", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ICE)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_lightning", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_life", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_ender", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 1);
+		createItemEntry(ITEM_ESSENCE, "pure_essence", new ItemStack(ItemDefs.core, 1, ItemCore.PURE), 1);
+		createItemEntry(ITEM_ESSENCE, "base_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE), 1);
+		createItemEntry(ITEM_ESSENCE, "high_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.HIGH_CORE), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_bag", new ItemStack(ItemDefs.essenceBag, 1, 0), 1);
+
+		createEntry(ITEM_RUNE, "runes", 1);
+		createItemEntry(ITEM_RUNE, "rune_blank", new ItemStack(ItemDefs.blankRune, 1, 0), 1);
+		createItemEntry(ITEM_RUNE, "rune_black", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_brown", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BROWN.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_cyan", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.CYAN.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_gray", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GRAY.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_green", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_light_blue", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_light_gray", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.SILVER.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_lime", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIME.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_magenta", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.MAGENTA.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_orange", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_pink", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PINK.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_purple", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_red", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_white", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_yellow", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.YELLOW.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_bag", new ItemStack(ItemDefs.runeBag, 1, 0), 1);
+	
+		createEntry(ITEM_ARMOR_MAGE, "mage_armor", 1);
+		createItemEntry(ITEM_ARMOR_MAGE, "helmet_mage", new ItemStack(ItemDefs.mageHood), 1);
+		createItemEntry(ITEM_ARMOR_MAGE, "chest_mage", new ItemStack(ItemDefs.mageArmor), 1);
+		createItemEntry(ITEM_ARMOR_MAGE, "legs_mage", new ItemStack(ItemDefs.mageLeggings), 1);
+		createItemEntry(ITEM_ARMOR_MAGE, "boots_mage", new ItemStack(ItemDefs.mageBoots), 1);
+
+		createEntry(ITEM_ARMOR_BATTLEMAGE, "battlemage_armor", 1);
+		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "helmet_battlemage", new ItemStack(ItemDefs.battlemageHood), 1);
+		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "chest_battlemage", new ItemStack(ItemDefs.battlemageArmor), 1);
+		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "legs_battlemage", new ItemStack(ItemDefs.battlemageLeggings), 1);
+		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "boots_battlemage", new ItemStack(ItemDefs.battlemageBoots), 1);
 	}
 	
 	private static void initBlocks() {
-		
+		BLOCK.addEntry(new CompendiumEntry("obelisk")
+				.addObject("compendium.obelisk.page1")
+				.addObject(new ItemStack(BlockDefs.obelisk))
+				.addObject("compendium.obelisk.page2")
+				.addObject("compendium.obelisk.page3")
+				.addObject(new TileEntityObelisk().getDefinition()));
 	}
 	
 	private static void initShapes() {
@@ -203,9 +297,14 @@ public class LoreDefs {
 	private static void initStructures() {
 		STRUCTURE.addEntry(new CompendiumEntry("crafting_altar")
 				.addObject("compendium.crafting_altar.page1")
+				.addObject("compendium.crafting_altar.page2")
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getCapsMap(), "am2.gui.catalysts", false))
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getSimpleMainMap(), "am2.gui.structuremat", false))
 				.addObject(new TileEntityCraftingAltar().getDefinition()));
+		STRUCTURE.addEntry(new CompendiumEntry("gateway")
+				.addObject("compendium.gateway.page1")
+				.addObject("compendium.gateway.page2")
+				.addObject(new TileEntityKeystoneRecepticle().getDefinition()));
 	}
 	
 	private static void initBosses() {
@@ -221,6 +320,32 @@ public class LoreDefs {
 			LogHelper.debug("Missing shape for : %s", name);
 		entry.addObject(shape);
 		SPELL_SHAPE.addEntry(entry);
+	}
+	
+	private static void createItemEntry(CompendiumCategory category, String name, ItemStack item, int textPages) {
+		CompendiumEntry entry = new CompendiumEntry(name);
+		for (int i = 1; i <= textPages; i++) {
+			entry = entry.addObject("compendium." + name + ".page" + i);
+		}
+		if (item == null)
+			LogHelper.debug("Missing item for : %s", name);
+		entry.addObject(item);
+		category.addEntry(entry);
+	}
+	
+	private static void createItemEntry(String name, ItemStack item, int textPages) {
+		CompendiumEntry entry = new CompendiumEntry(name);
+		for (int i = 1; i <= textPages; i++) {
+			entry = entry.addObject("compendium." + name + ".page" + i);
+		}
+		if (item == null)
+			LogHelper.debug("Missing item for : %s", name);
+		entry.addObject(item);
+		ITEM.addEntry(entry);
+	}
+	
+	private static void createItemEntry(String name, Item item, int textPages) {
+		createItemEntry(name, new ItemStack(item), textPages);
 	}
 	
 	private static void createComponentEntry(String name, AbstractSpellPart component, int textPages) {

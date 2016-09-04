@@ -22,6 +22,16 @@ public final class CompendiumCategory {
 	public static final CompendiumCategory MECHANIC_AFFINITY = createCompendiumCategory("mechanic.affinity", new ResourceLocation("missingno"));
 	public static final CompendiumCategory MECHANIC_ENCHANTS = createCompendiumCategory("mechanic.enchants", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM = createCompendiumCategory("item", new ResourceLocation("arsmagica2", "items/essence_ice"));
+	public static final CompendiumCategory ITEM_ORE = createCompendiumCategory("item.ore", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_ESSENCE = createCompendiumCategory("item.essence", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_RUNE = createCompendiumCategory("item.rune", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_ARMOR_MAGE = createCompendiumCategory("item.armor.mage", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_ARMOR_BATTLEMAGE = createCompendiumCategory("item.armor.battlemage", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_AFFINITYTOME = createCompendiumCategory("item.affinity_tomes", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_MANAPOTION = createCompendiumCategory("item.mana_potion", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_BINDINGCATALYST = createCompendiumCategory("item.binding_catalyst", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_FLICKERFOCUS = createCompendiumCategory("item.flickerfocus", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_INSCRIPTIONUPGRADES = createCompendiumCategory("item.inscription_upgrades", new ResourceLocation("missingno"));
 	public static final CompendiumCategory BLOCK = createCompendiumCategory("block", new ResourceLocation("arsmagica2", "items/crystal_wrench"));
 	public static final CompendiumCategory SPELL_SHAPE = createCompendiumCategory("shape", new ResourceLocation("arsmagica2", "items/spells/shapes/Binding"));
 	public static final CompendiumCategory SPELL_COMPONENT = createCompendiumCategory("component", new ResourceLocation("arsmagica2", "items/spells/components/LifeTap"));
@@ -29,6 +39,7 @@ public final class CompendiumCategory {
 	public static final CompendiumCategory TALENT = createCompendiumCategory("talent", new ResourceLocation("arsmagica2", "icons/skills/AugmentedCasting"));
 	public static final CompendiumCategory MOB = createCompendiumCategory("mob", new ResourceLocation("arsmagica2", "gui_icons/Fatigue_Icon"));
 	public static final CompendiumCategory STRUCTURE = createCompendiumCategory("structure", new ResourceLocation("arsmagica2", "gui_icons/gateway"));
+	public static final CompendiumCategory STRUCTURE_RITUALS = createCompendiumCategory("structure.rituals", new ResourceLocation("arsmagica2", "gui_icons/gateway"));
 	public static final CompendiumCategory BOSS = createCompendiumCategory("boss", new ResourceLocation("arsmagica2", "items/evilBook"));
 	
 	private ArrayList<CompendiumEntry> entries;

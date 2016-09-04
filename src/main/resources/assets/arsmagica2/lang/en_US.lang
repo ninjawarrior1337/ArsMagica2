@@ -657,8 +657,16 @@ compendium.silver_skills.page3= 5.) The components/modifiers #9all have to be in
 
 #Structures
 
-compendium.crafting_altar.page1=Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic. This is where you will create all of your spells in Ars Magica. The structure is upgradeable by 2 main groups, the caps and the main material. Both groups individually increase the available power of the altar and allow it to make more powerful spells. The main blocks and the caps (grand total of 5 in the structure). !l These stack cumulatively, so for example wood planks with glass caps would equal a maximum of 2 effects, whereas stone bricks with redstone caps would have a maximum of 4 effects in a spell.
+compendium.crafting_altar.page1=Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic. This is where you will create all of your spells in Ars Magica. The structure is upgradeable by 2 main groups, the caps and the main material. Both groups individually increase the available power of the altar and allow it to make more powerful spells. The main blocks and the caps (grand total of 5 in the structure).
+compendium.crafting_altar.page2=These stack cumulatively, so for example wood planks with glass caps would equal a maximum of 2 effects, whereas stone bricks with redstone caps would have a maximum of 4 effects in a spell.
+compendium.gateway.page1=Gateways are quite efficient at short range, but longer distances require significantly more Etherium. The maximum range for a Gateway has been tested to be roughly 12km, though an extreme amount of Etherium is required to traverse such a span. A keystone can be inserted into the Keystone Receptacle in order to lock the gateway to the keystone's rune combination.
+compendium.gateway.page2=Only then by activating another gateway with a matching keystone can one arrive at the keyed gateway. If the key does not match or no keystone is held at all when the gate is activated, it will be as if the keyed gateway doesn't even exist. This method can be used to control where you will wind up in the gateway network.
 
+#Blocks
+
+compendium.obelisk.page1=The Obelisk is a runed block that is used to generate #5Etherium#0 (the power system in Ars Magica 2). It acts as a magical furnace, and burns Vinteum Dust or Liquid Etherium to generate power. !d It can be altered using #9Rituals#0 to become a #4Black Aurem#0 or a #9Celestial Prism#0.
+compendium.obelisk.page2=The Obelisk is somewhat of a magical furnace. It can generate Etherium by burning #5Vinteum Dust#0 or #5Liquid Etherium#0 out of a bucket. The Obelisk generates #5Neutral Etherium#0.
+compendium.obelisk.page3=The structure depicted here does not have to be built all at once; it can be built in sections. The #9Wizard's Chalk Circle#0 is a standalone upgrade that when completed, will increase the output of the Obelisk's burn capabilities. The #9Pillars#0 are another upgrade, and will further increase the output of the Obelisk. !d If space is a concern however, these upgrades are not required for the Obelisk to function.
 #Items
 
 compendium.crystal_wrench.name=Crystal Wrench

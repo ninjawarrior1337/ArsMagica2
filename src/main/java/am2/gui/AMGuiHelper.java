@@ -293,6 +293,7 @@ public class AMGuiHelper{
 		GlStateManager.color(1, 1, 1, 1);
 
 		RenderHelper.disableStandardItemLighting();
+		RenderHelper.enableGUIStandardItemLighting();
 		//GL11.glDisable(GL11.GL_BLEND);
 		//GL11.glDisable(GL11.GL_LIGHTING);
 
@@ -323,7 +324,7 @@ public class AMGuiHelper{
 					DrawIconAtXY(icon, x, y, zLevel, 16, 16, color);
 			} 
 			else {
-				RenderHelper.enableStandardItemLighting();
+				RenderHelper.enableGUIStandardItemLighting();
 				itemRenderer.renderItemIntoGUI(stack, (int)x, (int)y);
 			}
 		}

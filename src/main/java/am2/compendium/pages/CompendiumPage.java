@@ -274,4 +274,17 @@ public abstract class CompendiumPage<E> {
 		System.out.println("No handlers found for " + clazz.getSimpleName());
 		return null;
 	}
+	
+	public void drawTexturedModalRect_Classic(int dst_x, int dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height){
+		float var7 = 0.00390625F;
+		float var8 = 0.00390625F;
+
+		Tessellator var9 = Tessellator.getInstance();
+		var9.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8).endVertex();
+		var9.draw();
+	}
 }
