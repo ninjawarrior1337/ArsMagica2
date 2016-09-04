@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.compendium.wrapper.StackMapWrapper;
@@ -44,6 +45,7 @@ public abstract class CompendiumPage<E> {
 		registerPageType(PageText.class, String.class);
 		registerPageType(PageSpellComponent.class, AbstractSpellPart.class);
 		registerPageType(PageStackMap.class, StackMapWrapper.class);
+		registerPageType(PageMultiblock.class, MultiblockStructureDefinition.class);
 	}
 	
 	public static final <E> void registerPageType(Class<? extends CompendiumPage<E>> page, Class<E> clazz) {
@@ -75,6 +77,8 @@ public abstract class CompendiumPage<E> {
 	public GuiButton[] getButtons(int id, int posX, int posY) {
 		return new GuiButton[0];
 	}
+	
+	public void switchButtonDisplay(boolean shouldShow) {}
 	
 	public void actionPerformed(GuiButton button) throws IOException {}
 	

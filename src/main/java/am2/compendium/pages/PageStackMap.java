@@ -51,6 +51,17 @@ public class PageStackMap extends CompendiumPage<StackMapWrapper> {
 	}
 	
 	@Override
+	public void switchButtonDisplay(boolean shouldShow) {
+		if (shouldShow) {
+			nextPage.visible = page < maxPages;
+			prevPage.visible = page > 0;			
+		} else {
+			nextPage.visible = false;
+			prevPage.visible = false;
+		}
+	}
+	
+	@Override
 	protected void renderPage(int posX, int posY, int mouseX, int mouseY) {
 		String loc = element.getLocalizedName();
 		mc.fontRendererObj.drawString(loc, posX + 72 - (mc.fontRendererObj.getStringWidth(loc) / 2), posY, 0x000000);

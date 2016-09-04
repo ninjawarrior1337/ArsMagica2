@@ -6,6 +6,7 @@ import am2.LogHelper;
 import am2.api.CraftingAltarMaterials;
 import am2.api.SpellRegistry;
 import am2.api.spell.AbstractSpellPart;
+import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.compendium.CompendiumCategory;
 import am2.compendium.CompendiumEntry;
 import am2.compendium.wrapper.StackMapWrapper;
@@ -201,8 +202,10 @@ public class LoreDefs {
 	
 	private static void initStructures() {
 		STRUCTURE.addEntry(new CompendiumEntry("crafting_altar")
+				.addObject("compendium.crafting_altar.page1")
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getCapsMap(), "am2.gui.catalysts", false))
-				.addObject(new StackMapWrapper(CraftingAltarMaterials.getSimpleMainMap(), "am2.gui.structuremat", false)));
+				.addObject(new StackMapWrapper(CraftingAltarMaterials.getSimpleMainMap(), "am2.gui.structuremat", false))
+				.addObject(new TileEntityCraftingAltar().getDefinition()));
 	}
 	
 	private static void initBosses() {
