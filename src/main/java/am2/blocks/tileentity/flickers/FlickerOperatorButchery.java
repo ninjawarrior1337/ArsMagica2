@@ -24,6 +24,8 @@ import net.minecraft.world.World;
 
 public class FlickerOperatorButchery implements IFlickerFunctionality{
 
+	public final static FlickerOperatorButchery instance = new FlickerOperatorButchery();
+
 	@Override
 	public boolean RequiresPower(){
 		return true;

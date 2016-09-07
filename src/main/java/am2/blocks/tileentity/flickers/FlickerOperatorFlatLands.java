@@ -19,7 +19,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
 public class FlickerOperatorFlatLands implements IFlickerFunctionality{
-
+	
+	public final static FlickerOperatorFlatLands instance = new FlickerOperatorFlatLands();
+	
 	@Override
 	public boolean RequiresPower(){
 		return false;

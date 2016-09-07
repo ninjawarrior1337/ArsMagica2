@@ -14,6 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
+	
+	public final static FlickerOperatorInterdiction instance = new FlickerOperatorInterdiction();
 
 	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){

@@ -18,6 +18,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
+	
+	public final static FlickerOperatorMoonstoneAttractor instance = new FlickerOperatorMoonstoneAttractor();
 
 	private static final ArrayList<AMVector3> attractors = new ArrayList<AMVector3>();
 

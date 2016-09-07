@@ -23,8 +23,10 @@ import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -112,8 +114,8 @@ public class Fury extends SpellComponent implements IRitualInteraction{
 	@Override
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
-				new ItemStack(Items.POTIONITEM, 1, 8194),
-				new ItemStack(Items.POTIONITEM, 1, 8201)
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.SWIFTNESS),
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRENGTH)
 		};
 	}
 

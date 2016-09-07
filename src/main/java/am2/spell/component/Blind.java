@@ -21,9 +21,11 @@ import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -83,8 +85,8 @@ public class Blind extends SpellComponent implements IRitualInteraction{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
-				"P:!0 & !1 & !2 & 3 & 3+6",
-				"P:!0 & 1 & 2 & !3 & 2+6"
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WEAKNESS),
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.NIGHT_VISION)
 		};
 	}
 

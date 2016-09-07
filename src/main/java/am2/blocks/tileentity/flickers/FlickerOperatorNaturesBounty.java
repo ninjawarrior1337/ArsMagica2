@@ -21,6 +21,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 
 public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
+	
+	public final static FlickerOperatorNaturesBounty instance = new FlickerOperatorNaturesBounty();
 
 	@Override
 	public boolean RequiresPower(){

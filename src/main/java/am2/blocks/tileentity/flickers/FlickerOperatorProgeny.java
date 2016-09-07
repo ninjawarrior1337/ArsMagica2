@@ -27,6 +27,8 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	private static final int BASE_COOLDOWN = 2000;
 	private static final float COOLDOWN_BONUS = 0.75f;
 	private static final int COOLDOWN_MINIMUM = 600; //minimum 30 seconds
+	
+	public final static FlickerOperatorProgeny instance = new FlickerOperatorProgeny();
 
 	@Override
 	public boolean RequiresPower(){

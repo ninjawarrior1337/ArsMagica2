@@ -28,6 +28,8 @@ import net.minecraft.world.World;
 
 public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 
+	public final static FlickerOperatorFelledOak instance = new FlickerOperatorFelledOak();
+	
 	private DummyEntityPlayer dummyPlayer;
 
 	private static final int radius_horiz = 6;

@@ -505,55 +505,55 @@ public class CommonProxy implements IGuiHandler{
 	
 	private void registerFlickerOperators(){
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorItemTransport(),
+				FlickerOperatorItemTransport.instance,
 				Affinity.AIR
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorButchery(),
+				FlickerOperatorButchery.instance,
 				Affinity.FIRE, Affinity.LIFE
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorContainment(),
+				FlickerOperatorContainment.instance,
 				Affinity.AIR, Affinity.ENDER
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorFelledOak(),
+				FlickerOperatorFelledOak.instance,
 				Affinity.NATURE, Affinity.LIGHTNING
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorFlatLands(),
+				FlickerOperatorFlatLands.instance,
 				Affinity.EARTH, Affinity.ICE
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorGentleRains(),
+				FlickerOperatorGentleRains.instance,
 				Affinity.WATER
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorInterdiction(),
+				FlickerOperatorInterdiction.instance,
 				Affinity.AIR, Affinity.ARCANE
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorLight(),
+				FlickerOperatorLight.instance,
 				Affinity.FIRE, Affinity.LIGHTNING
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorMoonstoneAttractor(),
+				FlickerOperatorMoonstoneAttractor.instance,
 				Affinity.LIGHTNING, Affinity.ARCANE, Affinity.EARTH
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorNaturesBounty(),
+				FlickerOperatorNaturesBounty.instance,
 				Affinity.NATURE, Affinity.WATER, Affinity.LIFE
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorPackedEarth(),
+				FlickerOperatorPackedEarth.instance,
 				Affinity.EARTH
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorProgeny(),
+				FlickerOperatorProgeny.instance,
 				Affinity.LIFE
 		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				new FlickerOperatorFishing(),
+				FlickerOperatorFishing.instance,
 				Affinity.WATER, Affinity.NATURE
 		);
 	}

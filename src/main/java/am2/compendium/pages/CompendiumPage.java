@@ -18,6 +18,7 @@ import am2.defs.ItemDefs;
 import am2.lore.ArcaneCompendium;
 import am2.lore.CompendiumEntry;
 import am2.power.PowerTypes;
+import am2.rituals.IRitualInteraction;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -46,6 +47,7 @@ public abstract class CompendiumPage<E> {
 		registerPageType(PageSpellComponent.class, AbstractSpellPart.class);
 		registerPageType(PageStackMap.class, StackMapWrapper.class);
 		registerPageType(PageMultiblock.class, MultiblockStructureDefinition.class);
+		registerPageType(PageRitual.class, IRitualInteraction.Wrapper.class);
 	}
 	
 	public static final <E> void registerPageType(Class<? extends CompendiumPage<E>> page, Class<E> clazz) {

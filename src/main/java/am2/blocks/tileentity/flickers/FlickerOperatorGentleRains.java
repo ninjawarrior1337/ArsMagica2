@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 
 public class FlickerOperatorGentleRains implements IFlickerFunctionality{
 
+	public final static FlickerOperatorGentleRains instance = new FlickerOperatorGentleRains();
+	
 	@Override
 	public boolean RequiresPower(){
 		return false;

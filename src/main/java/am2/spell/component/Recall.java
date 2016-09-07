@@ -166,7 +166,7 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
 				Items.COMPASS,
-				new ItemStack(Items.MAP, 1, Short.MAX_VALUE),
+				new ItemStack(Items.MAP),
 				Items.ENDER_PEARL
 		};
 	}

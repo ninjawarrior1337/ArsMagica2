@@ -18,6 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
+	
+	public final static FlickerOperatorPackedEarth instance = new FlickerOperatorPackedEarth();
 
 	@Override
 	public boolean RequiresPower(){

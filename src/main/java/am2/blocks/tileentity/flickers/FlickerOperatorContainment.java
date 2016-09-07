@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 
 public class FlickerOperatorContainment implements IFlickerFunctionality{
 
+	public final static FlickerOperatorContainment instance = new FlickerOperatorContainment();
+	
 	protected static final int BASE_RADIUS = 6;
 
 	protected void setUtilityBlock(World world, BlockPos pos, EnumInvisibleType meta){

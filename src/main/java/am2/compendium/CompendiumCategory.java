@@ -28,6 +28,7 @@ public final class CompendiumCategory {
 	public static final CompendiumCategory ITEM_ARMOR_MAGE = createCompendiumCategory("item.armor.mage", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM_ARMOR_BATTLEMAGE = createCompendiumCategory("item.armor.battlemage", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM_AFFINITYTOME = createCompendiumCategory("item.affinity_tomes", new ResourceLocation("missingno"));
+	public static final CompendiumCategory ITEM_FOCI = createCompendiumCategory("item.foci", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM_MANAPOTION = createCompendiumCategory("item.mana_potion", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM_BINDINGCATALYST = createCompendiumCategory("item.binding_catalyst", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM_FLICKERFOCUS = createCompendiumCategory("item.flickerfocus", new ResourceLocation("missingno"));

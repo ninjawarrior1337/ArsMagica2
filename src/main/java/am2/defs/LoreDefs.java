@@ -11,11 +11,27 @@ import am2.api.spell.AbstractSpellPart;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityObelisk;
+import am2.blocks.tileentity.flickers.FlickerOperatorButchery;
+import am2.blocks.tileentity.flickers.FlickerOperatorContainment;
+import am2.blocks.tileentity.flickers.FlickerOperatorFelledOak;
+import am2.blocks.tileentity.flickers.FlickerOperatorFishing;
+import am2.blocks.tileentity.flickers.FlickerOperatorFlatLands;
+import am2.blocks.tileentity.flickers.FlickerOperatorGentleRains;
+import am2.blocks.tileentity.flickers.FlickerOperatorInterdiction;
+import am2.blocks.tileentity.flickers.FlickerOperatorItemTransport;
+import am2.blocks.tileentity.flickers.FlickerOperatorLight;
+import am2.blocks.tileentity.flickers.FlickerOperatorMoonstoneAttractor;
+import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
+import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
+import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
+import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
 import am2.compendium.CompendiumCategory;
 import am2.compendium.CompendiumEntry;
 import am2.compendium.wrapper.StackMapWrapper;
+import am2.items.ItemBindingCatalyst;
 import am2.items.ItemCore;
 import am2.items.ItemOre;
+import am2.rituals.IRitualInteraction;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -110,16 +126,16 @@ public class LoreDefs {
 		createItemEntry(ITEM_ORE, "moonstone", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE), 1);
 
 		createEntry(ITEM_ESSENCE, "essence", 1);
-		createItemEntry(ITEM_ESSENCE, "essence_arcane", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_earth", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_air", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_fire", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_water", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_nature", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_ice", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ICE)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_lightning", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_life", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 1);
-		createItemEntry(ITEM_ESSENCE, "essence_ender", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 1);
+		createItemEntry(ITEM_ESSENCE, "essence_arcane", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_earth", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_air", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_fire", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_water", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_nature", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_ice", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ICE)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_lightning", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_life", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0);
+		createItemEntry(ITEM_ESSENCE, "essence_ender", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 0);
 		createItemEntry(ITEM_ESSENCE, "pure_essence", new ItemStack(ItemDefs.core, 1, ItemCore.PURE), 1);
 		createItemEntry(ITEM_ESSENCE, "base_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE), 1);
 		createItemEntry(ITEM_ESSENCE, "high_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.HIGH_CORE), 1);
@@ -127,21 +143,21 @@ public class LoreDefs {
 
 		createEntry(ITEM_RUNE, "runes", 1);
 		createItemEntry(ITEM_RUNE, "rune_blank", new ItemStack(ItemDefs.blankRune, 1, 0), 1);
-		createItemEntry(ITEM_RUNE, "rune_black", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_brown", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BROWN.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_cyan", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.CYAN.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_gray", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GRAY.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_green", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_light_blue", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_light_gray", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.SILVER.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_lime", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIME.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_magenta", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.MAGENTA.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_orange", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_pink", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PINK.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_purple", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_red", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_white", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage()), 1);
-		createItemEntry(ITEM_RUNE, "rune_yellow", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.YELLOW.getDyeDamage()), 1);
+		createItemEntry(ITEM_RUNE, "rune_black", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_brown", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BROWN.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_cyan", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.CYAN.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_gray", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GRAY.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_green", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_light_blue", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_light_gray", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.SILVER.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_lime", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIME.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_magenta", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.MAGENTA.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_orange", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_pink", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PINK.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_purple", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_red", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_white", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage()), 0);
+		createItemEntry(ITEM_RUNE, "rune_yellow", new ItemStack(ItemDefs.rune, 1, EnumDyeColor.YELLOW.getDyeDamage()), 0);
 		createItemEntry(ITEM_RUNE, "rune_bag", new ItemStack(ItemDefs.runeBag, 1, 0), 1);
 	
 		createEntry(ITEM_ARMOR_MAGE, "mage_armor", 1);
@@ -155,6 +171,67 @@ public class LoreDefs {
 		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "chest_battlemage", new ItemStack(ItemDefs.battlemageArmor), 1);
 		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "legs_battlemage", new ItemStack(ItemDefs.battlemageLeggings), 1);
 		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "boots_battlemage", new ItemStack(ItemDefs.battlemageBoots), 1);
+		
+		createEntry(ITEM_AFFINITYTOME, "affinity_tome", 1);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_arcane", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_earth", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_air", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_fire", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_water", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_nature", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_ice", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ICE)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_lightning", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_life", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_ender", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 0);
+
+		createEntry(ITEM_FOCI, "foci", 1);
+		createItemEntry(ITEM_FOCI, "charge_focus", new ItemStack(ItemDefs.chargeFocus), 1);
+		createItemEntry(ITEM_FOCI, "mana_focus", new ItemStack(ItemDefs.manaFocus), 1);
+		createItemEntry(ITEM_FOCI, "lesser_focus", new ItemStack(ItemDefs.lesserFocus), 1);
+		createItemEntry(ITEM_FOCI, "standard_focus", new ItemStack(ItemDefs.standardFocus), 1);
+		createItemEntry(ITEM_FOCI, "greater_focus", new ItemStack(ItemDefs.greaterFocus), 1);
+		createItemEntry(ITEM_FOCI, "item_focus", new ItemStack(ItemDefs.itemFocus), 1);
+		createItemEntry(ITEM_FOCI, "player_focus", new ItemStack(ItemDefs.playerFocus), 1);
+		createItemEntry(ITEM_FOCI, "monster_focus", new ItemStack(ItemDefs.mobFocus), 1);
+		createItemEntry(ITEM_FOCI, "creature_focus", new ItemStack(ItemDefs.creatureFocus), 1);
+
+		createEntry(ITEM_MANAPOTION, "mana_potion", 1);
+		createItemEntry(ITEM_MANAPOTION, "mana_potion_lesser", new ItemStack(ItemDefs.lesserManaPotion), 1);
+		createItemEntry(ITEM_MANAPOTION, "mana_potion_standard", new ItemStack(ItemDefs.standardManaPotion), 1);
+		createItemEntry(ITEM_MANAPOTION, "mana_potion_greater", new ItemStack(ItemDefs.greaterManaPotion), 1);
+		createItemEntry(ITEM_MANAPOTION, "mana_potion_epic", new ItemStack(ItemDefs.epicManaPotion), 1);
+		createItemEntry(ITEM_MANAPOTION, "mana_potion_legendary", new ItemStack(ItemDefs.legendaryManaPotion), 1);
+		createItemEntry(ITEM_MANAPOTION, "mana_boost_potion", new ItemStack(ItemDefs.liquidEssenceBottle), 1);
+		createItemEntry(ITEM_MANAPOTION, "mana_martini", new ItemStack(ItemDefs.manaMartini), 1);
+
+		createEntry(ITEM_BINDINGCATALYST, "binding_catalysts", 1);
+		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_pickaxe", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_PICK), 0);
+		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_axe", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE), 0);
+		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_sword", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_SWORD), 0);
+		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_shovel", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_SHOVEL), 0);
+		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_hoe", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_HOE), 0);
+		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_bow", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_BOW), 0);
+		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_shield", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_SHIELD), 0);
+
+		createEntry(ITEM_FLICKERFOCUS, "flicker_focus", 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_itemtransport", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorItemTransport.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_interdiction", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorInterdiction.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_containment", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorContainment.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_packed_earth", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorPackedEarth.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_flatlands", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorFlatLands.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_progeny", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorProgeny.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_butchery", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorButchery.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_lunartides", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorMoonstoneAttractor.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_light", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorLight.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_felled_oak", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorFelledOak.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_gentle_rains", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorGentleRains.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_natures_bounty", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorNaturesBounty.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_fishing", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorFishing.instance)), 1);
+	
+		createEntry(ITEM_INSCRIPTIONUPGRADES, "inscription_upgrades", 1);	
+		createItemEntry(ITEM_INSCRIPTIONUPGRADES, "inscription_tier_1_upgrade", new ItemStack(ItemDefs.inscriptionUpgrade, 1, 0), 0);
+		createItemEntry(ITEM_INSCRIPTIONUPGRADES, "inscription_tier_2_upgrade", new ItemStack(ItemDefs.inscriptionUpgrade, 1, 1), 0);
+		createItemEntry(ITEM_INSCRIPTIONUPGRADES, "inscription_tier_3_upgrade", new ItemStack(ItemDefs.inscriptionUpgrade, 1, 2), 0);
 	}
 	
 	private static void initBlocks() {
@@ -356,6 +433,8 @@ public class LoreDefs {
 		if (component == null)
 			LogHelper.debug("Missing component for : %s", name);
 		entry.addObject(component);
+		if (component instanceof IRitualInteraction)
+			entry.addObject(new IRitualInteraction.Wrapper((IRitualInteraction) component));
 		SPELL_COMPONENT.addEntry(entry);
 	}
 	

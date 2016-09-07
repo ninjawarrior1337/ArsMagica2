@@ -24,6 +24,8 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public class FlickerOperatorLight implements IFlickerFunctionality{
+	
+	public final static FlickerOperatorLight instance = new FlickerOperatorLight();
 
 	@Override
 	public boolean RequiresPower(){
