@@ -1,4 +1,4 @@
-package am2.compendium;
+package am2.api.compendium;
 
 import java.util.ArrayList;
 

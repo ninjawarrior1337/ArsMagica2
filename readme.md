@@ -17,10 +17,13 @@ I'd say i'm 80-85% done with this update
  * Affinities
  * Abilities
  * Imbuements
- * Spell Parts (Shapes, Component, Modifier)
+ * Spell Parts (Shapes, Components, Modifiers)
  * Flickers
  * Skills
  * Crafting Altar Materials
+ 
+## The Compendium Update
+The compendium is getting entirely reworked in a way that you'll need to add Entries in a different way that you previously did. Though this will allow you to have more that one kind of right page. For example you can check am2.defs.LoreDefs which contains all the pages definition.
  
 ## Things to note
  * Due to the removal of metadata values, the Lightning Guardian and the Ice Guardian now requires a special block in place of the top one.

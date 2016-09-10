@@ -1,12 +1,15 @@
 package am2.defs;
 
-import static am2.compendium.CompendiumCategory.*;
+import static am2.api.compendium.CompendiumCategory.*;
 
 import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.CraftingAltarMaterials;
 import am2.api.SpellRegistry;
 import am2.api.affinity.Affinity;
+import am2.api.compendium.CompendiumCategory;
+import am2.api.compendium.CompendiumEntry;
+import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.spell.AbstractSpellPart;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
@@ -25,9 +28,6 @@ import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
 import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
 import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
 import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
-import am2.compendium.CompendiumCategory;
-import am2.compendium.CompendiumEntry;
-import am2.compendium.wrapper.StackMapWrapper;
 import am2.items.ItemBindingCatalyst;
 import am2.items.ItemCore;
 import am2.items.ItemOre;

@@ -1,10 +1,10 @@
-package am2.compendium;
+package am2.api.compendium;
 
 import java.util.ArrayList;
 
 import com.google.common.collect.ImmutableList;
 
-import am2.compendium.pages.CompendiumPage;
+import am2.api.compendium.pages.CompendiumPage;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

@@ -7,10 +7,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableList;
 
+import am2.api.compendium.CompendiumCategory;
+import am2.api.compendium.CompendiumEntry;
 import am2.api.extensions.ISkillData;
-import am2.compendium.ArcaneCompendium;
-import am2.compendium.CompendiumCategory;
-import am2.compendium.CompendiumEntry;
 import am2.extensions.SkillData;
 import am2.gui.controls.GuiButtonCompendiumLink;
 import am2.gui.controls.GuiButtonCompendiumNext;

@@ -1,4 +1,4 @@
-package am2.compendium.pages;
+package am2.api.compendium.pages;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -11,9 +11,9 @@ import java.util.Map.Entry;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
-import am2.compendium.wrapper.StackMapWrapper;
 import am2.defs.ItemDefs;
 import am2.lore.ArcaneCompendium;
 import am2.lore.CompendiumEntry;

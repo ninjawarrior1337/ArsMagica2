@@ -1,10 +1,10 @@
-package am2.compendium.pages;
+package am2.api.compendium.pages;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import am2.compendium.wrapper.StackMapWrapper;
+import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;

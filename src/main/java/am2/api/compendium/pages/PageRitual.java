@@ -1,4 +1,4 @@
-package am2.compendium.pages;
+package am2.api.compendium.pages;
 
 import java.util.ArrayList;
 import java.util.Random;

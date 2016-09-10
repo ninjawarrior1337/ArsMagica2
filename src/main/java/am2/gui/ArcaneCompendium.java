@@ -1,11 +1,12 @@
-package am2.compendium;
+package am2.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import am2.compendium.pages.CompendiumPage;
+import am2.api.compendium.CompendiumEntry;
+import am2.api.compendium.pages.CompendiumPage;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

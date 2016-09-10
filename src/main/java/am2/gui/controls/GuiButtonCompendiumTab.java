@@ -7,7 +7,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.compendium.CompendiumCategory;
+import am2.api.compendium.CompendiumCategory;
 import am2.gui.AMGuiHelper;
 import am2.particles.AMParticleIcons;
 import net.minecraft.client.Minecraft;

@@ -1,4 +1,4 @@
-package am2.compendium.pages;
+package am2.api.compendium.pages;
 
 import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 

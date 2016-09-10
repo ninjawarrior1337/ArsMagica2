@@ -2,8 +2,8 @@ package am2.gui.controls;
 
 import org.lwjgl.opengl.GL11;
 
-import am2.compendium.CompendiumCategory;
-import am2.compendium.CompendiumEntry;
+import am2.api.compendium.CompendiumCategory;
+import am2.api.compendium.CompendiumEntry;
 import am2.gui.AMGuiHelper;
 import am2.gui.AMGuiIcons;
 import net.minecraft.client.Minecraft;

@@ -1,4 +1,4 @@
-package am2.compendium.wrapper;
+package am2.api.compendium.wrapper;
 
 import java.util.HashMap;
 import java.util.Map;
