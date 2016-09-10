@@ -20,10 +20,13 @@ import am2.texture.SpellIconManager;
 import am2.utils.RecipeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
@@ -63,6 +66,17 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 				tipX = mouseX;
 				tipY = mouseY;
 			}
+		}
+		{
+			mc.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumGuiExtras.png"));
+			zLevel++;
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+			this.drawTexturedModalRect_Classic(posX + 125, posY + 15, 112, 145, 60, 40, 40, 40);
+			this.drawTexturedModalRect_Classic(posX + 0, posY + 200, 112, 175, 60, 40, 40, 40);
+			GlStateManager.disableBlend();
+			zLevel--;
+			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 		}
 		renderModifiers(posX, posY, mouseX, mouseY);
 		if (stackTip != null) {

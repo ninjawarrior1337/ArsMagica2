@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
+import am2.api.DamageSources;
 import am2.api.IBoundItem;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
@@ -15,6 +16,7 @@ import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
+import am2.items.ItemOre;
 import am2.lore.ArcaneCompendium;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
@@ -31,6 +33,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -46,10 +50,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -331,6 +336,23 @@ public class EntityHandler {
 			GL11.glPushMatrix();
 			//GL11.glTranslatef(0, 0 - 0.5f * shrink, 0);
 			GL11.glScalef(1 - 0.5f * shrink, 1 - 0.5f * shrink, 1 - 0.5f * shrink);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingDrops(LivingDropsEvent event){
+		if (EntityUtils.isSummon(event.getEntityLiving()) && !(event.getEntityLiving() instanceof EntityHorse)){
+			event.setCanceled(true);
+		}
+		if (event.getSource() == DamageSources.darkNexus){
+			event.setCanceled(true);
+		}
+		if (!event.getEntityLiving().worldObj.isRemote && event.getEntityLiving() instanceof EntityPig && event.getEntityLiving().getRNG().nextDouble() < 0.3f){
+			EntityItem animalFat = new EntityItem(event.getEntityLiving().worldObj);
+			ItemStack stack = new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ANIMALFAT);
+			animalFat.setPosition(event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ);
+			animalFat.setEntityItemStack(stack);
+			event.getDrops().add(animalFat);
 		}
 	}
 	

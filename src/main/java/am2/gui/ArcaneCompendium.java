@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import am2.api.compendium.CompendiumEntry;
 import am2.api.compendium.pages.CompendiumPage;
 import am2.gui.controls.GuiButtonCompendiumNext;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -46,6 +47,7 @@ public class ArcaneCompendium extends GuiScreen {
 		
 		buttonList.add(nextPage);
 		buttonList.add(prevPage);
+		buttonList.add(new GuiButtonCompendiumNext(-1, l + 20, i1 + 15, false));
 		
 		boolean isRightPage = false;
 		int pageID = 0;
@@ -114,6 +116,9 @@ public class ArcaneCompendium extends GuiScreen {
 				prevPage.visible = false;
 			if (pages.size() > 2)
 				nextPage.visible = true;
+		}
+		if (button.id == -1) {
+			Minecraft.getMinecraft().displayGuiScreen(new GuiCompendiumIndex());
 		}
 		int pageID = 0;
 		for (CompendiumPage<?> page : pages) {

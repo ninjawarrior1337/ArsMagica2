@@ -714,5 +714,107 @@ compendium.obelisk.page3=The structure depicted here does not have to be built a
 
 #Items
 
-compendium.crystal_wrench.name=Crystal Wrench
-compendium.crystal_wrench.pages=The crystal wrench serves many purposes.  It can be used to direct Etherium through your power network.  To do this, #9right click first on the source of Etherium you want to use#0.  This marks the source block. Then, #9right click on the destination while still holding the wrench#0.  #5Note that there is no need to click on Etherium Conduits along the way - just click on the final block.  The power system will attempt to pathfind through nearby Etherium Conduits automatically#0.  If that fails for any reason, you will be notified.  This will force a pairing, and ensures the Etherium goes where you want it to.  !d If you #9sneak while right clicking on the source#0, the wrench's crystal will turn green.  This means the crystal wrench is remembering the source block's location, and you can click on several destinations in a row without having to return to the source.  Each destination right clicked on in this state will be paired (if possible) to the remembered source.  !dYou can also disconnect power nodes by #9Sneaking and right clicking#0 on a #5non-powered block#0.  This will switch the wrench's mode from link to unlink.  You can see the change when the crystal on the wrench turns red.  To switch it back, simply repeat the sneak right click to change the crystal back to purple.  If you have a stored location, it will need to be cleared first before the mode can be switched (which is also done by sneak right-clicking a non-powered block).!p The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking when in unlink mode.  The settings can then be pasted to another emitter by right clicking.  Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.
+compendium.item.keystone.name=Keystone
+compendium.item.mana_cake.name=Mana Cake
+compendium.item.crystal_wrench.name=Crystal Wrench
+compendium.item.spell_staff_magitech.name=Magitech Staff
+compendium.item.spell_book.name=Spell Book
+compendium.item.magic_broom.name=Broom
+compendium.item.nature_scythe.name=Nature's Scythe
+compendium.item.arcane_spellbook.name=Arcane Spellbook
+compendium.item.winter_arm.name=Winter Arm
+compendium.item.air_sled.name=Air Sled
+compendium.item.earth_armor.name=Earth Armor
+compendium.item.water_orbs.name=Water Orbs
+compendium.item.fire_ears.name=Fire Ears
+compendium.item.workbench_upgrade.name=Workbench Upgrade
+compendium.item.warding_candle.name=Warding Candle
+compendium.item.flicker_jar.name=Flicker Jar
+compendium.item.ender_boots.name=Ender Boots
+compendium.item.lightning_charm.name=Lightning Charm
+compendium.item.lifeward.name=Lifeward
+compendium.item.magitech_goggles.name=Magitech Goggles
+compendium.item.chalk.name=Wizard's Chalk
+compendium.item.journal.name=Journal
+compendium.item.deficit_crystal.name=Deficit Crystal
+
+##Ores
+
+compendium.item.ore.vinteum_dust.name=Vinteum Dust
+compendium.item.ore.arcane_compound.name=Arcane Compound
+compendium.item.ore.arcane_ash.name=Arcane Ash
+compendium.item.ore.purified_vinteum_dust.name=Purified Vinteum Dust
+compendium.item.ore.chimerite.name=Chimerite
+compendium.item.ore.blue_topaz.name=Blue Topaz
+compendium.item.ore.sunstone.name=Sunstone
+compendium.item.ore.moonstone.name=Moonstone
+
+##Essence
+
+compendium.item.essence.essence.name=Essence
+compendium.item.essence.essence_arcane.name=Arcane Essence
+compendium.item.essence.essence_earth.name=Earth Essence
+compendium.item.essence.essence_air.name=Air Essence
+compendium.item.essence.essence_fire.name=Fire Essence
+compendium.item.essence.essence_water.name=Water Essence
+compendium.item.essence.essence_nature.name=Nature Essence
+compendium.item.essence.essence_ice.name=Ice Essence
+compendium.item.essence.essence_lightning.name=Lightning Essence
+compendium.item.essence.essence_life.name=Life Essence
+compendium.item.essence.essence_ender.name=Ender Essence
+compendium.item.essence.pure_essence.name=Pure Essence
+compendium.item.essence.base_essence_core.name=Base Essence Core
+compendium.item.essence.high_essence_core.name=High Essence Core
+compendium.item.essence.essence_bag.name=Essence Bag
+
+##Runes
+
+compendium.item.rune.runes.name=Runes
+compendium.item.rune.rune_blank.name=Blank Rune
+compendium.item.rune.rune_black.name=Black Rune
+compendium.item.rune.rune_brown.name=Brown Rune
+compendium.item.rune.rune_cyan.name=Cyan Rune
+compendium.item.rune.rune_gray.name=Gray Rune
+compendium.item.rune.rune_green.name=Green Rune
+compendium.item.rune.rune_light_blue.name=Light Blue Rune
+compendium.item.rune.rune_light_gray.name=Light Gray Rune
+compendium.item.rune.rune_lime.name=Lime Rune
+compendium.item.rune.rune_magenta.name=Magenta Rune
+compendium.item.rune.rune_orange.name=Orange Rune
+compendium.item.rune.rune_pink.name=Pink Rune
+compendium.item.rune.rune_purple.name=Purple Rune
+compendium.item.rune.rune_red.name=Red Rune
+compendium.item.rune.rune_white.name=White Rune
+compendium.item.rune.rune_bag.name=Rune Bag
+
+##Armor
+
+###Mage Armor
+
+compendium.item.armor.mage.mage_armor.name=Mage Armor
+compendium.item.armor.mage.helmet_mage.name=Mage Hood
+compendium.item.armor.mage.chest_mage.name=Mage Robes
+compendium.item.armor.mage.legs_mage.name=Mage Leggings
+compendium.item.armor.mage.boots_mage.name=Mage Boots
+
+###Mage Armor
+
+compendium.item.armor.battlemage.battlemage_armor.name=Battlemage Armor
+compendium.item.armor.battlemage.helmet_battlemage.name=Battlemage Circlet
+compendium.item.armor.battlemage.chest_battlemage.name=Battlemage Armor
+compendium.item.armor.battlemage.legs_battlemage.name=Battlemage Leggings
+compendium.item.armor.battlemage.boots_battlemage.name=Battlemage Boots
+
+##Affinity Tomes
+
+compendium.item.affinity_tomes.affinity_tome.name=Affinity Tome
+compendium.item.affinity_tomes.tome_arcane.name=Affinity Tome : Arcane
+compendium.item.affinity_tomes.tome_earth.name=Affinity Tome : Earth
+compendium.item.affinity_tomes.tome_air.name=Affinity Tome : Air
+compendium.item.affinity_tomes.tome_fire.name=Affinity Tome : Fire
+compendium.item.affinity_tomes.tome_water.name=Affinity Tome : Water
+compendium.item.affinity_tomes.tome_nature.name=Affinity Tome : Nature
+compendium.item.affinity_tomes.tome_ice.name=Affinity Tome : Ice
+compendium.item.affinity_tomes.tome_lightning.name=Affinity Tome : Lightning
+compendium.item.affinity_tomes.tome_life.name=Affinity Tome : Life
+compendium.item.affinity_tomes.tome_ender.name=Affinity Tome : Ender

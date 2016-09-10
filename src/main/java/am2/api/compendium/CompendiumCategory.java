@@ -132,7 +132,7 @@ public final class CompendiumCategory {
 	
 	public static CompendiumCategory getCategoryFromID(String id) {
 		for (CompendiumCategory category : CATEGORIES) {
-			if (category.id.equals(id))
+			if (category.getID().equals(id))
 				return category;
 		}
 		return null;

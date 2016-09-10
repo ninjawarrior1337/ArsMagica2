@@ -50,7 +50,14 @@ public class GuiCompendiumIndex extends GuiScreen{
 		categories = CompendiumCategory.getCategories();
 		currentCategory = categories.iterator().next();
 		lines = new ArrayList<String>();
-
+		String path = am2.lore.ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).getPath();
+		if (path != null) {
+			CompendiumCategory category = CompendiumCategory.getCategoryFromID(path);
+			if (category != null)
+				currentCategory = category;
+		}
+		
+		
 		sk = SkillData.For(Minecraft.getMinecraft().thePlayer);
 	}
 
@@ -196,6 +203,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 		nextPage.visible = page < numPages;
 		prevPage.visible = page > 0;
 		this.currentCategory = category;
+		am2.lore.ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).setPath(category.getID());
 	}
 	
 	@Override
