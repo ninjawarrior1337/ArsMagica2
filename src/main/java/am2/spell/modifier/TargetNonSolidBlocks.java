@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
+import am2.defs.BlockDefs;
 import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -33,7 +34,7 @@ public class TargetNonSolidBlocks extends SpellModifier{
 				Items.POTIONITEM,
 				Blocks.RED_FLOWER,
 				Blocks.BROWN_MUSHROOM,
-				//TODO BlocksCommonProxy.cerublossom
+				BlockDefs.cerublossom
 		};
 	}
 

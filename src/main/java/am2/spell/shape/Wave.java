@@ -1,5 +1,7 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.BlockDefs;
@@ -45,6 +47,11 @@ public class Wave extends SpellShape{
 		wave.setGravity(gravityModifiers * 0.5f);
 		world.spawnEntityInWorld(wave);
 		return SpellCastResult.SUCCESS;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RADIUS, SpellModifiers.GRAVITY, SpellModifiers.DURATION, SpellModifiers.COLOR, SpellModifiers.SPEED, SpellModifiers.PIERCING, SpellModifiers.TARGET_NONSOLID_BLOCKS);
 	}
 
 	@Override

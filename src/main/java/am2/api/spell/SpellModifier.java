@@ -15,7 +15,12 @@ public abstract class SpellModifier extends AbstractSpellPart{
 	 * @return
 	 */
 	public abstract EnumSet<SpellModifiers> getAspectsModified();
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return getAspectsModified();
+	}
+	
 	/**
 	 * Returns the modified value for the specified type.
 	 *

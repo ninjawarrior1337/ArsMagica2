@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -121,7 +122,11 @@ public class WateryGrave extends SpellComponent implements IRitualInteraction{
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.BUFF_POWER, SpellModifiers.DURATION);
 	}
 
 	@Override

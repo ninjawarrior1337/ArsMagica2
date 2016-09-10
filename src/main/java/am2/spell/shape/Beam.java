@@ -1,6 +1,7 @@
 package am2.spell.shape;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import am2.ArsMagica2;
@@ -135,7 +136,12 @@ public class Beam extends SpellShape{
 			return SpellCastResult.SUCCESS_REDUCE_MANA;
 		}
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RANGE, SpellModifiers.TARGET_NONSOLID_BLOCKS);
+	}
+	
 	@Override
 	public boolean isChanneled(){
 		return true;

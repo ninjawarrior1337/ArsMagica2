@@ -1,6 +1,7 @@
 package am2.spell.component;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -309,6 +310,11 @@ public class Blink extends SpellComponent{
 
 	protected double GetTeleportDistance(ItemStack stack, EntityLivingBase caster, Entity target){
 		return SpellUtils.getModifiedInt_Add(12, stack, caster, target, caster.getEntityWorld(), SpellModifiers.RANGE);
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RANGE);
 	}
 
 	@Override

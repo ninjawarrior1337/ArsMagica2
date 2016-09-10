@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
@@ -67,6 +69,11 @@ public class Transplace extends SpellComponent implements IRitualInteraction{
 		if (target instanceof EntityLiving)
 			((EntityLiving)target).faceEntity(caster, 180f, 180f);
 		return true;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
 	}
 
 	@Override
@@ -139,12 +146,11 @@ public class Transplace extends SpellComponent implements IRitualInteraction{
 	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
-				
-//				new ItemStack(ItemDefs.mageArmor),
-//				new ItemStack(ItemDefs.mageBoots),
-//				new ItemStack(ItemDefs.mageHood),
-//				new ItemStack(ItemDefs.mageLeggings),
-//				new ItemStack(ItemDefs.playerFocus)
+				new ItemStack(ItemDefs.mageArmor),
+				new ItemStack(ItemDefs.mageBoots),
+				new ItemStack(ItemDefs.mageHood),
+				new ItemStack(ItemDefs.mageLeggings),
+				new ItemStack(ItemDefs.playerFocus)
 		};
 	}
 

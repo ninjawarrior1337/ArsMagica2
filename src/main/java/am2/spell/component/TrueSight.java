@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -63,7 +64,12 @@ public class TrueSight extends SpellComponent implements IRitualInteraction{
 	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.BUFF_POWER, SpellModifiers.DURATION);
+	}
+	
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 		for (int i = 0; i < 25; ++i){

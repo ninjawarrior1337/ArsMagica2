@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -94,5 +95,9 @@ public class WizardsAutumn extends SpellComponent{
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RADIUS);
+	}
 }

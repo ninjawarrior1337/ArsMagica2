@@ -3,6 +3,7 @@ package am2.api.compendium.pages;
 import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -10,6 +11,8 @@ import java.util.Random;
 import am2.api.ArsMagicaAPI;
 import am2.api.event.SpellRecipeItemsEvent;
 import am2.api.spell.AbstractSpellPart;
+import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.gui.AMGuiHelper;
 import am2.texture.SpellIconManager;
@@ -20,9 +23,11 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 
+@SuppressWarnings("deprecation")
 public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 
 	private Object[] craftingComponents;
@@ -40,7 +45,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 	@Override
 	protected void renderPage(int posX, int posY, int mouseX, int mouseY) {
 		RenderHelper.disableStandardItemLighting();
-		int cx = posX + 60;
+		int cx = posX + 64;
 		int cy = posY + 92;
 		framecount += 0.5f;
 		stackTip = null;
@@ -50,6 +55,44 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		GlStateManager.color(1, 1, 1, 1);
 		if (icon != null)
 			AMGuiHelper.DrawIconAtXY(icon, cx, cy, zLevel, 16, 16, false);
+		if (element instanceof SpellModifier) {
+			ArrayList<SpellModifier> modifiers = new ArrayList<>();
+			EnumSet<SpellModifiers> mods = ((SpellModifier)element).getAspectsModified();
+			for (AbstractSpellPart modifier : ArsMagicaAPI.getSpellRegistry()) {
+				if (element == modifier)
+					continue;
+				if (modifier instanceof SpellModifier) {
+					for (SpellModifiers mod : ((SpellModifier)modifier).getAspectsModified()) {
+						if (mods.contains(mod)) {
+							modifiers.add((SpellModifier) modifier);
+							break;
+						}
+					}
+				}
+			}
+			int startX = 72 - (8 * modifiers.size());
+			int yOffset = 10;
+			if (!modifiers.isEmpty()) {
+				String shapeName = I18n.translateToLocal("am2.gui.modifies");
+				mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
+				GlStateManager.color(1.0f, 1.0f, 1.0f);
+			}
+			RenderHelper.enableGUIStandardItemLighting();
+			for (SpellModifier mod : modifiers) {
+				TextureAtlasSprite modIcon = SpellIconManager.INSTANCE.getSprite(mod.getRegistryName().toString());
+				if (modIcon != null)
+					AMGuiHelper.DrawIconAtXY(modIcon, posX + startX, posY + yOffset, zLevel, 16, 16, false);
+				if (mouseX > posX + startX && mouseX < posX + startX + 16){
+					if (mouseY > posY + yOffset && mouseY < posY + yOffset + 16){
+						stackTip = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(mod.getRegistryName()));
+						tipX = mouseX;
+						tipY = mouseY;
+					}
+				}
+				startX += 16;
+			}
+			RenderHelper.disableStandardItemLighting();
+		}
 		if (mouseX > cx && mouseX < cx + 16){
 			if (mouseY > cy && mouseY < cy + 16){
 				stackTip = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(element.getRegistryName()));

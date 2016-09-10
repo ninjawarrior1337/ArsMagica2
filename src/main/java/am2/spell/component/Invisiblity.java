@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -59,6 +60,12 @@ public class Invisiblity extends SpellComponent implements IRitualInteraction{
 	public float manaCost(EntityLivingBase caster){
 		return 80;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.DURATION, SpellModifiers.BUFF_POWER);
+	}
+
 
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){

@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -71,7 +72,13 @@ public class Fury extends SpellComponent implements IRitualInteraction{
 		}
 		return false;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RADIUS, SpellModifiers.BUFF_POWER);
+	}
 
+	
 	@Override
 	public float manaCost(EntityLivingBase caster){
 		return 261;

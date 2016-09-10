@@ -1,6 +1,7 @@
 package am2.spell.shape;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import am2.ArsMagica2;
@@ -79,6 +80,12 @@ public class AoE extends SpellShape{
 
 		return SpellCastResult.EFFECT_FAILED;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RADIUS);
+	}
+
 
 	private void spawnAoEParticles(ItemStack stack, EntityLivingBase caster, World world, double x, double y, double z, int radius){
 		String pfxName = AMParticleIcons.instance.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack));

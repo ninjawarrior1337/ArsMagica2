@@ -147,7 +147,7 @@ skill.arsmagica2:contingency_damage.name=Contingency : Damage
 skill.arsmagica2:touch.name=Touch
 skill.arsmagica2:dig.name=Dig
 skill.arsmagica2:wizards_autumn.name=Wizard's Autumn
-skill.arsmagica2:target_non_solid.name=Target Non Solid
+skill.arsmagica2:target_non_solid.name=Target Non-Solid Blocks
 skill.arsmagica2:place_block.name=Place Block
 skill.arsmagica2:feather_touch.name=Feather Touch
 skill.arsmagica2:mining_power.name=Mining Power
@@ -584,6 +584,50 @@ compendium.binding.page1=You can create solid objects out of nothing! The bindin
 compendium.wall.page1=You can manifest a wall in front of you. The wall will run perpendicular to your current direction. Walls function similarly to zones, but with a different form factor. Walls also apply their effects more rapidly.
 compendium.wave.page1=Project a wave of magic in front of you that rolls forward, applying its effect to everything in its path.
 
+#Modifiers
+
+compendium.modifier.gravity.name=Gravity
+compendium.modifier.bounce.name=Bounce
+compendium.modifier.damage.name=Damage
+compendium.modifier.healing.name=Healing
+compendium.modifier.speed.name=Speed
+compendium.modifier.duration.name=Duration
+compendium.modifier.range.name=Range
+compendium.modifier.radius.name=Radius
+compendium.modifier.rune_procs.name=Rune Procs
+compendium.modifier.velocity_added.name=Velocity Added
+compendium.modifier.target_non_solid.name=Target Non-Solid Blocks
+compendium.modifier.lunar.name=Lunar
+compendium.modifier.solar.name=Solar
+compendium.modifier.piercing.name=Piercing
+compendium.modifier.mining_power.name=Mining Power
+compendium.modifier.prosperity.name=Prosperity
+compendium.modifier.buff_power.name=Buff Power
+compendium.modifier.dismembering.name=Dismembering
+compendium.modifier.feather_touch.name=Feather Touch
+compendium.modifier.colour.name=Colour
+
+compendium.gravity.page1=Amplifies the gravity of certain spell shapes. Zones and projectiles will be affected by gravity. AoE spells will search farther down when applying to terrain for a valid spot to apply (this is useful as it causes it to hug the terrain).
+compendium.bounce.page1=Causes the projectile spell shape to bounce off surfaces.
+compendium.damage.page1=Amplifies the damage dealt by spells.
+compendium.healing.page1=Amplifies the healing done by spells, or the damage dealt by healing spells to the undead.
+compendium.speed.page1=Enhances the speed altering effects of spells, and the speed of projectiles.
+compendium.duration.page1=Enhances the duration of all buff/debuff effects, and increases the duration of zones.
+compendium.range.page1=Increases the range of projectile and beam spells.
+compendium.radius.page1=Increases the radius of zone and AoE spell shapes.
+compendium.rune_procs.page1=Increases the number of times a rune can apply it's effect before being destroyed.
+compendium.velocity_added.page1=Increases the amount of velocity added by spell parts such as #5Fling#0.
+compendium.target_non_solid.page1=Allows the spell to target non-solid blocks (grass, water, lava) rather than passing through it.
+compendium.lunar.page1=Powers up your spell at night. The closer to midnight time is (Starting at Dusk), the more damage and healing the spell does. After midnight, as dawn approaches, the spell will become weaker. Range, Duration, and Radius are all increased where applicable based on the phase of the moon (more power approaching full moon). More powerful than Solar due to nights not lasting as long as day.
+compendium.solar.page1=Powers up your spell during the day. The closer to noon time is (Starting at Dawn), the more damage and healing the spell does. After noon, as dusk approaches, the spell will become weaker. Range, Duration, and Radius are all increased where applicable based on the phase of the moon (more power approaching new moon).
+compendium.piercing.page1=Allows the spell to pierce through entities and blocks. 2 pierces are added per modifier, with a maximum of 6.
+compendium.mining_power.page1=You have learned to put more power into your digging spells. This causes them to be able to dig more dense blocks that would require a better pickaxe. Each modifier bumps the spell up by one tool level. The base Dig spell operates at Stone pickaxe mining level.
+compendium.prosperity.page1=Fortune strikes! You can make your digging spells more likely to drop additional ores, and your damaging spells more likely to cause enemies to drop better loot. Each modifier added is equivalent to one level of fortune/looting on the spell.
+compendium.buff_power.page1=You can put more power into your buffs. Each modifier added increases the level of the buff applied. This will not affect duration.
+compendium.dismembering.page1=You've decided that you like souvenirs. So much so, that you have discovered how to make your damaging spells leave some pieces intact. Each modifier adds 5% chance to drop a head when defeating an enemy.
+compendium.feather_touch.page1=With great power comes broken valuables. You've learned to be more careful when casting your digging spells and break things less often. Each modifier is equivalent to one level of Silk Touch on the spell.
+compendium.colour.page1=This modifier allows you to change the color of the particles on your spell. Want green fireballs? Have at it! Color is determined by the color dye that you throw in during the crafting process. Any one will be accepted, regardless of what the lectern prompts for.
+
 #Guides
 
 compendium.guide.your_first_spell.name=Your First Spell
@@ -667,6 +711,7 @@ compendium.gateway.page2=Only then by activating another gateway with a matching
 compendium.obelisk.page1=The Obelisk is a runed block that is used to generate #5Etherium#0 (the power system in Ars Magica 2). It acts as a magical furnace, and burns Vinteum Dust or Liquid Etherium to generate power. !d It can be altered using #9Rituals#0 to become a #4Black Aurem#0 or a #9Celestial Prism#0.
 compendium.obelisk.page2=The Obelisk is somewhat of a magical furnace. It can generate Etherium by burning #5Vinteum Dust#0 or #5Liquid Etherium#0 out of a bucket. The Obelisk generates #5Neutral Etherium#0.
 compendium.obelisk.page3=The structure depicted here does not have to be built all at once; it can be built in sections. The #9Wizard's Chalk Circle#0 is a standalone upgrade that when completed, will increase the output of the Obelisk's burn capabilities. The #9Pillars#0 are another upgrade, and will further increase the output of the Obelisk. !d If space is a concern however, these upgrades are not required for the Obelisk to function.
+
 #Items
 
 compendium.crystal_wrench.name=Crystal Wrench

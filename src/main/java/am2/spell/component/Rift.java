@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.entity.EntityRiftStorage;
 import am2.rituals.IRitualInteraction;
@@ -17,6 +19,7 @@ import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -39,10 +42,10 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 					RitualShapeHelper.instance.consumeReagents(this, world, blockPos);
 					RitualShapeHelper.instance.consumeShape(this, world, blockPos);
 					
-//					EntityItem item = new EntityItem(world);
-//					item.setPosition(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
-//					item.setEntityItemStack(new ItemStack(BlocksCommonProxy.inertSpawner));
-//					world.spawnEntityInWorld(item);
+					EntityItem item = new EntityItem(world);
+					item.setPosition(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+					item.setEntityItemStack(new ItemStack(BlockDefs.inertSpawner));
+					world.spawnEntityInWorld(item);
 				}else{
 
 				}
@@ -79,7 +82,12 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 		world.spawnEntityInWorld(storage);
 		return true;
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+	
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		return false;

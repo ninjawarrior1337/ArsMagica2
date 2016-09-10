@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -9,11 +10,14 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.defs.BlockDefs;
+import am2.items.ItemSpellBook;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitPoint;
 import am2.utils.DummyEntityPlayer;
+import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -95,30 +99,30 @@ public class Appropriation extends SpellComponent{
 		ItemStack originalSpellStack = caster.getHeldItemMainhand();
 		if (originalSpellStack == null)
 			return;
-//		if (originalSpellStack.getItem() instanceof ItemSpellBook){
-//			((ItemSpellBook)originalSpellStack.getItem()).replaceAciveItemStack(originalSpellStack, modifiedStack);
-//		}else{
-		caster.inventory.setInventorySlotContents(caster.inventory.currentItem, modifiedStack);
-//		}
+		if (originalSpellStack.getItem() instanceof ItemSpellBook){
+			((ItemSpellBook)originalSpellStack.getItem()).replaceAciveItemStack(originalSpellStack, modifiedStack);
+		}else{
+			caster.inventory.setInventorySlotContents(caster.inventory.currentItem, modifiedStack);
+		}
 	}
 
 	private ItemStack getOriginalSpellStack(EntityPlayer caster){
 		ItemStack originalSpellStack = caster.getHeldItemMainhand();
 		if (originalSpellStack == null)
 			return null;
-//		else if (originalSpellStack.getItem() instanceof ItemSpellBook){
-//			originalSpellStack = ((ItemSpellBook)originalSpellStack.getItem()).GetActiveItemStack(originalSpellStack); //it's a spell book - get the active scroll
-//			//sanity check needed here because from cast to apply the spell could have changed - just ensure appropriation is a part of this spell somewhere so that any stored item can be retrieved
-//			boolean hasAppropriation = false;
-//			for (int i = 0; i < SpellUtils.numStages(originalSpellStack); ++i){
-//				if (SpellUtils.componentIsPresent(originalSpellStack, Appropriation.class, i)){
-//					hasAppropriation = true;
-//					break;
-//				}
-//			}
-//			if (!hasAppropriation)
-//				return null;
-//		}
+		else if (originalSpellStack.getItem() instanceof ItemSpellBook){
+			originalSpellStack = ((ItemSpellBook)originalSpellStack.getItem()).GetActiveItemStack(originalSpellStack); //it's a spell book - get the active scroll
+			//sanity check needed here because from cast to apply the spell could have changed - just ensure appropriation is a part of this spell somewhere so that any stored item can be retrieved
+			boolean hasAppropriation = false;
+			for (int i = 0; i < SpellUtils.numStages(originalSpellStack); ++i){
+				if (SpellUtils.componentIsPresent(originalSpellStack, Appropriation.class)){
+					hasAppropriation = true;
+					break;
+				}
+			}
+			if (!hasAppropriation)
+				return null;
+		}
 
 		return originalSpellStack;
 	}
@@ -360,4 +364,10 @@ public class Appropriation extends SpellComponent{
 
 		return true;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+
 }

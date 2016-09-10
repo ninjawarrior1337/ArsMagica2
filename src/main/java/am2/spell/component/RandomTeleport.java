@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -40,6 +41,11 @@ public class RandomTeleport extends SpellComponent{
 		maxDist = (float)SpellUtils.getModifiedDouble_Mul(maxDist, stack, caster, target, world, SpellModifiers.RANGE);
 		origin.add(new Vec3d((world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist));
 		return origin;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RANGE);
 	}
 
 	protected boolean teleportTo(double par1, double par3, double par5, Entity target){

@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -51,6 +52,11 @@ public class Drown extends SpellComponent{
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.DAMAGE);
 	}
 
 	@Override

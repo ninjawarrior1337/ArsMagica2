@@ -3,6 +3,7 @@ package am2.spell.component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.blocks.BlockAMFlower;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
@@ -129,6 +131,11 @@ public class Grow extends SpellComponent{
 		}
 
 		return true;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
 	}
 
 	@Override

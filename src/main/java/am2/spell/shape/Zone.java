@@ -1,5 +1,7 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.BlockDefs;
@@ -37,6 +39,11 @@ public class Zone extends SpellShape{
 	@Override
 	public boolean isChanneled(){
 		return false;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RADIUS, SpellModifiers.GRAVITY, SpellModifiers.DURATION, SpellModifiers.COLOR, SpellModifiers.TARGET_NONSOLID_BLOCKS);
 	}
 
 	@Override

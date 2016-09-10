@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class Dig extends SpellComponent {
 			return false;
 		IBlockState state = world.getBlockState(blockPos);
 		float hardness = state.getBlockHardness(world, blockPos);
-		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true)) {
+		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true) && state.getBlock().getHarvestLevel(state) > SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
 			IBlockState old = world.getBlockState(blockPos);
 			state.getBlock().breakBlock(world, blockPos, old);
 			state.getBlock().dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
@@ -49,6 +50,11 @@ public class Dig extends SpellComponent {
 			EntityExtension.For(caster).deductMana(hardness * 1.28f);
 		}
 		return true;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.FORTUNE_LEVEL, SpellModifiers.MINING_POWER);
 	}
 
 	@Override

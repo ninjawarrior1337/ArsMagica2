@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import am2.buffs.BuffEffectCharmed;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
+import am2.items.ItemCrystalPhylactery;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.rituals.IRitualInteraction;
@@ -43,7 +45,7 @@ public class Charm extends SpellComponent implements IRitualInteraction{
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.LIFE),
-				//TODO new ItemStack(ItemDefs.crystalPhylactery, 1, ItemsCommonProxy.crystalPhylactery.META_EMPTY)
+				new ItemStack(ItemDefs.crystalPhylactery, 1, ItemCrystalPhylactery.META_EMPTY)
 		};
 	}
 
@@ -90,6 +92,12 @@ public class Charm extends SpellComponent implements IRitualInteraction{
 		}
 		return false;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.DURATION);
+	}
+
 
 	@Override
 	public float manaCost(EntityLivingBase caster){

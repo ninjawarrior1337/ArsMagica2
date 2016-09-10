@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -7,7 +8,9 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
+import am2.items.ItemCore;
 import am2.items.ItemOre;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,7 +29,7 @@ public class Daylight extends SpellComponent{
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE),
 				Items.CLOCK,
-				//TODO new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_PURE)
+				new ItemStack(ItemDefs.core, 1, ItemCore.PURE)
 		};
 	}
 
@@ -39,6 +42,11 @@ public class Daylight extends SpellComponent{
 			((WorldServer)world).setWorldTime(day * 24000);
 		}
 		return true;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
 	}
 
 	@Override

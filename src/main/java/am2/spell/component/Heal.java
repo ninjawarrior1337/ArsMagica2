@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -56,6 +57,12 @@ public class Heal extends SpellComponent{
 		}
 		return false;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.HEALING);
+	}
+
 
 	@Override
 	public float manaCost(EntityLivingBase caster){

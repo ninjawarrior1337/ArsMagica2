@@ -1,6 +1,9 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
@@ -61,6 +64,11 @@ public class Contingency_Death extends SpellShape{
 	@Override
 	public boolean isPrincipumShape(){
 		return true;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
 	}
 
 //	@Override

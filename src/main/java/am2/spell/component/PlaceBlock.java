@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -7,6 +8,7 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.utils.InventoryUtilities;
 import am2.utils.SpellUtils;
@@ -74,7 +76,12 @@ public class PlaceBlock extends SpellComponent{
 
 		stack.getTagCompound().setTag("Lore", tagList);
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+	
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 

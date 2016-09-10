@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -37,7 +38,6 @@ public class Light extends SpellComponent implements IRitualInteraction{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		//TODO etherium
 		if (world.getBlockState(pos).getBlock().equals(BlockDefs.obelisk)){
 			if (RitualShapeHelper.instance.matchesRitual(this, world, pos)){
 				if (!world.isRemote){
@@ -70,7 +70,13 @@ public class Light extends SpellComponent implements IRitualInteraction{
 
 		return true;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.COLOR);
+	}
 
+	
 //	private int getColorMeta(ItemStack spell){
 //		int meta = 15;
 //		int color = 0xFFFFFF;

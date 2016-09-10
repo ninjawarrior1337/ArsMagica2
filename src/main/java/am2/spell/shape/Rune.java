@@ -1,5 +1,7 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.BlockDefs;
@@ -55,7 +57,13 @@ public class Rune extends SpellShape{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.YELLOW.getDyeDamage())
 		};
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.TARGET_NONSOLID_BLOCKS, SpellModifiers.PROCS);
+	}
 
+	
 	@Override
 	public float manaCostMultiplier(ItemStack spellStack){
 		return 1.8f;

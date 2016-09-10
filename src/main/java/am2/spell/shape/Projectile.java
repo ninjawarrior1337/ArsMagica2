@@ -1,5 +1,7 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.ItemDefs;
@@ -53,7 +55,7 @@ public class Projectile extends SpellShape {
 		if (!world.isRemote) {
 			double projectileSpeed = SpellUtils.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.SPEED);
 			float projectileGravity = (float) SpellUtils.getModifiedDouble_Mul(stack, caster, target, world, SpellModifiers.GRAVITY);
-			int projectileBounce = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.GRAVITY);
+			int projectileBounce = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.BOUNCE);
 			int pierces = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.PIERCING);
 			EntitySpellProjectile projectile = new EntitySpellProjectile(world);
 			projectile.setPosition(caster.posX, caster.getEyeHeight() + caster.posY, caster.posZ);
@@ -73,7 +75,12 @@ public class Projectile extends SpellShape {
 		}
 		return SpellCastResult.SUCCESS;
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.GRAVITY, SpellModifiers.DURATION, SpellModifiers.COLOR, SpellModifiers.HOMING, SpellModifiers.TARGET_NONSOLID_BLOCKS, SpellModifiers.SPEED, SpellModifiers.BOUNCE, SpellModifiers.PIERCING);
+	}
+	
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
 		

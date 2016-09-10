@@ -1,6 +1,7 @@
 package am2.spell.shape;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import am2.ArsMagica2;
@@ -94,6 +95,12 @@ public class Chain extends SpellShape{
 		}
 		return result;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.RANGE, SpellModifiers.PROCS);
+	}
+
 
 	private void spawnChainParticles(World world, double startX, double startY, double startZ, double endX, double endY, double endZ, ItemStack spellStack){
 		int color = getPFXColor(spellStack);

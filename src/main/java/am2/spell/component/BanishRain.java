@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -61,6 +63,11 @@ public class BanishRain extends SpellComponent implements IRitualInteraction{
 	@Override
 	public float manaCost(EntityLivingBase caster){
 		return 750;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
 	}
 
 	@Override

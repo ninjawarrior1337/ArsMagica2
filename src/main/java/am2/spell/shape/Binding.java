@@ -1,5 +1,8 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
+import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.ItemDefs;
 import am2.items.ItemBindingCatalyst;
@@ -62,7 +65,12 @@ public class Binding extends SpellShape{
 	public boolean isChanneled(){
 		return false;
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+	
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{

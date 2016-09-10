@@ -1,6 +1,7 @@
 package am2.spell.component;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -10,6 +11,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.particles.AMParticle;
@@ -95,7 +97,12 @@ public class Telekinesis extends SpellComponent{
 	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+	
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 

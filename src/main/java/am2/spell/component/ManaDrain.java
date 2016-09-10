@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IEntityExtension;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
@@ -39,6 +41,12 @@ public class ManaDrain extends SpellComponent{
 		casterProperties.setCurrentMana((float)(casterProperties.getCurrentMana() + manaStolen));
 		return true;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+
 
 	@Override
 	public float manaCost(EntityLivingBase caster){

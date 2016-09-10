@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -55,6 +56,12 @@ public class Knockback extends SpellComponent{
 		}
 		return false;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.VELOCITY_ADDED);
+	}
+
 
 	@Override
 	public float manaCost(EntityLivingBase caster){

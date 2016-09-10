@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.extensions.IEntityExtension;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
@@ -76,7 +78,12 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 		}
 		return true;
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+	
 //	private boolean handleRitualReagents(ItemStack[] ritualRunes, World world, int x, int y, int z, EntityLivingBase caster, Entity target){
 //
 //		boolean hasVinteumDust = false;

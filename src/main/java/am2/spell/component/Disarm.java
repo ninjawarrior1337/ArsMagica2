@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
@@ -9,8 +10,11 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.enchantments.AMEnchantments;
+import am2.entity.EntityDarkMage;
+import am2.entity.EntityLightMage;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleMoveOnHeading;
@@ -41,8 +45,8 @@ public class Disarm extends SpellComponent{
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 
-//		if (target instanceof EntityLightMage || target instanceof EntityDarkMage)
-//			return false;
+		if (target instanceof EntityLightMage || target instanceof EntityDarkMage)
+			return false;
 
 		if (target instanceof EntityPlayer && (!ArsMagica2.config.getDisarmAffectsPlayers() || (!world.isRemote && !FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled())))
 			return false;
@@ -99,6 +103,11 @@ public class Disarm extends SpellComponent{
 			((EntityMob)target).setAttackTarget(caster);
 		}
 		return false;
+	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
 	}
 
 	@Override

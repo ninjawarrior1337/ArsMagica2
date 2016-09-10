@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -30,8 +31,8 @@ public class ManaShield extends SpellComponent implements IRitualInteraction{
 	public Object[] getRecipe(){
 		return new Object[]{
 				ItemDefs.manaFocus,
-				//TODO ItemsCommonProxy.battlemageArmor,
-				//TODO ItemsCommonProxy.mageArmor
+				ItemDefs.battlemageArmor,
+				ItemDefs.mageArmor
 		};
 	}
 
@@ -51,7 +52,13 @@ public class ManaShield extends SpellComponent implements IRitualInteraction{
 		}
 		return false;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.BUFF_POWER, SpellModifiers.DURATION);
+	}
 
+	
 	@Override
 	public float manaCost(EntityLivingBase caster){
 		return 380;

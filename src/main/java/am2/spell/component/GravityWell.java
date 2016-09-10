@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -55,7 +56,13 @@ public class GravityWell extends SpellComponent implements IRitualInteraction{
 		}
 		return false;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.DURATION, SpellModifiers.BUFF_POWER);
+	}
 
+	
 	@Override
 	public float manaCost(EntityLivingBase caster){
 		return 80;

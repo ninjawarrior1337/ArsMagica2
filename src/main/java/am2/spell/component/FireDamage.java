@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,6 +15,8 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
+import am2.entity.EntityDarkling;
+import am2.entity.EntityFireElemental;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
 import am2.power.PowerNodeRegistry;
@@ -68,10 +71,16 @@ public class FireDamage extends SpellComponent implements IRitualInteraction{
 
 	private boolean isNetherMob(Entity target){
 		return target instanceof EntityPigZombie ||
-				//target instanceof EntityDarkling ||
-				//target instanceof EntityFireElemental ||
+				target instanceof EntityDarkling ||
+				target instanceof EntityFireElemental ||
 				target instanceof EntityGhast;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.DAMAGE);
+	}
+
 
 	@Override
 	public float manaCost(EntityLivingBase caster){

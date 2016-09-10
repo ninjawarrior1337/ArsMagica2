@@ -4,6 +4,8 @@ import java.util.EnumSet;
 
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
+import am2.defs.ItemDefs;
+import am2.items.ItemCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
@@ -26,7 +28,7 @@ public class Prosperity extends SpellModifier{
 	public Object[] getRecipe(){
 		return new Object[]{
 				Items.GOLD_INGOT,
-				//TODO AffinityShiftUtils.getEssenceForAffinity(Affinity.BASE_CORE),
+				new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE),
 				Items.GOLD_INGOT
 		};
 	}

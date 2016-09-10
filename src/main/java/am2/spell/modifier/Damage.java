@@ -9,8 +9,10 @@ import am2.utils.AffinityShiftUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.world.World;
 
 public class Damage extends SpellModifier{
@@ -29,7 +31,7 @@ public class Damage extends SpellModifier{
 		return new Object[]{
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.ENDER),
 				Items.IRON_SWORD,
-				"P:!0 & !1 & 2 & 3" //harming potion
+				PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.HARMING)
 		};
 	}
 

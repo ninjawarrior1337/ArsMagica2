@@ -1,5 +1,8 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
+import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.items.ItemSpellBase;
 import am2.spell.SpellCastResult;
@@ -48,6 +51,12 @@ public class MissingShape extends SpellShape {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {

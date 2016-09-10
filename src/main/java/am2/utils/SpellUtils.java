@@ -25,6 +25,8 @@ import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SpellDefs;
 import am2.enchantments.AMEnchantmentHelper;
+import am2.entity.EntityDarkMage;
+import am2.entity.EntityLightMage;
 import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
 import am2.items.ItemSpellBase;
@@ -34,7 +36,12 @@ import am2.spell.shape.MissingShape;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -130,14 +137,13 @@ public class SpellUtils {
 		if (damagesource.getEntity() != null){
 			if (damagesource.getEntity() instanceof EntityLivingBase){
 				EntityLivingBase source = (EntityLivingBase)damagesource.getEntity();
-//				if ((source instanceof EntityLightMage || source instanceof EntityDarkMage) && target.getClass() == EntityCreeper.class){
-//					return false;
-//				}else if (source instanceof EntityLightMage && target instanceof EntityLightMage){
-//					return false;
-//				}else if (source instanceof EntityDarkMage && target instanceof EntityDarkMage){
-//					return false;
-//				}else 
-				if (source instanceof EntityPlayer && target instanceof EntityPlayer && !target.worldObj.isRemote && (!FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled() || ((EntityPlayer)target).capabilities.isCreativeMode)){
+				if ((source instanceof EntityLightMage || source instanceof EntityDarkMage) && target.getClass() == EntityCreeper.class){
+					return false;
+				}else if (source instanceof EntityLightMage && target instanceof EntityLightMage){
+					return false;
+				}else if (source instanceof EntityDarkMage && target instanceof EntityDarkMage){
+					return false;
+				}else  if (source instanceof EntityPlayer && target instanceof EntityPlayer && !target.worldObj.isRemote && (!FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled() || ((EntityPlayer)target).capabilities.isCreativeMode)){
 					return false;
 				}
 
@@ -156,10 +162,10 @@ public class SpellUtils {
 					magnitude *= 1.1f;
 				}
 
-//				ItemStack equipped = (dmgSrcPlayer).getCurrentEquippedItem();
-//				if (equipped != null && equipped.getItem() == ItemsCommonProxy.arcaneSpellbook){
-//					magnitude *= 1.1f;
-//				}
+				ItemStack equipped = dmgSrcPlayer.getActiveItemStack();
+				if (equipped != null && equipped.getItem() == ItemDefs.arcaneSpellbook){
+					magnitude *= 1.1f;
+				}
 			}
 		}
 
@@ -180,20 +186,44 @@ public class SpellUtils {
 			success = target.attackEntityFrom(damagesource, magnitude);
 		}
 
-//		if (dmgSrcPlayer != null){
-//			if (spellStack != null && target instanceof EntityLivingBase){
-//				if (!target.worldObj.isRemote &&
-//						((EntityLivingBase)target).getHealth() <= 0 &&
-//						modifierIsPresent(SpellModifiers.DISMEMBERING_LEVEL, spellStack)){
-//					double chance = SpellUtils.getModifiedDouble_Add(0, spellStack, dmgSrcPlayer, target, dmgSrcPlayer.worldObj, SpellModifiers.DISMEMBERING_LEVEL);
-//					if (dmgSrcPlayer.worldObj.rand.nextDouble() <= chance){
-//						dropHead(target, dmgSrcPlayer.worldObj);
-//					}
-//				}
-//			}
-//		}
+		if (dmgSrcPlayer != null){
+			if (spellStack != null && target instanceof EntityLivingBase){
+				if (!target.worldObj.isRemote &&
+						((EntityLivingBase)target).getHealth() <= 0 &&
+						modifierIsPresent(SpellModifiers.DISMEMBERING_LEVEL, spellStack)){
+					double chance = SpellUtils.getModifiedDouble_Add(0, spellStack, dmgSrcPlayer, target, dmgSrcPlayer.worldObj, SpellModifiers.DISMEMBERING_LEVEL);
+					if (dmgSrcPlayer.worldObj.rand.nextDouble() <= chance){
+						dropHead(target, dmgSrcPlayer.worldObj);
+					}
+				}
+			}
+		}
 
 		return success;
+	}
+	
+	private static void dropHead(Entity target, World world){
+		if (target.getClass() == EntitySkeleton.class){
+			if (((EntitySkeleton)target).getSkeletonType() == 1){
+				dropHead_do(world, target.posX, target.posY, target.posZ, 1);
+			}else{
+				dropHead_do(world, target.posX, target.posY, target.posZ, 0);
+			}
+		}else if (target.getClass() == EntityZombie.class){
+			dropHead_do(world, target.posX, target.posY, target.posZ, 2);
+		}else if (target.getClass() == EntityCreeper.class){
+			dropHead_do(world, target.posX, target.posY, target.posZ, 4);
+		}else if (target instanceof EntityPlayer){
+			dropHead_do(world, target.posX, target.posY, target.posZ, 3);
+		}
+	}
+	
+	private static void dropHead_do(World world, double x, double y, double z, int type){
+		EntityItem item = new EntityItem(world);
+		ItemStack stack = new ItemStack(Items.SKULL, 1, type);
+		item.setEntityItemStack(stack);
+		item.setPosition(x, y, z);
+		world.spawnEntityInWorld(item);
 	}
 	
 	public static NBTTagCompound encode(KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> toEncode) {

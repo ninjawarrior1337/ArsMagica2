@@ -1,5 +1,8 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
+import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
@@ -40,7 +43,12 @@ public class Self extends SpellShape{
 				"E:" + PowerTypes.NEUTRAL.ID(), 500
 		};
 	}
-
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.noneOf(SpellModifiers.class);
+	}
+	
 	@Override
 	public float manaCostMultiplier(ItemStack spellStack){
 		return 0.5f;

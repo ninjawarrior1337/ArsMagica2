@@ -1,5 +1,7 @@
 package am2.spell.shape;
 
+import java.util.EnumSet;
+
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.ItemDefs;
@@ -53,6 +55,12 @@ public class Touch extends SpellShape{
 			}
 		}
 	}
+	
+	@Override
+	public EnumSet<SpellModifiers> getModifiers() {
+		return EnumSet.of(SpellModifiers.TARGET_NONSOLID_BLOCKS);
+	}
+
 
 	@Override
 	public boolean isChanneled(){
