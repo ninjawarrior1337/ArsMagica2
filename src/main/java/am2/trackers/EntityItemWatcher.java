@@ -25,6 +25,7 @@ public class EntityItemWatcher{
 		toRemove = new ArrayList<EntityItem>();
 		inlayBlocks = new ArrayList<Block>();
 		itemsToWatch = new ArrayList<Item>();
+		init();
 	}
 
 	public void init(){
@@ -84,8 +85,9 @@ public class EntityItemWatcher{
 	}
 
 	public void addWatchedItem(EntityItem item){
-		if (this.itemsToWatch.contains(item.getEntityItem().getItem()))
+		if (this.itemsToWatch.contains(item.getEntityItem().getItem())) {
 			watchedItems.add(item);
+		}
 	}
 
 	public void registerInlayBlock(Block inlayBlock){

@@ -18,6 +18,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -117,7 +118,12 @@ public class Forge extends SpellComponent{
 			if (ItemIsBlock(smelted.getItem())){
 				world.setBlockState(pos, ((ItemBlock)smelted.getItem()).block.getStateFromMeta(smelted.getItemDamage()));
 			}else{
-				entity.entityDropItem(new ItemStack(smelted.getItem(), 1, smelted.getItemDamage()), 0);
+				EntityItem item = new EntityItem(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5F, smelted.copy());
+				float f3 = 0.05F;
+				item.motionX = (float)world.rand.nextGaussian() * f3;
+				item.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+				item.motionZ = (float)world.rand.nextGaussian() * f3;
+				world.spawnEntityInWorld(item);
 				world.setBlockState(pos, Blocks.AIR.getDefaultState());
 			}
 		}

@@ -53,9 +53,14 @@ public class GuiOcculus extends GuiScreen {
 	private boolean isDragging = false;
 	private int lastMouseX = 0;
 	private int lastMouseY = 0;
+	private int page = 0;
+	private int maxPage = 0;
 	private int offsetX = 568 / 2 - 82 + 8;
 	private int offsetY = 0;
 	private Skill hoverItem = null;
+	
+	private GuiButton nextPage;
+	private GuiButton prevPage;
 	
 	public GuiOcculus(EntityPlayer player) {
 		this.player = player;
@@ -68,13 +73,25 @@ public class GuiOcculus extends GuiScreen {
 		int posY = height/2 - ySize/2;
 		ImmutableList<SkillTree> testTab = SkillTreeRegistry.getSkillTreeMap();
 		for (SkillTree entry : testTab) {
-			if (tabId < 7)
-				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + (tabId * 24), posY - 22, entry, false));
+			if (tabId % 14 < 7)
+				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + ((tabId % 14) * 24), posY - 22, entry, (int)Math.floor((float)tabId / 14F), false));
 			else 
-				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + ((tabId - 7) * 24), posY + 210, entry, true));
+				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + (((tabId % 14) - 7) * 24), posY + 210, entry, (int)Math.floor((float)tabId / 14F), true));
 				
 			tabId++;
 		}
+		maxPage = (int)Math.floor((float)(tabId - 1) / 14F);
+		nextPage = new GuiButton(1000, posX + 212, posY - 21, 20, 20, ">");
+		prevPage = new GuiButton(1001, posX - 15, posY - 21, 20, 20, "<");
+		nextPage.enabled = page < maxPage;
+		prevPage.enabled = page > 0;
+		for (GuiButton button : buttonList) {
+			if (button instanceof GuiButtonSkillTree) {
+				button.visible = (int)Math.floor((float)button.id / 14F) == page;
+			}
+		}
+		buttonList.add(nextPage);
+		buttonList.add(prevPage);
 		super.initGui();
 	}
 	
@@ -103,10 +120,34 @@ public class GuiOcculus extends GuiScreen {
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
-		currentTree = ((GuiButtonSkillTree)button).getTree();
-		currentTabId = button.id;
-		offsetX = 568 / 2 - 82 + 8;
-		offsetY = 0;
+		if (button instanceof GuiButtonSkillTree) {
+			currentTree = ((GuiButtonSkillTree)button).getTree();
+			currentTabId = button.id;
+			offsetX = 568 / 2 - 82 + 8;
+			offsetY = 0;
+		}else if (button == nextPage) {
+			page++;
+			if (page > maxPage)
+				page = maxPage;
+			nextPage.enabled = page < maxPage;
+			prevPage.enabled = page > 0;
+			for (GuiButton button_ : buttonList) {
+				if (button_ instanceof GuiButtonSkillTree) {
+					button_.visible = (int)Math.floor((float)button_.id / 14F) == page;
+				}
+			}
+		}else if (button == prevPage) {
+			page--;
+			if (page < 0)
+				page = 0;
+			nextPage.enabled = page < maxPage;
+			prevPage.enabled = page > 0;
+			for (GuiButton button_ : buttonList) {
+				if (button_ instanceof GuiButtonSkillTree) {
+					button_.visible = (int)Math.floor((float)button_.id / 14F) == page;
+				}
+			}
+		}
 	}
 	
 	private int calcXOffset(int posX, Skill s) {
@@ -131,10 +172,12 @@ public class GuiOcculus extends GuiScreen {
 		if (SkillPointRegistry.getPointForTier(3) != null || SkillPointRegistry.getPointForTier(4) != null || SkillPointRegistry.getPointForTier(5) != null)
 			RenderUtils.drawBox(posX + 188, posY + 210, 22, 22, -90F, 232 * f, 22 * f, 210 * f, 0 * f);
 		//Tab Under
-		if (currentTabId < 8)
-			drawTexturedModalRect(posX + 7 + (currentTabId * 24), posY, 22, 210, 22, 7);
-		else 
-			drawTexturedModalRect(posX + 7 + ((currentTabId - 7) * 24), posY + 203, 22, 210, 22, 7);
+		if ((int)Math.floor((float)currentTabId / 14F) == page) {
+			if ((currentTabId % 14) < 7)
+				drawTexturedModalRect(posX + 7 + ((currentTabId % 14) * 24), posY, 22, 210, 22, 7);
+			else 
+				drawTexturedModalRect(posX + 7 + (((currentTabId % 14) - 7) * 24), posY + 203, 22, 210, 22, 7);
+		}
 		zLevel = -18F;
 		if (isDragging){
 			int dx = lastMouseX - mouseX;

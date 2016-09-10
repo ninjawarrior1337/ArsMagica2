@@ -309,10 +309,10 @@ public class BossSpawnHelper{
 		for (int i = -1; i <= 1; ++i){
 			for (int j = -1; j <= 1; ++j){
 				if (i == 0 && j == 0) continue;
-				hasStructure &= world.getBlockState(pos.add(i, -1, j)) == Blocks.OBSIDIAN;
+				hasStructure &= world.getBlockState(pos.add(i, -1, j)).getBlock() == Blocks.OBSIDIAN;
 			}
 		}
-
+		
 		hasStructure &= world.getBlockState(pos.add(-2, 0, 0)).getBlock() == BlockDefs.vinteumTorch;
 		hasStructure &= world.getBlockState(pos.add(2, 0, 0)).getBlock() == BlockDefs.vinteumTorch;
 		hasStructure &= world.getBlockState(pos.add(0, 0, -2)).getBlock() == BlockDefs.vinteumTorch;

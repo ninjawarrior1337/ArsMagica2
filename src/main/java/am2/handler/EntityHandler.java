@@ -20,6 +20,7 @@ import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
 import am2.spell.ContingencyType;
+import am2.trackers.EntityItemWatcher;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
@@ -28,6 +29,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -44,6 +46,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -375,6 +378,13 @@ public class EntityHandler {
 
 			if (EntityExtension.For(event.getEntityLiving()).getFlipRotation() > 0)
 				((EntityPlayer)event.getEntityLiving()).addVelocity(0, -2 * event.getEntityLiving().motionY, 0);
+		}
+	}
+	
+	@SubscribeEvent
+	public void entityJoinWorldEvent(EntityJoinWorldEvent event) {
+		if (event.getEntity() instanceof EntityItem) {
+			EntityItemWatcher.instance.addWatchedItem((EntityItem) event.getEntity());
 		}
 	}
 }

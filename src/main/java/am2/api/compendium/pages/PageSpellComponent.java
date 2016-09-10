@@ -11,6 +11,7 @@ import java.util.Random;
 import am2.api.ArsMagicaAPI;
 import am2.api.event.SpellRecipeItemsEvent;
 import am2.api.spell.AbstractSpellPart;
+import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
@@ -55,44 +56,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		GlStateManager.color(1, 1, 1, 1);
 		if (icon != null)
 			AMGuiHelper.DrawIconAtXY(icon, cx, cy, zLevel, 16, 16, false);
-		if (element instanceof SpellModifier) {
-			ArrayList<SpellModifier> modifiers = new ArrayList<>();
-			EnumSet<SpellModifiers> mods = ((SpellModifier)element).getAspectsModified();
-			for (AbstractSpellPart modifier : ArsMagicaAPI.getSpellRegistry()) {
-				if (element == modifier)
-					continue;
-				if (modifier instanceof SpellModifier) {
-					for (SpellModifiers mod : ((SpellModifier)modifier).getAspectsModified()) {
-						if (mods.contains(mod)) {
-							modifiers.add((SpellModifier) modifier);
-							break;
-						}
-					}
-				}
-			}
-			int startX = 72 - (8 * modifiers.size());
-			int yOffset = 10;
-			if (!modifiers.isEmpty()) {
-				String shapeName = I18n.translateToLocal("am2.gui.modifies");
-				mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
-				GlStateManager.color(1.0f, 1.0f, 1.0f);
-			}
-			RenderHelper.enableGUIStandardItemLighting();
-			for (SpellModifier mod : modifiers) {
-				TextureAtlasSprite modIcon = SpellIconManager.INSTANCE.getSprite(mod.getRegistryName().toString());
-				if (modIcon != null)
-					AMGuiHelper.DrawIconAtXY(modIcon, posX + startX, posY + yOffset, zLevel, 16, 16, false);
-				if (mouseX > posX + startX && mouseX < posX + startX + 16){
-					if (mouseY > posY + yOffset && mouseY < posY + yOffset + 16){
-						stackTip = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(mod.getRegistryName()));
-						tipX = mouseX;
-						tipY = mouseY;
-					}
-				}
-				startX += 16;
-			}
-			RenderHelper.disableStandardItemLighting();
-		}
+		
 		if (mouseX > cx && mouseX < cx + 16){
 			if (mouseY > cy && mouseY < cy + 16){
 				stackTip = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(element.getRegistryName()));
@@ -100,10 +64,50 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 				tipY = mouseY;
 			}
 		}
+		renderModifiers(posX, posY, mouseX, mouseY);
 		if (stackTip != null) {
 			renderItemToolTip(stackTip, tipX, tipY);
 		}
 		RenderHelper.enableStandardItemLighting();
+	}
+	
+	private void renderModifiers(int posX, int posY,int mouseX, int mouseY) {
+		ArrayList<SpellModifier> modifiers = new ArrayList<>();
+		EnumSet<SpellModifiers> mods = element.getModifiers();
+		for (AbstractSpellPart modifier : ArsMagicaAPI.getSpellRegistry()) {
+			if (element == modifier)
+				continue;
+			if (modifier instanceof SpellModifier) {
+				for (SpellModifiers mod : ((SpellModifier)modifier).getAspectsModified()) {
+					if (mods.contains(mod)) {
+						modifiers.add((SpellModifier) modifier);
+						break;
+					}
+				}
+			}
+		}
+		int startX = 72 - (8 * modifiers.size());
+		int yOffset = 10;
+		if (!modifiers.isEmpty()) {
+			String shapeName = I18n.translateToLocal(element instanceof SpellComponent ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
+			mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
+			GlStateManager.color(1.0f, 1.0f, 1.0f);
+		}
+		RenderHelper.enableGUIStandardItemLighting();
+		for (SpellModifier mod : modifiers) {
+			TextureAtlasSprite modIcon = SpellIconManager.INSTANCE.getSprite(mod.getRegistryName().toString());
+			if (modIcon != null)
+				AMGuiHelper.DrawIconAtXY(modIcon, posX + startX, posY + yOffset, zLevel, 16, 16, false);
+			if (mouseX > posX + startX && mouseX < posX + startX + 16){
+				if (mouseY > posY + yOffset && mouseY < posY + yOffset + 16){
+					stackTip = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(mod.getRegistryName()));
+					tipX = mouseX;
+					tipY = mouseY;
+				}
+			}
+			startX += 16;
+		}
+		RenderHelper.disableStandardItemLighting();
 	}
 	
 	private void RenderRecipe(int cx, int cy, int mousex, int mousey){

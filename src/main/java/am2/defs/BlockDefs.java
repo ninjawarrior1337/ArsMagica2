@@ -282,6 +282,7 @@ public class BlockDefs {
 		registerTexture(goldInlay);
 		registerTexture(ironInlay);
 		registerTexture(astralBarrier);
+		registerTexture(vinteumTorch);
 		
 		Item ore = items.getValue(new ResourceLocation("arsmagica2:ore"));
 		Item block = items.getValue(new ResourceLocation("arsmagica2:block"));

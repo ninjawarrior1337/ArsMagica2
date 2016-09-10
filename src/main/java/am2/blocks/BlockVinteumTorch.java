@@ -3,6 +3,7 @@ package am2.blocks;
 import java.util.Random;
 
 import am2.ArsMagica2;
+import am2.defs.CreativeTabsDefs;
 import am2.items.ItemBlockSubtypes;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -20,6 +21,7 @@ public class BlockVinteumTorch extends BlockTorch{
 
 	public BlockVinteumTorch(){
 		super();
+		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
 	}
 
 	@Override

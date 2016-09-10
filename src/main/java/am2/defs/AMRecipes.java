@@ -436,11 +436,11 @@ public class AMRecipes {
 		//furnace recipes
 		GameRegistry.addSmelting(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANECOMPOUND), new ItemStack(ItemDefs.itemOre, 2, ItemOre.META_ARCANEASH), 0);
 
-		addMetaSmeltingRecipe(BlockDefs.blocks, EnumOreType.VINTEUM.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM));
-		addMetaSmeltingRecipe(BlockDefs.blocks, EnumOreType.SUNSTONE.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE));
-		addMetaSmeltingRecipe(BlockDefs.blocks, EnumOreType.BLUETOPAZ.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ));
-		addMetaSmeltingRecipe(BlockDefs.blocks, EnumOreType.CHIMERITE.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE));
-		addMetaSmeltingRecipe(BlockDefs.blocks, EnumOreType.MOONSTONE.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE));
+		addMetaSmeltingRecipe(BlockDefs.ores, EnumOreType.VINTEUM.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM));
+		addMetaSmeltingRecipe(BlockDefs.ores, EnumOreType.SUNSTONE.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE));
+		addMetaSmeltingRecipe(BlockDefs.ores, EnumOreType.BLUETOPAZ.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ));
+		addMetaSmeltingRecipe(BlockDefs.ores, EnumOreType.CHIMERITE.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE));
+		addMetaSmeltingRecipe(BlockDefs.ores, EnumOreType.MOONSTONE.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE));
 
 		GameRegistry.addRecipe(new ItemStack(BlockDefs.illusionBlock, BlockDefs.illusionBlock.GetCraftingQuantity(), 0), BlockDefs.illusionBlock.GetRecipeComponents(false));
 		GameRegistry.addRecipe(new ItemStack(BlockDefs.illusionBlock, BlockDefs.illusionBlock.GetCraftingQuantity(), 1), BlockDefs.illusionBlock.GetRecipeComponents(true));
@@ -1052,8 +1052,7 @@ public class AMRecipes {
 
 	
 	private static void addMetaSmeltingRecipe(Block input, int meta, ItemStack output){
-		ItemStack stack = new ItemStack(input);
-		stack.setItemDamage(meta);
+		ItemStack stack = new ItemStack(input, 1, meta);
 		GameRegistry.addSmelting(stack, output, 0);
 	}
 	

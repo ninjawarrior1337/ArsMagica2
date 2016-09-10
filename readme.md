@@ -20,6 +20,7 @@ I'd say i'm 80-85% done with this update
  * Spell Parts (Shapes, Components, Modifiers)
  * Flickers
  * Skills
+ * Skill Trees
  * Crafting Altar Materials
  
 ## The Compendium Update
