@@ -19,11 +19,14 @@ import am2.utils.RecipeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -895,7 +898,11 @@ public class AMRecipes {
 				new ItemStack(Items.SUGAR),
 				"cropWheat"
 		}));
-
+		
+		BrewingRecipeRegistry.addRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM), new ItemStack(ItemDefs.greaterManaPotion));
+		BrewingRecipeRegistry.addRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH), new ItemStack(ItemDefs.epicManaPotion));
+		BrewingRecipeRegistry.addRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM), new ItemStack(ItemDefs.legendaryManaPotion));
+		
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemDefs.lesserManaPotion), new Object[]{
 				new ItemStack(Items.WHEAT_SEEDS),
 				new ItemStack(Items.SUGAR),
@@ -907,20 +914,20 @@ public class AMRecipes {
 				new ItemStack(ItemDefs.lesserManaPotion, 1, Short.MAX_VALUE)
 		});
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemDefs.greaterManaPotion), new Object[]{
-				"dustVinteum",
-				new ItemStack(ItemDefs.standardManaPotion, 1, Short.MAX_VALUE)
-		}));
-
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemDefs.epicManaPotion), new Object[]{
-				"arcaneAsh",
-				new ItemStack(ItemDefs.greaterManaPotion, 1, Short.MAX_VALUE)
-		}));
-
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemDefs.legendaryManaPotion), new Object[]{
-				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
-				new ItemStack(ItemDefs.epicManaPotion, 1, Short.MAX_VALUE)
-		});
+//		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemDefs.greaterManaPotion), new Object[]{
+//				"dustVinteum",
+//				new ItemStack(ItemDefs.standardManaPotion, 1, Short.MAX_VALUE)
+//		}));
+//
+//		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemDefs.epicManaPotion), new Object[]{
+//				"arcaneAsh",
+//				new ItemStack(ItemDefs.greaterManaPotion, 1, Short.MAX_VALUE)
+//		}));
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(ItemDefs.legendaryManaPotion), new Object[]{
+//				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
+//				new ItemStack(ItemDefs.epicManaPotion, 1, Short.MAX_VALUE)
+//		});
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemDefs.liquidEssenceBottle), new Object[]{
 				"gemChimerite",

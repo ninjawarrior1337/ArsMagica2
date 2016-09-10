@@ -173,6 +173,7 @@ public class LoreDefs {
 		createItemEntry(ITEM_ARMOR_BATTLEMAGE, "boots_battlemage", new ItemStack(ItemDefs.battlemageBoots), 1);
 		
 		createEntry(ITEM_AFFINITYTOME, "affinity_tome", 1);
+		createItemEntry(ITEM_AFFINITYTOME, "tome_none", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE)), 1);
 		createItemEntry(ITEM_AFFINITYTOME, "tome_arcane", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)), 0);
 		createItemEntry(ITEM_AFFINITYTOME, "tome_earth", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 0);
 		createItemEntry(ITEM_AFFINITYTOME, "tome_air", new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)), 0);

@@ -738,6 +738,9 @@ compendium.item.chalk.name=Wizard's Chalk
 compendium.item.journal.name=Journal
 compendium.item.deficit_crystal.name=Deficit Crystal
 
+compendium.keystone.page1=Keystones are used to link Gateways to each other, as well as to restrict access to Ars Magica machines. The UI for these blocks will not open if you are not holding a keystone with the same rune combination.
+compendium.mana_cake.page1=Mana Cakes both restore hunger and give a boost to mana regeneration. Plus, it's cake!
+
 ##Ores
 
 compendium.item.ore.vinteum_dust.name=Vinteum Dust
@@ -748,6 +751,15 @@ compendium.item.ore.chimerite.name=Chimerite
 compendium.item.ore.blue_topaz.name=Blue Topaz
 compendium.item.ore.sunstone.name=Sunstone
 compendium.item.ore.moonstone.name=Moonstone
+
+compendium.vinteum_dust.page1=Discovered in a small village where a creeper was knocked down a drained well, Vinteum Ore was quickly realized to be a valuable magical powder once cooked inside a furnace.
+compendium.arcane_compound.page1=A combination of materials from multiple worlds, the Arcane Compound forms the base resource needed to get Arcane Ash.
+compendium.arcane_ash.page1=Created by burning #5Arcane Compounds#0 in a furnace, Arcane Ash's Etherium storage capabilities have made it a cornerstone of advanced magical machinery.
+compendium.purified_vinteum_dust.page1=By adding #5Arcane Ash#0 to strengthen its magical properties, and adding #5Blue Orchids#0 as a catalyst and #5Desert Novas#0 to release instability, Vinteum Dust can be put into a purified state with much higher capacity for Etherium.
+compendium.chimerite.page1=Able to shift to all colors and in an ever-changing state, Chimerite is used in spells that require a great deal of alteration or illusion.
+compendium.blue_topaz.page1=A relatively common gem, blue topaz is often used by mages as an entry level crystal to focus Etherium.
+compendium.sunstone.page1=Sunstone is only found in the most intently hot locations in all of Minecraft and worlds beyond. Requiring such intense heat to form, but very low pressure, it is commonly found in the lava lakes of the nether, but can exist in the lava pools of the overworld as well, if you are lucky.
+compendium.moonstone.page1=If one were to look up at the sky at the right time of night, one may see a meteor descending from the sky. These meteors contain the rare mineral Moonstone. Where exactly these meteors came from, nobody knows, but the magical properties of Moonstone far excel anything else found in the world. Studies have shown that the meteors fall more and more often as the moon waxes full, then decreases again as it wanes back to new.
 
 ##Essence
 
@@ -767,6 +779,9 @@ compendium.item.essence.base_essence_core.name=Base Essence Core
 compendium.item.essence.high_essence_core.name=High Essence Core
 compendium.item.essence.essence_bag.name=Essence Bag
 
+compendium.essence.page1=Essences are used both in crafting magical items, as well as reagents for spells. Elemental essences are dropped by their respective guardians, and all essences can also be crafted using the #5Essence Refiner#0.
+compendium.essence_bag.page1=The essence bag can be crafted to allow additional storage when adventuring.
+
 ##Runes
 
 compendium.item.rune.runes.name=Runes
@@ -782,10 +797,14 @@ compendium.item.rune.rune_lime.name=Lime Rune
 compendium.item.rune.rune_magenta.name=Magenta Rune
 compendium.item.rune.rune_orange.name=Orange Rune
 compendium.item.rune.rune_pink.name=Pink Rune
+compendium.item.rune.rune_yellow.name=Yellow Rune
 compendium.item.rune.rune_purple.name=Purple Rune
 compendium.item.rune.rune_red.name=Red Rune
 compendium.item.rune.rune_white.name=White Rune
 compendium.item.rune.rune_bag.name=Rune Bag
+
+compendium.runes.page1=Runes are the building blocks for spells. When combined with multiple other items in the right combination, a magical spell scroll can be created.
+compendium.rune_bag.page1=The Rune Bag can hold a few runes, helping to save inventory space. If you have runes in a rune bag, Keystones will be able to interact with the runes inside it to switch their currently selected combination.
 
 ##Armor
 
@@ -797,6 +816,8 @@ compendium.item.armor.mage.chest_mage.name=Mage Robes
 compendium.item.armor.mage.legs_mage.name=Mage Leggings
 compendium.item.armor.mage.boots_mage.name=Mage Boots
 
+compendium.mage_armor.page1=A more advanced version of simple robes, mage armor allows for slightly more durability, recharge, and protection. Mage armor, due to the runes inlaid in it, has very high capability to be enchanted. It also can repair its condition using mana drawn from its wearer. When wearing a full suit of mage armor, your mana regen speed is increased and all spells are slightly more effective.
+
 ###Mage Armor
 
 compendium.item.armor.battlemage.battlemage_armor.name=Battlemage Armor
@@ -805,9 +826,12 @@ compendium.item.armor.battlemage.chest_battlemage.name=Battlemage Armor
 compendium.item.armor.battlemage.legs_battlemage.name=Battlemage Leggings
 compendium.item.armor.battlemage.boots_battlemage.name=Battlemage Boots
 
+compendium.battlemage_armor.page1=Granted only to mages who have proven themselves true masters, Battlemage Armor offers a good amount of protection. It has higher durability than Mage Armor, but has a slower repair rate and less enchantability, as well as giving lesser versions of the magical bonuses that mage armor does. Battlemage Armor can also be given XP which will unlock protective spells that will come to the aid of its wearer, draining some of the magic within the armor. The magic will then infuse back over time from your own mana pool.
+
 ##Affinity Tomes
 
 compendium.item.affinity_tomes.affinity_tome.name=Affinity Tome
+compendium.item.affinity_tomes.tome_none.name=Affinity Tome : None
 compendium.item.affinity_tomes.tome_arcane.name=Affinity Tome : Arcane
 compendium.item.affinity_tomes.tome_earth.name=Affinity Tome : Earth
 compendium.item.affinity_tomes.tome_air.name=Affinity Tome : Air
@@ -818,3 +842,51 @@ compendium.item.affinity_tomes.tome_ice.name=Affinity Tome : Ice
 compendium.item.affinity_tomes.tome_lightning.name=Affinity Tome : Lightning
 compendium.item.affinity_tomes.tome_life.name=Affinity Tome : Life
 compendium.item.affinity_tomes.tome_ender.name=Affinity Tome : Ender
+
+compendium.affinity_tome.page1=Affinity tomes contain detailed reports and information gather by magi over the years pertaining to a specific affinitiy. With the exception of the General affinity tome, they will, when read, give you a 20% boost to that specific affinity, while simultaneously reducing your progress in all other affinities by 5/10/15% depending on the opposition.
+compendium.tome_none.page1=The general affinity tome is special in that it can unlock a locked affinity state. It will reduce all affinity progression by 20% without boosting any of them.
+
+##Foci
+
+compendium.item.foci.foci.name=Foci
+compendium.item.foci.charge_focus.name=Charge Focus
+compendium.item.foci.mana_focus.name=Mana Focus
+compendium.item.foci.lesser_focus.name=Lesser Focus
+compendium.item.foci.standard_focus.name=Standard Focus
+compendium.item.foci.greater_focus.name=Greater Focus
+compendium.item.foci.item_focus.name=Item Focus
+compendium.item.foci.player_focus.name=Player Focus
+compendium.item.foci.monster_focus.name=Monster Focus
+compendium.item.foci.creature_focus.name=Creature Focus
+
+compendium.foci.page1=Foci are used inside specific Ars Magica machines to change the way they function.
+compendium.charge_focus.page1=Charge Foci are used to increase the rate at which Ars Magica machines charge. In #9Calefactors#0 and #9Arcane Reconstructors#0, they also increase the rate at which the machine performs its task.
+compendium.mana_focus.page1=Mana Foci are used to decrease costs of operation in Ars Magica machines.
+compendium.lesser_focus.page1=Lesser Foci are used in various AM2 machines, and instruct them to operate in different ways.
+compendium.standard_focus.page1=Standard Foci are used in various AM2 machines, and instruct them to operate in different ways.
+compendium.greater_focus.page1=Greater Foci are used in various AM2 machines, and instruct them to operate in different ways.
+compendium.item_focus.page1=Item foci are used in the #9Seer Stone#0, and instruct it to search for nearby items on the ground.
+compendium.player_focus.page1=Player foci are used in the #9Seer Stone#0, and instruct it to search for nearby players.
+compendium.monster_focus.page1=Monster foci are used in the #9Seer Stone#0, and instruct it to search for nearby mobs (Zombies, Skeletons, etc).
+compendium.creature_focus.page1=Creature foci are used in the #9Seer Stone#0, and instruct it to search for nearby critters (Sheep, Cows, etc).
+
+##Mana Potions
+
+compendium.item.mana_potion.mana_potion.name=Mana Potions
+compendium.item.mana_potion.mana_potion_lesser.name=Lesser Mana Potion
+compendium.item.mana_potion.mana_potion_standard.name=Standard Mana Potion
+compendium.item.mana_potion.mana_potion_greater.name=Greater Mana Potion
+compendium.item.mana_potion.mana_potion_epic.name=Epic Mana Potion
+compendium.item.mana_potion.mana_potion_legendary.name=Legendary Mana Potion
+compendium.item.mana_potion.mana_boost_potion.name=Infused Etherium Potion
+compendium.item.mana_potion.mana_martini.name=Mana Martini
+
+compendium.mana_potion.name=Mana potions restore mana instantly when imbibed. You get an empty bottle back after drinking one. Mana potions can be bundled by combining 3 of the same type of potion with string. The bundle can be used 3 times and will also return the empty bottles. The final potion drank will also return the string.
+compendium.mana_potion_lesser.name=The lesser mana potion is the magical equivalent to a cup of coffee: a short boost, but it won't get you through an entire day. One use will restore 100 mana.
+compendium.mana_potion_standard.name=The standard mana potion gives a decently upgraded amount of mana from the lesser one for not much of a material cost. One use will restore 250 mana.
+compendium.mana_potion_greater.name=The greater mana potion uses the power of #5vinteum#0 combined with a #9Awkward Potion#0 at a brewing stand to restore a good amount of mana. One use will restore 2000 mana.
+compendium.mana_potion_epic.name=The epic mana potion is created by combining #5arcane ash#0 with a #9Awkward Potion#0 at a brewing stand to restore 5000 mana per potion.
+compendium.mana_potion_legendary.name=The legendary mana potion is created by combining #5purified vinteum dust#0 with a #9Awkward Potion#0 at a brewing stand. One potion will restore a whopping 10000 mana!
+compendium.mana_boost_potion.name=By taking a #5bucket of Liquid Etherium#0, a mage can combine it with #5chimerite#0 and #5tarma root#0 in order to create a potion to give a temporary boost to maximum mana. Unfortunately, the process is minimally efficient and much of the Liquid Etherium is lost along the way.
+compendium.mana_martini.name=In honour of Mithion's final release of AM2, which happens to be #9version 007#0, you can now make a Mana Martini that, when drank, will give you a 25% reduction in burnout gained from casting spells.
+
