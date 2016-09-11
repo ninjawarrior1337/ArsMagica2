@@ -244,7 +244,6 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			rotationStepX = worldObj.rand.nextFloat() * 0.03f - 0.015f;
 			isFirstTick = false;
 		}
-
 		if (this.worldObj.isRemote){
 			incrementRotations();
 			if (this.isCooking){
@@ -283,11 +282,11 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				particleCount = 0;
 			}
 		}
-
+		
 		boolean powerCheck = PowerNodeRegistry.For(this.worldObj).checkPower(this, getCookTickPowerCost());
 		if (this.canSmelt() && this.isSmelting() && powerCheck){
 			++this.timeSpentCooking;
-
+			
 			if (this.timeSpentCooking >= getModifiedCookTime()){
 				if (!this.worldObj.isRemote){
 					this.smeltItem();
@@ -445,7 +444,6 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				nbttaglist.appendTag(nbttagcompound1);
 			}
 		}
-
 		nbttagcompound.setTag("CasterInventory", nbttaglist);
 		return nbttagcompound;
 	}

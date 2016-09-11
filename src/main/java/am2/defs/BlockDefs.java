@@ -43,6 +43,7 @@ import am2.blocks.BlockMageLight;
 import am2.blocks.BlockMagicWall;
 import am2.blocks.BlockMagiciansWorkbench;
 import am2.blocks.BlockManaBattery;
+import am2.blocks.BlockManaDrain;
 import am2.blocks.BlockOcculus;
 import am2.blocks.BlockOtherworldAura;
 import am2.blocks.BlockParticleEmitter;
@@ -158,6 +159,7 @@ public class BlockDefs {
 	public static final Block lightningEffigy = new BlockEffigy(Material.IRON).registerAndName(new ResourceLocation("arsmagica2:lightning_effigy"));
 	public static final Block witchwoodPlanks = new BlockWitchwoodPlanks().registerAndName(new ResourceLocation("arsmagica2:witchwood_planks"));
 	public static final Block witchwoodStairs = new BlockWitchwoodStairs(witchwoodPlanks.getDefaultState()).registerAndName(new ResourceLocation("arsmagica2:witchwood_stairs"));
+	public static final Block manaDrain = new BlockManaDrain().registerAndName(new ResourceLocation("arsmagica2:mana_drain"));
 	public static final BlockSlab witchwoodSingleSlab = new BlockWitchwoodSlabsSimple();
 	public static final BlockSlab witchwoodDoubleSlab = new BlockWitchwoodSlabsDouble();
 	
@@ -226,6 +228,7 @@ public class BlockDefs {
 		registerTexture(manaBattery);
 		registerTexture(armorImbuer);
 		registerTexture(slipstreamGenerator);
+		registerTexture(manaDrain);
 		
 		//Flickers
 		registerTexture(crystalMarker);

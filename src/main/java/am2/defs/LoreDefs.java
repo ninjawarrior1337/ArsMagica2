@@ -14,6 +14,7 @@ import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
+import am2.blocks.tileentity.TileEntityManaDrain;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.flickers.FlickerOperatorButchery;
 import am2.blocks.tileentity.flickers.FlickerOperatorContainment;
@@ -243,6 +244,10 @@ public class LoreDefs {
 				.addObject("compendium.obelisk.page2")
 				.addObject("compendium.obelisk.page3")
 				.addObject(new TileEntityObelisk().getDefinition()));
+		BLOCK.addEntry(new CompendiumEntry(null, "mana_drain_block")
+				.addObject("compendium.mana_drain_block.page1")
+				.addObject(new ItemStack(BlockDefs.manaDrain))
+				.addObject(new TileEntityManaDrain().getDefinition()));
 	}
 	
 	private static void initShapes() {

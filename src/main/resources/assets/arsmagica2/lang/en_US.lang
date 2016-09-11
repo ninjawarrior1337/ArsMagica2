@@ -744,6 +744,9 @@ compendium.obelisk.page1=The Obelisk is a runed block that is used to generate #
 compendium.obelisk.page2=The Obelisk is somewhat of a magical furnace. It can generate Etherium by burning #5Vinteum Dust#0 or #5Liquid Etherium#0 out of a bucket. The Obelisk generates #5Neutral Etherium#0.
 compendium.obelisk.page3=The structure depicted here does not have to be built all at once; it can be built in sections. The #9Wizard's Chalk Circle#0 is a standalone upgrade that when completed, will increase the output of the Obelisk's burn capabilities. The #9Pillars#0 are another upgrade, and will further increase the output of the Obelisk. !d If space is a concern however, these upgrades are not required for the Obelisk to function.
 
+compendium.block.mana_drain_block.name=Mana Drain
+compendium.mana_drain_block.page1=The Mana Drain is a way for mages to convert their mana into etherium, unfortunatly due to the nature of mana, only neutral etherium is produced. Using redstone it is possible to create mana out of etherium. !d The Drain is a multiblock structure, made of magic walls, quartz pillar and blue topaz blocks.
+
 #Items
 
 compendium.category.item.name=Items

@@ -34,6 +34,7 @@ public class MultiblockStructureDefinition {
 			for (MultiblockGroup group : subGroup) {
 				hasCheck = true;
 				groupCheck |= group.matches(world, startCheckPos);
+				//System.out.println(group.name + " " +groupCheck);
 			}
 			if (hasCheck)
 				subFlag &= groupCheck;

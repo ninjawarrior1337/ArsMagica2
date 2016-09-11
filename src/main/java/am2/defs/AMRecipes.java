@@ -49,6 +49,7 @@ public class AMRecipes {
 		
 		ObeliskFuelHelper.instance.registerFuelType(new ItemStack(ItemDefs.itemOre, 0, ItemOre.META_VINTEUM), 200);
 		ObeliskFuelHelper.instance.registerFuelType(UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, BlockDefs.liquid_essence), 2000);
+		
 		for (int i : FlickerOperatorRegistry.instance.getMasks()) {
 			IFlickerFunctionality func = FlickerOperatorRegistry.instance.getOperatorForMask(i);
 			if (func != null) {
@@ -144,6 +145,13 @@ public class AMRecipes {
 				Character.valueOf('C'), Items.COAL,
 				Character.valueOf('P'), "blockGlassColorless",
 				Character.valueOf('V'), "gemBlueTopaz"
+		}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockDefs.manaDrain), new Object[]{
+				"GGG", "VVV", "GBG",
+				Character.valueOf('C'), "blockGlassColorless",
+				Character.valueOf('B'), "gemBlueTopaz",
+				Character.valueOf('V'), "dustVinteum"
 		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockDefs.arcaneReconstructor), new Object[]{

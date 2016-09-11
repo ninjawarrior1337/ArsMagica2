@@ -92,6 +92,7 @@ import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.blocks.tileentity.TileEntityMagiciansWorkbench;
 import am2.blocks.tileentity.TileEntityManaBattery;
+import am2.blocks.tileentity.TileEntityManaDrain;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.blocks.tileentity.TileEntityOcculus;
 import am2.blocks.tileentity.TileEntityOtherworldAura;
@@ -355,6 +356,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityParticleEmitter.class, "TileEntityParticleEmitter");
 		GameRegistry.registerTileEntity(TileEntitySeerStone.class, "TileEntitySeerStone");
 		GameRegistry.registerTileEntity(TileEntitySummoner.class, "TileEntitySummoner");
+		GameRegistry.registerTileEntity(TileEntityManaDrain.class, "TileEntityManaDrain");
 
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
 		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
