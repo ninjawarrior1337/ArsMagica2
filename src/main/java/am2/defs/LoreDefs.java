@@ -92,7 +92,7 @@ public class LoreDefs {
 	private static void initItems() {
 		createItemEntry("keystone", ItemDefs.keystone, 1);
 		createItemEntry("mana_cake", ItemDefs.manaCake, 1);
-		createItemEntry("crystal_wrench", ItemDefs.crystalWrench, 1);
+		createItemEntry("crystal_wrench", ItemDefs.crystalWrench, 4);
 		createItemEntry("spell_parchment", ItemDefs.spellParchment, 1);
 		createItemEntry("crystal_phylactery", ItemDefs.crystalPhylactery, 1);
 		createItemEntry("spell_staff_magitech", ItemDefs.spellStaffMagitech, 1);
@@ -215,7 +215,7 @@ public class LoreDefs {
 		createItemEntry(ITEM_BINDINGCATALYST, "binding_catalyst_shield", new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_SHIELD), 0);
 
 		createEntry(ITEM_FLICKERFOCUS, "flicker_focus", 1);
-		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_itemtransport", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorItemTransport.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_itemtransport", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorItemTransport.instance)), 2);
 		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_interdiction", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorInterdiction.instance)), 1);
 		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_containment", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorContainment.instance)), 1);
 		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_packed_earth", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorPackedEarth.instance)), 1);
@@ -227,7 +227,7 @@ public class LoreDefs {
 		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_felled_oak", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorFelledOak.instance)), 1);
 		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_gentle_rains", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorGentleRains.instance)), 1);
 		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_natures_bounty", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorNaturesBounty.instance)), 1);
-		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_fishing", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorFishing.instance)), 1);
+		createItemEntry(ITEM_FLICKERFOCUS, "flicker_focus_fishing", new ItemStack(ItemDefs.flickerFocus, 1, FlickerOperatorRegistry.instance.getMaskForOperator(FlickerOperatorFishing.instance)), 2);
 	
 		createEntry(ITEM_INSCRIPTIONUPGRADES, "inscription_upgrades", 1);	
 		createItemEntry(ITEM_INSCRIPTIONUPGRADES, "inscription_tier_1_upgrade", new ItemStack(ItemDefs.inscriptionUpgrade, 1, 0), 0);

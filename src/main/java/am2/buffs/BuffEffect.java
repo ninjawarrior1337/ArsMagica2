@@ -3,8 +3,6 @@ package am2.buffs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import am2.ArsMagica2;
-import am2.proxy.CommonProxy;
 
 public abstract class BuffEffect extends PotionEffect{
 	protected boolean InitialApplication;
@@ -50,21 +48,18 @@ public abstract class BuffEffect extends PotionEffect{
 
 	@Override
 	public boolean onUpdate(EntityLivingBase entityliving){
+		boolean bool = super.onUpdate(entityliving);
 		if (InitialApplication){
 			InitialApplication = false;
 			applyEffect(entityliving);
 		}
-		else if (getDuration() <= 1){
+		else if (getDuration() == 1){
 			effectEnding(entityliving);
 		}else if ((getDuration() / 20) < 5 && !HasNotified && shouldNotify() && !entityliving.worldObj.isRemote){
 			HasNotified = true;
 		}
 		performEffect(entityliving);
-		if (ArsMagica2.proxy instanceof CommonProxy){
-			return super.onUpdate(entityliving);
-		}else{
-			return true;
-		}
+		return bool;
 	}
 
 	public boolean isReady(int i, int j){

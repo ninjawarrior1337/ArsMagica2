@@ -1,11 +1,9 @@
 package am2.buffs;
 
-import java.util.Collection;
-
+import am2.defs.PotionEffectsDefs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import am2.defs.PotionEffectsDefs;
 
 public class BuffEffectFury extends BuffEffect{
 
@@ -20,9 +18,8 @@ public class BuffEffectFury extends BuffEffect{
 	@Override
 	public void stopEffect(EntityLivingBase entityliving){
 		if (!entityliving.worldObj.isRemote){
-			Collection<PotionEffect> effects = entityliving.getActivePotionEffects();
-			effects.add(new PotionEffect(MobEffects.HUNGER, 200, 1));
-			effects.add(new PotionEffect(MobEffects.NAUSEA, 200, 1));
+			entityliving.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 200, 1));
+			entityliving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 1));
 		}
 	}
 

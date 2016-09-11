@@ -10,7 +10,7 @@ affinity.earth=Earth
 affinity.ice=Ice
 affinity.ender=Ender
 
-item.arsmagica2:tome.name=§eAffinity Tome : %s§f
+item.arsmagica2:tome.name=§eAffinity Tome: %s§f
 item.arsmagica2:essence.name=%s Essence
 item.arsmagica2:ore.vinteum.name=Vinteum Dust
 item.arsmagica2:ore.purified_vinteum.name=Purified Vinteum Dust
@@ -717,17 +717,19 @@ compendium.obelisk.page3=The structure depicted here does not have to be built a
 compendium.item.keystone.name=Keystone
 compendium.item.mana_cake.name=Mana Cake
 compendium.item.crystal_wrench.name=Crystal Wrench
+compendium.item.spell_parchment.name=Spell Parchment
+compendium.item.crystal_phylactery.name=Crystal Phylactery
 compendium.item.spell_staff_magitech.name=Magitech Staff
 compendium.item.spell_book.name=Spell Book
 compendium.item.magic_broom.name=Broom
 compendium.item.nature_scythe.name=Nature's Scythe
 compendium.item.arcane_spellbook.name=Arcane Spellbook
-compendium.item.winter_arm.name=Winter Arm
+compendium.item.winter_arm.name=Winter's Grasp
 compendium.item.air_sled.name=Air Sled
 compendium.item.earth_armor.name=Earth Armor
 compendium.item.water_orbs.name=Water Orbs
-compendium.item.fire_ears.name=Fire Ears
-compendium.item.workbench_upgrade.name=Workbench Upgrade
+compendium.item.fire_ears.name=Fire Antenna
+compendium.item.workbench_upgrade.name=Workbench Grid Upgrade
 compendium.item.warding_candle.name=Warding Candle
 compendium.item.flicker_jar.name=Flicker Jar
 compendium.item.ender_boots.name=Ender Boots
@@ -740,6 +742,29 @@ compendium.item.deficit_crystal.name=Deficit Crystal
 
 compendium.keystone.page1=Keystones are used to link Gateways to each other, as well as to restrict access to Ars Magica machines. The UI for these blocks will not open if you are not holding a keystone with the same rune combination.
 compendium.mana_cake.page1=Mana Cakes both restore hunger and give a boost to mana regeneration. Plus, it's cake!
+compendium.crystal_wrench.page1=The crystal wrench serves many purposes. It can be used to direct Etherium through your power network. To do this, #9right click first on the source of Etherium you want to use#0. This marks the source block. Then, #9right click on the destination while still holding the wrench#0. #5Note that there is no need to click on Etherium Conduits along the way - just click on the final block. The power system will attempt to pathfind through nearby Etherium Conduits automatically#0. If that fails for any reason, you will be notified. This will force a pairing, and ensures the Etherium goes where you want it to.
+compendium.crystal_wrench.page2=If you #9sneak while right clicking on the source#0, the wrench's crystal will turn green. This means the crystal wrench is remembering the source block's location, and you can click on several destinations in a row without having to return to the source. Each destination right clicked on in this state will be paired (if possible) to the remembered source.
+compendium.crystal_wrench.page3=You can also disconnect power nodes by #9Sneaking and right clicking#0 on a #5non-powered block#0. This will switch the wrench's mode from link to unlink. You can see the change when the crystal on the wrench turns red. To switch it back, simply repeat the sneak right click to change the crystal back to purple. If you have a stored location, it will need to be cleared first before the mode can be switched (which is also done by sneak right-clicking a non-powered block).
+compendium.crystal_wrench.page4=The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking when in unlink mode. The settings can then be pasted to another emitter by right clicking. Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.
+compendium.spell_parchment.page1=Any mage that wants to cast spells without the need of some sort of staff or wand needs something to write the spell down on. This has worked for thousands of years, and surprisingly nothing more effective has been invented yet.
+compendium.crystal_phylactery.page1=The crystal phylactery is a life-force capturing device. A magic user who has one of these in her inventory can trap small pieces of souls from slain foes. Once the phylactery is full, she can use it as a component for a spell to summon that very creature to do her bidding.
+compendium.spell_staff_magitech.page1=The magitech's staff is a modified version of a spell staff that is attuned to ambient mana. It can be used to sense the Etherium levels in powered blocks by right clicking the block with the staff in your hand. It gains additional functionality if you have the #9Magitech's Goggles#0 equipped. !d The Magitech's Staff can also be used to reclaim a #9Magic Broom#0. Simply right click the broom with the staff in your hand to reclaim it.
+compendium.spell_book.page1=The spell book is a useful item to have, allowing mages to organize their spells and save space at the same time. The spell book, when equipped, can be scrolled through either by pressing x/z (default), or by sneaking and rolling the mouse wheel. Spell books can be dyed a variety of different colors. They can also be #5enchanted#0 with some useful powers.
+compendium.magic_broom.page1=You have taken the magical properties of Arcane Ash and combined them with a broom. Why? You're not entirely sure. What you do know is that this broom loves to keep the area clean, picking up any loose items near it and putting them in it's assigned chest. To place the broom once you craft it, right click on a #5any block with an inventory#0 with the broom equipped. It won't work otherwise. Currently the broom will grab all loose items, though it will be configurable at a later time. !d The broom can be reclaimed by right clicking it with a #9Magitech's Staff#0 in your hand.
+compendium.nature_scythe.page1=Taken from the guardian of nature itself, this scythe wields immense power. It can clear leaves and plants with astounding efficiency. It can be thrown like a boomerang by right clicking, though it costs 250 mana to do so. All plant clearing effects apply while thrown, and damage is increased.
+compendium.arcane_spellbook.page1=Imbued with unknowable enchantments by ancient mages, the arcane spell book #9increases the effectiveness of all spells cast from it#0. Damage is increased, and mana cost is lowered. Things like duration and radius are not modified.
+compendium.winter_arm.page1=Taken from the guardian of winter, this arm can be used as a blunt weapon. It retains its unearthly chill, and drastically slows and weakens all struck with it. For 250 mana, it can be thrown, and will pull back an entity to you if it is hit by the arm, applying a more powerful slow and weaken effect.
+compendium.air_sled.page1=The air sled allows you to take to the sky with ease. It is slightly faster than creative mode flight, but does not afford the same level of control.
+compendium.earth_armor.page1=The earth armor is the chest of the guardian of earth. It offers significant physical damage resistance for a single piece of armor. It adds a sizeable amount of damage (+4) and knockback to unarmed strikes (no item equipped).
+compendium.water_orbs.page1=The water orbs allow you to control water subconsciously. While wearing them (they are a leg slot item), you will not be pushed by flowing liquids. You will also have infinite breath while underwater.
+compendium.fire_ears.page1=The fire antenna, when worn, grant full immunity to fire and lava.
+compendium.workbench_upgrade.page1=You've figured out a way to make an upgrade for the Magician's workbench that makes the secondary grid a 3x3 instead of a 2x2. Simply craft it and right click a placed bench to apply it. Keep in mind, the modifications are rather fragile, and will break off if the workbench is destroyed and will have to be re-made.
+compendium.warding_candle.page1=Warding Candles, when held, are moving sources of light. They can also be #9attuned#0 to a specific block by #9sneaking and right clicking on the block while holding the candle#0. This will cause the candle flame to turn blue when within 15 blocks of the specified block, and red when within 5 blocks. A warding candle will burn for 15 minutes, but is put out when not equipped. !d Warding candles are also used in #5Rituals#0, and are placed down as part of the layout. A Warding Candle that has been attuned cannot be used in a ritual.
+compendium.flicker_jar.page1=Flicker Jars are used to catch flickers. Simply right click on the flicker and you will trap it inside the jar. Sounds simple, right? Have fun...
+compendium.ender_boots.page1=The Ender Boots are a rare drop from the #5Ender Guardian#0. When wearing these boots, #9sneaking and jumping will reverse gravity#0! This will only apply to you, and you will fall upwards. Normal falling damage applies. You cannot reverse gravity while airborne.
+compendium.lightning_charm.page1=The Lightning Charm is a rare drop from the #5Lightning Guardian#0. Sneaking and right clicking will toggle the item on and off. When on, its static electricity draws in nearby items automatically.
+compendium.lifeward.page1=The Life Ward is a rare drop from the #5Life Guardian#0. When in your action bar, you will slowly generate a shield around you that will absorb incoming damage. It will generate up to 20 additional temporary hit points. The hit points remain if the Ward is removed from your inventory, but will not replenish themselves without it.
+compendium.magitech_goggles.page1=The Magitech's Goggles are a companion piece to the #9Magitech's Staff#0. When worn, you can sneak and right click powered blocks with a Magitech's Staff. You will then be able to see all of the incoming power types to the selected machine, and where they come from. The goggles will also allow you to see broken power links; where a power path was before, but something went wrong (for example, a conduit was broken). Broken power link blocks cannot be broken by hand, but they can be replaced by any block.
 
 ##Ores
 
@@ -831,17 +856,17 @@ compendium.battlemage_armor.page1=Granted only to mages who have proven themselv
 ##Affinity Tomes
 
 compendium.item.affinity_tomes.affinity_tome.name=Affinity Tome
-compendium.item.affinity_tomes.tome_none.name=Affinity Tome : None
-compendium.item.affinity_tomes.tome_arcane.name=Affinity Tome : Arcane
-compendium.item.affinity_tomes.tome_earth.name=Affinity Tome : Earth
-compendium.item.affinity_tomes.tome_air.name=Affinity Tome : Air
-compendium.item.affinity_tomes.tome_fire.name=Affinity Tome : Fire
-compendium.item.affinity_tomes.tome_water.name=Affinity Tome : Water
-compendium.item.affinity_tomes.tome_nature.name=Affinity Tome : Nature
-compendium.item.affinity_tomes.tome_ice.name=Affinity Tome : Ice
-compendium.item.affinity_tomes.tome_lightning.name=Affinity Tome : Lightning
-compendium.item.affinity_tomes.tome_life.name=Affinity Tome : Life
-compendium.item.affinity_tomes.tome_ender.name=Affinity Tome : Ender
+compendium.item.affinity_tomes.tome_none.name=Affinity Tome: None
+compendium.item.affinity_tomes.tome_arcane.name=Affinity Tome: Arcane
+compendium.item.affinity_tomes.tome_earth.name=Affinity Tome: Earth
+compendium.item.affinity_tomes.tome_air.name=Affinity Tome: Air
+compendium.item.affinity_tomes.tome_fire.name=Affinity Tome: Fire
+compendium.item.affinity_tomes.tome_water.name=Affinity Tome: Water
+compendium.item.affinity_tomes.tome_nature.name=Affinity Tome: Nature
+compendium.item.affinity_tomes.tome_ice.name=Affinity Tome: Ice
+compendium.item.affinity_tomes.tome_lightning.name=Affinity Tome: Lightning
+compendium.item.affinity_tomes.tome_life.name=Affinity Tome: Life
+compendium.item.affinity_tomes.tome_ender.name=Affinity Tome: Ender
 
 compendium.affinity_tome.page1=Affinity tomes contain detailed reports and information gather by magi over the years pertaining to a specific affinitiy. With the exception of the General affinity tome, they will, when read, give you a 20% boost to that specific affinity, while simultaneously reducing your progress in all other affinities by 5/10/15% depending on the opposition.
 compendium.tome_none.page1=The general affinity tome is special in that it can unlock a locked affinity state. It will reduce all affinity progression by 20% without boosting any of them.
@@ -881,12 +906,58 @@ compendium.item.mana_potion.mana_potion_legendary.name=Legendary Mana Potion
 compendium.item.mana_potion.mana_boost_potion.name=Infused Etherium Potion
 compendium.item.mana_potion.mana_martini.name=Mana Martini
 
-compendium.mana_potion.name=Mana potions restore mana instantly when imbibed. You get an empty bottle back after drinking one. Mana potions can be bundled by combining 3 of the same type of potion with string. The bundle can be used 3 times and will also return the empty bottles. The final potion drank will also return the string.
-compendium.mana_potion_lesser.name=The lesser mana potion is the magical equivalent to a cup of coffee: a short boost, but it won't get you through an entire day. One use will restore 100 mana.
-compendium.mana_potion_standard.name=The standard mana potion gives a decently upgraded amount of mana from the lesser one for not much of a material cost. One use will restore 250 mana.
-compendium.mana_potion_greater.name=The greater mana potion uses the power of #5vinteum#0 combined with a #9Awkward Potion#0 at a brewing stand to restore a good amount of mana. One use will restore 2000 mana.
-compendium.mana_potion_epic.name=The epic mana potion is created by combining #5arcane ash#0 with a #9Awkward Potion#0 at a brewing stand to restore 5000 mana per potion.
-compendium.mana_potion_legendary.name=The legendary mana potion is created by combining #5purified vinteum dust#0 with a #9Awkward Potion#0 at a brewing stand. One potion will restore a whopping 10000 mana!
-compendium.mana_boost_potion.name=By taking a #5bucket of Liquid Etherium#0, a mage can combine it with #5chimerite#0 and #5tarma root#0 in order to create a potion to give a temporary boost to maximum mana. Unfortunately, the process is minimally efficient and much of the Liquid Etherium is lost along the way.
-compendium.mana_martini.name=In honour of Mithion's final release of AM2, which happens to be #9version 007#0, you can now make a Mana Martini that, when drank, will give you a 25% reduction in burnout gained from casting spells.
+compendium.mana_potion.page1=Mana potions restore mana instantly when imbibed. You get an empty bottle back after drinking one. Mana potions can be bundled by combining 3 of the same type of potion with string. The bundle can be used 3 times and will also return the empty bottles. The final potion drank will also return the string.
+compendium.mana_potion_lesser.page1=The lesser mana potion is the magical equivalent to a cup of coffee: a short boost, but it won't get you through an entire day. One use will restore 100 mana.
+compendium.mana_potion_standard.page1=The standard mana potion gives a decently upgraded amount of mana from the lesser one for not much of a material cost. One use will restore 250 mana.
+compendium.mana_potion_greater.page1=The greater mana potion uses the power of #5vinteum#0 combined with a #9Awkward Potion#0 at a brewing stand to restore a good amount of mana. One use will restore 2000 mana.
+compendium.mana_potion_epic.page1=The epic mana potion is created by combining #5arcane ash#0 with a #9Awkward Potion#0 at a brewing stand to restore 5000 mana per potion.
+compendium.mana_potion_legendary.page1=The legendary mana potion is created by combining #5purified vinteum dust#0 with a #9Awkward Potion#0 at a brewing stand. One potion will restore a whopping 10000 mana!
+compendium.mana_boost_potion.page1=By taking a #5bucket of Liquid Etherium#0, a mage can combine it with #5chimerite#0 and #5tarma root#0 in order to create a potion to give a temporary boost to maximum mana. Unfortunately, the process is minimally efficient and much of the Liquid Etherium is lost along the way.
+compendium.mana_martini.page1=In honour of Mithion's final release of AM2, which happens to be #9version 007#0, you can now make a Mana Martini that, when drank, will give you a 25% reduction in burnout gained from casting spells.
 
+##Binding Catalysts
+
+compendium.item.binding_catalyst.binding_catalysts.name=Binding Catalysts
+compendium.item.binding_catalyst.binding_catalyst_pickaxe.name=Binding Catalyst: Pickaxe
+compendium.item.binding_catalyst.binding_catalyst_axe.name=Binding Catalyst: Axe
+compendium.item.binding_catalyst.binding_catalyst_sword.name=Binding Catalyst: Sword
+compendium.item.binding_catalyst.binding_catalyst_shovel.name=Binding Catalyst: Shovel
+compendium.item.binding_catalyst.binding_catalyst_hoe.name=Binding Catalyst: Hoe
+compendium.item.binding_catalyst.binding_catalyst_bow.name=Binding Catalyst: Bow
+compendium.item.binding_catalyst.binding_catalyst_shield.name=Binding Catalyst: Shield
+
+compendium.binding_catalysts.page1=Binding Catalysts are used by the #5Binding#0 shape to determine what type of tool or weapon will be bound.
+
+##Flicker Focus
+
+compendium.item.flickerfocus.flicker_focus.name=Flicker Focus
+compendium.item.flickerfocus.flicker_focus_itemtransport.name=Flicker Focus: Item Transport
+compendium.item.flickerfocus.flicker_focus_interdiction.name=Flicker Focus: Interdiction
+compendium.item.flickerfocus.flicker_focus_containment.name=Flicker Focus: Containment
+compendium.item.flickerfocus.flicker_focus_packed_earth.name=Flicker Focus: Packed Earth
+compendium.item.flickerfocus.flicker_focus_flatlands.name=Flicker Focus: Flat Lands
+compendium.item.flickerfocus.flicker_focus_progeny.name=Flicker Focus: Progeny
+compendium.item.flickerfocus.flicker_focus_butchery.name=Flicker Focus: Butchery
+compendium.item.flickerfocus.flicker_focus_lunartides.name=Flicker Focus: Lunar Tides
+compendium.item.flickerfocus.flicker_focus_light.name=Flicker Focus: Light
+compendium.item.flickerfocus.flicker_focus_felled_oak.name=Flicker Focus: Felled Oak
+compendium.item.flickerfocus.flicker_focus_gentle_rains.name=Flicker Focus: Gentle Rains
+compendium.item.flickerfocus.flicker_focus_natures_bounty.name=Flicker Focus: Nature's Bounty
+compendium.item.flickerfocus.flicker_focus_fishing.name=Flicker Focus: Fishing
+
+compendium.flicker_focus.page1=Flicker foci are used to create livable conditions inside a #9Flicker Habitat#0 for Flickers. It will enable them to perform several tasks, each of which are detailed to the right.
+compendium.flicker_focus_itemtransport.page1=The air flickers contained within this crystal have been attuned to the movement of items. Placing this within a #9Flicker Habitat#0 will allow you to link it with #9Crystal Markers#0 to interact with inventories containing items. To link the habitat containing this foci with a #9Crystal Marker#0 simply right click on the #9Flicker Habitat#0 then right click on the #9Crystal Marker#0. This foci can be upgraded using additional #9Flicker Habitats#0 with flickers inside them. This foci can operate without access to Etherium however it is very slow. Adding power increases the speed and allows the foci to make use of attached upgrades.
+compendium.flicker_focus_itemtransport.page2=Arcane: !l Increases the number of items the flickers inside can move at one time. The first arcane flicker will increase the count to 32, each additional arcane flicker will add an additional 32 items to the air flickers carrying capacity !d Lightning: !l Lightning flickers will increase the speed at which the flickers move items. Additional lightning flickers after the first will still increase the speed but suffer from diminishing returns. Most Magitechs belive its a waste to go higher then three lightning flickers.
+compendium.flicker_focus_interdiction.page1=Arcane and air flickers working together can create a wall around their habitat if they are provided enough Etherium to do so. By placing this focus in a #9Flicker Habitat#0 and providing it with Etherium a nearly invisible wall is created in a 6 block radius from the #9Flicker Habitat#0. Modifying this with an #9Ender Flicker Jar#0 will also cause the #9Containment#0 effect to apply. !d Placing #9Ice Flicker Upgrades#0 to this focus will increase the radius of the containment field by one per ice flicker added.
+compendium.flicker_focus_containment.page1=Ender and air flickers working in tandem can create a wall surrounding their #9Flicker Habitat#0 provided they have been given the Etherium to do so. Placing this focus in a habitat and providing it with Etherium will create a nearly invisible wall in a 6 block radius from their #9Flicker Habitat#0 that non-player entities can not pass out of. Modifying this with an #9Arcane Flicker Jar#0 will also cause the #9Interdiction#0 effect to apply. !d Placing #9Ice Flicker Upgrades#0 to this focus will increase the radius of the containment field by one per ice flicker added.
+compendium.flicker_focus_packed_earth.page1=Earth flickers when contained within this focus can flatten terrain in a 6 block radius around their #9Flicker Habitat#0 using materials stored in an inventory below their habitat. While these flickers can operate without access to Etherium they are much faster when they have access to a source of power.
+compendium.flicker_focus_flatlands.page1=The earth and ice flickers inside this focus will flatten a 6 block radius area surrounding their #9Flicker Habitat#0. They can operate without power but are much more effective when connected to a source of Etherium.
+compendium.flicker_focus_progeny.page1=The life flickers inside this focus can use a source of Etherium to cause animals within 8 blocks to breed. This focus requires etherium of any kind for each operation. The default operation time is 2000 ticks (100 seconds), but this can be reduced by placing additional habitats adjacent to the original and placing lightning flicker jars in them. There isn't much point in adding more than 4, as the minimum is 600 ticks (30 seconds). Each upgrade multiplies the current duration by 0.75, so the effect is diminishing.
+compendium.flicker_focus_butchery.page1=The flickers inside this focus are constantly at odds. The fire flicker seeks to consume the life around its self, while the life flicker seeks to defend it. The balance that is struck in this conflict is that all but two of every animal type with a 6 block radius around the #9Flicker Habitat#0 that contains this focus will eventually be killed. Provided that the fire flicker has access to a source of Etherium to do its grisly work.
+compendium.flicker_focus_lunartides.page1=The three flickers inside this focus can use their combined power to pull moonstone meteors that would land within 128 blocks of their #9Flicker Habitat#0 to land within 8 blocks. However to accomplish this they need a trickle of Etherium to keep them alert and watching for meteors.
+compendium.flicker_focus_light.page1=The fire and lightning flickers contained within can use the power of the sun stone used in the construction of their focus to light a 16 block radius around their #9Flicker Habitat#0.
+compendium.flicker_focus_felled_oak.page1=The nature flicker contained within this focus will seek out trees within a 6 block radius around their #9Flicker Habitat#0, once they do the lightning flickers will fell the tree one block at a time. These flickers can operate without a source of power but they are much faster when they have a source of Etherium to fuel themselves. !d Lightning flickers can be used as augments to make the process faster as well. !d If a nature flicker augment is added, the flickers will also re-plant saplings from an adjacent chest.
+compendium.flicker_focus_gentle_rains.page1=The water flicker contained within this focus will hydrate the terrain in a 6 block radius around it's #9Flicker Habitat#0.
+compendium.flicker_focus_natures_bounty.page1=The life, nature and water flickers contained within this focus will work together to help all plants within a 6 block radius grow faster. These hard working flickers will help all nearby plants with or without Etherium but providing them with a source of power will allow them to do their work faster. When powered, modifying this habitat with a #9Water Flicker Jar#0 will also cause the #9Gentle Rains#0 effect to apply.
+compendium.flicker_focus_fishing.page1=The combination of Water and Nature flickers causes them to be able to find creatures that live in water. It does require power to maintain the search, however, as the flickers cover a great distance in a short time. If augmented with adjacent habitats containing lightning flickers, they are able to move even faster, causing them to naturally find fish more often. Doing so will increase the overall power use.
+compendium.flicker_focus_fishing.page2=The focus requires a 3x3 square of water below it that is also at least 2 blocks deep in order to function. It will output fish into an adjacent inventory if possible, or drop them as an item if no inventory is present. !d A redstone signal must be provided for the flickers to start working.

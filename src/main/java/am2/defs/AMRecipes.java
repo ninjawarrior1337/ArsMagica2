@@ -455,7 +455,7 @@ public class AMRecipes {
 								"BRN", "G G", "NRB",
 								Character.valueOf('B'), "stone",
 								Character.valueOf('R'), "dustRedstone",
-								Character.valueOf('N'), Blocks.NETHERRACK,
+								Character.valueOf('N'), "netherrack",
 								Character.valueOf('G'), "dustGlowstone"
 						}));
 
