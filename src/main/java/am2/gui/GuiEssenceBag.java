@@ -37,7 +37,7 @@ public class GuiEssenceBag extends GuiContainer{
 		//special slot
 		int index = ((ContainerEssenceBag)this.inventorySlots).specialSlotIndex - 32;
 		int x = 8 + 18 * index;
-		int y = 211;
+		int y = 116;
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);

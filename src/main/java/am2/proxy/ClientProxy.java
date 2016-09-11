@@ -219,7 +219,7 @@ public class ClientProxy extends CommonProxy {
 		case GUI_SUMMONER: return new GuiSummoner(player.inventory, (TileEntitySummoner) te);
 		case GUI_ESSENCE_BAG: 
 			bagStack = player.getHeldItemMainhand();
-			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
+			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemEssenceBag)){
 				return null;
 			}
 			ItemEssenceBag essenceBag = (ItemEssenceBag)bagStack.getItem();

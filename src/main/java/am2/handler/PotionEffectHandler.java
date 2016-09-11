@@ -30,6 +30,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -53,6 +54,14 @@ public class PotionEffectHandler {
 		if (PotionEffectsDefs.getEffect(e.effect) != null)
 			e.effect = PotionEffectsDefs.getEffect(e.effect);
 	}
+	
+	@SubscribeEvent(priority=EventPriority.LOWEST)
+	public void entityDamageEvent(LivingHurtEvent event) {
+		if (event.isCanceled()) return;
+		
+		float damage = EntityExtension.For(event.getEntityLiving()).protect(event.getAmount());
+		event.setAmount(damage);
+	}	
 	
 	@SubscribeEvent
 	public void livingUpdate (LivingUpdateEvent e) {

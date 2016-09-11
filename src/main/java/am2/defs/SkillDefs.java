@@ -28,6 +28,7 @@ public class SkillDefs {
 	public static final Skill AUGMENTED_CASTING = new Skill("augmentedCasting", ResourceUtils.getSkillIcon("AugmentedCasting"), SkillPoint.SKILL_POINT_3, 230, 165, TREE_TALENT, "arsmagica2:spellMotion");
 	public static final Skill AFFINITY_GAINS = new Skill("affinityGains", ResourceUtils.getSkillIcon("AffinityGains"), SkillPoint.SKILL_POINT_1, 365, 120, TREE_TALENT, "arsmagica2:manaRegen1");
 	public static final Skill EXTRA_SUMMONS = new Skill("extraSummons", ResourceUtils.getSkillIcon("ExtraSummon"), SkillPoint.SKILL_POINT_3, 230, 210, TREE_TALENT, "arsmagica2:augmentedCasting");
+	public static final Skill SHIELD_OVERLOAD = new Skill("shield_overload", ResourceUtils.getSkillIcon("ShieldOverload"), SkillPoint.SILVER_POINT, 275, 210, TREE_TALENT);
 	
 	public static void init() {
 		SkillTreeRegistry.registerSkillTree(TREE_OFFENSE);
@@ -53,6 +54,7 @@ public class SkillDefs {
 		SkillRegistry.registerSkill(AUGMENTED_CASTING);
 		SkillRegistry.registerSkill(AFFINITY_GAINS);
 		SkillRegistry.registerSkill(EXTRA_SUMMONS);
+		SkillRegistry.registerSkill(SHIELD_OVERLOAD);
 	}
 	
 }

@@ -105,6 +105,8 @@ public class DataDefinitions {
 
 	public static final DataParameter<ArrayList<String>> COMPENDIUM = EntityDataManager.createKey(Entity.class, STRING_SERIALIZER);	
 	public static final DataParameter<ArrayList<String>> CATEGORIES = EntityDataManager.createKey(Entity.class, STRING_SERIALIZER);	
+
+	static final DataParameter<Float> MANA_SHIELD = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
 	
 	static final DataParameter<Float> DIMINISHING_RETURNS = EntityDataManager.<Float>createKey(Entity.class, DataSerializers.FLOAT);
 	

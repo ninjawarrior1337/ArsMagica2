@@ -133,6 +133,9 @@ public class AMConfig extends Configuration{
 	private final String KEY_SpellBookPositionY = "SpellBookY";
 	private final String KEY_EnderAffinityAbilityCooldown = "EnderAffinityAbilityCD";
 
+	private final String KEY_ManaShieldingPositionX = "ManaShieldingX";
+	private final String KEY_ManaShieldingPositionY = "ManaShieldingY";
+
 	private final String KEY_StagedCompendium = "Staged Compendium";
 
 	private final String KEY_ShowHudMinimally = "ShowHudMinimally";
@@ -213,6 +216,7 @@ public class AMConfig extends Configuration{
 	private AMVector2 burnoutNumericPosition;
 	private AMVector2 XPNumericPosition;
 	private AMVector2 SpellBookPosition;
+	private AMVector2 manaShieldingPosition;
 	private boolean showBuffs;
 	private boolean showNumerics;
 	private boolean showHudMinimally;
@@ -285,7 +289,7 @@ public class AMConfig extends Configuration{
 		burnoutNumericPosition = new AMVector2(get(CATEGORY_UI, KEY_BurnoutNumericPositionX, 0.21041665971279144).getDouble(0.21041665971279144), get(CATEGORY_UI, KEY_BurnoutNumericPositionY, 0.9058823585510254).getDouble(0.9058823585510254));
 		XPNumericPosition = new AMVector2(get(CATEGORY_UI, KEY_XPNumericPositionX, 0.47083333134651184).getDouble(0.47083333134651184), get(CATEGORY_UI, KEY_XPNumericPositionY, 0.7450980544090271).getDouble(0.7450980544090271));
 		SpellBookPosition = new AMVector2(get(CATEGORY_UI, KEY_SpellBookPositionX, 0.0).getDouble(0.0), get(CATEGORY_UI, KEY_SpellBookPositionY, 0.0).getDouble(0.0));
-
+		manaShieldingPosition = new AMVector2(get(CATEGORY_UI, KEY_ManaShieldingPositionX, 0.0).getDouble(0.0), get(CATEGORY_UI, KEY_ManaShieldingPositionY, 0.0).getDouble(0.0));
 		showHudMinimally = get(CATEGORY_UI, KEY_ShowHudMinimally, false, "Set this to true to only show the AM HUD when a spell is equipped").getBoolean(false);
 		showArmorUI = get(CATEGORY_UI, KEY_ShowArmorUI, true).getBoolean(true);
 		showBuffs = get(CATEGORY_UI, KEY_ShowBuffs, true).getBoolean(true);
@@ -889,7 +893,7 @@ public class AMConfig extends Configuration{
 		this.RetroWorldGen = false;
 	}
 
-	public void setGuiPositions(AMVector2 manaHud, AMVector2 burnoutHud, AMVector2 levelHud, AMVector2 affinityHud, AMVector2 posBuffsHud, AMVector2 negBuffsHud, AMVector2 armorHead, AMVector2 armorChest, AMVector2 armorLegs, AMVector2 armorBoots, AMVector2 xpBar, AMVector2 contingency, AMVector2 manaNumeric, AMVector2 burnoutNumeric, AMVector2 XPNumeric, AMVector2 spellBookPos, boolean showBuffs, boolean showNumerics, boolean minimalHud, boolean showArmorUI, boolean showXPAlways, boolean showHudBars){
+	public void setGuiPositions(AMVector2 manaHud, AMVector2 burnoutHud, AMVector2 levelHud, AMVector2 affinityHud, AMVector2 posBuffsHud, AMVector2 negBuffsHud, AMVector2 armorHead, AMVector2 armorChest, AMVector2 armorLegs, AMVector2 armorBoots, AMVector2 xpBar, AMVector2 contingency, AMVector2 manaNumeric, AMVector2 burnoutNumeric, AMVector2 XPNumeric, AMVector2 spellBookPos, AMVector2 manaShieldingPos, boolean showBuffs, boolean showNumerics, boolean minimalHud, boolean showArmorUI, boolean showXPAlways, boolean showHudBars){
 		manaHudPosition = manaHud;
 		burnoutHudPosition = burnoutHud;
 		levelPosition = levelHud;
@@ -906,6 +910,7 @@ public class AMConfig extends Configuration{
 		burnoutNumericPosition = burnoutNumeric;
 		XPNumericPosition = XPNumeric;
 		SpellBookPosition = spellBookPos;
+		manaShieldingPosition = manaShieldingPos;
 		this.showBuffs = showBuffs;
 		this.showNumerics = showNumerics;
 		this.showHudMinimally = minimalHud;
@@ -931,6 +936,7 @@ public class AMConfig extends Configuration{
 		updateAMVector2(KEY_BurnoutNumericPositionX, KEY_BurnoutNumericPositionY, burnoutNumericPosition);
 		updateAMVector2(KEY_XPNumericPositionX, KEY_XPNumericPositionY, XPNumericPosition);
 		updateAMVector2(KEY_SpellBookPositionX, KEY_SpellBookPositionY, SpellBookPosition);
+		updateAMVector2(KEY_ManaShieldingPositionX, KEY_ManaShieldingPositionY, manaShieldingPosition);
 
 		Property buffProp;
 		buffProp = get(CATEGORY_UI, KEY_ShowBuffs, true);
@@ -974,5 +980,9 @@ public class AMConfig extends Configuration{
 
 	public void setManaCap(double cap){
 		this.manaCap = cap;
+	}
+
+	public AMVector2 getManaShieldingPosition() {
+		return manaShieldingPosition;
 	}
 }

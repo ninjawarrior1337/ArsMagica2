@@ -23,7 +23,6 @@ import am2.buffs.BuffEffectLeap;
 import am2.buffs.BuffEffectLevitation;
 import am2.buffs.BuffEffectMagicShield;
 import am2.buffs.BuffEffectManaRegen;
-import am2.buffs.BuffEffectManaShield;
 import am2.buffs.BuffEffectRegeneration;
 import am2.buffs.BuffEffectScrambleSynapses;
 import am2.buffs.BuffEffectShield;
@@ -63,7 +62,6 @@ public class PotionEffectsDefs {
 	public static Potion levitation;
 	public static Potion magicShield;
 	public static Potion manaRegen;
-	public static Potion manaShield;
 	public static Potion regeneration;
 	public static Potion scrambleSynapses;
 	public static Potion shield;
@@ -98,7 +96,6 @@ public class PotionEffectsDefs {
 		levitation = createPotion(new ResourceLocation("arsmagica2:levitation"), false, 0x000000, 0, 7, BuffEffectLevitation.class);
 		magicShield = createPotion(new ResourceLocation("arsmagica2:magicShield"), false, 0x000000, 3, 1, BuffEffectMagicShield.class);
 		manaRegen = createPotion(new ResourceLocation("arsmagica2:manaRegen"), false, 0x000000, 3, 5, BuffEffectManaRegen.class);
-		manaShield = createPotion(new ResourceLocation("arsmagica2:manaShield"), false, 0x000000, 2, 7, BuffEffectManaShield.class);
 		regeneration = createPotion(new ResourceLocation("arsmagica2:regeneration"), false, 0x000000, 2, 6, BuffEffectRegeneration.class);
 		scrambleSynapses = createPotion(new ResourceLocation("arsmagica2:scrambleSynapses"), true, 0x000000, 3, 7, BuffEffectScrambleSynapses.class);
 		shield = createPotion(new ResourceLocation("arsmagica2:shield"), false, 0x000000, 0, 0, BuffEffectShield.class);

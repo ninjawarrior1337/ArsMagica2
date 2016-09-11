@@ -21,6 +21,7 @@ import static am2.extensions.DataDefinitions.PREV_FLIP_ROTATION;
 import static am2.extensions.DataDefinitions.PREV_SHRINK_PCT;
 import static am2.extensions.DataDefinitions.SHRINK_PCT;
 import static am2.extensions.DataDefinitions.TK_DISTANCE;
+import static am2.extensions.DataDefinitions.MANA_SHIELD;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -353,6 +354,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.entity.getDataManager().register(PREV_SHRINK_PCT, 0.0f);
 		this.entity.getDataManager().register(TK_DISTANCE, 8.0f);
 		this.entity.getDataManager().register(DataDefinitions.DISABLE_GRAVITY, false);
+		this.entity.getDataManager().register(MANA_SHIELD, 0f);
 	}
 
 	@Override
@@ -687,6 +689,11 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			}
 		} else if (getCurrentMana() > getMaxMana()) {
 			float overloadMana = getCurrentMana() - getMaxMana();
+			if (entity instanceof EntityPlayer && SkillData.For(entity).hasSkill(SkillDefs.SHIELD_OVERLOAD.getID()) && overloadMana > 250) {
+				deductMana(250);
+				addMagicShielding(1f);
+			}
+			overloadMana = getCurrentMana() - getMaxMana();
 			float toRemove = Math.max(overloadMana * 0.01f, 1.0f);
 			setCurrentMana(getCurrentMana() - toRemove);
 		}
@@ -784,5 +791,26 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.entity.getDataManager().set(PREV_SHRINK_PCT, getShrinkPct());
 		this.entity.getDataManager().set(SHRINK_PCT, shrinkPct);
 	}
+	
+	@Override
+	public float getManaShielding() {
+		return this.entity.getDataManager().get(MANA_SHIELD);
+	}
+	
+	@Override
+	public void setManaShielding(float manaShield) {
+		this.entity.getDataManager().set(MANA_SHIELD, manaShield);
+	}
+	
+	public float protect(float damage) {
+		float left = getManaShielding() - damage;
+		setManaShielding(Math.max(0, left));
+		if (left < 0)
+			return -left;
+		return 0;
+	}
 
+	public void addMagicShielding(float manaShield) {
+		setManaShielding(getManaShielding() + manaShield);
+	}
 }

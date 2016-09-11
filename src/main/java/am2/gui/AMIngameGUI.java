@@ -287,7 +287,6 @@ public class AMIngameGUI{
 	private void RenderArmorStatus(int i, int j, Minecraft mc, FontRenderer fontRenderer){
 		if (!ArsMagica2.config.showArmorUI())
 			return;
-
 		ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
 
 		for (int slot = 0; slot < 4; ++slot){
@@ -347,6 +346,25 @@ public class AMIngameGUI{
 			}
 		}
 		GlStateManager.color(1.0f, 1.0f, 1.0f);
+		
+		mc.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/overlay.png"));
+		AMVector2 shieldPos = getShiftedVector(ArsMagica2.config.getManaShieldingPosition(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
+		int shielding = (int) EntityExtension.For(mc.thePlayer).getManaShielding();
+		if (shielding <= 20) {
+			for (int iter = 0; iter < shielding; iter += 2) {
+				drawTexturedModalRect(shieldPos.iX + (iter * 8 / 2), shieldPos.iY, 0, 0, 9, 9);
+			}
+			for (int iter = 0; iter < shielding; iter += 2) {
+				boolean half = iter + 2 > shielding && (shielding & 0x1) == 0x1;
+				drawTexturedModalRect(shieldPos.iX + (iter * 8 / 2), shieldPos.iY, half ? 18 : 9, 0, 9, 9);
+			}
+		} else {
+			drawTexturedModalRect(shieldPos.iX, shieldPos.iY, 0, 0, 9, 9);
+			drawTexturedModalRect(shieldPos.iX, shieldPos.iY, 18, 0, 9, 9);
+			
+			mc.fontRendererObj.drawString("x" + shielding, shieldPos.iX + 10, shieldPos.iY, 0x007aff);
+		}
+		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}
 
 	private AMVector2 getArmorSlotPosition(int slot, int screenWidth, int screenHeight){
@@ -561,10 +579,11 @@ public class AMIngameGUI{
 	}
 
 	public void drawTexturedModalRect(int par1, int par2, int par3, int par4, int par5, int par6){
-		float var9 = 0;
-		float var10 = 1;
-		float var11 = 0;
-		float var12 = 1;
+		float f = 1f/256f;
+		float var9 = par3 * f;
+		float var10 = (par3 + par5) * f;
+		float var11 = par4 * f;
+		float var12 = (par4 + par5) * f;
 
 		Tessellator var8 = Tessellator.getInstance();
 		//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);

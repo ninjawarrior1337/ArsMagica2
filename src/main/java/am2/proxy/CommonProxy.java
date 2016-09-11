@@ -166,6 +166,7 @@ import am2.power.PowerNodeCache;
 import am2.power.PowerNodeEntry;
 import am2.power.PowerTypes;
 import am2.proxy.tick.ServerTickHandler;
+import am2.spell.SpellUnlockManager;
 import am2.trackers.ItemFrameWatcher;
 import am2.trackers.PlayerTracker;
 import am2.utils.InventoryUtilities;
@@ -277,7 +278,7 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_SUMMONER: return new ContainerSummoner(player.inventory, (TileEntitySummoner) te);
 		case GUI_ESSENCE_BAG: 
 			bagStack = player.getHeldItemMainhand();
-			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
+			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemEssenceBag)){
 				return null;
 			}
 			ItemEssenceBag essenceBag = (ItemEssenceBag)bagStack.getItem();
@@ -315,6 +316,7 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new FlickerEvents());
 		MinecraftForge.EVENT_BUS.register(new ShrinkHandler());
+		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
 		
 		registerInfusions();
 		registerFlickerOperators();

@@ -29,7 +29,8 @@ public class GuiHudCustomization extends GuiScreen{
 	private GuiButtonVariableDims armorBoots;
 	private GuiButtonVariableDims xpBar;
 	private GuiButtonVariableDims contingency;
-
+	private GuiButtonVariableDims manaShielding;
+	
 	private GuiButtonVariableDims manaNumeric;
 	private GuiButtonVariableDims burnoutNumeric;
 	private GuiButtonVariableDims XPNumeric;
@@ -99,12 +100,14 @@ public class GuiHudCustomization extends GuiScreen{
 		showArmorUI = new GuiButtonVariableDims(15, width / 2 - 90, height - 132, I18n.translateToLocal("am2.gui.armorUI")).setDimensions(180, 20);
 		showXPAlways = new GuiButtonVariableDims(16, width / 2 - 90, height - 154, I18n.translateToLocal("am2.gui.xpAlways")).setDimensions(180, 20);
 		showHudBars = new GuiButtonVariableDims(17, width / 2 - 90, height - 176, I18n.translateToLocal("am2.gui.hudBars")).setDimensions(180, 20);
-
+		
 		manaNumeric = new GuiButtonVariableDims(18, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.translateToLocal("am2.gui.manaNumeric")).setBorderOnly(true);
 		burnoutNumeric = new GuiButtonVariableDims(19, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.translateToLocal("am2.gui.burnoutNumeric")).setBorderOnly(true);
 		XPNumeric = new GuiButtonVariableDims(20, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.translateToLocal("am2.gui.XPNumeric")).setBorderOnly(true);
 
 		spellBook = new GuiButtonVariableDims(21, 0, 0, I18n.translateToLocal("item.arsmagica2:spellBook.name")).setBorderOnly(true).setDimensions(106, 15);
+		
+		manaShielding = new GuiButtonVariableDims(22, 0, 0, "").setDimensions(90, 9).setBorderOnly(true).setPopupText(I18n.translateToLocal("am2.gui.manaShielding"));
 
 		showBuffs.displayString = I18n.translateToLocal("am2.gui.buffTimers") + ": " + ((doShowBuffs) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
 		showNumerics.displayString = I18n.translateToLocal("am2.gui.numericValues") + ": " + ((doShowNumerics) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
@@ -127,6 +130,7 @@ public class GuiHudCustomization extends GuiScreen{
 		armorChest.enabled = doShowArmor;
 		armorLegs.enabled = doShowArmor;
 		armorBoots.enabled = doShowArmor;
+		manaShielding.enabled = doShowArmor;
 
 		initButtonAndSnapData(manaButton, ArsMagica2.config.getManaHudPosition());
 		initButtonAndSnapData(burnoutButton, ArsMagica2.config.getBurnoutHudPosition()); //new AMVector2(0.5, 0.5)
@@ -144,6 +148,7 @@ public class GuiHudCustomization extends GuiScreen{
 		initButtonAndSnapData(burnoutNumeric, ArsMagica2.config.getBurnoutNumericPosition());
 		initButtonAndSnapData(XPNumeric, ArsMagica2.config.getXPNumericPosition());
 		initButtonAndSnapData(spellBook, ArsMagica2.config.getSpellBookPosition());
+		initButtonAndSnapData(manaShielding, ArsMagica2.config.getManaShieldingPosition());
 
 		setOptionsVisibility(false);
 
@@ -259,6 +264,7 @@ public class GuiHudCustomization extends GuiScreen{
 				getSnapVector(burnoutNumeric),
 				getSnapVector(XPNumeric),
 				getSnapVector(spellBook),
+				getSnapVector(manaShielding),
 				doShowBuffs,
 				doShowNumerics,
 				doShowHudMinimally,
@@ -311,6 +317,7 @@ public class GuiHudCustomization extends GuiScreen{
 						armorChest.enabled = doShowArmor;
 						armorLegs.enabled = doShowArmor;
 						armorBoots.enabled = doShowArmor;
+						manaShielding.enabled = doShowArmor;
 						storeGuiPositions();
 					}else if (!showOptions){
 						dragTarget = (GuiButtonVariableDims)button;

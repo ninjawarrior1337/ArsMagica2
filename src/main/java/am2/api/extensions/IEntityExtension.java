@@ -127,6 +127,7 @@ public interface IEntityExtension {
 			am2tag.setDouble("MarkZ", instance.getMarkZ());
 			am2tag.setInteger("MarkDimensionId", instance.getMarkDimensionID());
 			am2tag.setFloat("TK_Distance", instance.getTKDistance());
+			am2tag.setFloat("ManaShielding", instance.getManaShielding());
 			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (instance.getContingencyType() != ContingencyType.NULL) {
 				contingencyTag.setString("Type", instance.getContingencyType().name().toLowerCase());
@@ -159,6 +160,7 @@ public interface IEntityExtension {
 			instance.setMarkDimensionID(am2tag.getInteger("MarkDimensionId"));
 			
 			instance.setTKDistance(am2tag.getFloat("TK_Distance"));
+			instance.setManaShielding(am2tag.getFloat("ManaShielding"));
 			
 			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (!contingencyTag.hasKey("Type") || !contingencyTag.getString("Type").equals("null")) {
@@ -237,4 +239,8 @@ public interface IEntityExtension {
 	public void setFlipRotation(float rot);
 
 	public void setPrevFlipRotation(float rot);
+
+	public float getManaShielding();
+	
+	public void setManaShielding(float manaShielding);
 }
