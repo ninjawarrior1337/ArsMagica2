@@ -15,11 +15,8 @@ import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.defs.ItemDefs;
-import am2.lore.ArcaneCompendium;
-import am2.lore.CompendiumEntry;
 import am2.power.PowerTypes;
 import am2.rituals.IRitualInteraction;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -187,15 +184,7 @@ public abstract class CompendiumPage<E> {
 		try{
 			List<String> list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
 
-			CompendiumEntry entry;
 			if (stack.getItem() instanceof ItemBlock){
-				ItemBlock item = (ItemBlock)stack.getItem();
-				Block block = item.block;
-				String name = block.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", "");
-				String metaname = name + "@" + stack.getItemDamage();
-				entry = ArcaneCompendium.getCompendium().get(metaname);
-				if (entry == null)
-					entry = ArcaneCompendium.getCompendium().get(name);
 			}else{
 				if (stack.getItem() == ItemDefs.spell_component){
 					list.clear();
@@ -203,7 +192,6 @@ public abstract class CompendiumPage<E> {
 					if (skill == null)
 						return;
 					list.add(skill.getName());
-					entry = ArcaneCompendium.getCompendium().get(skill.getID());
 				}else if (stack.getItem() == ItemDefs.etherium){
 					list.clear();
 					list.add(stack.stackSize + " " + I18n.translateToLocal("item.arsmagica2:etherium.name"));
@@ -218,23 +206,13 @@ public abstract class CompendiumPage<E> {
 					} else {
 						list.addAll(subList);
 					}
-					entry = ArcaneCompendium.getCompendium().get("etherium");
 				}else{
-					String name = stack.getItem().getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");
-					String metaname = name + "@" + stack.getItemDamage();
-					entry = ArcaneCompendium.getCompendium().get(metaname);
-					if (entry == null)
-						entry = ArcaneCompendium.getCompendium().get(name);
 				}
 			}
 
 			for (int k = 0; k < list.size(); ++k){
 				if (k == 0){
-					if (entry != null){
-						list.set(k, "\u00a72" + (String)list.get(k));
-					}else{
-						list.set(k, stack.getRarity().rarityColor.toString() + (String)list.get(k));
-					}
+					list.set(k, stack.getRarity().rarityColor.toString() + (String)list.get(k));
 				}else{
 					list.set(k, TextFormatting.GRAY.toString() + (String)list.get(k));
 				}
@@ -245,11 +223,7 @@ public abstract class CompendiumPage<E> {
 				String s = ((String)list.get(0));
 				String colorPrefix = "";
 				list.remove(0);
-				if (entry != null){
-					colorPrefix = "\u00a72";
-				}else{
-					colorPrefix = stack.getRarity().rarityColor.toString();
-				}
+				colorPrefix = stack.getRarity().rarityColor.toString();
 				String[] split = s.split("\n");
 				for (int i = split.length - 1; i >= 0; --i){
 					list.add(0, colorPrefix + split[i]);

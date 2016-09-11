@@ -316,7 +316,6 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new FlickerEvents());
 		MinecraftForge.EVENT_BUS.register(new ShrinkHandler());
-		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
 		
 		registerInfusions();
 		registerFlickerOperators();
@@ -390,6 +389,7 @@ public class CommonProxy implements IGuiHandler{
 	public void postInit() {
 		playerTracker.postInit();
 		MinecraftForge.EVENT_BUS.register(playerTracker);
+		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
 		LoreDefs.postInit();	
 		AMRecipes.addRecipes();
 		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
@@ -422,14 +422,6 @@ public class CommonProxy implements IGuiHandler{
 
 	public ImmutableMap<EntityLivingBase, Integer> getDeferredDimensionTransfers(){
 		return ImmutableMap.copyOf(deferredDimensionTransfers);
-	}
-
-	public void unlockCompendiumEntry(String id) {
-		
-	}
-
-	public void unlockCompendiumCategory(String id) {
-		
 	}
 
 	public void renderGameOverlay() {}

@@ -15,6 +15,7 @@ import am2.gui.controls.GuiButtonCompendiumLink;
 import am2.gui.controls.GuiButtonCompendiumNext;
 import am2.gui.controls.GuiButtonCompendiumTab;
 import am2.gui.controls.GuiSpellImageButton;
+import am2.lore.ArcaneCompendium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -86,6 +87,14 @@ public class GuiCompendiumIndex extends GuiScreen{
 			int buttonX = posX + 40;
 			for (CompendiumCategory sub : categories) {
 				if (sub.getParentsString().equals(category.getID())) {
+					boolean hasSubItems = false;
+					for (CompendiumEntry entry : category.getEntries()) {
+						if (entry.getRenderObject() == null || ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID())) {
+							hasSubItems = true;
+							break;
+						}
+					}
+					if (!hasSubItems) continue;
 					GuiButtonCompendiumLink tab = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, null, sub);
 					tab.visible = sub.getParentsString().equals(currentCategory.getID()) && page == locPage;
 					buttonY += 12;
@@ -102,6 +111,8 @@ public class GuiCompendiumIndex extends GuiScreen{
 				}
 			}
 			for (CompendiumEntry entry : category.getEntries()) {
+				if (entry.getRenderObject() != null && !ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID()))
+					continue;
 				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, entry, null);
 				link.visible = entry.canBeDisplayed(category.getID()) && page == locPage;
 				buttonY += 12;
@@ -169,7 +180,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 		} else if (button instanceof GuiButtonCompendiumLink) {
 			GuiButtonCompendiumLink target = (GuiButtonCompendiumLink)button;
 			if (target.getEntry() != null)
-				mc.displayGuiScreen(new ArcaneCompendium(target.getEntry()));
+				mc.displayGuiScreen(new GuiArcaneCompendium(target.getEntry()));
 			else if (target.getCategory() != null) {
 				switchCategory(target.getCategory());
 			}

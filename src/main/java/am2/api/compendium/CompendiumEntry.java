@@ -2,6 +2,8 @@ package am2.api.compendium;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableList;
 
 import am2.api.compendium.pages.CompendiumPage;
@@ -14,13 +16,15 @@ public class CompendiumEntry {
 	
 	private CompendiumCategory category;
 	private String id;
+	private Object renderObject;
 	private ArrayList<Object> objects;
 	private boolean isDefaultUnlocked;
 	
-	public CompendiumEntry(String id) {
+	public CompendiumEntry(@Nullable Object renderObject, String id) {
 		if (id.contains("\\.")) throw new IllegalArgumentException("Entry ids can't contain \"\\.\"");
 		this.id = id;
 		this.objects = new ArrayList<>();
+		this.renderObject = renderObject;
 	}
 	
 	protected CompendiumEntry setCategory (CompendiumCategory category) {
@@ -46,6 +50,10 @@ public class CompendiumEntry {
 	
 	public boolean isDefaultUnlocked() {
 		return isDefaultUnlocked;
+	}
+	
+	public Object getRenderObject() {
+		return renderObject;
 	}
 	
 	public CompendiumEntry setUnlocked() {

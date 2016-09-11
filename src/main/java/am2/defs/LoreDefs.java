@@ -237,7 +237,7 @@ public class LoreDefs {
 	}
 	
 	private static void initBlocks() {
-		BLOCK.addEntry(new CompendiumEntry("obelisk")
+		BLOCK.addEntry(new CompendiumEntry(null, "obelisk")
 				.addObject("compendium.obelisk.page1")
 				.addObject(new ItemStack(BlockDefs.obelisk))
 				.addObject("compendium.obelisk.page2")
@@ -381,13 +381,13 @@ public class LoreDefs {
 	}
 	
 	private static void initStructures() {
-		STRUCTURE.addEntry(new CompendiumEntry("crafting_altar")
+		STRUCTURE.addEntry(new CompendiumEntry(null, "crafting_altar")
 				.addObject("compendium.crafting_altar.page1")
 				.addObject("compendium.crafting_altar.page2")
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getCapsMap(), "am2.gui.catalysts", false))
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getSimpleMainMap(), "am2.gui.structuremat", false))
 				.addObject(new TileEntityCraftingAltar().getDefinition()));
-		STRUCTURE.addEntry(new CompendiumEntry("gateway")
+		STRUCTURE.addEntry(new CompendiumEntry(null, "gateway")
 				.addObject("compendium.gateway.page1")
 				.addObject("compendium.gateway.page2")
 				.addObject(new TileEntityKeystoneRecepticle().getDefinition()));
@@ -398,7 +398,7 @@ public class LoreDefs {
 	}
 	
 	private static void createShapeEntry(String name, AbstractSpellPart shape, int textPages) {
-		CompendiumEntry entry = new CompendiumEntry(name);
+		CompendiumEntry entry = new CompendiumEntry(shape, name);
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
@@ -409,7 +409,7 @@ public class LoreDefs {
 	}
 	
 	private static void createTalentEntry(String name, Skill skill, int textPages) {
-		CompendiumEntry entry = new CompendiumEntry(name);
+		CompendiumEntry entry = new CompendiumEntry(skill, name);
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
@@ -420,7 +420,7 @@ public class LoreDefs {
 	}
 	
 	private static void createItemEntry(CompendiumCategory category, String name, ItemStack item, int textPages) {
-		CompendiumEntry entry = new CompendiumEntry(name);
+		CompendiumEntry entry = new CompendiumEntry(null, name);
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
@@ -431,7 +431,7 @@ public class LoreDefs {
 	}
 	
 	private static void createItemEntry(String name, ItemStack item, int textPages) {
-		CompendiumEntry entry = new CompendiumEntry(name);
+		CompendiumEntry entry = new CompendiumEntry(null, name);
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
@@ -446,7 +446,7 @@ public class LoreDefs {
 	}
 	
 	private static void createComponentEntry(String name, AbstractSpellPart component, int textPages) {
-		CompendiumEntry entry = new CompendiumEntry(name);
+		CompendiumEntry entry = new CompendiumEntry(component, name);
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
@@ -459,7 +459,7 @@ public class LoreDefs {
 	}
 	
 	private static void createModifierEntry(String name, AbstractSpellPart mod, int textPages) {
-		CompendiumEntry entry = new CompendiumEntry(name);
+		CompendiumEntry entry = new CompendiumEntry(mod, name);
 		for (int i = 1; i <= textPages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
@@ -470,7 +470,7 @@ public class LoreDefs {
 	}
 	
 	private static void createEntry(CompendiumCategory category, String name, int pages) {
-		CompendiumEntry entry = new CompendiumEntry(name);
+		CompendiumEntry entry = new CompendiumEntry(null, name);
 		for (int i = 1; i <= pages; i++) {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}

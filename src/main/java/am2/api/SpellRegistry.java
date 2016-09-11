@@ -11,7 +11,6 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
-import am2.lore.ArcaneCompendium;
 import am2.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -41,7 +40,6 @@ public class SpellRegistry {
 		id = id.toLowerCase();
 		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
 		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-		ArcaneCompendium.AddCompendiumEntry(part, part.getRegistryName().toString(), mods, false);		
 	}
 	
 	/**
@@ -60,7 +58,6 @@ public class SpellRegistry {
 		id = id.toLowerCase();
 		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
 		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-		ArcaneCompendium.AddCompendiumEntry(part, part.getRegistryName().toString(), null, false);
 	}
 	
 	/**
@@ -79,7 +76,6 @@ public class SpellRegistry {
 		id = id.toLowerCase();
 		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
 		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-		ArcaneCompendium.AddCompendiumEntry(part, part.getRegistryName().toString(), mods, false);
 	}
 	
 	public static Skill getSkillFromPart(AbstractSpellPart part) {

@@ -64,14 +64,14 @@ public class SpellUnlockManager{
 				SpellRegistry.getModifierFromName("arsmagica2:piercing"),
 				SpellRegistry.getModifierFromName("arsmagica2:damage")));
 
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("mana_link")),
+		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_link")),
 				SpellRegistry.getComponentFromName("arsmagica2:mana_drain"),
 				SpellRegistry.getComponentFromName("arsmagica2:entangle")));
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("mana_shield")),
+		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_shield")),
 				SpellRegistry.getComponentFromName("arsmagica2:shield"),
 				SpellRegistry.getComponentFromName("arsmagica2:reflect"),
 				SpellRegistry.getComponentFromName("arsmagica2:life_tap")));
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("buff_power")),
+		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:buff_power")),
 				SpellRegistry.getComponentFromName("arsmagica2:haste"),
 				SpellRegistry.getComponentFromName("arsmagica2:slowfall"),
 				SpellRegistry.getComponentFromName("arsmagica2:swift_swim"),
@@ -93,7 +93,7 @@ public class SpellUnlockManager{
 
 		entries.add(new UnlockEntry(SkillDefs.SHIELD_OVERLOAD,
 				SpellRegistry.getComponentFromName("arsmagica2:mana_shield"),
-				SpellRegistry.getModifierFromName("arsmagica2:mana_drain")));
+				SpellRegistry.getComponentFromName("arsmagica2:mana_drain")));
 		
 	}
 
@@ -107,7 +107,14 @@ public class SpellUnlockManager{
 		}
 
 		public boolean partIsInStage(ItemStack spell, AbstractSpellPart part, int stage){
-			if (part instanceof SpellComponent && !SpellUtils.componentIsPresent(spell, ((SpellComponent)part).getClass())){
+			boolean bool = false;
+			if (part == null)
+				return false;
+			for (SpellComponent comp : SpellUtils.getComponentsForStage(spell, -1))
+				if (part.getClass().isInstance(comp))
+					bool =  true;
+
+			if (part instanceof SpellComponent && !bool){
 				return false;
 			}else if (part instanceof SpellModifier){
 				for (SpellModifiers modifier : ((SpellModifier)part).getAspectsModified()){
@@ -120,27 +127,21 @@ public class SpellUnlockManager{
 		}
 
 		public boolean willSpellUnlock(ItemStack spell){
-			for (int i = 0; i < SpellUtils.numStages(spell); ++i){
-
-				boolean found = true;
-
-				for (AbstractSpellPart part : requiredComponents){
-					if (!partIsInStage(spell, part, i)){
-						found = false;
-						break;
-					}
+			boolean found = true;
+			for (AbstractSpellPart part : requiredComponents){
+				if (!partIsInStage(spell, part, 0)){
+					found = false;
+					break;
 				}
-
-				if (found)
-					return true;
 			}
-
+			if (found)
+				return true;
 			return false;
 		}
 
 		public void unlockFor(EntityPlayer player){
 			if (!player.worldObj.isRemote){
-				SkillData.For(player).unlockSkill(unlock.getRegistryName().toString());
+				SkillData.For(player).unlockSkill(unlock.getID());
 			}
 		}
 	}

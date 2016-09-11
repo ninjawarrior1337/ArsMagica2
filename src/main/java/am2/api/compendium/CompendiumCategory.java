@@ -137,7 +137,15 @@ public final class CompendiumCategory {
 		}
 		return null;
 	}
-
+	
+	public static ImmutableList<CompendiumEntry> getAllEntries() {
+		ArrayList<CompendiumEntry> builder = new ArrayList<>();
+		for (CompendiumCategory category : CompendiumCategory.getCategories()) {
+			builder.addAll(category.getEntries());
+		}
+		return ImmutableList.copyOf(builder);
+	}
+	
 	public ImmutableList<CompendiumEntry> getEntries() {
 		return ImmutableList.copyOf(entries);
 	}

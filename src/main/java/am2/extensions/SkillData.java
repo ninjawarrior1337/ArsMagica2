@@ -8,6 +8,8 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
+import am2.api.compendium.CompendiumCategory;
+import am2.api.compendium.CompendiumEntry;
 import am2.api.extensions.ISkillData;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
@@ -15,6 +17,7 @@ import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellShape;
+import am2.lore.ArcaneCompendium;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -52,6 +55,24 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		if (SkillRegistry.getSkillFromName(name) == null)
 			return;
 		Skill skill = SkillRegistry.getSkillFromName(name);
+		
+		for (CompendiumEntry entry : CompendiumCategory.getAllEntries()) {
+			if (ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName()) != null) {
+				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName());
+				for (Object obj : entry.getObjects()) {
+					if (obj == part) {
+						ArcaneCompendium.For(player).unlockEntry(entry.getID());
+					}
+				}
+			} else {
+				for (Object obj : entry.getObjects()) {
+					if (obj == skill) {
+						ArcaneCompendium.For(player).unlockEntry(entry.getID());
+					}
+				}
+			}
+		}
+		
 		setSkillPoint(skill.getPoint(), getSkillPoint(skill.getPoint()) - 1);
 		HashMap<Skill, Boolean> map = player.getDataManager().get(DataDefinitions.SKILL);
 		map.put(skill, true);

@@ -122,7 +122,6 @@ import am2.items.ItemKeystone;
 import am2.items.ItemRuneBag;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
-import am2.lore.ArcaneCompendium;
 import am2.models.ArsMagicaModelLoader;
 import am2.models.CullfaceModelLoader;
 import am2.models.SpecialRenderModelLoader;
@@ -287,14 +286,6 @@ public class ClientProxy extends CommonProxy {
 		clientTickHandler = new ClientTickHandler();
 	}
 	
-	/**
-	 * Proxied compendium unlocks.  Do not call directly - use the CompendiumUnlockHandler instead.
-	 */
-	@Override
-	public void unlockCompendiumEntry(String id){
-		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).unlockEntry(id);
-	}
-	
 	@Override
 	public void init() {
 		super.init();
@@ -325,14 +316,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public PowerNodeEntry getTrackedData(){
 		return clientTickHandler.getTrackData();
-	}
-	
-	/**
-	 * Proxied compendium unlocks.  Do not call directly - use the CompendiumUnlockHandler instead.
-	 */
-	@Override
-	public void unlockCompendiumCategory(String id){
-		ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).unlockCategory(id);
 	}
 	
 	@Override

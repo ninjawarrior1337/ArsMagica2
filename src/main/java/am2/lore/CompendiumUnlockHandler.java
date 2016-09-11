@@ -45,7 +45,6 @@ public class CompendiumUnlockHandler{
 		if (event.getEntity().worldObj.isRemote && event.getEntity() instanceof EntityPlayer){
 			IArcaneCompendium instance = ArcaneCompendium.For(event.getEntityPlayer());
 			if (event.getLevel() >= 5){
-				instance.unlockCategory("talents");
 				//ArcaneCompendium.instance.unlockEntry("dungeonsAndExploring");
 				instance.unlockEntry("enchantments");
 			}
@@ -142,23 +141,5 @@ public class CompendiumUnlockHandler{
 			IArcaneCompendium instance = ArcaneCompendium.For(event.player);
 			instance.unlockRelatedItems(event.crafting);
 		}
-	}
-
-	/**
-	 * Helper method (auto-proxied) that will unlock a compendium entry.  If the entry is found to be a category, it wil be unlocked instead.
-	 *
-	 * @param id The ID used to identify the entry to unlock.
-	 */
-	public static void unlockEntry(String id){
-		ArsMagica2.proxy.unlockCompendiumEntry(id);
-	}
-
-	/**
-	 * Helper method (auto-proxied) that will unlock a compendium category.
-	 *
-	 * @param id The ID used to identify the entry to unlock.
-	 */
-	public static void unlockCategory(String id){
-		ArsMagica2.proxy.unlockCompendiumCategory(id);
 	}
 }

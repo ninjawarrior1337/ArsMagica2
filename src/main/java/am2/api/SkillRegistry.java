@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
-import am2.lore.ArcaneCompendium;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -20,8 +19,6 @@ public class SkillRegistry {
 	
 	public static void registerSkill (boolean createEntry, Skill skill) {
 		GameRegistry.register(skill);
-		if (createEntry)
-			ArcaneCompendium.AddCompendiumEntry(skill, skill.getID(), null, false);
 	}
 	
 	public static void registerSkill (Skill skill) {

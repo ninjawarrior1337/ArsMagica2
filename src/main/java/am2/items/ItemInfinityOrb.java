@@ -40,7 +40,8 @@ public class ItemInfinityOrb extends ItemArsMagica {
 	
 	private ItemStack doGiveSkillPoints(EntityPlayer player, ItemStack stack, SkillPoint type){
 		if (EntityExtension.For(player).getCurrentLevel() > 0){
-			SkillData.For(player).setSkillPoint(type, SkillData.For(player).getSkillPoint(type) + 1);
+			if (!player.worldObj.isRemote)
+				SkillData.For(player).setSkillPoint(type, SkillData.For(player).getSkillPoint(type) + 1);
 			if (player.worldObj.isRemote){
 				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.infOrb" + type.toString())));
 			}

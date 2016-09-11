@@ -21,7 +21,6 @@ import am2.gui.AMIngameGUI;
 import am2.gui.GuiHudCustomization;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
-import am2.lore.CompendiumEntryTypes;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
@@ -77,9 +76,6 @@ public class ClientTickHandler{
 	private String lastWorldName;
 
 	private void gameTick_Start(){
-
-		if (!CompendiumEntryTypes.instance.hasInitialized())
-			CompendiumEntryTypes.instance.initTextures();
 
 		if (Minecraft.getMinecraft().isIntegratedServerRunning()){
 			if (worldName == null || !worldName.equals(Minecraft.getMinecraft().getIntegratedServer().getWorldName())){
