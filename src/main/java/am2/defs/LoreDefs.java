@@ -10,6 +10,7 @@ import am2.api.affinity.Affinity;
 import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
 import am2.api.compendium.wrapper.StackMapWrapper;
+import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
@@ -365,9 +366,16 @@ public class LoreDefs {
 	}
 	
 	private static void initTalents() {
-		
+		createTalentEntry("affinity_gains", SkillDefs.AFFINITY_GAINS, 1);
+		createTalentEntry("augmented_casting", SkillDefs.AUGMENTED_CASTING, 1);
+		createTalentEntry("extra_summon", SkillDefs.EXTRA_SUMMONS, 1);
+		createTalentEntry("mage_posse_i", SkillDefs.MAGE_POSSE_1, 1);
+		createTalentEntry("mage_posse_ii", SkillDefs.MAGE_POSSE_2, 1);
+		createTalentEntry("mana_regen_i", SkillDefs.MANA_REGEN_1, 1);
+		createTalentEntry("mana_regen_ii", SkillDefs.MANA_REGEN_2, 1);
+		createTalentEntry("mana_regen_iii", SkillDefs.MANA_REGEN_3, 1);
+		createTalentEntry("spell_motion", SkillDefs.SPELL_MOTION, 1);
 	}
-	
 	private static void initMobs() {
 		
 	}
@@ -398,6 +406,17 @@ public class LoreDefs {
 			LogHelper.debug("Missing shape for : %s", name);
 		entry.addObject(shape);
 		SPELL_SHAPE.addEntry(entry);
+	}
+	
+	private static void createTalentEntry(String name, Skill skill, int textPages) {
+		CompendiumEntry entry = new CompendiumEntry(name);
+		for (int i = 1; i <= textPages; i++) {
+			entry = entry.addObject("compendium." + name + ".page" + i);
+		}
+		if (skill == null)
+			LogHelper.debug("Missing skill for : %s", name);
+		entry.addObject(skill);
+		TALENT.addEntry(entry);
 	}
 	
 	private static void createItemEntry(CompendiumCategory category, String name, ItemStack item, int textPages) {

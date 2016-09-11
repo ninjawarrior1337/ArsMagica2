@@ -20,21 +20,23 @@ public class FlickerOperatorRegistry implements IFlickerRegistry{
 	@Override
 	public boolean registerFlickerOperator(IFlickerFunctionality singleton, int mask){
 		if (registeredOperators.containsKey(mask)){
-			LogHelper.warn("An addon attempted to register a flicker operator (%s) with a mask (%d) that is already in use.  The operator was NOT registered!", singleton.getClass().getName(), mask);
+			LogHelper.warn("An addon attempted to register a flicker operator (%s) with a mask (%d) that is already in use.  The operator was NOT registered!", singleton.getClass().getSimpleName(), mask);
 			return false;
 		}
 		registeredOperators.put(mask, singleton);
-		LogHelper.debug("Registered Flicker operator %s to mask %d", singleton.getClass().getName(), mask);
+		LogHelper.debug("Registered Flicker operator %s to mask %d", singleton.getClass().getSimpleName(), mask);
 		return true;
 	}
-
+	
+	@Override
 	public boolean registerFlickerOperator(IFlickerFunctionality singleton, Affinity... affinities){
 		int mask = 0;
 		for (Affinity aff : affinities)
 			mask |= aff.getAffinityMask();
 		return registerFlickerOperator(singleton, mask);
 	}
-
+	
+	@Override
 	public int getMaskForOperator(IFlickerFunctionality operator){
 		for (Integer i : registeredOperators.keySet()){
 			IFlickerFunctionality op = registeredOperators.get(i);
@@ -43,11 +45,13 @@ public class FlickerOperatorRegistry implements IFlickerRegistry{
 		}
 		return 0;
 	}
-
+	
+	@Override
 	public IFlickerFunctionality getOperatorForMask(int mask){
 		return registeredOperators.get(mask);
 	}
-
+	
+	@Override
 	public int[] getMasks(){
 		int[] maskList = new int[registeredOperators.size()];
 		int count = 0;
@@ -57,6 +61,7 @@ public class FlickerOperatorRegistry implements IFlickerRegistry{
 		return maskList;
 	}
 	
+	@Override
 	public ImmutableList<IFlickerFunctionality> getAllOperators() {
 		return ImmutableList.copyOf(registeredOperators.values());
 	}

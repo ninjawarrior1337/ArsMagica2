@@ -32,6 +32,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
@@ -176,6 +177,9 @@ public class AMIngameGUI{
 			renderMana = maxMana;
 
 		float progressScaled = (renderMana / (maxMana + 0.01f));
+		
+		boolean hasBonusMana = bonusMana > 0;
+		boolean hasOverloadMana = mana > (maxMana + 1);
 
 		if (ArsMagica2.config.showHudBars()){
 			//handle flashing of mana bar
@@ -194,11 +198,10 @@ public class AMIngameGUI{
 					red += (redShift * pct);
 				}
 				GlStateManager.color(red, green, blue);
-			}else{
-				if (bonusMana > 0)
-					GlStateManager.color(0.2f, 0.9f, 0.6f);
-			}
-
+			}else if (hasBonusMana)
+				GlStateManager.color(0.2f, 0.9f, 0.6f);
+			else if (hasOverloadMana)
+				GlStateManager.color(1f, 0.0f, 0.0f);
 			ItemStack curItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
 			//TODO Spell Groups
 			if (curItem != null && (curItem.getItem() == ItemDefs.spell
@@ -266,7 +269,7 @@ public class AMIngameGUI{
 			String burnoutStr = I18n.translateToLocal("am2.gui.burnout") + ": " + (int)props.getCurrentBurnout() + "/" + (int)props.getMaxBurnout();
 			AMVector2 manaNumericPos = getShiftedVector(ArsMagica2.config.getManaNumericPosition(), i, j);
 			AMVector2 burnoutNumericPos = getShiftedVector(ArsMagica2.config.getBurnoutNumericPosition(), i, j);
-			fontRendererObj.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, bonusMana > 0 ? 0xeae31c : 0x2080FF);
+			fontRendererObj.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, hasBonusMana ? 0xeae31c : hasOverloadMana ? 0xFF2020 : 0x2080FF);
 			fontRendererObj.drawString(burnoutStr, burnoutNumericPos.iX + 25 - fontRendererObj.getStringWidth(burnoutStr), burnoutNumericPos.iY, 0xFF2020);
 		}
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -288,7 +291,7 @@ public class AMIngameGUI{
 		ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
 
 		for (int slot = 0; slot < 4; ++slot){
-			if (ArmorHelper.PlayerHasArmorInSlot(mc.thePlayer, 3 - slot)){
+			if (ArmorHelper.PlayerHasArmorInSlot(mc.thePlayer, EntityEquipmentSlot.values()[5 - slot])){
 				AMVector2 position = getArmorSlotPosition(slot, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
 				int blackoutTimer = AMGuiHelper.instance.getBlackoutTimer(3 - slot);
 				int blackoutMaxTimer = AMGuiHelper.instance.getBlackoutTimerMax(3 - slot);

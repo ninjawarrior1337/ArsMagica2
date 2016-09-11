@@ -3,9 +3,11 @@ package am2.armor;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementTiers;
 import am2.armor.infusions.ImbuementRegistry;
+import am2.extensions.EntityExtension;
 import am2.utils.EntityUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EntityEquipmentSlot.Type;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,107 +19,97 @@ public class ArmorHelper{
 
 	private static final int IMBUE_TIER_COST = 12;
 
-	public static boolean PlayerHasArmorInSlot(EntityPlayer player, int armorSlot){
-		ItemStack[] armor = player.inventory.armorInventory;
-		return (armor[armorSlot] != null);
+	public static boolean PlayerHasArmorInSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+		return (player.getItemStackFromSlot(armorSlot) != null);
 	}
 
 	//======================================================================================================
 	// Infusion
 	//======================================================================================================
-//	public static void HandleArmorInfusion(EntityPlayer player){
-//		IEntityExtension EntityExtension = EntityExtension.For(player);
-//
-//		float infusionCost = 0.0f;
-//		boolean bFullSet = getFullArsMagicaArmorSet(player) != -1;
-//		for (int i = 0; i < 4; ++i){
-//			infusionCost += GetArsMagicaArmorInfusionCostFromSlot(player, i);
-//		}
-//		if (bFullSet){
-//			infusionCost *= 0.75;
-//		}
-//		if (infusionCost > 0 && EntityExtension.getCurrentMana() > infusionCost){
-//			//deduct mana
-//			EntityExtension.setCurrentMana(EntityExtension.getCurrentMana()
-//					- infusionCost);
-//			//bank infusion
-//			EntityExtension.bankedInfusionHelm += GetArsMagicaArmorRepairAmountFromSlot(player, 3);
-//			EntityExtension.bankedInfusionChest += GetArsMagicaArmorRepairAmountFromSlot(player, 2);
-//			EntityExtension.bankedInfusionLegs += GetArsMagicaArmorRepairAmountFromSlot(player, 1);
-//			EntityExtension.bankedInfusionBoots += GetArsMagicaArmorRepairAmountFromSlot(player, 0);
-//
-//
-//			//repair armor if infusion bank is above 1
-//			if (EntityExtension.bankedInfusionHelm > 1){
-//				int repairAmount = (int)Math.floor(EntityExtension.bankedInfusionHelm);
-//				RepairEquippedArsMagicaArmorItem(player, repairAmount, 3);
-//				EntityExtension.bankedInfusionHelm -= repairAmount;
-//			}
-//
-//			if (EntityExtension.bankedInfusionChest > 1){
-//				int repairAmount = (int)Math.floor(EntityExtension.bankedInfusionChest);
-//				RepairEquippedArsMagicaArmorItem(player, repairAmount, 2);
-//				EntityExtension.bankedInfusionChest -= repairAmount;
-//			}
-//
-//			if (EntityExtension.bankedInfusionLegs > 1){
-//				int repairAmount = (int)Math.floor(EntityExtension.bankedInfusionLegs);
-//				RepairEquippedArsMagicaArmorItem(player, repairAmount, 1);
-//				EntityExtension.bankedInfusionLegs -= repairAmount;
-//			}
-//
-//			if (EntityExtension.bankedInfusionBoots > 1){
-//				int repairAmount = (int)Math.floor(EntityExtension.bankedInfusionBoots);
-//				RepairEquippedArsMagicaArmorItem(player, repairAmount, 0);
-//				EntityExtension.bankedInfusionBoots -= repairAmount;
-//			}
-//		}
-//	}
-//
-//	private static void RepairEquippedArsMagicaArmorItem(EntityPlayer player, int repairAmount, int slot){
-//		if (!PlayerHasArmorInSlot(player, slot)){
-//			return;
-//		}
-//		ItemStack armor = player.inventory.armorInventory[slot];
-//		if (armor.isItemDamaged()){
-//			armor.damageItem(-repairAmount, player); //negative damage actually acts as a repair
-//		}
-//	}
-//
-//	private static float GetArsMagicaArmorRepairAmountFromSlot(EntityPlayer player, int armorSlot){
-//		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
-//			return 0;
-//		}
-//		if (player.inventory.armorInventory[armorSlot].isItemDamaged()){
-//			AMArmor armor = (AMArmor)player.inventory.armorInventory[armorSlot].getItem();
-//			return armor.GetInfusionRepair();
-//		}
-//		return 0;
-//	}
+	public static void HandleArmorInfusion(EntityPlayer player){
+		EntityExtension ext = EntityExtension.For(player);
 
-	private static boolean PlayerHasArsInfusableInSlot(EntityPlayer player, int armorSlot){
-		ItemStack[] armor = player.inventory.armorInventory;
-		return (armor[armorSlot] != null && (armor[armorSlot].getItem() instanceof AMArmor));
+		float infusionCost = 0.0f;
+		boolean bFullSet = getFullArsMagicaArmorSet(player) != -1;
+		for (EntityEquipmentSlot i : EntityEquipmentSlot.values()){
+			if (i.getSlotType() != Type.ARMOR)
+				continue;
+			infusionCost += GetArsMagicaArmorInfusionCostFromSlot(player, i);
+		}
+		if (bFullSet){
+			infusionCost *= 0.75;
+		}
+		if (infusionCost > 0 && ext.hasEnoughtMana(infusionCost)) {
+			//deduct mana
+			ext.deductMana(infusionCost);
+			//bank infusion
+			ext.bankedInfusionHelm += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.HEAD);
+			ext.bankedInfusionChest += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.CHEST);
+			ext.bankedInfusionLegs += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.LEGS);
+			ext.bankedInfusionBoots += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.FEET);
+
+
+			//repair armor if infusion bank is above 1
+			if (ext.bankedInfusionHelm > 1){
+				int repairAmount = (int)Math.floor(ext.bankedInfusionHelm);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.HEAD);
+				ext.bankedInfusionHelm -= repairAmount;
+			}
+
+			if (ext.bankedInfusionChest > 1){
+				int repairAmount = (int)Math.floor(ext.bankedInfusionChest);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.CHEST);
+				ext.bankedInfusionChest -= repairAmount;
+			}
+
+			if (ext.bankedInfusionLegs > 1){
+				int repairAmount = (int)Math.floor(ext.bankedInfusionLegs);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.LEGS);
+				ext.bankedInfusionLegs -= repairAmount;
+			}
+
+			if (ext.bankedInfusionBoots > 1){
+				int repairAmount = (int)Math.floor(ext.bankedInfusionBoots);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.FEET);
+				ext.bankedInfusionBoots -= repairAmount;
+			}
+		}
 	}
-//
-//	private static float GetArsMagicaArmorInfusionCostFromSlot(EntityPlayer player, int armorSlot){
-//		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
-//			return 0;
-//		}
-//		if (player.inventory.armorInventory[armorSlot].isItemDamaged()){
-//			AMArmor armor = (AMArmor)player.inventory.armorInventory[armorSlot].getItem();
-//			return armor.GetInfusionCost();
-//		}
-//		return 0;
-//	}
+	
+	private static void RepairEquippedArsMagicaArmorItem(EntityPlayer player, int repairAmount, EntityEquipmentSlot slot){
+		if (!PlayerHasArmorInSlot(player, slot)){
+			return;
+		}
+		ItemStack armor = player.getItemStackFromSlot(slot);
+		if (armor.isItemDamaged()){
+			armor.setItemDamage(armor.getItemDamage() - repairAmount);
+		}
+	}
+
+	private static boolean PlayerHasArsInfusableInSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+		return (player.getItemStackFromSlot(armorSlot) != null && (player.getItemStackFromSlot(armorSlot).getItem() instanceof AMArmor));
+	}
+
+	private static float GetArsMagicaArmorInfusionCostFromSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
+			return 0;
+		}
+		if (player.getItemStackFromSlot(armorSlot).isItemDamaged()){
+			AMArmor armor = (AMArmor)player.getItemStackFromSlot(armorSlot).getItem();
+			return armor.GetInfusionCost();
+		}
+		return 0;
+	}
 
 	public static int getFullArsMagicaArmorSet(EntityPlayer player){
 		int matlID = -1;
-		for (int i = 0; i < 4; ++i){
-			if (!PlayerHasArsInfusableInSlot(player, i)){
+		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()){
+			if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR)
+				continue;
+			if (!PlayerHasArsInfusableInSlot(player, slot)){
 				return -1;
 			}
-			AMArmor armor = (AMArmor)player.inventory.armorInventory[i].getItem();
+			AMArmor armor = (AMArmor)player.getItemStackFromSlot(slot).getItem();
 			if (matlID == -1){
 				matlID = armor.getMaterialID();
 			}else{
@@ -127,6 +119,17 @@ public class ArmorHelper{
 			}
 		}
 		return matlID;
+	}
+	
+	private static float GetArsMagicaArmorRepairAmountFromSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
+			return 0;
+		}
+		if (player.getItemStackFromSlot(armorSlot).isItemDamaged()){
+			AMArmor armor = (AMArmor)player.getItemStackFromSlot(armorSlot).getItem();
+			return armor.GetInfusionRepair();
+		}
+		return 0;
 	}
 
 

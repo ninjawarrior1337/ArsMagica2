@@ -81,6 +81,10 @@ public enum ArsMagicaArmorMaterial{
 	public int getDamageReductionAmount(EntityEquipmentSlot par4){
 		return damageReductionAmountArray[par4.getIndex()];
 	}
+	
+	public int getMaxDamage(EntityEquipmentSlot par4) {
+		return AMArmor.getMaxDamageArray()[par4.getIndex()] * maxDamageFactor;
+	}
 
 	public int getEnchantability(){
 		return enchantability;

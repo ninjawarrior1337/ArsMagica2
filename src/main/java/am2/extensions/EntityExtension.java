@@ -55,7 +55,6 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -82,6 +81,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public AMVector2 originalSize;
 	public float shrinkAmount;
 	public boolean astralBarrierBlocked = false;
+	public float bankedInfusionHelm = 0f;
+	public float bankedInfusionChest = 0f;
+	public float bankedInfusionLegs = 0f;
+	public float bankedInfusionBoots = 0f;
 		
 	@Override
 	public boolean hasEnoughtMana(float cost) {
@@ -223,7 +226,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setCurrentMana(float currentMana) {
-		entity.getDataManager().set(CURRENT_MANA, MathHelper.clamp_float(currentMana, 0, getMaxMana()));
+		entity.getDataManager().set(CURRENT_MANA, currentMana);
 	}
 	
 	@Override
@@ -679,7 +682,13 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 				float manaToAdd = (actualMaxMana / regenTicks);
 
 				setCurrentMana(getCurrentMana() + manaToAdd);
+				if (getCurrentMana() > getMaxMana())
+					setCurrentMana(getMaxMana());
 			}
+		} else if (getCurrentMana() > getMaxMana()) {
+			float overloadMana = getCurrentMana() - getMaxMana();
+			float toRemove = Math.max(overloadMana * 0.01f, 1.0f);
+			setCurrentMana(getCurrentMana() - toRemove);
 		}
 		if (getCurrentBurnout() > 0) {
 			int numArmorPieces = 0;

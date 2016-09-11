@@ -36,7 +36,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 		material = enumarmormaterial;
 		armorType = par4;
 		damageReduceAmount = 0;
-		setMaxDamage(enumarmormaterial.getDamageReductionAmount(par4));
+		setMaxDamage(enumarmormaterial.getMaxDamage(par4));
 		setCreativeTab(CreativeTabsDefs.tabAM2Items);
 		maxStackSize = 1;
 		damageReduction = enumarmormaterial.getDamageReductionAmount(par4);

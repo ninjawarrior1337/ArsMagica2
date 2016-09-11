@@ -48,6 +48,7 @@ public abstract class CompendiumPage<E> {
 		registerPageType(PageStackMap.class, StackMapWrapper.class);
 		registerPageType(PageMultiblock.class, MultiblockStructureDefinition.class);
 		registerPageType(PageRitual.class, IRitualInteraction.Wrapper.class);
+		registerPageType(PageSkill.class, Skill.class);
 	}
 	
 	public static final <E> void registerPageType(Class<? extends CompendiumPage<E>> page, Class<E> clazz) {

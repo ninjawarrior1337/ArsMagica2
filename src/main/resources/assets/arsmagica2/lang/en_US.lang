@@ -393,6 +393,8 @@ am2.gui.occulus.missingrequirements=Missing Requirements
 
 #Components
 
+compendium.category.component.name=Components
+
 compendium.component.accelerate.name=Accelerate
 compendium.component.appropriation.name=Appropiation
 compendium.component.astral_distortion.name=Astral Distortion
@@ -548,6 +550,8 @@ compendium.wizards_autumn.page1=You have learned to focus your digging magic int
 
 #Shapes
 
+compendium.category.shape.name=Shapes
+
 compendium.shape.projectile.name=Projectile
 compendium.shape.channel.name=Channel
 compendium.shape.beam.name=Beam
@@ -585,6 +589,8 @@ compendium.wall.page1=You can manifest a wall in front of you. The wall will run
 compendium.wave.page1=Project a wave of magic in front of you that rolls forward, applying its effect to everything in its path.
 
 #Modifiers
+
+compendium.category.modifier.name=Modifiers
 
 compendium.modifier.gravity.name=Gravity
 compendium.modifier.bounce.name=Bounce
@@ -628,7 +634,33 @@ compendium.dismembering.page1=You've decided that you like souvenirs. So much so
 compendium.feather_touch.page1=With great power comes broken valuables. You've learned to be more careful when casting your digging spells and break things less often. Each modifier is equivalent to one level of Silk Touch on the spell.
 compendium.colour.page1=This modifier allows you to change the color of the particles on your spell. Want green fireballs? Have at it! Color is determined by the color dye that you throw in during the crafting process. Any one will be accepted, regardless of what the lectern prompts for.
 
+#Talents
+
+compendium.category.talent.name=Talents
+
+compendium.talent.affinity_gains.name=Affinity Gains Boost
+compendium.talent.augmented_casting.name=Augmented Casting
+compendium.talent.extra_summon.name=Extra Summon
+compendium.talent.mage_posse_i.name=Mage Posse I
+compendium.talent.mage_posse_ii.name=Mage Posse II
+compendium.talent.mana_regen_i.name=Mana Regen Boost I
+compendium.talent.mana_regen_ii.name=Mana Regen Boost II
+compendium.talent.mana_regen_iii.name=Mana Regen Boost III
+compendium.talent.spell_motion.name=Spell Mouvement
+
+compendium.affinity_gains.page1=You have decided that elemental attunement is more important than arcane knowledge. You can receive a boost to affinity gains in exchange for slower magic XP gain. This is a permanent effect.
+compendium.augmented_casting.page1=You have figured out how to put everything you have into a spell cast. All of your spells are more powerful. Durations are longer, radii are bigger, and damage is increased.
+compendium.extra_summon.page1=Why do things yourself when you can have others do them for you? You can now have one additional summoned/charmed creature or recruited mage (if you have the #5Mage Posse#0 talent)
+compendium.mage_posse_i.page1=Your talents as a mage have impressed others, and your reputation precedes you. You can request that a light mage follow and guard you. This counts against your summon cap.
+compendium.mage_posse_ii.page1=You have gained the trust of other mages to the point that they feel safe linking their magic to yours. Whenever you befriend a light mage, they will mana link to you.
+compendium.mana_regen_i.page1=You are more attuned with the energy flowing through you. Your magic regenerates slightly faster than normal.
+compendium.mana_regen_ii.page1=You are more attuned with the energy flowing through you. Your magic regenerates faster than normal. This replaces the bonus given by Mana Regen Boost I
+compendium.mana_regen_iii.page1=You are more attuned with the energy flowing through you. Your magic regenerates much faster than normal. This replaces the bonus given by Mana Regen Boost II.
+compendium.spell_motion.page1=You have realized that agility is key. To that end, you have trained yourself to be able to move at normal speed while using a spell.
+
 #Guides
+
+compendium.category.guide.name=Guides
 
 compendium.guide.your_first_spell.name=Your First Spell
 compendium.your_first_spell.page1=Your First Spell !d To make a spell, you will first need to create an #5Occulus#0 and unlock at least one spell shape and one component. You start with three blue skill points to make this possible. Then, craft a writable book and head over to your #5Inscription Table#0. Place the book in the inscription table.
@@ -714,6 +746,18 @@ compendium.obelisk.page3=The structure depicted here does not have to be built a
 
 #Items
 
+compendium.category.item.name=Items
+compendium.category.item.ore.name=Ars Magica Ores
+compendium.category.item.essence.name=Essence
+compendium.category.item.rune.name=Runes
+compendium.category.item.armor.name=Ars Magica Armor
+compendium.category.item.affinity_tomes.name=Affinity Tomes
+compendium.category.item.foci.name=Foci
+compendium.category.item.mana_potion.name=Mana Potions
+compendium.category.item.binding_catalyst.name=Binding Catalysts
+compendium.category.item.flickerfocus.name=Flicker Focus
+compendium.category.item.inscription_upgrades.name=Inscription Table Upgrades
+
 compendium.item.keystone.name=Keystone
 compendium.item.mana_cake.name=Mana Cake
 compendium.item.crystal_wrench.name=Crystal Wrench
@@ -765,6 +809,9 @@ compendium.ender_boots.page1=The Ender Boots are a rare drop from the #5Ender Gu
 compendium.lightning_charm.page1=The Lightning Charm is a rare drop from the #5Lightning Guardian#0. Sneaking and right clicking will toggle the item on and off. When on, its static electricity draws in nearby items automatically.
 compendium.lifeward.page1=The Life Ward is a rare drop from the #5Life Guardian#0. When in your action bar, you will slowly generate a shield around you that will absorb incoming damage. It will generate up to 20 additional temporary hit points. The hit points remain if the Ward is removed from your inventory, but will not replenish themselves without it.
 compendium.magitech_goggles.page1=The Magitech's Goggles are a companion piece to the #9Magitech's Staff#0. When worn, you can sneak and right click powered blocks with a Magitech's Staff. You will then be able to see all of the incoming power types to the selected machine, and where they come from. The goggles will also allow you to see broken power links; where a power path was before, but something went wrong (for example, a conduit was broken). Broken power link blocks cannot be broken by hand, but they can be replaced by any block.
+compendium.chalk.page1=Wizard's Chalk is used to create #9Rituals#0 by drawing the correct shapes on the ground.
+compendium.journal.page1=Journals can be used to #9record your experiences#0 for later use. These experiences can #9later be recovered by reading the journal#0.
+compendium.deficit_crystal.page1=Often noted as the antimatter of magic, Deficit represents a void in the fabric of reality. You've managed to create a refined, crystallized version of it. Crystals like these are often used in the unmaking of things.
 
 ##Ores
 
@@ -868,7 +915,7 @@ compendium.item.affinity_tomes.tome_lightning.name=Affinity Tome: Lightning
 compendium.item.affinity_tomes.tome_life.name=Affinity Tome: Life
 compendium.item.affinity_tomes.tome_ender.name=Affinity Tome: Ender
 
-compendium.affinity_tome.page1=Affinity tomes contain detailed reports and information gather by magi over the years pertaining to a specific affinitiy. With the exception of the General affinity tome, they will, when read, give you a 20% boost to that specific affinity, while simultaneously reducing your progress in all other affinities by 5/10/15% depending on the opposition.
+compendium.affinity_tome.page1=Affinity tomes contain detailed reports and information gather by magi over the years pertaining to a specific affinity. With the exception of the General affinity tome, they will, when read, give you a 20% boost to that specific affinity, while simultaneously reducing your progress in all other affinities by 5/10/15% depending on the opposition.
 compendium.tome_none.page1=The general affinity tome is special in that it can unlock a locked affinity state. It will reduce all affinity progression by 20% without boosting any of them.
 
 ##Foci
@@ -961,3 +1008,12 @@ compendium.flicker_focus_gentle_rains.page1=The water flicker contained within t
 compendium.flicker_focus_natures_bounty.page1=The life, nature and water flickers contained within this focus will work together to help all plants within a 6 block radius grow faster. These hard working flickers will help all nearby plants with or without Etherium but providing them with a source of power will allow them to do their work faster. When powered, modifying this habitat with a #9Water Flicker Jar#0 will also cause the #9Gentle Rains#0 effect to apply.
 compendium.flicker_focus_fishing.page1=The combination of Water and Nature flickers causes them to be able to find creatures that live in water. It does require power to maintain the search, however, as the flickers cover a great distance in a short time. If augmented with adjacent habitats containing lightning flickers, they are able to move even faster, causing them to naturally find fish more often. Doing so will increase the overall power use.
 compendium.flicker_focus_fishing.page2=The focus requires a 3x3 square of water below it that is also at least 2 blocks deep in order to function. It will output fish into an adjacent inventory if possible, or drop them as an item if no inventory is present. !d A redstone signal must be provided for the flickers to start working.
+
+##Inscription Upgrades
+
+compendium.item.inscription_upgrades.inscription_upgrades.name=Inscription Table Upgrades
+compendium.item.inscription_upgrades.inscription_tier_1_upgrade.name=Tier 1 Upgrade
+compendium.item.inscription_upgrades.inscription_tier_2_upgrade.name=Tier 2 Upgrade
+compendium.item.inscription_upgrades.inscription_tier_3_upgrade.name=Tier 3 Upgrade
+
+compendium.inscription_upgrades.page1=These upgrades improve the functionality of your #9Inscription Table#0, allowing you to make use of more shape groups.

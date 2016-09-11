@@ -28,6 +28,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 public class ArmorEventHandler{
@@ -36,7 +38,8 @@ public class ArmorEventHandler{
 	public void onEntityLiving(LivingUpdateEvent event){
 		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
-
+		if (!event.getEntityLiving().worldObj.isRemote)
+			ArmorHelper.HandleArmorInfusion((EntityPlayer) event.getEntityLiving());
 		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (EntityPlayer)event.getEntityLiving());
 	}
 
@@ -105,6 +108,7 @@ public class ArmorEventHandler{
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onItemTooltip(ItemTooltipEvent event){
 		ItemStack stack = event.getItemStack();
 		if (stack != null && stack.getItem() instanceof ItemArmor){
