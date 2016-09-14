@@ -694,9 +694,15 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 				addMagicShielding(1f);
 			}
 			overloadMana = getCurrentMana() - getMaxMana();
-			float toRemove = Math.max(overloadMana * 0.01f, 1.0f);
+			float toRemove = Math.max(overloadMana * 0.002f, 1.0f);
 			setCurrentMana(getCurrentMana() - toRemove);
 		}
+		if (getManaShielding() > getCurrentLevel() * 2) {
+			float overload = getManaShielding() - (getCurrentLevel() * 2);
+			float toRemove = Math.max(overload * 0.002f, 1.0f);
+			setManaShielding(getManaShielding() - toRemove);
+		}
+		
 		if (getCurrentBurnout() > 0) {
 			int numArmorPieces = 0;
 			if (entity instanceof EntityPlayer) {
@@ -799,6 +805,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setManaShielding(float manaShield) {
+		manaShield = Math.max(0, manaShield);
 		this.entity.getDataManager().set(MANA_SHIELD, manaShield);
 	}
 	

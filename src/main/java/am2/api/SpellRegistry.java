@@ -1,7 +1,6 @@
 package am2.api;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
@@ -9,7 +8,6 @@ import am2.api.skill.SkillTree;
 import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
-import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
@@ -36,7 +34,7 @@ public class SpellRegistry {
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
+	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, String... parents) {
 		id = id.toLowerCase();
 		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
 		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
@@ -72,7 +70,7 @@ public class SpellRegistry {
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, EnumSet<SpellModifiers> mods, String... parents) {
+	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, String... parents) {
 		id = id.toLowerCase();
 		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
 		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));

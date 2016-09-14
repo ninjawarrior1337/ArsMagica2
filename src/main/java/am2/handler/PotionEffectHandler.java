@@ -22,6 +22,7 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -59,7 +60,7 @@ public class PotionEffectHandler {
 	public void entityDamageEvent(LivingHurtEvent event) {
 		if (event.isCanceled()) return;
 		
-		if (event.getSource().isUnblockable()) return;
+		if (event.getSource().damageType.equals(DamageSource.outOfWorld.damageType)) return;
 		
 		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.magicShield))
 			event.setAmount(event.getAmount() * 0.25f);

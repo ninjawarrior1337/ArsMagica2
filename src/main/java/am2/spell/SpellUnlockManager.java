@@ -60,6 +60,9 @@ public class SpellUnlockManager{
 				SpellRegistry.getComponentFromName("arsmagica2:fire_damage"),
 				SpellRegistry.getComponentFromName("arsmagica2:ignition"),
 				SpellRegistry.getModifierFromName("arsmagica2:damage")));
+		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_blast")),
+				SpellRegistry.getComponentFromName("arsmagica2:magic_damage"),
+				SpellRegistry.getModifierFromName("arsmagica2:damage")));
 		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:dismembering")),
 				SpellRegistry.getModifierFromName("arsmagica2:piercing"),
 				SpellRegistry.getModifierFromName("arsmagica2:damage")));

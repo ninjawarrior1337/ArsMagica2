@@ -267,7 +267,7 @@ public class EntityHandler {
 		if (e.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) e.getEntityLiving();
 			ItemStack stack = player.getActiveItemStack();
-			if (e.getAmount() > 0.0F && stack != null && EntityUtils.canBlockDamageSource(player, e.getSource()) && stack.getItem() == ItemDefs.BoundShield) {
+			if (e.getAmount() > 0.0F && stack != null && stack.getItem() == ItemDefs.BoundShield && EntityUtils.canBlockDamageSource(player, e.getSource())) {
 				if (EntityExtension.For(player).hasEnoughtMana(e.getAmount() * 10)) {
 					stack.getItem().onDroppedByPlayer(stack, player);
 					EntityExtension.For(player).deductMana(e.getAmount() * 10);
