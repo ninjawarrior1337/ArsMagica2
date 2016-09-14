@@ -20,7 +20,6 @@ import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.armor.ArmorHelper;
 import am2.armor.ArsMagicaArmorMaterial;
-import am2.config.AMConfig;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SpellDefs;
@@ -409,6 +408,29 @@ public class SpellUtils {
 		}
 	}
 	
+	public static float getBurnoutCost(ItemStack stack) {
+		if (stack.getTagCompound() == null)
+			return 0;
+		ItemStack mergedStack = merge(stack);
+		try {
+			float cost = 0;
+			for (int j = 0; j < NBTUtils.getAM2Tag(mergedStack.getTagCompound()).getInteger("StageNum"); j++) { 
+				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(mergedStack.getTagCompound()), STAGE + j);
+				for (int i = 0; i < stageTag.tagCount(); i++) {
+					NBTTagCompound tmp = stageTag.getCompoundTagAt(i);
+					String type = tmp.getString(TYPE);
+					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
+						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID));
+						cost += component.burnout(ArsMagica2.proxy.getLocalPlayer());
+					}
+				}
+			}
+			return cost;
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+	
 	public static SpellCastResult applyStackStage(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, double x, double y, double z, @Nullable EnumFacing side, World world, boolean consumeMBR, boolean giveXP, int ticksUsed) {
 		if (caster.isPotionActive(PotionEffectsDefs.silence))
 			return SpellCastResult.SILENCED;
@@ -441,7 +463,7 @@ public class SpellUtils {
 			}
 			if (!((EntityPlayer)caster).capabilities.isCreativeMode) {
 				ext.deductMana(manaCost);
-				ext.setCurrentBurnout((int) (ext.getCurrentBurnout() + (manaCost * AMConfig.MANA_BURNOUT_RATIO)));
+				ext.setCurrentBurnout(getBurnoutCost(stack));
 				consumeReagents(caster, stack);
 				if (ext.getCurrentBurnout() > ext.getMaxBurnout())
 					ext.setCurrentBurnout(ext.getMaxBurnout());

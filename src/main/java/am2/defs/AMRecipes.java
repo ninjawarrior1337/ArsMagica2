@@ -40,7 +40,7 @@ public class AMRecipes {
 			'V', new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM),
 			'S', "stone"
 		}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(BlockDefs.altar, new Object[] {
+		GameRegistry.addRecipe(new ShapedOreRecipe(BlockDefs.craftingAltar, new Object[] {
 			"V",
 			"S",
 			'V', new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM),
@@ -198,7 +198,7 @@ public class AMRecipes {
 				Character.valueOf('S'), "stone"
 		}));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockDefs.altar), new Object[]{
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockDefs.craftingAltar), new Object[]{
 				"V",
 				"S",
 				Character.valueOf('V'), "dustVinteum",
@@ -431,7 +431,7 @@ public class AMRecipes {
 				"ACA",
 				"OPO",
 				"OOO",
-				Character.valueOf('A'), BlockDefs.altar,
+				Character.valueOf('A'), BlockDefs.craftingAltar,
 				Character.valueOf('C'), new ItemStack(Blocks.CARPET, 1, Short.MAX_VALUE),
 				Character.valueOf('O'), Blocks.OBSIDIAN,
 				Character.valueOf('P'), Blocks.ENCHANTING_TABLE

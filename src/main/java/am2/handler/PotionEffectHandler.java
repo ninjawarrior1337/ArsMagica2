@@ -59,6 +59,11 @@ public class PotionEffectHandler {
 	public void entityDamageEvent(LivingHurtEvent event) {
 		if (event.isCanceled()) return;
 		
+		if (event.getSource().isUnblockable()) return;
+		
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.magicShield))
+			event.setAmount(event.getAmount() * 0.25f);
+		
 		float damage = EntityExtension.For(event.getEntityLiving()).protect(event.getAmount());
 		event.setAmount(damage);
 	}	

@@ -11,6 +11,7 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
+import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -31,27 +32,29 @@ public class ManaShield extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		if (target instanceof EntityLivingBase){
-			if (!EntityExtension.For(caster).hasEnoughtMana(250f))
-				return false;
-			EntityExtension.For(caster).deductMana(250f);
-			EntityExtension.For((EntityLivingBase) target).addMagicShielding(1.0f);
-		}
-		return false;
+	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
+		float consumed = EntityExtension.For(caster).getCurrentMana();
+		EntityExtension.For(caster).deductMana(consumed);
+		EntityExtension.For((EntityLivingBase) target).addMagicShielding((consumed / 250) * SpellUtils.getModifiedInt_Add(1, stack, caster, target, world, SpellModifiers.BUFF_POWER));
+		return true;
 	}
 	
 	@Override
 	public EnumSet<SpellModifiers> getModifiers() {
-		return EnumSet.noneOf(SpellModifiers.class);
+		return EnumSet.of(SpellModifiers.BUFF_POWER);
 	}
 
 	
 	@Override
 	public float manaCost(EntityLivingBase caster){
+		return 250;
+	}
+	
+	@Override
+	public float burnout(EntityLivingBase caster) {
 		return 0;
 	}
-
+	
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
@@ -63,7 +66,7 @@ public class ManaShield extends SpellComponent{
 
 	@Override
 	public Set<Affinity> getAffinity(){
-		return Sets.newHashSet(Affinity.LIFE, Affinity.EARTH, Affinity.WATER);
+		return Sets.newHashSet(Affinity.ARCANE);
 	}
 
 	@Override

@@ -114,7 +114,7 @@ public class BlockDefs {
 	public static final BlockAMFlower wakebloom = new BlockWakebloom().registerAndName(new ResourceLocation("arsmagica2:wakebloom"));
 	public static final BlockAMFlower aum = new BlockAMFlower().registerAndName(new ResourceLocation("arsmagica2:aum"));
 	public static final BlockAMFlower tarmaRoot = new BlockTarmaRoot().registerAndName(new ResourceLocation("arsmagica2:tarma_root"));
-	public static final BlockCraftingAltar altar = new BlockCraftingAltar().registerAndName(new ResourceLocation("arsmagica2:crafting_altar"));
+	public static final BlockCraftingAltar craftingAltar = new BlockCraftingAltar().registerAndName(new ResourceLocation("arsmagica2:crafting_altar"));
 	public static final Block wizardChalk = new BlockWizardsChalk().registerAndName(new ResourceLocation("arsmagica2:wizard_chalk_block"));
 	public static final Block obelisk = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_STANDARD).registerAndName(new ResourceLocation("arsmagica2:obelisk"));
 	public static final Block blackAurem = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_DARK).registerAndName(new ResourceLocation("arsmagica2:black_aurem"));
@@ -242,7 +242,7 @@ public class BlockDefs {
 		//Spell Blocks
 		registerTexture(occulus);
 		registerTexture(lectern);
-		registerTexture(altar);
+		registerTexture(craftingAltar);
 		registerTexture(inscriptionTable);
 		
 		//Flowers

@@ -12,6 +12,7 @@ import am2.api.compendium.CompendiumEntry;
 import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
+import am2.blocks.BlockArsMagicaOre.EnumOreType;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityManaDrain;
@@ -248,6 +249,45 @@ public class LoreDefs {
 				.addObject("compendium.mana_drain_block.page1")
 				.addObject(new ItemStack(BlockDefs.manaDrain))
 				.addObject(new TileEntityManaDrain().getDefinition()));
+		createItemEntry(BLOCK, "essence_refiner", new ItemStack (BlockDefs.essenceRefiner), 1);
+		createItemEntry(BLOCK, "essence_conduit", new ItemStack (BlockDefs.essenceConduit), 1);
+		createItemEntry(BLOCK, "seer_stone", new ItemStack (BlockDefs.seerStone), 1);
+		createItemEntry(BLOCK, "astral_barrier", new ItemStack (BlockDefs.astralBarrier), 1);
+		createItemEntry(BLOCK, "keystone_recepticle", new ItemStack (BlockDefs.keystoneRecepticle), 1);
+		createItemEntry(BLOCK, "vinteum_ore", new ItemStack (BlockDefs.ores, 1, EnumOreType.VINTEUM.ordinal()), 1);
+		createItemEntry(BLOCK, "mana_battery", new ItemStack (BlockDefs.manaBattery), 1);
+		createItemEntry(BLOCK, "cerublossom", new ItemStack (BlockDefs.cerublossom), 1);
+		createItemEntry(BLOCK, "desert_nova", new ItemStack (BlockDefs.desertNova), 1);
+		createItemEntry(BLOCK, "keystone_chest", new ItemStack (BlockDefs.keystoneChest), 1);
+		createItemEntry(BLOCK, "magic_wall", new ItemStack (BlockDefs.magicWall), 1);
+		createItemEntry(BLOCK, "arcane_reconstructor", new ItemStack (BlockDefs.arcaneReconstructor), 1);
+		createItemEntry(BLOCK, "lectern", new ItemStack (BlockDefs.lectern), 1);
+		createItemEntry(BLOCK, "occulus", new ItemStack (BlockDefs.occulus), 1);
+		createItemEntry(BLOCK, "calefactor", new ItemStack (BlockDefs.calefactor), 1);
+		createItemEntry(BLOCK, "inscription_table", new ItemStack (BlockDefs.inscriptionTable), 1);
+		createItemEntry(BLOCK, "particle_emmiter", new ItemStack (BlockDefs.particleEmitter), 1);
+		createItemEntry(BLOCK, "aum", new ItemStack (BlockDefs.aum), 1);
+		createItemEntry(BLOCK, "tarma_root", new ItemStack (BlockDefs.tarmaRoot), 1);
+		createItemEntry(BLOCK, "wakebloom", new ItemStack (BlockDefs.wakebloom), 1);
+		createItemEntry(BLOCK, "summoner", new ItemStack (BlockDefs.summoner), 1);
+		createItemEntry(BLOCK, "witchwood_sapling", new ItemStack (BlockDefs.witchwoodSapling), 1);
+		createItemEntry(BLOCK, "crafting_atlar", new ItemStack (BlockDefs.craftingAltar), 1);
+		createItemEntry(BLOCK, "magicians_workbench", new ItemStack (BlockDefs.magiciansWorkbench), 1);
+		createItemEntry(BLOCK, "everstone", new ItemStack (BlockDefs.everstone), 1);
+		createItemEntry(BLOCK, "vinteum_torch", new ItemStack (BlockDefs.vinteumTorch), 1);
+		createItemEntry(BLOCK, "slipstream_generator", new ItemStack (BlockDefs.slipstreamGenerator), 1);
+		createItemEntry(BLOCK, "obelisk", new ItemStack (BlockDefs.obelisk), 1);
+		createItemEntry(BLOCK, "broken_power_link", new ItemStack (BlockDefs.brokenPowerLink), 1);
+		createItemEntry(BLOCK, "flicker_habitat", new ItemStack (BlockDefs.elementalAttuner), 1);
+		createItemEntry(BLOCK, "flicker_lure", new ItemStack (BlockDefs.flickerLure), 1);
+		createItemEntry(BLOCK, "arcane_deconstructor", new ItemStack (BlockDefs.arcaneDeconstructor), 1);
+		createItemEntry(BLOCK, "otherworld_aura", new ItemStack (BlockDefs.otherworldAura), 1);
+		createItemEntry(BLOCK, "inert_spawner", new ItemStack (BlockDefs.inertSpawner), 1);
+		
+		createEntry(BLOCK_ILLUSIONBLOCKS, "illusion_blocks", 1);
+		createItemEntry(BLOCK_ILLUSIONBLOCKS, "default_illusionblock", new ItemStack (BlockDefs.illusionBlock, 1, 0), 1);
+		createItemEntry(BLOCK_ILLUSIONBLOCKS, "ethereal_illusionblock", new ItemStack (BlockDefs.illusionBlock, 1, 1), 1);
+		
 	}
 	
 	private static void initShapes() {

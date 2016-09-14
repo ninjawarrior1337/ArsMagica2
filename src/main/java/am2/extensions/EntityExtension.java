@@ -237,7 +237,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setCurrentXP(float currentXP) {
-		if (currentXP >= this.getMaxXP()) {
+		while (currentXP >= this.getMaxXP()) {
 			currentXP -= this.getMaxXP();
 			setMagicLevelWithMana(getCurrentLevel() + 1);
 		}
@@ -650,7 +650,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 				if (entity.isPotionActive(PotionEffectsDefs.manaRegen)) {
 					PotionEffect pe = entity.getActivePotionEffect(PotionEffectsDefs.manaRegen);
-					regenTicks *= (1.0f - Math.max(0.9f, (0.25 * (pe.getAmplifier()))));
+					regenTicks *= Math.max(0.01, 1.0f - ((pe.getAmplifier() + 1) * 0.25f));
 				}
 
 				if (entity instanceof EntityPlayer) {
@@ -805,6 +805,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float protect(float damage) {
 		float left = getManaShielding() - damage;
 		setManaShielding(Math.max(0, left));
+		addMagicXP(damage / 50f);
 		if (left < 0)
 			return -left;
 		return 0;

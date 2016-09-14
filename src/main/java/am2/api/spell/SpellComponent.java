@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Set;
 
 import am2.api.affinity.Affinity;
+import am2.config.AMConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -60,7 +61,14 @@ public abstract class SpellComponent extends AbstractSpellPart{
 	 * Gets the affinity of the spell
 	 */
 	public abstract Set<Affinity> getAffinity();
-
+	
+	/**
+	 * Gets the burnout of the spell
+	 */
+	public float burnout(EntityLivingBase caster) {
+		return manaCost(caster) * AMConfig.MANA_BURNOUT_RATIO;
+	}
+	
 	/**
 	 * Gets the amount (before diminishing returns) that this component, when successfully applied,
 	 * shifts the caster's affinity

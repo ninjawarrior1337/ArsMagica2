@@ -436,7 +436,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		secondary.addGroup(catalysts_alt);
 		secondary.addGroup(podium1_alt, podium2_alt, podium3_alt, podium4_alt);
 		
-		MultiblockGroup center = new MultiblockGroup("center", Lists.newArrayList(BlockDefs.altar.getDefaultState()), true);
+		MultiblockGroup center = new MultiblockGroup("center", Lists.newArrayList(BlockDefs.craftingAltar.getDefaultState()), true);
 		center.addBlock(new BlockPos(0, 0, 0));
 		primary.addGroup(center);
 		secondary.addGroup(center);

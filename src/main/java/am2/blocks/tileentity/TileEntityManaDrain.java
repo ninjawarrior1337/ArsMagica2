@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.IMultiblockStructureController;
 import am2.api.blocks.MultiblockGroup;
@@ -12,6 +13,8 @@ import am2.blocks.BlockArsMagicaBlock;
 import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.defs.BlockDefs;
 import am2.extensions.EntityExtension;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFloatUpward;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
 import net.minecraft.block.BlockQuartz;
@@ -83,10 +86,12 @@ public class TileEntityManaDrain extends TileEntityAMPower implements IMultibloc
 		if (!isMultiblockComplete()) return;
 		if (PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) == capacity) return;
 		List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.add(-1, 1, -1), pos.add(2, 4, 2)));
+		boolean isWorking = false;
 		for (EntityLivingBase entity : entities) {
 			EntityExtension ext = EntityExtension.For(entity);
 			if (ext == null) continue;
 			if (worldObj.isBlockIndirectlyGettingPowered(pos) == 0) {
+				isWorking = true;
 				float drain = ext.getCurrentMana() / 100f;
 				if (drain < 1)
 					drain = 1;
@@ -99,6 +104,7 @@ public class TileEntityManaDrain extends TileEntityAMPower implements IMultibloc
 				}
 			} else {
 				if (!(entity instanceof EntityPlayer)) continue;
+				isWorking = true;
 				float toConsume = PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) / 10;
 				if (toConsume > 10)
 					toConsume = 10;
@@ -106,6 +112,13 @@ public class TileEntityManaDrain extends TileEntityAMPower implements IMultibloc
 					toConsume = ext.getMaxMana() - ext.getCurrentMana();
 				ext.setCurrentMana(ext.getCurrentMana() + toConsume);
 				PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.NEUTRAL, toConsume * 10);
+			}
+		}
+		if (worldObj.isRemote && isWorking) {
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle2", pos.getX() - 1 + worldObj.rand.nextDouble() * 3, pos.getY() + 2, pos.getZ() - 1 + worldObj.rand.nextDouble() * 3);
+			if (particle != null) {
+				particle.setRGBColorI(0x00AAFF);
+				particle.AddParticleController(new ParticleFloatUpward(particle, 0.1f, worldObj.isBlockIndirectlyGettingPowered(pos) == 0 ? -0.05f : 0.05f, 1, false));
 			}
 		}
 	}
