@@ -9,9 +9,7 @@ import am2.defs.PotionEffectsDefs;
 
 public class BuffEffectHaste extends BuffEffect{
 
-	private static final AttributeModifier hasteSpeedBoost_Diminished = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost (Diminished)", 0.2D, 2));
-	private static final AttributeModifier hasteSpeedBoost_Normal = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost (Normal)", 0.45D, 2));
-	private static final AttributeModifier hasteSpeedBoost_Augmented = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost (Augmented)", 0.9D, 2));
+	private static final AttributeModifier hasteSpeedBoost = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost", 0.2D, 2));
 
 	public BuffEffectHaste(int duration, int amplifier){
 		super(PotionEffectsDefs.haste, duration, amplifier);
@@ -22,22 +20,10 @@ public class BuffEffectHaste extends BuffEffect{
 		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
 		if (attributeinstance.getModifier(IDDefs.hasteID) != null){
-			attributeinstance.removeModifier(hasteSpeedBoost_Diminished);
-			attributeinstance.removeModifier(hasteSpeedBoost_Normal);
-			attributeinstance.removeModifier(hasteSpeedBoost_Augmented);
+			attributeinstance.removeModifier(hasteSpeedBoost);
 		}
-
-		switch (this.getAmplifier()){
-		case 0:
-			attributeinstance.applyModifier(hasteSpeedBoost_Diminished);
-			break;
-		case 1:
-			attributeinstance.applyModifier(hasteSpeedBoost_Normal);
-			break;
-		case 2:
-			attributeinstance.applyModifier(hasteSpeedBoost_Augmented);
-			break;
-		}
+		
+		attributeinstance.applyModifier(new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost", 0.2D + (0.35 * getAmplifier()), 2));
 	}
 
 	@Override
@@ -50,9 +36,7 @@ public class BuffEffectHaste extends BuffEffect{
 		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
 		if (attributeinstance.getModifier(IDDefs.hasteID) != null){
-			attributeinstance.removeModifier(hasteSpeedBoost_Diminished);
-			attributeinstance.removeModifier(hasteSpeedBoost_Normal);
-			attributeinstance.removeModifier(hasteSpeedBoost_Augmented);
+			attributeinstance.removeModifier(hasteSpeedBoost);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package am2.buffs;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -76,5 +77,27 @@ public abstract class BuffEffect extends PotionEffect{
 	@Override
 	public String getEffectName(){
 		return String.format("Spell: %s", spellBuffName());
+	}
+	
+	@Override
+	public final NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound nbt) {
+		nbt.setBoolean("InitialApplication", InitialApplication);
+		nbt.setBoolean("HasNotified", HasNotified);
+		writeCustomNBT(nbt);
+		return super.writeCustomPotionEffectToNBT(nbt);
+	}
+	
+	public void writeCustomNBT(NBTTagCompound nbt) {
+		
+	}
+
+	public final void readFromNBT(NBTTagCompound nbt) {
+		InitialApplication = nbt.getBoolean("InitialApplication");
+		HasNotified = nbt.getBoolean("HasNotified");
+		readCustomNBT(nbt);
+	}
+	
+	public void readCustomNBT(NBTTagCompound nbt) {
+		
 	}
 }

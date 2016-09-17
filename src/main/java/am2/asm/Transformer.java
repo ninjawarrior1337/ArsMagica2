@@ -1,6 +1,24 @@
 package am2.asm;
 
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACONST_NULL;
+import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.objectweb.asm.Opcodes.ARETURN;
+import static org.objectweb.asm.Opcodes.ASTORE;
+import static org.objectweb.asm.Opcodes.DUP;
+import static org.objectweb.asm.Opcodes.FLOAD;
+import static org.objectweb.asm.Opcodes.FRETURN;
+import static org.objectweb.asm.Opcodes.GETFIELD;
+import static org.objectweb.asm.Opcodes.GETSTATIC;
+import static org.objectweb.asm.Opcodes.IFNE;
+import static org.objectweb.asm.Opcodes.ILOAD;
+import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
+import static org.objectweb.asm.Opcodes.ISTORE;
+import static org.objectweb.asm.Opcodes.NEW;
+import static org.objectweb.asm.Opcodes.POP;
+import static org.objectweb.asm.Opcodes.RETURN;
 
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -59,9 +77,37 @@ public class Transformer implements IClassTransformer {
 			return alterEntityPlayer(basicClass, !Preloader.isDevEnvironment);
 		else if (transformedName.equalsIgnoreCase("net.minecraftforge.client.model.obj.OBJModel$OBJBakedModel"))
 			return alterObjBakedModel(basicClass, !Preloader.isDevEnvironment);
+		else if (transformedName.equalsIgnoreCase("net.minecraft.potion.PotionEffect"))
+			return alterPotionEffect(basicClass, !Preloader.isDevEnvironment);
 		return basicClass;
 	}
 	
+	private byte[] alterPotionEffect(byte[] bytes, boolean is_obfuscated) {
+		ClassReader cr = new ClassReader(bytes);
+		ClassNode cn = new ClassNode();
+		cr.accept(cn, 0);
+		LogHelper.info("Located OBJBakedModel");
+		for (MethodNode mn : cn.methods) {;
+			if (mn.name.equals("readCustomPotionEffectFromNBT")) {
+				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
+				LogHelper.info("Core: Located target method " + mn.name + mn.desc);
+				while (iter.hasNext()) {
+					InsnList toAdd = new InsnList();
+					toAdd.add(new LabelNode());
+					toAdd.add(new VarInsnNode(ALOAD, 0));
+					toAdd.add(new MethodInsnNode(INVOKESTATIC, "am2/api/event/PotionEvent$EventPotionLoaded", "post", "(" + Mappings.POTION_EFFECT_TYPE.getValue(is_obfuscated) + Mappings.NBT_TAG_COMPOUND_TYPE.getValue(is_obfuscated) + ")" + Mappings.POTION_EFFECT_TYPE.getValue(is_obfuscated), false));
+					AbstractInsnNode ain = (AbstractInsnNode) iter.next();
+					if (ain != null && ain.getOpcode() == ARETURN && ain.getPrevious().getOpcode() != ACONST_NULL) {
+						mn.instructions.insertBefore(ain, toAdd);
+					}
+				}
+			}
+		}
+		
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+	return cw.toByteArray();}
+
 	private byte[] alterObjBakedModel(byte[] bytes, boolean is_obfuscated) {
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
@@ -163,10 +209,10 @@ public class Transformer implements IClassTransformer {
 					LogHelper.info("Patching addPotionEffect");
 					String className = is_obfuscated ? "rl;" : "net/minecraft/potion/PotionEffect;";
 					InsnList list = new InsnList();
-					list.add(new TypeInsnNode(NEW, "am2/api/event/EventPotionAdded"));
+					list.add(new TypeInsnNode(NEW, "am2/api/event/PotionEvent$EventPotionAdded"));
 					list.add(new InsnNode(DUP));
 					list.add(new VarInsnNode(ALOAD, 1));
-					list.add(new MethodInsnNode(INVOKESPECIAL, "am2/api/event/EventPotionAdded", "<init>", "(L" + className + ")V", false));
+					list.add(new MethodInsnNode(INVOKESPECIAL, "am2/api/event/PotionEvent$EventPotionAdded", "<init>", "(L" + className + ")V", false));
 					list.add(new VarInsnNode(ASTORE, 2));
 					list.add(new LabelNode());
 					list.add(new FieldInsnNode(GETSTATIC, "net/minecraftforge/common/MinecraftForge", "EVENT_BUS", "Lnet/minecraftforge/fml/common/eventhandler/EventBus;"));
@@ -175,7 +221,7 @@ public class Transformer implements IClassTransformer {
 					list.add(new InsnNode(POP));
 					list.add(new LabelNode());
 					list.add(new VarInsnNode(ALOAD, 2));
-					list.add(new MethodInsnNode(INVOKEVIRTUAL, "am2/api/event/EventPotionAdded", "getEffect", "()L" + className, false));
+					list.add(new MethodInsnNode(INVOKEVIRTUAL, "am2/api/event/PotionEvent$EventPotionAdded", "getEffect", "()L" + className, false));
 					list.add(new VarInsnNode(ASTORE, 1));
 					ListIterator<AbstractInsnNode> insns = mn.instructions.iterator();
 					while (insns.hasNext()) {
@@ -188,6 +234,7 @@ public class Transformer implements IClassTransformer {
 				}
 			}
 		}
+		
 		{
 			MethodNode method = new MethodNode();
 			method.name = !is_obfuscated ? "moveRelative" : "a";

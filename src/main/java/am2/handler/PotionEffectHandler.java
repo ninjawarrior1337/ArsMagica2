@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import am2.api.event.EventPotionAdded;
+import am2.api.event.PotionEvent.EventPotionAdded;
+import am2.api.event.PotionEvent.EventPotionLoaded;
 import am2.api.event.SpellCastEvent;
 import am2.blocks.tileentity.TileEntityAstralBarrier;
+import am2.buffs.BuffEffect;
 import am2.buffs.BuffEffectTemporalAnchor;
 import am2.buffs.BuffStatModifiers;
 import am2.defs.ItemDefs;
@@ -26,6 +28,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -54,6 +57,17 @@ public class PotionEffectHandler {
 	public void applyPotionEffect(EventPotionAdded e) {
 		if (PotionEffectsDefs.getEffect(e.effect) != null)
 			e.effect = PotionEffectsDefs.getEffect(e.effect);
+	}
+	
+	@SubscribeEvent
+	public void loadPotionEffect(EventPotionLoaded e) {
+		EventPotionAdded event = new EventPotionAdded(e.getEffect());
+		MinecraftForge.EVENT_BUS.post(event);
+		e.effect = event.getEffect();
+		System.out.println(e.getEffect().getClass().getSimpleName());
+		if (e.getEffect() instanceof BuffEffect) {
+			((BuffEffect)e.getEffect()).readFromNBT(e.getCompound());
+		}
 	}
 	
 	@SubscribeEvent(priority=EventPriority.LOWEST)

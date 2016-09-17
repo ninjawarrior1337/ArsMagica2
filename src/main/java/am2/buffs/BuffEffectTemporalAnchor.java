@@ -1,10 +1,9 @@
 package am2.buffs;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class BuffEffectTemporalAnchor extends BuffEffect{
 
@@ -53,7 +52,7 @@ public class BuffEffectTemporalAnchor extends BuffEffect{
 	}
 	
 	@Override
-	public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound nbt) {
+	public void writeCustomNBT(NBTTagCompound nbt) {
 		nbt.setDouble("X", x);
 		nbt.setDouble("Y", y);
 		nbt.setDouble("Z", z);
@@ -62,21 +61,18 @@ public class BuffEffectTemporalAnchor extends BuffEffect{
 		nbt.setFloat("RotationYawHead", rotationYawHead);
 		nbt.setFloat("Mana", mana);
 		nbt.setFloat("Health", health);
-
-		return super.writeCustomPotionEffectToNBT(nbt);
 	}
 	
-	public static BuffEffectTemporalAnchor readCustomPotionEffectFromNBT(NBTTagCompound nbt) {
-		BuffEffectTemporalAnchor tmp = (BuffEffectTemporalAnchor)PotionEffect.readCustomPotionEffectFromNBT(nbt);
-		tmp.x = nbt.getDouble("X");
-		tmp.y = nbt.getDouble("Y");
-		tmp.z = nbt.getDouble("Z");
-		tmp.rotationPitch = nbt.getFloat("RotationPitch");
-		tmp.rotationYaw = nbt.getFloat("RotationYaw");
-		tmp.rotationYawHead = nbt.getFloat("RotationYawHead");
-		tmp.health = nbt.getFloat("Health");
-		tmp.mana = nbt.getInteger("Mana");
-		return tmp;
+	@Override
+	public void readCustomNBT(NBTTagCompound nbt) {
+		x = nbt.getDouble("X");
+		y = nbt.getDouble("Y");
+		z = nbt.getDouble("Z");
+		rotationPitch = nbt.getFloat("RotationPitch");
+		rotationYaw = nbt.getFloat("RotationYaw");
+		rotationYawHead = nbt.getFloat("RotationYawHead");
+		health = nbt.getFloat("Health");
+		mana = nbt.getInteger("Mana");
 	}
 	
 	
