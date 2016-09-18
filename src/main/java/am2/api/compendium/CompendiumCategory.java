@@ -21,6 +21,7 @@ public final class CompendiumCategory {
 	public static final CompendiumCategory MECHANIC = createCompendiumCategory("mechanic", new ResourceLocation("arsmagica2", "items/magitech_goggle"));
 	public static final CompendiumCategory MECHANIC_AFFINITY = createCompendiumCategory("mechanic.affinity", new ResourceLocation("missingno"));
 	public static final CompendiumCategory MECHANIC_ENCHANTS = createCompendiumCategory("mechanic.enchants", new ResourceLocation("missingno"));
+	public static final CompendiumCategory MECHANIC_INFUSIONS = createCompendiumCategory("mechanic.infusions", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM = createCompendiumCategory("item", new ResourceLocation("arsmagica2", "items/essence_ice"));
 	public static final CompendiumCategory ITEM_ORE = createCompendiumCategory("item.ore", new ResourceLocation("missingno"));
 	public static final CompendiumCategory ITEM_ESSENCE = createCompendiumCategory("item.essence", new ResourceLocation("missingno"));
@@ -37,6 +38,7 @@ public final class CompendiumCategory {
 	public static final CompendiumCategory BLOCK = createCompendiumCategory("block", new ResourceLocation("arsmagica2", "items/crystal_wrench"));
 	public static final CompendiumCategory BLOCK_ILLUSIONBLOCKS = createCompendiumCategory("block.illusionblocks", new ResourceLocation("missingno"));
 	public static final CompendiumCategory BLOCK_CRYSTALMARKER = createCompendiumCategory("block.crystalmarker", new ResourceLocation("missingno"));
+	public static final CompendiumCategory BLOCK_INLAYS = createCompendiumCategory("block.inlays", new ResourceLocation("missingno"));
 	public static final CompendiumCategory BLOCK_KEYSTONEDOORS = createCompendiumCategory("block.keystonedoors", new ResourceLocation("missingno"));
 	public static final CompendiumCategory BLOCK_INFUSIONS = createCompendiumCategory("block.infusions", new ResourceLocation("missingno"));
 	public static final CompendiumCategory SPELL_SHAPE = createCompendiumCategory("shape", new ResourceLocation("arsmagica2", "items/spells/shapes/Binding"));

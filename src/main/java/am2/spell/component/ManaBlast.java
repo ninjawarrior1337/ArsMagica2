@@ -19,6 +19,7 @@ import am2.particles.ParticleFadeOut;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -31,8 +32,8 @@ public class ManaBlast extends SpellComponent{
 	public Object[] getRecipe(){
 		return new Object[]{
 				ItemDefs.manaFocus,
-				ItemDefs.battlemageArmor,
-				ItemDefs.mageArmor
+				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()),
+				ItemDefs.greaterFocus
 		};
 	}
 

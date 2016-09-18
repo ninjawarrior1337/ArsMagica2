@@ -146,7 +146,7 @@ public class SpellDefs {
 		SpellRegistry.registerSpellComponent("fire_damage", getComponentTexture("FireDamage"), SkillPoint.SKILL_POINT_1, new FireDamage(), SkillDefs.TREE_OFFENSE, 210, 135, "arsmagica2:physical_damage");
 		SpellRegistry.registerSpellComponent("lightning_damage", getComponentTexture("LightningDamage"), SkillPoint.SKILL_POINT_1, new LightningDamage(), SkillDefs.TREE_OFFENSE, 255, 135, "arsmagica2:fire_damage");
 		SpellRegistry.registerSpellComponent("ignition", getComponentTexture("Ignition"), SkillPoint.SKILL_POINT_2, new Ignition(), SkillDefs.TREE_OFFENSE, 165, 135, "arsmagica2:fire_damage");
-		SpellRegistry.registerSpellComponent("forge", getComponentTexture("Forge"), SkillPoint.SKILL_POINT_2, new Forge(), SkillDefs.TREE_OFFENSE, 120, 135, null, "arsmagica2:ignition");	
+		SpellRegistry.registerSpellComponent("forge", getComponentTexture("Forge"), SkillPoint.SKILL_POINT_2, new Forge(), SkillDefs.TREE_OFFENSE, 120, 135, "arsmagica2:ignition");	
 		
 		SpellRegistry.registerSpellComponent("magic_damage", getComponentTexture("MagicDamage"), SkillPoint.SKILL_POINT_1, new MagicDamage(), SkillDefs.TREE_OFFENSE, 390, 135, "arsmagica2:physical_damage");
 		SpellRegistry.registerSpellComponent("frost_damage", getComponentTexture("FrostDamage"), SkillPoint.SKILL_POINT_1, new FrostDamage(), SkillDefs.TREE_OFFENSE, 345, 135, "arsmagica2:magic_damage");
@@ -158,12 +158,12 @@ public class SpellDefs {
 		SpellRegistry.registerSpellComponent("freeze", getComponentTexture("Freeze"), SkillPoint.SKILL_POINT_2, new Freeze(), SkillDefs.TREE_OFFENSE, 345, 180, "arsmagica2:frost_damage");
 		SpellRegistry.registerSpellComponent("knockback", getComponentTexture("Knockback"), SkillPoint.SKILL_POINT_2, new Knockback(), SkillDefs.TREE_OFFENSE, 390, 180, "arsmagica2:magic_damage");
 		
-		SpellRegistry.registerSpellShape("contingency_fire", getShapeTexture("Contingency_Fire"), SkillPoint.SKILL_POINT_2, new Contingency_Fire(), SkillDefs.TREE_OFFENSE, 165, 190, null, "arsmagica2:ignition");
+		SpellRegistry.registerSpellShape("contingency_fire", getShapeTexture("Contingency_Fire"), SkillPoint.SKILL_POINT_2, new Contingency_Fire(), SkillDefs.TREE_OFFENSE, 165, 190, "arsmagica2:ignition");
 		SpellRegistry.registerSpellModifier("solar", getModifierTexture("Solar"), SkillPoint.SKILL_POINT_3, new Solar(), SkillDefs.TREE_OFFENSE, 210, 255, "arsmagica2:blind");
 		
-		SpellRegistry.registerSpellComponent("storm", getComponentTexture("Storm"), SkillPoint.SKILL_POINT_3, new Storm(), SkillDefs.TREE_OFFENSE, 255, 225, null, "arsmagica2:lightning_damage");
+		SpellRegistry.registerSpellComponent("storm", getComponentTexture("Storm"), SkillPoint.SKILL_POINT_3, new Storm(), SkillDefs.TREE_OFFENSE, 255, 225, "arsmagica2:lightning_damage");
 		SpellRegistry.registerSpellComponent("astral_distortion", getComponentTexture("AstralDistortion"), SkillPoint.SKILL_POINT_2, new AstralDistortion(), SkillDefs.TREE_OFFENSE, 367, 215, "arsmagica2:magic_damage", "arsmagica2:frost_damage");
-		SpellRegistry.registerSpellComponent("silence", getComponentTexture("Silence"), SkillPoint.SKILL_POINT_3, new Silence(), SkillDefs.TREE_OFFENSE, 345, 245, null, "arsmagica2:astral_distortion");
+		SpellRegistry.registerSpellComponent("silence", getComponentTexture("Silence"), SkillPoint.SKILL_POINT_3, new Silence(), SkillDefs.TREE_OFFENSE, 345, 245, "arsmagica2:astral_distortion");
 		
 		SpellRegistry.registerSpellComponent("fling", getComponentTexture("Fling"), SkillPoint.SKILL_POINT_2, new Fling(), SkillDefs.TREE_OFFENSE, 390, 245, "arsmagica2:knockback");
 		SpellRegistry.registerSpellModifier("velocity_added", getModifierTexture("VelocityAdded"), SkillPoint.SKILL_POINT_3, new VelocityAdded(), SkillDefs.TREE_OFFENSE, 390, 290, "arsmagica2:fling");
@@ -197,33 +197,33 @@ public class SpellDefs {
 		SpellRegistry.registerSpellModifier("healing", getModifierTexture("Healing"), SkillPoint.SKILL_POINT_3, new Healing(), SkillDefs.TREE_DEFENSE, 402, 135, "arsmagica2:heal");
 
 		SpellRegistry.registerSpellComponent("summon", getComponentTexture("Summon"), SkillPoint.SKILL_POINT_2, new Summon(), SkillDefs.TREE_DEFENSE, 267, 135, "arsmagica2:life_tap");
-		SpellRegistry.registerSpellShape("contingency_damage", getShapeTexture("Contingency_Damage"), SkillPoint.SKILL_POINT_2, new Contingency_Hit(), SkillDefs.TREE_DEFENSE, 447, 180, null, "arsmagica2:healing");
+		SpellRegistry.registerSpellShape("contingency_damage", getShapeTexture("Contingency_Damage"), SkillPoint.SKILL_POINT_2, new Contingency_Hit(), SkillDefs.TREE_DEFENSE, 447, 180, "arsmagica2:healing");
 
 		SpellRegistry.registerSpellComponent("haste", getComponentTexture("Haste"), SkillPoint.SKILL_POINT_1, new Haste(), SkillDefs.TREE_DEFENSE, 177, 155, "arsmagica2:slowfall");
 		SpellRegistry.registerSpellComponent("slow", getComponentTexture("Slow"), SkillPoint.SKILL_POINT_1, new Slow(), SkillDefs.TREE_DEFENSE, 132, 155, "arsmagica2:slowfall");
 
 		SpellRegistry.registerSpellComponent("gravity_well", getComponentTexture("GravityWell"), SkillPoint.SKILL_POINT_2, new GravityWell(), SkillDefs.TREE_DEFENSE, 222, 180, "arsmagica2:slowfall");
 		SpellRegistry.registerSpellComponent("life_drain", getComponentTexture("LifeDrain"), SkillPoint.SKILL_POINT_2, new LifeDrain(), SkillDefs.TREE_DEFENSE, 312, 180, "arsmagica2:life_tap");
-		SpellRegistry.registerSpellComponent("dispel", getComponentTexture("Dispel"), SkillPoint.SKILL_POINT_2, new Dispel(), SkillDefs.TREE_DEFENSE, 357, 180, null, "arsmagica2:heal");
+		SpellRegistry.registerSpellComponent("dispel", getComponentTexture("Dispel"), SkillPoint.SKILL_POINT_2, new Dispel(), SkillDefs.TREE_DEFENSE, 357, 180, "arsmagica2:heal");
 
-		SpellRegistry.registerSpellShape("contingency_fall", getShapeTexture("Contingency_Fall"), SkillPoint.SKILL_POINT_2, new Contingency_Fall(), SkillDefs.TREE_DEFENSE, 267, 180, null, "arsmagica2:gravity_well");
+		SpellRegistry.registerSpellShape("contingency_fall", getShapeTexture("Contingency_Fall"), SkillPoint.SKILL_POINT_2, new Contingency_Fall(), SkillDefs.TREE_DEFENSE, 267, 180, "arsmagica2:gravity_well");
 
 		SpellRegistry.registerSpellComponent("swift_swim", getComponentTexture("SwiftSwim"), SkillPoint.SKILL_POINT_1, new SwiftSwim(), SkillDefs.TREE_DEFENSE, 177, 200, "arsmagica2:haste");
-		SpellRegistry.registerSpellComponent("repel", getComponentTexture("Repel"), SkillPoint.SKILL_POINT_2, new Repel(), SkillDefs.TREE_DEFENSE, 132, 200, null, "arsmagica2:slow");
+		SpellRegistry.registerSpellComponent("repel", getComponentTexture("Repel"), SkillPoint.SKILL_POINT_2, new Repel(), SkillDefs.TREE_DEFENSE, 132, 200, "arsmagica2:slow");
 
 		SpellRegistry.registerSpellComponent("levitate", getComponentTexture("Levitate"), SkillPoint.SKILL_POINT_2, new Levitation(), SkillDefs.TREE_DEFENSE, 222, 225, "arsmagica2:gravity_well");
-		SpellRegistry.registerSpellComponent("mana_drain", getComponentTexture("ManaDrain"), SkillPoint.SKILL_POINT_2, new ManaDrain(), SkillDefs.TREE_DEFENSE, 312, 225, null, "arsmagica2:life_drain");
+		SpellRegistry.registerSpellComponent("mana_drain", getComponentTexture("ManaDrain"), SkillPoint.SKILL_POINT_2, new ManaDrain(), SkillDefs.TREE_DEFENSE, 312, 225, "arsmagica2:life_drain");
 		SpellRegistry.registerSpellShape("zone", getShapeTexture("Zone"), SkillPoint.SKILL_POINT_3, new Zone(), SkillDefs.TREE_DEFENSE, 357, 225, "arsmagica2:dispel");
 
 		SpellRegistry.registerSpellShape("wall", getShapeTexture("Wall"), SkillPoint.SKILL_POINT_2, new Wall(), SkillDefs.TREE_DEFENSE, 87, 200, "arsmagica2:repel");
-		SpellRegistry.registerSpellComponent("accelerate", getComponentTexture("Accelerate"), SkillPoint.SKILL_POINT_2, new Accelerate(), SkillDefs.TREE_DEFENSE, 177, 245, null, "arsmagica2:swift_swim");
+		SpellRegistry.registerSpellComponent("accelerate", getComponentTexture("Accelerate"), SkillPoint.SKILL_POINT_2, new Accelerate(), SkillDefs.TREE_DEFENSE, 177, 245, "arsmagica2:swift_swim");
 		SpellRegistry.registerSpellComponent("entangle", getComponentTexture("Entangle"), SkillPoint.SKILL_POINT_2, new Entangle(), SkillDefs.TREE_DEFENSE, 132, 245, "arsmagica2:repel");
-		SpellRegistry.registerSpellComponent("appropriation", getComponentTexture("Appropriation"), SkillPoint.SKILL_POINT_3, new Appropriation(), SkillDefs.TREE_DEFENSE, 87, 245, null, "arsmagica2:entangle");
+		SpellRegistry.registerSpellComponent("appropriation", getComponentTexture("Appropriation"), SkillPoint.SKILL_POINT_3, new Appropriation(), SkillDefs.TREE_DEFENSE, 87, 245, "arsmagica2:entangle");
 
 		SpellRegistry.registerSpellComponent("flight", getComponentTexture("Flight"), SkillPoint.SKILL_POINT_3, new Flight(), SkillDefs.TREE_DEFENSE, 222, 270, "arsmagica2:levitate");
 		SpellRegistry.registerSpellComponent("shield", getComponentTexture("Shield"), SkillPoint.SKILL_POINT_1, new Shield(), SkillDefs.TREE_DEFENSE, 357, 270, "arsmagica2:zone");
 
-		SpellRegistry.registerSpellShape("contingency_health", getShapeTexture("Contingency_Health"), SkillPoint.SKILL_POINT_3, new Contingency_Health(), SkillDefs.TREE_DEFENSE, 402, 270, null, "arsmagica2:shield");
+		SpellRegistry.registerSpellShape("contingency_health", getShapeTexture("Contingency_Health"), SkillPoint.SKILL_POINT_3, new Contingency_Health(), SkillDefs.TREE_DEFENSE, 402, 270, "arsmagica2:shield");
 
 		SpellRegistry.registerSpellShape("rune", getShapeTexture("Rune"), SkillPoint.SKILL_POINT_2, new Rune(), SkillDefs.TREE_DEFENSE, 157, 315, "arsmagica2:accelerate", "arsmagica2:entangle");
 
@@ -246,58 +246,58 @@ public class SpellDefs {
 		//utility tree
 		SpellRegistry.registerSpellShape("touch", getShapeTexture("Touch"), SkillPoint.SKILL_POINT_1, new Touch(), SkillDefs.TREE_UTILITY, 275, 75);
 
-		SpellRegistry.registerSpellComponent("dig", getComponentTexture("Dig"), SkillPoint.SKILL_POINT_1, new Dig(), SkillDefs.TREE_UTILITY, 275, 120, null, "arsmagica2:touch");
-		SpellRegistry.registerSpellComponent("wizards_autumn", getComponentTexture("WizardsAutumn"), SkillPoint.SKILL_POINT_1, new WizardsAutumn(), SkillDefs.TREE_UTILITY, 315, 120, null, "arsmagica2:dig");
+		SpellRegistry.registerSpellComponent("dig", getComponentTexture("Dig"), SkillPoint.SKILL_POINT_1, new Dig(), SkillDefs.TREE_UTILITY, 275, 120, "arsmagica2:touch");
+		SpellRegistry.registerSpellComponent("wizards_autumn", getComponentTexture("WizardsAutumn"), SkillPoint.SKILL_POINT_1, new WizardsAutumn(), SkillDefs.TREE_UTILITY, 315, 120, "arsmagica2:dig");
 		SpellRegistry.registerSpellModifier("target_non_solid", getModifierTexture("TargetNonSolid"), SkillPoint.SKILL_POINT_1, new TargetNonSolidBlocks(), SkillDefs.TREE_UTILITY, 230, 75, "arsmagica2:touch");
 
-		SpellRegistry.registerSpellComponent("place_block", getComponentTexture("PlaceBlock"), SkillPoint.SKILL_POINT_1, new PlaceBlock(), SkillDefs.TREE_UTILITY, 185, 93, null, "arsmagica2:dig");
+		SpellRegistry.registerSpellComponent("place_block", getComponentTexture("PlaceBlock"), SkillPoint.SKILL_POINT_1, new PlaceBlock(), SkillDefs.TREE_UTILITY, 185, 93, "arsmagica2:dig");
 		SpellRegistry.registerSpellModifier("feather_touch", getModifierTexture("FeatherTouch"), SkillPoint.SKILL_POINT_1, new FeatherTouch(), SkillDefs.TREE_UTILITY, 230, 137, "arsmagica2:dig");
 		SpellRegistry.registerSpellModifier("mining_power", getModifierTexture("MiningPower"), SkillPoint.SKILL_POINT_2, new MiningPower(), SkillDefs.TREE_UTILITY, 185, 137, "arsmagica2:feather_touch");
 
-		SpellRegistry.registerSpellComponent("light", getComponentTexture("Light"), SkillPoint.SKILL_POINT_1, new Light(), SkillDefs.TREE_UTILITY, 275, 165, null, "arsmagica2:dig");
-		SpellRegistry.registerSpellComponent("night_vision", getComponentTexture("NightVision"), SkillPoint.SKILL_POINT_1, new NightVision(), SkillDefs.TREE_UTILITY, 185, 165, null, "arsmagica2:light");
+		SpellRegistry.registerSpellComponent("light", getComponentTexture("Light"), SkillPoint.SKILL_POINT_1, new Light(), SkillDefs.TREE_UTILITY, 275, 165, "arsmagica2:dig");
+		SpellRegistry.registerSpellComponent("night_vision", getComponentTexture("NightVision"), SkillPoint.SKILL_POINT_1, new NightVision(), SkillDefs.TREE_UTILITY, 185, 165, "arsmagica2:light");
 
-		SpellRegistry.registerSpellShape("binding", getShapeTexture("Binding"), SkillPoint.SKILL_POINT_1, new Binding(), SkillDefs.TREE_UTILITY, 275, 210, null, "arsmagica2:light");
-		SpellRegistry.registerSpellComponent("disarm", getComponentTexture("Disarm"), SkillPoint.SKILL_POINT_1, new Disarm(), SkillDefs.TREE_UTILITY, 230, 210, null, "arsmagica2:binding");
-		SpellRegistry.registerSpellComponent("charm", getComponentTexture("Charm"), SkillPoint.SKILL_POINT_1, new Charm(), SkillDefs.TREE_UTILITY, 315, 235, null, "arsmagica2:binding");
-		SpellRegistry.registerSpellComponent("true_sight", getComponentTexture("TrueSight"), SkillPoint.SKILL_POINT_1, new TrueSight(), SkillDefs.TREE_UTILITY, 185, 210, null, "arsmagica2:night_vision");
+		SpellRegistry.registerSpellShape("binding", getShapeTexture("Binding"), SkillPoint.SKILL_POINT_1, new Binding(), SkillDefs.TREE_UTILITY, 275, 210, "arsmagica2:light");
+		SpellRegistry.registerSpellComponent("disarm", getComponentTexture("Disarm"), SkillPoint.SKILL_POINT_1, new Disarm(), SkillDefs.TREE_UTILITY, 230, 210, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("charm", getComponentTexture("Charm"), SkillPoint.SKILL_POINT_1, new Charm(), SkillDefs.TREE_UTILITY, 315, 235, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("true_sight", getComponentTexture("TrueSight"), SkillPoint.SKILL_POINT_1, new TrueSight(), SkillDefs.TREE_UTILITY, 185, 210, "arsmagica2:night_vision");
 
 		SpellRegistry.registerSpellModifier("lunar", getModifierTexture("Lunar"), SkillPoint.SKILL_POINT_3, new Lunar(), SkillDefs.TREE_UTILITY, 145, 210, "arsmagica2:true_sight");
 
-		SpellRegistry.registerSpellComponent("harvest_plants", getComponentTexture("HarvestPlants"), SkillPoint.SKILL_POINT_2, new HarvestPlants(), SkillDefs.TREE_UTILITY, 365, 120, null, "arsmagica2:binding");
-		SpellRegistry.registerSpellComponent("plow", getComponentTexture("Plow"), SkillPoint.SKILL_POINT_1, new Plow(), SkillDefs.TREE_UTILITY, 365, 165, null, "arsmagica2:binding");
-		SpellRegistry.registerSpellComponent("plant", getComponentTexture("Plant"), SkillPoint.SKILL_POINT_1, new Plant(), SkillDefs.TREE_UTILITY, 365, 210, null, "arsmagica2:binding");
-		SpellRegistry.registerSpellComponent("create_water", getComponentTexture("CreateWater"), SkillPoint.SKILL_POINT_2, new CreateWater(), SkillDefs.TREE_UTILITY, 365, 255, null, "arsmagica2:binding");
-		SpellRegistry.registerSpellComponent("drought", getComponentTexture("Drought"), SkillPoint.SKILL_POINT_2, new Drought(), SkillDefs.TREE_UTILITY, 365, 300, null, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("harvest_plants", getComponentTexture("HarvestPlants"), SkillPoint.SKILL_POINT_2, new HarvestPlants(), SkillDefs.TREE_UTILITY, 365, 120, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("plow", getComponentTexture("Plow"), SkillPoint.SKILL_POINT_1, new Plow(), SkillDefs.TREE_UTILITY, 365, 165, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("plant", getComponentTexture("Plant"), SkillPoint.SKILL_POINT_1, new Plant(), SkillDefs.TREE_UTILITY, 365, 210, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("create_water", getComponentTexture("CreateWater"), SkillPoint.SKILL_POINT_2, new CreateWater(), SkillDefs.TREE_UTILITY, 365, 255, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("drought", getComponentTexture("Drought"), SkillPoint.SKILL_POINT_2, new Drought(), SkillDefs.TREE_UTILITY, 365, 300, "arsmagica2:binding");
 
-		SpellRegistry.registerSpellComponent("banish_rain", getComponentTexture("BanishRain"), SkillPoint.SKILL_POINT_2, new BanishRain(), SkillDefs.TREE_UTILITY, 365, 345, null, "arsmagica2:drought");
-		SpellRegistry.registerSpellComponent("water_breathing", getComponentTexture("WaterBreathing"), SkillPoint.SKILL_POINT_1, new WaterBreathing(), SkillDefs.TREE_UTILITY, 410, 345, null, "arsmagica2:drought");
+		SpellRegistry.registerSpellComponent("banish_rain", getComponentTexture("BanishRain"), SkillPoint.SKILL_POINT_2, new BanishRain(), SkillDefs.TREE_UTILITY, 365, 345, "arsmagica2:drought");
+		SpellRegistry.registerSpellComponent("water_breathing", getComponentTexture("WaterBreathing"), SkillPoint.SKILL_POINT_1, new WaterBreathing(), SkillDefs.TREE_UTILITY, 410, 345, "arsmagica2:drought");
 
-		SpellRegistry.registerSpellComponent("grow", getComponentTexture("Grow"), SkillPoint.SKILL_POINT_3, new Grow(), SkillDefs.TREE_UTILITY, 410, 210, null, "arsmagica2:drought", "arsmagica2:create_water", "arsmagica2:plant", "arsmagica2:plow", "arsmagica2:harvest_plants");
+		SpellRegistry.registerSpellComponent("grow", getComponentTexture("Grow"), SkillPoint.SKILL_POINT_3, new Grow(), SkillDefs.TREE_UTILITY, 410, 210, "arsmagica2:drought", "arsmagica2:create_water", "arsmagica2:plant", "arsmagica2:plow", "arsmagica2:harvest_plants");
 
-		SpellRegistry.registerSpellShape("chain", getShapeTexture("Chain"), SkillPoint.SKILL_POINT_3, new Chain(), SkillDefs.TREE_UTILITY, 455, 210, null, "arsmagica2:grow");
+		SpellRegistry.registerSpellShape("chain", getShapeTexture("Chain"), SkillPoint.SKILL_POINT_3, new Chain(), SkillDefs.TREE_UTILITY, 455, 210, "arsmagica2:grow");
 
-		SpellRegistry.registerSpellComponent("rift", getComponentTexture("Rift"), SkillPoint.SKILL_POINT_2, new Rift(), SkillDefs.TREE_UTILITY, 275, 255, null, "arsmagica2:binding");
-		SpellRegistry.registerSpellComponent("invisibility", getComponentTexture("Invisibility"), SkillPoint.SKILL_POINT_2, new Invisiblity(), SkillDefs.TREE_UTILITY, 185, 255, null, "arsmagica2:true_sight");
+		SpellRegistry.registerSpellComponent("rift", getComponentTexture("Rift"), SkillPoint.SKILL_POINT_2, new Rift(), SkillDefs.TREE_UTILITY, 275, 255, "arsmagica2:binding");
+		SpellRegistry.registerSpellComponent("invisibility", getComponentTexture("Invisibility"), SkillPoint.SKILL_POINT_2, new Invisiblity(), SkillDefs.TREE_UTILITY, 185, 255, "arsmagica2:true_sight");
 
-		SpellRegistry.registerSpellComponent("random_teleport", getComponentTexture("RandomTeleport"), SkillPoint.SKILL_POINT_1, new RandomTeleport(), SkillDefs.TREE_UTILITY, 185, 300, null, "arsmagica2:invisibility");
-		SpellRegistry.registerSpellComponent("attract", getComponentTexture("Attract"), SkillPoint.SKILL_POINT_2, new Attract(), SkillDefs.TREE_UTILITY, 245, 300, null, "arsmagica2:rift");
-		SpellRegistry.registerSpellComponent("telekinesis", getComponentTexture("Telekinesis"), SkillPoint.SKILL_POINT_2, new Telekinesis(), SkillDefs.TREE_UTILITY, 305, 300, null, "arsmagica2:rift");
+		SpellRegistry.registerSpellComponent("random_teleport", getComponentTexture("RandomTeleport"), SkillPoint.SKILL_POINT_1, new RandomTeleport(), SkillDefs.TREE_UTILITY, 185, 300, "arsmagica2:invisibility");
+		SpellRegistry.registerSpellComponent("attract", getComponentTexture("Attract"), SkillPoint.SKILL_POINT_2, new Attract(), SkillDefs.TREE_UTILITY, 245, 300, "arsmagica2:rift");
+		SpellRegistry.registerSpellComponent("telekinesis", getComponentTexture("Telekinesis"), SkillPoint.SKILL_POINT_2, new Telekinesis(), SkillDefs.TREE_UTILITY, 305, 300, "arsmagica2:rift");
 
-		SpellRegistry.registerSpellComponent("blink", getComponentTexture("Blink"), SkillPoint.SKILL_POINT_2, new Blink(), SkillDefs.TREE_UTILITY, 185, 345, null, "arsmagica2:random_teleport");
+		SpellRegistry.registerSpellComponent("blink", getComponentTexture("Blink"), SkillPoint.SKILL_POINT_2, new Blink(), SkillDefs.TREE_UTILITY, 185, 345, "arsmagica2:random_teleport");
 		SpellRegistry.registerSpellModifier("range", getModifierTexture("Range"), SkillPoint.SKILL_POINT_3, new Range(), SkillDefs.TREE_UTILITY, 140, 345, "arsmagica2:blink");
-		SpellRegistry.registerSpellShape("channel", getShapeTexture("Channel"), SkillPoint.SKILL_POINT_2, new Channel(), SkillDefs.TREE_UTILITY, 275, 345, null, "arsmagica2:attract", "arsmagica2:telekinesis");
+		SpellRegistry.registerSpellShape("channel", getShapeTexture("Channel"), SkillPoint.SKILL_POINT_2, new Channel(), SkillDefs.TREE_UTILITY, 275, 345, "arsmagica2:attract", "arsmagica2:telekinesis");
 
 		SpellRegistry.registerSpellModifier("radius", getModifierTexture("Radius"), SkillPoint.SKILL_POINT_3, new Radius(), SkillDefs.TREE_UTILITY, 275, 390, "arsmagica2:channel");
-		SpellRegistry.registerSpellComponent("transplace", getComponentTexture("Transplace"), SkillPoint.SKILL_POINT_1, new Transplace(), SkillDefs.TREE_UTILITY, 185, 390, null, "arsmagica2:blink");
+		SpellRegistry.registerSpellComponent("transplace", getComponentTexture("Transplace"), SkillPoint.SKILL_POINT_1, new Transplace(), SkillDefs.TREE_UTILITY, 185, 390, "arsmagica2:blink");
 
-		SpellRegistry.registerSpellComponent("mark", getComponentTexture("Mark"), SkillPoint.SKILL_POINT_2, new Mark(), SkillDefs.TREE_UTILITY, 155, 435, null, "arsmagica2:transplace");
-		SpellRegistry.registerSpellComponent("recall", getComponentTexture("Recall"), SkillPoint.SKILL_POINT_2, new Recall(), SkillDefs.TREE_UTILITY, 215, 435, null, "arsmagica2:transplace");
+		SpellRegistry.registerSpellComponent("mark", getComponentTexture("Mark"), SkillPoint.SKILL_POINT_2, new Mark(), SkillDefs.TREE_UTILITY, 155, 435, "arsmagica2:transplace");
+		SpellRegistry.registerSpellComponent("recall", getComponentTexture("Recall"), SkillPoint.SKILL_POINT_2, new Recall(), SkillDefs.TREE_UTILITY, 215, 435, "arsmagica2:transplace");
 
-		SpellRegistry.registerSpellComponent("divine_intervention", getComponentTexture("DivineIntervention"), SkillPoint.SKILL_POINT_3, new DivineIntervention(), SkillDefs.TREE_UTILITY, 172, 480, null, "arsmagica2:recall", "arsmagica2:mark");
-		SpellRegistry.registerSpellComponent("ender_intervention", getComponentTexture("EnderIntervention"), SkillPoint.SKILL_POINT_3, new EnderIntervention(), SkillDefs.TREE_UTILITY, 198, 480, null, "arsmagica2:recall", "arsmagica2:mark");
+		SpellRegistry.registerSpellComponent("divine_intervention", getComponentTexture("DivineIntervention"), SkillPoint.SKILL_POINT_3, new DivineIntervention(), SkillDefs.TREE_UTILITY, 172, 480, "arsmagica2:recall", "arsmagica2:mark");
+		SpellRegistry.registerSpellComponent("ender_intervention", getComponentTexture("EnderIntervention"), SkillPoint.SKILL_POINT_3, new EnderIntervention(), SkillDefs.TREE_UTILITY, 198, 480, "arsmagica2:recall", "arsmagica2:mark");
 
-		SpellRegistry.registerSpellShape("contingency_death", getShapeTexture("Contingency_Death"), SkillPoint.SKILL_POINT_3, new Contingency_Death(), SkillDefs.TREE_UTILITY, 198, 524, null, "arsmagica2:ender_intervention");
+		SpellRegistry.registerSpellShape("contingency_death", getShapeTexture("Contingency_Death"), SkillPoint.SKILL_POINT_3, new Contingency_Death(), SkillDefs.TREE_UTILITY, 198, 524, "arsmagica2:ender_intervention");
 
 		SpellRegistry.registerSpellComponent("daylight", getComponentTexture("Daylight"), SkillPoint.SILVER_POINT, new Daylight(), SkillDefs.TREE_UTILITY, 75, 45);
 		SpellRegistry.registerSpellComponent("moonrise", getComponentTexture("Moonrise"), SkillPoint.SILVER_POINT, new Moonrise(), SkillDefs.TREE_UTILITY, 75, 90);

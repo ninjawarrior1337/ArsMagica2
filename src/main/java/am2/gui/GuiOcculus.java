@@ -206,6 +206,8 @@ public class GuiOcculus extends GuiScreen {
 				if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
 					continue;
 				for (String p : s.getParents()) {
+					if (p == null)
+						continue;
 		        	Skill parent = SkillRegistry.getSkillFromName(p);
 		        	if (parent == null || !skills.contains(parent)) continue;
 					if (!parent.getPoint().canRender() && !data.hasSkill(parent.getID()))

@@ -62,6 +62,7 @@ public class LoreDefs {
 	private static void initMechanics() {
 		initAffinities();
 		initEnchantments();
+		initImbuements();
 		createEntry(MECHANIC, "spell_creation", 3);
 		createEntry(MECHANIC, "infusion", 1);		
 		createEntry(MECHANIC, "mana", 1);		
@@ -90,6 +91,41 @@ public class LoreDefs {
 		createEntry(MECHANIC_AFFINITY, "life_affinity", 1);		
 		createEntry(MECHANIC_AFFINITY, "arcane_affinity", 1);		
 		createEntry(MECHANIC_AFFINITY, "ender_affinity", 1);		
+	}
+	
+	private static void initImbuements() {
+		createEntry(MECHANIC_INFUSIONS, "imbuement_burnout_reduction", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_fall_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_drown_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_explosive_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_phys_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_fire_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_frost_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_lightning_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_magic_damage", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_mana_regeneration", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_magitech", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_pinpoint_ores", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_hunger_regen", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_mining_speed", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_thaumic_vision", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_water_breathing", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_flicker_lure", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_soulbound", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_healing", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_life_saving", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_bonus_xp", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_recoil", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_stepassist", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_dispelling", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_lava_prot", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_jump_boost", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_swim_boost", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_run_speed", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_fall_protection", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_freedom", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_water_walking", 1);
+		createEntry(MECHANIC_INFUSIONS, "imbuement_light_step", 1);
 	}
 	
 	private static void initItems() {
@@ -276,7 +312,6 @@ public class LoreDefs {
 		createItemEntry(BLOCK, "everstone", new ItemStack (BlockDefs.everstone), 1);
 		createItemEntry(BLOCK, "vinteum_torch", new ItemStack (BlockDefs.vinteumTorch), 1);
 		createItemEntry(BLOCK, "slipstream_generator", new ItemStack (BlockDefs.slipstreamGenerator), 1);
-		createItemEntry(BLOCK, "obelisk", new ItemStack (BlockDefs.obelisk), 1);
 		createItemEntry(BLOCK, "broken_power_link", new ItemStack (BlockDefs.brokenPowerLink), 1);
 		createItemEntry(BLOCK, "flicker_habitat", new ItemStack (BlockDefs.elementalAttuner), 1);
 		createItemEntry(BLOCK, "flicker_lure", new ItemStack (BlockDefs.flickerLure), 1);
