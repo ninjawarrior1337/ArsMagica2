@@ -337,7 +337,7 @@ public class ItemDefs {
 		
 		DefaultWithMetaRenderer coreRenderer = new DefaultWithMetaRenderer(new ModelResourceLocation(core.getRegistryName() + "_base", "inventory"));
 		for (int i = 0; i < 3; i++) {
-			ModelResourceLocation loc = new ModelResourceLocation(core.getRegistryName().toString() + (i == ItemCore.BASE_CORE ? "_base" : (i == ItemCore.HIGH_CORE ? "_high" : "_pure")), "inventory");
+			ModelResourceLocation loc = new ModelResourceLocation(core.getRegistryName().toString() + (i == ItemCore.META_BASE_CORE ? "_base" : (i == ItemCore.META_HIGH_CORE ? "_high" : "_pure")), "inventory");
 			ModelBakery.registerItemVariants(core, loc);
 			coreRenderer.addModel(i, loc);			
 		}

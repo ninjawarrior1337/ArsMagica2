@@ -28,7 +28,7 @@ public class Prosperity extends SpellModifier{
 	public Object[] getRecipe(){
 		return new Object[]{
 				Items.GOLD_INGOT,
-				new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE),
+				new ItemStack(ItemDefs.core, 1, ItemCore.META_BASE_CORE),
 				Items.GOLD_INGOT
 		};
 	}

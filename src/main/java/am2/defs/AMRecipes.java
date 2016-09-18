@@ -148,10 +148,13 @@ public class AMRecipes {
 		}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockDefs.manaDrain), new Object[]{
-				"GGG", "VVV", "GBG",
-				Character.valueOf('C'), "blockGlassColorless",
+				"WPW", "VAV", "WBW",
 				Character.valueOf('B'), "gemBlueTopaz",
-				Character.valueOf('V'), "dustVinteum"
+				Character.valueOf('V'), "dustVinteum",
+				Character.valueOf('A'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
+				Character.valueOf('W'), BlockDefs.magicWall,
+				Character.valueOf('P'), new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE)
+				
 		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockDefs.arcaneReconstructor), new Object[]{
@@ -169,7 +172,7 @@ public class AMRecipes {
 				"WWW",
 				Character.valueOf('I'), ItemDefs.itemFocus,
 				Character.valueOf('G'), "blockGlassColorless",
-				Character.valueOf('R'), new ItemStack(ItemDefs.core, 1, ItemCore.PURE),
+				Character.valueOf('R'), new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE),
 				Character.valueOf('W'), BlockDefs.witchwoodPlanks,
 				Character.valueOf('D'), ItemDefs.deficitCrystal
 		}));
@@ -405,7 +408,7 @@ public class AMRecipes {
 				"C C",
 				"RPI",
 				"C C",
-				Character.valueOf('P'), new ItemStack(ItemDefs.core, 1, ItemCore.PURE),
+				Character.valueOf('P'), new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE),
 				Character.valueOf('I'), new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_SET_IMPORT),
 				Character.valueOf('C'), "dyeCyan",
 				Character.valueOf('R'), new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_REGULATE_MULTI)

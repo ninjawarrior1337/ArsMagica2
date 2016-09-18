@@ -27,7 +27,7 @@ public class Dismembering extends SpellModifier{
 	@Override
 	public Object[] getRecipe(){
 		return new Object[]{
-				new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE),
+				new ItemStack(ItemDefs.core, 1, ItemCore.META_BASE_CORE),
 				new ItemStack(Items.SKULL, 1, 1),
 				Items.BONE
 		};

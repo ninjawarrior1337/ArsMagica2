@@ -199,7 +199,7 @@ public class RecipesEssenceRefiner extends RecipesArsMagica{
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH))
 				},
-				new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE));
+				new ItemStack(ItemDefs.core, 1, ItemCore.META_BASE_CORE));
 		//high essence core
 		AddRecipe(new ItemStack[]{
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
@@ -208,25 +208,25 @@ public class RecipesEssenceRefiner extends RecipesArsMagica{
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE))
 				},
-				new ItemStack(ItemDefs.core, 1, ItemCore.HIGH_CORE));
+				new ItemStack(ItemDefs.core, 1, ItemCore.META_HIGH_CORE));
 		//pure essence
 		AddRecipe(new ItemStack[]{
-						new ItemStack(ItemDefs.core, 1, ItemCore.HIGH_CORE),
+						new ItemStack(ItemDefs.core, 1, ItemCore.META_HIGH_CORE),
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
 						new ItemStack(Items.DIAMOND),
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)),
-						new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE)
+						new ItemStack(ItemDefs.core, 1, ItemCore.META_BASE_CORE)
 				},
-				new ItemStack(ItemDefs.core, 1, ItemCore.PURE));
+				new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE));
 
 		AddRecipe(new ItemStack[]{
-						new ItemStack(ItemDefs.core, 1, ItemCore.HIGH_CORE),
+						new ItemStack(ItemDefs.core, 1, ItemCore.META_HIGH_CORE),
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)),
 						new ItemStack(Items.DIAMOND),
 						new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
-						new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE)
+						new ItemStack(ItemDefs.core, 1, ItemCore.META_BASE_CORE)
 				},
-				new ItemStack(ItemDefs.core, 1, ItemCore.PURE));
+				new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE));
 
 		//deficit crystal
 		AddRecipe(new ItemStack[]{

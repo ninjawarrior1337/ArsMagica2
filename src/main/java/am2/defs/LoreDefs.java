@@ -12,6 +12,7 @@ import am2.api.compendium.CompendiumEntry;
 import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
+import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockArsMagicaOre.EnumOreType;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
@@ -175,9 +176,9 @@ public class LoreDefs {
 		createItemEntry(ITEM_ESSENCE, "essence_lightning", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 0);
 		createItemEntry(ITEM_ESSENCE, "essence_life", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0);
 		createItemEntry(ITEM_ESSENCE, "essence_ender", new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 0);
-		createItemEntry(ITEM_ESSENCE, "pure_essence", new ItemStack(ItemDefs.core, 1, ItemCore.PURE), 1);
-		createItemEntry(ITEM_ESSENCE, "base_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.BASE_CORE), 1);
-		createItemEntry(ITEM_ESSENCE, "high_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.HIGH_CORE), 1);
+		createItemEntry(ITEM_ESSENCE, "pure_essence", new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE), 1);
+		createItemEntry(ITEM_ESSENCE, "base_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.META_BASE_CORE), 1);
+		createItemEntry(ITEM_ESSENCE, "high_essence_core", new ItemStack(ItemDefs.core, 1, ItemCore.META_HIGH_CORE), 1);
 		createItemEntry(ITEM_ESSENCE, "essence_bag", new ItemStack(ItemDefs.essenceBag, 1, 0), 1);
 
 		createEntry(ITEM_RUNE, "runes", 1);
@@ -323,6 +324,26 @@ public class LoreDefs {
 		createItemEntry(BLOCK_ILLUSIONBLOCKS, "default_illusionblock", new ItemStack (BlockDefs.illusionBlock, 1, 0), 1);
 		createItemEntry(BLOCK_ILLUSIONBLOCKS, "ethereal_illusionblock", new ItemStack (BlockDefs.illusionBlock, 1, 1), 1);
 		
+		createEntry(BLOCK_INLAYS, "inlays", 1);
+		createItemEntry(BLOCK_INLAYS, "redstone_inlay", new ItemStack (BlockDefs.redstoneInlay), 1);
+		createItemEntry(BLOCK_INLAYS, "iron_inlay", new ItemStack (BlockDefs.ironInlay), 1);
+		createItemEntry(BLOCK_INLAYS, "gold_inlay", new ItemStack (BlockDefs.goldInlay), 1);
+		
+		BLOCK.addEntry(new CompendiumEntry(null, "keystone_doors")
+				.addObject("compendium.keystone_doors.page1")
+				.addObject(new ItemStack(BlockDefs.keystoneDoor))
+				.addObject(new ItemStack(BlockDefs.keystoneTrapdoor)));
+		
+		createEntry(BLOCK_CRYSTALMARKER, "crystal_markers", 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_import", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_IN), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_export", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_OUT), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_mimic_export", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_LIKE_EXPORT), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_set_export", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_SET_EXPORT), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_regulate_export", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_REGULATE_EXPORT), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_regulate_bidirectional", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_REGULATE_MULTI), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_set_import", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_SET_IMPORT), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_final_export", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_FINAL_DEST), 1);
+		createItemEntry(BLOCK_CRYSTALMARKER, "crystal_marker_spell_export", new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_SPELL_EXPORT), 1);
 	}
 	
 	private static void initShapes() {

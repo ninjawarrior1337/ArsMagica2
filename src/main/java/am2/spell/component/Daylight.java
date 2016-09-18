@@ -29,7 +29,7 @@ public class Daylight extends SpellComponent{
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE),
 				Items.CLOCK,
-				new ItemStack(ItemDefs.core, 1, ItemCore.PURE)
+				new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE)
 		};
 	}
 
