@@ -32,8 +32,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class EntityUtils {
@@ -367,25 +365,6 @@ public class EntityUtils {
 			addedXP += toAdd;
 		}
 		return amount;
-	}
-	
-	public static int getRuneCombo(EntityPlayer player){
-		int hash = player.getName().toLowerCase().hashCode();
-		return hash & 0xFFFFF;
-	}
-
-	public static EntityPlayer getPlayerForCombo(World world, int combo){
-		if (world.isRemote)
-			return null;
-		combo &= 0xFFFFF; //convert to a valid key; drop all other bits.
-		for (WorldServer ws : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers){
-			for (Object o : ws.playerEntities){
-				EntityPlayer player = (EntityPlayer)o;
-				if (getRuneCombo(player) == combo)
-					return player;
-			}
-		}
-		return null;
 	}
 
 }

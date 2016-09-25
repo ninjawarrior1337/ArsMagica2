@@ -350,12 +350,11 @@ public class BlockDefs {
 		if (dimensionList == null || dimensionList.size() < 1){
 			return null;
 		}
-
+		
 		int index = dimensionList.indexOf(location);
 		index++;
 		if (index >= dimensionList.size()) index = 0;
 		AMVector3 newLocation = dimensionList.get(index);
-		//TODO While is making this bug...
 		for (int i = 0; i < dimensionList.size(); i++){
 			TileEntity te = world.getTileEntity(newLocation.toBlockPos());
 			if (te != null && te instanceof TileEntityKeystoneRecepticle){

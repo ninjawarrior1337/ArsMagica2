@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class RitualShapeHelper {
 	
@@ -39,7 +40,7 @@ public class RitualShapeHelper {
 			boolean matches = false;
 			for (EntityItem item : items) {
 				ItemStack is = item.getEntityItem();
-				if (is.getItem().equals(stack.getItem()) && is.getMetadata() == stack.getMetadata() && is.stackSize >= stack.stackSize)
+				if (is.getItem().equals(stack.getItem()) && (stack.getMetadata() == OreDictionary.WILDCARD_VALUE || is.getMetadata() == stack.getMetadata()) && is.stackSize >= stack.stackSize)
 					matches = true;
 			}
 			if (!matches)
@@ -208,6 +209,7 @@ public class RitualShapeHelper {
 	
 	private void hourglassRitual() {
 		MultiblockGroup chalks = new MultiblockGroup("chalk", Lists.newArrayList(BlockDefs.wizardChalk.getDefaultState()), true);
+		MultiblockGroup chalks_rotated = new MultiblockGroup("chalk_rot", Lists.newArrayList(BlockDefs.wizardChalk.getDefaultState()), true);
 
 		chalks.addBlock(new BlockPos(0, 0, 0));
 
@@ -222,6 +224,20 @@ public class RitualShapeHelper {
 		chalks.addBlock(new BlockPos(2, 0, 1));
 		chalks.addBlock(new BlockPos(2, 0, 0));
 		chalks.addBlock(new BlockPos(2, 0, -1));
+		
+		chalks_rotated.addBlock(new BlockPos(0, 0, 0));
+
+		chalks_rotated.addBlock(new BlockPos(-1, 0, 1));
+		chalks_rotated.addBlock(new BlockPos(-1, 0, -1));
+		chalks_rotated.addBlock(new BlockPos(1, 0, 1));
+		chalks_rotated.addBlock(new BlockPos(1, 0, -1));
+
+		chalks_rotated.addBlock(new BlockPos(1, 0, -2));
+		chalks_rotated.addBlock(new BlockPos(0, 0, -2));
+		chalks_rotated.addBlock(new BlockPos(-1, 0, -2));
+		chalks_rotated.addBlock(new BlockPos(1, 0, 2));
+		chalks_rotated.addBlock(new BlockPos(0, 0, 2));
+		chalks_rotated.addBlock(new BlockPos(-1, 0, 2));
 		
 		hourglass.addGroup(chalks);
 	}

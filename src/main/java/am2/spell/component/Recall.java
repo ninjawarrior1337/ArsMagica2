@@ -8,7 +8,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
-import am2.LogHelper;
 import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.extensions.IEntityExtension;
@@ -24,8 +23,8 @@ import am2.items.ItemOre;
 import am2.particles.AMParticle;
 import am2.particles.ParticleExpandingCollapsingRingAtPoint;
 import am2.utils.DimensionUtilities;
-import am2.utils.EntityUtils;
 import am2.utils.KeystoneUtilities;
+import am2.utils.SelectionUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,10 +59,11 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 				((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.cantTeleport")));
 			return false;
 		}
-
-		ItemStack[] ritualRunes = RitualShapeHelper.instance.checkForRitual(this, world, target.getPosition());
-		if (ritualRunes != null){
-			return handleRitualReagents(ritualRunes, world, target.getPosition(), caster, target);
+		if (RitualShapeHelper.instance.matchesRitual(this, world, target.getPosition())) {
+			ItemStack[] ritualRunes = RitualShapeHelper.instance.checkForRitual(this, world, target.getPosition());
+			if (ritualRunes != null){
+				return handleRitualReagents(ritualRunes, world, target.getPosition(), caster, target);
+			}
 		}
 
 		IEntityExtension casterProperties = EntityExtension.For(caster);
@@ -98,40 +98,37 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 		}
 
 		if (!hasVinteumDust && ritualRunes.length == 3){
-			LogHelper.debug("Receving Key...");
 			long key = KeystoneUtilities.instance.getKeyFromRunes(ritualRunes);
-			LogHelper.debug("Key Received");
 			AMVector3 vector = ArsMagica2.proxy.blocks.getNextKeystonePortalLocation(world, pos, false, key);
-			LogHelper.debug("Position Received");
 			if (vector == null || vector.equals(new AMVector3(pos))){
 				if (caster instanceof EntityPlayer && !world.isRemote)
 					((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.noMatchingGate")));
 				return false;
 			}else{
-				LogHelper.debug("Started Working...");
 				RitualShapeHelper.instance.consumeAllReagents(this, world, pos);
-				LogHelper.debug("Working - Consume Reagents");
 				RitualShapeHelper.instance.consumeShape(this, world, pos);
-				LogHelper.debug("Working - Consume Shape");
 				((EntityLivingBase)target).setPositionAndUpdate(vector.x, vector.y - target.height, vector.z);
-				LogHelper.debug("Working - Position");
 				return true;
 			}
 		}else if (hasVinteumDust){
-			ArrayList<ItemStack> copy = new ArrayList<ItemStack>();
+			ArrayList<Integer> copy = new ArrayList<Integer>();
 			for (ItemStack stack : ritualRunes){
 				if (stack.getItem() == ItemDefs.rune && stack.getItemDamage() <= 16){
-					copy.add(stack);
+					copy.add(stack.getItemDamage());
 				}
 			}
-			ItemStack[] newRunes = copy.toArray(new ItemStack[copy.size()]);
-			long key = KeystoneUtilities.instance.getKeyFromRunes(newRunes);
-			EntityPlayer player = EntityUtils.getPlayerForCombo(world, (int)key);
+			int[] newRunes = new int[copy.size()];
+			for (int i = 0; i < copy.size(); i++) {
+				newRunes[i] = copy.get(i);
+			}
+			EntityPlayer player = SelectionUtils.getPlayersForRuneSet(newRunes);
+
 			if (player == null){
 				if (caster instanceof EntityPlayer && !world.isRemote)
 					((EntityPlayer)caster).addChatMessage(new TextComponentString("am2.tooltip.noMatchingPlayer"));
 				return false;
-			}else if (player == caster){
+			}
+			else if (player == caster){
 				if (caster instanceof EntityPlayer && !world.isRemote)
 					((EntityPlayer)caster).addChatMessage(new TextComponentString("am2.tooltip.cantSummonSelf"));
 				return false;

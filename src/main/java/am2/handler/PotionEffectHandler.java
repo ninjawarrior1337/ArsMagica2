@@ -202,13 +202,13 @@ public class PotionEffectHandler {
 			int[] runes = SelectionUtils.getRuneSet(e.getEntityPlayer());
 			int numRunes = runes.length;
 			double start = ((double)numRunes - 1) / 8D;
-			GL11.glTranslated(start, 2.2, 0);
+			GL11.glTranslated(-start, 2.2, 0);
 			for (int rune : runes) {
 				GL11.glPushMatrix();
 				GL11.glScaled(0.25, 0.25, 0.25);
 				Minecraft.getMinecraft().getItemRenderer().renderItem(e.getEntityPlayer(), new ItemStack(ItemDefs.rune, 1, rune), TransformType.GUI);
 				GL11.glPopMatrix();
-				GL11.glTranslated(-0.25, 0, 0);			
+				GL11.glTranslated(0.25, 0, 0);			
 			}
 			GL11.glPopMatrix();
 		}

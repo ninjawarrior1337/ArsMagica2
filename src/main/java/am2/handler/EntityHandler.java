@@ -378,7 +378,7 @@ public class EntityHandler {
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent event) {
 		if (event.player == null)
-		return;
+			return;
 
 		if (!event.player.worldObj.isRemote && EntityExtension.For(event.player).getCurrentLevel() <= 0 && event.pickedUp.getEntityItem().getItem() == ItemDefs.arcaneCompendium){
 			event.player.addChatMessage(new TextComponentString("You have unlocked the secrets of the arcane!"));
