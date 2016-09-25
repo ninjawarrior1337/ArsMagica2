@@ -92,26 +92,30 @@ public class TileEntityManaDrain extends TileEntityAMPower implements IMultibloc
 			if (ext == null) continue;
 			if (worldObj.isBlockIndirectlyGettingPowered(pos) == 0) {
 				isWorking = true;
-				float drain = ext.getCurrentMana() / 100f;
-				if (drain < 1)
-					drain = 1;
-				if (ext.getCurrentMana() >= drain) {
-					PowerNodeRegistry.For(worldObj).setPower(this, PowerTypes.NEUTRAL, PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) + drain * 10);
-					ext.setCurrentMana(ext.getCurrentMana() - drain);
-				}else if (entity.ticksExisted % 20 == 0) {
-					entity.attackEntityFrom(DamageSources.causeHolyDamage(null), 1);
-					PowerNodeRegistry.For(worldObj).setPower(this, PowerTypes.NEUTRAL, PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) + 40);
+				if (!worldObj.isRemote) {
+					float drain = ext.getMaxMana() / 100f;
+					if (drain < 1)
+						drain = 1;
+					if (ext.getCurrentMana() >= drain) {
+						PowerNodeRegistry.For(worldObj).setPower(this, PowerTypes.NEUTRAL, PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) + drain * 10);
+						ext.setCurrentMana(ext.getCurrentMana() - drain);
+					}else if (entity.ticksExisted % 20 == 0) {
+						entity.attackEntityFrom(DamageSources.causeHolyDamage(null), 1);
+						PowerNodeRegistry.For(worldObj).setPower(this, PowerTypes.NEUTRAL, PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) + 40);
+					}
 				}
 			} else {
 				if (!(entity instanceof EntityPlayer)) continue;
 				isWorking = true;
-				float toConsume = PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) / 10;
-				if (toConsume > 10)
-					toConsume = 10;
-				if (toConsume + ext.getCurrentMana() > ext.getMaxMana())
-					toConsume = ext.getMaxMana() - ext.getCurrentMana();
-				ext.setCurrentMana(ext.getCurrentMana() + toConsume);
-				PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.NEUTRAL, toConsume * 10);
+				if (!worldObj.isRemote) {
+					float toConsume = PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) / 10;
+					if (toConsume > 10)
+						toConsume = 10;
+					if (toConsume + ext.getCurrentMana() > ext.getMaxMana())
+						toConsume = ext.getMaxMana() - ext.getCurrentMana();
+					ext.setCurrentMana(ext.getCurrentMana() + toConsume);
+					PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.NEUTRAL, toConsume * 10);
+				}
 			}
 		}
 		if (worldObj.isRemote && isWorking) {

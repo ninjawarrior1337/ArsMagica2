@@ -689,15 +689,14 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			}
 		} else if (getCurrentMana() > getMaxMana()) {
 			float overloadMana = getCurrentMana() - getMaxMana();
-			if (entity instanceof EntityPlayer && SkillData.For(entity).hasSkill(SkillDefs.SHIELD_OVERLOAD.getID()) && overloadMana > 250) {
-				deductMana(250);
-				addMagicShielding(1f);
-			}
 			overloadMana = getCurrentMana() - getMaxMana();
 			float toRemove = Math.max(overloadMana * 0.002f, 1.0f);
-			setCurrentMana(getCurrentMana() - toRemove);
+			deductMana(toRemove);
+			if (entity instanceof EntityPlayer && SkillData.For(entity).hasSkill(SkillDefs.SHIELD_OVERLOAD.getID())) {
+				addMagicShieldingCapped(toRemove / 500F);
+			}
 		}
-		if (getManaShielding() > getCurrentLevel() * 2) {
+		if (getManaShielding() > getMaxMagicShielding()) {
 			float overload = getManaShielding() - (getCurrentLevel() * 2);
 			float toRemove = Math.max(overload * 0.002f, 1.0f);
 			setManaShielding(getManaShielding() - toRemove);
@@ -809,6 +808,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.entity.getDataManager().set(MANA_SHIELD, manaShield);
 	}
 	
+	public float getMaxMagicShielding() {
+		return getCurrentLevel() * 2;
+	}
+	
 	public float protect(float damage) {
 		float left = getManaShielding() - damage;
 		setManaShielding(Math.max(0, left));
@@ -820,5 +823,9 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	public void addMagicShielding(float manaShield) {
 		setManaShielding(getManaShielding() + manaShield);
+	}
+	
+	public void addMagicShieldingCapped(float manaShield) {
+		setManaShielding(Math.min(getManaShielding() + manaShield, getMaxMagicShielding()));
 	}
 }

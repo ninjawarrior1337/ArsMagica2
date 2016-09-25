@@ -1,4 +1,4 @@
-package am2.rituals;
+package am2.api.rituals;
 
 import am2.api.blocks.MultiblockStructureDefinition;
 import net.minecraft.item.ItemStack;

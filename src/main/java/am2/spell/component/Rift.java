@@ -8,13 +8,13 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.rituals.IRitualInteraction;
+import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.entity.EntityRiftStorage;
-import am2.rituals.IRitualInteraction;
-import am2.rituals.RitualShapeHelper;
 import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;

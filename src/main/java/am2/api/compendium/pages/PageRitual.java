@@ -1,10 +1,18 @@
 package am2.api.compendium.pages;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.compendium.CompendiumEntry;
+import am2.api.rituals.IRitualInteraction;
 import am2.gui.AMGuiHelper;
-import am2.rituals.IRitualInteraction;
+import am2.gui.GuiArcaneCompendium;
+import am2.gui.controls.GuiButtonTextOnly;
+import am2.gui.controls.GuiButtonVariableDims;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -13,7 +21,9 @@ import net.minecraftforge.oredict.OreDictionary;
 
 @SuppressWarnings("deprecation")
 public class PageRitual extends CompendiumPage<IRitualInteraction.Wrapper> {
-
+	
+	GuiButton shapeButton;
+	
 	public PageRitual(IRitualInteraction.Wrapper element) {
 		super(element);
 	}
@@ -24,8 +34,8 @@ public class PageRitual extends CompendiumPage<IRitualInteraction.Wrapper> {
 		mc.fontRendererObj.drawString(ritualName, posX + 72 - (mc.fontRendererObj.getStringWidth(ritualName) / 2), posY, 0);
 		String categoryName = TextFormatting.UNDERLINE.toString() + I18n.translateToLocal("am2.gui.ritualshape");
 		mc.fontRendererObj.drawString(categoryName, posX + 72 - (mc.fontRendererObj.getStringWidth(categoryName) / 2), posY + 20, 0);
-		String shapeName = I18n.translateToLocal("ritualshape." + element.getRitualInteraction().getRitualShape().getId() + ".name");
-		mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY + 30, 0);
+//		String shapeName = I18n.translateToLocal("ritualshape." + element.getRitualInteraction().getRitualShape().getId() + ".name");
+//		mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY + 30, 0);
 		
 		String reagentsName = TextFormatting.UNDERLINE.toString() + I18n.translateToLocal("am2.gui.ritualreagents");
 		mc.fontRendererObj.drawString(reagentsName, posX + 72 - (mc.fontRendererObj.getStringWidth(reagentsName) / 2), posY + 50, 0);
@@ -65,5 +75,27 @@ public class PageRitual extends CompendiumPage<IRitualInteraction.Wrapper> {
 		if (stackTip != null)
 			renderItemToolTip(stackTip, mouseX, mouseY);
 	}
-
+	
+	@Override
+	public void actionPerformed(GuiButton button) throws IOException {
+		if (button == shapeButton) {
+			MultiblockStructureDefinition def = element.getRitualInteraction().getRitualShape();
+			Minecraft.getMinecraft().displayGuiScreen(new GuiArcaneCompendium(new CompendiumEntry(null, "shape." + def.getId()).addObject("compendium.shape." + def.getId() + ".page1").addObject(def)));
+		}
+	}
+	
+	@Override
+	public void switchButtonDisplay(boolean shouldShow) {
+		shapeButton.visible = shouldShow;
+	}
+	
+	@Override
+	public GuiButton[] getButtons(int id, int posX, int posY) {
+		String shapeName = I18n.translateToLocal("ritualshape." + element.getRitualInteraction().getRitualShape().getId() + ".name");
+		shapeButton = new GuiButtonTextOnly(id++, 0, 0, shapeName);
+		((GuiButtonVariableDims)shapeButton).setDimensions(mc.fontRendererObj.getStringWidth(shapeName), 10);
+		((GuiButtonVariableDims)shapeButton).setPosition(posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY + 55);
+		return new GuiButton[] {shapeButton};
+	}
+	
 }

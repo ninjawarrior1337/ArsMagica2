@@ -1,10 +1,14 @@
-package am2.rituals;
+package am2.api.rituals;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import am2.LogHelper;
 import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
@@ -44,6 +48,16 @@ public class RitualShapeHelper {
 		return true;
 	}
 	
+	public ItemStack[] checkForRitual(IRitualInteraction ritual, World world, BlockPos pos){
+		ArrayList<EntityItem> items = (ArrayList<EntityItem>)world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius()));
+		Collections.sort(items, new EntityItemComparator());
+		ItemStack[] toReturn = new ItemStack[items.size()];
+		for (int i = 0; i < items.size(); ++i)
+			toReturn[i] = items.get(i).getEntityItem();
+		
+		return toReturn;
+	}
+	
 	public void consumeReagents(IRitualInteraction ritual, World world, BlockPos pos) {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius(), ritual.getReagentSearchRadius()));
 		for (ItemStack stack : ritual.getReagents()) {
@@ -57,6 +71,15 @@ public class RitualShapeHelper {
 						item.setEntityItemStack(is);
 				}
 			}
+		}
+	}
+	
+	public void consumeAllReagents(IRitualInteraction interaction, World world, BlockPos pos){
+		int r = interaction.getReagentSearchRadius();
+		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(r, r, r));
+		for (EntityItem item : items) {
+			LogHelper.debug("Removing Item %s", item.getEntityItem().toString());
+			item.setDead();
 		}
 	}
 	
@@ -228,5 +251,19 @@ public class RitualShapeHelper {
 		chalks.addBlock(new BlockPos(-2, 0, -1));
 		
 		ringedCross.addGroup(chalks);
+	}
+	
+	private class EntityItemComparator implements Comparator<EntityItem>{
+
+		@Override
+		public int compare(EntityItem o1, EntityItem o2){
+			if (o1.ticksExisted == o2.ticksExisted)
+				return 0;
+			else if (o1.ticksExisted > o2.ticksExisted)
+				return -1;
+			else
+				return 1;
+		}
+
 	}
 }

@@ -143,7 +143,6 @@ public class EntityThrownRock extends EntityLiving{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		System.out.println("PLS");
 		if (this.target != null && this.posY > this.target.yCoord){
 			double deltaX = this.posX - target.xCoord;
 			double deltaY = this.posY - target.yCoord;

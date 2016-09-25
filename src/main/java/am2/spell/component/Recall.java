@@ -1,5 +1,6 @@
 package am2.spell.component;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
@@ -7,18 +8,24 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.affinity.Affinity;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.extensions.IEntityExtension;
+import am2.api.math.AMVector3;
+import am2.api.rituals.IRitualInteraction;
+import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
+import am2.items.ItemOre;
 import am2.particles.AMParticle;
 import am2.particles.ParticleExpandingCollapsingRingAtPoint;
-import am2.rituals.IRitualInteraction;
-import am2.rituals.RitualShapeHelper;
+import am2.utils.DimensionUtilities;
+import am2.utils.EntityUtils;
+import am2.utils.KeystoneUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,14 +61,10 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 			return false;
 		}
 
-//		int x = (int)Math.floor(target.posX);
-//		int y = (int)Math.floor(target.posY);
-//		int z = (int)Math.floor(target.posZ);
-
-//		ItemStack[] ritualRunes = RitualShapeHelper.instance.checkForRitual(this, world, x, y, z, false);
-//		if (ritualRunes != null){
-//			return handleRitualReagents(ritualRunes, world, x, y, z, caster, target);
-//		}
+		ItemStack[] ritualRunes = RitualShapeHelper.instance.checkForRitual(this, world, target.getPosition());
+		if (ritualRunes != null){
+			return handleRitualReagents(ritualRunes, world, target.getPosition(), caster, target);
+		}
 
 		IEntityExtension casterProperties = EntityExtension.For(caster);
 		if (casterProperties.getMarkDimensionID() == -512){
@@ -84,59 +87,65 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 		return EnumSet.noneOf(SpellModifiers.class);
 	}
 	
-//	private boolean handleRitualReagents(ItemStack[] ritualRunes, World world, int x, int y, int z, EntityLivingBase caster, Entity target){
-//
-//		boolean hasVinteumDust = false;
-//		for (ItemStack stack : ritualRunes){
-//			if (stack.getItem() == ItemDefs.itemOre && stack.getItemDamage() == ItemOre.META_VINTEUM){
-//				hasVinteumDust = true;
-//				break;
-//			}
-//		}
-//
-//		if (!hasVinteumDust && ritualRunes.length == 3){
-//			//TODO Gateways
-////			long key = KeystoneUtilities.instance.getKeyFromRunes(ritualRunes);
-////			AMVector3 vector = AMCore.proxy.blocks.getNextKeystonePortalLocation(world, x, y, z, false, key);
-////			if (vector == null || vector.equals(new AMVector3(x, y, z))){
-////				if (caster instanceof EntityPlayer && !world.isRemote)
-////					((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.noMatchingGate")));
-////				return false;
-////			}else{
-////				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
-////				RitualShapeHelper.instance.consumeRitualShape(this, world, x, y, z);
-////				((EntityLivingBase)target).setPositionAndUpdate(vector.x, vector.y - target.height, vector.z);
-////				return true;
-////			}
-//		}else if (hasVinteumDust){
-//			ArrayList<ItemStack> copy = new ArrayList<ItemStack>();
-//			for (ItemStack stack : ritualRunes){
-//				if (stack.getItem() == ItemDefs.rune && stack.getItemDamage() <= 16){
-//					copy.add(stack);
-//				}
-//			}
-//			ItemStack[] newRunes = copy.toArray(new ItemStack[copy.size()]);
-//			long key = KeystoneUtilities.instance.getKeyFromRunes(newRunes);
-//			EntityPlayer player = EntityUtilities.getPlayerForCombo(world, (int)key);
-//			if (player == null){
-//				if (caster instanceof EntityPlayer && !world.isRemote)
-//					((EntityPlayer)caster).addChatMessage(new TextComponentString("am2.tooltip.noMatchingPlayer"));
-//				return false;
-//			}else if (player == caster){
-//				if (caster instanceof EntityPlayer && !world.isRemote)
-//					((EntityPlayer)caster).addChatMessage(new TextComponentString("am2.tooltip.cantSummonSelf"));
-//				return false;
-//			}else{
-//				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
-//				if (target.worldObj.provider.getDimension() != caster.worldObj.provider.getDimension()){
-//					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.getDimension());
-//				}
-//				((EntityLivingBase)target).setPositionAndUpdate(x, y, z);
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	private boolean handleRitualReagents(ItemStack[] ritualRunes, World world, BlockPos pos, EntityLivingBase caster, Entity target){
+
+		boolean hasVinteumDust = false;
+		for (ItemStack stack : ritualRunes){
+			if (stack.getItem() == ItemDefs.itemOre && stack.getItemDamage() == ItemOre.META_VINTEUM){
+				hasVinteumDust = true;
+				break;
+			}
+		}
+
+		if (!hasVinteumDust && ritualRunes.length == 3){
+			LogHelper.debug("Receving Key...");
+			long key = KeystoneUtilities.instance.getKeyFromRunes(ritualRunes);
+			LogHelper.debug("Key Received");
+			AMVector3 vector = ArsMagica2.proxy.blocks.getNextKeystonePortalLocation(world, pos, false, key);
+			LogHelper.debug("Position Received");
+			if (vector == null || vector.equals(new AMVector3(pos))){
+				if (caster instanceof EntityPlayer && !world.isRemote)
+					((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.noMatchingGate")));
+				return false;
+			}else{
+				LogHelper.debug("Started Working...");
+				RitualShapeHelper.instance.consumeAllReagents(this, world, pos);
+				LogHelper.debug("Working - Consume Reagents");
+				RitualShapeHelper.instance.consumeShape(this, world, pos);
+				LogHelper.debug("Working - Consume Shape");
+				((EntityLivingBase)target).setPositionAndUpdate(vector.x, vector.y - target.height, vector.z);
+				LogHelper.debug("Working - Position");
+				return true;
+			}
+		}else if (hasVinteumDust){
+			ArrayList<ItemStack> copy = new ArrayList<ItemStack>();
+			for (ItemStack stack : ritualRunes){
+				if (stack.getItem() == ItemDefs.rune && stack.getItemDamage() <= 16){
+					copy.add(stack);
+				}
+			}
+			ItemStack[] newRunes = copy.toArray(new ItemStack[copy.size()]);
+			long key = KeystoneUtilities.instance.getKeyFromRunes(newRunes);
+			EntityPlayer player = EntityUtils.getPlayerForCombo(world, (int)key);
+			if (player == null){
+				if (caster instanceof EntityPlayer && !world.isRemote)
+					((EntityPlayer)caster).addChatMessage(new TextComponentString("am2.tooltip.noMatchingPlayer"));
+				return false;
+			}else if (player == caster){
+				if (caster instanceof EntityPlayer && !world.isRemote)
+					((EntityPlayer)caster).addChatMessage(new TextComponentString("am2.tooltip.cantSummonSelf"));
+				return false;
+			}else{
+				RitualShapeHelper.instance.consumeAllReagents(this, world, pos);
+				if (target.worldObj.provider.getDimension() != caster.worldObj.provider.getDimension()){
+					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.getDimension());
+				}
+				((EntityLivingBase)target).setPositionAndUpdate(pos.getX(), pos.getY() + 0.5D, pos.getZ());
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public float manaCost(EntityLivingBase caster){

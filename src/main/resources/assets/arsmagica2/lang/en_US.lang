@@ -1003,7 +1003,7 @@ compendium.block.crystalmarker.crystal_marker_set_export.name=Set Export Crystal
 compendium.block.crystalmarker.crystal_marker_regulate_export.name=Regulate Export Crystal
 compendium.block.crystalmarker.crystal_marker_regulate_bidirectional.name=Regulate Bidirectional Crystal
 compendium.block.crystalmarker.crystal_marker_set_import.name=Set Import Crystal
-compendium.block.crystalmarker.crystal_marker_spell_export.name=Final Export Crystal
+compendium.block.crystalmarker.crystal_marker_final_export.name=Final Export Crystal
 compendium.block.crystalmarker.crystal_marker_spell_export.name=Spell Export Crystal
 
 compendium.crystal_markers.page1=Crystal Markers are used to instruct Flickers inside of a Flicker Habitat on how to sort items. When wearing #9Magitech Goggles#0, you can see the priority level of the different crystals. This priority indicates the order in which the flickers will attempt to move items. Lower priority crystals are tried first. You can change the priority of any crystal by rght clicking it while holding a #9Magitech's Staff#0.
@@ -1014,7 +1014,7 @@ compendium.crystal_marker_set_export.page1=This crystal instructs the flickers t
 compendium.crystal_marker_regulate_export.page1=This crystal instructs the flickers that items may be exported from the item transportation network to the inventory this crystal is attached to so long as the item has been set through this crystal's GUI and the inventory contains less then number of items set in the crystal's GUI.
 compendium.crystal_marker_regulate_bidirectional.page1=This crystal instructs the flickers that they may both import and export from the inventory this crystal is attached to !d Import: !l Flickers will take items from the inventory so long as the item has been added to this crystal's GUI and the number of items in the chest is greater then the number set in the GUI !d Export: !l Flickers will put items into the inventory so long as the item has been added to this crystal's GUI and the number of items is below the number set in the GUI.
 compendium.crystal_marker_set_import.page1=This crystal instructs the flickers that they may import items into the item transportation network from the inventory this crystal is attached to so long as the item has been added to this crystal's GUI.
-compendium.crystal_marker_spell_export.page1=This crystal instructs the flickers that they should put any items that can't otherwise be placed in the inventory marked by this crystal. These crystals always have the highest priority number, meaning items will be placed there last.
+compendium.crystal_marker_final_export.page1=This crystal instructs the flickers that they should put any items that can't otherwise be placed in the inventory marked by this crystal. These crystals always have the highest priority number, meaning items will be placed there last.
 compendium.crystal_marker_spell_export.page1=This crystal instructs the flickers to watch any crafting altar within 10 blocks. If it is crafting a spell, the flickers will attempt to fetch the next item required for the spell and place it in the inventory marked by this crystal.
 
 #Items

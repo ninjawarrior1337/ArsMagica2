@@ -34,6 +34,9 @@ public class BlockOcculus extends BlockContainer {
 		super(Material.ROCK);
 		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
 		setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		setHardness(3.0F);
+		setResistance(5.0F);
+		setHarvestLevel("pickaxe", -1);
 	}
 	
 	@Override

@@ -15,6 +15,9 @@ public class BlockMagicWall extends BlockAM {
 	public BlockMagicWall() {
 		super(Material.BARRIER);
 		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
+		setHardness(3.0F);
+		setResistance(5.0F);
+		setHarvestLevel("pickaxe", -1);
 	}
 	
 	@Override
