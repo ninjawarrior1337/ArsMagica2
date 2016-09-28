@@ -8,9 +8,11 @@ import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.DependsOn;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.Name;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
 
 @Name("ArsMagica2-Preloader")
 @DependsOn("arsmagica2")
+@SortingIndex(1001)
 public class Preloader extends DummyModContainer implements IFMLLoadingPlugin {
 
 	public static boolean isDevEnvironment;

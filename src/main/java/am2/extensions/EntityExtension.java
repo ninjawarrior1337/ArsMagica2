@@ -815,7 +815,6 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float protect(float damage) {
 		float left = getManaShielding() - damage;
 		setManaShielding(Math.max(0, left));
-		addMagicXP(damage / 50f);
 		if (left < 0)
 			return -left;
 		return 0;
