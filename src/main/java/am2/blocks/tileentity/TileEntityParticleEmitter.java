@@ -72,7 +72,7 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 					forceShow = true;
 				}
 			}
-			worldObj.setBlockState(getPos(), worldObj.getBlockState(pos).withProperty(BlockParticleEmitter.HIDDEN, forceShow));
+			worldObj.setBlockState(getPos(), worldObj.getBlockState(pos).withProperty(BlockParticleEmitter.HIDDEN, !forceShow));
 		}
 	}
 

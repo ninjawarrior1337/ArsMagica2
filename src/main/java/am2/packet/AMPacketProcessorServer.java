@@ -5,6 +5,7 @@ import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
+import am2.blocks.tileentity.TileEntityParticleEmitter;
 import am2.container.ContainerSpellCustomization;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
@@ -69,9 +70,9 @@ public class AMPacketProcessorServer{
 //			case AMPacketIDs.SYNC_SPELL_KNOWLEDGE:
 //				handleSyncSpellKnowledge(remaining, (EntityPlayerMP)player);
 //				break;
-//			case AMPacketIDs.DECO_BLOCK_UPDATE:
-//				handleDecoBlockUpdate(remaining, (EntityPlayerMP)player);
-//				break;
+			case AMPacketIDs.DECO_BLOCK_UPDATE:
+				handleDecoBlockUpdate(remaining, (EntityPlayerMP)player);
+				break;
 			case AMPacketIDs.INSCRIPTION_TABLE_UPDATE:
 				handleInscriptionTableUpdate(remaining, (EntityPlayerMP)player);
 				break;
@@ -217,21 +218,21 @@ public class AMPacketProcessorServer{
 
 		world.markAndNotifyBlock(te.getPos(), te.getWorld().getChunkFromBlockCoords(te.getPos()), te.getWorld().getBlockState(te.getPos()), te.getWorld().getBlockState(te.getPos()), 3);
 	}
-//
-//	private void handleDecoBlockUpdate(byte[] data, EntityPlayerMP player){
-//		World world = player.worldObj;
-//		AMDataReader rdr = new AMDataReader(data, false);
-//		TileEntity te = world.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
-//		if (te == null || !(te instanceof TileEntityParticleEmitter)) return;
-//		((TileEntityParticleEmitter)te).readFromNBT(rdr.getNBTTagCompound());
-//
-//		world.markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
-//	}
-//
+
+	private void handleDecoBlockUpdate(byte[] data, EntityPlayerMP player){
+		World world = player.worldObj;
+		AMDataReader rdr = new AMDataReader(data, false);
+		TileEntity te = world.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
+		if (te == null || !(te instanceof TileEntityParticleEmitter)) return;
+		((TileEntityParticleEmitter)te).readFromNBT(rdr.getNBTTagCompound());
+
+		world.markAndNotifyBlock(te.getPos(), world.getChunkFromBlockCoords(te.getPos()), world.getBlockState(te.getPos()), world.getBlockState(te.getPos()), 2);
+	}
+
 //	private void handleSyncSpellKnowledge(byte[] data, EntityPlayerMP player){
 //		SkillData.For(player).handlePacketData(data);
 //	}
-//
+
 	private void handleSpellBookChangeActiveSlot(byte[] data, EntityPlayerMP player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		byte subID = rdr.getByte();
