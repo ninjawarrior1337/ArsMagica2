@@ -35,6 +35,7 @@ import am2.entity.EntityEarthElemental;
 import am2.entity.EntityFireElemental;
 import am2.entity.EntityFlicker;
 import am2.entity.EntityHecate;
+import am2.entity.EntityHellCow;
 import am2.entity.EntityLightMage;
 import am2.entity.EntityManaCreeper;
 import am2.entity.EntityManaElemental;
@@ -56,6 +57,7 @@ import am2.entity.render.RenderEarthElemental;
 import am2.entity.render.RenderFireElemental;
 import am2.entity.render.RenderFlicker;
 import am2.entity.render.RenderHecate;
+import am2.entity.render.RenderHellCow;
 import am2.entity.render.RenderHidden;
 import am2.entity.render.RenderLightMage;
 import am2.entity.render.RenderManaCreeper;
@@ -117,6 +119,7 @@ public class EntityManager {
 		EntityRegistry.registerModEntity(EntityManaCreeper.class, "ManaCreeper", 30, ArsMagica2.instance, 64, 2, true);
 		EntityRegistry.registerModEntity(EntityHecate.class, "Hecate", 31, ArsMagica2.instance, 64, 2, true);
 		EntityRegistry.registerModEntity(EntityFlicker.class, "Flicker", 32, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(EntityHellCow.class, "HellCow", 33, ArsMagica2.instance, 64, 2, true);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -154,6 +157,7 @@ public class EntityManager {
 		RenderingRegistry.registerEntityRenderingHandler(EntityHecate.class, new RenderFactory(RenderHecate.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntityDryad.class, new RenderFactory(RenderDryad.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlicker.class, new RenderFactory(RenderFlicker.class));
+		RenderingRegistry.registerEntityRenderingHandler(EntityHellCow.class, new RenderFactory(RenderHellCow.class));
 	}
 	
 	public void initializeSpawns(){

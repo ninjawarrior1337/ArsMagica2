@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -46,6 +47,7 @@ public abstract class CompendiumPage<E> {
 		registerPageType(PageMultiblock.class, MultiblockStructureDefinition.class);
 		registerPageType(PageRitual.class, IRitualInteraction.Wrapper.class);
 		registerPageType(PageSkill.class, Skill.class);
+		registerPageType(PageEntity.class, Entity.class);
 	}
 	
 	public static final <E> void registerPageType(Class<? extends CompendiumPage<E>> page, Class<E> clazz) {
@@ -81,6 +83,8 @@ public abstract class CompendiumPage<E> {
 	public void switchButtonDisplay(boolean shouldShow) {}
 	
 	public void actionPerformed(GuiButton button) throws IOException {}
+	
+	public void dragMouse(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {}
 	
 	protected void drawHoveringText(List<String> par1List, int par2, int par3, FontRenderer font){
 		if (!par1List.isEmpty()){
@@ -264,4 +268,8 @@ public abstract class CompendiumPage<E> {
 		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8).endVertex();
 		var9.draw();
 	}
+
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {}
+
+	public void mouseReleased(int mouseX, int mouseY, int state) {}
 }

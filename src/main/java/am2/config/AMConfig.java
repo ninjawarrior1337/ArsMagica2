@@ -289,7 +289,7 @@ public class AMConfig extends Configuration{
 		burnoutNumericPosition = new AMVector2(get(CATEGORY_UI, KEY_BurnoutNumericPositionX, 0.21041665971279144).getDouble(0.21041665971279144), get(CATEGORY_UI, KEY_BurnoutNumericPositionY, 0.9058823585510254).getDouble(0.9058823585510254));
 		XPNumericPosition = new AMVector2(get(CATEGORY_UI, KEY_XPNumericPositionX, 0.47083333134651184).getDouble(0.47083333134651184), get(CATEGORY_UI, KEY_XPNumericPositionY, 0.7450980544090271).getDouble(0.7450980544090271));
 		SpellBookPosition = new AMVector2(get(CATEGORY_UI, KEY_SpellBookPositionX, 0.0).getDouble(0.0), get(CATEGORY_UI, KEY_SpellBookPositionY, 0.0).getDouble(0.0));
-		manaShieldingPosition = new AMVector2(get(CATEGORY_UI, KEY_ManaShieldingPositionX, 0.0).getDouble(0.0), get(CATEGORY_UI, KEY_ManaShieldingPositionY, 0.0).getDouble(0.0));
+		manaShieldingPosition = new AMVector2(get(CATEGORY_UI, KEY_ManaShieldingPositionX, 0.7104166746139526).getDouble(0.7104166746139526), get(CATEGORY_UI, KEY_ManaShieldingPositionY, 0.9352226853370667).getDouble(0.9352226853370667));
 		showHudMinimally = get(CATEGORY_UI, KEY_ShowHudMinimally, false, "Set this to true to only show the AM HUD when a spell is equipped").getBoolean(false);
 		showArmorUI = get(CATEGORY_UI, KEY_ShowArmorUI, true).getBoolean(true);
 		showBuffs = get(CATEGORY_UI, KEY_ShowBuffs, true).getBoolean(true);

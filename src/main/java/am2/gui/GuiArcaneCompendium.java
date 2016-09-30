@@ -134,6 +134,39 @@ public class GuiArcaneCompendium extends GuiScreen {
 		return false;
 	}
 	
+	@Override
+	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+		int pageID = 0;
+		for (CompendiumPage<?> page : pages) {
+			page.dragMouse(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+			page.switchButtonDisplay(this.page == pageID || this.page + 1 == pageID);
+			pageID++;
+		}
+		super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		int pageID = 0;
+		for (CompendiumPage<?> page : pages) {
+			page.mouseClicked(mouseX, mouseY, mouseButton);
+			page.switchButtonDisplay(this.page == pageID || this.page + 1 == pageID);
+			pageID++;
+		}
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+	
+	@Override
+	protected void mouseReleased(int mouseX, int mouseY, int state) {
+		int pageID = 0;
+		for (CompendiumPage<?> page : pages) {
+			page.mouseReleased(mouseX, mouseY, state);
+			page.switchButtonDisplay(this.page == pageID || this.page + 1 == pageID);
+			pageID++;
+		}
+		super.mouseReleased(mouseX, mouseY, state);
+	}
+	
 	public void drawTexturedModalRect_Classic(int dst_x, int dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height){
 		float var7 = 0.00390625F;
 		float var8 = 0.00390625F;

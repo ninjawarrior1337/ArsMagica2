@@ -187,7 +187,7 @@ public class ItemDefs {
 	public static final Item legendaryManaPotion = new ItemManaPotion().registerAndName("legendary_mana_potion");
 	public static final Item manaPotionBundle = new ItemManaPotionBundle().registerAndName("mana_potion_bundle");
 	public static final Item essenceBag = new ItemEssenceBag().registerAndName("essence_bag");
-	public static final Item hellCowHorn = new ItemHellCowHorn().registerAndName("hell_cow_horn");
+	public static final ItemHellCowHorn hellCowHorn = (ItemHellCowHorn) new ItemHellCowHorn().registerAndName("hell_cow_horn");
 	public static final Item journal = new ItemJournal().registerAndName("journal");
 	public static final Item manaMartini = new ItemManaMartini().registerAndName("mana_martini");
 	

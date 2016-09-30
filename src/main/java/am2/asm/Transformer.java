@@ -88,7 +88,6 @@ public class Transformer implements IClassTransformer {
 		cr.accept(cn, 0);
 		LogHelper.info("Located OBJBakedModel");
 		for (MethodNode mn : cn.methods) {
-			LogHelper.info("MethodName : %s", mn.name);
 			if (mn.name.equals("readCustomPotionEffectFromNBT") || mn.name.equals("func_82722_b")) {
 				Iterator<AbstractInsnNode> iter = mn.instructions.iterator();
 				LogHelper.info("Core: Located target method " + mn.name + mn.desc);

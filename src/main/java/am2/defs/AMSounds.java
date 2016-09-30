@@ -77,6 +77,10 @@ public class AMSounds {
 	public static final SoundEvent CALEFACTOR_BURN = register("arsmagica2:misc.calefactor.burn");
 	public static final SoundEvent CRAFTING_ALTAR_CREATE_SPELL = register("arsmagica2:misc.craftingaltar.create_spell");
 	
+	public static final SoundEvent MOO_IDLE = register("arsmagica2:mob.moo.idle");
+	public static final SoundEvent MOO_DEATH = register("arsmagica2:mob.moo.death");
+	public static final SoundEvent MOO_HIT = register("arsmagica2:mob.moo.hit");
+	
 	private static SoundEvent register(String str) {
 		return GameRegistry.register(new SoundEvent(new ResourceLocation(str)).setRegistryName(new ResourceLocation(str)));
 	}

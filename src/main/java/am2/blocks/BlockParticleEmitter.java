@@ -5,6 +5,7 @@ import am2.blocks.tileentity.TileEntityParticleEmitter;
 import am2.defs.ItemDefs;
 import am2.items.ItemCrystalWrench;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -17,34 +18,39 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockParticleEmitter extends BlockAMContainer{
 	
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class, EnumFacing.HORIZONTALS);
+	public static final PropertyBool HIDDEN = PropertyBool.create("hidden");
+	
 	
 	public BlockParticleEmitter(){
 		super(Material.GLASS);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HIDDEN, false));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING);
+		return new BlockStateContainer(this, FACING, HIDDEN);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = state.getValue(FACING).getHorizontalIndex();
+		if (state.getValue(HIDDEN)) meta |= 0x8;
 		return meta;
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 0x3));
+		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 0x3)).withProperty(HIDDEN, (meta & 0x8) == 0x8);
 	}	
 
 	@Override
@@ -74,6 +80,8 @@ public class BlockParticleEmitter extends BlockAMContainer{
 			super.onBlockExploded(world, pos, explosion);
 	}
 	
+	
+	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
@@ -92,6 +100,11 @@ public class BlockParticleEmitter extends BlockAMContainer{
 	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.TRANSLUCENT;
+	}
+	
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return state.getValue(HIDDEN) ? new AxisAlignedBB(0, 0, 0, 0, 0, 0) : super.getBoundingBox(state, source, pos);
 	}
 	
 	@Override

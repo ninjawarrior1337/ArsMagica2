@@ -1,6 +1,33 @@
 package am2.defs;
 
-import static am2.api.compendium.CompendiumCategory.*;
+import static am2.api.compendium.CompendiumCategory.BLOCK;
+import static am2.api.compendium.CompendiumCategory.BLOCK_CRYSTALMARKER;
+import static am2.api.compendium.CompendiumCategory.BLOCK_ILLUSIONBLOCKS;
+import static am2.api.compendium.CompendiumCategory.BLOCK_INLAYS;
+import static am2.api.compendium.CompendiumCategory.GUIDE;
+import static am2.api.compendium.CompendiumCategory.ITEM;
+import static am2.api.compendium.CompendiumCategory.ITEM_AFFINITYTOME;
+import static am2.api.compendium.CompendiumCategory.ITEM_ARMOR_BATTLEMAGE;
+import static am2.api.compendium.CompendiumCategory.ITEM_ARMOR_MAGE;
+import static am2.api.compendium.CompendiumCategory.ITEM_BINDINGCATALYST;
+import static am2.api.compendium.CompendiumCategory.ITEM_ESSENCE;
+import static am2.api.compendium.CompendiumCategory.ITEM_FLICKERFOCUS;
+import static am2.api.compendium.CompendiumCategory.ITEM_FOCI;
+import static am2.api.compendium.CompendiumCategory.ITEM_INSCRIPTIONUPGRADES;
+import static am2.api.compendium.CompendiumCategory.ITEM_MANAPOTION;
+import static am2.api.compendium.CompendiumCategory.ITEM_ORE;
+import static am2.api.compendium.CompendiumCategory.ITEM_RUNE;
+import static am2.api.compendium.CompendiumCategory.MECHANIC;
+import static am2.api.compendium.CompendiumCategory.MECHANIC_AFFINITY;
+import static am2.api.compendium.CompendiumCategory.MECHANIC_ENCHANTS;
+import static am2.api.compendium.CompendiumCategory.MECHANIC_INFUSIONS;
+import static am2.api.compendium.CompendiumCategory.MOB;
+import static am2.api.compendium.CompendiumCategory.MOB_FLICKER;
+import static am2.api.compendium.CompendiumCategory.SPELL_COMPONENT;
+import static am2.api.compendium.CompendiumCategory.SPELL_MODIFIER;
+import static am2.api.compendium.CompendiumCategory.SPELL_SHAPE;
+import static am2.api.compendium.CompendiumCategory.STRUCTURE;
+import static am2.api.compendium.CompendiumCategory.TALENT;
 
 import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
@@ -13,8 +40,8 @@ import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
-import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlockArsMagicaOre.EnumOreType;
+import am2.blocks.BlockCrystalMarker;
 import am2.blocks.tileentity.TileEntityCraftingAltar;
 import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.blocks.tileentity.TileEntityManaDrain;
@@ -33,9 +60,22 @@ import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
 import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
 import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
 import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
+import am2.entity.EntityDarkMage;
+import am2.entity.EntityDarkling;
+import am2.entity.EntityDryad;
+import am2.entity.EntityEarthElemental;
+import am2.entity.EntityFireElemental;
+import am2.entity.EntityFlicker;
+import am2.entity.EntityHecate;
+import am2.entity.EntityHellCow;
+import am2.entity.EntityLightMage;
+import am2.entity.EntityManaCreeper;
+import am2.entity.EntityManaElemental;
+import am2.entity.EntityWaterElemental;
 import am2.items.ItemBindingCatalyst;
 import am2.items.ItemCore;
 import am2.items.ItemOre;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -478,7 +518,28 @@ public class LoreDefs {
 		createTalentEntry("spell_motion", SkillDefs.SPELL_MOTION, 1);
 	}
 	private static void initMobs() {
+		createMobEntry("hecate", new EntityHecate(null), 1);
+		createMobEntry("mana_elemental", new EntityManaElemental(null), 1);
+		createMobEntry("mana_creeper", new EntityManaCreeper(null), 1);
+		createMobEntry("light_mage", new EntityLightMage(null), 1);
+		createMobEntry("dark_mage", new EntityDarkMage(null), 1);
+		createMobEntry("fire_elemental", new EntityFireElemental(null), 1);
+		createMobEntry("water_elemental", new EntityWaterElemental(null), 1);
+		createMobEntry("earth_elemental", new EntityEarthElemental(null), 1);
+		createMobEntry("dryad", new EntityDryad(null), 1);
+		createMobEntry("darkling", new EntityDarkling(null), 1);
+		createMobEntry("hellcow", new EntityHellCow(null), 1);
 		
+		createFlickerEntry("water_flicker", Affinity.WATER, 1);
+		createFlickerEntry("air_flicker", Affinity.AIR, 1);
+		createFlickerEntry("earth_flicker", Affinity.EARTH, 1);
+		createFlickerEntry("fire_flicker", Affinity.FIRE, 1);
+		createFlickerEntry("lightning_flicker", Affinity.LIGHTNING, 1);
+		createFlickerEntry("nature_flicker", Affinity.NATURE, 1);
+		createFlickerEntry("ice_flicker", Affinity.ICE, 1);
+		createFlickerEntry("arcane_flicker", Affinity.ARCANE, 1);
+		createFlickerEntry("life_flicker", Affinity.LIFE, 1);
+		createFlickerEntry("ender_flicker", Affinity.ENDER, 1);
 	}
 	
 	private static void initStructures() {
@@ -576,6 +637,26 @@ public class LoreDefs {
 			entry = entry.addObject("compendium." + name + ".page" + i);
 		}
 		category.addEntry(entry);
+	}
+	
+	private static void createMobEntry(String name, Entity entity, int pages) {
+		CompendiumEntry entry = new CompendiumEntry(null, name);
+		for (int i = 1; i <= pages; i++) {
+			entry = entry.addObject("compendium." + name + ".page" + i);
+		}
+		entry.addObject(entity);
+		MOB.addEntry(entry);
+	}
+	
+	private static void createFlickerEntry(String name, Affinity aff, int pages) {
+		CompendiumEntry entry = new CompendiumEntry(null, name);
+		for (int i = 1; i <= pages; i++) {
+			entry = entry.addObject("compendium." + name + ".page" + i);
+		}
+		EntityFlicker flicker = new EntityFlicker(null);
+		flicker.setFlickerType(aff);
+		entry.addObject(flicker);
+		MOB_FLICKER.addEntry(entry);
 	}
 
 }

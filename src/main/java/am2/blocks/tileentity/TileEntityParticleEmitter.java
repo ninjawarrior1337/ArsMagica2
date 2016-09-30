@@ -2,18 +2,22 @@ package am2.blocks.tileentity;
 
 import am2.ArsMagica2;
 import am2.api.math.AMVector3;
+import am2.blocks.BlockParticleEmitter;
 import am2.defs.ItemDefs;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
 import am2.particles.AMParticle;
 import am2.particles.AMParticleIcons;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 
@@ -68,14 +72,7 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 					forceShow = true;
 				}
 			}
-
-//			int oldMeta = getBlockMetadata();
-//
-//			if (forceShow){
-//				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, oldMeta & ~0x8, 2);
-//			}else{
-//				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, oldMeta | 0x8, 2);
-//			}
+			worldObj.setBlockState(getPos(), worldObj.getBlockState(pos).withProperty(BlockParticleEmitter.HIDDEN, forceShow));
 		}
 	}
 
@@ -222,7 +219,12 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 
 		//worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, show ? oldMeta & ~0x8 : oldMeta | 0x8, 2);
 	}
-
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		return oldState.getBlock() != newSate.getBlock();
+	}
+	
 	public int getParticleType(){
 		return this.particleType;
 	}

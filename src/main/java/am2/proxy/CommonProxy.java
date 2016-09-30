@@ -143,6 +143,7 @@ import am2.defs.BlockDefs;
 import am2.defs.CreativeTabsDefs;
 import am2.defs.EntityManager;
 import am2.defs.ItemDefs;
+import am2.defs.LootTablesArsMagica;
 import am2.defs.LoreDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
@@ -379,6 +380,7 @@ public class CommonProxy implements IGuiHandler{
 		blocks.preInit();
 		new CreativeTabsDefs();
 		initOreDict();
+		new LootTablesArsMagica();
 	}
 	
 	public void init() {
