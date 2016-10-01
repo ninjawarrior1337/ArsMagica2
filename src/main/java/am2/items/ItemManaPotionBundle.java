@@ -136,15 +136,15 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		Item potion = getPotion(par1ItemStack.getItemDamage());
 		if (potion == ItemDefs.lesserManaPotion){
-			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:mana_potion_lesser.name"), I18n.translateToLocal("item.arsmagica2:potionBundle.name"));
+			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:lesser_mana_potion.name"), I18n.translateToLocal("item.arsmagica2:potion_bundle.name"));
 		}else if (potion == ItemDefs.standardManaPotion){
-			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:mana_potion_standard.name"), I18n.translateToLocal("item.arsmagica2:potionBundle.name"));
+			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:standard_mana_potion.name"), I18n.translateToLocal("item.arsmagica2:potion_bundle.name"));
 		}else if (potion == ItemDefs.greaterManaPotion){
-			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:mana_potion_greater.name"), I18n.translateToLocal("item.arsmagica2:potionBundle.name"));
+			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:greater_mana_potion.name"), I18n.translateToLocal("item.arsmagica2:potion_bundle.name"));
 		}else if (potion == ItemDefs.epicManaPotion){
-			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:mana_potion_epic.name"), I18n.translateToLocal("item.arsmagica2:potionBundle.name"));
+			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:epic_mana_potion.name"), I18n.translateToLocal("item.arsmagica2:potion_bundle.name"));
 		}else if (potion == ItemDefs.legendaryManaPotion){
-			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:mana_potion_legendary.name"), I18n.translateToLocal("item.arsmagica2:potionBundle.name"));
+			return String.format("%s %s", I18n.translateToLocal("item.arsmagica2:legendary_mana_potion.name"), I18n.translateToLocal("item.arsmagica2:potion_bundle.name"));
 		}
 		return "? " + I18n.translateToLocal("am2.items.bundle");
 	}

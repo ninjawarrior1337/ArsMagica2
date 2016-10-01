@@ -66,7 +66,7 @@ public class BlockWitchwoodLog extends BlockLog{
 	}
 	
 	public BlockWitchwoodLog registerAndName(ResourceLocation rl) {
-		this.setUnlocalizedName(rl.getResourcePath());
+		this.setUnlocalizedName(rl.toString());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;

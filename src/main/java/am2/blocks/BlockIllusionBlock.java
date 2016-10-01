@@ -5,6 +5,7 @@ import java.util.List;
 import am2.blocks.tileentity.TileEntityIllusionBlock;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
+import am2.items.ItemBlockIllusion;
 import am2.items.ItemOre;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -21,10 +22,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockIllusionBlock extends BlockAMContainer{
 
@@ -120,6 +123,14 @@ public class BlockIllusionBlock extends BlockAMContainer{
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		list.add(new ItemStack(this, 1, 0));
 		list.add(new ItemStack(this, 1, 1));
+	}
+	
+	@Override
+	public BlockAMContainer registerAndName(ResourceLocation rl) {
+		this.setUnlocalizedName(rl.toString());
+		GameRegistry.register(this, rl);
+		GameRegistry.register(new ItemBlockIllusion(this), rl);
+		return this;
 	}
 	
 	public static enum EnumIllusionType implements IStringSerializable {

@@ -61,7 +61,7 @@ public class BlockOcculus extends BlockContainer {
 	}
 
 	public BlockOcculus registerAndName(ResourceLocation rl) {
-		this.setUnlocalizedName(rl.getResourcePath());
+		this.setUnlocalizedName(rl.toString());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlock(this), rl);
 		return this;

@@ -105,7 +105,7 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 	}
 	
 	public BlockWitchwoodLeaves registerAndName(ResourceLocation rl) {
-		this.setUnlocalizedName(rl.getResourcePath());
+		this.setUnlocalizedName(rl.toString());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;

@@ -29,7 +29,7 @@ public class BlockCraftingAltar extends BlockContainer {
 	}
 	
 	public BlockCraftingAltar registerAndName(ResourceLocation rl) {
-		this.setUnlocalizedName(rl.getResourcePath());
+		this.setUnlocalizedName(rl.toString());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlock(this), rl);
 		return this;

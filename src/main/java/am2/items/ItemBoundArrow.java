@@ -31,7 +31,7 @@ public class ItemBoundArrow extends ItemArrow {
 	}
 	
 	public ItemBoundArrow registerAndName(String name) {
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}

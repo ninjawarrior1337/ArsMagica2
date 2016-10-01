@@ -49,7 +49,7 @@ public class ItemBoundHoe extends ItemHoe implements IBoundItem {
 	}
 
 	public ItemHoe registerAndName(String name) {
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}

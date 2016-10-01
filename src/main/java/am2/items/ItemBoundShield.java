@@ -6,8 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+@SuppressWarnings("deprecation")
 public class ItemBoundShield extends ItemShield implements IBoundItem {
 
 	public ItemBoundShield() {
@@ -21,7 +23,6 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
 		item.setItem(ItemDefs.spell);
@@ -35,11 +36,11 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return "item." + getRegistryName().getResourcePath() + ".name";
+		return I18n.translateToLocal("item." + getRegistryName().toString() + ".name");
 	}
 
 	public ItemBoundShield registerAndName(String name) {
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}

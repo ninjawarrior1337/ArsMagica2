@@ -95,7 +95,7 @@ public class ItemLostJournal extends ItemWritableBook{
 	}
 	
 	public ItemLostJournal registerAndName(String name) {
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}

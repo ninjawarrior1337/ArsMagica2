@@ -106,7 +106,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 	}
 
 	public ItemBoundBow registerAndName(String name) {
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}

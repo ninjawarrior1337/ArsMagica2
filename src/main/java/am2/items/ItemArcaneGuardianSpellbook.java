@@ -49,6 +49,6 @@ public class ItemArcaneGuardianSpellbook extends ItemSpellBook{
 		if (activeSpell != null){
 			return String.format("\2477%s \2477(" + activeSpell.getDisplayName() + "\2477)", I18n.translateToLocal("item.arsmagica2:arcaneSpellBook.name"));
 		}
-		return I18n.translateToLocal("item.arsmagica2:arcaneSpellBook.name");
+		return I18n.translateToLocal("item.arsmagica2:arcane_spellbook.name");
 	}
 }

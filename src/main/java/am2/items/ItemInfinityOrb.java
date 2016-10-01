@@ -36,7 +36,7 @@ public class ItemInfinityOrb extends ItemArsMagica {
 		SkillPoint point = SkillPointRegistry.getPointForTier(stack.getItemDamage());
 		if (point == null)
 			return "Unavailable Item";
-		return I18n.translateToLocal("item.infOrb" + point.toString() + ".name");
+		return I18n.translateToLocal("item.arsmagica2:inf_orb_" + point.toString().toLowerCase() + ".name");
 	}
 	
 	@Override

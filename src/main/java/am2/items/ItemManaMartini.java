@@ -22,7 +22,7 @@ public class ItemManaMartini extends ItemFood{
 	}
 
 	public Item registerAndName(String name) {
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}

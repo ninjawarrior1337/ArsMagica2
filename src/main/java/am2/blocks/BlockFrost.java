@@ -26,7 +26,7 @@ public class BlockFrost extends BlockIce {
 	}
 
 	public BlockFrost registerAndName(ResourceLocation rl) {
-		this.setUnlocalizedName(rl.getResourcePath());
+		this.setUnlocalizedName(rl.toString());
 		GameRegistry.register(this, rl);
 		GameRegistry.register(new ItemBlock(this), rl);
 		return this;

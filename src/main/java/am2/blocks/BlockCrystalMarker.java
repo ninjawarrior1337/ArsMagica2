@@ -9,6 +9,7 @@ import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
+import am2.items.ItemBlockCrystalMarker;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
@@ -25,6 +26,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -32,6 +34,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @SuppressWarnings("deprecation")
 public class BlockCrystalMarker extends BlockAMContainer{
@@ -380,6 +383,14 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	@Override
 	public boolean isNormalCube(IBlockState state) {
 		return false;
+	}
+	
+	@Override
+	public BlockAMContainer registerAndName(ResourceLocation rl) {
+		this.setUnlocalizedName(rl.toString());
+		GameRegistry.register(this, rl);
+		GameRegistry.register(new ItemBlockCrystalMarker(this), rl);
+		return this;
 	}
 }
 

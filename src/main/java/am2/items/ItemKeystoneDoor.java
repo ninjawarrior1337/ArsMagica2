@@ -37,9 +37,9 @@ public class ItemKeystoneDoor extends Item{
 	public String getItemStackDisplayName(ItemStack stack){
 		switch (stack.getItemDamage()){
 		case KEYSTONE_DOOR:
-			return I18n.translateToLocal("item.arsmagica2:keystoneDoor.name");
+			return I18n.translateToLocal("item.arsmagica2:keystone_door.name");
 		case SPELL_SEALED_DOOR:
-			return I18n.translateToLocal("item.arsmagica2:spellSealedDoor.name");
+			return I18n.translateToLocal("item.arsmagica2:spell_sealed_door.name");
 		default:
 			return I18n.translateToLocal("item.arsmagica2:unknown.name");
 		}
