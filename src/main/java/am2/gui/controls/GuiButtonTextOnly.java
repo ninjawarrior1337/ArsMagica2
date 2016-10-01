@@ -15,7 +15,7 @@ public class GuiButtonTextOnly extends GuiButtonVariableDims {
 			GlStateManager.color(1, 1, 1, 1);
 			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 			
-			int textColor = 0xFFFFFF;
+			int textColor = 0x000000;
 			if (isMousedOver){
 				textColor = 0x6600FF;
 			}

@@ -71,6 +71,15 @@ public class PageRitual extends CompendiumPage<IRitualInteraction.Wrapper> {
 			}
 			yOffset += 32;
 		}
+		
+		if (element.getRitualInteraction().getResult() != null) {
+			String resultName = TextFormatting.UNDERLINE.toString() + I18n.translateToLocal("am2.gui.ritualresult");
+			mc.fontRendererObj.drawString(resultName, posX + 72 - (mc.fontRendererObj.getStringWidth(resultName) / 2), posY + 165, 0);
+			mc.getRenderItem().renderItemIntoGUI(element.getRitualInteraction().getResult(), posX + 64, posY + 180);
+			if (mouseX > posX + 64 && mouseX < posX + 80 && mouseY > posY + 180 && mouseY < posY + yOffset + 196)
+				stackTip = element.getRitualInteraction().getResult();			
+		}
+		
 		RenderHelper.disableStandardItemLighting();
 		if (stackTip != null)
 			renderItemToolTip(stackTip, mouseX, mouseY);
