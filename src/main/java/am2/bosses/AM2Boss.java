@@ -30,10 +30,12 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	protected EntityDragonPart[] parts;
 
 	public boolean playerCanSee = false;
-    private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(this.getDisplayName(), getBarColor(), BossInfo.Overlay.PROGRESS));
+    private BossInfoServer bossInfo = null;
 
 	public AM2Boss(World par1World){
 		super(par1World);
+		if (par1World != null)
+			bossInfo = (BossInfoServer)(new BossInfoServer(this.getDisplayName(), getBarColor(), BossInfo.Overlay.PROGRESS));
 		this.stepHeight = 1.02f;
 		EntityExtension.For(this).setMagicLevelWithMana(50);
 		initAI();
@@ -221,7 +223,8 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			this.ignoreFrustumCheck = ArsMagica2.proxy.getLocalPlayer().getDistanceToEntity(this) < 32;
 		}
 		
-		bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        if (bossInfo != null)
+        	bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 
 		super.onUpdate();
 	}
@@ -250,7 +253,8 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
     public void addTrackingPlayer(EntityPlayerMP player)
     {
         super.addTrackingPlayer(player);
-        this.bossInfo.addPlayer(player);
+        if (bossInfo != null)
+        	this.bossInfo.addPlayer(player);
     }
 
     /**
@@ -261,6 +265,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
     public void removeTrackingPlayer(EntityPlayerMP player)
     {
         super.removeTrackingPlayer(player);
-        this.bossInfo.removePlayer(player);
+        if (bossInfo != null)
+        	this.bossInfo.removePlayer(player);
     }
 }

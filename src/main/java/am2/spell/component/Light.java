@@ -33,6 +33,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Light extends SpellComponent implements IRitualInteraction{
 
@@ -186,8 +188,11 @@ public class Light extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
-		// TODO Auto-generated method stub
-		
+	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return new ItemStack(BlockDefs.celestialPrism);
 	}
 }

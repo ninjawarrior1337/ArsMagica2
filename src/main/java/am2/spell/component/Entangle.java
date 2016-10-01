@@ -29,6 +29,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Entangle extends SpellComponent implements IRitualInteraction{
 
@@ -130,5 +132,11 @@ public class Entangle extends SpellComponent implements IRitualInteraction{
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return null;
 	}
 }

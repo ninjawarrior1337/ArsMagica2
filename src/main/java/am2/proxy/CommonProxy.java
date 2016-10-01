@@ -127,7 +127,6 @@ import am2.container.ContainerFlickerHabitat;
 import am2.container.ContainerInertSpawner;
 import am2.container.ContainerInscriptionTable;
 import am2.container.ContainerKeystone;
-import am2.container.ContainerKeystoneChest;
 import am2.container.ContainerKeystoneLockable;
 import am2.container.ContainerMagiciansWorkbench;
 import am2.container.ContainerObelisk;
@@ -260,7 +259,7 @@ public class CommonProxy implements IGuiHandler{
 			return new ContainerKeystone(player.inventory, player.getHeldItemMainhand(), runeBag, keystone.ConvertToInventory(keystoneStack), runeBag == null ? null : ItemDefs.runeBag.ConvertToInventory(runeBag), runeBagSlot);
 		case GUI_KEYSTONE_LOCKABLE: return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);		
 		case GUI_SPELL_SEALED_DOOR: return new ContainerSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
-		case GUI_KEYSTONE_CHEST: return new ContainerKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
+		case GUI_KEYSTONE_CHEST: return ((TileEntityKeystoneChest)te).createContainer(player.inventory, player);
 		case GUI_RUNE_BAG: 
 			ItemStack bagStack = player.getHeldItemMainhand();
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){

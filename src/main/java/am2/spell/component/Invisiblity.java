@@ -36,6 +36,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Invisiblity extends SpellComponent implements IRitualInteraction{
 
@@ -133,5 +135,11 @@ public class Invisiblity extends SpellComponent implements IRitualInteraction{
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		return false;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return null;
 	}
 }

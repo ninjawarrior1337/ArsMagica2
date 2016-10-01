@@ -13,38 +13,45 @@ import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
+import am2.blocks.tileentity.TileEntityOtherworldAura;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.particles.AMParticle;
 import am2.particles.ParticleArcToPoint;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Transplace extends SpellComponent implements IRitualInteraction{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-//		Block block = world.getBlockState(blockPos).getBlock();
-//		if (!world.isRemote && caster instanceof EntityPlayer && block == BlocksCommonProxy.inertSpawner){
-//			if (RitualShapeHelper.instance.matchesRitual(this, world, blockPos)){
-//				RitualShapeHelper.instance.consumeReagents(this, world, blockPos);
-//				RitualShapeHelper.instance.consumeShape(this, world, blockPos);
-//				world.setBlockState(blockPos, BlocksCommonProxy.otherworldAura);
-//				TileEntity te = world.getTileEntity(blockx, blocky, blockz);
-//				if (te != null && te instanceof TileEntityOtherworldAura){
-//					((TileEntityOtherworldAura)te).setPlacedByUsername(((EntityPlayer)caster).getCommandSenderName());
-//				}
-//				return true;
-//			}
-//		}
+		Block block = world.getBlockState(blockPos).getBlock();
+		if (!world.isRemote && caster instanceof EntityPlayer && block == BlockDefs.inertSpawner){
+			if (RitualShapeHelper.instance.matchesRitual(this, world, blockPos)){
+				RitualShapeHelper.instance.consumeReagents(this, world, blockPos);
+				RitualShapeHelper.instance.consumeShape(this, world, blockPos);
+				world.setBlockState(blockPos, BlockDefs.otherworldAura.getDefaultState());
+				TileEntity te = world.getTileEntity(blockPos);
+				if (te != null && te instanceof TileEntityOtherworldAura){
+					((TileEntityOtherworldAura)te).setPlacedByUsername(((EntityPlayer)caster).getName());
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -161,4 +168,10 @@ public class Transplace extends SpellComponent implements IRitualInteraction{
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return new ItemStack(BlockDefs.otherworldAura);
+	}
 }

@@ -16,6 +16,7 @@ import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.extensions.EntityExtension;
@@ -37,6 +38,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 @SuppressWarnings("deprecation")
@@ -209,8 +212,11 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
-		// TODO Auto-generated method stub
-		
+	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return new ItemStack(BlockDefs.keystoneRecepticle);
 	}
 }

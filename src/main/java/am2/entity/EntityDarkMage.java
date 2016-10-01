@@ -111,8 +111,8 @@ public class EntityDarkMage extends EntityMob{
 		if (par1 && getRNG().nextDouble() < 0.2)
 			this.entityDropItem(new ItemStack(ItemDefs.spellParchment, 1, 0), 0.0f);
 
-//		if (par1 && getRNG().nextDouble() < 0.05)
-//			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
+		if (par1 && getRNG().nextDouble() < 0.05)
+			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
 	}
 
 	@Override

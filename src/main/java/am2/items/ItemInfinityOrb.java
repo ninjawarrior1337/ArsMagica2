@@ -8,6 +8,7 @@ import am2.api.skill.SkillPoint;
 import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,8 +35,15 @@ public class ItemInfinityOrb extends ItemArsMagica {
 	public String getItemStackDisplayName(ItemStack stack) {
 		SkillPoint point = SkillPointRegistry.getPointForTier(stack.getItemDamage());
 		if (point == null)
-			return "Broken Item : Please use a trash bin.";
+			return "Unavailable Item";
 		return I18n.translateToLocal("item.infOrb" + point.toString() + ".name");
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		SkillPoint point = SkillPointRegistry.getPointForTier(stack.getItemDamage());
+		if (point == null)
+			tooltip.add("Place this into your inventory to convert it into the usable version");
 	}
 	
 	private ItemStack doGiveSkillPoints(EntityPlayer player, ItemStack stack, SkillPoint type){
@@ -71,4 +79,13 @@ public class ItemInfinityOrb extends ItemArsMagica {
 		if (ArsMagicaAPI.hasTier6())
 			subItems.add(new ItemStack(itemIn, 1, 5));
 	}
+	
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		SkillPoint point = SkillPointRegistry.getPointForTier(stack.getItemDamage());
+		if (point == null && stack.getItemDamage() > 0)
+			stack.setItemDamage(stack.getItemDamage() - 1);
+	}
+	
+	
 }

@@ -27,6 +27,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BanishRain extends SpellComponent implements IRitualInteraction{
 
@@ -138,5 +140,11 @@ public class BanishRain extends SpellComponent implements IRitualInteraction{
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return null;
 	}
 }

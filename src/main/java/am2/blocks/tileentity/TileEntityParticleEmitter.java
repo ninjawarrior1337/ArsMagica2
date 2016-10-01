@@ -59,7 +59,6 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 				doSpawn();
 			spawnTicks = 0;
 		}
-		IBlockState preState = worldObj.getBlockState(pos);
 		if (!show && !worldObj.isRemote && ((forceShow && showTicks++ > 100) || !forceShow)){
 			showTicks = 0;
 			forceShow = false;
@@ -72,9 +71,9 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 					}
 				}
 			}
-			worldObj.setBlockState(getPos(), worldObj.getBlockState(pos).withProperty(BlockParticleEmitter.HIDDEN, !forceShow));
+			worldObj.setBlockState(getPos(), worldObj.getBlockState(pos).withProperty(BlockParticleEmitter.HIDDEN, !forceShow), 3);
 		}
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), preState, worldObj.getBlockState(pos), 3);
+		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	private void doSpawn(){

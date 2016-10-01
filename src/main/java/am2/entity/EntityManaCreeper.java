@@ -1,10 +1,12 @@
 package am2.entity;
 
 import am2.defs.ItemDefs;
+import am2.defs.LootTablesArsMagica;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
@@ -73,6 +75,11 @@ public class EntityManaCreeper extends EntityCreeper{
 		EntityManaVortex vortex = new EntityManaVortex(worldObj);
 		vortex.setPosition(this.posX, this.posY + 1, this.posZ);
 		worldObj.spawnEntityInWorld(vortex);
+	}
+	
+	@Override
+	protected ResourceLocation getLootTable() {
+		return LootTablesArsMagica.MANA_CREEPER_LOOT;
 	}
 
 	@Override

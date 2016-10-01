@@ -24,7 +24,7 @@ public class RenderHecate extends RenderLiving<EntityHecate>{
 	public void doRender(EntityHecate hecate, double par2, double par4, double par6, float par8, float par9){
 		setForwardRotation(hecate);
 		setArmRotations(hecate);
-		this.doRender(hecate, par2, par4, par6, par8, par9);
+		super.doRender(hecate, par2, par4, par6, par8, par9);
 	}
 
 	private void setForwardRotation(EntityHecate hecate){

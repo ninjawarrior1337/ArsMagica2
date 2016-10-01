@@ -14,6 +14,7 @@ import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.particles.AMParticle;
@@ -22,6 +23,8 @@ import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,30 +32,32 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class LifeTap extends SpellComponent implements IRitualInteraction{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
-//		if (world.getBlock(blockx, blocky, blockz) == Blocks.mob_spawner){
-//			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
-//			if (reagents != null){
-//				if (!world.isRemote){
-//					world.setBlockToAir(blockx, blocky, blockz);
-//					RitualShapeHelper.instance.consumeReagents(this, world, blockx, blocky, blockz);
-//					RitualShapeHelper.instance.consumeShape(this, world, blockx, blocky, blockz);
-//					EntityItem item = new EntityItem(world);
-//					item.setPosition(blockx + 0.5, blocky + 0.5, blockz + 0.5);
-//					item.setEntityItemStack(new ItemStack(BlocksCommonProxy.inertSpawner));
-//					world.spawnEntityInWorld(item);
-//				}else{
-//
-//				}
-//
-//				return true;
-//			}
-//		}
+		if (world.getBlockState(pos).getBlock().equals(Blocks.MOB_SPAWNER)){
+			boolean hasMatch = RitualShapeHelper.instance.matchesRitual(this, world, pos);
+			if (hasMatch){
+				if (!world.isRemote){
+					world.setBlockToAir(pos);
+					RitualShapeHelper.instance.consumeReagents(this, world, pos);
+					RitualShapeHelper.instance.consumeShape(this, world, pos);
+					EntityItem item = new EntityItem(world);
+					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+					item.setEntityItemStack(new ItemStack(BlockDefs.inertSpawner));
+					world.spawnEntityInWorld(item);
+				}else{
+
+				}
+
+				return true;
+			}
+		}
 
 		return false;
 	}
@@ -148,4 +153,10 @@ public class LifeTap extends SpellComponent implements IRitualInteraction{
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return new ItemStack(BlockDefs.inertSpawner);
+	}
 }

@@ -4,6 +4,7 @@ import static am2.api.compendium.CompendiumCategory.BLOCK;
 import static am2.api.compendium.CompendiumCategory.BLOCK_CRYSTALMARKER;
 import static am2.api.compendium.CompendiumCategory.BLOCK_ILLUSIONBLOCKS;
 import static am2.api.compendium.CompendiumCategory.BLOCK_INLAYS;
+import static am2.api.compendium.CompendiumCategory.BOSS;
 import static am2.api.compendium.CompendiumCategory.GUIDE;
 import static am2.api.compendium.CompendiumCategory.ITEM;
 import static am2.api.compendium.CompendiumCategory.ITEM_AFFINITYTOME;
@@ -60,6 +61,16 @@ import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
 import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
 import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
 import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
+import am2.bosses.EntityAirGuardian;
+import am2.bosses.EntityArcaneGuardian;
+import am2.bosses.EntityEarthGuardian;
+import am2.bosses.EntityEnderGuardian;
+import am2.bosses.EntityFireGuardian;
+import am2.bosses.EntityLifeGuardian;
+import am2.bosses.EntityLightningGuardian;
+import am2.bosses.EntityNatureGuardian;
+import am2.bosses.EntityWaterGuardian;
+import am2.bosses.EntityWinterGuardian;
 import am2.entity.EntityDarkMage;
 import am2.entity.EntityDarkling;
 import am2.entity.EntityDryad;
@@ -556,7 +567,16 @@ public class LoreDefs {
 	}
 	
 	private static void initBosses() {
-		
+		createBossEntry("water_guardian", new EntityWaterGuardian(null), 1);
+		createBossEntry("air_guardian", new EntityAirGuardian(null), 1);
+		createBossEntry("earth_guardian", new EntityEarthGuardian(null), 1);
+		createBossEntry("fire_guardian", new EntityFireGuardian(null), 1);
+		createBossEntry("lightning_guardian", new EntityLightningGuardian(null), 1);
+		createBossEntry("nature_guardian", new EntityNatureGuardian(null), 1);
+		createBossEntry("winter_guardian", new EntityWinterGuardian(null), 1);
+		createBossEntry("arcane_guardian", new EntityArcaneGuardian(null), 1);
+		createBossEntry("life_guardian", new EntityLifeGuardian(null), 1);
+		createBossEntry("ender_guardian", new EntityEnderGuardian(null), 1);
 	}
 	
 	private static void createShapeEntry(String name, AbstractSpellPart shape, int textPages) {
@@ -646,6 +666,15 @@ public class LoreDefs {
 		}
 		entry.addObject(entity);
 		MOB.addEntry(entry);
+	}
+	
+	private static void createBossEntry(String name, Entity entity, int pages) {
+		CompendiumEntry entry = new CompendiumEntry(null, name);
+		for (int i = 1; i <= pages; i++) {
+			entry = entry.addObject("compendium." + name + ".page" + i);
+		}
+		entry.addObject(entity);
+		BOSS.addEntry(entry);
 	}
 	
 	private static void createFlickerEntry(String name, Affinity aff, int pages) {

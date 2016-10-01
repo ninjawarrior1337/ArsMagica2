@@ -1,22 +1,31 @@
 package am2.blocks.tileentity;
 
+import java.util.Random;
+
 import am2.api.blocks.IKeystoneLockable;
 import am2.blocks.BlockKeystoneChest;
+import am2.container.ContainerKeystoneChest;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityKeystoneChest extends TileEntity implements IInventory, ITickable, IKeystoneLockable<TileEntityKeystoneChest>{
+public class TileEntityKeystoneChest extends TileEntityLockableLoot implements IInventory, ITickable, IKeystoneLockable<TileEntityKeystoneChest>{
 
 	private ItemStack[] inventory;
 	public static final int keystoneSlot = 27;
@@ -164,6 +173,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
+		checkLootAndRead(nbttagcompound);
 	}
 
 	@Override
@@ -179,7 +189,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 				nbttaglist.appendTag(nbttagcompound1);
 			}
 		}
-
+		checkLootAndWrite(nbttagcompound);
 		nbttagcompound.setTag("KeystoneChestInventory", nbttaglist);
 		return nbttagcompound;
 	}
@@ -241,31 +251,62 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 
 	@Override
 	public ITextComponent getDisplayName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int getField(int id) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setField(int id, int value) {}
 
 	@Override
 	public int getFieldCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
+	public void clear() {}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+		fillWithLoot(playerIn);
+		return new ContainerKeystoneChest(playerInventory, this);
+	}
+	
+	@Override
+	protected void fillWithLoot(EntityPlayer player) {
+		if (this.lootTable != null) {
+			LootTable loottable = this.worldObj.getLootTableManager().getLootTableFromLocation(this.lootTable);
+			this.lootTable = null;
+			Random random;
+
+			if (this.lootTableSeed == 0L) {
+				random = new Random();
+			} else {
+				random = new Random(this.lootTableSeed);
+			}
+
+			LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer) this.worldObj);
+
+			if (player != null) {
+				lootcontext$builder.withLuck(player.getLuck());
+			}
+			InventoryBasic inv = new InventoryBasic("Wrapper", false, 27);
+			for (int i = 0; i < 27; i++) {
+				inv.setInventorySlotContents(i, getStackInSlot(i));
+			}
+			loottable.fillInventory(inv, random, lootcontext$builder.build());
+			for (int i = 0; i < 27; i++) {
+				this.setInventorySlotContents(i, inv.getStackInSlot(i));
+			}
+		}
+	}
+	
+	@Override
+	public String getGuiID() {
+		return "arsmgica2:keystone_chest";
 	}
 }

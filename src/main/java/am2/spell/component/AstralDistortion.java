@@ -15,6 +15,7 @@ import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.buffs.BuffEffectAstralDistortion;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.particles.AMParticle;
@@ -31,6 +32,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AstralDistortion extends SpellComponent implements IRitualInteraction{
 
@@ -46,7 +49,7 @@ public class AstralDistortion extends SpellComponent implements IRitualInteracti
 					RitualShapeHelper.instance.consumeShape(this, world, pos);
 					EntityItem item = new EntityItem(world);
 					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-					//TODO item.setEntityItemStack(new ItemStack(BlocksCommonProxy.inertSpawner));
+					item.setEntityItemStack(new ItemStack(BlockDefs.inertSpawner));
 					world.spawnEntityInWorld(item);
 				}else{
 
@@ -150,5 +153,11 @@ public class AstralDistortion extends SpellComponent implements IRitualInteracti
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return new ItemStack(BlockDefs.inertSpawner);
 	}
 }

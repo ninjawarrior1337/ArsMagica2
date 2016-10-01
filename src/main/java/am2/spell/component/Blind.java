@@ -30,6 +30,8 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Blind extends SpellComponent implements IRitualInteraction{
 
@@ -132,5 +134,11 @@ public class Blind extends SpellComponent implements IRitualInteraction{
 			double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getResult() {
+		return null;
 	}
 }
