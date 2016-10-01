@@ -213,6 +213,7 @@ public class GuiParticleEmitter extends GuiScreen{
 			this.mc.displayGuiScreen(this.parent);
 			break;
 		}
+		tile.syncWithServer();
 	}
 
 	@Override

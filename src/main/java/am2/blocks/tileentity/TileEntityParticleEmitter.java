@@ -16,6 +16,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -32,8 +33,6 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 	private boolean randomColor;
 	private boolean show;
 	private float speed;
-
-	private boolean hasReceivedFullUpdate = false;
 
 	private int spawnTicks = 0;
 	private int showTicks = 0;
@@ -60,24 +59,26 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 				doSpawn();
 			spawnTicks = 0;
 		}
-
-		if (!show && worldObj.isRemote && ((forceShow && showTicks++ > 100) || !forceShow)){
+		IBlockState preState = worldObj.getBlockState(pos);
+		if (!show && !worldObj.isRemote && ((forceShow && showTicks++ > 100) || !forceShow)){
 			showTicks = 0;
 			forceShow = false;
-			EntityPlayer localPlayer = ArsMagica2.proxy.getLocalPlayer();
-			if (localPlayer != null && localPlayer.inventory.getCurrentItem() != null && localPlayer.inventory.getCurrentItem().getItem() == ItemDefs.crystalWrench){
-				AMVector3 myLoc = new AMVector3(pos);
-				AMVector3 playerLoc = new AMVector3(localPlayer);
-				if (myLoc.distanceSqTo(playerLoc) < 64D){
-					forceShow = true;
+			for (EntityPlayer player : worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos).expandXyz(8D))) {
+				if (player != null && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() == ItemDefs.crystalWrench){
+					AMVector3 myLoc = new AMVector3(pos);
+					AMVector3 playerLoc = new AMVector3(player);
+					if (myLoc.distanceSqTo(playerLoc) < 64D){
+						forceShow = true;
+					}
 				}
 			}
 			worldObj.setBlockState(getPos(), worldObj.getBlockState(pos).withProperty(BlockParticleEmitter.HIDDEN, !forceShow));
 		}
+		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), preState, worldObj.getBlockState(pos), 3);
 	}
 
 	private void doSpawn(){
-		if (!hasReceivedFullUpdate) return;
+		//if (!hasReceivedFullUpdate) return;
 		double x = randomizeCoord(pos.getX() + 0.5);
 		double y = randomizeCoord(pos.getY() + 0.5);
 		double z = randomizeCoord(pos.getZ() + 0.5);
@@ -113,7 +114,6 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.getNbtCompound());
 		applyParamConstraints();
-		hasReceivedFullUpdate = true;
 	}
 
 	private void applyParamConstraints(){
