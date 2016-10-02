@@ -45,8 +45,8 @@ public class EntityShadowHelper extends EntityLiving{
 	@SideOnly(Side.CLIENT)
 	private ShadowSkinHelper skinHelper;
 
-	public EntityShadowHelper(World par1World){
-		super(par1World);
+	public EntityShadowHelper(World world){
+		super(world);
 		initAI();
 	}
 
@@ -71,12 +71,6 @@ public class EntityShadowHelper extends EntityLiving{
 				}
 			}
 		}
-	}
-
-	public void onJoinWorld(World world){
-		spawnParticles();
-		if (world.isRemote)
-			this.skinHelper = new ShadowSkinHelper();
 	}
 
 	@Override
@@ -172,6 +166,11 @@ public class EntityShadowHelper extends EntityLiving{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
+		if (worldObj != null && worldObj.isRemote && skinHelper == null) {
+			this.skinHelper = new ShadowSkinHelper();
+			spawnParticles();
+		}
+		
 		if (this.worldObj.isRemote){
 			if (this.getMimicUser() != lastDWString){
 				lastDWString = getMimicUser();

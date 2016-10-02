@@ -2,13 +2,12 @@ package am2.entity.models;
 
 import java.util.Calendar;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.entity.EntityHecate;
 import am2.models.ModelSantaHat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -323,21 +322,21 @@ public class ModelHecate extends ModelBase{
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 
 		if (((EntityHecate)entity).isChild()){
-			GL11.glScalef(0.5f, 0.5f, 0.5f);
+			GlStateManager.scale(0.5, 0.5, 0.5);
 		}
 		Main.render(f5);
 
 		if (Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) >= 23 && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) <= 27){
-			GL11.glScalef(0.5f, 0.5f, 0.5f);
-			GL11.glTranslatef(0, -0.1f, 0.1f);
+			GlStateManager.scale(0.5f, 0.5f, 0.5f);
+			GlStateManager.translate(0, -0.1f, 0.1f);
 			Minecraft.getMinecraft().renderEngine.bindTexture(hatLoc);
 			hat.renderModel(f5);
 		}
 
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z){

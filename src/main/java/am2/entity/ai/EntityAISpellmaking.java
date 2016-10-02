@@ -93,6 +93,7 @@ public class EntityAISpellmaking extends EntityAIBase{
 			}else if (action_state == 1 && hostLocation.distanceSqTo(dropLocation) < DISTANCE_THRESHOLD){
 				host.getNavigator().clearPathEntity();
 				if (!host.worldObj.isRemote){
+					host.entityDropItem(host.getSearchItem(), 0f);
 					host.setHeldItem(new ItemStack(Items.PAPER));
 				}
 				action_state = 2;

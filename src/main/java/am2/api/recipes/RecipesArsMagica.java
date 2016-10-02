@@ -1,6 +1,9 @@
 package am2.api.recipes;
 
+import java.util.ArrayList;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
 
 import am2.blocks.CraftingEssenceExtractor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,5 +83,9 @@ public abstract class RecipesArsMagica{
 
 	public Map<Integer, RecipeArsMagica> GetRecipeList(){
 		return RecipeList;
+	}
+	
+	public ArrayList<RecipeArsMagica> getAllRecipes() {
+		return Lists.newArrayList(RecipeList.values());
 	}
 }

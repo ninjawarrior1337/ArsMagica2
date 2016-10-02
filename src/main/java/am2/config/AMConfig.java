@@ -153,7 +153,6 @@ public class AMConfig extends Configuration{
 
 	private static final String CATEGORY_BETA = "beta";
 	private static final String CATEGORY_MOBS = "mobs";
-	private static final String CATEGORY_ENCHANTMENTS = "enchantments";
 	private static final String CATEGORY_UI = "guis";
 
 	private int GFXLevel;
@@ -242,7 +241,6 @@ public class AMConfig extends Configuration{
 		super(file);
 		load();
 		addCustomCategoryComment(CATEGORY_BETA, "This applies to those who have beta auras unlocked only");
-		addCustomCategoryComment(CATEGORY_ENCHANTMENTS, "Allows control over various enchantments in the mod.");
 		addCustomCategoryComment(CATEGORY_MOBS, "Spawn control for different AM mobs.");
 		getCategory(CATEGORY_UI).setShowInGui(false);
 	}
@@ -712,76 +710,65 @@ public class AMConfig extends Configuration{
 	//====================================================================================
 	//ping the direct properties once so that they show up in config
 	public void initDirectProperties(){
-		get(CATEGORY_MOBS, KEY_hecateSpawnRate, 2);
-		get(CATEGORY_MOBS, KEY_mageSpawnRate, 1);
-		get(CATEGORY_MOBS, KEY_waterElementalSpawnRate, 3);
-		get(CATEGORY_MOBS, KEY_manaElementalSpawnRate, 2);
-		get(CATEGORY_MOBS, KEY_dryadSpawnRate, 5);
-		get(CATEGORY_MOBS, KEY_manaCreeperSpawnRate, 3);
-		get(CATEGORY_MOBS, KEY_darklingSpawnRate, 5);
-		get(CATEGORY_MOBS, KEY_earthElementalSpawnRate, 2);
-		get(CATEGORY_MOBS, KEY_fireElementalSpawnRate, 2);
-		get(CATEGORY_MOBS, KEY_flickerSpawnRate, 2);
-	}
-
-	public int getConfigurableEnchantmentID(String enchantmentName, int default_value){
-		int val = get(CATEGORY_ENCHANTMENTS, enchantmentName, default_value).getInt(default_value);
-		save();
-		return val;
-	}
-
-	public void updateConfigurableEnchantmentID(String enchantmentName, int new_value){
-		get(CATEGORY_ENCHANTMENTS, enchantmentName, new_value).set(new_value);
-		save();
+		get(CATEGORY_MOBS, KEY_hecateSpawnRate, 2).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_mageSpawnRate, 1).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_waterElementalSpawnRate, 3).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_manaElementalSpawnRate, 2).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_dryadSpawnRate, 5).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_manaCreeperSpawnRate, 3).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_darklingSpawnRate, 5).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_earthElementalSpawnRate, 2).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_fireElementalSpawnRate, 2).setRequiresMcRestart(true);
+		get(CATEGORY_MOBS, KEY_flickerSpawnRate, 2).setRequiresMcRestart(true);
 	}
 
 	public int GetHecateSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_hecateSpawnRate, 2);
+		Property prop = get(CATEGORY_MOBS, KEY_hecateSpawnRate, 2).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(2), 0);
 	}
 
 	public int GetMageSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_mageSpawnRate, 1);
+		Property prop = get(CATEGORY_MOBS, KEY_mageSpawnRate, 1).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(1), 0);
 	}
 
 	public int GetWaterElementalSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_waterElementalSpawnRate, 3);
+		Property prop = get(CATEGORY_MOBS, KEY_waterElementalSpawnRate, 3).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(3), 0);
 	}
 
 	public int GetManaElementalSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_manaElementalSpawnRate, 2);
+		Property prop = get(CATEGORY_MOBS, KEY_manaElementalSpawnRate, 2).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(2), 0);
 	}
 
 	public int GetDryadSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_dryadSpawnRate, 5);
+		Property prop = get(CATEGORY_MOBS, KEY_dryadSpawnRate, 5).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(5), 0);
 	}
 
 	public int GetManaCreeperSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_manaCreeperSpawnRate, 3);
+		Property prop = get(CATEGORY_MOBS, KEY_manaCreeperSpawnRate, 3).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(3), 0);
 	}
 
 	public int GetDarklingSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_darklingSpawnRate, 5);
+		Property prop = get(CATEGORY_MOBS, KEY_darklingSpawnRate, 5).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(5), 0);
 	}
 
 	public int GetEarthElementalSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_earthElementalSpawnRate, 2);
+		Property prop = get(CATEGORY_MOBS, KEY_earthElementalSpawnRate, 2).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(2), 0);
 	}
 
 	public int GetFireElementalSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_fireElementalSpawnRate, 2);
+		Property prop = get(CATEGORY_MOBS, KEY_fireElementalSpawnRate, 2).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(2), 0);
 	}
 
 	public int GetFlickerSpawnRate(){
-		Property prop = get(CATEGORY_MOBS, KEY_flickerSpawnRate, 4);
+		Property prop = get(CATEGORY_MOBS, KEY_flickerSpawnRate, 4).setRequiresMcRestart(true);
 		return Math.max(prop.getInt(4), 0);
 	}
 

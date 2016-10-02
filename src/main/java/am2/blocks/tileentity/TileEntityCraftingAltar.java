@@ -14,6 +14,7 @@ import am2.api.SpellRegistry;
 import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
+import am2.api.power.IPowerNode;
 import am2.api.spell.AbstractSpellPart;
 import am2.blocks.BlockLectern;
 import am2.defs.BlockDefs;
@@ -49,6 +50,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController{
@@ -829,8 +831,6 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 //			Binding binding = (Binding)SkillManager.instance.getSkill("Binding");
 //			binding.setBindingType(craftStack, addedBindingCatalyst);
 //		}
-
-
 	}
 
 	private void setCrafting(boolean crafting){
@@ -856,14 +856,13 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			}
 			
 			//find otherworld auras
-			//TODO OtherWorldAura
-//			IPowerNode<?>[] nodes = PowerNodeRegistry.For(worldObj).getAllNearbyNodes(worldObj, new Vec3d(pos), PowerTypes.DARK);
-//			for (IPowerNode<?> node : nodes){
-//				if (node instanceof TileEntityOtherworldAura){
-//					((TileEntityOtherworldAura)node).setActive(true, this);
-//					break;
-//				}
-//			}
+			IPowerNode<?>[] nodes = PowerNodeRegistry.For(worldObj).getAllNearbyNodes(worldObj, new Vec3d(pos), PowerTypes.DARK);
+			for (IPowerNode<?> node : nodes){
+				if (node instanceof TileEntityOtherworldAura){
+					((TileEntityOtherworldAura)node).setActive(true, this);
+					break;
+				}
+			}
 		}
 	}
 

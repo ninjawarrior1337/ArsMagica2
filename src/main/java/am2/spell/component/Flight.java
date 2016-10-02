@@ -14,6 +14,7 @@ import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.buffs.BuffEffectFlight;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.particles.AMParticle;
@@ -112,7 +113,7 @@ public class Flight extends SpellComponent implements IRitualInteraction{
 		return new ItemStack[]{
 				new ItemStack(Items.FEATHER),
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
-				//TODO new ItemStack(BlocksCommonProxy.tarmaRoot)
+				new ItemStack(BlockDefs.tarmaRoot)
 		};
 	}
 

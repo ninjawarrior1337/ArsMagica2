@@ -158,13 +158,13 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 		
 //		List<ItemStack> oredict = OreDictionary.getOres(stack.getItem().getUnlocalizedName());
 		List<ItemStack> alternates = new ArrayList<ItemStack>();
+		//System.out.println(stack.getItemDamage() == OreDictionary.WILDCARD_VALUE);
 		if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
 			stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTab(), alternates);
 		}
 //		alternates.addAll(oredict);
 		
 		if (alternates.size() > 0){
-			alternates.add(stack);
 			stack = alternates.get(new Random(AMGuiHelper.instance.getSlowTicker()).nextInt(alternates.size()));
 		}
 
