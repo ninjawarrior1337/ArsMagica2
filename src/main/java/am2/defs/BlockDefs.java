@@ -171,7 +171,7 @@ public class BlockDefs {
 		FluidRegistry.registerFluid(liquid_essence);
 		FluidRegistry.addBucketForFluid(liquid_essence);
 		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
-		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER);
+		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence");
 		Item itemliquid_essence = new ItemBlock(blockliquid_essence);
 		GameRegistry.register(blockliquid_essence, new ResourceLocation("arsmagica2:liquid_essence"));
 		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquid_essence"));

@@ -35,7 +35,7 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 		this.setTickRandomly(true);
 		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
 		this.setDefaultState(blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
-		setGraphicsLevel(true);
+		leavesFancy = true;
 	}
 
 	@Override

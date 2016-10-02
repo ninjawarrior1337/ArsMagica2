@@ -1,12 +1,14 @@
 package am2.entity.ai;
 
 import am2.utils.EntityUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -79,26 +81,39 @@ public class EntityAISummonFollowOwner extends EntityAIBase{
 		this.petPathfinder.clearPathEntity();
 //		this.theSummon.getNavigator().setAvoidsWater(this.field_75344_i);
 	}
-
+	
+	private boolean isEmptyBlock(BlockPos pos) {
+		IBlockState iblockstate = this.theWorld.getBlockState(pos);
+		Block block = iblockstate.getBlock();
+		return block == Blocks.AIR ? true : !iblockstate.isFullCube();
+	}
+	
 	/**
 	 * Updates the task
 	 */
-	public void updateTask(){
-		this.theSummon.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float)this.theSummon.getVerticalFaceSpeed());
-		if (--this.field_75343_h <= 0){
+	@SuppressWarnings("deprecation")
+	public void updateTask() {
+		this.theSummon.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F,(float) this.theSummon.getVerticalFaceSpeed());
+		if (--this.field_75343_h <= 0) {
 			this.field_75343_h = 10;
 
-			if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.moveSpeed * 3)){
-				if (!this.theSummon.getLeashed()){
-					if (this.theSummon.getDistanceSqToEntity(this.theOwner) >= 144.0D){
+			if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.moveSpeed * 3)) {
+				if (!this.theSummon.getLeashed()) {
+					if (this.theSummon.getDistanceSqToEntity(this.theOwner) >= 144.0D) {
 						int i = MathHelper.floor_double(this.theOwner.posX) - 2;
 						int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
 						int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
 
-						for (int l = 0; l <= 4; ++l){
-							for (int i1 = 0; i1 <= 4; ++i1){
-								if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && theWorld.getBlockState(new BlockPos(i+l, k -1, j + i1)).isSideSolid(theWorld, new BlockPos(i+l, k -1, j + i1), EnumFacing.UP) && !this.theWorld.getBlockState(new BlockPos(i+l, k, j + i1)).isNormalCube() && !this.theWorld.getBlockState(new BlockPos(i+l, k -1, j + i1)).isNormalCube()){
-									this.theSummon.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), this.theSummon.rotationYaw, this.theSummon.rotationPitch);
+						for (int l = 0; l <= 4; ++l) {
+							for (int i1 = 0; i1 <= 4; ++i1) {
+								if ((l < 1 || i1 < 1 || l > 3 || i1 > 3)
+										&& this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1))
+												.isFullyOpaque()
+										&& this.isEmptyBlock(new BlockPos(i + l, k, j + i1))
+										&& this.isEmptyBlock(new BlockPos(i + l, k + 1, j + i1))) {
+									this.theSummon.setLocationAndAngles((double) ((float) (i + l) + 0.5F), (double) k,
+											(double) ((float) (j + i1) + 0.5F), this.theOwner.rotationYaw,
+											this.theOwner.rotationPitch);
 									this.petPathfinder.clearPathEntity();
 									return;
 								}

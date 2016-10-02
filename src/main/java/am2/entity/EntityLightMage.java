@@ -205,8 +205,8 @@ public class EntityLightMage extends EntityCreature{
 		if (par1 && getRNG().nextDouble() < 0.2)
 			this.entityDropItem(new ItemStack(ItemDefs.spellParchment, 1, 0), 0.0f);
 
-//		if (par1 && getRNG().nextDouble() < 0.05)
-//			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
+		if (par1 && getRNG().nextDouble() < 0.05)
+			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
 	}
 	
 	@Override
@@ -216,7 +216,9 @@ public class EntityLightMage extends EntityCreature{
 
 		if (stack != null && stack.getItem() instanceof ItemNameTag)
 			return EnumActionResult.PASS;
-
+		
+		if (hand == EnumHand.OFF_HAND) return EnumActionResult.PASS;
+		
 		if (SkillData.For(player).hasSkill(SkillDefs.MAGE_POSSE_1.getID())){
 			if (EntityUtils.isSummon(this)){
 				player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.translateToLocal("am2.npc.partyleave"))));
@@ -238,7 +240,7 @@ public class EntityLightMage extends EntityCreature{
 		}else{
 			player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.translateToLocal("am2.npc.nopartyskill"))));
 		}
-		return EnumActionResult.PASS;
+		return EnumActionResult.SUCCESS;
 	}
 
 	@SideOnly(Side.CLIENT)

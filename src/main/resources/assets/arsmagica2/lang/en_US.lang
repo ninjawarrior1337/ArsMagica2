@@ -222,6 +222,23 @@ tile.arsmagica2:witchwood_stairs.name=Witchwood Stairs
 tile.arsmagica2:astral_barrier.name=Astral Barrier
 tile.arsmagica2:mana_drain.name=Draining Well
 tile.arsmagica2:witchwood_slab.name=Witchwood Slab
+tile.arsmagica2:fluid_block_liquid_essence=Liquid Essence
+
+entity.arsmagica2.DarkMage.name=Dark Mage
+entity.arsmagica2.Dryad.name=Dryad
+entity.arsmagica2.EarthElemental.name=Earth Elemental
+entity.arsmagica2.FireElemental.name=Fire Elemental
+entity.arsmagica2.LightMage.name=Light Mage
+entity.arsmagica2.ManaElemental.name=Mana Elemental
+entity.arsmagica2.WaterElemental.name=Water Elemental
+entity.arsmagica2.ManaCreeper.name=Mana Creeper
+entity.arsmagica2.Hecate.name=Hecate
+entity.arsmagica2.Broom.name=Broom
+entity.arsmagica2.Darkling.name=Darkling
+entity.arsmagica2.HellCow.name=Hell Cow
+
+itemGroup.am2.blocks=Ars Magica 2 Blocks
+itemGroup.am2.items=Ars Magica 2 Items
 
 etherium.any.name=Any
 etherium.light.name=Light
@@ -237,6 +254,26 @@ key.bridge=Toggle Ice Bridge
 skill.arsmagica2:manaregen1.name=Mana Regen I
 skill.arsmagica2:manaregen2.name=Mana Regen II
 skill.arsmagica2:manaregen3.name=Mana Regen III
+
+#Death Messages
+death.attack.am2.backfire.player=%1$s's spell backfired whilst fighting %2$s
+death.attack.am2.backfire=%s's spell backfired
+death.attack.am2.darkNexus.player=%1$s's life force was consumed whilst fighting %2$s
+death.attack.am2.darkNexus=%s's life force was consumed
+death.attack.am2.fire=%1$s went up in flames because of %2$s
+death.attack.am2.frost=%1$s was frozen solid by %2$s
+death.attack.am2.holy=%1$s saw the true light of %2$s and disintegrated on the spot
+death.attack.am2.lightning=%1$s was electrocuted by %2$s
+death.attack.am2.wind=%1$s was blown away by %2$s
+death.attack.am2.wtfboom.player=%1$s hit the cactus too hard, then blew up swimming in lava because of %2$s
+death.attack.am2.wtfboom=%s hit the cactus too hard, then blew up swimming in lava
+
+#npc messages
+am2.npc.nopartyskill=Do I know you?
+am2.npc.partyfull=Looks like your party is already full.
+am2.npc.partyjoin=I have your back!
+am2.npc.partyleave=Best of luck, friend.
+am2.npc.partyrefuse=You need to become more powerful before I will follow you.
 
 skill.arsmagica2:projectile.name=Projectile
 skill.arsmagica2:bounce.name=Bounce
