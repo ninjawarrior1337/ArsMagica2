@@ -137,7 +137,8 @@ public class EntityHandler {
 	@SubscribeEvent
 	public void entityTick (LivingUpdateEvent event) {
 		//Pre Tick, Data Sync
-		AMNetHandler.INSTANCE.sendPacketToAllClientsNear(event.getEntity().dimension, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, 64, AMPacketIDs.SYNC_CLIENT, DataSyncExtension.For(event.getEntityLiving()).createUpdatePacket());
+		if (DataSyncExtension.For(event.getEntityLiving()).shouldSync() && !event.getEntity().worldObj.isRemote)
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(event.getEntity().dimension, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, 64, AMPacketIDs.SYNC_CLIENT, DataSyncExtension.For(event.getEntityLiving()).createUpdatePacket());
 		
 		if (event.getEntityLiving() instanceof EntityPlayer) playerTick((EntityPlayer) event.getEntityLiving());
 		

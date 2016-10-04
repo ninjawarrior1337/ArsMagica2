@@ -164,7 +164,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		AMDataReader reader = new AMDataReader(remaining, false);
 		if (Minecraft.getMinecraft().theWorld != null) {
 			EntityLivingBase ent = (EntityLivingBase) Minecraft.getMinecraft().theWorld.getEntityByID(reader.getInt());
-			if (ent instanceof EntityPlayer)
+			if (ent != null)
 				DataSyncExtension.For(ent).handleUpdatePacket(reader);
 		}
 	}

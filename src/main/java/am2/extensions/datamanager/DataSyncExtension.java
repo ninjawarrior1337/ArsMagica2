@@ -7,6 +7,7 @@ import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
@@ -56,14 +57,14 @@ public class DataSyncExtension implements IDataSyncExtension {
 	public <T> void set(SavedObject<T> data, T object) {
 		fillWithNull(data.getId());
 		Object checkObj = internalData.get(data.getId());
-		if (checkObj != object)
-			hasChanged.set(data.getId(), true);
+		hasChanged.set(data.getId(), object != null && !object.equals(checkObj));
 		internalData.set(data.getId(), object);
 	}
 
 	@Override
 	public <T> void register(SavedObject<T> data, T defaultValue) {
 		fillWithNull(data.getId());
+		hasChanged.set(data.getId(), true);
 		internalData.set(data.getId(), defaultValue);
 	}
 	
@@ -79,14 +80,17 @@ public class DataSyncExtension implements IDataSyncExtension {
 	public byte[] createUpdatePacket() {
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(entity.getEntityId());
+		boolean fullSync = entity instanceof EntityPlayer && entity.ticksExisted % 20 == 0;
 		int size = 0;
 		for (int i = 0; i < internalData.size(); i++) {
-			if (internalData.get(i) == null || !hasChanged.get(i).booleanValue() || ArsMagicaManager.getById(i) == null) continue;
+			if (internalData.get(i) == null || ArsMagicaManager.getById(i) == null) continue;
+			if (!fullSync && !hasChanged.get(i).booleanValue()) continue;
 			size++;
 		}
 		writer.add(size);
 		for (int i = 0; i < internalData.size(); i++) {
-			if (internalData.get(i) == null || !hasChanged.get(i).booleanValue() || ArsMagicaManager.getById(i) == null) continue;
+			if (internalData.get(i) == null || ArsMagicaManager.getById(i) == null) continue;
+			if (!fullSync && !hasChanged.get(i).booleanValue()) continue;
 			writer.add(i);
 			try {
 				ArsMagicaManager.getById(i).serialize(writer, internalData.get(i));
@@ -112,6 +116,13 @@ public class DataSyncExtension implements IDataSyncExtension {
 				System.out.println("Error trying to load " + index);
 			}
 		}
+	}
+
+	public boolean shouldSync() {
+		boolean bool = entity instanceof EntityPlayer;
+		for (Boolean b : hasChanged)
+			bool |= b.booleanValue();
+		return bool;
 	}
 
 }

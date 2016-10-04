@@ -43,7 +43,19 @@ public interface IDataSyncExtension extends ICapabilityProvider{
 	 * @return the stored thing
 	 */
 	public <T> T get(SavedObject<T> data);
+	/**
+	 * Sets an object, if it changed, sync.
+	 * 
+	 * @param data
+	 * @param object
+	 */
 	public <T> void set(SavedObject<T> data, T object);
+	/**
+	 * Used for registration, forces sync
+	 * 
+	 * @param data
+	 * @param defaultValue
+	 */
 	public <T> void register(SavedObject<T> data, T defaultValue);
 	public byte[] createUpdatePacket();
 	public void handleUpdatePacket(AMDataReader in);
