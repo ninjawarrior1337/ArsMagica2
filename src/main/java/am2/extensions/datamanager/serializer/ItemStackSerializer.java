@@ -15,12 +15,12 @@ public class ItemStackSerializer implements TypeSerializer<Optional<ItemStack>> 
 	
 	@Override
 	public void serialize(AMDataWriter buf, Optional<ItemStack> value) {
-		buf.add(value.orNull());
+		buf.add(value == null ? null : value.orNull());
 	}
 
 	@Override
 	public Optional<ItemStack> deserialize(AMDataReader buf) throws Throwable {
-		return Optional.of(buf.getItemStack());
+		return Optional.fromNullable(buf.getItemStack());
 	}
 
 }

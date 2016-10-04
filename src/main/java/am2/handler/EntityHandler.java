@@ -90,7 +90,7 @@ public class EntityHandler {
 				RiftStorage storage = new RiftStorage();
 				affData.init((EntityPlayer) event.getEntity(), dataSync);
 				skillData.init((EntityPlayer) event.getEntity(), dataSync);
-				compendium.init((EntityPlayer) event.getEntity());
+				compendium.init((EntityPlayer) event.getEntity(), dataSync);
 				event.addCapability(new ResourceLocation("arsmagica2", "Compendium"), compendium);
 				event.addCapability(SkillData.ID, skillData);
 				event.addCapability(AffinityData.ID, affData);

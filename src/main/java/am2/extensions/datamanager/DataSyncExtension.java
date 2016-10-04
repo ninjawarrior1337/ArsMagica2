@@ -1,7 +1,6 @@
 package am2.extensions.datamanager;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.ArrayList;
 
 import am2.api.extensions.IDataSyncExtension;
 import am2.packet.AMDataReader;
@@ -20,7 +19,8 @@ public class DataSyncExtension implements IDataSyncExtension {
 	@CapabilityInject(value = IDataSyncExtension.class)
 	public static Capability<IDataSyncExtension> INSTANCE = null;
 	
-	private HashMap<Integer, Object> internalData = new HashMap<>();
+	private ArrayList<Object> internalData = new ArrayList<>();
+	private ArrayList<Boolean> hasChanged = new ArrayList<>();
 	private Entity entity;
 	
 	public static DataSyncExtension For(EntityLivingBase living){
@@ -48,21 +48,30 @@ public class DataSyncExtension implements IDataSyncExtension {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T get(SavedObject<T> data) {
-		return (T) internalData.get(data.getId());
+		fillWithNull(data.getId());
+		return (T) internalData.get(Integer.valueOf(data.getId()));
 	}
 
 	@Override
 	public <T> void set(SavedObject<T> data, T object) {
-		if (!internalData.containsKey(Integer.valueOf(data.getId())))
-			throw new IllegalStateException("Item with id " + data.getId() + " isn\'t registered!");
-		internalData.put(data.getId(), object);
+		fillWithNull(data.getId());
+		Object checkObj = internalData.get(data.getId());
+		if (checkObj != object)
+			hasChanged.set(data.getId(), true);
+		internalData.set(data.getId(), object);
 	}
 
 	@Override
 	public <T> void register(SavedObject<T> data, T defaultValue) {
-		if (internalData.containsKey(Integer.valueOf(data.getId())))
-			throw new IllegalStateException("Item with id " + data.getId() + " is already registered");
-		internalData.put(data.getId(), defaultValue);
+		fillWithNull(data.getId());
+		internalData.set(data.getId(), defaultValue);
+	}
+	
+	private void fillWithNull(int upTo) {
+		while (internalData.size() <= upTo)
+			internalData.add(null);
+		while (hasChanged.size() <= upTo)
+			hasChanged.add(false);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -70,27 +79,37 @@ public class DataSyncExtension implements IDataSyncExtension {
 	public byte[] createUpdatePacket() {
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(entity.getEntityId());
-		writer.add(internalData.size());
-		for (Entry<Integer, ?> entry : internalData.entrySet()) {
-			writer.add(entry.getKey());
+		int size = 0;
+		for (int i = 0; i < internalData.size(); i++) {
+			if (internalData.get(i) == null || !hasChanged.get(i).booleanValue() || ArsMagicaManager.getById(i) == null) continue;
+			size++;
+		}
+		writer.add(size);
+		for (int i = 0; i < internalData.size(); i++) {
+			if (internalData.get(i) == null || !hasChanged.get(i).booleanValue() || ArsMagicaManager.getById(i) == null) continue;
+			writer.add(i);
 			try {
-				ArsMagicaManager.getById(entry.getKey()).serialize(writer, entry.getValue());
+				ArsMagicaManager.getById(i).serialize(writer, internalData.get(i));
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 		}
+		hasChanged.clear();
+		fillWithNull(internalData.size());
 		return writer.generate();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void handleUpdatePacket(AMDataReader reader) {
 		int size = reader.getInt();
-		internalData.clear();
 		for (int i = 0; i < size; i++) {
+			int index = reader.getInt();
 			try {
-				ArsMagicaManager.getById(reader.getInt()).deserialize(reader);
+				fillWithNull(index);
+				this.set(ArsMagicaManager.getById(index), ArsMagicaManager.getById(index).deserialize(reader));
 			} catch (Throwable e) {
-				e.printStackTrace();
+				System.out.println("Error trying to load " + index);
 			}
 		}
 	}

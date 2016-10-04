@@ -81,7 +81,7 @@ public class ArsMagicaAPI {
 		return modid;
 	}
 	
-    private static class ObjectCallbacks<T> implements IForgeRegistry.AddCallback<T>,IForgeRegistry.ClearCallback<T>,IForgeRegistry.CreateCallback<T>
+    public static class ObjectCallbacks<T> implements IForgeRegistry.AddCallback<T>,IForgeRegistry.ClearCallback<T>,IForgeRegistry.CreateCallback<T>
 	{
 		static final ObjectCallbacks<AbstractSpellPart> SPELL = new SpellCallbacks();
 		static final ObjectCallbacks<AbstractAffinityAbility> ABILITY = new ObjectCallbacks<>();
@@ -99,7 +99,7 @@ public class ArsMagicaAPI {
 		public void onCreate(Map<ResourceLocation, ?> slaveset) {}
 	}
     
-    private static class SpellCallbacks extends ObjectCallbacks<AbstractSpellPart> {
+    public static class SpellCallbacks extends ObjectCallbacks<AbstractSpellPart> {
 
 		@Override
 		public void onAdd(AbstractSpellPart ability, int id, Map<ResourceLocation, ?> slaves) {

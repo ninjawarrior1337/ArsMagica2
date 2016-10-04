@@ -6,6 +6,7 @@ import am2.LogHelper;
 import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
 import am2.api.extensions.IArcaneCompendium;
+import am2.api.extensions.IDataSyncExtension;
 import am2.defs.ItemDefs;
 import am2.extensions.DataDefinitions;
 import am2.extensions.datamanager.DataSyncExtension;
@@ -46,9 +47,9 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 		return false;
 	}
 	
-	public void init(EntityPlayer player) {
+	public void init(EntityPlayer player, IDataSyncExtension ext) {
 		this.player = player;
-		DataSyncExtension.For(player).register(DataDefinitions.COMPENDIUM, new ArrayList<String>());
+		ext.register(DataDefinitions.COMPENDIUM, new ArrayList<String>());
 	}
 
 	public static IArcaneCompendium For(EntityPlayer entityPlayer) {

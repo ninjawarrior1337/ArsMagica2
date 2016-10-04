@@ -99,7 +99,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public void setContingency (ContingencyType type, ItemStack stack) {
 		DataSyncExtension.For(entity).set(CONTENGENCY_TYPE, type.name().toLowerCase());
-		DataSyncExtension.For(entity).set(CONTENGENCY_STACK, Optional.of(stack));
+		DataSyncExtension.For(entity).set(CONTENGENCY_STACK, Optional.fromNullable(stack));
 	}
 	
 	@Override
@@ -109,22 +109,22 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public ItemStack getContingencyStack() {
-		return DataSyncExtension.For(entity).get(CONTENGENCY_STACK).get();
+		return DataSyncExtension.For(entity).get(CONTENGENCY_STACK).orNull();
 	}
 	
 	@Override
 	public double getMarkX() {
-		return (double) DataSyncExtension.For(entity).get(MARK_X);
+		return DataSyncExtension.For(entity).get(MARK_X);
 	}
 	
 	@Override
 	public double getMarkY() {
-		return (double) DataSyncExtension.For(entity).get(MARK_Y);
+		return DataSyncExtension.For(entity).get(MARK_Y);
 	}
 	
 	@Override
 	public double getMarkZ() {
-		return (double) DataSyncExtension.For(entity).get(MARK_Z);
+		return DataSyncExtension.For(entity).get(MARK_Z);
 	}
 	
 	@Override
@@ -301,12 +301,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public boolean isInverted() {
-		return DataSyncExtension.For(entity).get(IS_INVERTED);
+		return DataSyncExtension.For(entity).get(IS_INVERTED) == null ? false : DataSyncExtension.For(entity).get(IS_INVERTED);
 	}
 	
 	@Override
 	public float getFallProtection() {
-		return DataSyncExtension.For(entity).get(FALL_PROTECTION);
+		return DataSyncExtension.For(entity).get(FALL_PROTECTION) == null ? 0 : DataSyncExtension.For(entity).get(FALL_PROTECTION);
 	}
 	
 	@Override
@@ -345,7 +345,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		ext.register(MARK_Y, 0D);
 		ext.register(MARK_Z, 0D);
 		ext.register(MARK_DIMENSION, -512);
-		ext.register(CONTENGENCY_STACK, null);
+		ext.register(CONTENGENCY_STACK, Optional.absent());
 		ext.register(CONTENGENCY_TYPE, "NULL");
 		ext.register(FALL_PROTECTION, 0.0f);
 		ext.register(IS_INVERTED, false);
@@ -578,17 +578,17 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean getIsFlipped() {
-		return DataSyncExtension.For(entity).get(IS_INVERTED);
+		return DataSyncExtension.For(entity).get(IS_INVERTED) == null ? false : DataSyncExtension.For(entity).get(IS_INVERTED);
 	}
 
 	@Override
 	public float getFlipRotation() {
-		return DataSyncExtension.For(entity).get(FLIP_ROTATION);
+		return DataSyncExtension.For(entity).get(FLIP_ROTATION) == null ? 0 : DataSyncExtension.For(entity).get(FLIP_ROTATION);
 	}
 
 	@Override
 	public float getPrevFlipRotation() {
-		return DataSyncExtension.For(entity).get(PREV_FLIP_ROTATION);
+		return DataSyncExtension.For(entity).get(PREV_FLIP_ROTATION) == null ? 0 : DataSyncExtension.For(entity).get(PREV_FLIP_ROTATION);
 	}
 	
 	@Override
@@ -603,12 +603,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public float getShrinkPct() {
-		return DataSyncExtension.For(entity).get(SHRINK_PCT);
+		return DataSyncExtension.For(entity).get(SHRINK_PCT) == null ? 0 : DataSyncExtension.For(entity).get(SHRINK_PCT);
 	}
 
 	@Override
 	public float getPrevShrinkPct() {
-		return DataSyncExtension.For(entity).get(PREV_SHRINK_PCT);
+		return DataSyncExtension.For(entity).get(PREV_SHRINK_PCT) == null ? 0 : DataSyncExtension.For(entity).get(PREV_SHRINK_PCT);
 	}
 
 	@Override
@@ -623,7 +623,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public float getTKDistance() {
-		return DataSyncExtension.For(entity).get(TK_DISTANCE);
+		return DataSyncExtension.For(entity).get(TK_DISTANCE) == null ? 0 : DataSyncExtension.For(entity).get(TK_DISTANCE);
 	}
 	
 	@Override

@@ -162,8 +162,11 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
 	private void handleClientUpdate(byte[] remaining) {
 		AMDataReader reader = new AMDataReader(remaining, false);
-		EntityLivingBase ent = (EntityLivingBase) Minecraft.getMinecraft().theWorld.getEntityByID(reader.getInt());
-		DataSyncExtension.For(ent).handleUpdatePacket(reader);
+		if (Minecraft.getMinecraft().theWorld != null) {
+			EntityLivingBase ent = (EntityLivingBase) Minecraft.getMinecraft().theWorld.getEntityByID(reader.getInt());
+			if (ent instanceof EntityPlayer)
+				DataSyncExtension.For(ent).handleUpdatePacket(reader);
+		}
 	}
 
 	private void handleManaLinkUpdate(byte[] remaining) {

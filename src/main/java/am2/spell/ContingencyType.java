@@ -29,7 +29,7 @@ public enum ContingencyType {
 	
 	public static ContingencyType fromName(String name) {
 		for (ContingencyType type : values()) {
-			if (name.equalsIgnoreCase(type.name().toLowerCase()))
+			if (type.name().toLowerCase().equalsIgnoreCase(name))
 				return type;
 		}
 		

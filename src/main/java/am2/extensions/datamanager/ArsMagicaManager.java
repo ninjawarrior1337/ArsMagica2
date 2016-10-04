@@ -19,6 +19,7 @@ public class ArsMagicaManager {
 	
 	@SuppressWarnings("rawtypes")
 	protected static SavedObject getById(int id) {
-		return SAVED_OBJECTS.get(id);	
+		if (id < SAVED_OBJECTS.size()) return null;
+		return SAVED_OBJECTS.get(id);
 	}
 }

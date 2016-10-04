@@ -36,6 +36,12 @@ public interface IDataSyncExtension extends ICapabilityProvider{
 
 	}
 	public void init(Entity entity);
+	/**
+	 * Get the data stored at some variable.
+	 * 
+	 * @param data : the data object
+	 * @return the stored thing
+	 */
 	public <T> T get(SavedObject<T> data);
 	public <T> void set(SavedObject<T> data, T object);
 	public <T> void register(SavedObject<T> data, T defaultValue);
