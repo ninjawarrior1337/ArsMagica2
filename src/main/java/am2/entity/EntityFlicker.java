@@ -389,6 +389,11 @@ public class EntityFlicker extends EntityAmbientCreature{
 
 			if (validAffinities.size() <= 0)
 				return false;
+			
+			if (worldObj.provider.getDimension() == 1) {
+				validAffinities.clear();
+				validAffinities.add(Affinity.ENDER);
+			}
 
 			//life flickers always have a chance to spawn?
 			MinecraftForge.EVENT_BUS.post(new FlickerAffinityEvent(validAffinities, this, biome));

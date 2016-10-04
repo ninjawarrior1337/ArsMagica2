@@ -13,6 +13,7 @@ import am2.blocks.tileentity.TileEntityObelisk;
 import am2.bosses.BossActions;
 import am2.bosses.IArsMagicaBoss;
 import am2.extensions.EntityExtension;
+import am2.extensions.datamanager.DataSyncExtension;
 import am2.gui.AMGuiHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleChangeSize;
@@ -141,6 +142,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			case AMPacketIDs.MANA_LINK_UPDATE:
 				handleManaLinkUpdate(remaining);
 				break;
+			case AMPacketIDs.SYNC_CLIENT:
+				handleClientUpdate(remaining);
+				break;
 			}
 		}catch (Throwable t){
 			LogHelper.error("Client Packet Failed to Handle!");
@@ -154,6 +158,12 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				t.printStackTrace();
 			}
 		}
+	}
+
+	private void handleClientUpdate(byte[] remaining) {
+		AMDataReader reader = new AMDataReader(remaining, false);
+		EntityLivingBase ent = (EntityLivingBase) Minecraft.getMinecraft().theWorld.getEntityByID(reader.getInt());
+		DataSyncExtension.For(ent).handleUpdatePacket(reader);
 	}
 
 	private void handleManaLinkUpdate(byte[] remaining) {

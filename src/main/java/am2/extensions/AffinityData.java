@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
+import am2.api.extensions.IDataSyncExtension;
+import am2.extensions.datamanager.DataSyncExtension;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -37,32 +39,32 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		return (AffinityData) living.getCapability(INSTANCE, null);
 	}
 	
-	public float getAffinityDepth(Affinity aff) {
-		return player.getDataManager().get(DataDefinitions.AFFINITY_DATA).get(aff) / MAX_DEPTH;
+	public double getAffinityDepth(Affinity aff) {
+		return DataSyncExtension.For(player).get(DataDefinitions.AFFINITY_DATA).get(aff) / MAX_DEPTH;
 	}
 	
-	public void setAffinityDepth (Affinity name, float value) {
-		value = MathHelper.clamp_float(value, 0, MAX_DEPTH);
-		HashMap<Affinity, Float> map = player.getDataManager().get(DataDefinitions.AFFINITY_DATA);
+	public void setAffinityDepth (Affinity name, double value) {
+		value = MathHelper.clamp_double(value, 0, MAX_DEPTH);
+		HashMap<Affinity, Double> map = DataSyncExtension.For(player).get(DataDefinitions.AFFINITY_DATA);
 		map.put(name, value);
-		player.getDataManager().set(DataDefinitions.AFFINITY_DATA, map);
+		DataSyncExtension.For(player).set(DataDefinitions.AFFINITY_DATA, map);
 	}
 	
-	public HashMap<Affinity, Float> getAffinities() {
-		return player.getDataManager().get(DataDefinitions.AFFINITY_DATA);
+	public HashMap<Affinity, Double> getAffinities() {
+		return DataSyncExtension.For(player).get(DataDefinitions.AFFINITY_DATA);
 	}
 
-	public void init(EntityPlayer entity) {
+	public void init(EntityPlayer entity, IDataSyncExtension ext) {
 		this.player = entity;
-		HashMap<Affinity, Float> map = new HashMap<Affinity, Float>();
+		HashMap<Affinity, Double> map = new HashMap<>();
 		for (Affinity DEPTH : ArsMagicaAPI.getAffinityRegistry().getValues())
-			map.put(DEPTH, 0F);
-		map.put(Affinity.NONE, 0F);
-		player.getDataManager().register(DataDefinitions.AFFINITY_DATA, map);
-		player.getDataManager().register(DataDefinitions.ABILITY_BOOLEAN, new HashMap<>());
-		player.getDataManager().register(DataDefinitions.ABILITY_FLOAT, new HashMap<>());
-		player.getDataManager().register(DataDefinitions.DIMINISHING_RETURNS, 1.0F);
-		player.getDataManager().register(DataDefinitions.COOLDOWNS, new HashMap<>());
+			map.put(DEPTH, 0D);
+		map.put(Affinity.NONE, 0D);
+		ext.register(DataDefinitions.AFFINITY_DATA, map);
+		ext.register(DataDefinitions.ABILITY_BOOLEAN, new HashMap<>());
+		ext.register(DataDefinitions.ABILITY_FLOAT, new HashMap<>());
+		ext.register(DataDefinitions.DIMINISHING_RETURNS, 1.0F);
+		ext.register(DataDefinitions.COOLDOWNS, new HashMap<>());
 	}
 	
 	@Override
@@ -89,12 +91,12 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public Map<String, Boolean> getAbilityBooleanMap() {
-		return player.getDataManager().get(DataDefinitions.ABILITY_BOOLEAN);
+		return DataSyncExtension.For(player).get(DataDefinitions.ABILITY_BOOLEAN);
 	}
 	
 	@Override
 	public Map<String, Float> getAbilityFloatMap() {
-		return player.getDataManager().get(DataDefinitions.ABILITY_FLOAT);
+		return DataSyncExtension.For(player).get(DataDefinitions.ABILITY_FLOAT);
 	}
 	
 	@Override
@@ -109,25 +111,25 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public Map<String, Integer> getCooldowns() {
-		return player.getDataManager().get(DataDefinitions.COOLDOWNS);
+		return DataSyncExtension.For(player).get(DataDefinitions.COOLDOWNS);
 	}
 	
 	@Override
 	public float getDiminishingReturnsFactor(){
-		return player.getDataManager().get(DataDefinitions.DIMINISHING_RETURNS);
+		return DataSyncExtension.For(player).get(DataDefinitions.DIMINISHING_RETURNS);
 	}
 	
 	@Override
 	public void tickDiminishingReturns(){
 		if (getDiminishingReturnsFactor() < 1.3f){
-			player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, player.getDataManager().get(DataDefinitions.DIMINISHING_RETURNS) + 0.005f);
+			DataSyncExtension.For(player).set(DataDefinitions.DIMINISHING_RETURNS, DataSyncExtension.For(player).get(DataDefinitions.DIMINISHING_RETURNS) + 0.005f);
 		}
 	}
 	
 	@Override
 	public void addDiminishingReturns(boolean isChanneled){
-		player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, getDiminishingReturnsFactor() - (isChanneled ? 0.1f : 0.3f));
-		if (this.getDiminishingReturnsFactor() < 0) player.getDataManager().set(DataDefinitions.DIMINISHING_RETURNS, 0F);
+		DataSyncExtension.For(player).set(DataDefinitions.DIMINISHING_RETURNS, getDiminishingReturnsFactor() - (isChanneled ? 0.1f : 0.3f));
+		if (this.getDiminishingReturnsFactor() < 0) DataSyncExtension.For(player).set(DataDefinitions.DIMINISHING_RETURNS, 0F);
 	}
 	
 	@Override
@@ -155,11 +157,11 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 
 	@Override
 	public Affinity[] getHighestAffinities() {
-		float max1 = 0;
-		float max2 = 0;
+		double max1 = 0;
+		double max2 = 0;
 		Affinity maxAff1 = Affinity.NONE;
 		Affinity maxAff2 = Affinity.NONE;
-		for (Entry<Affinity, Float> entry : getAffinities().entrySet()) {
+		for (Entry<Affinity, Double> entry : getAffinities().entrySet()) {
 			if (entry.getValue() > max1) {
 				max2 = max1;
 				maxAff2 = maxAff1;
@@ -207,7 +209,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	private void addToAffinity(Affinity affinity, float amt){
 		if (affinity == Affinity.NONE) return;
-		float existingAmt = getAffinityDepth(affinity) * MAX_DEPTH;
+		double existingAmt = getAffinityDepth(affinity) * MAX_DEPTH;
 		existingAmt += amt;
 		if (existingAmt > MAX_DEPTH) existingAmt = MAX_DEPTH;
 		else if (existingAmt < 0) existingAmt = 0;
@@ -216,7 +218,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	private void subtractFromAffinity(Affinity affinity, float amt){
 		if (affinity == Affinity.NONE) return;
-		float existingAmt = getAffinityDepth(affinity)  * MAX_DEPTH;
+		double existingAmt = getAffinityDepth(affinity)  * MAX_DEPTH;
 		existingAmt -= amt;
 		if (existingAmt > MAX_DEPTH) existingAmt = MAX_DEPTH;
 		else if (existingAmt < 0) existingAmt = 0;

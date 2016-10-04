@@ -43,7 +43,7 @@ public class AbilityFulmination extends AbstractAffinityAbility {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void applyFulmintion(EntityPlayer ent, float lightningDepth){
+	private void applyFulmintion(EntityPlayer ent, double lightningDepth){
 		//chance to light nearby TNT
 		if (!ent.worldObj.isRemote){
 			if (lightningDepth <= 0.8f){

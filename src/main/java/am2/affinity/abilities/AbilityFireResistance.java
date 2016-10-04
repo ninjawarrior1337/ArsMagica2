@@ -26,9 +26,9 @@ public class AbilityFireResistance extends AbstractAffinityAbility {
 	@Override
 	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
 		if (!isAttacker && event.getSource().isFireDamage()) {
-			float fireDepth = AffinityData.For(player).getAffinityDepth(Affinity.FIRE);
-			float reduction = 1 - (0.6f * fireDepth);
-			event.setAmount(event.getAmount() * reduction);
+			double fireDepth = AffinityData.For(player).getAffinityDepth(Affinity.FIRE);
+			double reduction = 1 - (0.6f * fireDepth);
+			event.setAmount((float) (event.getAmount() * reduction));
 		}
 	}
 }

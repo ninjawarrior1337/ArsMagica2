@@ -68,7 +68,7 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 		if (aff == Affinity.NONE || aff == null)
 			return false;
 		IAffinityData data = AffinityData.For(player);
-		float depth = data.getAffinityDepth(aff);
+		double depth = data.getAffinityDepth(aff);
 		if (getMaximumDepth() < 0F || getMaximumDepth() > 1F || getMaximumDepth() < getMinimumDepth())
 			return depth >= getMinimumDepth();
 		return depth >= getMinimumDepth() && depth <= getMaximumDepth();

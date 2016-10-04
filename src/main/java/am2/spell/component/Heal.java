@@ -44,7 +44,7 @@ public class Heal extends SpellComponent{
 			if (((EntityLivingBase)target).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD){
 				int healing = SpellUtils.getModifiedInt_Mul(10, stack, caster, target, world, SpellModifiers.HEALING);
 				target.setFire(2);
-				return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeHolyDamage(caster), healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(Affinity.LIFE)));
+				return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeHolyDamage(caster), (float) (healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(Affinity.LIFE))));
 			}else{
 				int healing = SpellUtils.getModifiedInt_Mul(2, stack, caster, target, world, SpellModifiers.HEALING);
 				healing *= 1F + AffinityData.For(caster).getAffinityDepth(Affinity.LIFE);

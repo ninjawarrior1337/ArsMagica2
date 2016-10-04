@@ -19,20 +19,20 @@ import am2.utils.NBTUtils;
 
 public interface IAffinityData {	
 
-	public float getAffinityDepth(Affinity aff);
+	public double getAffinityDepth(Affinity aff);
 	
-	public void setAffinityDepth (Affinity name, float value);
+	public void setAffinityDepth (Affinity name, double value);
 	
-	public HashMap<Affinity, Float> getAffinities();
+	public HashMap<Affinity, Double> getAffinities();
 
-	public void init(EntityPlayer entity);
+	public void init(EntityPlayer entity, IDataSyncExtension ext);
 	
 	public static class Storage implements IStorage<IAffinityData> {
 		
 		@Override
 		public NBTBase writeNBT(Capability<IAffinityData> capability, IAffinityData instance, EnumFacing side) {
 			NBTTagCompound nbt = new NBTTagCompound();
-			for (Entry<Affinity, Float> entry : instance.getAffinities().entrySet()) {
+			for (Entry<Affinity, Double> entry : instance.getAffinities().entrySet()) {
 				Affinity.writeToNBT(nbt, entry.getKey(), entry.getValue());
 			}
 			NBTTagCompound am2Tag = NBTUtils.getAM2Tag(nbt);

@@ -359,7 +359,7 @@ public class LoreDefs {
 		createItemEntry(BLOCK, "wakebloom", new ItemStack (BlockDefs.wakebloom), 1);
 		createItemEntry(BLOCK, "summoner", new ItemStack (BlockDefs.summoner), 1);
 		createItemEntry(BLOCK, "witchwood_sapling", new ItemStack (BlockDefs.witchwoodSapling), 1);
-		createItemEntry(BLOCK, "crafting_atlar", new ItemStack (BlockDefs.craftingAltar), 1);
+		createItemEntry(BLOCK, "crafting_altar", new ItemStack (BlockDefs.craftingAltar), 1);
 		createItemEntry(BLOCK, "magicians_workbench", new ItemStack (BlockDefs.magiciansWorkbench), 1);
 		createItemEntry(BLOCK, "everstone", new ItemStack (BlockDefs.everstone), 1);
 		createItemEntry(BLOCK, "vinteum_torch", new ItemStack (BlockDefs.vinteumTorch), 1);
@@ -465,6 +465,7 @@ public class LoreDefs {
 		createComponentEntry("mana_drain", SpellRegistry.getComponentFromName("arsmagica2:mana_drain"), 1);
 		createComponentEntry("mana_link", SpellRegistry.getComponentFromName("arsmagica2:mana_link"), 2);
 		createComponentEntry("mana_shield", SpellRegistry.getComponentFromName("arsmagica2:mana_shield"), 1);
+		createComponentEntry("mana_blast", SpellRegistry.getComponentFromName("arsmagica2:mana_blast"), 1);
 		createComponentEntry("mark", SpellRegistry.getComponentFromName("arsmagica2:mark"), 1);
 		createComponentEntry("moonrise", SpellRegistry.getComponentFromName("arsmagica2:moonrise"), 1);
 		createComponentEntry("night_vision", SpellRegistry.getComponentFromName("arsmagica2:night_vision"), 1);
@@ -541,6 +542,7 @@ public class LoreDefs {
 		createMobEntry("darkling", new EntityDarkling(null), 1);
 		createMobEntry("hellcow", new EntityHellCow(null), 1);
 		
+		createEntry(MOB_FLICKER, "flickers", 2);
 		createFlickerEntry("water_flicker", Affinity.WATER, 1);
 		createFlickerEntry("air_flicker", Affinity.AIR, 1);
 		createFlickerEntry("earth_flicker", Affinity.EARTH, 1);
@@ -554,9 +556,9 @@ public class LoreDefs {
 	}
 	
 	private static void initStructures() {
-		STRUCTURE.addEntry(new CompendiumEntry(null, "crafting_altar")
-				.addObject("compendium.crafting_altar.page1")
-				.addObject("compendium.crafting_altar.page2")
+		STRUCTURE.addEntry(new CompendiumEntry(null, "crafting_altar_structure")
+				.addObject("compendium.crafting_altar_structure.page1")
+				.addObject("compendium.crafting_altar_structure.page2")
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getCapsMap(), "am2.gui.catalysts", false))
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getSimpleMainMap(), "am2.gui.structuremat", false))
 				.addObject(new TileEntityCraftingAltar().getDefinition()));
@@ -567,16 +569,16 @@ public class LoreDefs {
 	}
 	
 	private static void initBosses() {
-		createBossEntry("water_guardian", new EntityWaterGuardian(null), 1);
-		createBossEntry("air_guardian", new EntityAirGuardian(null), 1);
-		createBossEntry("earth_guardian", new EntityEarthGuardian(null), 1);
+		createBossEntry("water_guardian", new EntityWaterGuardian(null), 2);
+		createBossEntry("air_guardian", new EntityAirGuardian(null), 2);
+		createBossEntry("earth_guardian", new EntityEarthGuardian(null), 2);
 		createBossEntry("fire_guardian", new EntityFireGuardian(null), 1);
-		createBossEntry("lightning_guardian", new EntityLightningGuardian(null), 1);
-		createBossEntry("nature_guardian", new EntityNatureGuardian(null), 1);
-		createBossEntry("winter_guardian", new EntityWinterGuardian(null), 1);
-		createBossEntry("arcane_guardian", new EntityArcaneGuardian(null), 1);
-		createBossEntry("life_guardian", new EntityLifeGuardian(null), 1);
-		createBossEntry("ender_guardian", new EntityEnderGuardian(null), 1);
+		createBossEntry("lightning_guardian", new EntityLightningGuardian(null), 2);
+		createBossEntry("nature_guardian", new EntityNatureGuardian(null), 2);
+		createBossEntry("winter_guardian", new EntityWinterGuardian(null), 2);
+		createBossEntry("arcane_guardian", new EntityArcaneGuardian(null), 2);
+		createBossEntry("life_guardian", new EntityLifeGuardian(null), 3);
+		createBossEntry("ender_guardian", new EntityEnderGuardian(null), 4);
 	}
 	
 	private static void createShapeEntry(String name, AbstractSpellPart shape, int textPages) {

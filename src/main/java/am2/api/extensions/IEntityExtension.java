@@ -97,7 +97,7 @@ public interface IEntityExtension {
 	
 	public void addEntityReference(EntityLivingBase entity);
 	
-	public void init(EntityLivingBase entity);
+	public void init(EntityLivingBase entity, IDataSyncExtension ext);
 	
 	public boolean canHeal();
 	

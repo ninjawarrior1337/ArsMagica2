@@ -10,6 +10,7 @@ import am2.api.SkillPointRegistry;
 import am2.api.SkillRegistry;
 import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
+import am2.api.extensions.IDataSyncExtension;
 import am2.api.extensions.ISkillData;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
@@ -17,6 +18,7 @@ import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellShape;
+import am2.extensions.datamanager.DataSyncExtension;
 import am2.lore.ArcaneCompendium;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,13 +43,13 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	}
 	
 	public HashMap<Skill, Boolean> getSkills() {
-		return player.getDataManager().get(DataDefinitions.SKILL);
+		return DataSyncExtension.For(player).get(DataDefinitions.SKILL);
 	}
 	
 	public boolean hasSkill (String name) {
 		if (player.capabilities.isCreativeMode) return true;
 		if (ArsMagica2.disabledSkills.isSkillDisabled(name)) return true;
-		Boolean bool = player.getDataManager().get(DataDefinitions.SKILL).get(SkillRegistry.getSkillFromName(name));
+		Boolean bool = DataSyncExtension.For(player).get(DataDefinitions.SKILL).get(SkillRegistry.getSkillFromName(name));
 		return bool == null ? false : bool;
 	}
 	
@@ -74,29 +76,29 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		}
 		
 		setSkillPoint(skill.getPoint(), getSkillPoint(skill.getPoint()) - 1);
-		HashMap<Skill, Boolean> map = player.getDataManager().get(DataDefinitions.SKILL);
+		HashMap<Skill, Boolean> map = DataSyncExtension.For(player).get(DataDefinitions.SKILL);
 		map.put(skill, true);
-		player.getDataManager().set(DataDefinitions.SKILL, map);
+		DataSyncExtension.For(player).set(DataDefinitions.SKILL, map);
 	}
 	
 	public HashMap<SkillPoint, Integer> getSkillPoints() {
-		return player.getDataManager().get(DataDefinitions.POINT_TIER);
+		return DataSyncExtension.For(player).get(DataDefinitions.POINT_TIER);
 	}
 	
 	public int getSkillPoint(SkillPoint skill) {
 		if (skill == null)
 			return 0;
-		Integer integer = player.getDataManager().get(DataDefinitions.POINT_TIER).get(skill);
+		Integer integer = DataSyncExtension.For(player).get(DataDefinitions.POINT_TIER).get(skill);
 		return integer == null ? 0 : integer.intValue();
 	}
 	
 	public void setSkillPoint(SkillPoint point, int num) {
-		HashMap<SkillPoint, Integer> map = player.getDataManager().get(DataDefinitions.POINT_TIER);
+		HashMap<SkillPoint, Integer> map = DataSyncExtension.For(player).get(DataDefinitions.POINT_TIER);
 		map.put(point, num);
-		player.getDataManager().set(DataDefinitions.POINT_TIER, map);
+		DataSyncExtension.For(player).set(DataDefinitions.POINT_TIER, map);
 	}
 
-	public void init(EntityPlayer entity) {
+	public void init(EntityPlayer entity, IDataSyncExtension ext) {
 		this.player = entity;
 		HashMap<Skill, Boolean> skillMap = new HashMap<Skill, Boolean>();
 		HashMap<SkillPoint, Integer> pointMap = new HashMap<SkillPoint, Integer>();
@@ -107,8 +109,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			pointMap.put(aff, 0);
 		}
 		pointMap.put(SkillPoint.SKILL_POINT_1, 3);
-		player.getDataManager().register(DataDefinitions.SKILL, skillMap);
-		player.getDataManager().register(DataDefinitions.POINT_TIER, pointMap);
+		ext.register(DataDefinitions.SKILL, skillMap);
+		ext.register(DataDefinitions.POINT_TIER, pointMap);
 	}
 	
 	@Override

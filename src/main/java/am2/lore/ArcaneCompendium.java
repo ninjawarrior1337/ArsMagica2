@@ -8,6 +8,7 @@ import am2.api.compendium.CompendiumEntry;
 import am2.api.extensions.IArcaneCompendium;
 import am2.defs.ItemDefs;
 import am2.extensions.DataDefinitions;
+import am2.extensions.datamanager.DataSyncExtension;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -34,11 +35,11 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	public ArcaneCompendium() {}
 	
 	public void unlockEntry(String name) {
-		player.getDataManager().get(DataDefinitions.COMPENDIUM).add(name);
+		DataSyncExtension.For(player).get(DataDefinitions.COMPENDIUM).add(name);
 	}
 	
 	public boolean isUnlocked(String name) {
-		for (String str : player.getDataManager().get(DataDefinitions.COMPENDIUM)) {
+		for (String str : DataSyncExtension.For(player).get(DataDefinitions.COMPENDIUM)) {
 			if (str.equalsIgnoreCase(name))
 				return true;
 		}
@@ -47,7 +48,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	
 	public void init(EntityPlayer player) {
 		this.player = player;
-		player.getDataManager().register(DataDefinitions.COMPENDIUM, new ArrayList<String>());
+		DataSyncExtension.For(player).register(DataDefinitions.COMPENDIUM, new ArrayList<String>());
 	}
 
 	public static IArcaneCompendium For(EntityPlayer entityPlayer) {

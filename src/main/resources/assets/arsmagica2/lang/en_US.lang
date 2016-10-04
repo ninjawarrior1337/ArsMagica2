@@ -10,6 +10,8 @@ affinity.earth=Earth
 affinity.ice=Ice
 affinity.ender=Ender
 
+fluid.liquid_essence=Liquid Essence
+
 #Item Names
 
 item.arsmagica2:tome.name=§eAffinity Tome: %s§f
@@ -738,6 +740,7 @@ compendium.component.magic_damage.name=Magic Damage
 compendium.component.mana_drain.name=Mana Drain
 compendium.component.mana_link.name=Mana Link
 compendium.component.mana_shield.name=Mana Shield
+compendium.component.mana_shield.name=Mana Blast
 compendium.component.mark.name=Mark
 compendium.component.moonrise.name=Moonrise
 compendium.component.night_vision.name=Night Vision
@@ -814,6 +817,7 @@ compendium.mana_drain.page1=You can create a parasitic bond with the target's au
 compendium.mana_link.page1=You have discovered the secret to linking your mana together with another entity. When you cast this spell, your target will be able to draw upon your mana pool as if it were their own. !d The target will use their own mana first, then will begin to draw upon yours.
 compendium.mana_link.page2=It has a limited radius, but can have radius modifiers if you so desire. If the target leaves the radius, the link is not broken, but is rather temporarily disabled. When they again return into the radius, the link will reactivate and will function again. To end the link, simply cast the spell on the target again. !d You can link your own mana to multiple entities, and on the other side, you can have multiple links coming in from other sources.
 compendium.mana_shield.page1=You can drain your entire mana pool to create a shield on your target.
+compendium.mana_blast.page1=You found a way to cause your entire mana pool to empty on a target in an offensive manner.
 compendium.mark.page1=You can magically mark a location, which you can recall to from almost anywhere.
 compendium.moonrise.page1=You have gained the ability to control time. This spell will cause the time to move to Dusk.
 compendium.night_vision.page1=Your knowledge of light has allowed you to devise a spell that will let you amplify light levels, effectively letting you see in the dark.
@@ -970,6 +974,7 @@ compendium.your_first_spell.page5=Throw a #5blank rune#0 into the middle of the 
 compendium.category.mechanic.name=Mechanics
 compendium.category.mechanic.affinity.name=Affinities
 compendium.category.mechanic.enchants.name=Enchantments
+compendium.category.mechanic.infusions.name=Infusions
 
 compendium.mechanic.spell_creation.name=Spell Creation
 compendium.mechanic.infusion.name=Infusion
@@ -1095,12 +1100,22 @@ compendium.imbuement_light_step.page1=The Light Step Imbuement automatically cau
 
 #Structures
 
-compendium.crafting_altar.page1=Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic. This is where you will create all of your spells in Ars Magica. The structure is upgradeable by 2 main groups, the caps and the main material. Both groups individually increase the available power of the altar and allow it to make more powerful spells. The main blocks and the caps (grand total of 5 in the structure).
-compendium.crafting_altar.page2=These stack cumulatively, so for example wood planks with glass caps would equal a maximum of 2 effects, whereas stone bricks with redstone caps would have a maximum of 4 effects in a spell.
+compendium.category.structure.name=Structures
+
+compendium.structure.crafting_altar_structure.name=Crafting Altar
+compendium.structure.gateway.name=Gateway
+
+compendium.crafting_altar_structure.page1=Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic. This is where you will create all of your spells in Ars Magica. The structure is upgradeable by 2 main groups, the caps and the main material. Both groups individually increase the available power of the altar and allow it to make more powerful spells. The main blocks and the caps (grand total of 5 in the structure).
+compendium.crafting_altar_structure.page2=These stack cumulatively, so for example wood planks with glass caps would equal a maximum of 2 effects, whereas stone bricks with redstone caps would have a maximum of 4 effects in a spell.
 compendium.gateway.page1=Gateways are quite efficient at short range, but longer distances require significantly more Etherium. The maximum range for a Gateway has been tested to be roughly 12km, though an extreme amount of Etherium is required to traverse such a span. A keystone can be inserted into the Keystone Receptacle in order to lock the gateway to the keystone's rune combination.
 compendium.gateway.page2=Only then by activating another gateway with a matching keystone can one arrive at the keyed gateway. If the key does not match or no keystone is held at all when the gate is activated, it will be as if the keyed gateway doesn't even exist. This method can be used to control where you will wind up in the gateway network.
 
 #Blocks
+
+compendium.category.block.name=Blocks
+compendium.category.block.illusionblocks.name=Illusion Blocks
+compendium.category.block.crystalmarker.name=Crystal Marker
+compendium.category.block.inlay.name=Inlays
 
 compendium.block.obelisk.name=Obelisk
 compendium.block.mana_drain_block.name=Draining Well
@@ -1485,3 +1500,95 @@ compendium.item.inscription_upgrades.inscription_tier_2_upgrade.name=Tier 2 Upgr
 compendium.item.inscription_upgrades.inscription_tier_3_upgrade.name=Tier 3 Upgrade
 
 compendium.inscription_upgrades.page1=These upgrades improve the functionality of your #9Inscription Table#0, allowing you to make use of more shape groups.
+
+#Mobs
+
+compendium.category.mob.name=Mobs
+compendium.category.mob.flicker.name=Flickers
+
+compendium.mob.hecate.name=Hecate
+compendium.mob.mana_elemental.name=Mana Elemental
+compendium.mob.mana_creeper.name=Mana Creeper
+compendium.mob.light_mage.name=Light Mage
+compendium.mob.dark_mage.name=Dark Mage
+compendium.mob.fire_elemental.name=Fire Elemental
+compendium.mob.water_elemental.name=Water Elemental
+compendium.mob.earth_elemental.name=Earth Elemental
+compendium.mob.dryad.name=Dryad
+compendium.mob.darkling.name=Darkling
+compendium.mob.hellcow.name=Hell Cow
+
+compendium.hecate.page1=The hecate is a dark spirit from the nether. Occasionally, the walls between the Nether and the Overworld can weaken, allowing the Hecates to spawn in the overworld. The hecate is an assassin - it moves extremely fast and can turn invisible briefly when attacking. They deal a large amount of damage, but thankfully don't have much in terms of resilience It's rumored that if you move slowly and quietly enough, you can pass by them undetected as long as you don't get too close.
+compendium.mana_elemental.page1=The mana elemental is a combination of vinteum shards held together by bolts of Etherium. They are towering creatures, often reaching 3m in height. They attack with bolts of raw mana that lash out, dealing minor damage but stealing mana, and return to the elemental, healing it based on the amount of mana stolen. They are highly resistant to physical damage. If all the mana is drained from the elemental, it will die.
+compendium.mana_creeper.page1=The mana creeper is a variant on the normal creeper, but instead of a violent explosion, the mana creeper disintegrates into a mana vortex, which will drain the mana of everything nearby. The vortex grows the longer it lives, but luckily all of them don't last for more than a few seconds. The vortex drains more mana the more you have, so it is still a threat to even the most powerful of magi.
+compendium.light_mage.page1=Light magi are part of the white council. They are powerful mages who have dedicated themselves to the forces of light. They will heal friendly players and assist them in combat against the various enemies that plague the world of Minecraft. They have a special distaste for Dark Mages.
+compendium.dark_mage.page1=Dark magi are part of the Black Court. They are sinister casters who are capable of terrifying feats of magic. These feats come at a price though, dark magi are reviled and twisted beings. They will fight anything living except the undead (which tehnically aren't "living" anyways) and creepers. They will go out of their way to fight a Light Mage.
+compendium.fire_elemental.page1=Fire elementals are beings of pure fire. They are destructive and ignite anything in their path. Fire Elementals are only found in the nether.
+compendium.water_elemental.page1=Water elementals are beings of pure water. They are found anywhere water is in abundance. They attack in groups, using water to push and pull their target. They can affect their targets with Watery Grave, which will pull unsuspecting down to the crushing black depths.
+compendium.earth_elemental.page1=Earth elementals are found slumbering deep within caves. They are passive by nature, and boast an extreme resistance to physical damage. Combined with a high health pool, anyone learning to summon one could conjure up a veritable tank. Their attacks force the target to focus on them and they will try to bounce from target to target.
+compendium.dryad.page1=Dryads are peaceful creatures often found in forests and grasslands. They can be lured with a sapling and will periodically make nearby plants grow faster.
+compendium.darkling.page1=Darklings are small dog-like creatures that are found in the nether. Their body becomes less visible during night, fading to near invsibility at midnight. As dawn approaches, the Darklings will begin to gradually appear again until they become fully visible again for the day.
+compendium.hellcow.page1=Moo? Moo moo moo, moo moo moo moo. Moo. Moo moo moo moo moo, moo moo moo? Moo! Moo moo moo moo moo - moo moo moo. !d 1.) Moo moo moo moo !d 2.) Moo, moo moo moo moo. !d 3.) Moo! !d Moo, moo moo moo, moo moo moo. Moo moo moo moo moo moo. Moo, moo!
+
+compendium.mob.flicker.flickers.name=Flickers
+compendium.mob.flicker.water_flicker.name=Water Flicker
+compendium.mob.flicker.air_flicker.name=Air Flicker
+compendium.mob.flicker.earth_flicker.name=Earth Flicker
+compendium.mob.flicker.fire_flicker.name=Fire Flicker
+compendium.mob.flicker.lightning_flicker.name=Lightning Flicker
+compendium.mob.flicker.nature_flicker.name=Nature Flicker
+compendium.mob.flicker.ice_flicker.name=Ice Flicker
+compendium.mob.flicker.arcane_flicker.name=Arcane Flicker
+compendium.mob.flicker.life_flicker.name=Life Flicker
+compendium.mob.flicker.ender_flicker.name=Ender Flicker
+
+compendium.flickers.page1=Flickers are lesser elementals from the various elemental planes that have crossed over into our world. Their magical bond is tenuous at best and they are known for "Flicking" back and forth between their plane and ours. They are the starting point for #5Ars Magica Automation#0. !d Flickers are timid by nature and will flick back to their own dimension if attacked, or if they feel threatened. Giving them a modicum of magic in the form of #5some sort of lasting effect#0 makes them feel more comfortable and less likely to run away. #5Flickers can be captured inside of a Flicker Jar#0.
+compendium.flickers.page2=There is one type of flicker for each affinity. Flickers of each affinity will behave differently. For example, Air Flickers tend to like to stay higher above the ground, while Earth Flickers will prefer to stay low. !d Flickers of each affinity can be found near regions of the world that remind them of their affinity.
+compendium.water_flicker.page1=5Water Flickers#0 will be found in areas that are predominantly water, like swmaps, rivers, and oceans.
+compendium.air_flicker.page1=#5Air Flickers#0 can be found anywhere not underground, and will fly around higher in the sky (~25 blocks above the ground).
+compendium.earth_flicker.page1=#5Earth Flickers#0 can be found anywhere, but they prefer underground locations. They will stay close to the ground.
+compendium.fire_flicker.page1=#5Fire Flickers#0 can be found in the nether..
+compendium.lightning_flicker.page1=#5Lightning Flickers#0 can be found on beaches and over oceans in the sky, where storms like to form. They can be found in all areas if it is storming.
+compendium.nature_flicker.page1=#5Nature Flickers#0 can be found in forests.
+compendium.ice_flicker.page1=#5Ice Flickers#0 can be found in frozen areas, such as Taiga.
+compendium.arcane_flicker.page1=#5Arcane Flickers#0 can be found in magical areas. They very much like Witchwood Forests.
+compendium.life_flicker.page1=#5Life Flickers#0 can be found anywhere. Any flicker spawning has a small chance to be a life flicker rather than whatever else it could be.
+compendium.ender_flicker.page1=#5Ender Flickers#0 are found in the end. Occasionally, a teleporting Enderman can open a rift large enough for Ender Flickers to slip through.
+
+#Bosses
+
+compendium.category.boss.name=Bosses
+
+compendium.boss.air_guardian.name=Air Guardian
+compendium.boss.arcane_guardian.name=Arcane Guardian
+compendium.boss.earth_guardian.name=Earth Guardian
+compendium.boss.fire_guardian.name=Fire Guardian
+compendium.boss.life_guardian.name=Life Guardian
+compendium.boss.lightning_guardian.name=Lightning Guardian
+compendium.boss.ender_guardian.name=Ender Guardian
+compendium.boss.nature_guardian.name=Nature Guardian
+compendium.boss.water_guardian.name=Water Guardian
+compendium.boss.winter_guardian.name=Winter Guardian
+
+compendium.air_guardian.page1=The Air Guardian is a being of wind, and makes heavy use of knockback based attacks. It would be foolish to go into battle with one without some form of falling protection. The Air Guardian is a powerful ranged caster, but it requires a great deal of focus to finish some of it's spells... !l Recommended level: 35
+compendium.air_guardian.page2=To summon the Air Guardian, climb up well above the clouds and build a platform (y 150 or higher). Build a gold inlay ring on the platform and throw in an Air Essence.
+compendium.arcane_guardian.page1=A mage of ancient times, the Arcane Guardian has access to a wide variety of spells. From attacks to buffs to debuffs, prepare for a magical duel that will test your counterspell knowledge. Protected by a powerful sigil, the Arcane Guardian has as many tricks against melee opponents as it does against ranged attackers. !l Recommended level: 45
+compendium.arcane_guardian.page2=To summon the Arcane Guardian, first construct a Shrine of Knowledge. The shrine is 2 pillars of bookshelves, 3 high, with a lectern on the ground in between them containing an Arcane Compendium. Place an iron inlay circle directly in front of the structure, and throw an Arcane Essence directly in the middle of the circle to start the ritual.
+compendium.earth_guardian.page1=Formed out of a core of stone, the Earth Guardian is a hardy opponent that can withstand incredible amounts of physical attacks. With whirling attacks and strength of the earth itself, be prepared for a fight. !l Recommended level: 25
+compendium.earth_guardian.page1=To summon the Earth Guardian, first build a 3x3 obsidian platform with a chiseled stone brick at the centre. On top of the obsidian, build an iron inlay ring. Off of each side, on the same level as the inlays, place a vinteum torch. Then throw in a blue topaz, an emerald, and a chimerite. !d Upon summoning, the Earth Guardian will cleave out a large area of the surrounding blocks, so it would be wise to summon somewhere other than your basement. 
+compendium.fire_guardian.page1=The Fire Guardian is a living inferno from the depths of the nether. To summon it, create a gold inlay ring in the nether on top of obsidian with a coal block in the middle. Throw a water essence onto the coal and the fire guardian will appear. Be warned though, it does not take kindly to those that try to bring water to its domain. Be prepared for a fight! !l Recommended level: 90
+compendium.life_guardian.page1=The life guardian generally prefers to let the natural order of things take their course, not intervening unless a true sacriledge against life is performed. Luckily (or unluckily, depending on how you look at it) for you, you have come up with a way to commit such an act. Create a 5x5 ring using wizard's chalk, and place a warding candle in the center part of each side, on the outside of the ring (4 candles in total). 
+compendium.life_guardian.page2=The circle will help to contain and focus the deed. Then, on the night of a full moon, sacrifice a villager child inside the circle. That should be enough to anger the life guardian to action. !d You monster you.
+compendium.life_guardian.page3=The life guardian doesn't attack much on its own, though it may decide to throw you around a little. It generally prefers to let others do the fighting for it, infusing them with its tremendous power. In return, the others will often lay down their lives for the guardian's protection. The life guardian is a different kind of fight than the other guardians. !d Recommended level: 50
+compendium.lightning_guardian.page1=The lightning guardian is as unpredictable as it is powerful. It can fire bolts of lightning at extreme range, and has been known to mess with the synapses inside the brains of living creatures. It has also on occasion been able to replicate an effect similar to telekinesis using massive amounts of concentrated static electricity, which leaves the unfortunate victim open to several other effects.
+compendium.lightning_guardian.page2=To summon the lightning guardian, create a #5Gold Inlay Ring#0 and place a mana battery in the middle. Then, place 2 iron bars on top, creating a lightning rod. !d Finally, wait for a storm. !d This guardian is capable of doing extreme damage in a short amount of time. Make sure you are well protected. Recommended Level: 70
+compendium.ender_guardian.page1=Tales are told in hushed whispers of the true guardian of the End. Of eyes glowing with an abhorrent light, and scaly skin as black as a moonless night. Alas, the tales of this waking nightmare are vague at best and always shrouded in the veil of speculation. The truth is, nobody has ever seen the guardian and lived. The most common tale is that of Magnus Severinus, the Archmage of the Second Era. 
+compendium.ender_guardian.page2=At the height of his power, he was rumored to be able to move mountains with a thought, create lush gardens out of the most barren terrain, and create wards that could stop an army cold. Alas, his most trusted advisor took ill, and her spiteful stepson had taken her place. Goaded by honeyed words encouraging his power and making him arrogant, he gathered the conclave together and in front of them all, tore open the fabric between worlds, opening a portal to the end that pulsed with a soft purple glow that almost seemed to draw light away from its surroundings.
+compendium.ender_guardian.page3=He stepped in, and summoned the guardian. He never had time to scream. A piece of paper, flecked with bits of dark blood, flitted back through the portal and it winked shut. Upon the paper was the following ritual:
+compendium.ender_guardian.page4=In the End, around a black aurem atop a platform of blackest coal, create an inlay of gold. Light a burning fire on each side of the inlay. Throw in an Ender Essence and an Eye of Ender to destabilize the aurem and summon the guardian. !d The paper was locked away in magical vaults and forgotten for millenia...until now.
+compendium.nature_guardian.page1=The Nature Guardian is a fearsome opponent. Boasting a deadly scythe and the skill to use it, only the most powerful or foolish would seek it out. The few who have survived an encounter state that it is just as dangerous at range as in melee, if not more. !l Recommended level: 60
+compendium.nature_guardian.page2=Rumor has it that it appears to guard the servants of nature when enough are slain in quick succession. Nature can be harsh, but it will not tolerate a massacre. !d Warning: !l This is a very difficult boss that can take down even the most well geared players. 
+compendium.water_guardian.page1=The guardian of water is a unique being. It is always in a state of fluidity, making it able to shrug off attacks occasionally. It is a trickster as well, flowing into copies of itself and attacking from ambush if one is fooled by the decoy. !l Recommended level: 10
+compendium.water_guardian.page2=The water guardian can be summoned by creating a redstone inlay circle in any biome that is predominantly water. Then, while raining, throw a boat and a bucket of water into the circle as homage to the many ships lost at sea. 
+compendium.winter_guardian.page1=The Winter Guardian is truly the embodiment of it's namesake. Surrounded by frigid winds that sap the strength of all who near it, the Winter Guardian pummels its frozen foes and shatters them with powerful strikes.
+compendium.winter_guardian.page2=To summon the Winter Guardian, seek out an area in the grips of winter. Place a gold inlay circle on the ground and build an effigy to the Winter Guardian in the centre, Ice on top of two Blue Topaz blocks. Then create 3 snow golems close by to fuel the summoning. !d Warning: !l This is a very difficult boss that can take down even the most well geared players. 

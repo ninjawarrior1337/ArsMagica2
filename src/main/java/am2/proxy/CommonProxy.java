@@ -39,6 +39,7 @@ import am2.api.affinity.Affinity;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IArcaneCompendium;
+import am2.api.extensions.IDataSyncExtension;
 import am2.api.extensions.IEntityExtension;
 import am2.api.extensions.IRiftStorage;
 import am2.api.extensions.ISkillData;
@@ -363,6 +364,7 @@ public class CommonProxy implements IGuiHandler{
 		CapabilityManager.INSTANCE.register(ISkillData.class, new ISkillData.Storage(), new ISkillData.Factory());
 		CapabilityManager.INSTANCE.register(IRiftStorage.class, new IRiftStorage.Storage(), new IRiftStorage.Factory());
 		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
+		CapabilityManager.INSTANCE.register(IDataSyncExtension.class, new IDataSyncExtension.Storage(), new IDataSyncExtension.Factory());
 		
 		worldGen = new AM2WorldDecorator();
 		GameRegistry.registerWorldGenerator(worldGen, 0);

@@ -13,6 +13,7 @@ import static am2.extensions.DataDefinitions.FLIP_ROTATION;
 import static am2.extensions.DataDefinitions.HEAL_COOLDOWN;
 import static am2.extensions.DataDefinitions.IS_INVERTED;
 import static am2.extensions.DataDefinitions.IS_SHRUNK;
+import static am2.extensions.DataDefinitions.MANA_SHIELD;
 import static am2.extensions.DataDefinitions.MARK_DIMENSION;
 import static am2.extensions.DataDefinitions.MARK_X;
 import static am2.extensions.DataDefinitions.MARK_Y;
@@ -21,7 +22,6 @@ import static am2.extensions.DataDefinitions.PREV_FLIP_ROTATION;
 import static am2.extensions.DataDefinitions.PREV_SHRINK_PCT;
 import static am2.extensions.DataDefinitions.SHRINK_PCT;
 import static am2.extensions.DataDefinitions.TK_DISTANCE;
-import static am2.extensions.DataDefinitions.MANA_SHIELD;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,6 +31,7 @@ import com.google.common.base.Optional;
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.event.PlayerMagicLevelChangeEvent;
+import am2.api.extensions.IDataSyncExtension;
 import am2.api.extensions.IEntityExtension;
 import am2.api.math.AMVector2;
 import am2.armor.ArmorHelper;
@@ -41,6 +42,7 @@ import am2.bosses.EntityLifeGuardian;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.defs.SkillDefs;
+import am2.extensions.datamanager.DataSyncExtension;
 import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
@@ -96,68 +98,68 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setContingency (ContingencyType type, ItemStack stack) {
-		entity.getDataManager().set(CONTENGENCY_TYPE, type.name().toLowerCase());
-		entity.getDataManager().set(CONTENGENCY_STACK, Optional.fromNullable(stack));
+		DataSyncExtension.For(entity).set(CONTENGENCY_TYPE, type.name().toLowerCase());
+		DataSyncExtension.For(entity).set(CONTENGENCY_STACK, Optional.of(stack));
 	}
 	
 	@Override
 	public ContingencyType getContingencyType() {
-		return ContingencyType.fromName(entity.getDataManager().get(CONTENGENCY_TYPE));
+		return ContingencyType.fromName(DataSyncExtension.For(entity).get(CONTENGENCY_TYPE));
 	}
 	
 	@Override
 	public ItemStack getContingencyStack() {
-		return entity.getDataManager().get(CONTENGENCY_STACK).get();
+		return DataSyncExtension.For(entity).get(CONTENGENCY_STACK).get();
 	}
 	
 	@Override
 	public double getMarkX() {
-		return (double) entity.getDataManager().get(MARK_X);
+		return (double) DataSyncExtension.For(entity).get(MARK_X);
 	}
 	
 	@Override
 	public double getMarkY() {
-		return (double) entity.getDataManager().get(MARK_Y);
+		return (double) DataSyncExtension.For(entity).get(MARK_Y);
 	}
 	
 	@Override
 	public double getMarkZ() {
-		return (double) entity.getDataManager().get(MARK_Z);
+		return (double) DataSyncExtension.For(entity).get(MARK_Z);
 	}
 	
 	@Override
 	public int getMarkDimensionID() {
-		return entity.getDataManager().get(MARK_DIMENSION);
+		return DataSyncExtension.For(entity).get(MARK_DIMENSION);
 	}
 	
 	@Override
 	public float getCurrentMana() {
-		return entity.getDataManager().get(CURRENT_MANA);
+		return DataSyncExtension.For(entity).get(CURRENT_MANA);
 	}
 	
 	@Override
 	public int getCurrentLevel() {
-		return entity.getDataManager().get(CURRENT_LEVEL);
+		return DataSyncExtension.For(entity).get(CURRENT_LEVEL);
 	}
 	
 	@Override
 	public float getCurrentBurnout() {
-		return entity.getDataManager().get(CURRENT_MANA_FATIGUE);
+		return DataSyncExtension.For(entity).get(CURRENT_MANA_FATIGUE);
 	}
 	
 	@Override
 	public int getCurrentSummons() {
-		return entity.getDataManager().get(CURRENT_SUMMONS);
+		return DataSyncExtension.For(entity).get(CURRENT_SUMMONS);
 	}
 	
 	@Override
 	public float getCurrentXP() {
-		return entity.getDataManager().get(CURRENT_XP);
+		return DataSyncExtension.For(entity).get(CURRENT_XP);
 	}
 	
 	@Override
 	public int getHealCooldown() {
-		return entity.getDataManager().get(HEAL_COOLDOWN);
+		return DataSyncExtension.For(entity).get(HEAL_COOLDOWN);
 	}
 	
 	@Override
@@ -169,7 +171,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void placeHealOnCooldown() {
-		entity.getDataManager().set(HEAL_COOLDOWN, 40);
+		DataSyncExtension.For(entity).set(HEAL_COOLDOWN, 40);
 	}
 	
 	@Override
@@ -181,12 +183,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public int getAffinityHealCooldown() {
-		return entity.getDataManager().get(AFFINITY_HEAL_COOLDOWN);
+		return DataSyncExtension.For(entity).get(AFFINITY_HEAL_COOLDOWN);
 	}
 	
 	@Override
 	public void placeAffinityHealOnCooldown(boolean full) {
-		entity.getDataManager().set(AFFINITY_HEAL_COOLDOWN, 40);
+		DataSyncExtension.For(entity).set(AFFINITY_HEAL_COOLDOWN, 40);
 	}
 	
 	@Override
@@ -209,12 +211,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void setAffinityHealCooldown(int affinityHealCooldown) {
-		entity.getDataManager().set(AFFINITY_HEAL_COOLDOWN, affinityHealCooldown);
+		DataSyncExtension.For(entity).set(AFFINITY_HEAL_COOLDOWN, affinityHealCooldown);
 	}
 	
 	@Override
 	public void setCurrentBurnout(float currentBurnout) {
-		entity.getDataManager().set(CURRENT_MANA_FATIGUE, currentBurnout);
+		DataSyncExtension.For(entity).set(CURRENT_MANA_FATIGUE, currentBurnout);
 	}
 	
 	@Override
@@ -222,17 +224,17 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		ticksForFullRegen = (int)Math.round(baseTicksForFullRegen * (0.75 - (0.25 * (getCurrentLevel() / 99f))));
 		if (entity instanceof EntityPlayer)
 			MinecraftForge.EVENT_BUS.post(new PlayerMagicLevelChangeEvent((EntityPlayer) entity, currentLevel));
-		entity.getDataManager().set(CURRENT_LEVEL, currentLevel);
+		DataSyncExtension.For(entity).set(CURRENT_LEVEL, currentLevel);
 	}
 	
 	@Override
 	public void setCurrentMana(float currentMana) {
-		entity.getDataManager().set(CURRENT_MANA, currentMana);
+		DataSyncExtension.For(entity).set(CURRENT_MANA, currentMana);
 	}
 	
 	@Override
 	public void setCurrentSummons(int currentSummons) {
-		entity.getDataManager().set(CURRENT_SUMMONS, currentSummons);
+		DataSyncExtension.For(entity).set(CURRENT_SUMMONS, currentSummons);
 	}
 	
 	@Override
@@ -241,32 +243,32 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			currentXP -= this.getMaxXP();
 			setMagicLevelWithMana(getCurrentLevel() + 1);
 		}
-		entity.getDataManager().set(CURRENT_XP, currentXP);
+		DataSyncExtension.For(entity).set(CURRENT_XP, currentXP);
 	}
 	
 	@Override
 	public void setHealCooldown(int healCooldown) {
-		entity.getDataManager().set(HEAL_COOLDOWN, healCooldown);
+		DataSyncExtension.For(entity).set(HEAL_COOLDOWN, healCooldown);
 	}
 	
 	@Override
 	public void setMarkX(double markX) {
-		entity.getDataManager().set(MARK_X, (float)markX);
+		DataSyncExtension.For(entity).set(MARK_X, markX);
 	}
 	
 	@Override
 	public void setMarkY(double markY) {
-		entity.getDataManager().set(MARK_Y, (float)markY);
+		DataSyncExtension.For(entity).set(MARK_Y, markY);
 	}
 	
 	@Override
 	public void setMarkZ(double markZ) {
-		entity.getDataManager().set(MARK_Z, (float)markZ);
+		DataSyncExtension.For(entity).set(MARK_Z, markZ);
 	}
 	
 	@Override
 	public void setMarkDimensionID(int markDimensionID) {
-		entity.getDataManager().set(MARK_DIMENSION, markDimensionID);
+		DataSyncExtension.For(entity).set(MARK_DIMENSION, markDimensionID);
 	}
 	
 	@Override
@@ -279,32 +281,32 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public boolean isShrunk() {
-		return entity.getDataManager().get(IS_SHRUNK);
+		return DataSyncExtension.For(entity).get(IS_SHRUNK);
 	}
 	
 	@Override
 	public void setShrunk(boolean shrunk) {
-		entity.getDataManager().set(IS_SHRUNK, shrunk);
+		DataSyncExtension.For(entity).set(IS_SHRUNK, shrunk);
 	}
 	
 	@Override
 	public void setInverted(boolean isInverted) {
-		entity.getDataManager().set(IS_INVERTED, isInverted);
+		DataSyncExtension.For(entity).set(IS_INVERTED, isInverted);
 	}
 	
 	@Override
 	public void setFallProtection(float hasFallProtection) {
-		entity.getDataManager().set(FALL_PROTECTION, hasFallProtection);
+		DataSyncExtension.For(entity).set(FALL_PROTECTION, hasFallProtection);
 	}
 	
 	@Override
 	public boolean isInverted() {
-		return entity.getDataManager().get(IS_INVERTED);
+		return DataSyncExtension.For(entity).get(IS_INVERTED);
 	}
 	
 	@Override
 	public float getFallProtection() {
-		return entity.getDataManager().get(FALL_PROTECTION);
+		return DataSyncExtension.For(entity).get(FALL_PROTECTION);
 	}
 	
 	@Override
@@ -322,39 +324,39 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 
 	@Override
-	public void init(EntityLivingBase entity) {
+	public void init(EntityLivingBase entity, IDataSyncExtension ext) {
 		this.addEntityReference(entity);
 		if (this.entity instanceof EntityPlayer) {
-			this.entity.getDataManager().register(CURRENT_LEVEL, 0);
-			this.entity.getDataManager().register(CURRENT_MANA, 0F);
-			this.entity.getDataManager().register(CURRENT_MANA_FATIGUE, 0F);
-			this.entity.getDataManager().register(CURRENT_XP, 0F);
-			this.entity.getDataManager().register(CURRENT_SUMMONS, 0);
+			ext.register(CURRENT_LEVEL, 0);
+			ext.register(CURRENT_MANA, 0F);
+			ext.register(CURRENT_MANA_FATIGUE, 0F);
+			ext.register(CURRENT_XP, 0F);
+			ext.register(CURRENT_SUMMONS, 0);
 		} else {
-			this.entity.getDataManager().register(CURRENT_LEVEL, 0);
-			this.entity.getDataManager().register(CURRENT_MANA, 100F);
-			this.entity.getDataManager().register(CURRENT_MANA_FATIGUE, 0F);
-			this.entity.getDataManager().register(CURRENT_XP, 0F);
-			this.entity.getDataManager().register(CURRENT_SUMMONS, 0);			
+			ext.register(CURRENT_LEVEL, 0);
+			ext.register(CURRENT_MANA, 100F);
+			ext.register(CURRENT_MANA_FATIGUE, 0F);
+			ext.register(CURRENT_XP, 0F);
+			ext.register(CURRENT_SUMMONS, 0);			
 		}
-		this.entity.getDataManager().register(HEAL_COOLDOWN, 0);
-		this.entity.getDataManager().register(AFFINITY_HEAL_COOLDOWN, 0);
-		this.entity.getDataManager().register(MARK_X, 0F);
-		this.entity.getDataManager().register(MARK_Y, 0F);
-		this.entity.getDataManager().register(MARK_Z, 0F);
-		this.entity.getDataManager().register(MARK_DIMENSION, -512);
-		this.entity.getDataManager().register(CONTENGENCY_STACK, Optional.<ItemStack>absent());
-		this.entity.getDataManager().register(CONTENGENCY_TYPE, "NULL");
-		this.entity.getDataManager().register(FALL_PROTECTION, 0.0f);
-		this.entity.getDataManager().register(IS_INVERTED, false);
-		this.entity.getDataManager().register(IS_SHRUNK, false);
-		this.entity.getDataManager().register(FLIP_ROTATION, 0.0f);
-		this.entity.getDataManager().register(PREV_FLIP_ROTATION, 0.0f);
-		this.entity.getDataManager().register(SHRINK_PCT, 0.0f);
-		this.entity.getDataManager().register(PREV_SHRINK_PCT, 0.0f);
-		this.entity.getDataManager().register(TK_DISTANCE, 8.0f);
-		this.entity.getDataManager().register(DataDefinitions.DISABLE_GRAVITY, false);
-		this.entity.getDataManager().register(MANA_SHIELD, 0f);
+		ext.register(HEAL_COOLDOWN, 0);
+		ext.register(AFFINITY_HEAL_COOLDOWN, 0);
+		ext.register(MARK_X, 0D);
+		ext.register(MARK_Y, 0D);
+		ext.register(MARK_Z, 0D);
+		ext.register(MARK_DIMENSION, -512);
+		ext.register(CONTENGENCY_STACK, null);
+		ext.register(CONTENGENCY_TYPE, "NULL");
+		ext.register(FALL_PROTECTION, 0.0f);
+		ext.register(IS_INVERTED, false);
+		ext.register(IS_SHRUNK, false);
+		ext.register(FLIP_ROTATION, 0.0f);
+		ext.register(PREV_FLIP_ROTATION, 0.0f);
+		ext.register(SHRINK_PCT, 0.0f);
+		ext.register(PREV_SHRINK_PCT, 0.0f);
+		ext.register(TK_DISTANCE, 8.0f);
+		ext.register(DataDefinitions.DISABLE_GRAVITY, false);
+		ext.register(MANA_SHIELD, 0f);
 	}
 
 	@Override
@@ -576,42 +578,42 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean getIsFlipped() {
-		return entity.getDataManager().get(IS_INVERTED);
+		return DataSyncExtension.For(entity).get(IS_INVERTED);
 	}
 
 	@Override
 	public float getFlipRotation() {
-		return entity.getDataManager().get(FLIP_ROTATION);
+		return DataSyncExtension.For(entity).get(FLIP_ROTATION);
 	}
 
 	@Override
 	public float getPrevFlipRotation() {
-		return entity.getDataManager().get(PREV_FLIP_ROTATION);
+		return DataSyncExtension.For(entity).get(PREV_FLIP_ROTATION);
 	}
 	
 	@Override
 	public void setFlipRotation(float rot) {
-		entity.getDataManager().set(FLIP_ROTATION, rot);
+		DataSyncExtension.For(entity).set(FLIP_ROTATION, rot);
 	}
 
 	@Override
 	public void setPrevFlipRotation(float rot) {
-		entity.getDataManager().set(PREV_FLIP_ROTATION, rot);
+		DataSyncExtension.For(entity).set(PREV_FLIP_ROTATION, rot);
 	}
 
 	@Override
 	public float getShrinkPct() {
-		return entity.getDataManager().get(SHRINK_PCT);
+		return DataSyncExtension.For(entity).get(SHRINK_PCT);
 	}
 
 	@Override
 	public float getPrevShrinkPct() {
-		return entity.getDataManager().get(PREV_SHRINK_PCT);
+		return DataSyncExtension.For(entity).get(PREV_SHRINK_PCT);
 	}
 
 	@Override
 	public void setTKDistance(float TK_Distance) {
-		entity.getDataManager().set(TK_DISTANCE, TK_Distance);
+		DataSyncExtension.For(entity).set(TK_DISTANCE, TK_Distance);
 	}
 
 	@Override
@@ -621,7 +623,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public float getTKDistance() {
-		return entity.getDataManager().get(TK_DISTANCE);
+		return DataSyncExtension.For(entity).get(TK_DISTANCE);
 	}
 	
 	@Override
@@ -759,12 +761,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public void setDisableGravity(boolean b) {
-		entity.getDataManager().set(DataDefinitions.DISABLE_GRAVITY, b);
+		DataSyncExtension.For(entity).set(DataDefinitions.DISABLE_GRAVITY, b);
 	}
 	
 	@Override
 	public boolean isGravityDisabled() {
-		return entity.getDataManager().get(DataDefinitions.DISABLE_GRAVITY);
+		return DataSyncExtension.For(entity).get(DataDefinitions.DISABLE_GRAVITY);
 	}
 
 	@Override
@@ -793,19 +795,19 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 
 	public void setShrinkPct(float shrinkPct) {
-		this.entity.getDataManager().set(PREV_SHRINK_PCT, getShrinkPct());
-		this.entity.getDataManager().set(SHRINK_PCT, shrinkPct);
+		DataSyncExtension.For(entity).set(PREV_SHRINK_PCT, getShrinkPct());
+		DataSyncExtension.For(entity).set(SHRINK_PCT, shrinkPct);
 	}
 	
 	@Override
 	public float getManaShielding() {
-		return this.entity.getDataManager().get(MANA_SHIELD);
+		return DataSyncExtension.For(entity).get(MANA_SHIELD);
 	}
 	
 	@Override
 	public void setManaShielding(float manaShield) {
 		manaShield = Math.max(0, manaShield);
-		this.entity.getDataManager().set(MANA_SHIELD, manaShield);
+		DataSyncExtension.For(entity).set(MANA_SHIELD, manaShield);
 	}
 	
 	public float getMaxMagicShielding() {

@@ -142,11 +142,11 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	 * @param affinity  The affinity to add
 	 * @param depth     The the depth of this affinity
 	 */
-	public static void writeToNBT (NBTTagCompound tag, Affinity affinity, float depth) {
+	public static void writeToNBT (NBTTagCompound tag, Affinity affinity, double depth) {
 		NBTTagList affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
 		NBTTagCompound tmp = new NBTTagCompound();
 		tmp.setString("Name", affinity.getRegistryName().toString());
-		tmp.setFloat("Depth", depth);
+		tmp.setDouble("Depth", depth);
 		affinityTag.appendTag(tmp);
 		NBTUtils.getAM2Tag(tag).setTag("Affinity", affinityTag);
 	}
@@ -173,12 +173,12 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	 * @param tag       Root tag of the entity / item
 	 * @return          Depth in the affinity
 	 */
-	public float readDepth (NBTTagCompound tag) {
+	public double readDepth (NBTTagCompound tag) {
 		NBTTagList affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
 		for (int i = 0; i < affinityTag.tagCount(); i++) {
 			NBTTagCompound tmp = affinityTag.getCompoundTagAt(i);
 			if (tmp.getString("Name").equals(this.getRegistryName().toString()))
-				return tmp.getFloat("Depth");
+				return tmp.getDouble("Depth");
 		}
 		return 0.0F;
 	}

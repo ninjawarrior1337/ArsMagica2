@@ -16,6 +16,7 @@ import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
+import am2.extensions.datamanager.DataSyncExtension;
 import am2.items.ItemOre;
 import am2.lore.ArcaneCompendium;
 import am2.packet.AMDataWriter;
@@ -76,16 +77,19 @@ public class EntityHandler {
 	@SubscribeEvent
 	public void attachEntity(AttachCapabilitiesEvent.Entity event) {
 		if (event.getEntity() instanceof EntityLivingBase) {
+			DataSyncExtension dataSync = new DataSyncExtension();
+			dataSync.init(event.getEntity());
+			event.addCapability(DataSyncExtension.ID, dataSync);
 			EntityExtension ext = new EntityExtension();
-			ext.init((EntityLivingBase) event.getEntity());
+			ext.init((EntityLivingBase) event.getEntity(), dataSync);
 			event.addCapability(EntityExtension.ID, ext);
 			if (event.getEntity() instanceof EntityPlayer) {
 				ArcaneCompendium compendium = new ArcaneCompendium();
 				AffinityData affData = new AffinityData();
 				SkillData skillData = new SkillData();
 				RiftStorage storage = new RiftStorage();
-				affData.init((EntityPlayer) event.getEntity());
-				skillData.init((EntityPlayer) event.getEntity());
+				affData.init((EntityPlayer) event.getEntity(), dataSync);
+				skillData.init((EntityPlayer) event.getEntity(), dataSync);
 				compendium.init((EntityPlayer) event.getEntity());
 				event.addCapability(new ResourceLocation("arsmagica2", "Compendium"), compendium);
 				event.addCapability(SkillData.ID, skillData);
@@ -132,6 +136,9 @@ public class EntityHandler {
 	
 	@SubscribeEvent
 	public void entityTick (LivingUpdateEvent event) {
+		//Pre Tick, Data Sync
+		AMNetHandler.INSTANCE.sendPacketToAllClientsNear(event.getEntity().dimension, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, 64, AMPacketIDs.SYNC_CLIENT, DataSyncExtension.For(event.getEntityLiving()).createUpdatePacket());
+		
 		if (event.getEntityLiving() instanceof EntityPlayer) playerTick((EntityPlayer) event.getEntityLiving());
 		
 		if (event.getEntity().worldObj.isRemote)
@@ -225,7 +232,7 @@ public class EntityHandler {
 				attr.removeModifier(GenericImbuement.imbuedHaste);
 			}
 		}
-		float lifeDepth = affData.getAffinityDepth(Affinity.LIFE);
+		double lifeDepth = affData.getAffinityDepth(Affinity.LIFE);
 		ext.lowerHealCooldown((int) (Math.max(1, lifeDepth  * 10F)));
 		ext.lowerAffinityHealCooldown((int) (Math.max(1, lifeDepth * 10F)));
 	}

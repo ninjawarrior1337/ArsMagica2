@@ -2,10 +2,12 @@ package am2.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
@@ -85,7 +87,9 @@ public class GuiCompendiumIndex extends GuiScreen{
 			}
 			int buttonY = posY + 35;
 			int buttonX = posX + 40;
-			for (CompendiumCategory sub : categories) {
+			ArrayList<CompendiumCategory> sortedCategories = Lists.newArrayList(categories);
+			sortedCategories.sort(new Comparator<CompendiumCategory>() {public int compare(CompendiumCategory o1, CompendiumCategory o2) { return o1.getCategoryName().compareTo(o2.getCategoryName());}});
+			for (CompendiumCategory sub : sortedCategories) {
 				if (sub.getParentsString().equals(category.getID())) {
 					boolean hasSubItems = false;
 					for (CompendiumEntry entry : category.getEntries()) {
@@ -110,7 +114,9 @@ public class GuiCompendiumIndex extends GuiScreen{
 					buttonList.add(tab);
 				}
 			}
-			for (CompendiumEntry entry : category.getEntries()) {
+			ArrayList<CompendiumEntry> sortedEntries = Lists.newArrayList(category.getEntries());
+			sortedEntries.sort(new Comparator<CompendiumEntry>() {public int compare(CompendiumEntry o1, CompendiumEntry o2) { return o1.getName().compareTo(o2.getName());}});
+			for (CompendiumEntry entry : sortedEntries) {
 				if (entry.getRenderObject() != null && !ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID()))
 					continue;
 				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, entry, null);

@@ -127,6 +127,8 @@ public class AMDataWriter{
 
 	public AMDataWriter add(ItemStack stack){
 		NBTTagCompound compound = new NBTTagCompound();
+		if (stack == null)
+			return add((NBTTagCompound)null);
 		stack.writeToNBT(compound);
 		return add(compound);
 	}

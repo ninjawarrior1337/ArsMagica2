@@ -369,7 +369,7 @@ public class GuiOcculus extends GuiScreen {
 			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
 				if (aff == Affinity.NONE)
 					continue;
-				float depth = AffinityData.For(player).getAffinityDepth(aff);
+				double depth = AffinityData.For(player).getAffinityDepth(aff);
 				double affEndX = Math.cos(Math.toRadians(portion*currentID)) * 10F + Math.cos(Math.toRadians(portion*currentID)) * depth * 60F;
 				double affEndY = Math.sin(Math.toRadians(portion*currentID)) * 10F + (Math.sin(Math.toRadians(portion*currentID))) * depth * 60F;
 				double affStartX1 = Math.cos(Math.toRadians(portion*currentID - portion/2)) * 10F;

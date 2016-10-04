@@ -27,7 +27,7 @@ public class AbilitySolidBones extends AbstractAffinityAbility {
 	@Override
 	public void applyTick(EntityPlayer player) {
 		if (player.isInWater()) {
-			float earthDepth = AffinityData.For(player).getAffinityDepth(Affinity.EARTH);
+			double earthDepth = AffinityData.For(player).getAffinityDepth(Affinity.EARTH);
 			if (player.motionY > -0.3f) {
 				player.addVelocity(0, -0.01f * earthDepth, 0);
 			}
@@ -36,16 +36,16 @@ public class AbilitySolidBones extends AbstractAffinityAbility {
 	
 	@Override
 	public void applyFall(EntityPlayer player, LivingFallEvent event) {
-		float earthDepth = AffinityData.For(player).getAffinityDepth(Affinity.EARTH);
+		double earthDepth = AffinityData.For(player).getAffinityDepth(Affinity.EARTH);
 		event.setDistance((float) (event.getDistance() + (1.25 * (earthDepth))));
 	}
 	
 	@Override
 	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
 		if (!isAttacker) {
-			float earthDepth = AffinityData.For(player).getAffinityDepth(Affinity.EARTH);
-			float reduction = 0.1f * earthDepth;
-			event.setAmount(event.getAmount() - (event.getAmount() * reduction));
+			double earthDepth = AffinityData.For(player).getAffinityDepth(Affinity.EARTH);
+			double reduction = 0.1f * earthDepth;
+			event.setAmount((float) (event.getAmount() - (event.getAmount() * reduction)));
 		}
 	}
 }

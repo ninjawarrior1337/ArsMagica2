@@ -25,6 +25,7 @@ I'd say i'm 80-85% done with this update
  * Skills
  * Skill Trees
  * Crafting Altar Materials
+ * Rituals
  
 ## The Compendium Update
 The compendium is getting entirely reworked in a way that you'll need to add Entries in a different way that you previously did. Though this will allow you to have more that one kind of right page. For example you can check am2.defs.LoreDefs which contains all the pages definition.

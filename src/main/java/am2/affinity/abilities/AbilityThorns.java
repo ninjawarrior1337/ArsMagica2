@@ -28,7 +28,7 @@ public class AbilityThorns extends AbstractAffinityAbility {
 	@Override
 	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
 		if (!isAttacker && event.getSource().getSourceOfDamage() instanceof EntityLivingBase){
-			float natureDepth = AffinityData.For(player).getAffinityDepth(Affinity.NATURE);
+			double natureDepth = AffinityData.For(player).getAffinityDepth(Affinity.NATURE);
 			if (natureDepth == 1.0f){
 				((EntityLivingBase)event.getSource().getSourceOfDamage()).attackEntityFrom(DamageSource.cactus, 3);
 			}else if (natureDepth >= 0.75f){
