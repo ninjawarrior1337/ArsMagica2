@@ -56,7 +56,7 @@ public interface IDataSyncExtension extends ICapabilityProvider{
 	 * @param data
 	 * @param defaultValue
 	 */
-	public <T> void register(SavedObject<T> data, T defaultValue);
+	public <T> void setWithSync(SavedObject<T> data, T defaultValue);
 	public byte[] createUpdatePacket();
 	public void handleUpdatePacket(AMDataReader in);
 	

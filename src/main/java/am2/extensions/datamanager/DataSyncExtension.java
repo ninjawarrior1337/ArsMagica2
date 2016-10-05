@@ -57,12 +57,13 @@ public class DataSyncExtension implements IDataSyncExtension {
 	public <T> void set(SavedObject<T> data, T object) {
 		fillWithNull(data.getId());
 		Object checkObj = internalData.get(data.getId());
-		hasChanged.set(data.getId(), object != null && !object.equals(checkObj));
+		boolean isSame = object != null && !object.equals(checkObj);
+		hasChanged.set(data.getId(), isSame);
 		internalData.set(data.getId(), object);
 	}
 
 	@Override
-	public <T> void register(SavedObject<T> data, T defaultValue) {
+	public <T> void setWithSync(SavedObject<T> data, T defaultValue) {
 		fillWithNull(data.getId());
 		hasChanged.set(data.getId(), true);
 		internalData.set(data.getId(), defaultValue);

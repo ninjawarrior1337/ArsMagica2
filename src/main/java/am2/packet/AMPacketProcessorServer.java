@@ -9,7 +9,9 @@ import am2.blocks.tileentity.TileEntityParticleEmitter;
 import am2.container.ContainerSpellCustomization;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
+import am2.extensions.SkillData;
 import am2.items.ItemSpellBook;
+import am2.lore.ArcaneCompendium;
 import am2.power.PowerNodeRegistry;
 import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
@@ -111,6 +113,8 @@ public class AMPacketProcessorServer{
 			case AMPacketIDs.PLAYER_FLIP:
 				handlePlayerFlip(remaining, player);
 				break;
+			case AMPacketIDs.UNLOCK_OCCULUS_ENTRY:
+				handleOcculusUnlock(remaining, player);
 			}
 		}catch (Throwable t){
 			LogHelper.error("Server Packet Failed to Handle!");
@@ -124,6 +128,13 @@ public class AMPacketProcessorServer{
 				t.printStackTrace();
 			}
 		}
+	}
+
+	private void handleOcculusUnlock(byte[] remaining, EntityPlayerMP player) {
+		String str = new AMDataReader(remaining, false).getString();
+		System.out.println(str);
+		SkillData.For(player).unlockSkill(str);
+		ArcaneCompendium.For(player).unlockEntry(str);
 	}
 
 	private void handlePlayerFlip(byte[] remaining, EntityPlayerMP player) {

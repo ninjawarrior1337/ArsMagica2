@@ -50,4 +50,5 @@ public class AMPacketIDs{
 	public static final byte MANA_LINK_UPDATE = 60;
 	public static final byte PLAYER_FLIP = 61;
 	public static final byte SYNC_CLIENT = 62;
+	public static final byte UNLOCK_OCCULUS_ENTRY = 63;
 }

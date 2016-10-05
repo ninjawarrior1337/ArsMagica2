@@ -60,11 +60,11 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		for (Affinity DEPTH : ArsMagicaAPI.getAffinityRegistry().getValues())
 			map.put(DEPTH, 0D);
 		map.put(Affinity.NONE, 0D);
-		ext.register(DataDefinitions.AFFINITY_DATA, map);
-		ext.register(DataDefinitions.ABILITY_BOOLEAN, new HashMap<>());
-		ext.register(DataDefinitions.ABILITY_FLOAT, new HashMap<>());
-		ext.register(DataDefinitions.DIMINISHING_RETURNS, 1.0F);
-		ext.register(DataDefinitions.COOLDOWNS, new HashMap<>());
+		ext.setWithSync(DataDefinitions.AFFINITY_DATA, map);
+		ext.setWithSync(DataDefinitions.ABILITY_BOOLEAN, new HashMap<>());
+		ext.setWithSync(DataDefinitions.ABILITY_FLOAT, new HashMap<>());
+		ext.setWithSync(DataDefinitions.DIMINISHING_RETURNS, 1.0F);
+		ext.setWithSync(DataDefinitions.COOLDOWNS, new HashMap<>());
 	}
 	
 	@Override

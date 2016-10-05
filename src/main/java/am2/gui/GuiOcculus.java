@@ -25,7 +25,9 @@ import am2.defs.SkillDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.SkillData;
 import am2.gui.controls.GuiButtonSkillTree;
-import am2.lore.ArcaneCompendium;
+import am2.packet.AMDataWriter;
+import am2.packet.AMNetHandler;
+import am2.packet.AMPacketIDs;
 import am2.texture.SpellIconManager;
 import am2.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -102,8 +104,7 @@ public class GuiOcculus extends GuiScreen {
 			if (hoverItem != null && !SkillData.For(player).hasSkill(hoverItem.getID())) {
 				ISkillData data = SkillData.For(player);
 				if (data.canLearn(hoverItem.getID())) {
-					data.unlockSkill(hoverItem.getID());
-					ArcaneCompendium.For(player).unlockEntry(hoverItem.getID());
+					AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.UNLOCK_OCCULUS_ENTRY, new AMDataWriter().add(hoverItem.getID()).generate());
 				}
 			}
 			else if (this.currentTree != SkillDefs.TREE_AFFINITY)

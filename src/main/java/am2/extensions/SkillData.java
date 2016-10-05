@@ -78,7 +78,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		setSkillPoint(skill.getPoint(), getSkillPoint(skill.getPoint()) - 1);
 		HashMap<Skill, Boolean> map = DataSyncExtension.For(player).get(DataDefinitions.SKILL);
 		map.put(skill, true);
-		DataSyncExtension.For(player).set(DataDefinitions.SKILL, map);
+		DataSyncExtension.For(player).setWithSync(DataDefinitions.SKILL, map);
 	}
 	
 	public HashMap<SkillPoint, Integer> getSkillPoints() {
@@ -95,7 +95,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	public void setSkillPoint(SkillPoint point, int num) {
 		HashMap<SkillPoint, Integer> map = DataSyncExtension.For(player).get(DataDefinitions.POINT_TIER);
 		map.put(point, num);
-		DataSyncExtension.For(player).set(DataDefinitions.POINT_TIER, map);
+		DataSyncExtension.For(player).setWithSync(DataDefinitions.POINT_TIER, map);
 	}
 
 	public void init(EntityPlayer entity, IDataSyncExtension ext) {
@@ -109,8 +109,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			pointMap.put(aff, 0);
 		}
 		pointMap.put(SkillPoint.SKILL_POINT_1, 3);
-		ext.register(DataDefinitions.SKILL, skillMap);
-		ext.register(DataDefinitions.POINT_TIER, pointMap);
+		ext.setWithSync(DataDefinitions.SKILL, skillMap);
+		ext.setWithSync(DataDefinitions.POINT_TIER, pointMap);
 	}
 	
 	@Override

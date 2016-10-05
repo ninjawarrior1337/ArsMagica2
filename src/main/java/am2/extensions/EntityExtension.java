@@ -327,36 +327,36 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public void init(EntityLivingBase entity, IDataSyncExtension ext) {
 		this.addEntityReference(entity);
 		if (this.entity instanceof EntityPlayer) {
-			ext.register(CURRENT_LEVEL, 0);
-			ext.register(CURRENT_MANA, 0F);
-			ext.register(CURRENT_MANA_FATIGUE, 0F);
-			ext.register(CURRENT_XP, 0F);
-			ext.register(CURRENT_SUMMONS, 0);
+			ext.setWithSync(CURRENT_LEVEL, 0);
+			ext.setWithSync(CURRENT_MANA, 0F);
+			ext.setWithSync(CURRENT_MANA_FATIGUE, 0F);
+			ext.setWithSync(CURRENT_XP, 0F);
+			ext.setWithSync(CURRENT_SUMMONS, 0);
 		} else {
-			ext.register(CURRENT_LEVEL, 0);
-			ext.register(CURRENT_MANA, 100F);
-			ext.register(CURRENT_MANA_FATIGUE, 0F);
-			ext.register(CURRENT_XP, 0F);
-			ext.register(CURRENT_SUMMONS, 0);			
+			ext.setWithSync(CURRENT_LEVEL, 0);
+			ext.setWithSync(CURRENT_MANA, 100F);
+			ext.setWithSync(CURRENT_MANA_FATIGUE, 0F);
+			ext.setWithSync(CURRENT_XP, 0F);
+			ext.setWithSync(CURRENT_SUMMONS, 0);			
 		}
-		ext.register(HEAL_COOLDOWN, 0);
-		ext.register(AFFINITY_HEAL_COOLDOWN, 0);
-		ext.register(MARK_X, 0D);
-		ext.register(MARK_Y, 0D);
-		ext.register(MARK_Z, 0D);
-		ext.register(MARK_DIMENSION, -512);
-		ext.register(CONTENGENCY_STACK, Optional.absent());
-		ext.register(CONTENGENCY_TYPE, "NULL");
-		ext.register(FALL_PROTECTION, 0.0f);
-		ext.register(IS_INVERTED, false);
-		ext.register(IS_SHRUNK, false);
-		ext.register(FLIP_ROTATION, 0.0f);
-		ext.register(PREV_FLIP_ROTATION, 0.0f);
-		ext.register(SHRINK_PCT, 0.0f);
-		ext.register(PREV_SHRINK_PCT, 0.0f);
-		ext.register(TK_DISTANCE, 8.0f);
-		ext.register(DataDefinitions.DISABLE_GRAVITY, false);
-		ext.register(MANA_SHIELD, 0f);
+		ext.setWithSync(HEAL_COOLDOWN, 0);
+		ext.setWithSync(AFFINITY_HEAL_COOLDOWN, 0);
+		ext.setWithSync(MARK_X, 0D);
+		ext.setWithSync(MARK_Y, 0D);
+		ext.setWithSync(MARK_Z, 0D);
+		ext.setWithSync(MARK_DIMENSION, -512);
+		ext.setWithSync(CONTENGENCY_STACK, Optional.absent());
+		ext.setWithSync(CONTENGENCY_TYPE, "NULL");
+		ext.setWithSync(FALL_PROTECTION, 0.0f);
+		ext.setWithSync(IS_INVERTED, false);
+		ext.setWithSync(IS_SHRUNK, false);
+		ext.setWithSync(FLIP_ROTATION, 0.0f);
+		ext.setWithSync(PREV_FLIP_ROTATION, 0.0f);
+		ext.setWithSync(SHRINK_PCT, 0.0f);
+		ext.setWithSync(PREV_SHRINK_PCT, 0.0f);
+		ext.setWithSync(TK_DISTANCE, 8.0f);
+		ext.setWithSync(DataDefinitions.DISABLE_GRAVITY, false);
+		ext.setWithSync(MANA_SHIELD, 0f);
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	
 	public void init(EntityPlayer player, IDataSyncExtension ext) {
 		this.player = player;
-		ext.register(DataDefinitions.COMPENDIUM, new ArrayList<String>());
+		ext.setWithSync(DataDefinitions.COMPENDIUM, new ArrayList<String>());
 	}
 
 	public static IArcaneCompendium For(EntityPlayer entityPlayer) {
