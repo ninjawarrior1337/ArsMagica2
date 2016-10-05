@@ -56,6 +56,10 @@ item.arsmagica2:rune.black.name=Black Rune
 
 item.arsmagica2:chalk.name=Wizard's Chalk
 
+am2.spell.validate.compMiss=At least one component is needed.
+am2.spell.validate.principum=is a Principum shape and needs a targeting shape added after it in order to function.  See the compendium for more info.
+am2.spell.validate.terminus=is a Terminus shape and any shapes after it will not apply.  See the compendium for more info.
+
 item.arsmagica2:FlickerFocusPrefix=Flicker Focus: %s
 item.arsmagica2:FlickerOperatorButchery.name=Butchery
 item.arsmagica2:FlickerOperatorContainment.name=Containment
@@ -276,6 +280,41 @@ am2.npc.partyfull=Looks like your party is already full.
 am2.npc.partyjoin=I have your back!
 am2.npc.partyleave=Best of luck, friend.
 am2.npc.partyrefuse=You need to become more powerful before I will follow you.
+
+#Rituals
+ritual.arsmagica2:astral_distortion.name=Ritual of Corruption
+ritual.arsmagica2:banish_rain.name=Ritual of the Rain
+ritual.arsmagica2:blind.name=Ritual of Duration
+ritual.arsmagica2:watery_grave.name=Ritual of Duration
+ritual.arsmagica2:water_breathing.name=Ritual of Duration
+ritual.arsmagica2:true_sight.name=Ritual of Duration
+ritual.arsmagica2:transplace.name=The Calling
+ritual.arsmagica2:swift_swim.name=Ritual of Duration
+ritual.arsmagica2:slowfall.name=Ritual of Duration
+ritual.arsmagica2:slow.name=Ritual of Duration
+ritual.arsmagica2:shrink.name=Ritual of Duration
+ritual.arsmagica2:shield.name=Ritual of Duration
+ritual.arsmagica2:rift.name=Ritual of Corruption
+ritual.arsmagica2:recall.name=Ritual of Summoning
+ritual.arsmagica2:night_vision.name=Ritual of Duration
+ritual.arsmagica2:light.name=Ritual of Purification
+ritual.arsmagica2:life_tap.name=Ritual of Corruption
+ritual.arsmagica2:levitate.name=Ritual of Duration
+ritual.arsmagica2:leap.name=Ritual of Duration
+ritual.arsmagica2:invisibility.name=Ritual of Duration
+ritual.arsmagica2:haste.name=Ritual of Duration
+ritual.arsmagica2:gravity_well.name=Ritual of Duration
+ritual.arsmagica2:fury.name=Ritual of Duration
+ritual.arsmagica2:freeze.name=Ritual of Duration
+ritual.arsmagica2:flight.name=Ritual of Duration
+ritual.arsmagica2:fire_damage.name=Ritual of Corruption
+ritual.arsmagica2:entangle.name=Ritual of Duration
+ritual.arsmagica2:charm.name=Ritual of Duration
+
+ritualshape.hourglass.name=Hourglass
+ritualshape.corruption.name=Corruption
+ritualshape.purification.name=Purification
+ritualshape.ringedCross.name=Ringed Cross
 
 skill.arsmagica2:projectile.name=Projectile
 skill.arsmagica2:bounce.name=Bounce
@@ -688,6 +727,9 @@ am2.gui.xpBar=XP Bar
 am2.gui.yes=Yes
 am2.gui.occulus.disabled=Disabled via config.
 am2.gui.occulus.missingrequirements=Missing Requirements
+am2.gui.ritualshape=Ritual Shape :
+am2.gui.ritualreagents=Reagents :
+am2.gui.ritualresult=Result :
 
 #Components
 

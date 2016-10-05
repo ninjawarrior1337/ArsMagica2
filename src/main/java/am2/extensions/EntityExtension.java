@@ -334,7 +334,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			ext.setWithSync(CURRENT_SUMMONS, 0);
 		} else {
 			ext.setWithSync(CURRENT_LEVEL, 0);
-			ext.setWithSync(CURRENT_MANA, 100F);
+			ext.setWithSync(CURRENT_MANA, 500F);
 			ext.setWithSync(CURRENT_MANA_FATIGUE, 0F);
 			ext.setWithSync(CURRENT_XP, 0F);
 			ext.setWithSync(CURRENT_SUMMONS, 0);			

@@ -13,6 +13,7 @@ import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.buffs.BuffEffectShrink;
+import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
@@ -37,7 +38,7 @@ public class Shrink extends SpellComponent implements IRitualInteraction{
 				Items.BONE,
 				Items.GOLD_NUGGET,
 				Items.SPIDER_EYE,
-				//TODO ItemDefs.manaCake
+				ItemDefs.manaCake
 		};
 	}
 

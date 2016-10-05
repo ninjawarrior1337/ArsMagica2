@@ -7,6 +7,7 @@ import java.util.Random;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.compendium.CompendiumEntry;
 import am2.api.rituals.IRitualInteraction;
+import am2.api.spell.AbstractSpellPart;
 import am2.gui.AMGuiHelper;
 import am2.gui.GuiArcaneCompendium;
 import am2.gui.controls.GuiButtonTextOnly;
@@ -30,7 +31,11 @@ public class PageRitual extends CompendiumPage<IRitualInteraction.Wrapper> {
 
 	@Override
 	protected void renderPage(int posX, int posY, int mouseX, int mouseY) {
-		String ritualName = TextFormatting.UNDERLINE.toString() + TextFormatting.BOLD.toString() + I18n.translateToLocal("ritual." + element.getRitualInteraction().getClass().getSimpleName().toLowerCase() + ".name");
+		String ritualName;
+		if (element.getRitualInteraction() instanceof AbstractSpellPart)
+			ritualName = TextFormatting.UNDERLINE.toString() + TextFormatting.BOLD.toString() + I18n.translateToLocal("ritual." + ((AbstractSpellPart)element.getRitualInteraction()).getRegistryName().toString() + ".name");
+		else
+			ritualName = TextFormatting.UNDERLINE.toString() + TextFormatting.BOLD.toString() + I18n.translateToLocal("ritual." + element.getRitualInteraction().getClass().getSimpleName().toLowerCase() + ".name");
 		mc.fontRendererObj.drawString(ritualName, posX + 72 - (mc.fontRendererObj.getStringWidth(ritualName) / 2), posY, 0);
 		String categoryName = TextFormatting.UNDERLINE.toString() + I18n.translateToLocal("am2.gui.ritualshape");
 		mc.fontRendererObj.drawString(categoryName, posX + 72 - (mc.fontRendererObj.getStringWidth(categoryName) / 2), posY + 20, 0);

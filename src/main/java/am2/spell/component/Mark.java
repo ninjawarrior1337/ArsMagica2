@@ -103,7 +103,7 @@ public class Mark extends SpellComponent{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
-				new ItemStack(Items.MAP, 1, Short.MAX_VALUE)
+				new ItemStack(Items.MAP)
 		};
 	}
 

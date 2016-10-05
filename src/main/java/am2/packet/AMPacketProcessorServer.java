@@ -132,7 +132,6 @@ public class AMPacketProcessorServer{
 
 	private void handleOcculusUnlock(byte[] remaining, EntityPlayerMP player) {
 		String str = new AMDataReader(remaining, false).getString();
-		System.out.println(str);
 		SkillData.For(player).unlockSkill(str);
 		ArcaneCompendium.For(player).unlockEntry(str);
 	}

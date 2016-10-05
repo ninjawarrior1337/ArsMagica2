@@ -239,7 +239,7 @@ public class RitualShapeHelper {
 		chalks_rotated.addBlock(new BlockPos(0, 0, 2));
 		chalks_rotated.addBlock(new BlockPos(-1, 0, 2));
 		
-		hourglass.addGroup(chalks);
+		hourglass.addGroup(chalks, chalks_rotated);
 	}
 	
 	private void ringedCrossRitual() {
