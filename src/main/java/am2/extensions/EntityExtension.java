@@ -164,9 +164,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void lowerHealCooldown(int amount) {
-		setHealCooldown(getHealCooldown() - amount);
-		if (getHealCooldown() < 0)
-			setHealCooldown(0);
+		setHealCooldown(Math.max(0, getHealCooldown() - amount));
 	}
 	
 	@Override
@@ -176,9 +174,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void lowerAffinityHealCooldown (int amount) {
-		setAffinityHealCooldown(getAffinityHealCooldown() - amount);
-		if (getAffinityHealCooldown() < 0)
-			setAffinityHealCooldown(0);
+		setAffinityHealCooldown(Math.max(0, getAffinityHealCooldown() - amount));
 	}
 	
 	@Override
