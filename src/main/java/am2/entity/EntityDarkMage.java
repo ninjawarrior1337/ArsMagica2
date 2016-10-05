@@ -3,6 +3,7 @@ package am2.entity;
 import java.util.List;
 
 import am2.defs.ItemDefs;
+import am2.defs.LootTablesArsMagica;
 import am2.entity.ai.EntityAIRangedAttackSpell;
 import am2.entity.ai.selectors.DarkMageEntitySelector;
 import am2.extensions.EntityExtension;
@@ -23,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -96,23 +98,23 @@ public class EntityDarkMage extends EntityMob{
 	protected float ActionSpeed(){
 		return 0.5f;
 	}
-
+//
+//	@Override
+//	protected void dropFewItems(boolean par1, int par2){
+//		if (par1 && getRNG().nextDouble() < 0.2)
+//			for (int j = 0; j < getRNG().nextInt(3); ++j)
+//				this.entityDropItem(new ItemStack(ItemDefs.rune, 1, getRNG().nextInt(16)), 0.0f);
+//
+//		if (par1 && getRNG().nextDouble() < 0.2)
+//			this.entityDropItem(new ItemStack(ItemDefs.spellParchment, 1, 0), 0.0f);
+//
+//		if (par1 && getRNG().nextDouble() < 0.05)
+//			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
+//	}
+	
 	@Override
-	public boolean isAIDisabled(){
-		return false;
-	}
-
-	@Override
-	protected void dropFewItems(boolean par1, int par2){
-		if (par1 && getRNG().nextDouble() < 0.2)
-			for (int j = 0; j < getRNG().nextInt(3); ++j)
-				this.entityDropItem(new ItemStack(ItemDefs.rune, 1, getRNG().nextInt(16)), 0.0f);
-
-		if (par1 && getRNG().nextDouble() < 0.2)
-			this.entityDropItem(new ItemStack(ItemDefs.spellParchment, 1, 0), 0.0f);
-
-		if (par1 && getRNG().nextDouble() < 0.05)
-			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
+	protected ResourceLocation getLootTable() {
+		return LootTablesArsMagica.DARK_MAGE_LOOT;
 	}
 
 	@Override

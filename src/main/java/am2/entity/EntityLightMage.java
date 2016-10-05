@@ -3,6 +3,7 @@ package am2.entity;
 import java.util.List;
 
 import am2.defs.ItemDefs;
+import am2.defs.LootTablesArsMagica;
 import am2.defs.SkillDefs;
 import am2.entity.ai.EntityAIAllyManaLink;
 import am2.entity.ai.EntityAIRangedAttackSpell;
@@ -31,6 +32,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
@@ -196,19 +198,23 @@ public class EntityLightMage extends EntityCreature{
 	protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
 	}
 
+//	@Override
+//	protected void dropFewItems(boolean par1, int par2){
+//		if (par1 && getRNG().nextDouble() < 0.2)
+//			for (int j = 0; j < getRNG().nextInt(3); ++j)
+//				this.entityDropItem(new ItemStack(ItemDefs.rune, 1, getRNG().nextInt(16)), 0.0f);
+//
+//		if (par1 && getRNG().nextDouble() < 0.2)
+//			this.entityDropItem(new ItemStack(ItemDefs.spellParchment, 1, 0), 0.0f);
+//
+//		if (par1 && getRNG().nextDouble() < 0.05)
+//			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
+//	}
+//	
 	@Override
-	protected void dropFewItems(boolean par1, int par2){
-		if (par1 && getRNG().nextDouble() < 0.2)
-			for (int j = 0; j < getRNG().nextInt(3); ++j)
-				this.entityDropItem(new ItemStack(ItemDefs.rune, 1, getRNG().nextInt(16)), 0.0f);
-
-		if (par1 && getRNG().nextDouble() < 0.2)
-			this.entityDropItem(new ItemStack(ItemDefs.spellParchment, 1, 0), 0.0f);
-
-		if (par1 && getRNG().nextDouble() < 0.05)
-			this.entityDropItem(new ItemStack(ItemDefs.spellBook, 1, 0), 0.0f);
+	protected ResourceLocation getLootTable() {
+		return LootTablesArsMagica.LIGHT_MAGE_LOOT;
 	}
-	
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand){
 		if (worldObj.isRemote)

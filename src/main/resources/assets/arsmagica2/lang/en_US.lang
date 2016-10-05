@@ -500,6 +500,58 @@ skill.arsmagica2:healing.occulusdesc=Efficiency over number.
 skill.arsmagica2:contingency_health.occulusdesc=I'm not going down... Not right now.
 skill.arsmagica2:contingency_damage.occulusdesc=Hurting me? That would be bad...
 
+skill.arsmagica2:touch.occulusdesc=Someone in there?
+skill.arsmagica2:dig.occulusdesc=Down the rabbit hole.
+skill.arsmagica2:wizards_autumn.occulusdesc=Leaves fall in autumn. But it's kind of a slow process...
+skill.arsmagica2:target_non_solid.occulusdesc=And I decided that I would fight the water.
+skill.arsmagica2:place_block.occulusdesc=Don't mind me, I'm just sending an Anvil.
+skill.arsmagica2:feather_touch.occulusdesc=Feels soft...
+skill.arsmagica2:mining_power.occulusdesc=Who needs diamond?
+skill.arsmagica2:light.occulusdesc=The end of a tunnel.
+skill.arsmagica2:night_vision.occulusdesc=Oh? There was a tunnel?
+skill.arsmagica2:binding.occulusdesc=Sword, Axe, Shovel... Who needs tools?
+skill.arsmagica2:disarm.occulusdesc=Woops, you dropped something?
+skill.arsmagica2:charm.occulusdesc=Friends! Lots of friends! And they blew up...
+skill.arsmagica2:true_sight.occulusdesc=Reveal what is hidden.
+skill.arsmagica2:lunar.occulusdesc=I'm gonna be a werewolf!
+skill.arsmagica2:harvest_plants.occulusdesc=Let's just say you're all grown.
+skill.arsmagica2:plow.occulusdesc=Hoes are useless. Everyone knows that.
+skill.arsmagica2:plant.occulusdesc=Why bother using hand when magic can do the same?
+skill.arsmagica2:create_water.occulusdesc=Yop, totally intended turning my snow into water...
+skill.arsmagica2:drought.occulusdesc=Dirt = Sand. Who doesn"t konw that?
+skill.arsmagica2:banish_rain.occulusdesc=Come back latter. Or don't. It would be kind.
+skill.arsmagica2:water_breathing.occulusdesc=Creating air directly inside my lungs? Cool!
+skill.arsmagica2:grow.occulusdesc=I won't sit all day.
+skill.arsmagica2:chain.occulusdesc=Looks like you brought friends. Well I don't mind, you're all gonna die.
+skill.arsmagica2:rift.occulusdesc=One day i'll walk through it, for now, it'll just store items.
+skill.arsmagica2:invisibility.occulusdesc=Wanna play Hide and Seek?
+skill.arsmagica2:random_teleport.occulusdesc=I wanna go... There! Woops, wrong spot.
+skill.arsmagica2:attract.occulusdesc=Come closer... Or not just stay where you are.
+skill.arsmagica2:telekinesis.occulusdesc=Up, Down, Up, Down, I think you get and idea.
+skill.arsmagica2:blink.occulusdesc=Well, I'm out.
+skill.arsmagica2:range.occulusdesc=Think you're far enough? Spoiler : No.
+skill.arsmagica2:channel.occulusdesc=You might want to concentrate.
+skill.arsmagica2:radius.occulusdesc=I missed? Oh wait, this thing expands across a mile...
+skill.arsmagica2:transplace.occulusdesc=From point A to point B
+skill.arsmagica2:mark.occulusdesc=Home sweet home.
+skill.arsmagica2:recall.occulusdesc=Can someone remind me who marked the trash?
+skill.arsmagica2:divine_intervention.occulusdesc=Help from across the cosmos.
+skill.arsmagica2:ender_intervention.occulusdesc=Well, I didn't know what hell looked like...
+skill.arsmagica2:contingency_death.occulusdesc=You're comming with me.
+
+skill.arsmagica2:blizzard.occulusdesc=Snow. Lots of snow. TOO MUCH SNOW!
+skill.arsmagica2:falling_star.occulusdesc=Shiny! Wait is it falling toward me?
+skill.arsmagica2:fire_rain.occulusdesc=Well. At least i'm not going to catch a cold...
+skill.arsmagica2:dismembering.occulusdesc=Wasn't me. I swear he had no head when I came in.
+
+skill.arsmagica2:mana_link.occulusdesc=Tired? Keep going.
+skill.arsmagica2:mana_shield.occulusdesc=Well, now I know what boredom looks like.
+skill.arsmagica2:buff_power.occulusdesc=Harder, Better, Faster and... my mana pool is empty...
+
+skill.arsmagica2:daylight.occulusdesc=So... Does that means I can control time?
+skill.arsmagica2:moonrise.occulusdesc=Full Moon.
+skill.arsmagica2:prosperity.occulusdesc=Gold. Loads of Gold.
+
 arsmagica2:agility=Agility
 arsmagica2:temporalAnchor=Chrono Anchor
 

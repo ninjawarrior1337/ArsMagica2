@@ -7,7 +7,6 @@ import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
@@ -83,30 +82,26 @@ public class DataSyncExtension implements IDataSyncExtension {
 	public byte[] createUpdatePacket() {
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(entity.getEntityId());
-		boolean fullSync = entity instanceof EntityPlayer && entity.ticksExisted % 20 == 0;
 		int size = 0;
 		for (int i = 0; i < internalData.size(); i++) {
 			if (internalData.get(i) == null || ArsMagicaManager.getById(i) == null) continue;
-			if (!fullSync && !hasChanged.get(i).booleanValue()) continue;
+			if (!hasChanged.get(i).booleanValue()) continue;
 			size++;
 		}
 		writer.add(size);
 		for (int i = 0; i < internalData.size(); i++) {
 			if (internalData.get(i) == null || ArsMagicaManager.getById(i) == null) continue;
-			if (!fullSync && !hasChanged.get(i).booleanValue()) continue;
+			if (!hasChanged.get(i).booleanValue()) continue;
 			writer.add(i);
 			try {
 				ArsMagicaManager.getById(i).serialize(writer, internalData.get(i));
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
+			} catch (Throwable e) {}
 		}
 		hasChanged.clear();
 		fillWithNull(internalData.size());
 		return writer.generate();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void handleUpdatePacket(AMDataReader reader) {
 		int size = reader.getInt();
@@ -114,17 +109,18 @@ public class DataSyncExtension implements IDataSyncExtension {
 			int index = reader.getInt();
 			try {
 				fillWithNull(index);
-				this.set(ArsMagicaManager.getById(index), ArsMagicaManager.getById(index).deserialize(reader));
-			} catch (Throwable e) {
-				System.out.println("Error trying to load " + index);
-			}
+				internalData.set(index, ArsMagicaManager.getById(index).deserialize(reader));
+			} catch (Throwable e) {}
 		}
 	}
 
 	public boolean shouldSync() {
-		boolean bool = entity instanceof EntityPlayer;
-		for (Boolean b : hasChanged)
+		boolean bool = false;
+		for (Boolean b : hasChanged) {
 			bool |= b.booleanValue();
+			if (bool)
+				break;
+		}
 		return bool;
 	}
 

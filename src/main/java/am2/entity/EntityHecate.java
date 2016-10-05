@@ -29,6 +29,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -82,8 +83,7 @@ public class EntityHecate extends EntityZombie{
 	}
 
 	private void initAI(){
-//		this.getNavigator().setBreakDoors(true);
-//		this.getNavigator().setAvoidSun(true);
+		((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIBreakDoor(this));
 		this.tasks.addTask(3, new EntityAIAttackMelee(this, this.hostileSpeed, false));
