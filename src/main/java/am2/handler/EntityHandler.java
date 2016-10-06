@@ -6,9 +6,12 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.IBoundItem;
+import am2.api.SkillPointRegistry;
 import am2.api.affinity.Affinity;
+import am2.api.event.PlayerMagicLevelChangeEvent;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
+import am2.api.skill.SkillPoint;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
 import am2.defs.ItemDefs;
@@ -110,6 +113,17 @@ public class EntityHandler {
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.xpGainModifier);
 		}else if (event.getEntity() instanceof EntityItemFrame){
 			ArsMagica2.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.getEntity());
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerMagicLevelChange(PlayerMagicLevelChangeEvent event) {
+		if (event.getEntityPlayer() != null) {
+			for (SkillPoint point : SkillPointRegistry.getSkillPointMap().values()) {
+				if (point.getMinEarnLevel() > event.getLevel()) continue;
+				if ((event.getLevel() - point.getMinEarnLevel()) % point.getLevelsForPoint() == 0)
+					SkillData.For(event.getEntityPlayer()).setSkillPoint(point, SkillData.For(event.getEntityPlayer()).getSkillPoint(point) + 1);
+			}
 		}
 	}
 	

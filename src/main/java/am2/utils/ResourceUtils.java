@@ -8,11 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class ResourceUtils {
 		
 	public static ResourceLocation getSkillIcon (String iconName) {
-		return new ResourceLocation(ArsMagica2.MODID, "icons/skills/" + iconName);
-	}
-
-	public static ResourceLocation getSpellIcon(String iconName) {
-		return new ResourceLocation(ArsMagica2.MODID, "icons/spells/" + iconName);
+		return new ResourceLocation(ArsMagica2.MODID, "items/spells/skills/" + iconName);
 	}
 	
 	public static <K, V> HashMap<K, V> createHashMap (K i, V j) {

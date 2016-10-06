@@ -37,6 +37,15 @@ public class BlockArsMagicaOre extends BlockAM {
 	}
 	
 	@Override
+	public int quantityDropped(IBlockState state, int fortune, Random random) {
+		if (state.getValue(ORE_TYPE) == EnumOreType.VINTEUM) return 1;
+		int fortuneBonus = fortune > 0 ? random.nextInt(fortune) : 0;
+		boolean isChimerite = state.getValue(ORE_TYPE) == EnumOreType.CHIMERITE;
+		int drop = 1 + (isChimerite ? random.nextInt(4) : random.nextInt(1));
+		return drop + (isChimerite ? 1 : 2) * fortuneBonus;
+	}
+	
+	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (int i = 0; i < EnumOreType.values().length; i++) {
 			list.add(new ItemStack(this, 1, i));
@@ -57,7 +66,7 @@ public class BlockArsMagicaOre extends BlockAM {
 	public int damageDropped(IBlockState state) {
 		EnumOreType type = state.getValue(ORE_TYPE);
 		if (type == EnumOreType.VINTEUM)
-			return ItemOre.META_VINTEUM;
+			return EnumOreType.VINTEUM.ordinal();
 		if (type == EnumOreType.CHIMERITE)
 			return ItemOre.META_CHIMERITE;
 		if (type == EnumOreType.BLUETOPAZ)
