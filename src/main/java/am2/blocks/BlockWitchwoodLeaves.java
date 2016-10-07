@@ -40,7 +40,7 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 
 	@Override
 	public int quantityDropped(Random par1Random){
-		return par1Random.nextInt(300) == 0 ? 1 : 0;
+		return 1;
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 	@Override
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
 		if (!worldIn.isRemote){
-			int j1 = 300;
+			int j1 = 150;
 
 			if (worldIn.rand.nextInt(j1) == 0){
 				dropBlockAsItem(worldIn, pos, BlockDefs.witchwoodSapling.getDefaultState(), fortune);
