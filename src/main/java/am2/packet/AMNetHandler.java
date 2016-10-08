@@ -292,4 +292,8 @@ public class AMNetHandler{
 	public void sendAffinityActivate(){
 		sendPacketToServer(AMPacketIDs.AFFINITY_ACTIVATE, new byte[0]);
 	}
+	
+	public void sendAbilityToggle(String str){
+		sendPacketToServer(AMPacketIDs.TOGGLE_ABILITY, new AMDataWriter().add(str).generate());
+	}
 }

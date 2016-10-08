@@ -8,6 +8,7 @@ import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.blocks.tileentity.TileEntityParticleEmitter;
 import am2.container.ContainerSpellCustomization;
 import am2.defs.ItemDefs;
+import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
 import am2.items.ItemSpellBook;
@@ -115,6 +116,10 @@ public class AMPacketProcessorServer{
 				break;
 			case AMPacketIDs.UNLOCK_OCCULUS_ENTRY:
 				handleOcculusUnlock(remaining, player);
+				break;
+			case AMPacketIDs.TOGGLE_ABILITY:
+				handleAbilityToggle(remaining, player);
+				break;
 			}
 		}catch (Throwable t){
 			LogHelper.error("Server Packet Failed to Handle!");
@@ -128,6 +133,12 @@ public class AMPacketProcessorServer{
 				t.printStackTrace();
 			}
 		}
+	}
+
+	private void handleAbilityToggle(byte[] remaining, EntityPlayerMP player) {
+		AMDataReader reader = new AMDataReader(remaining, false);
+		String str = reader.getString();
+		AffinityData.For(player).addAbilityBoolean(str, !AffinityData.For(player).getAbilityBoolean(str));
 	}
 
 	private void handleOcculusUnlock(byte[] remaining, EntityPlayerMP player) {

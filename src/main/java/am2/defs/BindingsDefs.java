@@ -3,6 +3,7 @@ package am2.defs;
 import org.lwjgl.input.Keyboard;
 
 import am2.ArsMagica2;
+import am2.extensions.AffinityData;
 import am2.gui.AuraCustomizationMenu;
 import am2.items.ItemSpellBook;
 import am2.packet.AMNetHandler;
@@ -19,10 +20,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BindingsDefs {
-	public static final KeyBinding ICE_BRIDGE = new KeyBinding("key.bridge", Keyboard.KEY_I, "keybindings.am2");
-	public static final KeyBinding ENDER_TP = new KeyBinding("key.teleport", Keyboard.KEY_N, "keybindings.am2");
-	public static final KeyBinding SHAPE_GROUP = new KeyBinding("key.shape_groups", Keyboard.KEY_C, "keybindings.am2");
-	public static final KeyBinding AURA_CUSTOMIZATION = new KeyBinding("key.AuraCustomization", Keyboard.KEY_B, "keybindings.am2");
+	public static final KeyBinding ICE_BRIDGE = new KeyBinding("key.am2.bridge", Keyboard.KEY_I, "keybindings.am2");
+	public static final KeyBinding ENDER_TP = new KeyBinding("key.am2.teleport", Keyboard.KEY_N, "keybindings.am2");
+	public static final KeyBinding SHAPE_GROUP = new KeyBinding("key.am2.shape_groups", Keyboard.KEY_C, "keybindings.am2");
+	public static final KeyBinding AURA_CUSTOMIZATION = new KeyBinding("key.am2.aura_customization", Keyboard.KEY_B, "keybindings.am2");
+	public static final KeyBinding NIGHT_VISION = new KeyBinding("key.am2.dark_vision", Keyboard.KEY_L, "keybindings.am2");
 
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event){
@@ -37,8 +39,11 @@ public class BindingsDefs {
 //			}
 //			return;
 //		}
-
-		if (SHAPE_GROUP.isPressed()){
+		if (NIGHT_VISION.isPressed())
+			AMNetHandler.INSTANCE.sendAbilityToggle(AffinityData.NIGHT_VISION);
+		else if (ICE_BRIDGE.isPressed())
+			AMNetHandler.INSTANCE.sendAbilityToggle(AffinityData.ICE_BRIDGE_STATE);
+		else if (SHAPE_GROUP.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ItemStack curItem = player.inventory.getStackInSlot(player.inventory.currentItem);
 			if (curItem == null || (curItem.getItem() != ItemDefs.spell && curItem.getItem() != ItemDefs.spellBook && curItem.getItem() != ItemDefs.arcaneSpellbook)){

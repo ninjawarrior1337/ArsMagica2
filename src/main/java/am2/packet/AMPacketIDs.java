@@ -51,4 +51,5 @@ public class AMPacketIDs{
 	public static final byte PLAYER_FLIP = 61;
 	public static final byte SYNC_CLIENT = 62;
 	public static final byte UNLOCK_OCCULUS_ENTRY = 63;
+	public static final byte TOGGLE_ABILITY = 64;
 }

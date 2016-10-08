@@ -141,10 +141,10 @@ public interface IEntityExtension {
 		@Override
 		public void readNBT(Capability<IEntityExtension> capability, IEntityExtension instance, EnumFacing side, NBTBase nbt) {
 			NBTTagCompound am2tag = NBTUtils.getAM2Tag((NBTTagCompound)nbt);
-			instance.setCurrentMana(am2tag.getInteger("CurrentMana"));
+			instance.setCurrentMana(am2tag.getFloat("CurrentMana"));
 			instance.setCurrentLevel(am2tag.getInteger("CurrentLevel"));
-			instance.setCurrentXP(am2tag.getInteger("CurrentXP"));
-			instance.setCurrentBurnout(am2tag.getInteger("CurrentBurnout"));
+			instance.setCurrentXP(am2tag.getFloat("CurrentXP"));
+			instance.setCurrentBurnout(am2tag.getFloat("CurrentBurnout"));
 			instance.setCurrentSummons(am2tag.getInteger("CurrentSummons"));
 			
 			instance.setHealCooldown(am2tag.getInteger("HealCooldown"));

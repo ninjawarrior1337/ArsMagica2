@@ -239,6 +239,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.registerKeyBinding(BindingsDefs.ENDER_TP);
 		ClientRegistry.registerKeyBinding(BindingsDefs.AURA_CUSTOMIZATION);
 		ClientRegistry.registerKeyBinding(BindingsDefs.SHAPE_GROUP);
+		ClientRegistry.registerKeyBinding(BindingsDefs.NIGHT_VISION);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());
