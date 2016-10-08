@@ -281,6 +281,61 @@ am2.npc.partyjoin=I have your back!
 am2.npc.partyleave=Best of luck, friend.
 am2.npc.partyrefuse=You need to become more powerful before I will follow you.
 
+##air
+affinityability.agile.name=Agile
+affinityability.lightasafeather.name=Light as a Feather
+
+##arcane
+affinityability.clearcaster.name=Clearcaster
+affinityability.magicweakness.name=Magic Weakness
+affinityability.onewithmagic.name=Magical Focus
+
+##earth
+affinityability.solidbones.name=Solid Bones
+affinityability.stoneskin.name=Stone Skin
+
+##ender
+affinityability.darkvision.name=Darkvision
+affinityability.phasing.name=Phasing
+affinityability.poisonresistance.name=Resistant to Poison
+affinityability.sunlightweakness.name=Weakness to Sunlight
+affinityability.waterweakness_ender.name=Weakness to Water
+
+##fire
+affinityability.firepunch.name=Fire Punch
+affinityability.fireresistance.name=Resistant to Fire
+affinityability.waterweakness_fire.name=Weakness to Water
+
+##ice
+affinityability.coldblooded.name=Cold Blooded
+affinityability.lavafreeze.name=Frozen Footsteps (Lava)
+affinityability.waterfreeze.name=Frozen Footsteps (Water)
+
+##life
+affinityability.fasthealing.name=Fast Healing
+affinityability.pacifist.name=Pacifist
+
+##water
+affinityability.antiendermen.name=Endermen-Repellant
+affinityability.expandedlungs.name=Expanded Lungs
+affinityability.fireweakness.name=Fire Weakness
+affinityability.fluidity.name=Fluidity
+affinityability.swiftswim.name=Swift Swimmer
+
+##nature
+affinityability.harvester.name=Harvester
+affinityability.leaflike.name=Leaf on the Wind
+affinityability.photosynthesis.name=Photosynthesis
+affinityability.rooted.name=Rooted
+affinityability.thorns.name=Thorns Aura
+
+##lightning
+affinityability.fulmination.name=Fulmination
+affinityability.reflexes.name=Lightning Reflexes
+affinityability.shortcircuit.name=Short Circuit
+affinityability.thunderpunch.name=Thunderpunch
+affinityability.waterweakness_lightning.name=Weakness to Water
+
 #Rituals
 ritual.arsmagica2:astral_distortion.name=Ritual of Corruption
 ritual.arsmagica2:banish_rain.name=Ritual of the Rain

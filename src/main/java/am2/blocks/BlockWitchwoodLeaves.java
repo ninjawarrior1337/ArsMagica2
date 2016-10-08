@@ -1,6 +1,5 @@
 package am2.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -37,26 +36,15 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 		this.setDefaultState(blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
 		leavesFancy = true;
 	}
-
+	
 	@Override
-	public int quantityDropped(Random par1Random){
-		return 1;
+	protected int getSaplingDropChance(IBlockState state) {
+		return 150;
 	}
 	
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		return new ArrayList<ItemStack>();
-	}
-	
-	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-		if (!worldIn.isRemote){
-			int j1 = 150;
-
-			if (worldIn.rand.nextInt(j1) == 0){
-				dropBlockAsItem(worldIn, pos, BlockDefs.witchwoodSapling.getDefaultState(), fortune);
-			}
-		}
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Item.getItemFromBlock(BlockDefs.witchwoodSapling);
 	}
 	
 	@Override
