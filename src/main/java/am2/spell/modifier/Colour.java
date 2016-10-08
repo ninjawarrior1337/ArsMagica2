@@ -14,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Colour extends SpellModifier{
 	
@@ -21,7 +22,7 @@ public class Colour extends SpellModifier{
 	public Object[] getRecipe() {
 		return new Object[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
-				new ItemStack(Items.DYE, 1, Short.MAX_VALUE)
+				new ItemStack(Items.DYE, 1, OreDictionary.WILDCARD_VALUE)
 		};
 	}
 

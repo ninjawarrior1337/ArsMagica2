@@ -159,15 +159,18 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 			stack = ((ItemStack)((List<ItemStack>)craftingComponent).get(idx)).copy();
 		}
 	
-		List<ItemStack> oredict = OreDictionary.getOres(stack.getItem().getUnlocalizedName());
 		List<ItemStack> alternates = new ArrayList<ItemStack>();
-		alternates.addAll(oredict);
+		
+		if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+			stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTab(), alternates);
+		} else {
+			alternates.add(stack);
+		}
 	
 		if (alternates.size() > 0){
-			alternates.add(stack);
-			stack = alternates.get(new Random(AMGuiHelper.instance.getSlowTicker()).nextInt(alternates.size()));
+			stack = alternates.get(new Random(new Random(AMGuiHelper.instance.getSlowTicker()).nextLong()).nextInt(alternates.size()));
 		}
-		if (forcedMetas .containsKey(stack.getItem()))
+		if (forcedMetas.containsKey(stack.getItem()))
 			stack = new ItemStack(stack.getItem(), stack.stackSize, forcedMetas.get(stack.getItem()));
 	
 		try{
