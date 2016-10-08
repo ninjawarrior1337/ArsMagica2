@@ -59,7 +59,7 @@ public class EntityHecate extends EntityZombie{
 		leftArmRotationOffset = 0;
 		rightArmRotationOffset = 0;
 		this.hostileSpeed = 1.7F;
-		this.setSize(1f, 1.5f);
+		this.setSize(0.6f, 1.5f);
 
 		EntityExtension.For(this).setCurrentLevel(7);
 		EntityExtension.For(this).setCurrentMana(600);

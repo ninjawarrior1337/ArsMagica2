@@ -295,8 +295,8 @@ affinityability.solidbones.name=Solid Bones
 affinityability.stoneskin.name=Stone Skin
 
 ##ender
-affinityability.darkvision.name=Darkvision
-affinityability.phasing.name=Phasing
+affinityability.nightvision.name=Darkvision
+affinityability.relocation.name=Relocation
 affinityability.poisonresistance.name=Resistant to Poison
 affinityability.sunlightweakness.name=Weakness to Sunlight
 affinityability.waterweakness_ender.name=Weakness to Water
@@ -332,6 +332,7 @@ affinityability.thorns.name=Thorns Aura
 ##lightning
 affinityability.fulmination.name=Fulmination
 affinityability.reflexes.name=Lightning Reflexes
+affinityability.lightningstep.name=Lightning Step
 affinityability.shortcircuit.name=Short Circuit
 affinityability.thunderpunch.name=Thunderpunch
 affinityability.waterweakness_lightning.name=Weakness to Water
@@ -478,6 +479,7 @@ skill.arsmagica2:blizzard.name=Blizzard
 skill.arsmagica2:falling_star.name=Starstrike
 skill.arsmagica2:fire_rain.name=Fire Rain
 skill.arsmagica2:dismembering.name=Dismembering
+skill.arsmagica2:mana_blast.name=Mana Blast
 
 skill.arsmagica2:mana_link.name=Mana Link
 skill.arsmagica2:mana_shield.name=Mana Shield
@@ -487,9 +489,17 @@ skill.arsmagica2:daylight.name=Daylight
 skill.arsmagica2:moonrise.name=Moonrise
 skill.arsmagica2:prosperity.name=Prosperity
 
-skill.arsmagica2:manaregen1.occulusdesc=You can fell the mana flowing around you...
-skill.arsmagica2:manaregen2.occulusdesc=All this energy... Why waste it ?
-skill.arsmagica2:manaregen3.occulusdesc=Your control over mana has come to it's best
+skill.arsmagica2:mana_regen1.name=Mana Regen Boost I
+skill.arsmagica2:mana_regen2.name=Mana Regen Boost II
+skill.arsmagica2:mana_regen3.name=Mana Regen Boost III
+skill.arsmagica2:mage_posse1.name=Mage Band I
+skill.arsmagica2:mage_posse2.name=Mage Band II
+skill.arsmagica2:extra_summons.name=Extra Summons
+skill.arsmagica2:colour.name=Colour
+skill.arsmagica2:spell_motion.name=Spell Motion
+skill.arsmagica2:shield_overload.name=Shield Overload
+skill.arsmagica2:augmented_casting.name=Augmented Casting
+skill.arsmagica2:affinity_gains.name=Affinity Gains Boost
 
 skill.arsmagica2:projectile.occulusdesc=Snowball!
 skill.arsmagica2:physical_damage.occulusdesc=Ranged sword... Why not ?
@@ -581,7 +591,7 @@ skill.arsmagica2:chain.occulusdesc=Looks like you brought friends. Well I don't 
 skill.arsmagica2:rift.occulusdesc=One day i'll walk through it, for now, it'll just store items.
 skill.arsmagica2:invisibility.occulusdesc=Wanna play Hide and Seek?
 skill.arsmagica2:random_teleport.occulusdesc=I wanna go... There! Woops, wrong spot.
-skill.arsmagica2:attract.occulusdesc=Come closer... Or not just stay where you are.
+skill.arsmagica2:attract.occulusdesc=Come closer... Or not, just stay where you are.
 skill.arsmagica2:telekinesis.occulusdesc=Up, Down, Up, Down, I think you get and idea.
 skill.arsmagica2:blink.occulusdesc=Well, I'm out.
 skill.arsmagica2:range.occulusdesc=Think you're far enough? Spoiler : No.
@@ -598,6 +608,7 @@ skill.arsmagica2:blizzard.occulusdesc=Snow. Lots of snow. TOO MUCH SNOW!
 skill.arsmagica2:falling_star.occulusdesc=Shiny! Wait is it falling toward me?
 skill.arsmagica2:fire_rain.occulusdesc=Well. At least i'm not going to catch a cold...
 skill.arsmagica2:dismembering.occulusdesc=Wasn't me. I swear he had no head when I came in.
+skill.arsmagica2:mana_blast.occulusdesc=I LOVE mana, especially when it blows up in someone's face.
 
 skill.arsmagica2:mana_link.occulusdesc=Tired? Keep going.
 skill.arsmagica2:mana_shield.occulusdesc=Well, now I know what boredom looks like.
@@ -606,6 +617,18 @@ skill.arsmagica2:buff_power.occulusdesc=Harder, Better, Faster and... my mana po
 skill.arsmagica2:daylight.occulusdesc=So... Does that means I can control time?
 skill.arsmagica2:moonrise.occulusdesc=Full Moon.
 skill.arsmagica2:prosperity.occulusdesc=Gold. Loads of Gold.
+
+skill.arsmagica2:mana_regen1.occulusdesc=You can fell the mana flowing around you...
+skill.arsmagica2:mana_regen2.occulusdesc=All this energy... Why waste it ?
+skill.arsmagica2:mana_regen3.occulusdesc=Your control over mana has come to it's best
+skill.arsmagica2:mage_posse1.occulusdesc=Cool, a mage friend!
+skill.arsmagica2:mage_posse2.occulusdesc=Let's share!
+skill.arsmagica2:extra_summons.occulusdesc=Rise from the dead! And... One more...
+skill.arsmagica2:colour.occulusdesc=Rainbow
+skill.arsmagica2:spell_motion.occulusdesc=Mobile magic.
+skill.arsmagica2:shield_overload.occulusdesc=To much mana? Well it's always a good shield...
+skill.arsmagica2:augmented_casting.occulusdesc=Better Magic.
+skill.arsmagica2:affinity_gains.occulusdesc=Let's skip to the part where I have superpowers
 
 arsmagica2:agility=Agility
 arsmagica2:temporalAnchor=Chrono Anchor

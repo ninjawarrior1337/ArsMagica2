@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 public class AbilityLightAsAFeather extends AbstractAffinityAbility {
 
 	public AbilityLightAsAFeather() {
-		super(new ResourceLocation("arsmagica2", "lightasafether"));
+		super(new ResourceLocation("arsmagica2", "lightasafeather"));
 	}
 
 	@Override

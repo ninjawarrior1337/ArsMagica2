@@ -37,7 +37,7 @@ public class EntityFireElemental extends EntityMob{
 
 	public EntityFireElemental(World world){
 		super(world);
-		setSize(1F, 2F);
+		setSize(0.6F, 1.8F);
 		isImmuneToFire = true;
 
 		initAI();

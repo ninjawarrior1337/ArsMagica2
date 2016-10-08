@@ -41,7 +41,7 @@ public class EntityDarkMage extends EntityMob{
 
 	public EntityDarkMage(World world){
 		super(world);
-		setSize(1F, 2F);
+		setSize(0.6F, 1.8F);
 		EntityExtension.For(this).setMagicLevelWithMana(10 + rand.nextInt(20));
 		initAI();
 	}
@@ -56,7 +56,7 @@ public class EntityDarkMage extends EntityMob{
 	protected void entityInit(){
 		super.entityInit();
 		this.dataManager.register(MAGE_BOOK, 0);
-		this.dataManager.register(MAGE_SKIN, rand.nextInt(12) + 1);
+		this.dataManager.register(MAGE_SKIN, rand.nextInt(10) + 1);
 	}
 
 	@Override

@@ -359,6 +359,7 @@ public class GuiOcculus extends GuiScreen {
 			}
 			
 		} else {
+			boolean isShiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			RenderUtils.drawBox(posX + 7, posY + 7, 196, 196, zLevel, 0, 0, 1, 1);
 			int affNum = ArsMagicaAPI.getAffinityRegistry().getValues().size() - 1;
 			int portion = 360 / affNum;
@@ -413,7 +414,6 @@ public class GuiOcculus extends GuiScreen {
 						}
 					});
 					
-					boolean isShiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 					
 					for (AbstractAffinityAbility ability : abilites) {
 						if (ability.getAffinity() == aff) {
@@ -429,12 +429,14 @@ public class GuiOcculus extends GuiScreen {
 											+ ".name") + advancedTooltip);
 						}
 					}
-					if (!isShiftDown)
-						drawString.add(TextFormatting.GRAY.toString() + I18n.translateToLocal("am2.tooltip.shiftForDetails"));
-					drawHoveringText(drawString, mouseX, mouseY);
 				}
-				GlStateManager.color(1, 1, 1);
 			}
+			if (!drawString.isEmpty()) {
+				if (!isShiftDown)
+					drawString.add(TextFormatting.GRAY.toString() + I18n.translateToLocal("am2.tooltip.shiftForDetails"));
+				drawHoveringText(drawString, mouseX, mouseY);
+			}
+			GlStateManager.color(1, 1, 1);
 			RenderHelper.disableStandardItemLighting();
 		}
 		

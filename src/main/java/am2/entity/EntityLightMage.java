@@ -54,7 +54,7 @@ public class EntityLightMage extends EntityCreature{
 
 	public EntityLightMage(World world){
 		super(world);
-		setSize(1F, 2F);
+		setSize(0.6F, 1.8F);
 		hp = rand.nextInt(10) + 12;
 		initAI();
 	}

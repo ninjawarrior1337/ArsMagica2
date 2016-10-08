@@ -117,7 +117,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 			ArrayList<CompendiumEntry> sortedEntries = Lists.newArrayList(category.getEntries());
 			sortedEntries.sort(new Comparator<CompendiumEntry>() {public int compare(CompendiumEntry o1, CompendiumEntry o2) { return o1.getName().compareTo(o2.getName());}});
 			for (CompendiumEntry entry : sortedEntries) {
-				if (entry.getRenderObject() != null && !ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID()))
+				if (!mc.thePlayer.capabilities.isCreativeMode && entry.getRenderObject() != null && !ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID()))
 					continue;
 				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, entry, null);
 				link.visible = entry.canBeDisplayed(category.getID()) && page == locPage;

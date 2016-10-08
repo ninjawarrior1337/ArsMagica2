@@ -187,7 +187,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 	public void update(){
 		super.update();
 
-		if (!worldObj.isRemote && phylactery != null && ((ItemCrystalPhylactery)phylactery.getItem()).isFull(phylactery) && worldObj.isBlockIndirectlyGettingPowered(pos) == 0){
+		if (!worldObj.isRemote && phylactery != null && phylactery.getItem() instanceof ItemCrystalPhylactery && ((ItemCrystalPhylactery)phylactery.getItem()).isFull(phylactery) && worldObj.isBlockIndirectlyGettingPowered(pos) == 0){
 			if (this.powerConsumed < TileEntityInertSpawner.SUMMON_REQ){
 				this.powerConsumed += PowerNodeRegistry.For(worldObj).consumePower(
 						this,

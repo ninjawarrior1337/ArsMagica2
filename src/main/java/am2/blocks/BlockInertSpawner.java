@@ -21,6 +21,7 @@ public class BlockInertSpawner extends BlockAMPowered{
 		super(Material.IRON);
 		setHardness(3.0f);
 		setResistance(3.0f);
+		defaultRender = true;
 	}
 	@Override
 	public boolean isOpaqueCube(IBlockState state){
@@ -34,7 +35,7 @@ public class BlockInertSpawner extends BlockAMPowered{
 			return false;
 		}
 		FMLNetworkHandler.openGui(player, ArsMagica2.instance, IDDefs.GUI_INERT_SPAWNER, world, pos.getX(), pos.getY(), pos.getZ());
-		return false;
+		return true;
 	}
 
 	@Override

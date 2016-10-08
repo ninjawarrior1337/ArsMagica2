@@ -4,44 +4,47 @@ import java.util.EnumSet;
 
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
+import am2.defs.ItemDefs;
+import am2.items.ItemOre;
+import am2.utils.NBTUtils;
+import am2.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class Colour extends SpellModifier{
-
-	public int color = 0xFFFFFF;
 	
 	@Override
 	public Object[] getRecipe() {
-		return null;
+		return new Object[]{
+				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
+				new ItemStack(Items.DYE, 1, Short.MAX_VALUE)
+		};
 	}
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
-		tag.setInteger("Color", color);
+		for (Object obj : recipe) {
+			if (obj instanceof ItemStack) {
+				ItemStack is = (ItemStack) obj;
+				if (is.getItem().equals(Items.DYE))
+					NBTUtils.addTag(tag, SpellUtils.SPELL_DATA).setInteger("Color", is.getItemDamage());
+			}
+		}
 	}
-	
-	public int getColor() {
-		return color;
-	}
-	
-	public void setColor(int color) {
-		this.color = color;
-	}
-
 	@Override
 	public EnumSet<SpellModifiers> getAspectsModified() {
 		return EnumSet.of(SpellModifiers.COLOR);
 	}
 
 	@Override
-	public float getModifier(SpellModifiers type, EntityLivingBase caster,
-			Entity target, World world, NBTTagCompound nbt) {
-		color = nbt.getInteger("Color");
-		return color;
+	public float getModifier(SpellModifiers type, EntityLivingBase caster, Entity target, World world, NBTTagCompound nbt) {
+		if (type == SpellModifiers.COLOR)
+			return NBTUtils.addTag(nbt, SpellUtils.SPELL_DATA).getInteger("Color");
+		return 0;
 	}
 
 	@Override

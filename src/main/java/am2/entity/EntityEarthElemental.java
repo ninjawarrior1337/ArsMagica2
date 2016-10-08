@@ -19,7 +19,7 @@ public class EntityEarthElemental extends EntityMob{
 
 	public EntityEarthElemental(World world){
 		super(world);
-		setSize(1F, 2F);
+		setSize(0.6F, 1.8F);
 		initAI();
 	}
 
