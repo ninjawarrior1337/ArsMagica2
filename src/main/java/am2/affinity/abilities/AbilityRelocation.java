@@ -44,19 +44,17 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 	
 	@Override
 	public boolean canApply(EntityPlayer player) {
-		if (super.canApply(player)) {
-			if (AffinityData.For(player).getCooldown("EnderTP") <= 0)
-				return true;
-			else {
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.enderTPOnCooldown")));
-				return false;
-			}
-		}
-		return false;
+		return super.canApply(player);
 	}
 	
 	@Override
 	public void applyKeyPress(EntityPlayer player) {
+		if (AffinityData.For(player).getCooldown("EnderTP") > 0) {
+			if (player.worldObj.isRemote)
+				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.enderTPOnCooldown")));
+			return;
+		}
+	
 		Vec3d playerPos = new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		RayTraceResult result = player.worldObj.rayTraceBlocks(playerPos, playerPos.add(new Vec3d(player.getLookVec().xCoord * 32, player.getLookVec().yCoord * 32, player.getLookVec().zCoord * 32)));
 		if (result == null)

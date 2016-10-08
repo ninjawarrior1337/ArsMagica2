@@ -47,7 +47,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		value = MathHelper.clamp_double(value, 0, MAX_DEPTH);
 		HashMap<Affinity, Double> map = DataSyncExtension.For(player).get(DataDefinitions.AFFINITY_DATA);
 		map.put(name, value);
-		DataSyncExtension.For(player).set(DataDefinitions.AFFINITY_DATA, map);
+		DataSyncExtension.For(player).setWithSync(DataDefinitions.AFFINITY_DATA, map);
 	}
 	
 	public HashMap<Affinity, Double> getAffinities() {
@@ -75,7 +75,9 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public void addAbilityBoolean(String name, boolean bool) {
-		getAbilityBooleanMap().put(name, bool);
+		HashMap<String, Boolean> map = DataSyncExtension.For(player).get(DataDefinitions.ABILITY_BOOLEAN);
+		map.put(name, bool);
+		DataSyncExtension.For(player).setWithSync(DataDefinitions.ABILITY_BOOLEAN, map);
 	}
 	
 	@Override
@@ -86,7 +88,9 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public void addAbilityFloat(String name, float f) {
-		getAbilityFloatMap().put(name, f);
+		HashMap<String, Float> map = DataSyncExtension.For(player).get(DataDefinitions.ABILITY_FLOAT);
+		map.put(name, f);
+		DataSyncExtension.For(player).setWithSync(DataDefinitions.ABILITY_FLOAT, map);
 	}
 	
 	@Override
@@ -101,7 +105,9 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public void addCooldown(String name, int cooldown) {
-		getCooldowns().put(name, Integer.valueOf(cooldown));
+		HashMap<String, Integer> map = DataSyncExtension.For(player).get(DataDefinitions.COOLDOWNS);
+		map.put(name, cooldown);
+		DataSyncExtension.For(player).setWithSync(DataDefinitions.COOLDOWNS, map);
 	}
 	
 	@Override

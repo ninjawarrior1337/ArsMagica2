@@ -35,7 +35,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
 		
-		if (!par2World.isRemote) return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer, hand);
+		if (par2World.isRemote) return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer, hand);
 		
 		if (par1ItemStack.getItemDamage() == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE)){
 			IAffinityData data = AffinityData.For(par3EntityPlayer);
@@ -46,9 +46,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 		}else{
 			AffinityData.For(par3EntityPlayer).incrementAffinity(ArsMagicaAPI.getAffinityRegistry().getObjectById(par1ItemStack.getItemDamage()), 20);
 		}
-
-		if (!par2World.isRemote)
-			par1ItemStack.stackSize--;
+		par1ItemStack.stackSize--;
 
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par1ItemStack);
 	}
