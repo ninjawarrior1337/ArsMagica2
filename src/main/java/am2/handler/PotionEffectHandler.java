@@ -64,7 +64,6 @@ public class PotionEffectHandler {
 		EventPotionAdded event = new EventPotionAdded(e.getEffect());
 		MinecraftForge.EVENT_BUS.post(event);
 		e.effect = event.getEffect();
-		System.out.println(e.getEffect().getClass().getSimpleName());
 		if (e.getEffect() instanceof BuffEffect) {
 			((BuffEffect)e.getEffect()).readFromNBT(e.getCompound());
 		}
@@ -175,7 +174,12 @@ public class PotionEffectHandler {
 	public void spellCast (SpellCastEvent.Pre e) {
 		if (e.entityLiving.isPotionActive(PotionEffectsDefs.clarity)) {
 			e.manaCost = 0;
+			e.burnout = 0;
+			PotionEffect effect = e.entityLiving.getActivePotionEffect(PotionEffectsDefs.clarity);
 			e.entityLiving.removePotionEffect(PotionEffectsDefs.clarity);
+			if (effect.getAmplifier() <= 0)
+				return;
+			e.entityLiving.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier() - 1));
 		}
 	}
 	

@@ -631,8 +631,42 @@ skill.arsmagica2:augmented_casting.occulusdesc=Better Magic.
 skill.arsmagica2:affinity_gains.occulusdesc=Let's skip to the part where I have superpowers
 
 arsmagica2:agility=Agility
-arsmagica2:temporalAnchor=Chrono Anchor
+arsmagica2:astral_distortion=Astral Distortion
+arsmagica2:burnout_reduction=Burnout Reduction
+arsmagica2:charme=Charmed
+arsmagica2:clarity=Clarity
+arsmagica2:entangle=Entangled
+arsmagica2:flight=Flight
+arsmagica2:frost_slow=Frost Slow
+arsmagica2:fury=Fury
+arsmagica2:gravity_well=Gravity Well
+arsmagica2:haste=Haste
+arsmagica2:illumination=Illumination
+arsmagica2:instant_mana=Instant Mana
+arsmagica2:leap=Leap
+arsmagica2:levitation=Levitate
+arsmagica2:magic_shield=Magic Shield
+arsmagica2:mana_regen=Mana Regen
+arsmagica2:regeneration=Regeneration
+arsmagica2:scramble_synapses=Scramble Synapses
+arsmagica2:shield=Shield
+arsmagica2:shrink=Shrink
+arsmagica2:silence=Silence
+arsmagica2:slowfall=Slowfall
+arsmagica2:spell_reflect=Spell Reflect
+arsmagica2:swift_swim=Swift Swim
+arsmagica2:temporal_anchor=Chrono Anchor
+arsmagica2:true_sight=True Sight
+arsmagica2:water_breathing=Water Breathing
+arsmagica2:watery_grave=Watery Grave
+arsmagica2:mana_boost=Mana Boost
 
+potion.potency.3=IV
+potion.potency.4=V
+potion.potency.5=VI
+potion.potency.6=VII
+potion.potency.7=VIII
+potion.potency.8=IX
 
 am2.tooltip.air_sled=§3Fly through the air with the greatest of ease...§f
 am2.tooltip.approError=Something went wrong restoring the block. This spell was likely a spell from an older version. The stored block has been cleared to prevent a crash, and the spell should work moving forward. Sorry!
@@ -867,7 +901,7 @@ am2.chat.relocation_failed=Relocation failed...
 am2.chat.activation=%s§r : %s
 am2.chat.enabled=§aEnabled
 am2.chat.disabled=§cDisabled
-am2.chat.ability_ice_bridge=§bWater/Lava Freeze
+am2.chat.ability_ice_bridge=§bFrozen Footsteps
 am2.chat.ability_night_vision=§dDark Vision
 
 #Components

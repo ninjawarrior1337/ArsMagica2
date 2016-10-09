@@ -1,12 +1,12 @@
 package am2.buffs;
 
+import am2.defs.PotionEffectsDefs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
 
 public class BuffEffectInstantMana extends BuffEffect{
 
-	public BuffEffectInstantMana(Potion buffID, int duration, int amplifier){
-		super(buffID, duration, amplifier);
+	public BuffEffectInstantMana(int duration, int amplifier){
+		super(PotionEffectsDefs.instantMana, duration, amplifier);
 	}
 
 	@Override

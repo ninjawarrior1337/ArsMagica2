@@ -74,22 +74,26 @@ public class GuiOcculus extends GuiScreen {
 		int posX = width/2 - xSize/2;
 		int posY = height/2 - ySize/2;
 		ImmutableList<SkillTree> testTab = SkillTreeRegistry.getSkillTreeMap();
+//		ArrayList<SkillTree> test = new ArrayList<>(testTab);
+//		for (int i = 0; i < 16; i++) {
+//			test.add(new SkillTree("Tree" + i, new ResourceLocation("textures/blocks/dirt.png"), new ResourceLocation("textures/blocks/stone.png")));
+//		}
 		for (SkillTree entry : testTab) {
-			if (tabId % 14 < 7)
-				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + ((tabId % 14) * 24), posY - 22, entry, (int)Math.floor((float)tabId / 14F), false));
+			if (tabId % 16 < 8)
+				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + ((tabId % 16) * 24), posY - 22, entry, (int)Math.floor((float)tabId / 16F), false));
 			else 
-				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + (((tabId % 14) - 7) * 24), posY + 210, entry, (int)Math.floor((float)tabId / 14F), true));
+				buttonList.add(new GuiButtonSkillTree(tabId, posX + 7 + (((tabId % 16) - 8) * 24), posY + 210, entry, (int)Math.floor((float)tabId / 16F), true));
 				
 			tabId++;
 		}
-		maxPage = (int)Math.floor((float)(tabId - 1) / 14F);
+		maxPage = (int)Math.floor((float)(tabId - 1) / 16F);
 		nextPage = new GuiButton(1000, posX + 212, posY - 21, 20, 20, ">");
 		prevPage = new GuiButton(1001, posX - 15, posY - 21, 20, 20, "<");
 		nextPage.enabled = page < maxPage;
 		prevPage.enabled = page > 0;
 		for (GuiButton button : buttonList) {
 			if (button instanceof GuiButtonSkillTree) {
-				button.visible = (int)Math.floor((float)button.id / 14F) == page;
+				button.visible = (int)Math.floor((float)button.id / 16F) == page;
 			}
 		}
 		buttonList.add(nextPage);
@@ -134,7 +138,7 @@ public class GuiOcculus extends GuiScreen {
 			prevPage.enabled = page > 0;
 			for (GuiButton button_ : buttonList) {
 				if (button_ instanceof GuiButtonSkillTree) {
-					button_.visible = (int)Math.floor((float)button_.id / 14F) == page;
+					button_.visible = (int)Math.floor((float)button_.id / 16F) == page;
 				}
 			}
 		}else if (button == prevPage) {
@@ -145,7 +149,7 @@ public class GuiOcculus extends GuiScreen {
 			prevPage.enabled = page > 0;
 			for (GuiButton button_ : buttonList) {
 				if (button_ instanceof GuiButtonSkillTree) {
-					button_.visible = (int)Math.floor((float)button_.id / 14F) == page;
+					button_.visible = (int)Math.floor((float)button_.id / 16F) == page;
 				}
 			}
 		}
@@ -168,16 +172,12 @@ public class GuiOcculus extends GuiScreen {
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/occulus/overlay.png"));
 		//Overlay
 		drawTexturedModalRect(posX, posY, 0, 0, 210, 210);
-		drawTexturedModalRect(posX + 188, posY - 22, 210, 0, 22, 22);
-        float f = 0.00390625F;
-		if (SkillPointRegistry.getPointForTier(3) != null || SkillPointRegistry.getPointForTier(4) != null || SkillPointRegistry.getPointForTier(5) != null)
-			RenderUtils.drawBox(posX + 188, posY + 210, 22, 22, -90F, 232 * f, 22 * f, 210 * f, 0 * f);
 		//Tab Under
-		if ((int)Math.floor((float)currentTabId / 14F) == page) {
-			if ((currentTabId % 14) < 7)
-				drawTexturedModalRect(posX + 7 + ((currentTabId % 14) * 24), posY, 22, 210, 22, 7);
+		if ((int)Math.floor((float)currentTabId / 16F) == page) {
+			if ((currentTabId % 16) < 8)
+				drawTexturedModalRect(posX + 7 + ((currentTabId % 16) * 24), posY, 22, 210, 22, 7);
 			else 
-				drawTexturedModalRect(posX + 7 + (((currentTabId % 14) - 7) * 24), posY + 203, 22, 210, 22, 7);
+				drawTexturedModalRect(posX + 7 + (((currentTabId % 16) - 8) * 24), posY + 203, 22, 210, 22, 7);
 		}
 		zLevel = -18F;
 		if (isDragging){
@@ -197,6 +197,23 @@ public class GuiOcculus extends GuiScreen {
 		lastMouseY = mouseY;
 		float calcYOffest = ((float)offsetY / 568) * (1 - renderRatio);
 		float calcXOffest = ((float)offsetX / 568) * (1 - renderRatio);
+		{
+			int maxSize = 0;
+			for (SkillPoint point : SkillPointRegistry.getSkillPointMap().values()) {
+				if (!point.canRender()) continue;
+				maxSize = Math.max(maxSize, fontRendererObj.getStringWidth(point.getName() + " : " + SkillData.For(player).getSkillPoint(point)));
+			}
+			zLevel = 0F;
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/occulus/skill_points.png"));
+			drawSkillPointBackground(posX, posY, maxSize + 10, 210);		
+			int pointOffsetX = 5;
+			for (SkillPoint point : SkillPointRegistry.getSkillPointMap().values()) {
+				if (!point.canRender()) continue;
+				fontRendererObj.drawString(point.getName() + " : " + SkillData.For(player).getSkillPoint(point), posX + 215, posY + pointOffsetX, point.getColor());
+				pointOffsetX+=10;
+			}
+			GlStateManager.color(1f, 1f, 1f);
+		}
 		Minecraft.getMinecraft().renderEngine.bindTexture(currentTree.getBackground());
 		if (currentTree != SkillDefs.TREE_AFFINITY) {
 			RenderUtils.drawBox(posX + 7, posY + 7, 196, 196, zLevel, calcXOffest, calcYOffest, renderRatio + calcXOffest, renderRatio + calcYOffest);
@@ -440,28 +457,79 @@ public class GuiOcculus extends GuiScreen {
 			RenderHelper.disableStandardItemLighting();
 		}
 		
-		int tier0 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_1);
-		int tier1 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_2);
-		int tier2 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_3);
-		int tier3 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_4);
-		int tier4 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_5);
-		int tier5 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_6);
-		GlStateManager.disableDepth();
-		fontRendererObj.drawString("" + tier0, posX + 191, posY - 19, SkillPointRegistry.getPointForTier(0).getColor());
-		fontRendererObj.drawString("" + tier1, posX + 203, posY - 19, SkillPointRegistry.getPointForTier(1).getColor());
-		fontRendererObj.drawString("" + tier2, posX + 197, posY - 9, SkillPointRegistry.getPointForTier(2).getColor());
-		if (SkillPointRegistry.getPointForTier(3) != null)
-			fontRendererObj.drawString("" + tier3, posX + 191, posY + 210 + 2, SkillPointRegistry.getPointForTier(3).getColor());
-		if (SkillPointRegistry.getPointForTier(4) != null)
-			fontRendererObj.drawString("" + tier4, posX + 203, posY + 210 + 2, SkillPointRegistry.getPointForTier(4).getColor());
-		if (SkillPointRegistry.getPointForTier(5) != null)
-			fontRendererObj.drawString("" + tier5, posX + 197, posY + 210 + 12, SkillPointRegistry.getPointForTier(5).getColor());
+		//Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("missingno"));
+//		
+//		int tier0 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_1);
+//		int tier1 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_2);
+//		int tier2 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_3);
+//		int tier3 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_4);
+//		int tier4 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_5);
+//		int tier5 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_6);
+//		GlStateManager.disableDepth();
+//		fontRendererObj.drawString("" + tier0, posX + 191, posY - 19, SkillPointRegistry.getPointForTier(0).getColor());
+//		fontRendererObj.drawString("" + tier1, posX + 203, posY - 19, SkillPointRegistry.getPointForTier(1).getColor());
+//		fontRendererObj.drawString("" + tier2, posX + 197, posY - 9, SkillPointRegistry.getPointForTier(2).getColor());
+//		if (SkillPointRegistry.getPointForTier(3) != null)
+//			fontRendererObj.drawString("" + tier3, posX + 191, posY + 210 + 2, SkillPointRegistry.getPointForTier(3).getColor());
+//		if (SkillPointRegistry.getPointForTier(4) != null)
+//			fontRendererObj.drawString("" + tier4, posX + 203, posY + 210 + 2, SkillPointRegistry.getPointForTier(4).getColor());
+//		if (SkillPointRegistry.getPointForTier(5) != null)
+//			fontRendererObj.drawString("" + tier5, posX + 197, posY + 210 + 12, SkillPointRegistry.getPointForTier(5).getColor());
 		
 		GlStateManager.color(1, 1, 1);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 	
+	private void drawSkillPointBackground(int startX, int startY, int width, int height) {
+		int posX = 210;
+		int posY = 0;
+		//drawTexturedModalRect(startX + posX, startY + posY, 0, 0, 4, 4);
+		drawTexturedModalRect(startX + posX + width - 4, startY + posY, 252, 0, 4, 4);
+		//drawTexturedModalRect(startX + posX, startY + posY + height - 4, 0, 252, 4, 4);
+		drawTexturedModalRect(startX + posX + width - 4, startY + posY + height - 4, 252, 252, 4, 4);
+		int w = width - 4;
+		int h = height - 8;
+		while (w > 0) {
+			int x = 0;
+			if (w > 252)
+				x = 252;
+			else
+				x = w;
+			while (h > 0) {
+				int y = 0;
+				if (h > 248)
+					y = 248;
+				else
+					y = h;		
+				drawTexturedModalRect(startX + posX + w - x, startY + posY + 4 + h - y, 4, 4, x, y);
+				h -= y;
+			}
+			w -= x;
+		}
+		w = width - 4;
+		h = height - 8;
+		while (w > 0) {
+			int x = 0;
+			if (w > 252)
+				x = 252;
+			else
+				x = w;
+			drawTexturedModalRect(startX + posX + w - x, startY + posY, 4, 0, x, 4);
+			drawTexturedModalRect(startX + posX + w - x, startY + posY + height - 4, 4, 252, x, 4);
+			w -= x;
+		}
+		while (h > 0) {
+			int y = 0;
+			if (h > 248)
+				y = 248;
+			else
+				y = h;
+			//drawTexturedModalRect(startX + posX, startY + posY + 4 + h - y, 0, 4, 4, y);
+			drawTexturedModalRect(startX + posX + width - 4, startY + posY + 4 + h - y, 252, 4, 4, y);
+			h -= y;
+		}
+	}
 	
 	
 	@Override

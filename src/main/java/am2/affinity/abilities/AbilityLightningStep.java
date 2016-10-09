@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class AbilityLightningStep extends AbstractAffinityAbility {
 
 	public AbilityLightningStep() {
-		super(new ResourceLocation("arsmagica2", "ligthningstep"));
+		super(new ResourceLocation("arsmagica2", "lightningstep"));
 	}
 
 	@Override
