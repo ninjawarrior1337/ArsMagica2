@@ -38,9 +38,10 @@ public class Dig extends SpellComponent {
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		if (!(caster instanceof EntityPlayer))
 			return false;
+		if (world.isRemote) return true;
 		IBlockState state = world.getBlockState(blockPos);
 		float hardness = state.getBlockHardness(world, blockPos);
-		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true) && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
+		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true) && state.getBlockHardness(world, blockPos) != -1 && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
 			IBlockState old = world.getBlockState(blockPos);
 			state.getBlock().breakBlock(world, blockPos, old);
 			state.getBlock().dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
