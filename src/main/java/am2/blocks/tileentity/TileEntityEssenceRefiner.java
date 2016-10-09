@@ -192,6 +192,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	}
 
 	private void setActiveTexture(){
+		if (worldObj.getBlockState(pos).getValue(BlockEssenceRefiner.ACTIVE) == isRefining() || worldObj.isRemote) return;
 		if (isRefining()){
 			if (!worldObj.isRemote){
 				worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockEssenceRefiner.ACTIVE, true), 3);

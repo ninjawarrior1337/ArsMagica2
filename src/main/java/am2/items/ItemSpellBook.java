@@ -50,7 +50,7 @@ public class ItemSpellBook extends ItemArsMagica{
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		ItemStack activeSpell = GetActiveItemStack(par1ItemStack);
 		if (activeSpell != null){
-			return String.format("\2477%s (" + activeSpell.getDisplayName() + "\2477)", I18n.translateToLocal("item.arsmagica2:spellBook.name"));
+			return String.format("\2477%s (" + activeSpell.getDisplayName() + "\2477)", I18n.translateToLocal("item.arsmagica2:spellbook.name"));
 		}
 		return I18n.translateToLocal("item.arsmagica2:spellbook.name");
 	}

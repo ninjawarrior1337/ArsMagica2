@@ -64,7 +64,7 @@ public class PowerNodeRegistry{
 			nodeList = powerNodes.get(chunk);
 			LogHelper.trace(String.format("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 		}else{
-			LogHelper.info("Node list not found.  Checking cache/files for prior data");
+			LogHelper.trace("Node list not found.  Checking cache/files for prior data");
 			NBTTagCompound compound = PowerNodeCache.instance.getNBTForChunk(world, chunk);
 			nodeList = new HashMap<Vec3d, PowerNodeEntry>();
 			if (compound == null || !compound.hasKey("AM2PowerData")){
@@ -74,8 +74,10 @@ public class PowerNodeRegistry{
 				LoadChunkFromNBT(chunk, compound);
 				nodeList = powerNodes.get(chunk);
 				//sanity check
-				if (nodeList == null)
+				if (nodeList == null) {
 					nodeList = new HashMap<Vec3d, PowerNodeEntry>();
+					powerNodes.put(chunk, nodeList);
+				}
 				LogHelper.trace(String.format("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 			}
 		}

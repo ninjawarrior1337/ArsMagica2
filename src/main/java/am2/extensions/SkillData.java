@@ -1,6 +1,7 @@
 package am2.extensions;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -159,6 +160,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			if ((entry.getValue() || player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(entry.getKey().getID());
 		}
+		out.sort(new Comparator<String>() {public int compare(String o1, String o2) {return o1.compareTo(o2);}});
 		return out;
 	}
 
@@ -170,6 +172,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			if ((entry.getValue() || player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(entry.getKey().getID());
 		}
+		out.sort(new Comparator<String>() {public int compare(String o1, String o2) {return o1.compareTo(o2);}});
 		return out;
 	}
 
@@ -181,6 +184,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			if ((entry.getValue() || player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(entry.getKey().getID());
 		}
+		out.sort(new Comparator<String>() {public int compare(String o1, String o2) {return o1.compareTo(o2);}});
 		return out;
 	}
 

@@ -190,7 +190,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public float getMaxMana() {
-		float mana = (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 99f)) + 500f);
+		float mana = (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 100f)) + 500f);
 		if (this.entity.isPotionActive(PotionEffectsDefs.manaBoost))
 			mana *= 1 + (0.25 * (this.entity.getActivePotionEffect(PotionEffectsDefs.manaBoost).getAmplifier() + 1));
 		return (float)(mana + this.entity.getAttributeMap().getAttributeInstance(ArsMagicaAPI.maxManaBonus).getAttributeValue());
@@ -696,8 +696,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			}
 		}
 		if (getManaShielding() > getMaxMagicShielding()) {
-			float overload = getManaShielding() - (getCurrentLevel() * 2);
+			float overload = getManaShielding() - (getMaxMagicShielding());
 			float toRemove = Math.max(overload * 0.002f, 1.0f);
+			if (getManaShielding() - toRemove < getMaxMagicShielding())
+				toRemove = overload;
 			setManaShielding(getManaShielding() - toRemove);
 		}
 		

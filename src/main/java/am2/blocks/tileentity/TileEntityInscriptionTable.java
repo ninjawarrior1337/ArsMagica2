@@ -187,6 +187,21 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			candleUpdate();
 		if (this.numStageGroups > MAX_STAGE_GROUPS)
 			this.numStageGroups = MAX_STAGE_GROUPS;
+		if (!worldObj.isRemote) {
+			boolean shouldSet = false;
+			IBlockState state = worldObj.getBlockState(pos);
+			if (getUpgradeState() >= 1 && !state.getValue(BlockInscriptionTable.TIER_1)) {
+				shouldSet = true;
+			}
+			else if (getUpgradeState() >= 2 && !state.getValue(BlockInscriptionTable.TIER_2)) {
+				shouldSet = true;
+			}
+			else if (getUpgradeState() >= 3 && !state.getValue(BlockInscriptionTable.TIER_3)) {
+				shouldSet = true;
+			}
+			if (shouldSet)
+				this.worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockInscriptionTable.TIER_1, getUpgradeState() >= 1).withProperty(BlockInscriptionTable.TIER_2, getUpgradeState() >= 2).withProperty(BlockInscriptionTable.TIER_3, getUpgradeState() >= 3), 2);
+		}
 		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
@@ -499,7 +514,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.parseTagCompound(pkt.getNbtCompound());
-		this.worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockInscriptionTable.TIER_1, getUpgradeState() >= 1).withProperty(BlockInscriptionTable.TIER_2, getUpgradeState() >= 2).withProperty(BlockInscriptionTable.TIER_3, getUpgradeState() >= 3), 2);
 	}
 
 	private void sendDataToServer(){

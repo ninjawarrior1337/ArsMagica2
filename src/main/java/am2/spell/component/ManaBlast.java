@@ -42,7 +42,7 @@ public class ManaBlast extends SpellComponent{
 		float consumed = EntityExtension.For(caster).getCurrentMana();
 		EntityExtension.For(caster).deductMana(consumed);
 		double damage = SpellUtils.getModifiedDouble_Mul((consumed / 50F), stack, caster, target, world, SpellModifiers.DAMAGE);
-		target.attackEntityFrom(DamageSources.causeMagicDamage(caster), (float) damage);
+		SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeMagicDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
 		return true;
 	}
 	
