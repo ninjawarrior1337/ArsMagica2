@@ -51,7 +51,7 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 	public void applyKeyPress(EntityPlayer player) {
 		if (AffinityData.For(player).getCooldown("EnderTP") > 0) {
 			if (player.worldObj.isRemote)
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.enderTPOnCooldown")));
+				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.relocation_cooldown")));
 			return;
 		}
 	
@@ -62,7 +62,7 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 		EnderTeleportEvent event = new EnderTeleportEvent(player, result.hitVec.xCoord, result.hitVec.yCoord, result.hitVec.zCoord, 0.0f);
 		if (MinecraftForge.EVENT_BUS.post(event)) {
 			if (!player.worldObj.isRemote)
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.enderTPFailed")));
+				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.relocation_failed")));
 			return;
 		}
 		double posY = event.getTargetY();
@@ -70,7 +70,7 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 			posY++;
 		if (player.getDistanceSq(event.getTargetX(), posY, event.getTargetZ()) > 1024) {
 			if (!player.worldObj.isRemote)
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.enderTPOutOfRange")));
+				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.relocation_out_of_range")));
 			return;
 		}
 		player.setPosition(event.getTargetX(), posY, event.getTargetZ());

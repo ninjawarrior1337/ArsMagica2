@@ -861,6 +861,15 @@ am2.gui.ritualshape=Ritual Shape :
 am2.gui.ritualreagents=Reagents :
 am2.gui.ritualresult=Result :
 
+am2.chat.relocation_cooldown=Relocation is on cooldown!
+am2.chat.relocation_out_of_range=Target is out of range!
+am2.chat.relocation_failed=Relocation failed...
+am2.chat.activation=%s§r : %s
+am2.chat.enabled=§aEnabled
+am2.chat.disabled=§cDisabled
+am2.chat.ability_ice_bridge=§bWater/Lava Freeze
+am2.chat.ability_night_vision=§dDark Vision
+
 #Components
 
 compendium.category.component.name=Components

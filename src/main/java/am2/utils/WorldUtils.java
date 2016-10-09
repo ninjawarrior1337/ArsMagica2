@@ -41,10 +41,13 @@ public class WorldUtils {
 	
 	public static void freeze(BlockPos pos, World world) {
 		Block block = WorldUtils.getBlockAt(world, pos);
+		if (!world.isAirBlock(pos.up())) return;
 		if (block.equals(Blocks.WATER) || block.equals(Blocks.FLOWING_WATER))
 			world.setBlockState(pos, Blocks.ICE.getDefaultState(), 3);
-		else if ((block.equals(Blocks.LAVA) || block.equals(Blocks.FLOWING_LAVA))) {
+		else if ((block.equals(Blocks.LAVA) || block.equals(Blocks.FLOWING_LAVA)) && block.getMetaFromState(world.getBlockState(pos)) == 0) {
 			world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState(), 3);
+		} else if (block.equals(Blocks.LAVA) || block.equals(Blocks.FLOWING_LAVA)) {
+			world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState(), 3);
 		}
 	}
 	
