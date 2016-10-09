@@ -1,5 +1,7 @@
 package am2.handler;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
@@ -26,6 +28,7 @@ import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
 import am2.packet.AMPacketIDs;
 import am2.spell.ContingencyType;
+import am2.spell.SpellCastResult;
 import am2.trackers.EntityItemWatcher;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
@@ -161,6 +164,23 @@ public class EntityHandler {
 		else
 			EntityExtension.For(event.getEntityLiving()).manaBurnoutTick();
 		EntityExtension ext = EntityExtension.For(event.getEntityLiving());
+		EntityLivingBase ent = event.getEntityLiving();
+		if (event.getEntity().ticksExisted % 20 == 0){
+			ArrayList<ItemStack> rs = ext.runningStacks;
+			int foundID = -1;
+			for (int i = 0; i < rs.size(); i++) {
+				ItemStack is = rs.get(i);
+				if (is != null && is.getTagCompound() != null) {
+					SpellCastResult result = SpellUtils.applyStackStage(is.copy(), ent, ent, ent.posX, ent.posY, ent.posZ, null, ent.worldObj, true, true, 0);
+					if (result != SpellCastResult.SUCCESS && result != SpellCastResult.SUCCESS_REDUCE_MANA) {
+						foundID = i;
+						break;
+					}
+				}
+			}
+			if (foundID != -1)
+				ext.runningStacks.remove(foundID);
+		}
 		
 		//Contingency
 		ContingencyType type = ext.getContingencyType();

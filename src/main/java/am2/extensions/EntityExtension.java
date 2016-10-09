@@ -88,6 +88,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float bankedInfusionChest = 0f;
 	public float bankedInfusionLegs = 0f;
 	public float bankedInfusionBoots = 0f;
+	public ArrayList<ItemStack> runningStacks = new ArrayList<>();
 		
 	@Override
 	public boolean hasEnoughtMana(float cost) {

@@ -53,23 +53,30 @@ public class AoE extends SpellShape{
 		
 		BlockPos pos = new BlockPos(Math.floor(x), Math.ceil(y), Math.floor(z));
 		
-		switch (side) {
-		case UP:
-		case DOWN:
+		if (side != null) {
+			switch (side) {
+			case UP:
+			case DOWN:
+				if (world.isRemote)
+					spawnAoEParticles(stack, caster, world, x + 0.5f, y + ((side.equals(EnumFacing.DOWN)) ? 0.5f : (target != null ? target.getEyeHeight() : -2.0f)), z + 0.5f, (int)radius);
+				int gravityMagnitude = SpellUtils.countModifiers(SpellModifiers.GRAVITY, stack);
+				return applyStageHorizontal(stack, caster, world, pos, side, (int)Math.floor(radius), gravityMagnitude, giveXP);
+			case NORTH:
+			case SOUTH:
+				if (world.isRemote)
+					spawnAoEParticles(stack, caster, world, x, y, (side.equals(EnumFacing.NORTH)) ? z - 0.5f : z + 1.5f, (int)radius);
+				return applyStageVerticalZ(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
+			case EAST:
+			case WEST:
+				if (world.isRemote)
+					spawnAoEParticles(stack, caster, world, x, y, (side.equals(EnumFacing.EAST)) ? z - 0.5f : z + 1.5f, (int)radius);
+				return applyStageVerticalX(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
+			}
+		} else {
 			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x + 0.5f, y + ((side.equals(EnumFacing.DOWN)) ? 0.5f : (target != null ? target.getEyeHeight() : -2.0f)), z + 0.5f, (int)radius);
+				spawnAoEParticles(stack, caster, world, x + 0.5f, y + (target != null ? target.getEyeHeight() : -2.0f), z + 0.5f, (int)radius);
 			int gravityMagnitude = SpellUtils.countModifiers(SpellModifiers.GRAVITY, stack);
-			return applyStageHorizontal(stack, caster, world, pos, side, (int)Math.floor(radius), gravityMagnitude, giveXP);
-		case NORTH:
-		case SOUTH:
-			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x, y, (side.equals(EnumFacing.NORTH)) ? z - 0.5f : z + 1.5f, (int)radius);
-			return applyStageVerticalZ(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
-		case EAST:
-		case WEST:
-			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x, y, (side.equals(EnumFacing.EAST)) ? z - 0.5f : z + 1.5f, (int)radius);
-			return applyStageVerticalX(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
+			return applyStageHorizontal(stack, caster, world, pos, null, (int)Math.floor(radius), gravityMagnitude, giveXP);
 		}
 
 		if (appliedToAtLeastOneEntity){
@@ -131,7 +138,7 @@ public class AoE extends SpellShape{
 					}
 				}
 				if (world.isAirBlock(lookPos)) continue;
-				SpellCastResult result = SpellUtils.applyStageToGround(stack, caster, world, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ(), giveXP);
+				SpellCastResult result = SpellUtils.applyStageToGround(stack, caster, world, lookPos, face == null ? EnumFacing.UP : face, lookPos.getX(), lookPos.getY(), lookPos.getZ(), giveXP);
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}
