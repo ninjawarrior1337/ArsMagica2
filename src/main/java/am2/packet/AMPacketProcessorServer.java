@@ -83,7 +83,6 @@ public class AMPacketProcessorServer{
 				handleInscriptionTableUpdate(remaining, (EntityPlayerMP)player);
 				break;
 			case AMPacketIDs.TK_DISTANCE_SYNC:
-				LogHelper.info("" + remaining.length);
 				float TK_Distance = new AMDataReader(remaining, false).getFloat();
 				EntityExtension.For((EntityPlayerMP)player).setTKDistance(TK_Distance);
 				break;

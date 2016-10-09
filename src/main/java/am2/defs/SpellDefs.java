@@ -288,7 +288,7 @@ public class SpellDefs {
 		SpellRegistry.registerSpellComponent("blink", getComponentTexture("Blink"), SkillPoint.SKILL_POINT_2, new Blink(), SkillDefs.TREE_UTILITY, 185, 345, "arsmagica2:random_teleport");
 		SpellRegistry.registerSpellModifier("range", getModifierTexture("Range"), SkillPoint.SKILL_POINT_3, new Range(), SkillDefs.TREE_UTILITY, 140, 345, "arsmagica2:blink");
 		SpellRegistry.registerSpellShape("channel", getShapeTexture("Channel"), SkillPoint.SKILL_POINT_2, new Channel(), SkillDefs.TREE_UTILITY, 275, 345, "arsmagica2:attract", "arsmagica2:telekinesis");
-		SpellRegistry.registerSpellShape("toggle", getShapeTexture("Toggle"), SkillPoint.SKILL_POINT_3, new Toggle(), SkillDefs.TREE_UTILITY, 305, 345, "arsmagica2:channel");
+		SpellRegistry.registerSpellShape("toggle", getShapeTexture("Toggle"), SkillPoint.SKILL_POINT_3, new Toggle(), SkillDefs.TREE_UTILITY, 315, 345, "arsmagica2:channel");
 
 		SpellRegistry.registerSpellModifier("radius", getModifierTexture("Radius"), SkillPoint.SKILL_POINT_3, new Radius(), SkillDefs.TREE_UTILITY, 275, 390, "arsmagica2:channel");
 		SpellRegistry.registerSpellComponent("transplace", getComponentTexture("Transplace"), SkillPoint.SKILL_POINT_1, new Transplace(), SkillDefs.TREE_UTILITY, 185, 390, "arsmagica2:blink");

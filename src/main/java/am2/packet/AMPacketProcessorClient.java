@@ -282,8 +282,6 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (rdr.getBoolean())
 			spellStack = rdr.getItemStack();
 		
-		LogHelper.info("Handling falling star");
-		
 		int color = -1;
 		if (spellStack != null){
 			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){

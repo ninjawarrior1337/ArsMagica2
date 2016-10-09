@@ -1,10 +1,10 @@
 package am2.blocks;
 
 import am2.ArsMagica2;
-import am2.LogHelper;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.defs.IDDefs;
 import am2.defs.ItemDefs;
+import am2.items.ItemInscriptionTable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
@@ -14,15 +14,16 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	
@@ -95,8 +96,6 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		}
 
 		ItemStack curItem = playerIn.getHeldItem(hand);
-		LogHelper.info(te.writeToNBT(new NBTTagCompound()).toString());
-		LogHelper.info(tealt.writeToNBT(new NBTTagCompound()).toString());
 		if (curItem != null && curItem.getItem() == ItemDefs.inscriptionUpgrade){
 			if (te.getUpgradeState() == curItem.getItemDamage()){
 				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
@@ -188,5 +187,13 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(FACING, EnumFacing.values()[2 + (meta % 4)]).withProperty(LEFT, (meta & 0x8) == 0x8);
+	}
+	
+	@Override
+	public BlockAMContainer registerAndName(ResourceLocation rl) {
+		this.setUnlocalizedName(rl.toString());
+		GameRegistry.register(this, rl);
+		GameRegistry.register(new ItemInscriptionTable(this), rl);
+		return this;
 	}
 }

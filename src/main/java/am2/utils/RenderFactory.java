@@ -25,7 +25,7 @@ public class RenderFactory<T extends Entity> implements IRenderFactory<T> {
 	public Render<T> createRenderFor(RenderManager manager) {
 		try {
 			Render<T> render = constructor.newInstance(manager);
-			LogHelper.info("Successfully created instance for : " + constructor.getDeclaringClass().getName());
+			LogHelper.debug("Successfully created instance for : " + constructor.getDeclaringClass().getName());
 			return render;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			throw new RuntimeException(e);

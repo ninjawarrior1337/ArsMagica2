@@ -2,7 +2,6 @@ package am2.lore;
 
 import java.util.ArrayList;
 
-import am2.LogHelper;
 import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
 import am2.api.extensions.IArcaneCompendium;
@@ -81,7 +80,6 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 
 	@Override
 	public void deserializeNBT(NBTBase nbt) {
-		LogHelper.info("Deserialize");
 		new IArcaneCompendium.Storage().readNBT(INSTANCE, this, null, nbt);
 	}
 

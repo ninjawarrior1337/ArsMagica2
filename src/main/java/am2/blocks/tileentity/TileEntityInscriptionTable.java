@@ -628,12 +628,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 			for (ArrayList<AbstractSpellPart> arr : shapeGroups){
 				shapeGroupSetup.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(arr, new NBTTagCompound()));
-				for (AbstractSpellPart part : arr) {
-					LogHelper.info(part.getClass().getSimpleName());
-				}
-			}
-			for (AbstractSpellPart part : curRecipeSetup.key) {
-				LogHelper.info(part.getClass().getSimpleName());
 			}
 			ItemStack stack = SpellUtils.createSpellStack(shapeGroupSetup, curRecipeSetup);
 

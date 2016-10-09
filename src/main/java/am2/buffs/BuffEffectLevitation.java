@@ -1,7 +1,6 @@
 package am2.buffs;
 
 import am2.ArsMagica2;
-import am2.LogHelper;
 import am2.defs.PotionEffectsDefs;
 import am2.packet.MessageCapabilities;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +17,6 @@ public class BuffEffectLevitation extends BuffEffect{
 		if (entityliving instanceof EntityPlayer){
 			((EntityPlayer)entityliving).capabilities.allowFlying = true;
 			ArsMagica2.network.sendToServer(new MessageCapabilities((EntityPlayer)entityliving, 1, true));
-			LogHelper.info(((EntityPlayer)entityliving).capabilities.getFlySpeed() + "");
 		}
 	}
 
