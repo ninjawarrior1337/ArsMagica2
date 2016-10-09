@@ -74,7 +74,7 @@ public class AoE extends SpellShape{
 			}
 		} else {
 			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x + 0.5f, y + (target != null ? target.getEyeHeight() : -2.0f), z + 0.5f, (int)radius);
+				spawnAoEParticles(stack, caster, world, x, y - 1, z, (int)radius);
 			int gravityMagnitude = SpellUtils.countModifiers(SpellModifiers.GRAVITY, stack);
 			return applyStageHorizontal(stack, caster, world, pos, null, (int)Math.floor(radius), gravityMagnitude, giveXP);
 		}

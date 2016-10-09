@@ -85,7 +85,7 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	public boolean hasEffect(ItemStack par1ItemStack){
-		return false;
+		return par1ItemStack.getTagCompound() != null && par1ItemStack.getTagCompound().getBoolean("HasEffect");
 	}
 	
 	@Override

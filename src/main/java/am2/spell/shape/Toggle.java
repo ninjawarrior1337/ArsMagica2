@@ -10,8 +10,11 @@ import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
+import am2.items.SpellBase;
 import am2.spell.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -52,10 +55,29 @@ public class Toggle extends SpellShape {
 				break;
 			}
 		}
-		if (foundID != -1)
+		if (foundID != -1) {
 			EntityExtension.For(caster).runningStacks.remove(foundID);
-		else
+			if (caster instanceof EntityPlayer) {
+				InventoryPlayer inv = ((EntityPlayer)caster).inventory;
+				for (int i = 0; i < inv.getSizeInventory(); i++) {
+					ItemStack is = inv.getStackInSlot(i);
+					if (is != null && is.getItem() instanceof SpellBase && is.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(current)) {
+						is.getTagCompound().setBoolean("HasEffect", false);
+					}
+				}
+			}
+		} else {
 			EntityExtension.For(caster).runningStacks.add(stack.copy());
+			if (caster instanceof EntityPlayer) {
+				InventoryPlayer inv = ((EntityPlayer)caster).inventory;
+				for (int i = 0; i < inv.getSizeInventory(); i++) {
+					ItemStack is = inv.getStackInSlot(i);
+					if (is != null && is.getItem() instanceof SpellBase && is.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(current)) {
+						is.getTagCompound().setBoolean("HasEffect", true);
+					}
+				}
+			}
+		}
 		return SpellCastResult.SUCCESS;
 	}
 

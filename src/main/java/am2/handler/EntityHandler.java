@@ -23,6 +23,7 @@ import am2.extensions.RiftStorage;
 import am2.extensions.SkillData;
 import am2.extensions.datamanager.DataSyncExtension;
 import am2.items.ItemOre;
+import am2.items.SpellBase;
 import am2.lore.ArcaneCompendium;
 import am2.packet.AMDataWriter;
 import am2.packet.AMNetHandler;
@@ -44,6 +45,7 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -178,8 +180,19 @@ public class EntityHandler {
 					}
 				}
 			}
-			if (foundID != -1)
+			if (foundID != -1) {
+				ItemStack is = ext.runningStacks.get(foundID);
 				ext.runningStacks.remove(foundID);
+				if (ent instanceof EntityPlayer) {
+					InventoryPlayer inv = ((EntityPlayer)ent).inventory;
+					for (int i = 0; i < inv.getSizeInventory(); i++) {
+						ItemStack is2 = inv.getStackInSlot(i);
+						if (is2 != null && is2.getItem() instanceof SpellBase && is2.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(is2.getTagCompound().getString("ToggleShapeID"))) {
+							is.getTagCompound().setBoolean("HasEffect", true);
+						}
+					}
+				}
+			}
 		}
 		
 		//Contingency
