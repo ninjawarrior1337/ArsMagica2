@@ -32,6 +32,7 @@ import am2.spell.component.Summon;
 import am2.spell.shape.Binding;
 import am2.utils.KeyValuePair;
 import am2.utils.SpellUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockLever.EnumOrientation;
 import net.minecraft.block.BlockStairs;
@@ -111,6 +112,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 //	private static final int lectern_mutex = 4;
 
 	private String currentSpellName = "";
+private IBlockState mimicState;
 
 	public TileEntityCraftingAltar(){
 		super(500);
@@ -502,11 +504,12 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	public void update(){
 		super.update();
 		this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
-		this.ticksExisted++;
-
-		checkStructure();
+		
+		if (!worldObj.isRemote && ticksExisted % 20 == 0)
+			checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
+		this.ticksExisted++;
 		if (isCrafting){
 			checkForEndCondition();
 			updatePowerRequestData();
@@ -753,7 +756,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 					Integer toAdd = capsPower.get(worldObj.getBlockState(pos.down(4)));
 					maxEffects += toAdd != null ? toAdd : 0;
 				}else if (matching == out || matching == out_alt) {
-					Integer toAdd = structurePower.get(worldObj.getBlockState(pos.down(4).east()));
+					mimicState = worldObj.getBlockState(pos.down(4).east());
+					Integer toAdd = structurePower.get(mimicState);
 					maxEffects += toAdd != null ? toAdd : 0;
 				}
 			}
@@ -789,7 +793,11 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			}
 		}
 	}
-
+	
+	public IBlockState getMimicState() {
+		return mimicState;
+	}
+	
 	private void checkForEndCondition(){
 		if (!structureValid || !this.isCrafting || worldObj == null) return;
 
@@ -822,16 +830,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		}
 	}
 
-	private void AddSpecialMetadata(ItemStack craftStack){
-//		if (addedPhylactery != null){
-//			Summon summon = (Summon)SkillManager.instance.getSkill("Summon");
-//			summon.setSummonType(craftStack, addedPhylactery);
-//		}
-//		if (addedBindingCatalyst != null){
-//			Binding binding = (Binding)SkillManager.instance.getSkill("Binding");
-//			binding.setBindingType(craftStack, addedBindingCatalyst);
-//		}
-	}
+	private void AddSpecialMetadata(ItemStack craftStack){}
 
 	private void setCrafting(boolean crafting){
 		this.isCrafting = crafting;
@@ -907,6 +906,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		altarCompound.setBoolean("isCrafting", this.isCrafting);
 		altarCompound.setInteger("currentKey", this.currentKey);
 		altarCompound.setString("currentSpellName", currentSpellName);
+		altarCompound.setBoolean("StructureValid", structureValid);
+		if (mimicState != null)
+			altarCompound.setInteger("MimicState", Block.getStateId(mimicState));
 
 		NBTTagList allAddedItemsList = new NBTTagList();
 		for (ItemStack stack : allAddedItems){
@@ -969,10 +971,10 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			return;
 
 		NBTTagCompound altarCompound = nbttagcompound.getCompoundTag("altarData");
-
+		mimicState = Block.getStateById(altarCompound.getInteger("MimicState"));
 		NBTTagList allAddedItems = altarCompound.getTagList("allAddedItems", Constants.NBT.TAG_COMPOUND);
 		NBTTagList currentAddedItems = altarCompound.getTagList("currentAddedItems", Constants.NBT.TAG_COMPOUND);
-
+		structureValid = altarCompound.getBoolean("StructureValid");
 		this.isCrafting = altarCompound.getBoolean("isCrafting");
 		this.currentKey = altarCompound.getInteger("currentKey");
 		this.currentSpellName = altarCompound.getString("currentSpellName");

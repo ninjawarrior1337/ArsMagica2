@@ -2,9 +2,8 @@ package am2.blocks.render;
 
 import am2.blocks.BlockLectern;
 import am2.blocks.tileentity.TileEntityLectern;
-import am2.defs.BlockDefs;
 import am2.gui.AMGuiHelper;
-import net.minecraft.block.state.IBlockState;
+import am2.models.ModelArchmagePodium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,79 +11,42 @@ import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 
 public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLectern>{
 	RenderEntityItem renderItem = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem());
 	private final ModelBook enchantmentBook = new ModelBook();
+	private final ModelArchmagePodium podium = new ModelArchmagePodium();
+	
+	public TileLecternRenderer() {
+		
+	}
 
 	public void renderTileEntityArchmagePodiumAt(TileEntityLectern podium, double x, double y, double z, float f1) throws Exception{
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, z);
-		GlStateManager.scale(1, 0.6, 1);
+		Minecraft.getMinecraft().mcProfiler.startSection("Lectern-Render");
+		Minecraft.getMinecraft().mcProfiler.startSection("model");
 		RenderHelper.disableStandardItemLighting();
-		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		EnumFacing facing = EnumFacing.NORTH;
-		BlockPos pos = BlockPos.ORIGIN;
-		IBlockState state = BlockDefs.lectern.getDefaultState();
 		if (podium.hasWorldObj()) {
 			facing = podium.getWorld().getBlockState(podium.getPos()).getValue(BlockLectern.FACING);
-			pos = podium.getPos();
 		}
+		Minecraft.getMinecraft().mcProfiler.startSection("rendering");
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/blocks/custom/archmagePodium.png"));
+		GlStateManager.pushMatrix();
+		GlStateManager.translate((float)x + 0.5F, (float)y + 0.9F, (float)z + 0.5F);
 		GlStateManager.rotate(180 - facing.getHorizontalAngle(), 0, 1, 0);
-		if (facing == EnumFacing.EAST || facing == EnumFacing.SOUTH)
-			GlStateManager.translate(0, 0, -1);
-		if (facing == EnumFacing.WEST || facing == EnumFacing.SOUTH)
-			GlStateManager.translate(-1, 0, 0);
-		GlStateManager.translate(-podium.getPos().getX(), -podium.getPos().getY(), -podium.getPos().getZ());
-		IModel model = ModelLoaderRegistry.getModel(new ResourceLocation("arsmagica2", "block/archmagePodium"));
-		IBakedModel bakedModel = model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, rl->Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(rl.toString()));
-		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer buffer = tessellator.getBuffer();
-		buffer.begin(7, DefaultVertexFormats.BLOCK);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
-				Minecraft.getMinecraft().theWorld,
-				bakedModel,
-				state,
-				pos,
-				buffer,
-				false);
-		tessellator.draw();
+		GlStateManager.scale(1.0F, -1F, -1F);
+		GlStateManager.scale(1.0F, 0.6F, 1.0F);
+		this.podium.renderModel(0.0625F);
 		GlStateManager.popMatrix();
-		
-//		int meta = 0;
-//		if (podium.getWorldObj() != null)
-//			meta = podium.getWorldObj().getBlockMetadata(podium.xCoord, podium.yCoord, podium.zCoord) - 1;
-//
-//		int i = 0;
-//
-//		if (podium.getWorldObj() != null){
-//			i = podium.getBlockMetadata();
-//		}
-//		int j = i * 90;
-//
-//		bindTexture(rLoc);
-//		GL11.glPushMatrix(); //start
-//		GL11.glTranslatef((float)d + 0.5F, (float)d1 + 0.9F, (float)d2 + 0.5F); //size
-//		GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
-//		GL11.glScalef(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
-//		GL11.glScalef(1.0F, 0.6F, 1.0F);
-//		archmagePodium.renderModel(0.0625F); //renders and yes 0.0625 is a random number
-//		GL11.glPopMatrix(); //end
-//
+		Minecraft.getMinecraft().mcProfiler.endSection();
+		Minecraft.getMinecraft().mcProfiler.endStartSection("book-model");
 		if (podium.hasStack()){
 			if (podium.getOverpowered())
 				GlStateManager.color(0.7f, 0.2f, 0.2f, 1.0f);
@@ -100,6 +62,8 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 		}
 		renderHelperIcon(podium, x, y, z, f1);
 		GlStateManager.disableBlend();
+		Minecraft.getMinecraft().mcProfiler.endSection();
+		Minecraft.getMinecraft().mcProfiler.endSection();
 	}
 
 	private void renderHelperIcon(TileEntityLectern podium, double x, double y, double z, float f){

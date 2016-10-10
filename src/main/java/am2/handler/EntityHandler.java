@@ -213,12 +213,14 @@ public class EntityHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTick (RenderGameOverlayEvent event) {
+		Minecraft.getMinecraft().mcProfiler.startSection("ArsMagica2-Overlay");
 		GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
 		GL11.glPushMatrix();
 		if (event.getType() == ElementType.CROSSHAIRS)
 			ArsMagica2.proxy.renderGameOverlay();
 		GL11.glPopMatrix();
 		GL11.glPopAttrib();
+		Minecraft.getMinecraft().mcProfiler.endSection();
 	}
 	
 	public void playerTick (EntityPlayer player) {
