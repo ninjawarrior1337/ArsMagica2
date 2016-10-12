@@ -64,12 +64,12 @@ public class AoE extends SpellShape{
 			case NORTH:
 			case SOUTH:
 				if (world.isRemote)
-					spawnAoEParticles(stack, caster, world, x, y, (side.equals(EnumFacing.NORTH)) ? z - 0.5f : z + 1.5f, (int)radius);
+					spawnAoEParticles(stack, caster, world, x + 0.5f, y - 1, z + 0.5f, (int)radius);
 				return applyStageVerticalZ(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
 			case EAST:
 			case WEST:
 				if (world.isRemote)
-					spawnAoEParticles(stack, caster, world, x, y, (side.equals(EnumFacing.EAST)) ? z - 0.5f : z + 1.5f, (int)radius);
+					spawnAoEParticles(stack, caster, world, x + 0.5f, y - 1, z + 0.5f, (int)radius);
 				return applyStageVerticalX(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
 			}
 		} else {
