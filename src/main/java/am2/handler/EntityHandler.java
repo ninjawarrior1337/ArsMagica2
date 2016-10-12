@@ -133,6 +133,12 @@ public class EntityHandler {
 	}
 	
 	@SubscribeEvent
+	public void entityJoinWorld(EntityJoinWorldEvent event) {
+		if (event.getEntity() instanceof EntityPlayer)
+			DataSyncExtension.For((EntityLivingBase) event.getEntity()).scheduleFullUpdate();
+	}
+	
+	@SubscribeEvent
 	public void onEntityInteract(EntityInteract event){
 		if (event.getTarget() instanceof EntityItemFrame){
 			ArsMagica2.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.getTarget());
@@ -146,7 +152,7 @@ public class EntityHandler {
 		transferCapability(SkillData.INSTANCE, SkillData.For(event.getOriginal()), SkillData.For(event.getEntityPlayer()));
 		transferCapability(RiftStorage.INSTANCE, RiftStorage.For(event.getOriginal()), RiftStorage.For(event.getEntityPlayer()));
 		transferCapability(ArcaneCompendium.INSTANCE, ArcaneCompendium.For(event.getOriginal()), ArcaneCompendium.For(event.getEntityPlayer()));
-		
+		DataSyncExtension.For(event.getEntityPlayer()).scheduleFullUpdate();
 	}
 	
 	private <T> void transferCapability(Capability<T> capability, T original, T target) {

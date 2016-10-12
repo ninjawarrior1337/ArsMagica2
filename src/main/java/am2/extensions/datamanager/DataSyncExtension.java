@@ -51,14 +51,17 @@ public class DataSyncExtension implements IDataSyncExtension {
 		fillWithNull(data.getId());
 		return (T) internalData.get(Integer.valueOf(data.getId()));
 	}
-
+	
+	public void scheduleFullUpdate() {
+		for (int i = 0; i < hasChanged.size(); i++)
+			hasChanged.set(i, true);
+	}
+	
 	@Override
 	public <T> void set(SavedObject<T> data, T object) {
 		fillWithNull(data.getId());
 		Object checkObj = internalData.get(data.getId());
 		boolean isDifferent = object != null && !object.equals(checkObj);
-//		if (isDifferent)
-//			System.out.println("Data : " + data.getId() + " : " + object);
 		hasChanged.set(data.getId(), isDifferent);
 		internalData.set(data.getId(), object);
 	}
