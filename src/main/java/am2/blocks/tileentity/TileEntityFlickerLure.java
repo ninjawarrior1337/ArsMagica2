@@ -28,13 +28,11 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 			return;
 
 		if (worldObj.isBlockIndirectlyGettingPowered(pos) > 0){
-			if (worldObj.rand.nextDouble() < 0.005f && PowerNodeRegistry.For(worldObj).checkPower(this, 100)){
+			if (worldObj.rand.nextDouble() < 0.05f && PowerNodeRegistry.For(worldObj).checkPower(this, 20)){
 				EntityFlicker flicker = new EntityFlicker(worldObj);
 				flicker.setPosition(pos.getX() + 0.5f, pos.getY() + 1.5f, pos.getZ() + 0.5f);
-				if (flicker.getCanSpawnHere()) {
-					worldObj.spawnEntityInWorld(flicker);
-					PowerNodeRegistry.For(worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 100);
-				}
+				worldObj.spawnEntityInWorld(flicker);
+				PowerNodeRegistry.For(worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 20);
 			}
 		}
 	}

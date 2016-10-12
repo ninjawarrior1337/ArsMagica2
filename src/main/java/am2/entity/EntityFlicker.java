@@ -9,6 +9,7 @@ import am2.api.event.FlickerAffinityEvent;
 import am2.api.math.AMVector3;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
+import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
 import am2.particles.AMParticleIcons;
@@ -184,7 +185,12 @@ public class EntityFlicker extends EntityAmbientCreature{
 
 		if (targetPosition == null) //this represents the pause state in between picking new waypoints
 			return;
-
+		
+		if (me.distanceSqTo(targetPosition) > 400f){
+			targetPosition = null;
+			return;
+		}
+		
 		if (me.distanceSqTo(targetPosition) < 1f){
 			targetPosition = null;
 			return;
@@ -245,6 +251,18 @@ public class EntityFlicker extends EntityAmbientCreature{
 	private void pickNewTargetPosition(){
 		int groundLevel = 0;
 		Affinity aff = this.getFlickerAffinity();
+		for (int x = -5; x <= 5; x++) {
+			for (int y = 0; y <= 5; y++) {
+				for (int z = 0; z <= 5; z++) {
+					if (worldObj.getBlockState(getPosition().add(x, y, z)).getBlock() == BlockDefs.flickerLure) {
+						BlockPos pos = getPosition().add(x, y, z);
+						groundLevel = getTopBlockNearMe();
+						targetPosition = new AMVector3(pos.getX() + worldObj.rand.nextInt(5) - 2, groundLevel + worldObj.rand.nextInt(3), pos.getY() + worldObj.rand.nextInt(5) - 2);
+						return;
+					}
+				}		
+			}			
+		}
 		if (aff == Affinity.WATER) {
 			for (int i = 0; i < 5; ++i){
 				targetPosition = new AMVector3(this.posX - 5 + worldObj.rand.nextInt(10), this.posY - 5 + worldObj.rand.nextInt(10), this.posZ - 5 + worldObj.rand.nextInt(10));
@@ -313,7 +331,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (ArsMagica2.proxy.getTotalFlickerCount() > 24 * worldObj.playerEntities.size() || worldObj.rand.nextDouble() > 0.2f){
+		if (ArsMagica2.proxy.getTotalFlickerCount() > 12 * worldObj.playerEntities.size() || worldObj.rand.nextDouble() > 0.2f){
 			return false;
 		}
 		//get the biome we're trying to spawn in
