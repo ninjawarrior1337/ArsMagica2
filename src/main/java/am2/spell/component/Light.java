@@ -60,15 +60,13 @@ public class Light extends SpellComponent implements IRitualInteraction{
 			pos = pos.offset(blockFace);
 		}
 
-		if (world.getBlockState(pos).getBlock() != Blocks.AIR){
+		if (world.getBlockState(pos).getBlock() != Blocks.AIR)
 			return false;
-		}
 
 		if (!world.isRemote){
 			//TODO Colors
 			world.setBlockState(pos, BlockDefs.blockMageTorch.getDefaultState());
 		}
-
 
 		return true;
 	}

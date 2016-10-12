@@ -461,22 +461,27 @@ public class SpellUtils {
 					caster.addChatMessage(new TextComponentString(getMissingReagents(caster, stack)));
 				return SpellCastResult.REAGENTS_MISSING;
 			}
-			if (!((EntityPlayer)caster).capabilities.isCreativeMode) {
-				ext.deductMana(manaCost);
-				ext.setCurrentBurnout(getBurnoutCost(stack));
-				consumeReagents(caster, stack);
-				if (ext.getCurrentBurnout() > ext.getMaxBurnout())
-					ext.setCurrentBurnout(ext.getMaxBurnout());
-			}
 		}
+		
+		SpellCastResult result = SpellCastResult.EFFECT_FAILED;
 		
 		ItemStack stack2 = stack.copy();
 		NBTUtils.getAM2Tag(stack2.getTagCompound()).setInteger("CurrentGroup", group + 1);
 		if (group == 0)
-			shape.beginStackStage((ItemSpellBase)stack.getItem(), stack2, caster, target, world, x, y, z, side, giveXP, ticksUsed);
+			result = shape.beginStackStage((ItemSpellBase)stack.getItem(), stack2, caster, target, world, x, y, z, side, giveXP, ticksUsed);
 		else {
 			NBTUtils.getAM2Tag(stack.getTagCompound()).setInteger("CurrentGroup", group + 1);
-			shape.beginStackStage((ItemSpellBase)stack.getItem(), stack, caster, target, world, x, y, z, side, giveXP, ticksUsed);
+			result = shape.beginStackStage((ItemSpellBase)stack.getItem(), stack, caster, target, world, x, y, z, side, giveXP, ticksUsed);
+		}
+		//SUCCESS is the default return
+		//SUCCESS_REDUCE_MANA is basically there because i don't know where to
+		//MALFORMED_SPELL_STACK means we reached the end of the spell
+		if (consumeMBR && !((EntityPlayer)caster).capabilities.isCreativeMode && (result == SpellCastResult.SUCCESS || result == SpellCastResult.SUCCESS_REDUCE_MANA || result == SpellCastResult.MALFORMED_SPELL_STACK)) {
+			ext.deductMana(manaCost);
+			ext.setCurrentBurnout(getBurnoutCost(stack));
+			consumeReagents(caster, stack);
+			if (ext.getCurrentBurnout() > ext.getMaxBurnout())
+				ext.setCurrentBurnout(ext.getMaxBurnout());
 		}
 		
 		return SpellCastResult.SUCCESS;

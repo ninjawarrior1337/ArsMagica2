@@ -25,6 +25,8 @@ public class AbilityPhotosynthesis extends AbstractAffinityAbility {
 	@Override
 	public void applyTick(EntityPlayer player) {
 		AffinityData affinityData = AffinityData.For(player);
+		if (player.worldObj.isRemote) return;
+		
 		if (player.worldObj.canBlockSeeSky(player.getPosition()) && player.worldObj.isDaytime()){
 			affinityData.accumulatedHungerRegen += 0.02f;
 			if (affinityData.accumulatedHungerRegen > 1.0f){

@@ -51,7 +51,7 @@ public class AoE extends SpellShape{
 				appliedToAtLeastOneEntity = true;
 		}
 		
-		BlockPos pos = new BlockPos(Math.floor(x), Math.ceil(y), Math.floor(z));
+		BlockPos pos = new BlockPos(x, y, z);
 		
 		if (side != null) {
 			switch (side) {
@@ -90,7 +90,7 @@ public class AoE extends SpellShape{
 	
 	@Override
 	public EnumSet<SpellModifiers> getModifiers() {
-		return EnumSet.of(SpellModifiers.RADIUS);
+		return EnumSet.of(SpellModifiers.RADIUS, SpellModifiers.GRAVITY);
 	}
 
 
