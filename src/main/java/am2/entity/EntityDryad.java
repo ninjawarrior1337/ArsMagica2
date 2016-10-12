@@ -35,12 +35,6 @@ public class EntityDryad extends EntityCreature{
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6F));
 		tasks.addTask(7, new EntityAILookIdle(this));
 	}
-
-	@Override
-	public boolean isAIDisabled(){
-		return true;
-	}
-
 	@Override
 	public boolean canTriggerWalking(){
 		return false;
