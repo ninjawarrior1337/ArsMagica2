@@ -103,7 +103,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private int currentConsumedPower = 0;
 	private int ticksExisted = 0;
 	private PowerTypes currentMainPowerTypes = PowerTypes.NONE;
-
+	
 	private static final byte CRAFTING_CHANGED = 1;
 	private static final byte COMPONENT_ADDED = 2;
 	private static final byte FULL_UPDATE = 3;
@@ -818,6 +818,8 @@ private IBlockState mimicState;
 					AddSpecialMetadata(craftStack);
 					
 					craftStack.getTagCompound().setString("suggestedName", currentSpellName != null ? currentSpellName : "");
+					if (getNextPlannedItem() == null || getNextPlannedItem().getItem() != ItemDefs.spellParchment)
+						craftStack.setTagCompound(null);
 					craftedItem.setEntityItemStack(craftStack);
 					worldObj.spawnEntityInWorld(craftedItem);
 					

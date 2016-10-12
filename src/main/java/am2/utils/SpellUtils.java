@@ -932,5 +932,4 @@ public class SpellUtils {
 		if (stack.hasTagCompound())
 			NBTUtils.getAM2Tag(stack.getTagCompound()).setInteger("CurrentShapeGroup", newShapeGroupOrdinal);
 	}
-
 }

@@ -74,6 +74,7 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer caster, EnumHand hand){
+		if (!stack.hasTagCompound()) return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
 		if (!stack.hasDisplayName()){
 			if (!world.isRemote)
 				FMLNetworkHandler.openGui(caster, ArsMagica2.instance, IDDefs.GUI_SPELL_CUSTOMIZATION, world, (int)caster.posX, (int)caster.posY, (int)caster.posZ);
