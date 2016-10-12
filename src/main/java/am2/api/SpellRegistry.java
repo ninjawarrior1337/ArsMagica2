@@ -2,6 +2,7 @@ package am2.api;
 
 import java.util.ArrayList;
 
+import am2.LogHelper;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
@@ -9,6 +10,7 @@ import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellShape;
+import am2.utils.NBTUtils;
 import am2.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -82,15 +84,18 @@ public class SpellRegistry {
 
 	public static AbstractSpellPart getPartByRecipe(ArrayList<ItemStack> currentAddedItems) {
 		for (AbstractSpellPart data : ArsMagicaAPI.getSpellRegistry().getValues()) {
-			if (data != null) {
+			if (data != null && data.getRecipe() != null) {
 				ArrayList<ItemStack> convRecipe = RecipeUtils.getConvRecipe(data);
 				boolean match = currentAddedItems.size() == convRecipe.size();
 				if (!match) continue;
 				for (int i = 0; i < convRecipe.size(); i++) {
 					match &= OreDictionary.itemMatches(convRecipe.get(i), currentAddedItems.get(i), false);
-					if (!match) continue;
+					match &= convRecipe.get(i).getTagCompound() == null ? true : (currentAddedItems.get(i).getTagCompound() == null ? false : NBTUtils.contains(convRecipe.get(i).getTagCompound(), currentAddedItems.get(i).getTagCompound()));
+					if (!match) break;
 				}
+				if (!match) LogHelper.debug("Part doesn't match %s", data.getRegistryName().toString());
 				if (!match) continue;
+				LogHelper.debug("Part matches : %s!", data.getRegistryName().toString());
 				return data;
 			}
 		}

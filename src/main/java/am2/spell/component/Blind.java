@@ -13,7 +13,6 @@ import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
-import am2.buffs.BuffEffectAstralDistortion;
 import am2.defs.ItemDefs;
 import am2.defs.PotionEffectsDefs;
 import am2.particles.AMParticle;
@@ -26,6 +25,8 @@ import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -47,7 +48,7 @@ public class Blind extends SpellComponent implements IRitualInteraction{
 			}
 			
 			if (!world.isRemote)
-				((EntityLivingBase)target).addPotionEffect(new BuffEffectAstralDistortion(duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+				((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("minecraft:blindness"), duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
 
 			return true;
 		}

@@ -624,7 +624,7 @@ private IBlockState mimicState;
 				if (currentConsumedPower >= stack.stackSize){
 					PowerNodeRegistry.For(this.worldObj).setPower(this, this.currentMainPowerTypes, 0);
 					if (!worldObj.isRemote)
-						addItemToRecipe(new ItemStack(ItemDefs.essence, stack.stackSize, flags));
+						addItemToRecipe(new ItemStack(ItemDefs.etherium, stack.stackSize, flags));
 					currentConsumedPower = 0;
 					currentMainPowerTypes = PowerTypes.NONE;
 					setNoPowerRequests();
@@ -888,8 +888,9 @@ private IBlockState mimicState;
 		return false;
 	}
 
-	private boolean compareItemStacks(ItemStack target, ItemStack input){
-		return OreDictionary.itemMatches(target, input, false) && (target.getTagCompound() == input.getTagCompound());
+	private boolean compareItemStacks(ItemStack target, ItemStack input) {
+		boolean tagCheck = target.getTagCompound() == null ? true : (input.getTagCompound() == null ? false : NBTUtils.contains(target.getTagCompound(), input.getTagCompound()));
+		return OreDictionary.itemMatches(target, input, false) && tagCheck;
 	}
 
 	@Override

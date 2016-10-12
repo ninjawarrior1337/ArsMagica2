@@ -124,7 +124,7 @@ public class LifeTap extends SpellComponent implements IRitualInteraction{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
-				//TODO BlocksCommonProxy.aum
+				BlockDefs.aum
 		};
 	}
 

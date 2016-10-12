@@ -153,9 +153,9 @@ public class Light extends SpellComponent implements IRitualInteraction{
 	public Object[] getRecipe(){
 		return new Object[]{
 				new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage()),
-				//TODO BlocksCommonProxy.cerublossom,
+				BlockDefs.cerublossom,
 				Blocks.TORCH,
-				//TODO BlocksCommonProxy.vinteumTorch
+				BlockDefs.vinteumTorch
 		};
 	}
 
