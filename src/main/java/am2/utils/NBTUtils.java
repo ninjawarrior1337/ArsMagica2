@@ -1,5 +1,6 @@
 package am2.utils;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagByteArray;
@@ -103,6 +104,27 @@ public class NBTUtils {
 				break;
 		}
 		return match;
+	}
+
+	public static ItemStack[] getItemStackArray(NBTTagCompound tagCompound, String string) {
+		NBTTagList list = addCompoundList(tagCompound, string);
+		ItemStack[] array = new ItemStack[list.tagCount()];
+		for (int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound tmp = list.getCompoundTagAt(i);
+			array[tmp.getInteger("ID")] = ItemStack.loadItemStackFromNBT(tmp);
+		}
+		return array;
+	}
+
+	public static void setItemStackArray(NBTTagCompound tagCompound, String string, ItemStack[] recipeData) {
+		NBTTagList list = addCompoundList(tagCompound, string);
+		for (int i = 0; i < recipeData.length; i++) {
+			NBTTagCompound tmp = new NBTTagCompound();
+			tmp.setInteger("ID", i);
+			recipeData[i].writeToNBT(tmp);
+			list.appendTag(tmp);
+		}
+		tagCompound.setTag(string, list);
 	}
 
 }

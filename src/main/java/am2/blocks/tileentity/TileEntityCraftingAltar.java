@@ -31,6 +31,7 @@ import am2.power.PowerTypes;
 import am2.spell.component.Summon;
 import am2.spell.shape.Binding;
 import am2.utils.KeyValuePair;
+import am2.utils.NBTUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLever;
@@ -41,8 +42,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -53,6 +52,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController{
 
@@ -96,7 +96,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private ItemStack addedPhylactery = null;
 	private ItemStack addedBindingCatalyst = null;
 
-	private int[] spellGuide;
+	private ItemStack[] spellGuide;
 	private int[] outputCombo;
 	private int[][] shapeGroupGuide;
 
@@ -453,12 +453,8 @@ private IBlockState mimicState;
 
 	public ItemStack getNextPlannedItem(){
 		if (spellGuide != null){
-			if ((this.allAddedItems.size()) * 3 < spellGuide.length){
-				int guide_id = spellGuide[(this.allAddedItems.size()) * 3];
-				int guide_qty = spellGuide[((this.allAddedItems.size()) * 3) + 1];
-				int guide_meta = spellGuide[((this.allAddedItems.size()) * 3) + 2];
-				ItemStack stack = new ItemStack(Item.getItemById(guide_id), guide_qty, guide_meta);
-				return stack;
+			if (this.allAddedItems.size() < spellGuide.length){
+				return spellGuide[this.allAddedItems.size()].copy();
 			}else{
 				return new ItemStack(ItemDefs.spellParchment);
 			}
@@ -505,8 +501,7 @@ private IBlockState mimicState;
 		super.update();
 		this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
 		
-		if (!worldObj.isRemote && ticksExisted % 20 == 0)
-			checkStructure();
+		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
 		this.ticksExisted++;
@@ -555,7 +550,7 @@ private IBlockState mimicState;
 			if (lectern.hasStack()){
 				ItemStack lecternStack = lectern.getStack();
 				if (lecternStack.hasTagCompound()){
-					spellGuide = lecternStack.getTagCompound().getIntArray("spell_combo");
+					spellGuide = NBTUtils.getItemStackArray(lecternStack.getTagCompound(), "spell_combo");
 					outputCombo = lecternStack.getTagCompound().getIntArray("output_combo");
 					currentSpellName = lecternStack.getDisplayName();
 
@@ -894,10 +889,7 @@ private IBlockState mimicState;
 	}
 
 	private boolean compareItemStacks(ItemStack target, ItemStack input){
-		if (target.getItem() == Items.POTIONITEM && input.getItem() == Items.POTIONITEM){
-			return (target.getItemDamage() & 0xF) == (input.getItemDamage() & 0xF);
-		}
-		return target.getItem() == input.getItem() && (target.getItemDamage() == input.getItemDamage() || target.getItemDamage() == Short.MAX_VALUE) && target.stackSize == input.stackSize;
+		return OreDictionary.itemMatches(target, input, false) && (target.getTagCompound() == input.getTagCompound());
 	}
 
 	@Override

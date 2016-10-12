@@ -38,6 +38,7 @@ import am2.particles.ParticleHoldPosition;
 import am2.power.PowerTypes;
 import am2.spell.SpellValidator;
 import am2.utils.KeyValuePair;
+import am2.utils.NBTUtils;
 import am2.utils.RecipeUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
@@ -810,15 +811,13 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	
 			bookstack = Story.finalizeStory(bookstack, title, player.getName());
 
-			int[] recipeData = new int[componentRecipeList.size() * 3];
+			ItemStack[] recipeData = new ItemStack[componentRecipeList.size()];
 			int idx = 0;
 			for (ItemStack stack : componentRecipeList){
-				recipeData[idx++] = Item.getIdFromItem(stack.getItem());
-				recipeData[idx++] = stack.stackSize;
-				recipeData[idx++] = stack.getItemDamage();
+				recipeData[idx++] = stack;
 			}
 
-			bookstack.getTagCompound().setIntArray("spell_combo", recipeData);
+			NBTUtils.setItemStackArray(bookstack.getTagCompound(), "spell_combo", recipeData);
 			bookstack.getTagCompound().setIntArray("output_combo", outputData);
 			bookstack.getTagCompound().setInteger("numShapeGroups", shapeGroupCombos.length);
 			int index = 0;
