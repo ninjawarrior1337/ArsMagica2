@@ -52,9 +52,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 					float f = world.rand.nextFloat() * 0.8F + 0.1F;
 					float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 					float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-					ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
-					if (te.getStack().getTagCompound() != null)
-						newItem.setTagCompound((NBTTagCompound)te.getStack().getTagCompound().copy());
+					ItemStack newItem = te.getStack().copy();
 					EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 					float f3 = 0.05F;
 					entityitem.motionX = (float)world.rand.nextGaussian() * f3;
@@ -72,7 +70,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 			}
 		}else{
 			if (player.getHeldItem(hand) != null){
-				if (te.setStack(player.getHeldItem(hand))){
+				if (te.setStack(player.getHeldItem(hand).copy())){
 					player.getHeldItem(hand).stackSize--;
 					if (player.getHeldItem(hand).stackSize <= 0){
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
