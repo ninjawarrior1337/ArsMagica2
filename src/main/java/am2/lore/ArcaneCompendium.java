@@ -35,7 +35,9 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	public ArcaneCompendium() {}
 	
 	public void unlockEntry(String name) {
-		DataSyncExtension.For(player).get(DataDefinitions.COMPENDIUM).add(name);
+		ArrayList<String> compendium = DataSyncExtension.For(player).get(DataDefinitions.COMPENDIUM);
+		compendium.add(name);
+		DataSyncExtension.For(player).setWithSync(DataDefinitions.COMPENDIUM, compendium);
 	}
 	
 	public boolean isUnlocked(String name) {
@@ -110,7 +112,6 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 
 	@Override
 	public ArrayList<CompendiumEntry> getEntriesForCategory(String categoryName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
