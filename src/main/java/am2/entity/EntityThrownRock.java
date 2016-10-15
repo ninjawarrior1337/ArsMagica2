@@ -310,7 +310,7 @@ public class EntityThrownRock extends EntityLiving{
 					}
 					this.worldObj.newExplosion(this, this.target.xCoord, this.target.yCoord, this.target.zCoord, 0.8f, false, ArsMagica2.config.moonstoneMeteorsDestroyTerrain());
 
-					int numOres = rand.nextInt(12) + 1;
+					int numOres = rand.nextInt(4) + 1;
 
 					for (int i = 0; i < numOres; ++i){
 						generateSurfaceOreAtOffset(worldObj, new BlockPos(target), i == 0);
@@ -350,6 +350,8 @@ public class EntityThrownRock extends EntityLiving{
 		super.readEntityFromNBT(par1nbtTagCompound);
 
 		this.damage = par1nbtTagCompound.getFloat("star_damage");
+		if (par1nbtTagCompound.getBoolean("MoonstoneMeteor"))
+			this.setMoonstoneMeteor();
 	}
 
 	@Override
@@ -357,5 +359,6 @@ public class EntityThrownRock extends EntityLiving{
 		super.writeEntityToNBT(par1nbtTagCompound);
 
 		par1nbtTagCompound.setFloat("star_damage", damage);
+		par1nbtTagCompound.setBoolean("MoonstoneMeteor", getIsMoonstoneMeteor());
 	}
 }
