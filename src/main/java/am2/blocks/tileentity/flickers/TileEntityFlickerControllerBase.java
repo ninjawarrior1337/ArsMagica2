@@ -3,9 +3,10 @@ package am2.blocks.tileentity.flickers;
 import java.util.HashMap;
 import java.util.List;
 
+import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.blocks.tileentity.TileEntityAMPower;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.defs.ItemDefs;
@@ -20,7 +21,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class TileEntityFlickerControllerBase extends TileEntityAMPower implements IFlickerController<TileEntityFlickerControllerBase>{
 	private HashMap<Integer, byte[]> sigilMetadata;
-	private IFlickerFunctionality operator;
+	private AbstractFlickerFunctionality operator;
 	private int tickCounter;
 	Affinity[] nearbyList = new Affinity[6];
 	private boolean lastOpWasPowered = false;
@@ -31,7 +32,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 		sigilMetadata = new HashMap<Integer, byte[]>();
 	}
 
-	protected void setOperator(IFlickerFunctionality operator){
+	protected void setOperator(AbstractFlickerFunctionality operator){
 		if (this.operator != null){
 			this.operator.RemoveOperator(worldObj, this, PowerNodeRegistry.For(worldObj).checkPower(this, this.operator.PowerPerOperation()), nearbyList);
 		}
@@ -42,7 +43,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	public void updateOperator(ItemStack stack){
 		if (stack == null || stack.getItem() != ItemDefs.flickerFocus)
 			return;
-		operator = FlickerOperatorRegistry.instance.getOperatorForMask(stack.getItemDamage());
+		operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
 	}
 
 	public void scanForNearbyUpgrades(){
@@ -132,20 +133,20 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 		return aff;
 	}
 
-	private Integer getFlagForOperator(IFlickerFunctionality operator){
-		return FlickerOperatorRegistry.instance.getMaskForOperator(operator);
+	private Integer getFlagForOperator(AbstractFlickerFunctionality operator){
+		return ArsMagicaAPI.getFlickerFocusRegistry().getId(operator);
 	}
 
-	public void setMetadata(IFlickerFunctionality operator, byte[] meta){
+	public void setMetadata(AbstractFlickerFunctionality operator, byte[] meta){
 		sigilMetadata.put(getFlagForOperator(operator), meta);
 	}
 
-	public byte[] getMetadata(IFlickerFunctionality operator){
+	public byte[] getMetadata(AbstractFlickerFunctionality operator){
 		byte[] arr = sigilMetadata.get(getFlagForOperator(operator));
 		return arr != null ? arr : new byte[0];
 	}
 
-	public void removeMetadata(IFlickerFunctionality operator){
+	public void removeMetadata(AbstractFlickerFunctionality operator){
 		sigilMetadata.remove(getFlagForOperator(operator));
 	}
 

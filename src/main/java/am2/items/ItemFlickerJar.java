@@ -42,16 +42,4 @@ public class ItemFlickerJar extends ItemArsMagica{
 			par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)));
 		}
 	}
-
-	public int getMask(ItemStack stack){
-		if (stack == null)
-			return 0;
-		if (stack.getItem() instanceof ItemFlickerJar){
-			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
-			if (aff != null){
-				return aff.getAffinityMask();
-			}
-		}
-		return 0;
-	}
 }

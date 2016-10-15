@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.blocks.BlockArsMagicaOre;
 import am2.defs.BlockDefs;
@@ -17,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
+public class FlickerOperatorMoonstoneAttractor extends AbstractFlickerFunctionality{
 	
 	public final static FlickerOperatorMoonstoneAttractor instance = new FlickerOperatorMoonstoneAttractor();
 
@@ -95,6 +95,11 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorMoonstoneAttractor");
+	}
+
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[] {Affinity.LIGHTNING, Affinity.ARCANE, Affinity.EARTH};
 	}
 
 

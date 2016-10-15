@@ -3,7 +3,7 @@ package am2.blocks.tileentity.flickers;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.utils.AffinityShiftUtils;
@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
-public class FlickerOperatorFlatLands implements IFlickerFunctionality{
+public class FlickerOperatorFlatLands extends AbstractFlickerFunctionality{
 	
 	public final static FlickerOperatorFlatLands instance = new FlickerOperatorFlatLands();
 	
@@ -109,6 +109,11 @@ public class FlickerOperatorFlatLands implements IFlickerFunctionality{
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorFlatLands");
+	}
+
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[]{Affinity.EARTH, Affinity.ICE};
 	}
 
 }

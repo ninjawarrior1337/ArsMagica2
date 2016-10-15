@@ -6,11 +6,10 @@ import am2.LogHelper;
 import am2.ObeliskFuelHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.blocks.BlockArsMagicaOre.EnumOreType;
 import am2.blocks.BlockCrystalMarker;
-import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
 import am2.items.ItemBindingCatalyst;
 import am2.items.ItemCore;
 import am2.items.ItemKeystoneDoor;
@@ -50,12 +49,11 @@ public class AMRecipes {
 		ObeliskFuelHelper.instance.registerFuelType(new ItemStack(ItemDefs.itemOre, 0, ItemOre.META_VINTEUM), 200);
 		ObeliskFuelHelper.instance.registerFuelType(UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, BlockDefs.liquid_essence), 2000);
 		
-		for (int i : FlickerOperatorRegistry.instance.getMasks()) {
-			IFlickerFunctionality func = FlickerOperatorRegistry.instance.getOperatorForMask(i);
+		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues()) {
 			if (func != null) {
 				Object[] recipeItems = func.getRecipe();
 				if (recipeItems != null) {
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemDefs.flickerFocus, 1, i), recipeItems));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemDefs.flickerFocus, 1, ArsMagicaAPI.getFlickerFocusRegistry().getId(func)), recipeItems));
 				} else {
 					LogHelper.info("Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.",func.getClass().getSimpleName());
 				}

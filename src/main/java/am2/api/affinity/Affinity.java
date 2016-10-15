@@ -1,6 +1,7 @@
 package am2.api.affinity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import am2.api.ArsMagicaAPI;
 import am2.utils.NBTUtils;
@@ -183,10 +184,6 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		return 0.0F;
 	}
 
-	public int getAffinityMask() {
-		return (int) Math.pow(2, ArsMagicaAPI.getAffinityRegistry().getId(this));
-	}
-
 	public int compareTo(Affinity b) {
 		return ArsMagicaAPI.getAffinityRegistry().getId(b) - ArsMagicaAPI.getAffinityRegistry().getId(this);
 	}
@@ -241,5 +238,14 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		for (ResourceLocation rl : rls)
 			minorOpposites.add(rl);
 		return this;
+	}
+	
+	public static class AffinityComparator implements Comparator<Affinity> {
+
+		@Override
+		public int compare(Affinity o1, Affinity o2) {
+			return o1.compareTo(o2);
+		}
+		
 	}
 }

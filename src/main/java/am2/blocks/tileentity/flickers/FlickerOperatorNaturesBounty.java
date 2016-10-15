@@ -4,7 +4,7 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.defs.ItemDefs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 
-public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
+public class FlickerOperatorNaturesBounty extends AbstractFlickerFunctionality{
 	
 	public final static FlickerOperatorNaturesBounty instance = new FlickerOperatorNaturesBounty();
 
@@ -86,7 +86,7 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 		if (powered){
 			for (Affinity aff : flickers){
 				if (aff == Affinity.WATER)
-					FlickerOperatorRegistry.instance.getOperatorForMask(Affinity.WATER.getAffinityMask()).DoOperation(worldObj, habitat, powered);
+					FlickerOperatorGentleRains.instance.DoOperation(worldObj, habitat, powered);
 			}
 		}
 
@@ -125,6 +125,11 @@ public class FlickerOperatorNaturesBounty implements IFlickerFunctionality{
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorNaturesBounty");
+	}
+
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[]{Affinity.NATURE, Affinity.WATER, Affinity.LIFE};
 	}
 
 

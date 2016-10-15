@@ -35,7 +35,6 @@ import am2.AMChunkLoader;
 import am2.ArsMagica2;
 import am2.affinity.AffinityAbilityHelper;
 import am2.api.ArsMagicaAPI;
-import am2.api.affinity.Affinity;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IArcaneCompendium;
@@ -115,7 +114,6 @@ import am2.blocks.tileentity.flickers.FlickerOperatorMoonstoneAttractor;
 import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
 import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
 import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
-import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
 import am2.container.ContainerArcaneDeconstructor;
 import am2.container.ContainerArcaneReconstructor;
 import am2.container.ContainerArmorInfuser;
@@ -185,6 +183,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -503,58 +502,19 @@ public class CommonProxy implements IGuiHandler{
 	}
 	
 	private void registerFlickerOperators(){
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorItemTransport.instance,
-				Affinity.AIR
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorButchery.instance,
-				Affinity.FIRE, Affinity.LIFE
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorContainment.instance,
-				Affinity.AIR, Affinity.ENDER
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorFelledOak.instance,
-				Affinity.NATURE, Affinity.LIGHTNING
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorFlatLands.instance,
-				Affinity.EARTH, Affinity.ICE
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorGentleRains.instance,
-				Affinity.WATER
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorInterdiction.instance,
-				Affinity.AIR, Affinity.ARCANE
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorLight.instance,
-				Affinity.FIRE, Affinity.LIGHTNING
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorMoonstoneAttractor.instance,
-				Affinity.LIGHTNING, Affinity.ARCANE, Affinity.EARTH
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorNaturesBounty.instance,
-				Affinity.NATURE, Affinity.WATER, Affinity.LIFE
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorPackedEarth.instance,
-				Affinity.EARTH
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorProgeny.instance,
-				Affinity.LIFE
-		);
-		FlickerOperatorRegistry.instance.registerFlickerOperator(
-				FlickerOperatorFishing.instance,
-				Affinity.WATER, Affinity.NATURE
-		);
+		GameRegistry.register(FlickerOperatorItemTransport.instance, new ResourceLocation("arsmagica2", "item_transport"));
+		GameRegistry.register(FlickerOperatorButchery.instance, new ResourceLocation("arsmagica2", "butchery"));
+		GameRegistry.register(FlickerOperatorContainment.instance, new ResourceLocation("arsmagica2", "containment"));
+		GameRegistry.register(FlickerOperatorFelledOak.instance, new ResourceLocation("arsmagica2", "felled_oak"));
+		GameRegistry.register(FlickerOperatorFlatLands.instance, new ResourceLocation("arsmagica2", "flat_lands"));
+		GameRegistry.register(FlickerOperatorGentleRains.instance, new ResourceLocation("arsmagica2", "gentle_rains"));
+		GameRegistry.register(FlickerOperatorInterdiction.instance, new ResourceLocation("arsmagica2", "interdiction"));
+		GameRegistry.register(FlickerOperatorLight.instance, new ResourceLocation("arsmagica2", "light"));
+		GameRegistry.register(FlickerOperatorMoonstoneAttractor.instance, new ResourceLocation("arsmagica2", "moonstone_attractor"));
+		GameRegistry.register(FlickerOperatorNaturesBounty.instance, new ResourceLocation("arsmagica2", "natures_bounty"));
+		GameRegistry.register(FlickerOperatorPackedEarth.instance, new ResourceLocation("arsmagica2", "packed_earth"));
+		GameRegistry.register(FlickerOperatorProgeny.instance, new ResourceLocation("arsmagica2", "progeny"));
+		GameRegistry.register(FlickerOperatorFishing.instance, new ResourceLocation("arsmagica2", "fishing"));
 	}
 	
 	public AM2WorldDecorator getWorldGenerator() {

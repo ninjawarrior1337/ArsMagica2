@@ -3,7 +3,7 @@ package am2.blocks.tileentity.flickers;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
@@ -26,7 +26,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FlickerOperatorFelledOak implements IFlickerFunctionality{
+public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 
 	public final static FlickerOperatorFelledOak instance = new FlickerOperatorFelledOak();
 	
@@ -292,6 +292,11 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorFelledOak");
+	}
+
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[]{Affinity.NATURE, Affinity.LIGHTNING};
 	}
 
 }

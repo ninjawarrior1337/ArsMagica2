@@ -103,5 +103,9 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorInterdiction");
 	}
-
+	
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[]{Affinity.AIR, Affinity.ARCANE};
+	}
 }

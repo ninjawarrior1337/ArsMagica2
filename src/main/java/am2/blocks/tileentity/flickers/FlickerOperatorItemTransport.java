@@ -6,7 +6,7 @@ import java.util.HashMap;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
@@ -25,7 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FlickerOperatorItemTransport implements IFlickerFunctionality{
+public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 	private static final float BASE_POWERED_ACTIVATION_TIME = 10.0f;
 	private static final float TIME_DISCOUNT_PERCENTAGE = 0.33f;
 
@@ -433,6 +433,11 @@ public class FlickerOperatorItemTransport implements IFlickerFunctionality{
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorItemTransport");
+	}
+
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[]{Affinity.AIR};
 	}
 
 }

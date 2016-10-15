@@ -4,7 +4,7 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.blocks.BlockInvisibleUtility;
 import am2.blocks.BlockInvisibleUtility.EnumInvisibleType;
 import am2.defs.BlockDefs;
@@ -23,7 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-public class FlickerOperatorLight implements IFlickerFunctionality{
+public class FlickerOperatorLight extends AbstractFlickerFunctionality{
 	
 	public final static FlickerOperatorLight instance = new FlickerOperatorLight();
 
@@ -149,6 +149,11 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorLight");
+	}
+
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[]{Affinity.FIRE, Affinity.LIGHTNING};
 	}
 
 }

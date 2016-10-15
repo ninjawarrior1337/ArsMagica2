@@ -3,11 +3,12 @@ package am2.blocks.tileentity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.common.collect.Lists;
+
 import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.math.AMVector3;
-import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
 import am2.blocks.tileentity.flickers.TileEntityFlickerControllerBase;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
@@ -22,6 +23,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
 
@@ -426,14 +428,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		if (this.flickerJar.getItem() == ItemDefs.flickerJar)
 			return ArsMagicaAPI.getAffinityRegistry().getObjectById(flickerJar.getItemDamage()).getColor();
 		else if (this.flickerJar.getItem() == ItemDefs.flickerFocus){
-			ArrayList<Affinity> affinities = new ArrayList<Affinity>();
-			int meta = this.flickerJar.getItemDamage();
-			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()){
-				if (aff == Affinity.NONE)
-					continue;
-				if ((meta & aff.getAffinityMask()) == aff.getAffinityMask())
-					affinities.add(aff);
-			}
+			ArrayList<Affinity> affinities = Lists.newArrayList(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(MathHelper.clamp_int(this.flickerJar.getItemDamage(), 0, ArsMagicaAPI.getFlickerFocusRegistry().getKeys().size())).getMask());
 
 			if (affinities.size() > 0){
 				int firstColor = affinities.get(colorCounter % affinities.size()).getColor();
@@ -557,7 +552,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private void setOperatorBasedOnFlicker(){
 		if (flickerJar != null && flickerJar.getItem() == ItemDefs.flickerFocus){
-			this.setOperator(FlickerOperatorRegistry.instance.getOperatorForMask(flickerJar.getItemDamage()));
+			this.setOperator(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(flickerJar.getItemDamage()));
 		}else{
 			this.setOperator(null);
 		}

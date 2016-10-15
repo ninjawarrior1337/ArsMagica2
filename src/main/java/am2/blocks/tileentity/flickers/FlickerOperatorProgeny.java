@@ -7,7 +7,7 @@ import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.defs.ItemDefs;
 import am2.entity.SpawnBlacklists;
 import am2.particles.AMParticle;
@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class FlickerOperatorProgeny implements IFlickerFunctionality{
+public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 
 	private static final int BASE_COOLDOWN = 2000;
 	private static final float COOLDOWN_BONUS = 0.75f;
@@ -125,6 +125,11 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorProgeny");
+	}
+
+	@Override
+	public Affinity[] getMask() {
+		return new Affinity[] {Affinity.LIFE};
 	}
 
 

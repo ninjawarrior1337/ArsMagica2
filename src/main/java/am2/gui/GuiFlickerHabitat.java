@@ -2,9 +2,9 @@ package am2.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import am2.api.flickers.IFlickerFunctionality;
+import am2.api.ArsMagicaAPI;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
-import am2.blocks.tileentity.flickers.FlickerOperatorRegistry;
 import am2.container.ContainerFlickerHabitat;
 import am2.power.PowerNodeRegistry;
 import net.minecraft.client.Minecraft;
@@ -57,7 +57,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 
 		if (stack == null) return;
 
-		IFlickerFunctionality func = FlickerOperatorRegistry.instance.getOperatorForMask(stack.getItemDamage());
+		AbstractFlickerFunctionality func = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
 
 		if (func == null)
 			return;

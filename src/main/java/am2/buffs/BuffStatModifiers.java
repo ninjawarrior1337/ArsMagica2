@@ -27,8 +27,6 @@ public class BuffStatModifiers {
 		fury.put(SharedMonsterAttributes.MOVEMENT_SPEED, furyMoveMod);
 		fury.put(SharedMonsterAttributes.ATTACK_DAMAGE, furyDmgMod);
 		applyOrRemoveModifiersForBuff(entity, PotionEffectsDefs.fury, fury);
-		//haste
-		applyOrRemoveScalingModifiersForBuff(entity, PotionEffectsDefs.haste, SharedMonsterAttributes.MOVEMENT_SPEED, hasteSpeedBoost_Diminished, hasteSpeedBoost_Normal, hasteSpeedBoost_Augmented);
 	}
 
 	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, Potion buffID, Map<IAttribute, AttributeModifier> modifiers){
@@ -47,6 +45,7 @@ public class BuffStatModifiers {
 		AttributeModifier currentModifier = inst.getModifier(modifiers[0].getID());
 		if (entity.isPotionActive(potionID)){
 			int magnitude = entity.getActivePotionEffect(potionID).getAmplifier();
+			if (magnitude < 0) magnitude = 0;
 			AttributeModifier modifier = modifiers[Math.min(magnitude, modifiers.length - 1)];
 			if (currentModifier != modifier) {
 				if (currentModifier != null) {
@@ -95,11 +94,6 @@ public class BuffStatModifiers {
 
 	//*  Entangle  *//
 	private static final AttributeModifier entangled = (new AttributeModifier(IDDefs.entangledID, "Entangled", -10, 2));
-
-	//*  Haste *//
-	private static final AttributeModifier hasteSpeedBoost_Diminished = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost (Diminished)", 0.3D, 2));
-	private static final AttributeModifier hasteSpeedBoost_Normal = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost (Normal)", 0.6D, 2));
-	private static final AttributeModifier hasteSpeedBoost_Augmented = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost (Augmented)", 1.2D, 2));
 
 	//*  Frost Slow *//
 	private static final AttributeModifier frostSlow_Diminished = (new AttributeModifier(IDDefs.frostSlowID, "Frost Slow (Diminished)", -0.2, 2));
