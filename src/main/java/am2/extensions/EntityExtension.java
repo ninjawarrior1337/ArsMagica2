@@ -744,8 +744,6 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public boolean setMagicLevelWithMana(int level){
-
-		if (level > 99) level = 99;
 		if (level < 0) level = 0;
 		setCurrentLevel(level);
 		setCurrentMana(getMaxMana());

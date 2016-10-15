@@ -4,6 +4,7 @@ import java.io.File;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.commands.CommandArsMagica;
 import am2.config.AMConfig;
 import am2.config.SpellPartConfiguration;
 import am2.extensions.DataDefinitions;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,7 +43,6 @@ public class ArsMagica2 {
 	public static SpellPartConfiguration disabledSkills;
 	
 	static {
-		
 		new DataDefinitions();
 		new ArsMagicaAPI();
 		Affinity.registerAffinities();
@@ -69,7 +70,12 @@ public class ArsMagica2 {
 	public void postInit (FMLPostInitializationEvent e) {
 		proxy.postInit();
 	}
-
+	
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent e) {
+		e.registerServerCommand(new CommandArsMagica());
+	}
+	
 	public String getVersion() {
 		return VERSION;
 	}
