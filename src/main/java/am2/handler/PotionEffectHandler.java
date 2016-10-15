@@ -96,7 +96,7 @@ public class PotionEffectHandler {
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.agility)) {
 			e.getEntityLiving().stepHeight = 1.01f;
 		}else if (e.getEntityLiving().stepHeight == 1.01f) {
-			e.getEntityLiving().stepHeight = 0.5f;
+			e.getEntityLiving().stepHeight = 0.6f;
 		}
 	}
 	
