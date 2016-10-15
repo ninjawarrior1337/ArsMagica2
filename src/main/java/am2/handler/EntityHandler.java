@@ -275,7 +275,7 @@ public class EntityHandler {
 		if (ArmorHelper.isInfusionPreset(player.getItemStackFromSlot(EntityEquipmentSlot.LEGS), GenericImbuement.stepAssist)){
 			player.stepHeight = 1.0111f;
 		}else if (player.stepHeight == 1.0111f){
-			player.stepHeight = 0.5f;
+			player.stepHeight = 0.6f;
 		}
 
 		IAttributeInstance attr = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);

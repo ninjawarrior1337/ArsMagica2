@@ -117,7 +117,7 @@ public class EntitySpellEffect extends Entity{
 		this.setRotation(rotation, 0);
 		this.dataManager.set(WATCHER_TYPE, TYPE_WAVE);
 		this.moveSpeed = speed;
-		this.stepHeight = 0.5f;
+		this.stepHeight = 0.6f;
 		maxTicksToEffect_wall = 1;
 	}
 
