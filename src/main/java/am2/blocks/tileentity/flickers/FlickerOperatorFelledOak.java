@@ -46,8 +46,8 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 					BlockPos newPos = new BlockPos(xPos, yPos, zPos);
 					IBlockState localblock = world.getBlockState(newPos);
 					if (state.getBlock() == localblock.getBlock()){
-						int stateMeta = WorldUtils.getBlockMeta(state) - (WorldUtils.getBlockMeta(state) % 4);
-						int localblockMeta = WorldUtils.getBlockMeta(localblock) - (WorldUtils.getBlockMeta(localblock) % 4);
+						int stateMeta = WorldUtils.getBlockMeta(state) % 4;
+						int localblockMeta = WorldUtils.getBlockMeta(localblock) % 4;
 						if (stateMeta == localblockMeta){
 							state.getBlock().harvestBlock(world, dummyPlayer, newPos, state, null, null);
 							state.getBlock().onBlockHarvested(world, newPos, state, dummyPlayer);
