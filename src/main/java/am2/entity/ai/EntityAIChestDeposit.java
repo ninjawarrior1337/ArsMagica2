@@ -3,6 +3,7 @@ package am2.entity.ai;
 import am2.api.math.AMVector3;
 import am2.entity.EntityBroom;
 import am2.extensions.EntityExtension;
+import am2.utils.DummyEntityPlayer;
 import am2.utils.InventoryUtilities;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.inventory.IInventory;
@@ -62,8 +63,8 @@ public class EntityAIChestDeposit extends EntityAIBase{
 			host.getNavigator().tryMoveToXYZ(iLoc.x + 0.5, iLoc.y, iLoc.z + 0.5, 0.5f);
 		}else{
 			IInventory inventory = (IInventory)te;
-			//if (!isDepositing)
-			//	inventory.openInventory(null);
+			if (!isDepositing)
+				inventory.openInventory(DummyEntityPlayer.fromEntityLiving(host));
 
 			isDepositing = true;
 			depositCounter++;
@@ -93,7 +94,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 			}
 
 			if (depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(host.getBroomInventory()) || !InventoryUtilities.canMergeHappen(host.getBroomInventory(), inventory))){
-				//inventory.closeInventory(null);
+				inventory.closeInventory(DummyEntityPlayer.fromEntityLiving(host));
 				resetTask();
 			}
 		}
