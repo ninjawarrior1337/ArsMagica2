@@ -32,7 +32,7 @@ group= "am2" // http://maven.apache.org/guides/mini/guide-naming-conventions.htm
 archivesBaseName = "ArsMagica2"
 
 minecraft {
-    version = "1.9.4-12.17.0.1976"
+    version = "1.10.2-12.18.1.2084"
     runDir = "run"
     replace '${version}', project.version
     mappings = "snapshot_20160518"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
