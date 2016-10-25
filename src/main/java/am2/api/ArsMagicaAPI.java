@@ -8,6 +8,7 @@ import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
+import com.google.common.collect.BiMap;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
 
 public class ArsMagicaAPI {
@@ -85,7 +87,7 @@ public class ArsMagicaAPI {
 		return modid;
 	}
 	
-    public static class ObjectCallbacks<T> implements IForgeRegistry.AddCallback<T>,IForgeRegistry.ClearCallback<T>,IForgeRegistry.CreateCallback<T>
+    public static class ObjectCallbacks<T extends IForgeRegistryEntry<T>> implements IForgeRegistry.AddCallback<T>,IForgeRegistry.ClearCallback<T>,IForgeRegistry.CreateCallback<T>
 	{
 		static final ObjectCallbacks<AbstractSpellPart> SPELL = new SpellCallbacks();
 		static final ObjectCallbacks<AbstractAffinityAbility> ABILITY = new ObjectCallbacks<>();
@@ -95,13 +97,19 @@ public class ArsMagicaAPI {
 		static final ObjectCallbacks<AbstractFlickerFunctionality> FLICKER_FOCUS = new ObjectCallbacks<>();
 
 		@Override
-		public void onAdd(T ability, int id, Map<ResourceLocation, ?> slaves) {}
+		public void onCreate(Map<ResourceLocation, ?> slaveset, BiMap<ResourceLocation, ? extends IForgeRegistry<?>> registries) {
+
+		}
 
 		@Override
-		public void onClear(Map<ResourceLocation, ?> slaveset) {}
+		public void onClear(IForgeRegistry<T> is, Map<ResourceLocation, ?> slaveset) {
+
+		}
 
 		@Override
-		public void onCreate(Map<ResourceLocation, ?> slaveset) {}
+		public void onAdd(T obj, int id, Map<ResourceLocation, ?> slaveset) {
+
+		}
 	}
     
     public static class SpellCallbacks extends ObjectCallbacks<AbstractSpellPart> {
