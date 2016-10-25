@@ -21,7 +21,7 @@
 	{
 		"from":[9, 16, 9],
 		"to":[13, 18, 15],
-		"rotation": {"origin": [9, 16, 9], "axis":"y", "angle":25.5, "rescale": false },
+		"rotation": {"origin": [9, 16, 9], "axis":"y", "angle":22.5, "rescale": false },
 		"faces": {
 			"down":{ "texture":"#book5", "uv":[4, 0, 8, 6]},
 			"up":{"texture":"#book5", "uv":[0, 0, 4, 6]},

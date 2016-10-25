@@ -8,7 +8,7 @@
 	{
 		"from":[10, 18, 9],
 		"to":[14, 20, 15],
-		"rotation": {"origin": [10, 20, 9], "axis":"y", "angle":-71.6, "rescale": false },
+		"rotation": {"origin": [10, 20, 9], "axis":"y", "angle":-45, "rescale": false },
 		"faces": {
 			"down":{ "texture":"#book6", "uv":[4, 0, 8, 6]},
 			"up":{"texture":"#book6", "uv":[0, 0, 4, 6]},
