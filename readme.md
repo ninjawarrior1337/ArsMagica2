@@ -1,11 +1,7 @@
-Ars Magica 2 - Rework 1.9.4
+Ars Magica 2 - Reborn 1.10.2
 ========
 
 This is a reworked version of the Ars Magica 2 mod by Mithion.
-
-This version is focused on the API, allowing modders to add AM2-related content in a simple way.
-
-I'd say i'm 80-85% done with this update
 
 
 
@@ -41,14 +37,14 @@ Summary
 https://creativecommons.org/licenses/by-nc/3.0/
 
 You are free to:
-* Share — copy and redistribute the material in any medium or format
-* Adapt — remix, transform, and build upon the material
+* Share â€” copy and redistribute the material in any medium or format
+* Adapt â€” remix, transform, and build upon the material
 * The licensor cannot revoke these freedoms as long as you follow the license terms.
 
 Under the following conditions:
-* Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-* NonCommercial — You may not use the material for commercial purposes.
-* No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+* Attribution â€” You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+* NonCommercial â€” You may not use the material for commercial purposes.
+* No additional restrictions â€” You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
 The exceptions to this license are textures, majority of which are property of D3miurge, licensed to this mod for it's use.
 More information cam be found here: http://www.minecraftforum.net/user/2252536-d3miurge/#am2
