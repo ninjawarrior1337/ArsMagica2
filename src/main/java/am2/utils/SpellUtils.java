@@ -34,6 +34,7 @@ import am2.spell.modifier.Colour;
 import am2.spell.shape.MissingShape;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -203,7 +204,7 @@ public class SpellUtils {
 	
 	private static void dropHead(Entity target, World world){
 		if (target.getClass() == EntitySkeleton.class){
-			if (((EntitySkeleton)target).getSkeletonType() == 1){
+			if (((EntitySkeleton)target).isCreatureType(EnumCreatureType.MONSTER, true)){
 				dropHead_do(world, target.posX, target.posY, target.posZ, 1);
 			}else{
 				dropHead_do(world, target.posX, target.posY, target.posZ, 0);

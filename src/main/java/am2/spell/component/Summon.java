@@ -53,7 +53,7 @@ public class Summon extends SpellComponent{
 			return null;
 		}
 		if (entity instanceof EntitySkeleton){
-			((EntitySkeleton)entity).setSkeletonType(0);
+			//((EntitySkeleton)entity).setSkeletonType(0);
 			((EntitySkeleton)entity).setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
 		}else if (entity instanceof EntityHorse && caster instanceof EntityPlayer){
 			((EntityHorse)entity).setTamedBy(((EntityPlayer)caster));
