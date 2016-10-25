@@ -38,7 +38,7 @@ public class EntityEarthElemental extends EntityMob{
 
 	@Override
 	public boolean isAIDisabled(){
-		return true;
+		return false;
 	}
 
 	@Override
