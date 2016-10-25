@@ -62,8 +62,8 @@ public class EntityAIChestDeposit extends EntityAIBase{
 			host.getNavigator().tryMoveToXYZ(iLoc.x + 0.5, iLoc.y, iLoc.z + 0.5, 0.5f);
 		}else{
 			IInventory inventory = (IInventory)te;
-			//if (!isDepositing)
-			//	inventory.openInventory(null);
+			if (!isDepositing)
+				inventory.openInventory(null);
 
 			isDepositing = true;
 			depositCounter++;
@@ -93,7 +93,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 			}
 
 			if (depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(host.getBroomInventory()) || !InventoryUtilities.canMergeHappen(host.getBroomInventory(), inventory))){
-				//inventory.closeInventory(null);
+				inventory.closeInventory(null);
 				resetTask();
 			}
 		}
