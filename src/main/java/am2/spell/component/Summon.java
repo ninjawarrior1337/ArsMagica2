@@ -3,9 +3,7 @@ package am2.spell.component;
 import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
-
 import com.google.common.collect.Sets;
-
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
@@ -23,6 +21,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -53,7 +52,7 @@ public class Summon extends SpellComponent{
 			return null;
 		}
 		if (entity instanceof EntitySkeleton){
-			//((EntitySkeleton)entity).setSkeletonType(0);
+			((EntitySkeleton)entity).func_189768_a(SkeletonType.NORMAL);
 			((EntitySkeleton)entity).setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
 		}else if (entity instanceof EntityHorse && caster instanceof EntityPlayer){
 			((EntityHorse)entity).setTamedBy(((EntityPlayer)caster));
