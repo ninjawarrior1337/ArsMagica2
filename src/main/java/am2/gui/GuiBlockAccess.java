@@ -68,11 +68,11 @@ public class GuiBlockAccess implements IBlockAccess{
 		return GameRegistry.findRegistry(Biome.class).getValue(new ResourceLocation("plains"));
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean extendedLevelsInChunkCache(){
-		return false;
-	}
+	//@Override
+	//@SideOnly(Side.CLIENT)
+	//public boolean extendedLevelsInChunkCache(){
+	//	return false;
+	//}
 
 	@Override
 	public boolean isSideSolid(BlockPos pos, EnumFacing arg3, boolean arg4){
