@@ -26,6 +26,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+import java.util.Set;
+
 public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 
 	public final static FlickerOperatorFelledOak instance = new FlickerOperatorFelledOak();
@@ -34,9 +37,14 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 
 	private static final int radius_horiz = 6;
 	private static final int radius_vert = 1;
+	private int horizRange, vertRange;
+	private Set<BlockPos> tree;
+	private static BlockPos origin;
+	private IBlockState originalBlockType;
 
 	public FlickerOperatorFelledOak(){
-
+		horizRange = radius_horiz + 7;
+		vertRange = 30;
 	}
 
 	void destroyTree(World world, BlockPos pos, IBlockState state){
@@ -44,6 +52,8 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			for (int yPos = pos.getY(); yPos <= pos.getY() + 1; yPos++){
 				for (int zPos = pos.getZ() - 1; zPos <= pos.getZ() + 1; zPos++){
 					BlockPos newPos = new BlockPos(xPos, yPos, zPos);
+					if (tree.contains(newPos) ||  !isWithinBounds(newPos))
+						continue;
 					IBlockState localblock = world.getBlockState(newPos);
 					if (state.getBlock() == localblock.getBlock()){
 						int stateMeta = WorldUtils.getBlockMeta(state) % 4;
@@ -52,6 +62,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 							state.getBlock().harvestBlock(world, dummyPlayer, newPos, state, null, null);
 							state.getBlock().onBlockHarvested(world, newPos, state, dummyPlayer);
 							world.destroyBlock(newPos, false);
+							tree.add(newPos);
 							destroyTree(world, newPos, state);
 						}
 					}
@@ -61,6 +72,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 	}
 
 	void beginTreeFelling(World world, BlockPos pos){
+		int height = 0;
 		IBlockState wood = world.getBlockState(pos);
 		while (wood.getBlock().isWood(world, pos)){
 			pos = pos.down();
@@ -70,19 +82,16 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 		pos = pos.up();
 
 		wood = world.getBlockState(pos);
-
 		if (wood.getBlock().isWood(world, pos)){
-			int height = pos.getY();
+			height = pos.getY();
 			boolean foundTop = false;
-			do{
+			while (true) {
 				height++;
 				IBlockState block = world.getBlockState(new BlockPos(pos.getX(), height, pos.getZ()));
-				if (block.getBlock() != wood.getBlock()){
-					height--;
-					foundTop = true;
-				}
-			}while (!foundTop);
-
+				//if (block.getBlock() != wood.getBlock()) break;
+				if (!isLog(world, new BlockPos(pos.getX(), height, pos.getZ()))) break;
+			}
+			height--;
 			int numLeaves = 0;
 			if (height - pos.getY() < 50){
 				//System.out.println(pos.up(height - pos.getY()));
@@ -97,7 +106,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 					}
 				}
 			}
-			
+			origin = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
 			if (numLeaves > 3)
 				destroyTree(world, pos, world.getBlockState(pos));
 
@@ -224,8 +233,8 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 		
 		dummyPlayer = new DummyEntityPlayer(worldObj);
 
-		for (int i = -radius; i <= radius; ++i){
-			for (int j = -radius; j <= radius; ++j){
+		for (int i = -radius_horiz; i <= radius_horiz; ++i){
+			for (int j = -radius_horiz; j <= radius_horiz; ++j){
 				BlockPos newPos = ((TileEntity)habitat).getPos().add(i, 0, j);
 				Block block = worldObj.getBlockState(newPos).getBlock();
 				if (block == Blocks.AIR) continue;
@@ -242,14 +251,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 
-		boolean hasNatureAugment = false;
-		for (Affinity aff : flickers){
-			if (aff == Affinity.NATURE){
-				hasNatureAugment = true;
-				break;
-			}
-		}
-
+		boolean hasNatureAugment = Arrays.asList(flickers).contains(Affinity.NATURE);
 		if (hasNatureAugment){
 			plantTree(worldObj, habitat, powered);
 		}
@@ -301,4 +303,17 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 		return new Affinity[]{Affinity.NATURE, Affinity.LIGHTNING};
 	}
 
+	public static boolean isLog(World world, BlockPos pos) {
+		return world.getBlockState(pos).getBlock().isWood(world, pos);
+	}
+
+	public boolean isWithinBounds(BlockPos bp) {
+		int dist = Math.abs(origin.getX() - bp.getX());
+		if (dist > horizRange / 2) return false;
+		dist = Math.abs(origin.getZ() - bp.getZ());
+		if (dist > horizRange / 2) return false;
+		dist = Math.abs(origin.getY() - bp.getY());
+		if (dist > vertRange / 2)  return false;
+		return true;
+	}
 }
