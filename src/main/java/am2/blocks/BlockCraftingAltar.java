@@ -21,6 +21,9 @@ public class BlockCraftingAltar extends BlockContainer {
 	public BlockCraftingAltar() {
 		super(Material.ROCK);
 		setCreativeTab(CreativeTabsDefs.tabAM2Blocks);
+		this.setHardness(1.5f);
+		this.setResistance(10.0f);
+		this.setHarvestLevel("pickaxe", 1);
 	}
 
 	@Override
@@ -50,6 +53,8 @@ public class BlockCraftingAltar extends BlockContainer {
 			EnumFacing side) {
 		return true;
 	}
+
+
 	
 	@Override
     public boolean isOpaqueCube(IBlockState state) {
