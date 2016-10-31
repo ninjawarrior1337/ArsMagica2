@@ -3,7 +3,6 @@ package am2.world;
 import java.util.Random;
 
 import am2.blocks.BlockAMFlower;
-import am2.defs.BlockDefs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,9 +24,6 @@ public class AM2FlowerGen extends WorldGenerator{
 
             if (worldIn.isAirBlock(blockpos) && (!worldIn.provider.getHasNoSky() || blockpos.getY() < 255) && ((BlockAMFlower)this.plantBlock.getBlock()).canBlockStay(worldIn, blockpos, this.plantBlock))
             {
-                if (this.plantBlock.getBlock() == BlockDefs.desertNova)
-                    if (!((BlockAMFlower)this.plantBlock.getBlock()).canPlaceBlockAt(worldIn, blockpos))
-                        continue;
                 worldIn.setBlockState(blockpos, this.plantBlock, 2);
             }
         }

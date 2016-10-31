@@ -1,6 +1,5 @@
 package am2.enchantments;
 
-import am2.ArsMagica2;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -11,8 +10,6 @@ public class EnchantmentSoulbound extends Enchantment{
 	public EnchantmentSoulbound(Rarity rarityIn) {
 		super(rarityIn, EnumEnchantmentType.ALL, new EntityEquipmentSlot[] {EntityEquipmentSlot.FEET, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.HEAD, EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
 		setName("soulbound");
-		//setRegistryName("arsmagica2", "soulbound");
-		//setRegistryName("soulbound");
 	}
 
 	@Override
@@ -38,10 +35,5 @@ public class EnchantmentSoulbound extends Enchantment{
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
 		return super.canApplyAtEnchantingTable(stack);
-	}
-
-	@Override
-	public String getName() {
-		return ArsMagica2.MODID + ".enchantment.soulbound";
 	}
 }

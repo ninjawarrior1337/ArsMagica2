@@ -251,8 +251,8 @@ etherium.light.name=Light
 etherium.dark.name=Dark
 etherium.neutral.name=Neutral
 
-arsmagica2.enchantment.magicResist=Magic Resistance
-arsmagica2.enchantment.soulbound=Soulbound
+enchantment.magicresist=Magic Resistance
+enchantment.soulbound=Soulbound
 
 keybindings.am2=Ars Magica 2
 key.bridge=Toggle Ice Bridge
