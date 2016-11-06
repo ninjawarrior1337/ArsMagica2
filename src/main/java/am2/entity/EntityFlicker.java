@@ -11,10 +11,7 @@ import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
-import am2.particles.AMParticle;
-import am2.particles.AMParticleIcons;
-import am2.particles.ParticleFadeOut;
-import am2.particles.ParticleMoveOnHeading;
+import am2.particles.*;
 import am2.utils.InventoryUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityAmbientCreature;
@@ -157,7 +154,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 		if (worldObj.isRemote){
 			//for (int i = 0; i < + 1; ++i){
 			if (getRNG().nextInt(10) < ArsMagica2.config.getGFXLevel()){
-				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleIcons.instance.getParticleForAffinity(getFlickerAffinity()), posX, posY, posZ);
+				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(getFlickerAffinity()), posX, posY, posZ);
 				if (effect != null){
 					effect.addRandomOffset(this.width, this.height, this.width);
 					effect.setDontRequireControllers();

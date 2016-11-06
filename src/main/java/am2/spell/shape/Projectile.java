@@ -8,6 +8,7 @@ import am2.defs.ItemDefs;
 import am2.entity.EntitySpellProjectile;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
+import am2.particles.AMParticleDefs;
 import am2.particles.AMParticleIcons;
 import am2.spell.SpellCastResult;
 import am2.utils.AffinityShiftUtils;
@@ -18,6 +19,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Projectile extends SpellShape {
 
@@ -70,7 +73,9 @@ public class Projectile extends SpellShape {
 			projectile.setShooter(caster);
 			projectile.setHoming(SpellUtils.modifierIsPresent(SpellModifiers.HOMING, stack));
 			projectile.setSpell(stack);
-			projectile.setIcon(AMParticleIcons.instance.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack)));
+			//if (AMParticleIcons.instance != null)
+			projectile.setIcon(AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack)));
+
 			world.spawnEntityInWorld(projectile);
 		}
 		return SpellCastResult.SUCCESS;
