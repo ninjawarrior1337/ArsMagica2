@@ -455,6 +455,7 @@ public class SpellUtils {
 		
 		if (consumeMBR) {
 			if (!ext.hasEnoughtMana(manaCost) && !((EntityPlayer)caster).capabilities.isCreativeMode) {
+				if (world.isRemote)
 				AMGuiHelper.instance.flashManaBar();
 				return SpellCastResult.NOT_ENOUGH_MANA;
 			}
