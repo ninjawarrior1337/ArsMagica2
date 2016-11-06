@@ -15,6 +15,7 @@ buildscript {
 	}
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
     }
 }
 repositories {
@@ -23,18 +24,25 @@ repositories {
   }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.matthewprenger.cursegradle'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-version = "2.0.8"
+ext.configFile = file('build.properties')
+ext.config = parseConfig(configFile)
+
+version = "${config.version}-${config.build_number}"
 group= "am2" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ArsMagica2"
 
 minecraft {
     version = "1.10.2-12.18.1.2084"
     runDir = "run"
-    replace '${version}', project.version
+    replace 'GRADLE:BUILD', config.build_number
+    replace 'GRADLE:VERSION', config.version
+    replaceIn 'ArsMagica2.java'
+	//replace '${version}', project.version
     mappings = "snapshot_20160518"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
 }
 
@@ -81,3 +89,24 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+task incrementBuildNumber(dependsOn: 'reobfJar') << {
+	config.build_number = (config.build_number.toString().toInteger()) + 1
+	configFile.withWriter {
+		config.toProperties().store(it, "")
+	}
+}
+
+def parseConfig(File config) {
+	config.withReader {
+		def prop = new Properties()
+		prop.load(it)
+		return (new ConfigSlurper().parse(prop))
+	}
+}
+
+jar {
+	archiveName = "${baseName}_${version}.jar"
+}
+
+defaultTasks 'clean', 'build', 'incrementBuildNumber'
