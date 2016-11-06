@@ -30,7 +30,7 @@ public class GenericImbuement extends ArmorImbuement{
 	public static final String thaumcraftNodeReveal = "tc_nrv";
 	public static final String stepAssist = "step_up";
 	public static final String runSpeed = "run_spd";
-	public static final String soulbound = "soulbnd";
+	public static final String soulbound = "freedom";
 
 	public GenericImbuement(String id, ImbuementTiers tier, EntityEquipmentSlot[] validSlots){
 		this.id = id;
