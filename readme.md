@@ -9,7 +9,6 @@ This is a reworked version of the Ars Magica 2 mod by Mithion.
 * [Homepage](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1292222)
 * [Unofficial Wiki](http://am2.wikia.com/wiki/Ars_Magica_2_Wiki)
 * [How to Report a Bug Properly](http://pastebin.com/29r0Nhe0)
-* [Beta Versions](https://www.dropbox.com/sh/z16zymdhmnr862t/AABlY_7RWfvNrYhkGoGSTo7ua?dl=0)
 
 ## Currently in the API
 
