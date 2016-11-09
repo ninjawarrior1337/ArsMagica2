@@ -24,6 +24,7 @@ import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
@@ -38,9 +39,12 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class AMIngameGUI{
+@SideOnly(Side.CLIENT)
+public class AMIngameGUI extends Gui {
 	private final Minecraft mc;
 //	private final RenderItem itemRenderer;
 	private float zLevel;
@@ -65,11 +69,12 @@ public class AMIngameGUI{
 		ScaledResolution scaledresolution = new ScaledResolution(mc);
 		int i = scaledresolution.getScaledWidth();
 		int j = scaledresolution.getScaledHeight();
-
 		GlStateManager.pushAttrib();
-		GlStateManager.disableDepth();
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.disableLighting();
+		GlStateManager.enableAlpha();
 		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		//GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 //		if (drawAMHud)
 //			RenderBuffs(i, j);
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -88,11 +93,11 @@ public class AMIngameGUI{
 		}
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.popAttrib();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.DST_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
-		GlStateManager.disableBlend();
-		GlStateManager.enableDepth();
-		GlStateManager.disableAlpha();
-		GlStateManager.resetColor();
+        //GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.DST_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
+		//GlStateManager.disableBlend();
+		//GlStateManager.enableDepth();
+		//GlStateManager.disableAlpha();
+		//GlStateManager.resetColor();
 	}
 
 	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRenderer){

@@ -45,6 +45,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -283,7 +285,10 @@ public class ClientTickHandler{
 	private void renderTick_End(){
 	}
 
-	public void renderOverlays(){
+	@SubscribeEvent(priority=EventPriority.NORMAL)
+	public void renderOverlays(RenderGameOverlayEvent.Post event){
+		if (event.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
+			return;
 		GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
 
 		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus ) || guiScreen instanceof GuiHudCustomization){
