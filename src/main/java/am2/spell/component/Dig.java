@@ -11,9 +11,11 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.extensions.EntityExtension;
 import am2.utils.SpellUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -43,9 +45,14 @@ public class Dig extends SpellComponent {
 		float hardness = state.getBlockHardness(world, blockPos);
 		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true) && state.getBlockHardness(world, blockPos) != -1 && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
 			IBlockState old = world.getBlockState(blockPos);
-			state.getBlock().breakBlock(world, blockPos, old);
-			state.getBlock().dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
-			world.destroyBlock(blockPos, false);
+			if (!SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)) {
+				state.getBlock().breakBlock(world, blockPos, old);
+				state.getBlock().dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
+				world.destroyBlock(blockPos, false);
+			}else{
+				world.destroyBlock(blockPos, false);
+				world.spawnEntityInWorld(new EntityItem(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(state.getBlock())));
+			}
 			EntityExtension.For(caster).deductMana(hardness * 1.28f);
 		}
 		return true;
