@@ -1,6 +1,7 @@
 package am2.entity;
 
 import am2.ArsMagica2;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -43,9 +44,12 @@ public class EntityShockwave extends Entity{
 		int i = MathHelper.floor_double(this.posY - 0.20000000298023224D);
 		int k = MathHelper.floor_double(this.posZ);
 		IBlockState l = this.worldObj.getBlockState(new BlockPos (j, i, k));
-		if (l.getBlock() != Blocks.AIR)
-			for (int h = 0; h < 5 * ArsMagica2.config.getGFXLevel(); ++h)
-				this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + (this.rand.nextFloat() - 0.5D) * this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + (this.rand.nextFloat() - 0.5D) * this.width, -this.motionX * 4.0D, 1.5D, -this.motionZ * 4.0D);
+		if (l.getBlock() != Blocks.AIR) {
+			for (int h = 0; h < (5 * ArsMagica2.config.getGFXLevel()); ++h) {
+				if (this.getEntityWorld().isRemote)
+					this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + (this.rand.nextFloat() - 0.5D) * this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + (this.rand.nextFloat() - 0.5D) * this.width, -this.motionX * 4.0D, 1.5D, -this.motionZ * 4.0D, new int[]{Block.getStateId(l)});
+			}
+		}
 
 		double deltaX = Math.cos(moveAngle) * movingSpeed;
 		double deltaZ = Math.sin(moveAngle) * movingSpeed;
