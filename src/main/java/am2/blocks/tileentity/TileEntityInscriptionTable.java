@@ -182,8 +182,10 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	@Override
 	public void update(){
-		if (worldObj.getBlockState(pos).getBlock() != BlockDefs.inscriptionTable)
+		if (worldObj.getBlockState(pos).getBlock() != BlockDefs.inscriptionTable){
+			this.invalidate();
 			return;
+		}
 		if (worldObj.isRemote && getUpgradeState() >= 3)
 			candleUpdate();
 		if (this.numStageGroups > MAX_STAGE_GROUPS)
