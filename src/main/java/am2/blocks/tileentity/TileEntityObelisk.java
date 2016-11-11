@@ -58,6 +58,13 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	protected MultiblockGroup pillars;
 	protected HashMap<IBlockState, Float> caps;
 	protected TypedMultiblockGroup capsGroup;
+
+	// obelisk rituals
+	protected MultiblockStructureDefinition[] rituals;
+	protected MultiblockGroup ritual1Chalk;
+	protected MultiblockGroup ritual1Candles;
+	protected MultiblockGroup ritual2Chalk;
+	protected MultiblockGroup ritual2Candles;
 	
 	protected HashMap<Integer, IBlockState> createMap(IBlockState state) {
 		HashMap<Integer, IBlockState> states = new HashMap<>();
@@ -144,6 +151,21 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 		structure.addGroup(capsGroup);
 		structure.addGroup(wizardChalkCircle);
 		structure.addGroup(obelisk);
+
+		// Obelisk ritual - Light
+		rituals = new MultiblockStructureDefinition[2];
+		rituals[0] = new MultiblockStructureDefinition("obelisk_light");
+
+		ritual1Candles = new MultiblockGroup("candles", Lists.newArrayList(BlockDefs.wardingCandle.getDefaultState()), false);
+
+		ritual1Candles.addBlock(new BlockPos(-2, 0, -2));
+		ritual1Candles.addBlock(new BlockPos(2, 0, 2));
+		ritual1Candles.addBlock(new BlockPos(2, 0, -2));
+		ritual1Candles.addBlock(new BlockPos(-2, 0, 2));
+		//rituals[0].addGroup(obelisk);
+		rituals[0].addGroup(ritual1Candles);
+		// Obelisk ritual - Dark
+		rituals[1] = new MultiblockStructureDefinition("obelisk_dark");
 	}
 
 	public boolean isActive(){
@@ -211,10 +233,10 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 		surroundingCheckTicks++;
 
 		if (isActive()){
-			if (surroundingCheckTicks % 100 == 0){
+			if (!worldObj.isRemote && surroundingCheckTicks % 100 == 0){
 				checkNearbyBlockState();
 				surroundingCheckTicks = 1;
-				if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
+				if (PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
 					List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 					for (EntityPlayer p : nearbyPlayers){
 						if (p.isPotionActive(PotionEffectsDefs.manaRegen)) continue;
@@ -274,6 +296,10 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	@Override
 	public MultiblockStructureDefinition getDefinition(){
 		return structure;
+	}
+
+	public MultiblockStructureDefinition getRitual(int index){
+		return rituals[index];
 	}
 
 	@Override
