@@ -240,6 +240,8 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.registerKeyBinding(BindingsDefs.AURA_CUSTOMIZATION);
 		ClientRegistry.registerKeyBinding(BindingsDefs.SHAPE_GROUP);
 		ClientRegistry.registerKeyBinding(BindingsDefs.NIGHT_VISION);
+		ClientRegistry.registerKeyBinding(BindingsDefs.SPELL_BOOK_NEXT);
+		ClientRegistry.registerKeyBinding(BindingsDefs.SPELL_BOOK_PREV);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());
@@ -292,11 +294,6 @@ public class ClientProxy extends CommonProxy {
 		super.init();
 		BlockDefs.initClient();
 		ItemDefs.initClient();
-	}
-	
-	@Override
-	public void renderGameOverlay() {
-		clientTickHandler.renderOverlays();
 	}
 	
 	@Override
@@ -440,4 +437,5 @@ public class ClientProxy extends CommonProxy {
 			Minecraft.getMinecraft().displayGuiScreen(new GuiParticleEmitter(te));
 		}
 	}
+
 }
