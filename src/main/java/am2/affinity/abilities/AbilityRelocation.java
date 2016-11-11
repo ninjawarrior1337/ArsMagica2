@@ -73,7 +73,8 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.relocation_out_of_range")));
 			return;
 		}
-		player.setPosition(event.getTargetX(), posY, event.getTargetZ());
+		player.setPositionAndUpdate(event.getTargetX(), posY, event.getTargetZ());
+
 		player.fallDistance = 0;
 		EntityExtension.For(player).setFallProtection(20000);
 		AffinityData.For(player).addCooldown("EnderTP", ArsMagica2.config.getEnderAffinityAbilityCooldown());
