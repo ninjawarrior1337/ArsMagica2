@@ -43,17 +43,20 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 
 	@Override
 	public void update(){
+		if (worldObj.isRemote)
+			return;
 		if (worldObj.isBlockIndirectlyGettingPowered(pos) > 0){
 			this.setPowerRequests();
 		}else{
 			this.setNoPowerRequests();
 		}
-
-		if (this.outputPowerType == PowerTypes.NONE && !this.worldObj.isRemote){
-			PowerTypes highest = PowerNodeRegistry.For(worldObj).getHighestPowerType(this);
-			float amt = PowerNodeRegistry.For(worldObj).getPower(this, highest);
-			if (amt > 0){
-				this.outputPowerType = highest;
+		if(tickCounter % 10 == 0) {
+			if (this.outputPowerType == PowerTypes.NONE && !this.worldObj.isRemote) {
+				PowerTypes highest = PowerNodeRegistry.For(worldObj).getHighestPowerType(this);
+				float amt = PowerNodeRegistry.For(worldObj).getPower(this, highest);
+				if (amt > 0) {
+					this.outputPowerType = highest;
+				}
 			}
 		}
 
@@ -61,9 +64,8 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 		if (tickCounter % 600 == 0){
 			worldObj.notifyBlockOfStateChange(pos, getBlockType());
 			tickCounter = 0;
+			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 		}
-
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 		super.update();
 	}
 

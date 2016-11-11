@@ -35,10 +35,9 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 
 	@Override
 	public void update(){
-		super.update();
-
 		if (worldObj.isRemote)
 			return;
+		super.update();
 
 		if (worldObj.isBlockIndirectlyGettingPowered(pos) > 0){
 			if (worldObj.rand.nextDouble() < 0.05f && PowerNodeRegistry.For(worldObj).checkPower(this, 20)){

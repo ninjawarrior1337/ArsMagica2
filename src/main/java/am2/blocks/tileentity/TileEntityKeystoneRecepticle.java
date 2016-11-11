@@ -190,6 +190,8 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public void update(){
+		if (worldObj.isRemote)
+			return;
 		super.update();
 
 		AxisAlignedBB bb = new AxisAlignedBB(pos.getX() + 0.3, pos.getY() - 3, pos.getZ() + 0.3, pos.getX() + 0.7, pos.getY(), pos.getZ() + 0.7);

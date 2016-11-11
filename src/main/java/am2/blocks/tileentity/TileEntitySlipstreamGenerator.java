@@ -33,8 +33,9 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 
 	@Override
 	public void update(){
+		if (worldObj.isRemote)
+			return;
 		super.update();
-
 		if (updateTicks++ > 10){
 			refreshPlayerList();
 			updateTicks = 0;
