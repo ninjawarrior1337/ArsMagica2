@@ -77,7 +77,8 @@ public class AMIngameGUI extends Gui {
 		//GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 //		if (drawAMHud)
 //			RenderBuffs(i, j);
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		//Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		if (drawAMHud)
 			RenderContingency(i, j);
 		if (drawAMHud)
@@ -93,11 +94,7 @@ public class AMIngameGUI extends Gui {
 		}
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.popAttrib();
-        //GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.DST_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
-		//GlStateManager.disableBlend();
-		//GlStateManager.enableDepth();
-		//GlStateManager.disableAlpha();
-		//GlStateManager.resetColor();
+		GlStateManager.disableBlend();
 	}
 
 	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRenderer){
