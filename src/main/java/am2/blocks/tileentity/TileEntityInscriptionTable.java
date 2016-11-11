@@ -1,15 +1,6 @@
 package am2.blocks.tileentity;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 import am2.ArsMagica2;
 import am2.LogHelper;
@@ -41,6 +32,7 @@ import am2.utils.KeyValuePair;
 import am2.utils.NBTUtils;
 import am2.utils.RecipeUtils;
 import am2.utils.SpellUtils;
+import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -602,8 +594,12 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 		ArrayList<ArrayList<AbstractSpellPart>> stages = SpellValidator.splitToStages(currentRecipe);
 		if (stages.size() == 0) return;
-		ArrayList<AbstractSpellPart> currentStage = stages.get(stages.size() - 1);
-		countModifiersInList(currentStage);
+
+		for (ArrayList<AbstractSpellPart> currentStage : stages){
+			countModifiersInList(currentStage);
+		}
+		//ArrayList<AbstractSpellPart> currentStage = stages.get(stages.size() - 1);
+		//countModifiersInList(currentStage);
 	}
 
 	private void countModifiersInList(ArrayList<AbstractSpellPart> currentStage){
