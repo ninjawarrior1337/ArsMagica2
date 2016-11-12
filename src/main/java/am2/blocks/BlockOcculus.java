@@ -59,7 +59,7 @@ public class BlockOcculus extends BlockContainer {
 			float hitZ) {
 		if (playerIn.isSneaking())
 			return false;
-		if (EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentLevel() == 0){
+		if (EntityExtension.For(playerIn).getCurrentLevel() == 0) {
 			Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString("Mythical forces prevent you from using this device!"));
 			return true;
 		}
