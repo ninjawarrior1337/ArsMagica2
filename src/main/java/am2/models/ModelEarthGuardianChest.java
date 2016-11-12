@@ -92,9 +92,9 @@ public class ModelEarthGuardianChest extends ModelBiped{
 		GL11.glPushMatrix();
 		GL11.glScalef(1.4f, 1.3f, 1.4f);
 
-		if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).getHeldItemMainhand() == null)
+		if (entity instanceof EntityLivingBase)// && ((EntityLivingBase)entity).getHeldItemMainhand() == null)
 			bipedRightArm.render(f5);
-		if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).getHeldItemOffhand() == null)
+		if (entity instanceof EntityLivingBase)// && ((EntityLivingBase)entity).getHeldItemOffhand() == null)
 			bipedLeftArm.render(f5);
 		GL11.glPopMatrix();
 	}
