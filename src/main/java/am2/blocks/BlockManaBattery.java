@@ -2,12 +2,14 @@ package am2.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import am2.ArsMagica2;
 import am2.blocks.tileentity.TileEntityManaBattery;
 import am2.entity.EntityDummyCaster;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
+import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -70,7 +72,7 @@ public class BlockManaBattery extends BlockAMPowered{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		if (stack != null){
@@ -85,56 +87,37 @@ public class BlockManaBattery extends BlockAMPowered{
 		}
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
-	
+
+
 	@Override
-	public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
-		destroy(world, pos);
-		super.onBlockExploded(world, pos, explosion);
-	}
-	
-	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		destroy(worldIn, pos);
-	}
-	
-	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-		destroy(worldIn, pos);
-		super.onBlockHarvested(worldIn, pos, state, player);
-	}
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		List<ItemStack> drops = Lists.newArrayList();
+		Random rand = world instanceof World ? ((World)world).rand : RANDOM;
 
-	private void destroy(World world, BlockPos pos){
-		TileEntityManaBattery te = getTileEntity(world, pos);
-		if (te != null && !world.isRemote){
-			float f = world.rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-			int dmg = (int)((PowerNodeRegistry.For(world).getPower(te, te.getPowerType()) / te.getCapacity()) * 100);
-			if (dmg == 0) dmg = 1;
-			ItemStack stack = new ItemStack(this);
-			stack.damageItem(stack.getMaxDamage() - dmg, new EntityDummyCaster(world));
-			stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setFloat("mana_battery_charge", PowerNodeRegistry.For(world).getPower(te, te.getPowerType()));
-			stack.getTagCompound().setInteger("mana_battery_powertype", te.getPowerType().ID());
-
-			if (!stack.getTagCompound().hasKey("Lore"))
-				stack.getTagCompound().setTag("Lore", new NBTTagList());
-
-			NBTTagList tagList = new NBTTagList();
-			PowerTypes powerType = te.getPowerType();
-			float amt = PowerNodeRegistry.For(world).getPower(te, powerType);
-			tagList.appendTag(new NBTTagString(String.format("Contains %.2f %s%s etherium", amt, powerType.getChatColor(), powerType.name())));
-			stack.getTagCompound().setTag("Lore", tagList);
-
-			EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, stack);
-			float f3 = 0.05F;
-			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
-			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
-			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-			world.spawnEntityInWorld(entityitem);
+		ItemStack stack = new ItemStack(this, 1);
+		drops.add(stack);
+		TileEntity te = world.getTileEntity(pos);
+		if (te instanceof TileEntityManaBattery && stack != null){
+			if (PowerNodeRegistry.For((World)world).getPower((TileEntityManaBattery)te, ((TileEntityManaBattery) te).getPowerType()) != 0.0F){
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setFloat("mana_battery_charge", PowerNodeRegistry.For((World)world).getPower((TileEntityManaBattery)te, ((TileEntityManaBattery) te).getPowerType()));
+				stack.getTagCompound().setInteger("mana_battery_powertype", ((TileEntityManaBattery) te).getPowerType().ID());
+			}
 		}
+		return drops;
 	}
-	
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+		this.onBlockDestroyedByPlayer(world, pos,state);
+		if (willHarvest){
+			this.harvestBlock(world, player, pos, state, world.getTileEntity(pos), player.getHeldItemMainhand());
+		}
+		world.setBlockToAir(pos);
+
+		return false;
+	}
+
 	@Override
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
 		TileEntityManaBattery batt = getTileEntity(worldIn, pos);
@@ -159,10 +142,15 @@ public class BlockManaBattery extends BlockAMPowered{
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		ItemStack stack = new ItemStack(this);
-		stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setFloat("mana_battery_charge", new TileEntityManaBattery().getCapacity());
 
 		par3List.add(stack);
+		for (PowerTypes type : PowerTypes.all()){
+			stack = new ItemStack(this, 1, type.ID());
+			stack.setTagCompound(new NBTTagCompound());
+			stack.getTagCompound().setFloat("mana_battery_charge", new TileEntityManaBattery().getCapacity());
+			stack.getTagCompound().setInteger("mana_battery_powertype", type.ID());
+			par3List.add(stack);
+		}
 	}
 
 //	@Override
@@ -181,11 +169,6 @@ public class BlockManaBattery extends BlockAMPowered{
 //		}
 //		return 0xFFFFFF;
 //	}
-	
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		return new ArrayList<>();
-	}
 	
 	@Override
 	public BlockRenderLayer getBlockLayer() {
