@@ -65,7 +65,7 @@ public class Dig extends SpellComponent {
 		if (hasSilk){
 			bState.getBlock().breakBlock(world, pos, bState);
 			world.destroyBlock(pos, false);
-			world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(bState.getBlock())));
+			world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(bState.getBlock(), 1, bState.getBlock().getMetaFromState(bState))));
 		}else{
 			bState.getBlock().breakBlock(world, pos, bState);
 			bState.getBlock().dropBlockAsItem(world, pos, world.getBlockState(pos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
