@@ -67,8 +67,8 @@ public class Transformer implements IClassTransformer {
 			return cw.toByteArray();
 		} else if (transformedName.equalsIgnoreCase("net.minecraft.client.renderer.EntityRenderer"))
 			return patchEntityRenderer(basicClass, !Preloader.isDevEnvironment);
-		//else if (transformedName.equalsIgnoreCase("net.minecraft.client.entity.EntityPlayerSP"))
-		//	return alterEntityPlayerSP(basicClass, !Preloader.isDevEnvironment);
+		else if (transformedName.equalsIgnoreCase("net.minecraft.client.entity.EntityPlayerSP"))
+			return alterEntityPlayerSP(basicClass, !Preloader.isDevEnvironment);
 		else if (transformedName.equalsIgnoreCase("net.minecraft.entity.EntityLivingBase"))
 			return alterEntityLivingBase(alterEntity(basicClass, !Preloader.isDevEnvironment), !Preloader.isDevEnvironment);
 		else if (transformedName.equalsIgnoreCase("net.minecraft.entity.Entity"))
