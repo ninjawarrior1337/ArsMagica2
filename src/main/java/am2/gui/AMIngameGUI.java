@@ -3,6 +3,7 @@ package am2.gui;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import am2.commands.ConfigureAMUICommand;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import am2.ArsMagica2;
@@ -39,6 +40,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -62,9 +66,14 @@ public class AMIngameGUI extends Gui {
 //		itemRenderer = mc.getRenderItem();
 	}
 
-	public void renderGameOverlay(){
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent(priority= EventPriority.NORMAL)
+	public void renderGameOverlay(RenderGameOverlayEvent e){
+		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
+			return;
+		if (!mc.inGameHasFocus)
+			return;
 		ItemStack ci = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-
 		boolean drawAMHud = !ArsMagica2.config.showHudMinimally() || (ci != null && (ci.getItem() == ItemDefs.spellBook || ci.getItem() == ItemDefs.spell || ci.getItem() == ItemDefs.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
 		ScaledResolution scaledresolution = new ScaledResolution(mc);
 		int i = scaledresolution.getScaledWidth();
@@ -74,11 +83,8 @@ public class AMIngameGUI extends Gui {
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
 		GlStateManager.enableBlend();
-		//GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 //		if (drawAMHud)
 //			RenderBuffs(i, j);
-		//Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		if (drawAMHud)
 			RenderContingency(i, j);
 		if (drawAMHud)
@@ -92,9 +98,8 @@ public class AMIngameGUI extends Gui {
 		if (item != null && item.getItem() instanceof ItemSpellBook){
 			RenderSpellBookUI(i, j, mc.fontRendererObj, mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND));
 		}
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.popAttrib();
-		GlStateManager.disableBlend();
+		ConfigureAMUICommand.showIfQueued();
 	}
 
 	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRenderer){

@@ -54,8 +54,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientTickHandler{
-
-	private final AMIngameGUI inGameGui = new AMIngameGUI();
 	public static HashMap<EntityLiving, EntityLivingBase> targetsToSet = new HashMap<EntityLiving, EntityLivingBase>();
 	private int mouseWheelValue = 0;
 	private int currentSlot = -1;
@@ -283,18 +281,6 @@ public class ClientTickHandler{
 	}
 
 	private void renderTick_End(){
-	}
-
-	@SubscribeEvent(priority=EventPriority.NORMAL)
-	public void renderOverlays(RenderGameOverlayEvent.Post event){
-		if (event.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
-			return;
-		GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
-
-		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus ) || guiScreen instanceof GuiHudCustomization){
-			this.inGameGui.renderGameOverlay();
-			ConfigureAMUICommand.showIfQueued();
-		}
 	}
 
 	private void localServerTick_End(){

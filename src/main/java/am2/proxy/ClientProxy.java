@@ -90,32 +90,7 @@ import am2.defs.BlockDefs;
 import am2.defs.EntityManager;
 import am2.defs.ItemDefs;
 import am2.extensions.RiftStorage;
-import am2.gui.AMGuiHelper;
-import am2.gui.GuiArcaneDeconstructor;
-import am2.gui.GuiArcaneReconstructor;
-import am2.gui.GuiArmorImbuer;
-import am2.gui.GuiAstralBarrier;
-import am2.gui.GuiCalefactor;
-import am2.gui.GuiCrystalMarker;
-import am2.gui.GuiEssenceBag;
-import am2.gui.GuiEssenceRefiner;
-import am2.gui.GuiFlickerHabitat;
-import am2.gui.GuiInertSpawner;
-import am2.gui.GuiInscriptionTable;
-import am2.gui.GuiKeystone;
-import am2.gui.GuiKeystoneChest;
-import am2.gui.GuiKeystoneLockable;
-import am2.gui.GuiMagiciansWorkbench;
-import am2.gui.GuiObelisk;
-import am2.gui.GuiOcculus;
-import am2.gui.GuiParticleEmitter;
-import am2.gui.GuiRiftStorage;
-import am2.gui.GuiRuneBag;
-import am2.gui.GuiSeerStone;
-import am2.gui.GuiSpellBook;
-import am2.gui.GuiSpellCustomization;
-import am2.gui.GuiSpellSealedDoor;
-import am2.gui.GuiSummoner;
+import am2.gui.*;
 import am2.handler.BakingHandler;
 import am2.items.ItemEssenceBag;
 import am2.items.ItemKeystone;
@@ -273,6 +248,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(ItemRenderer.instance);
 		MinecraftForge.EVENT_BUS.register(new BakingHandler());
 		MinecraftForge.EVENT_BUS.register(new BindingsDefs());
+		MinecraftForge.EVENT_BUS.register(new AMIngameGUI());
 		
 		ArsMagica2.config.clientInit();
 		new AMSounds();
@@ -288,7 +264,7 @@ public class ClientProxy extends CommonProxy {
 		packetProcessor = new AMPacketProcessorClient();
 		clientTickHandler = new ClientTickHandler();
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
