@@ -3,6 +3,7 @@ package am2.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import am2.particles.*;
 import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
@@ -10,11 +11,6 @@ import am2.api.DamageSources;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
 import am2.buffs.BuffEffectFrostSlowed;
-import am2.particles.AMParticle;
-import am2.particles.AMParticleIcons;
-import am2.particles.ParticleFleePoint;
-import am2.particles.ParticleFloatUpward;
-import am2.particles.ParticleOrbitPoint;
 import am2.spell.modifier.Colour;
 import am2.utils.AMLineSegment;
 import am2.utils.AffinityShiftUtils;
@@ -199,7 +195,7 @@ public class EntitySpellEffect extends Entity{
 						_rotation = (rotation + (90 * i)) % 360;
 						double x = this.posX - Math.cos(3.141 / 180 * (_rotation)) * dist;
 						double z = this.posZ - Math.sin(3.141 / 180 * (_rotation)) * dist;
-						AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleIcons.instance.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
+						AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
 							effect.setMaxAge(20);
@@ -436,7 +432,7 @@ public class EntitySpellEffect extends Entity{
 				double x = this.posX - Math.cos(3.141 / 180 * (rotationYaw)) * i;
 				double z = this.posZ - Math.sin(3.141 / 180 * (rotationYaw)) * i;
 
-				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleIcons.instance.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
+				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
 				if (effect != null){
 					effect.setIgnoreMaxAge(false);
 					effect.setMaxAge(20);
@@ -455,7 +451,7 @@ public class EntitySpellEffect extends Entity{
 				x = this.posX - Math.cos(Math.toRadians(rotationYaw)) * -i;
 				z = this.posZ - Math.sin(Math.toRadians(rotationYaw)) * -i;
 
-				effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleIcons.instance.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
+				effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
 				if (effect != null){
 					effect.setIgnoreMaxAge(false);
 					effect.addRandomOffset(1, 1, 1);

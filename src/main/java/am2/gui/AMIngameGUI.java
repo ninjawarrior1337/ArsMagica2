@@ -3,6 +3,7 @@ package am2.gui;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import am2.commands.ConfigureAMUICommand;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import am2.ArsMagica2;
@@ -24,6 +25,7 @@ import am2.utils.AffinityShiftUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
@@ -38,9 +40,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class AMIngameGUI{
+@SideOnly(Side.CLIENT)
+public class AMIngameGUI extends Gui {
 	private final Minecraft mc;
 //	private final RenderItem itemRenderer;
 	private float zLevel;
@@ -58,21 +66,25 @@ public class AMIngameGUI{
 //		itemRenderer = mc.getRenderItem();
 	}
 
-	public void renderGameOverlay(){
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent(priority= EventPriority.NORMAL)
+	public void renderGameOverlay(RenderGameOverlayEvent e){
+		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
+			return;
+		if (!mc.inGameHasFocus)
+			return;
 		ItemStack ci = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-
 		boolean drawAMHud = !ArsMagica2.config.showHudMinimally() || (ci != null && (ci.getItem() == ItemDefs.spellBook || ci.getItem() == ItemDefs.spell || ci.getItem() == ItemDefs.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
 		ScaledResolution scaledresolution = new ScaledResolution(mc);
 		int i = scaledresolution.getScaledWidth();
 		int j = scaledresolution.getScaledHeight();
-
 		GlStateManager.pushAttrib();
-		GlStateManager.disableDepth();
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.disableLighting();
+		GlStateManager.enableAlpha();
 		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 //		if (drawAMHud)
 //			RenderBuffs(i, j);
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		if (drawAMHud)
 			RenderContingency(i, j);
 		if (drawAMHud)
@@ -86,13 +98,8 @@ public class AMIngameGUI{
 		if (item != null && item.getItem() instanceof ItemSpellBook){
 			RenderSpellBookUI(i, j, mc.fontRendererObj, mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND));
 		}
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.popAttrib();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.DST_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
-		GlStateManager.disableBlend();
-		GlStateManager.enableDepth();
-		GlStateManager.disableAlpha();
-		GlStateManager.resetColor();
+		ConfigureAMUICommand.showIfQueued();
 	}
 
 	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRenderer){

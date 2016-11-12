@@ -76,8 +76,10 @@ public class SpellUtils {
 		NBTTagList stageTag = NBTUtils.addCompoundList(am2Tag, STAGE + stage);
 		String shapeName = "null";
 		for (int i = 0; i < stageTag.tagCount(); i++) {
+			System.out.println("Tag " + i + ": " + stageTag.getCompoundTagAt(i).getString(TYPE));
 			if (stageTag.getCompoundTagAt(i).getString(TYPE).equals(TYPE_SHAPE)) {
 				shapeName = stageTag.getCompoundTagAt(i).getString(ID);
+				System.out.println("Shape Name: " + shapeName);
 				break;
 			}
 		}
@@ -285,8 +287,9 @@ public class SpellUtils {
 		am2.setTag(SPELL_DATA, encodedData);
 		NBTTagList shapeGroupList = NBTUtils.addCompoundList(am2, "ShapeGroups");
 		for (KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> shapeGroup : shapeGroups) {
-			if (shapeGroup.key.isEmpty())
+			if (shapeGroup.key.isEmpty()) {
 				continue;
+			}
 			NBTTagCompound group = new NBTTagCompound();
 			group.setTag(SPELL_DATA, shapeGroup.value);
 			int stage = 0;
@@ -443,10 +446,11 @@ public class SpellUtils {
 			stack = merge(stack.copy());
 		}
 		SpellShape shape = getShapeForStage(stack, group);
-		if (!(caster instanceof EntityPlayer))
-			return SpellCastResult.EFFECT_FAILED;
-		if (shape instanceof MissingShape)
+		//if (!(caster instanceof EntityPlayer))
+		//	return SpellCastResult.EFFECT_FAILED;
+		if (shape instanceof MissingShape) {
 			return SpellCastResult.MALFORMED_SPELL_STACK;
+		}
 		float manaCost = getManaCost(stack);
 		manaCost *= 1F + (float)((float)EntityExtension.For(caster).getCurrentBurnout() / (float)EntityExtension.For(caster).getMaxBurnout());
 		SpellCastEvent.Pre pre = new SpellCastEvent.Pre(caster, stack, manaCost);
@@ -454,7 +458,8 @@ public class SpellUtils {
 		manaCost = pre.manaCost;
 		
 		if (consumeMBR) {
-			if (!ext.hasEnoughtMana(manaCost) && !((EntityPlayer)caster).capabilities.isCreativeMode) {
+			if ((!ext.hasEnoughtMana(manaCost) && (caster instanceof EntityPlayer)) && !((EntityPlayer)caster).capabilities.isCreativeMode) {
+				if (world.isRemote)
 				AMGuiHelper.instance.flashManaBar();
 				return SpellCastResult.NOT_ENOUGH_MANA;
 			}
@@ -478,12 +483,14 @@ public class SpellUtils {
 		//SUCCESS is the default return
 		//SUCCESS_REDUCE_MANA is basically there because i don't know where to
 		//MALFORMED_SPELL_STACK means we reached the end of the spell
-		if (consumeMBR && !((EntityPlayer)caster).capabilities.isCreativeMode && (result == SpellCastResult.SUCCESS || result == SpellCastResult.SUCCESS_REDUCE_MANA || result == SpellCastResult.MALFORMED_SPELL_STACK)) {
-			ext.deductMana(manaCost);
-			ext.setCurrentBurnout(getBurnoutCost(stack));
-			consumeReagents(caster, stack);
-			if (ext.getCurrentBurnout() > ext.getMaxBurnout())
-				ext.setCurrentBurnout(ext.getMaxBurnout());
+		if (caster instanceof EntityPlayer) {
+			if (consumeMBR && !((EntityPlayer) caster).capabilities.isCreativeMode && (result == SpellCastResult.SUCCESS || result == SpellCastResult.SUCCESS_REDUCE_MANA || result == SpellCastResult.MALFORMED_SPELL_STACK)) {
+				ext.deductMana(manaCost);
+				ext.setCurrentBurnout(getBurnoutCost(stack));
+				consumeReagents(caster, stack);
+				if (ext.getCurrentBurnout() > ext.getMaxBurnout())
+					ext.setCurrentBurnout(ext.getMaxBurnout());
+			}
 		}
 		
 		return SpellCastResult.SUCCESS;

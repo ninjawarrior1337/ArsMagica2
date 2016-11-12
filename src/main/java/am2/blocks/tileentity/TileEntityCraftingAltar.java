@@ -499,12 +499,14 @@ private IBlockState mimicState;
 	@Override
 	public void update(){
 		super.update();
-		this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
-		
+		this.ticksExisted++;
+
+		//this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
+		//if (this.ticksExisted%2 != 0)
+		//	return;
 		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
-		this.ticksExisted++;
 		if (isCrafting){
 			checkForEndCondition();
 			updatePowerRequestData();

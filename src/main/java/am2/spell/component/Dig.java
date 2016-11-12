@@ -11,10 +11,13 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
 import am2.extensions.EntityExtension;
 import am2.utils.SpellUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,14 +46,34 @@ public class Dig extends SpellComponent {
 		float hardness = state.getBlockHardness(world, blockPos);
 		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true) && state.getBlockHardness(world, blockPos) != -1 && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
 			IBlockState old = world.getBlockState(blockPos);
-			state.getBlock().breakBlock(world, blockPos, old);
-			state.getBlock().dropBlockAsItem(world, blockPos, world.getBlockState(blockPos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
-			world.destroyBlock(blockPos, false);
+			if (!SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)) {
+				BreakSequence(false, world, blockPos, stack, caster);
+			}else{
+				if (state.getBlock().canSilkHarvest(world, blockPos, state, (EntityPlayer)caster)) {
+					BreakSequence(true, world, blockPos, stack, caster);
+				}else{
+					BreakSequence(false, world, blockPos, stack, caster);
+				}
+			}
 			EntityExtension.For(caster).deductMana(hardness * 1.28f);
 		}
 		return true;
 	}
-	
+
+	public void BreakSequence(boolean hasSilk, World world, BlockPos pos, ItemStack stack, EntityLivingBase caster){
+		IBlockState bState = world.getBlockState(pos);
+		if (hasSilk){
+			bState.getBlock().breakBlock(world, pos, bState);
+			world.destroyBlock(pos, false);
+			world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(bState.getBlock())));
+		}else{
+			bState.getBlock().breakBlock(world, pos, bState);
+			bState.getBlock().dropBlockAsItem(world, pos, world.getBlockState(pos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
+			world.destroyBlock(pos, true);
+			bState.getBlock().dropXpOnBlockBreak(world, pos, bState.getBlock().getExpDrop(bState, world, pos, SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL)));
+		}
+	}
+
 	@Override
 	public EnumSet<SpellModifiers> getModifiers() {
 		return EnumSet.of(SpellModifiers.FORTUNE_LEVEL, SpellModifiers.MINING_POWER);
@@ -91,5 +114,7 @@ public class Dig extends SpellComponent {
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
 	}
+
+
 
 }

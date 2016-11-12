@@ -30,7 +30,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ArsMagica2 {
 	
 	public static final String MODID = "arsmagica2";
-	public static final String VERSION = "${version}";
+	public static final String VERSION = "GRADLE:VERSION" + "GRADLE:BUILD";
 	public static final String GUIFACTORY = "am2.config.AMGuiFactory";
 	public static SimpleNetworkWrapper network;
 	
@@ -41,6 +41,7 @@ public class ArsMagica2 {
 	public static ArsMagica2 instance = new ArsMagica2();
 	public static AMConfig config;
 	public static SpellPartConfiguration disabledSkills;
+	private File configDir;
 	
 	static {
 		new DataDefinitions();
@@ -53,8 +54,10 @@ public class ArsMagica2 {
 	
 	@EventHandler
 	public void preInit (FMLPreInitializationEvent e) {
-		config = new AMConfig(new File(e.getModConfigurationDirectory() + "\\ArsMagica2\\am2.cfg"));
-		disabledSkills = new SpellPartConfiguration(new File(e.getModConfigurationDirectory() + "\\ArsMagica2\\skills.cfg"));
+		configDir = new File(e.getModConfigurationDirectory(), "ArsMagica2");
+		config = new AMConfig(new File(configDir, "am2.cfg"));
+		//config = new AMConfig(new File(e.getModConfigurationDirectory() + "\\ArsMagica2\\am2.cfg"));
+		disabledSkills = new SpellPartConfiguration(new File(configDir, "skills.cfg"));
 		proxy.preInit();
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("AM2");
 		network.registerMessage(MessageBoolean.IceBridgeHandler.class, MessageBoolean.class, 1, Side.SERVER);

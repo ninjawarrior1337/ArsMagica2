@@ -13,11 +13,7 @@ import am2.defs.ItemDefs;
 import am2.entity.EntitySpellProjectile;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.particles.AMParticle;
-import am2.particles.AMParticleIcons;
-import am2.particles.ParticleFadeOut;
-import am2.particles.ParticleLeaveParticleTrail;
-import am2.particles.ParticleMoveOnHeading;
+import am2.particles.*;
 import am2.power.PowerTypes;
 import am2.spell.SpellCastResult;
 import am2.spell.modifier.Colour;
@@ -95,7 +91,7 @@ public class AoE extends SpellShape{
 
 
 	private void spawnAoEParticles(ItemStack stack, EntityLivingBase caster, World world, double x, double y, double z, int radius){
-		String pfxName = AMParticleIcons.instance.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack));
+		String pfxName = AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack));
 		float speed = 0.08f * radius;
 
 		int color = 0xFFFFFF;

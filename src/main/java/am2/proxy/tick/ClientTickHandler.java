@@ -45,6 +45,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -52,8 +54,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientTickHandler{
-
-	private final AMIngameGUI inGameGui = new AMIngameGUI();
 	public static HashMap<EntityLiving, EntityLivingBase> targetsToSet = new HashMap<EntityLiving, EntityLivingBase>();
 	private int mouseWheelValue = 0;
 	private int currentSlot = -1;
@@ -281,15 +281,6 @@ public class ClientTickHandler{
 	}
 
 	private void renderTick_End(){
-	}
-
-	public void renderOverlays(){
-		GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
-
-		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus ) || guiScreen instanceof GuiHudCustomization){
-			this.inGameGui.renderGameOverlay();
-			ConfigureAMUICommand.showIfQueued();
-		}
 	}
 
 	private void localServerTick_End(){

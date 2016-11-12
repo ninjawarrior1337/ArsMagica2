@@ -331,7 +331,12 @@ public class LoreDefs {
 				.addObject(new ItemStack(BlockDefs.obelisk))
 				.addObject("compendium.obelisk.page2")
 				.addObject("compendium.obelisk.page3")
-				.addObject(new TileEntityObelisk().getDefinition()));
+				.addObject(new TileEntityObelisk().getDefinition())
+				.addObject("compendium.obelisk.page4")
+				.addObject(new TileEntityObelisk().getRitual(0))
+				.addObject("compendium.obelisk.page5")
+				.addObject(new TileEntityObelisk().getRitual(1)));
+
 		BLOCK.addEntry(new CompendiumEntry(null, "mana_drain_block")
 				.addObject("compendium.mana_drain_block.page1")
 				.addObject(new ItemStack(BlockDefs.manaDrain))

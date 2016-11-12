@@ -25,6 +25,8 @@ public class BindingsDefs {
 	public static final KeyBinding SHAPE_GROUP = new KeyBinding("key.am2.shape_groups", Keyboard.KEY_C, "keybindings.am2");
 	public static final KeyBinding AURA_CUSTOMIZATION = new KeyBinding("key.am2.aura_customization", Keyboard.KEY_B, "keybindings.am2");
 	public static final KeyBinding NIGHT_VISION = new KeyBinding("key.am2.dark_vision", Keyboard.KEY_L, "keybindings.am2");
+	public static final KeyBinding SPELL_BOOK_PREV = new KeyBinding("key.am2.spellbookprev", Keyboard.KEY_Z, "keybindings.am2");
+	public static final KeyBinding SPELL_BOOK_NEXT = new KeyBinding("key.am2.spellbooknext", Keyboard.KEY_X, "keybindings.am2");
 
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event){
@@ -63,6 +65,20 @@ public class BindingsDefs {
 
 			AMNetHandler.INSTANCE.sendShapeGroupChangePacket(shapeGroup, clientPlayer.getEntityId());
 
+		}
+		else if (this.SPELL_BOOK_NEXT.isPressed()){
+			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			ItemStack curItem = player.inventory.getCurrentItem();
+			if (curItem == null || (curItem.getItem() != ItemDefs.spellBook || curItem.getItem() != ItemDefs.arcaneSpellbook))
+				return;
+			AMNetHandler.INSTANCE.sendSpellbookSlotChange(player, player.inventory.currentItem, ItemSpellBook.ID_NEXT_SPELL);
+		}
+		else if (this.SPELL_BOOK_PREV.isPressed()){
+			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			ItemStack curItem = player.inventory.getCurrentItem();
+			if (curItem == null || (curItem.getItem() != ItemDefs.spellBook || curItem.getItem() != ItemDefs.arcaneSpellbook))
+				return;
+			AMNetHandler.INSTANCE.sendSpellbookSlotChange(player, player.inventory.currentItem, ItemSpellBook.ID_PREV_SPELL);
 		}
 //		else if (this.SpellBookNextSpellKey.isPressed()){
 //			EntityPlayer player = Minecraft.getMinecraft().thePlayer;

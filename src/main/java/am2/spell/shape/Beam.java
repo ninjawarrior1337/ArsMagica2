@@ -13,10 +13,7 @@ import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
 import am2.items.ItemOre;
 import am2.items.ItemSpellBase;
-import am2.particles.AMBeam;
-import am2.particles.AMParticle;
-import am2.particles.AMParticleIcons;
-import am2.particles.ParticleMoveOnHeading;
+import am2.particles.*;
 import am2.power.PowerTypes;
 import am2.spell.SpellCastResult;
 import am2.spell.modifier.Colour;
@@ -117,7 +114,7 @@ public class Beam extends SpellShape{
 				}
 			}
 			for (int i = 0; i < ArsMagica2.config.getGFXLevel() + 1; ++i){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, AMParticleIcons.instance.getParticleForAffinity(affinity), beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, AMParticleDefs.getParticleForAffinity(affinity), beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord);
 				if (particle != null){
 					particle.setMaxAge(2);
 					particle.setParticleScale(0.1f);
