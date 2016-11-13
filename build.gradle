@@ -37,7 +37,7 @@ group= "am2" // http://maven.apache.org/guides/mini/guide-naming-conventions.htm
 archivesBaseName = "ArsMagica2"
 
 minecraft {
-    version = "1.10.2-12.18.1.2084"
+    version = "1.10.2-12.18.2.2125"
     runDir = "run"
     replace 'GRADLE:BUILD', config.build_number
     replace 'GRADLE:VERSION', config.version
