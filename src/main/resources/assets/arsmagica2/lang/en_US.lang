@@ -243,6 +243,17 @@ entity.arsmagica2.Broom.name=Broom
 entity.arsmagica2.Darkling.name=Darkling
 entity.arsmagica2.HellCow.name=Hell Cow
 
+entity.arsmagica2.WinterGuardian.name=Winter Guardian
+entity.arsmagica2.LightningGuardian.name=Lightning Guardian
+entity.arsmagica2.WaterGuardian.name=Water Guardian
+entity.arsmagica2.EarthGuardian.name=Earth Guardian
+entity.arsmagica2.LifeGuardian.name=Life Guardian
+entity.arsmagica2.ArcaneGuardian.name=Arcane Guardian
+entity.arsmagica2.EnderGuardian.name=Ender Guardian
+entity.arsmagica2.NatureGuardian.name=Nature Guardian
+entity.arsmagica2.FireGuardian.name=Fire Guardian
+entity.arsmagica2.AirGuardian.name=Air Guardian
+
 itemGroup.am2.blocks=Ars Magica 2 Blocks
 itemGroup.am2.items=Ars Magica 2 Items
 
