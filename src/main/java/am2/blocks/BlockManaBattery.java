@@ -215,11 +215,4 @@ public class BlockManaBattery extends BlockAMPowered{
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
 	}
-
-	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-		if (stack.getTagCompound().hasKey("mana_battery_powertype"))
-			if (stack.getTagCompound().getInteger("mana_battery_powertype") != PowerTypes.NONE.ID())
-				tooltip.add("Hello: " + stack.getTagCompound().getInteger("mana_battery_powertype"));
-	}
 }
