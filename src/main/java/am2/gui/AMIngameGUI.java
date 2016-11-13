@@ -3,7 +3,11 @@ package am2.gui;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import am2.blocks.BlockManaBattery;
 import am2.commands.ConfigureAMUICommand;
+import am2.defs.BlockDefs;
+import am2.power.PowerNodeRegistry;
+import am2.power.PowerTypes;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import am2.ArsMagica2;
@@ -35,12 +39,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -658,5 +664,18 @@ public class AMIngameGUI extends Gui {
 			else return 0;
 		}
 
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onItemTooltip(ItemTooltipEvent e){
+		if (e.getItemStack().getItem() instanceof ItemBlock){
+			if (((ItemBlock)e.getItemStack().getItem()).getBlock() instanceof BlockManaBattery)
+			if (e.getItemStack().getTagCompound() != null) {
+				float charge = e.getItemStack().getTagCompound().getFloat("mana_battery_charge");
+				PowerTypes powerType = PowerTypes.getByID(e.getItemStack().getTagCompound().getInteger("mana_battery_powertype"));
+				e.getToolTip().add(String.format("\u00A7r\u00A79Contains \u00A75%.2f %s%s \u00A79etherium", charge, powerType.getChatColor(), powerType.name()));
+			}
+		}
 	}
 }
