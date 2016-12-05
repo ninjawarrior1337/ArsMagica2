@@ -95,6 +95,7 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 		}
 		if (!world.isRemote){
 			EntityThrownSickle projectile = new EntityThrownSickle(world, player, 1.25f);
+			projectile.setSickleNBT(stack);
 			projectile.setThrowingEntity(player);
 			projectile.setProjectileSpeed(2.0);
 			//projectile.setInMotion(1.25);

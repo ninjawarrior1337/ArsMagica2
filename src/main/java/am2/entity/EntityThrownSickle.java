@@ -6,6 +6,8 @@ import java.util.List;
 import am2.api.DamageSources;
 import am2.bosses.EntityNatureGuardian;
 import am2.defs.ItemDefs;
+import am2.enchantments.AMEnchantmentHelper;
+import am2.items.ItemNatureGuardianSickle;
 import am2.trackers.PlayerTracker;
 import am2.utils.DummyEntityPlayer;
 import net.minecraft.block.BlockBush;
@@ -40,7 +42,7 @@ public class EntityThrownSickle extends EntityLiving{
 	private final ArrayList<Integer> entityHits;
 	private static final DataParameter<Integer> THROWING_ENTITY = EntityDataManager.createKey(EntityThrownSickle.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> PROJECTILE_SPEED = EntityDataManager.createKey(EntityThrownSickle.class, DataSerializers.VARINT);
-
+    private ItemStack itemNBT;
 	public EntityThrownSickle(World par1World){
 		super(par1World);
 		ticksExisted = 0;
@@ -48,6 +50,7 @@ public class EntityThrownSickle extends EntityLiving{
 		this.noClip = true;
 		entityHits = new ArrayList<Integer>();
 		this.setSize(0.5f, 2);
+        itemNBT = null;
 	}
 
 	public EntityThrownSickle(World world, EntityLivingBase entityLiving, double projectileSpeed){
@@ -65,6 +68,10 @@ public class EntityThrownSickle extends EntityLiving{
 		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F) * f;
 		setHeading(motionX, motionY, motionZ, projectileSpeed, projectileSpeed);	
 	}
+
+	public void setSickleNBT(ItemStack val){
+        itemNBT = val;
+    }
 	
 	public void setInMotion(double projectileSpeed) {
 		float f = 0.05F;
@@ -98,17 +105,22 @@ public class EntityThrownSickle extends EntityLiving{
 		if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityNatureGuardian){
 			((EntityNatureGuardian)getThrowingEntity()).hasSickle = true;
 		}else if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityPlayer){
-			if (!worldObj.isRemote)
-				if (getThrowingEntity().getHealth() <= 0){
-					PlayerTracker.storeSoulboundItemForRespawn((EntityPlayer)getThrowingEntity(), ItemDefs.natureScytheEnchanted.copy());
-				}else{
-					if (!((EntityPlayer)getThrowingEntity()).inventory.addItemStackToInventory(ItemDefs.natureScytheEnchanted.copy())){
-						EntityItem item = new EntityItem(worldObj);
-						item.setPosition(posX, posY, posZ);
-						item.setEntityItemStack(ItemDefs.natureScytheEnchanted.copy());
-						worldObj.spawnEntityInWorld(item);
-					}
-				}
+			if (!worldObj.isRemote) {
+                ItemStack res = itemNBT == null ? AMEnchantmentHelper.soulbindStack(new ItemStack(ItemDefs.natureScythe)) : itemNBT;
+                if (getThrowingEntity().getHealth() <= 0) {
+                    PlayerTracker.storeSoulboundItemForRespawn((EntityPlayer) getThrowingEntity(), res);
+                } else {
+                    if (!((EntityPlayer) getThrowingEntity()).inventory.addItemStackToInventory(res)) {
+                        EntityItem item = new EntityItem(worldObj);
+                        item.setPosition(posX, posY, posZ);
+                        if (itemNBT != null)
+                            item.setEntityItemStack(res);
+                        else
+                            item.setEntityItemStack(res);
+                        worldObj.spawnEntityInWorld(item);
+                    }
+                }
+            }
 		}
 		super.setDead();
 	}
