@@ -76,10 +76,8 @@ public class SpellUtils {
 		NBTTagList stageTag = NBTUtils.addCompoundList(am2Tag, STAGE + stage);
 		String shapeName = "null";
 		for (int i = 0; i < stageTag.tagCount(); i++) {
-			System.out.println("Tag " + i + ": " + stageTag.getCompoundTagAt(i).getString(TYPE));
 			if (stageTag.getCompoundTagAt(i).getString(TYPE).equals(TYPE_SHAPE)) {
 				shapeName = stageTag.getCompoundTagAt(i).getString(ID);
-				System.out.println("Shape Name: " + shapeName);
 				break;
 			}
 		}
