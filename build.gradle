@@ -36,6 +36,7 @@ version = "${config.version}-${config.build_number}"
 group= "am2" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ArsMagica2"
 
+
 minecraft {
     version = "1.10.2-12.18.2.2125"
     runDir = "run"
@@ -106,7 +107,7 @@ def parseConfig(File config) {
 }
 
 jar {
-	archiveName = "${baseName}_${version}.jar"
+	archiveName = "${baseName}-${config.mcversion}-${version}.jar"
 }
 
 defaultTasks 'clean', 'build', 'incrementBuildNumber'
