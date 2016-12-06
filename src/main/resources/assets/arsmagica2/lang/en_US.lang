@@ -1095,6 +1095,7 @@ compendium.shape.contingency_death.name=Contingency : Death
 compendium.shape.binding.name=Binding
 compendium.shape.wall.name=Wall
 compendium.shape.wave.name=Wave
+compendium.shape.toggle.name=Toggle
 
 compendium.projectile.page1=You are able to focus your will into a concentrated ball, which you can propel forwards away from you. The projectile will last for 5 seconds of flight, or until it strikes something. It will by default pass through water and non-collidable blocks unless you modify it with target non-solid blocks.
 compendium.channel.page1=Through intense concentration, a mage can maintain a flow of magic on themselves. This is useful for things like Telekinesis, Healing, Attract, and Storm.
@@ -1113,7 +1114,7 @@ compendium.contingency_death.page1=You may get me, but in those few seconds it t
 compendium.binding.page1=You can create solid objects out of nothing! The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability. Dropping the item with the drop hotkey (default 'q') will instead unbind it.
 compendium.wall.page1=You can manifest a wall in front of you. The wall will run perpendicular to your current direction. Walls function similarly to zones, but with a different form factor. Walls also apply their effects more rapidly.
 compendium.wave.page1=Project a wave of magic in front of you that rolls forward, applying its effect to everything in its path.
-
+compendium.toggle.page1=Modify your spell to be a continuous cast! While you may not be able to have multiple spells with this shape cast at once, sure there's some use for it...
 #Modifiers
 
 compendium.category.modifier.name=Modifiers

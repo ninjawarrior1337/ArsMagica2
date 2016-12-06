@@ -419,6 +419,7 @@ public class LoreDefs {
 		createShapeEntry("binding", SpellRegistry.getShapeFromName("arsmagica2:binding"), 1);
 		createShapeEntry("wall", SpellRegistry.getShapeFromName("arsmagica2:wall"), 1);
 		createShapeEntry("wave", SpellRegistry.getShapeFromName("arsmagica2:wave"), 1);
+		createShapeEntry("toggle", SpellRegistry.getShapeFromName("arsmagica2:toggle"), 1);
 	}
 	
 	private static void initComponents() {
