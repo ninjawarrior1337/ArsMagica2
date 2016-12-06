@@ -1342,7 +1342,7 @@ compendium.gateway.page2=Only then by activating another gateway with a matching
 compendium.category.block.name=Blocks
 compendium.category.block.illusionblocks.name=Illusion Blocks
 compendium.category.block.crystalmarker.name=Crystal Marker
-compendium.category.block.inlay.name=Inlays
+compendium.category.block.inlays.name=Inlays
 
 compendium.block.obelisk.name=Obelisk
 compendium.block.mana_drain_block.name=Draining Well
