@@ -106,7 +106,7 @@ public class EntityThrownSickle extends EntityLiving{
 			((EntityNatureGuardian)getThrowingEntity()).hasSickle = true;
 		}else if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityPlayer){
 			if (!worldObj.isRemote) {
-                ItemStack res = itemNBT == null ? AMEnchantmentHelper.soulbindStack(new ItemStack(ItemDefs.natureScythe)) : itemNBT;
+                ItemStack res = itemNBT == null ? ItemDefs.natureScytheEnchanted.copy() : itemNBT;
                 if (getThrowingEntity().getHealth() <= 0) {
                     PlayerTracker.storeSoulboundItemForRespawn((EntityPlayer) getThrowingEntity(), res);
                 } else {

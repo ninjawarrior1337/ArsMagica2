@@ -376,6 +376,7 @@ public class CommonProxy implements IGuiHandler{
 		NPCSpells.instance.toString();
 		PotionEffectsDefs.init();
 		items = new ItemDefs();
+		ItemDefs.initEnchantedItems();
 		blocks = new BlockDefs();
 		blocks.preInit();
 		new CreativeTabsDefs();
