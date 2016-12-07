@@ -165,7 +165,7 @@ public class BossSpawnHelper{
 
 		if (!world.isRaining()) return;
 
-		Biome biome = world.getBiomeGenForCoords(pos);
+		Biome biome = world.getBiome(pos);
 		Type[] types = BiomeDictionary.getTypesForBiome(biome);
 
 		boolean containsWaterType = false;
@@ -379,7 +379,7 @@ public class BossSpawnHelper{
 	}
 
 	public void onIceEffigyBuilt(World world, BlockPos pos){
-		Biome biome = world.getBiomeGenForCoords(pos);
+		Biome biome = world.getBiome(pos);
 		Type[] types = BiomeDictionary.getTypesForBiome(biome);
 
 		boolean containsIceType = false;
