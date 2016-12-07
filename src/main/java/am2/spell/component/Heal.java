@@ -4,6 +4,8 @@ import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
+import am2.bosses.AM2Boss;
+import am2.bosses.IArsMagicaBoss;
 import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
@@ -47,7 +49,8 @@ public class Heal extends SpellComponent{
 				return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeHolyDamage(caster), (float) (healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(Affinity.LIFE))));
 			}else{
 				int healing = SpellUtils.getModifiedInt_Mul(2, stack, caster, target, world, SpellModifiers.HEALING);
-				healing *= 1F + AffinityData.For(caster).getAffinityDepth(Affinity.LIFE);
+				if (!(caster instanceof AM2Boss))
+					healing *= 1F + AffinityData.For(caster).getAffinityDepth(Affinity.LIFE);
 				if (EntityExtension.For((EntityLivingBase)target).getHealCooldown() == 0){
 					((EntityLivingBase)target).heal(healing);
 					EntityExtension.For((EntityLivingBase)target).setHealCooldown(60);
