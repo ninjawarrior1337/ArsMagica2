@@ -9,7 +9,6 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
-	maven {url = "http://dvs1.progwm16.com/files/maven"}
 	}
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -36,7 +35,7 @@ archivesBaseName = "ArsMagica2"
 
 
 minecraft {
-    version = "1.10.2-12.18.2.2125"
+    version = "1.10.2-12.18.3.2185"
     runDir = "run"
     replace 'GRADLE:BUILD', config.build_number
     replace 'GRADLE:VERSION', config.version
