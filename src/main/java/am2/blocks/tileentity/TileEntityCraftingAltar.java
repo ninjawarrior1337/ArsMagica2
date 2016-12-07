@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import am2.blocks.render.TileCraftingAltarRenderer;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
@@ -499,18 +500,13 @@ private IBlockState mimicState;
 	@Override
 	public void update(){
 		super.update();
-		this.ticksExisted++;
-
-		//this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
-		//if (this.ticksExisted%2 != 0)
-		//	return;
 		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
 		if (isCrafting){
 			checkForEndCondition();
 			updatePowerRequestData();
-			if (!worldObj.isRemote && !currentDefinitionIsWithinStructurePower() && this.ticksExisted > 100){
+			if (!worldObj.isRemote && !currentDefinitionIsWithinStructurePower() && this.ticksExisted++ > 100){
 				worldObj.newExplosion(null, pos.getX() + 0.5, pos.getY() - 1.5, pos.getZ() + 0.5, 5, false, true);
 				setCrafting(false);
 				return;
