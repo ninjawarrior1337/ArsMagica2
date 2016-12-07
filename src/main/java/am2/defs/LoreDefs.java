@@ -341,7 +341,7 @@ public class LoreDefs {
 				.addObject("compendium.mana_drain_block.page1")
 				.addObject(new ItemStack(BlockDefs.manaDrain))
 				.addObject(new TileEntityManaDrain().getDefinition()));
-		createItemEntry(BLOCK, "essence_refiner", new ItemStack (BlockDefs.essenceRefiner), 1);
+		createItemEntry(BLOCK, "essence_refiner", new ItemStack (BlockDefs.essenceRefiner), 2);
 		createItemEntry(BLOCK, "essence_conduit", new ItemStack (BlockDefs.essenceConduit), 1);
 		createItemEntry(BLOCK, "seer_stone", new ItemStack (BlockDefs.seerStone), 1);
 		createItemEntry(BLOCK, "astral_barrier", new ItemStack (BlockDefs.astralBarrier), 1);
