@@ -332,7 +332,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 			return false;
 		}
 		//get the biome we're trying to spawn in
-		Biome biome = worldObj.getBiomeGenForCoords(this.getPosition());
+		Biome biome = this.getEntityWorld().getBiome(this.getPosition());
 		if (biome != null){
 			//get the tags on this biome
 			Type[] biomeTags = BiomeDictionary.getTypesForBiome(biome);

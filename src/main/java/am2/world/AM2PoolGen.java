@@ -49,8 +49,8 @@ public class AM2PoolGen{
 
 		int radius = 2;
 
-		IBlockState requiredBlock = world.getBiomeGenForCoords(pos).topBlock;
-		IBlockState alternateBlock = world.getBiomeGenForCoords(pos).fillerBlock;
+		IBlockState requiredBlock = world.getBiome(pos).topBlock;
+		IBlockState alternateBlock = world.getBiome(pos).fillerBlock;
 
 		if (requiredBlock == null || alternateBlock == null) return false;
 
@@ -74,7 +74,7 @@ public class AM2PoolGen{
 	}
 
 	private boolean biomeIsValid(World world, BlockPos pos){
-		Biome biome = world.getBiomeGenForCoords(pos);
+		Biome biome = world.getBiome(pos);
 		Type[] types = BiomeDictionary.getTypesForBiome(biome);
 
 		for (Type type : types){

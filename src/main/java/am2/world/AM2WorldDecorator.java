@@ -110,7 +110,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		generateFlowers(desertNova, world, random, chunkX, chunkZ);
 		generateFlowers(tarmaRoot, world, random, chunkX, chunkZ);
 
-		Biome biome = world.getBiomeGenForCoords(new BlockPos (chunkX << 4, 0, chunkZ << 4));
+		Biome biome = world.getBiome(new BlockPos (chunkX << 4, 0, chunkZ << 4));
 		Type[] biomeTypes = BiomeDictionary.getTypesForBiome(biome);
 		boolean typeValid = false;
 		for (Type type : biomeTypes){

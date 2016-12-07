@@ -209,7 +209,7 @@ public class BlockEverstone extends BlockAMPowered{
 				if (block == null) block = this.getDefaultState();
 			}
 			
-			manager.addEffect(new ParticleDigging.Factory().getEntityFX(0, world,
+			manager.addEffect(new ParticleDigging.Factory().createParticle(0, world,
 					pos.getX() + world.rand.nextDouble(),
 					pos.getY() + world.rand.nextDouble(),
 					pos.getZ() + world.rand.nextDouble(), 0, 0, 0, Block.getStateId(block)));
@@ -232,7 +232,7 @@ public class BlockEverstone extends BlockAMPowered{
 		}
 		
 		
-		manager.addEffect(new ParticleDigging.Factory().getEntityFX(0, worldObj,
+		manager.addEffect(new ParticleDigging.Factory().createParticle(0, worldObj,
 				target.getBlockPos().getX() + worldObj.rand.nextDouble(),
 				target.getBlockPos().getY() + worldObj.rand.nextDouble(),
 				target.getBlockPos().getZ() + worldObj.rand.nextDouble(), 0, 0, 0, Block.getStateId(block)));

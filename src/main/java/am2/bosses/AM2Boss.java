@@ -242,7 +242,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	}
 
 	public World getWorld(){
-		return this.worldObj;
+		return this.getEntityWorld();
 	}
 	
     /**

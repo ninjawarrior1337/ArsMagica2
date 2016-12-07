@@ -205,7 +205,7 @@ public class SpellUtils {
 	
 	private static void dropHead(Entity target, World world){
 		if (target.getClass() == EntitySkeleton.class){
-			if (((EntitySkeleton)target).func_189771_df() == SkeletonType.WITHER){
+			if (((EntitySkeleton)target).getSkeletonType() == SkeletonType.WITHER){
 				dropHead_do(world, target.posX, target.posY, target.posZ, 1);
 			}else{
 				dropHead_do(world, target.posX, target.posY, target.posZ, 0);
