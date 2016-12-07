@@ -49,38 +49,38 @@ public class Dispel extends SpellComponent{
 			}
 		}
 
-		List<Potion> effectsToRemove = new ArrayList<>();
+		//List<Potion> effectsToRemove = new ArrayList<>();
 
-		Iterator<PotionEffect> iter = ((EntityLivingBase)target).getActivePotionEffects().iterator();
+		//Iterator<PotionEffect> iter = ((EntityLivingBase)target).getActivePotionEffects().iterator();
 
-		int magnitudeLeft = 6;
+		//int magnitudeLeft = 6;
 
-		while (iter.hasNext()){
-			Potion potion = ((PotionEffect)iter.next()).getPotion();
+		//while (iter.hasNext()){
+			//Potion potion = ((PotionEffect)iter.next()).getPotion();
 //			if (PotionEffectsDefs.isDispelBlacklisted(potionID)){
 //				continue;
 //			}
-			PotionEffect pe = ((EntityLivingBase)target).getActivePotionEffect(potion);
+			//PotionEffect pe = ((EntityLivingBase)target).getActivePotionEffect(potion);
 
-			int magnitudeCost = pe.getAmplifier();
+			//int magnitudeCost = pe.getAmplifier();
 
-			if (magnitudeLeft >= magnitudeCost){
-				magnitudeLeft -= magnitudeCost;
-				effectsToRemove.add(potion);
+			//if (magnitudeLeft >= magnitudeCost){
+			//	magnitudeLeft -= magnitudeCost;
+			//	effectsToRemove.add(potion);
 
-				if (pe instanceof BuffEffect && !world.isRemote){
-					((BuffEffect)pe).stopEffect((EntityLivingBase)target);
-				}
-			}
-		}
+			//	if (pe instanceof BuffEffect && !world.isRemote){
+			//		((BuffEffect)pe).stopEffect((EntityLivingBase)target);
+			//	}
+			//}
+		//}
 
-		if (effectsToRemove.size() == 0 && EntityExtension.For((EntityLivingBase)target).getCurrentSummons() == 0){
-			return false;
-		}
+		//if (effectsToRemove.size() == 0 && EntityExtension.For((EntityLivingBase)target).getCurrentSummons() == 0){
+		//	return false;
+		//}
 
-		if (!world.isRemote){
-			removePotionEffects((EntityLivingBase)target, effectsToRemove);
-		}
+		//if (!world.isRemote){
+		//	removePotionEffects((EntityLivingBase)target, effectsToRemove);
+		//}
 
 		//TODO:
 		/*if (ExtendedProperties.For((EntityLivingBase)target).getNumSummons() > 0){
@@ -95,6 +95,9 @@ public class Dispel extends SpellComponent{
 				}
 			}
 		}*/
+		if (world.isRemote) {
+            ((EntityLivingBase)target).clearActivePotions();
+        }
 		return true;
 	}
 	
