@@ -500,19 +500,20 @@ private IBlockState mimicState;
 	@Override
 	public void update(){
 		super.update();
+		ticksExisted++;
 		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
 		if (isCrafting){
 			checkForEndCondition();
 			updatePowerRequestData();
-			if (!worldObj.isRemote && !currentDefinitionIsWithinStructurePower() && this.ticksExisted++ > 100){
+			if (!worldObj.isRemote && !currentDefinitionIsWithinStructurePower() && this.ticksExisted > 100){
 				worldObj.newExplosion(null, pos.getX() + 0.5, pos.getY() - 1.5, pos.getZ() + 0.5, 5, false, true);
 				setCrafting(false);
 				return;
 			}
 			if (worldObj.isRemote && checkCounter == 1){
-				ArsMagica2.proxy.particleManager.RibbonFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() - 2, pos.getZ() + 0.5, pos.getX() + 0.5, pos.getY() - 3, pos.getZ() + 0.5);
+			ArsMagica2.proxy.particleManager.RibbonFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() - 2, pos.getZ() + 0.5, pos.getX() + 0.5, pos.getY() - 3, pos.getZ() + 0.5);
 			}
 			List<EntityItem> components = lookForValidItems();
 			ItemStack stack = getNextPlannedItem();
@@ -737,6 +738,8 @@ private IBlockState mimicState;
 
 	private void checkStructure(){
 		maxEffects = 0;
+		if (checkCounter++ > 50)
+			checkCounter = 0;
 		if (primary.matches(worldObj, pos)) {
 			for (MultiblockGroup matching : primary.getMatchingGroups(worldObj, pos)) {
 				for (IBlockState state : matching.getStates()) {
