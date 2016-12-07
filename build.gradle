@@ -9,9 +9,7 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
- 		maven {
-			url "http://dvs1.progwml6.com/files/maven"
-		}
+	maven {url = "http://dvs1.progwm16.com/files/maven"}
 	}
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -44,7 +42,7 @@ minecraft {
     replace 'GRADLE:VERSION', config.version
     replaceIn 'ArsMagica2.java'
 	//replace '${version}', project.version
-    mappings = "snapshot_20160518"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
+    mappings = "snapshot_20161111"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
 }
 
 jar {
@@ -55,7 +53,8 @@ jar {
 }
 
 dependencies {
-	deobfCompile "mezz.jei:jei_1.9.4:3.6.8.225"
+	deobfCompile "mezz.jei:jei_${config.mcversion}:${config.jei_version}:api"
+	runtime "mezz.jei:jei_${config.mcversion}:${config.jei_version}"
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
