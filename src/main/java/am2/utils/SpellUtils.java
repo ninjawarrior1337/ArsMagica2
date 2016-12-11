@@ -109,6 +109,8 @@ public class SpellUtils {
 	
 	public static boolean modifierIsPresent (SpellModifiers mod, ItemStack stack) {
 		ArrayList<SpellModifier> mods = getModifiersForStage(stack, -1);
+		if (mods.isEmpty())
+			return false;
 		for (SpellModifier m : mods) {
 			if (m.getAspectsModified().contains(mod)) 
 				return true;
@@ -648,6 +650,8 @@ public class SpellUtils {
 	
 	public static ArrayList<SpellModifier> getModifiersForStage (ItemStack stack, int stage) {
 		ArrayList<SpellModifier> mods = new ArrayList<SpellModifier>();
+		if (stack.getTagCompound() == null)
+			return mods;
 		if (stage != -1) {
 			NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + stage);
 			for (int i = 0; i < stageTag.tagCount(); i++) {
@@ -658,7 +662,8 @@ public class SpellUtils {
 				}
 			}
 		} else {
-			for (int j = 0; j <= NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) { 
+			for (int j = 0; j <= NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) {
+
 				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
