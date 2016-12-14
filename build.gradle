@@ -105,7 +105,7 @@ def parseConfig(File config) {
 }
 
 jar {
-	archiveName = "${baseName}-${config.mcversion}-${version}.jar"
+	archiveName = "ArsMagica2_1.10.2.jar"
 }
 
 defaultTasks 'clean', 'build', 'incrementBuildNumber'
