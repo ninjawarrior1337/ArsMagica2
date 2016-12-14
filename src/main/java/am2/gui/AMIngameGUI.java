@@ -73,7 +73,7 @@ public class AMIngameGUI extends Gui {
 	}
 
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority= EventPriority.NORMAL)
+	@SubscribeEvent()
 	public void renderGameOverlay(RenderGameOverlayEvent.Post e){
 		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
 			return;
@@ -106,6 +106,9 @@ public class AMIngameGUI extends Gui {
 			}
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			GlStateManager.popAttrib();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.DST_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
+			GlStateManager.enableDepth();
+			GlStateManager.disableAlpha();
 			GlStateManager.resetColor();
 			ConfigureAMUICommand.showIfQueued();
 		}
@@ -287,7 +290,7 @@ public class AMIngameGUI extends Gui {
 			fontRendererObj.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, hasBonusMana ? 0xeae31c : hasOverloadMana ? 0xFF2020 : 0x2080FF);
 			fontRendererObj.drawString(burnoutStr, burnoutNumericPos.iX + 25 - fontRendererObj.getStringWidth(burnoutStr), burnoutNumericPos.iY, 0xFF2020);
 		}
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		//Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}
 
 //	private ItemStack getSpellFromStack(ItemStack stack){
