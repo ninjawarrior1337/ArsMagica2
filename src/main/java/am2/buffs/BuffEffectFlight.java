@@ -22,6 +22,7 @@ public class BuffEffectFlight extends BuffEffect{
 	public void performEffect(EntityLivingBase entityliving){
 		if (entityliving instanceof EntityPlayerMP){
 			((EntityPlayer)entityliving).capabilities.allowFlying = true;
+			((EntityPlayer)entityliving).capabilities.isFlying = true;
 			if (getDuration() % 20 == 0)
 				ArsMagica2.network.sendToServer(new MessageCapabilities((EntityPlayer) entityliving, 1, true));
 		}
