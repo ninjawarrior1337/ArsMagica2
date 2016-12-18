@@ -11,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AMConfig extends Configuration{
 
@@ -295,7 +297,7 @@ public class AMConfig extends Configuration{
 		showXPAlways = get(CATEGORY_UI, KEY_ShowXPAlways, false).getBoolean(false);
 		showHudBars = get(CATEGORY_UI, KEY_ShowHUDBars, true).getBoolean(true);
 
-		witchwoodForestID = get(CATEGORY_GENERAL, KEY_WitchwoodForestBiomeID, 100).getInt();
+		witchwoodForestID = get(CATEGORY_GENERAL, KEY_WitchwoodForestBiomeID, -1, "Sets the biome ID that Witchwood Forest will use. Default: -1 (automatic))").getInt();
 		witchwoodLeafParticles = get(CATEGORY_GENERAL, KEY_witchwoodLeavesFall, true, "Disable this if you experience low FPS in witchwood forests").getBoolean(true);
 		enableWitchwoodForest = get(CATEGORY_GENERAL, KEY_EnableWitchwoodForest, true, "Disable this if you prefer the witchwood forest to not generate").getBoolean(true);
 		witchwoodForestRarity = get(CATEGORY_GENERAL, KEY_WitchwoodForestRarity, 6, "Sets how rare witchwood forests are.  Lower is more rare.").getInt();
@@ -380,6 +382,7 @@ public class AMConfig extends Configuration{
 		save();
 	}
 
+	@SideOnly(Side.CLIENT)
 	public void clientInit(){
 		AuraType = get(CATEGORY_BETA, KEY_AuraType, 15).getInt(15);
 		//AuraType %= AMParticle.particleTypes.length;
@@ -776,6 +779,7 @@ public class AMConfig extends Configuration{
 	// Setters
 	//====================================================================================
 
+	@SideOnly(Side.CLIENT)
 	public void setAuraIndex(int index){
 		if (index < 0) index = 0;
 		if (index >= AMParticle.particleTypes.length) index = AMParticle.particleTypes.length - 1;
