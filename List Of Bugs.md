@@ -1,6 +1,6 @@
 Crashes:
 
-	- Crash on creating new spells(possibly due to server/OS)
+	- Crash on creating new spells(possibly due to server/OS) = Fixed on linux, can't test on windows however
 	- Crash with The One Probe and creation of the compendium**
 	- Crash with starstrike hitting non-living entities*
 	
