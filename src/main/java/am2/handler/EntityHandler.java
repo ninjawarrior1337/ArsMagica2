@@ -116,8 +116,6 @@ public class EntityHandler {
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxBurnoutBonus);
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxManaBonus);
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.xpGainModifier);
-		}else if (event.getEntity() instanceof EntityItemFrame){
-			ArsMagica2.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.getEntity());
 		}
 	}
 	
