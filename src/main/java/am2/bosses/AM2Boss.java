@@ -11,6 +11,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -213,8 +214,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 		}
 
 		this.ticksInCurrentAction++;
-
-		if (ticksInCurrentAction > 200){
+		if (ticksInCurrentAction > this.getCurrentAction().getMaxActionTime()){
 			setCurrentAction(BossActions.IDLE);
 		}
 

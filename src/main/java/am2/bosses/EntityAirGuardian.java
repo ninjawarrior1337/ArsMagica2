@@ -16,6 +16,7 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleApproachEntity;
 import am2.particles.ParticleFloatUpward;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -47,8 +48,9 @@ public class EntityAirGuardian extends AM2Boss{
 
 	@Override
 	protected void initSpecificAI(){
+		this.tasks.addTask(7, new EntityAIWander(this, 0.7f));
 		this.tasks.addTask(1, new EntityAIDispel(this));
-		this.tasks.addTask(1, new EntityAISpawnWhirlwind(this));
+		this.tasks.addTask(1, new EntityAISpawnWhirlwind(this, 0.5f));
 		this.tasks.addTask(2, new EntityAIHurricane(this, 0.5f));
 	}
 
