@@ -1,7 +1,7 @@
+**This is the current list of known bugs, if there are any that have NOT been added to this yet, make an issue post!**
 Crashes:
 
 	- Crash on creating new spells(possibly due to server/OS) = Fixed on linux, can't test on windows however
-	- Crash with The One Probe and creation of the compendium**
 	- Crash with starstrike hitting non-living entities*
 	
 Bugs:
