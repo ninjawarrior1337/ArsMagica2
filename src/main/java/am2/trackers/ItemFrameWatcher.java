@@ -93,11 +93,11 @@ public class ItemFrameWatcher{
 						}else{
 							shouldRemove = false;
 							if (frame.worldObj.isRemote){
-								spawnCompendiumProgressParticles(frame, frame.getPosition().add(i, j, k));
+								if(watchedFrames.get(frameComp) % 2 == 0 || (time & 7) != 0)
+									spawnCompendiumProgressParticles(frame, frame.getPosition().add(i, j, k));
 							}
 						}
 					}
-
 				}
 			}
 		}
