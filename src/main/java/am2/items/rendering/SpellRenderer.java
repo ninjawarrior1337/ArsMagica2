@@ -34,7 +34,6 @@ public class SpellRenderer implements ItemMeshDefinition {
 	public SpellRenderer(){
 			resources = getResourceListing();
 			for (ResourceLocation resource : resources) {
-				System.out.println("resource: " + resource.getResourcePath());
 				locations.add(new ModelResourceLocation(resource, "inventory"));
 				ModelBakery.registerItemVariants(ItemDefs.spell, new ModelResourceLocation(resource, "inventory"));
 			}
@@ -79,6 +78,7 @@ public class SpellRenderer implements ItemMeshDefinition {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Collections.sort(toReturn, (o1, o2) -> o1.toString().compareTo(o2.toString()));
         return toReturn;
     }
 	@Override

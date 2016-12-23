@@ -167,6 +167,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Collections.sort(toReturn, (o1, o2) -> o1.toString().compareTo(o2.toString()));
 		return toReturn;
 	}
 }
