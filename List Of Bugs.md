@@ -6,9 +6,7 @@ Crashes:
 	
 Bugs:
 
-	- Pierce has no effect
 	- Ender boots do not work when other players are near
-	- Reflect has no effect
 	- Random Teleport works once, then doesn't work at all until relog
 	- Entangle doesn't stick mobs in the air
 	- Projectile textures and parts of gui get warped
