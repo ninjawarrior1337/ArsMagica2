@@ -87,16 +87,16 @@ public class EntityManager {
 		EntityRegistry.registerModEntity(EntityWhirlwind.class, "Whirlwind", 15, ArsMagica2.instance, 64, 2, true);
 		EntityRegistry.registerModEntity(EntityWinterGuardianArm.class, "WinterGuardianArm", 16, ArsMagica2.instance, 64, 2, true);
 		
-		EntityRegistry.registerModEntity(EntityAirGuardian.class, "AirGuardian", 17, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityArcaneGuardian.class, "ArcaneGuardian", 18, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityEarthGuardian.class, "EarthGuardian", 19, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityEnderGuardian.class, "EnderGuardian", 20, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityFireGuardian.class, "FireGuardian", 21, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityLifeGuardian.class, "LifeGuardian", 22, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityLightningGuardian.class, "LightningGuardian", 23, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityNatureGuardian.class, "NatureGuardian", 24, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityWaterGuardian.class, "WaterGuardian", 25, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityWinterGuardian.class, "WinterGuardian", 26, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(EntityAirGuardian.class, "AirGuardian", 17, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFFCC00);
+		EntityRegistry.registerModEntity(EntityArcaneGuardian.class, "ArcaneGuardian", 18, ArsMagica2.instance, 64, 2, true, 0x999999, 0xcc00cc);
+		EntityRegistry.registerModEntity(EntityEarthGuardian.class, "EarthGuardian", 19, ArsMagica2.instance, 64, 2, true, 0x663300, 0x339900);
+		EntityRegistry.registerModEntity(EntityEnderGuardian.class, "EnderGuardian", 20, ArsMagica2.instance, 64, 2, true, 0x000000, 0x6633);
+		EntityRegistry.registerModEntity(EntityFireGuardian.class, "FireGuardian", 21, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFF0000);
+		EntityRegistry.registerModEntity(EntityLifeGuardian.class, "LifeGuardian", 22, ArsMagica2.instance, 64, 2, true, 0x00E6FF, 0xFFE600);
+		EntityRegistry.registerModEntity(EntityLightningGuardian.class, "LightningGuardian", 23, ArsMagica2.instance, 64, 2, true, 0xFFE600, 0x00C4FF);
+		EntityRegistry.registerModEntity(EntityNatureGuardian.class, "NatureGuardian", 24, ArsMagica2.instance, 64, 2, true, 0x44FF00, 0x307D0F);
+		EntityRegistry.registerModEntity(EntityWaterGuardian.class, "WaterGuardian", 25, ArsMagica2.instance, 64, 2, true, 0x0F387D, 0x0097CE);
+		EntityRegistry.registerModEntity(EntityWinterGuardian.class, "WinterGuardian", 26, ArsMagica2.instance, 64, 2, true, 0x00CEBA, 0x104742);
 		
 		EntityRegistry.registerModEntity(EntityAirSled.class, "AirSled", 27, ArsMagica2.instance, 64, 2, true);
 		EntityRegistry.registerModEntity(EntityBroom.class, "Broom", 28, ArsMagica2.instance, 64, 2, true);
