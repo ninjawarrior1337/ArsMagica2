@@ -2,6 +2,7 @@ package am2.entity;
 
 import java.util.List;
 
+import am2.spell.component.Dig;
 import com.google.common.base.Optional;
 
 import am2.api.affinity.Affinity;
@@ -123,7 +124,10 @@ public class EntitySpellProjectile extends Entity {
 					} else {
 						SpellUtils.applyStageToGround(getSpell(), getShooter(), worldObj, mop.getBlockPos(), mop.sideHit, posX, posY, posZ, true);
 						SpellUtils.applyStackStage(getSpell(), getShooter(), null, mop.hitVec.xCoord + motionX, mop.hitVec.yCoord + motionY, mop.hitVec.zCoord + motionZ, mop.sideHit, worldObj, false, true, 0);
-						this.setDead();
+						if (this.dataManager.get(DW_PIERCE_COUNT) < 1 || !SpellUtils.componentIsPresent(getSpell(), Dig.class))
+							this.setDead();
+						else
+							this.dataManager.set(DW_PIERCE_COUNT, this.dataManager.get(DW_PIERCE_COUNT) - 1);
 					}
 				}
 			} else {
@@ -145,7 +149,10 @@ public class EntitySpellProjectile extends Entity {
 					}
 				}
 				if (effSize != 0) {
-					this.setDead();
+					if (this.dataManager.get(DW_PIERCE_COUNT) < 1)
+						this.setDead();
+					else
+						this.dataManager.set(DW_PIERCE_COUNT, this.dataManager.get(DW_PIERCE_COUNT) - 1);
 				}
 			}
 			motionY += (float)this.getDataManager().get(DW_GRAVITY);
