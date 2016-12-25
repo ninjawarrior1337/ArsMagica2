@@ -260,7 +260,6 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 						this.inventory[0] = new ItemStack(this.inventory[0].getItem().getContainerItem());
 					else
 						InventoryUtilities.decrementStackQuantity(this, 0, 1);
-
 					sendCookUpdateToClients();
 				}
 			}
