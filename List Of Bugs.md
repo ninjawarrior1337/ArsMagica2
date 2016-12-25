@@ -8,7 +8,6 @@ Bugs:
 
 	- Ender boots do not work when other players are near
 	- Random Teleport works once, then doesn't work at all until relog
-	- Entangle doesn't stick mobs in the air
 	- Projectile textures and parts of gui get warped
 	- Lectern doesn't render ink sak correctly
 	- Warding candle doesn't update until you swap it out of hand
