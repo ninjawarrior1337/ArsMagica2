@@ -239,6 +239,11 @@ public class EntityHandler {
 
 		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.wateryGrave) && event.getEntityLiving().isInWater())
 		    event.getEntityLiving().addVelocity(0, -0.1, 0);
+        else if(event.getEntityLiving().isPotionActive(PotionEffectsDefs.entangle)){
+            event.getEntityLiving().motionX = 0;
+            event.getEntityLiving().motionY = 0;
+            event.getEntityLiving().motionZ = 0;
+        }
 		//Contingency
 		ContingencyType type = ext.getContingencyType();
 		if (event.getEntityLiving().isBurning() && type == ContingencyType.FIRE) {
