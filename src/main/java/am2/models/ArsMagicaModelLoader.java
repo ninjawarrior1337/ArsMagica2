@@ -159,8 +159,8 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 			Stream<Path> walk = Files.walk(dir, 1);
 			for(Iterator<Path> file = walk.iterator(); file.hasNext();){
 				String name = file.next().toString();
-				if (name.lastIndexOf("/") + 1 > name.length()) continue;
-				name = name.substring(name.lastIndexOf("/") + 1);
+				if (name.lastIndexOf(File.separatorChar) + 1 > name.length()) continue;
+				name = name.substring(name.lastIndexOf(File.separatorChar) + 1);
 				if (name.equals("")) continue;
 				toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + name.replace(".png", "")));
 			}

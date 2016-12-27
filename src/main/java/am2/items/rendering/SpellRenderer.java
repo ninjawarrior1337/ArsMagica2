@@ -39,8 +39,8 @@ public class SpellRenderer implements ItemMeshDefinition {
 			}
 			LogHelper.info("Sucessfully Loaded " + locations.size() + " Spell Icons");
 	}
-	
-	public static List<ResourceLocation> getResourceListing(){
+
+    public static List<ResourceLocation> getResourceListing(){
         ArrayList<ResourceLocation> toReturn = new ArrayList<>();
         try {
             URI uri = ArsMagica2.class.getResource(iconsPath).toURI();
@@ -70,8 +70,8 @@ public class SpellRenderer implements ItemMeshDefinition {
             Stream<Path> walk = Files.walk(dir, 1);
             for(Iterator<Path> file = walk.iterator(); file.hasNext();){
                 String name = file.next().toString();
-                if (name.lastIndexOf("/") + 1 > name.length()) continue;
-                name = name.substring(name.lastIndexOf("/") + 1);
+                if (name.lastIndexOf(File.separatorChar) + 1 > name.length()) continue;
+                name = name.substring(name.lastIndexOf(File.separatorChar) + 1);
                 if (name.equals("")) continue;
                 toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + name.replace(".json", "")));
             }
@@ -81,6 +81,7 @@ public class SpellRenderer implements ItemMeshDefinition {
         Collections.sort(toReturn, (o1, o2) -> o1.toString().compareTo(o2.toString()));
         return toReturn;
     }
+
 	@Override
 	public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return locations.get(MathHelper.clamp_int(stack.getItemDamage(), 0, locations.size() - 1));
