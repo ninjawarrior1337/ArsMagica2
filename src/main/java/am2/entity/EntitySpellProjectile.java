@@ -3,6 +3,7 @@ package am2.entity;
 import java.util.List;
 
 import am2.spell.component.Dig;
+import am2.spell.modifier.Piercing;
 import com.google.common.base.Optional;
 
 import am2.api.affinity.Affinity;
@@ -38,6 +39,7 @@ public class EntitySpellProjectile extends Entity {
 	private static final DataParameter<Boolean> DW_HOMING = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> DW_HOMING_TARGET = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.VARINT);
 
+	private static int currentPierces;
 	public EntitySpellProjectile(World worldIn) {
 		super(worldIn);
 		setSize(0.5F, 0.5F);
@@ -78,6 +80,8 @@ public class EntitySpellProjectile extends Entity {
 	public int getBounces () {
 		return this.getDataManager().get(DW_BOUNCE_COUNTER);
 	}
+
+	public int getPierces () { return this.getDataManager().get(DW_PIERCE_COUNT) - this.currentPierces; }
 	
 	public ItemStack getSpell () {
 		return this.getDataManager().get(DW_EFFECT).orNull();
@@ -124,10 +128,10 @@ public class EntitySpellProjectile extends Entity {
 					} else {
 						SpellUtils.applyStageToGround(getSpell(), getShooter(), worldObj, mop.getBlockPos(), mop.sideHit, posX, posY, posZ, true);
 						SpellUtils.applyStackStage(getSpell(), getShooter(), null, mop.hitVec.xCoord + motionX, mop.hitVec.yCoord + motionY, mop.hitVec.zCoord + motionZ, mop.sideHit, worldObj, false, true, 0);
-						if (this.dataManager.get(DW_PIERCE_COUNT) < 1 || !SpellUtils.componentIsPresent(getSpell(), Dig.class))
+						if (this.getPierces() == 1 || !SpellUtils.modifierIsPresent(SpellModifiers.PIERCING, this.getSpell()))
 							this.setDead();
 						else
-							this.dataManager.set(DW_PIERCE_COUNT, this.dataManager.get(DW_PIERCE_COUNT) - 1);
+							this.currentPierces++;
 					}
 				}
 			} else {
@@ -149,10 +153,10 @@ public class EntitySpellProjectile extends Entity {
 					}
 				}
 				if (effSize != 0) {
-					if (this.dataManager.get(DW_PIERCE_COUNT) < 1)
+					if (this.getPierces() == 1 || !SpellUtils.modifierIsPresent(SpellModifiers.PIERCING, this.getSpell()))
 						this.setDead();
 					else
-						this.dataManager.set(DW_PIERCE_COUNT, this.dataManager.get(DW_PIERCE_COUNT) - 1);
+						this.currentPierces++;
 				}
 			}
 			motionY += (float)this.getDataManager().get(DW_GRAVITY);
@@ -196,6 +200,7 @@ public class EntitySpellProjectile extends Entity {
 		am2Tag.setTag("Effect", tmp);
 		am2Tag.setString("IconName", dataManager.get(DW_ICON_NAME));
 		am2Tag.setInteger("PierceCount", dataManager.get(DW_PIERCE_COUNT));
+
 		am2Tag.setInteger("Color", dataManager.get(DW_COLOR));
 		am2Tag.setInteger("Shooter", dataManager.get(DW_SHOOTER));
 		am2Tag.setBoolean("TargetGrass", dataManager.get(DW_TARGETGRASS));
@@ -246,6 +251,7 @@ public class EntitySpellProjectile extends Entity {
 
 	public void setNumPierces(int pierces) {
 		this.getDataManager().set(DW_PIERCE_COUNT, pierces);
+		this.currentPierces = 0;
 	}
 
 	public void setHoming(boolean homing) {
