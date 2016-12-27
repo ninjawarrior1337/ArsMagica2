@@ -40,7 +40,7 @@ public class BlockManaBattery extends BlockAMPowered{
 		if (!super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ))
 			return true;
 
-		if (worldIn.isRemote){
+		if (!worldIn.isRemote){
 			TileEntityManaBattery te = getTileEntity(worldIn, pos);
 			if (te != null){
 				if (ArsMagica2.config.colourblindMode()){

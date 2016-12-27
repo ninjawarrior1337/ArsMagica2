@@ -39,7 +39,7 @@ public class RandomTeleport extends SpellComponent{
 		Vec3d origin = new Vec3d(target.posX, target.posY, target.posZ);
 		float maxDist = 9;
 		maxDist = (float)SpellUtils.getModifiedDouble_Mul(maxDist, stack, caster, target, world, SpellModifiers.RANGE);
-		origin.add(new Vec3d((world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist));
+		origin = origin.add(new Vec3d((world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist));
 		return origin;
 	}
 	
