@@ -4,6 +4,7 @@ import am2.blocks.BlockLectern;
 import am2.blocks.tileentity.TileEntityLectern;
 import am2.gui.AMGuiHelper;
 import am2.models.ModelArchmagePodium;
+import am2.proxy.tick.ClientTickHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,9 +12,12 @@ import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -23,7 +27,8 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 	RenderEntityItem renderItem = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem());
 	private final ModelBook enchantmentBook = new ModelBook();
 	private final ModelArchmagePodium podium = new ModelArchmagePodium();
-	
+	private static int curDye = 1;
+	private static int curTick = 0;
 	public TileLecternRenderer() {
 		
 	}
@@ -72,14 +77,31 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 			return;
 		}
 
+		float deg = (curTick / 0.25f % 360F);
+
+
+
 		ItemStack stack = podium.getTooltipStack().copy();
 		stack.stackSize = 1;
-		AMGuiHelper.instance.dummyItem.setEntityItemStack(stack);
-		try {
-			renderItem.doRender(AMGuiHelper.instance.dummyItem, x + 0.5f, y + 1.4f, z + 0.5f, AMGuiHelper.instance.dummyItem.rotationYaw, f);
-		} catch (NullPointerException e) {
-			renderItem = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem());
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.translate(x +0.5f, y+1.4f, z+0.5f);
+		GlStateManager.rotate(deg, 0, f, 0);
+		if (this.curTick++ >= 100) {
+			this.curTick = 0;
+			curDye++;
+			if (curDye >= 16)
+				curDye = 1;
+
 		}
+		if(stack.getItem() == Items.DYE){
+			stack = new ItemStack(Items.DYE, 1, curDye);
+		}
+		Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.GROUND);
+		//try {
+		//renderItem.doRender(AMGuiHelper.instance.dummyItem, x + 0.5f, y + 1.4f, z + 0.5f, AMGuiHelper.instance.dummyItem.rotationYaw, f);
+		//} catch (NullPointerException e) {
+		//	renderItem = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem());
+		//}
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x + 0.5f, y + 1f, z + 0.5f);
 		float scale = 0.2f;
