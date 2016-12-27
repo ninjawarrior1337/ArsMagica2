@@ -1,7 +1,6 @@
 **This is the current list of known bugs, if there are any that have NOT been added to this yet, make an issue post!**
 Crashes:
 	- Crash with starstrike hitting non-living entities*
-	
 Bugs:
 
 	- Ender boots do not work when other players are near
