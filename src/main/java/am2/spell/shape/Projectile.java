@@ -59,7 +59,6 @@ public class Projectile extends SpellShape {
 			double projectileSpeed = SpellUtils.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.SPEED);
 			float projectileGravity = (float) SpellUtils.getModifiedDouble_Mul(stack, caster, target, world, SpellModifiers.GRAVITY);
 			int projectileBounce = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.BOUNCE);
-			int pierces = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.PIERCING);
 			EntitySpellProjectile projectile = new EntitySpellProjectile(world);
 			projectile.setPosition(caster.posX, caster.getEyeHeight() + caster.posY, caster.posZ);
 			projectile.motionX = caster.getLookVec().xCoord * projectileSpeed;
@@ -69,13 +68,12 @@ public class Projectile extends SpellShape {
 				projectile.setTargetWater();
 			projectile.setGravity(projectileGravity);
 			projectile.setBounces(projectileBounce);
-			projectile.setNumPierces(pierces);
+			projectile.setNumPierces((SpellUtils.countModifiers(SpellModifiers.PIERCING, stack) * 2) * 2);
 			projectile.setShooter(caster);
 			projectile.setHoming(SpellUtils.modifierIsPresent(SpellModifiers.HOMING, stack));
 			projectile.setSpell(stack);
 			//if (AMParticleIcons.instance != null)
 			projectile.setIcon(AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack)));
-
 			world.spawnEntityInWorld(projectile);
 		}
 		return SpellCastResult.SUCCESS;
