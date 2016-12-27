@@ -14,19 +14,16 @@ import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
-import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
+import net.minecraftforge.fml.common.registry.*;
 
 public class ArsMagicaAPI {
 	
-	private static final FMLControlledNamespacedRegistry<Affinity> AFFINITY_REGISTRY;
-	private static final FMLControlledNamespacedRegistry<AbstractAffinityAbility> ABILITY_REGISTRY;
-	private static final FMLControlledNamespacedRegistry<ArmorImbuement> IMBUEMENTS_REGISTRY;
-	private static final FMLControlledNamespacedRegistry<AbstractSpellPart> SPELL_REGISTRY;
-	private static final FMLControlledNamespacedRegistry<Skill> SKILL_REGISTRY;
-	private static final FMLControlledNamespacedRegistry<AbstractFlickerFunctionality> FLICKER_FOCUS_REGISTRY;
+	private static final IForgeRegistry<Affinity> AFFINITY_REGISTRY;
+	private static final IForgeRegistry<AbstractAffinityAbility> ABILITY_REGISTRY;
+	private static final IForgeRegistry<ArmorImbuement> IMBUEMENTS_REGISTRY;
+	private static final IForgeRegistry<AbstractSpellPart> SPELL_REGISTRY;
+	private static final IForgeRegistry<Skill> SKILL_REGISTRY;
+	private static final IForgeRegistry<AbstractFlickerFunctionality> FLICKER_FOCUS_REGISTRY;
 	
 	private static boolean enableTier4 = false;
 	private static boolean enableTier5 = false;
@@ -34,12 +31,12 @@ public class ArsMagicaAPI {
 	
 	
 	static {
-		ABILITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinityabilities"), AbstractAffinityAbility.class, null, 0, Short.MAX_VALUE, false, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY);
-		AFFINITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinities"), Affinity.class, new ResourceLocation("arsmagica2", "none"), 0, Short.MAX_VALUE, false, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY);
-		IMBUEMENTS_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "armorimbuments"), ArmorImbuement.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT);
-		SPELL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "spells"), AbstractSpellPart.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL);
-		SKILL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "skills"), Skill.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL);
-		FLICKER_FOCUS_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "flicker_focus"), AbstractFlickerFunctionality.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.FLICKER_FOCUS, ObjectCallbacks.FLICKER_FOCUS, ObjectCallbacks.FLICKER_FOCUS);
+		AFFINITY_REGISTRY = new RegistryBuilder<Affinity>().setName(new ResourceLocation("arsmagica2", "affinities")).setType(Affinity.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.AFFINITY).create();
+		ABILITY_REGISTRY = new RegistryBuilder<AbstractAffinityAbility>().setName(new ResourceLocation("arsmagica2", "affinityabilities")).setType(AbstractAffinityAbility.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.AFFINITY).create();
+		IMBUEMENTS_REGISTRY =  new RegistryBuilder<ArmorImbuement>().setName(new ResourceLocation("arsmagica2", "armorimbuments")).setType(ArmorImbuement.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.IMBUEMENT).create();
+		SPELL_REGISTRY = new RegistryBuilder<AbstractSpellPart>().setName(new ResourceLocation("arsmagica2", "spells")).setType(AbstractSpellPart.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.SPELL).create();
+		SKILL_REGISTRY = new RegistryBuilder<Skill>().setName(new ResourceLocation("arsmagica2", "skills")).setType(Skill.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.SKILL).create();
+		FLICKER_FOCUS_REGISTRY = new RegistryBuilder<AbstractFlickerFunctionality>().setName(new ResourceLocation("arsmagica2", "flicker_focus")).setType(AbstractFlickerFunctionality.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.FLICKER_FOCUS).create();
 	}
 	
 	//Bonus to max mana.  Applied additively.
@@ -54,12 +51,12 @@ public class ArsMagicaAPI {
 	public static final IAttribute burnoutReductionRate = new RangedAttribute(null, "am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
 
 	
-	public static FMLControlledNamespacedRegistry<Affinity> getAffinityRegistry() {return AFFINITY_REGISTRY;};
-	public static FMLControlledNamespacedRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return ABILITY_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<ArmorImbuement> getArmorImbuementRegistry() {return IMBUEMENTS_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractSpellPart> getSpellRegistry() {return SPELL_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry() {return SKILL_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractFlickerFunctionality> getFlickerFocusRegistry() {return FLICKER_FOCUS_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<Affinity> getAffinityRegistry() {return (FMLControlledNamespacedRegistry<Affinity>)AFFINITY_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return (FMLControlledNamespacedRegistry<AbstractAffinityAbility>)ABILITY_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<ArmorImbuement> getArmorImbuementRegistry() {return (FMLControlledNamespacedRegistry<ArmorImbuement>)IMBUEMENTS_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<AbstractSpellPart> getSpellRegistry() {return (FMLControlledNamespacedRegistry<AbstractSpellPart>)SPELL_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry() {return (FMLControlledNamespacedRegistry<Skill>)SKILL_REGISTRY;}
+	public static FMLControlledNamespacedRegistry<AbstractFlickerFunctionality> getFlickerFocusRegistry() {return (FMLControlledNamespacedRegistry<AbstractFlickerFunctionality>)FLICKER_FOCUS_REGISTRY;}
 	
 	/**
 	 * Enable Tier 4, call in static{} for change to take effect.
