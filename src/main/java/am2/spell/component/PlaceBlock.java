@@ -99,7 +99,7 @@ public class PlaceBlock extends SpellComponent{
 			if (world.isAirBlock(pos) || !world.getBlockState(pos).isSideSolid(world, pos, blockFace))
 				blockFace = null;
 			if (blockFace != null){
-				pos = pos.offset(blockFace);
+				pos = pos.add(blockFace.getDirectionVec());
 			}
 			if (world.isAirBlock(pos) || !world.getBlockState(pos).getMaterial().isSolid()){
 				ItemStack searchStack = new ItemStack(bd.getBlock(), 1, bd.getBlock().getMetaFromState(bd));
