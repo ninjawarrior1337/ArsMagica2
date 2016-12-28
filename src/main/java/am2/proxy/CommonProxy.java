@@ -188,6 +188,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
@@ -376,6 +377,7 @@ public class CommonProxy implements IGuiHandler{
 		NPCSpells.instance.toString();
 		PotionEffectsDefs.init();
 		items = new ItemDefs();
+		ItemDefs.initEnchantedItems();
 		blocks = new BlockDefs();
 		blocks.preInit();
 		new CreativeTabsDefs();
@@ -387,6 +389,8 @@ public class CommonProxy implements IGuiHandler{
 		if (ArsMagica2.config.getEnableWitchwoodForest()){
 			BiomeDictionary.registerBiomeType(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
 			BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(BiomeWitchwoodForest.instance, 6));
+			int id = (BiomeWitchwoodForest.getBiomeId() != -1) ? BiomeWitchwoodForest.getBiomeId() : BiomeWitchwoodForest.getNextFreeBiomeId();
+			Biome.registerBiome(id, BiomeWitchwoodForest.instance.getBiomeName(), BiomeWitchwoodForest.instance);
 		}
 	}
 	

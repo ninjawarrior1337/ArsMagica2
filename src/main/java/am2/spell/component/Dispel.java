@@ -48,40 +48,30 @@ public class Dispel extends SpellComponent{
 				return true;
 			}
 		}
-
 		List<Potion> effectsToRemove = new ArrayList<>();
-
-		Iterator<PotionEffect> iter = ((EntityLivingBase)target).getActivePotionEffects().iterator();
-
 		int magnitudeLeft = 6;
-
+		Iterator<PotionEffect> iter = ((EntityLivingBase)target).getActivePotionEffects().iterator();
 		while (iter.hasNext()){
 			Potion potion = ((PotionEffect)iter.next()).getPotion();
-//			if (PotionEffectsDefs.isDispelBlacklisted(potionID)){
-//				continue;
-//			}
-			PotionEffect pe = ((EntityLivingBase)target).getActivePotionEffect(potion);
 
+			PotionEffect pe = ((EntityLivingBase)target).getActivePotionEffect(potion);
 			int magnitudeCost = pe.getAmplifier();
 
 			if (magnitudeLeft >= magnitudeCost){
 				magnitudeLeft -= magnitudeCost;
-				effectsToRemove.add(potion);
-
 				if (pe instanceof BuffEffect && !world.isRemote){
 					((BuffEffect)pe).stopEffect((EntityLivingBase)target);
 				}
+				effectsToRemove.add(potion);
 			}
+
 		}
 
-		if (effectsToRemove.size() == 0 && EntityExtension.For((EntityLivingBase)target).getCurrentSummons() == 0){
+		if (effectsToRemove.size() == 0 && EntityExtension.For((EntityLivingBase)target).getCurrentSummons() == 0)
 			return false;
-		}
 
-		if (!world.isRemote){
+		if (!world.isRemote)
 			removePotionEffects((EntityLivingBase)target, effectsToRemove);
-		}
-
 		//TODO:
 		/*if (ExtendedProperties.For((EntityLivingBase)target).getNumSummons() > 0){
 			if (!world.isRemote){
@@ -112,7 +102,7 @@ public class Dispel extends SpellComponent{
 					((EntityPlayer)target).capabilities.allowFlying = false;
 				}
 			}
-			target.removeActivePotionEffect(i);
+			target.removePotionEffect(i);
 		}
 	}
 

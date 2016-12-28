@@ -56,18 +56,19 @@ public class Disarm extends SpellComponent{
 				return true;
 			((EntityPlayer)target).dropItem(true);
 			return true;
-		}else if (target instanceof EntityMob && ((EntityMob)target).getActiveItemStack() != null){
+		}else if (target instanceof EntityMob && ((EntityMob)target).getHeldItemMainhand() != null){
 
 			if (EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityMob)target).getActiveItemStack()) > 0)
 				return true;
 
 			if (!world.isRemote){
 				EntityItem item = new EntityItem(world);
-				ItemStack dropstack = ((EntityMob)target).getActiveItemStack().copy();
+				ItemStack dropstack = ((EntityMob)target).getHeldItemMainhand().copy();
 				if (dropstack.getMaxDamage() > 0)
 					dropstack.setItemDamage((int)Math.floor(dropstack.getMaxDamage() * (0.8f + (world.rand.nextFloat() * 0.19f))));
 				item.setEntityItemStack(dropstack);
 				item.setPosition(target.posX, target.posY, target.posZ);
+				item.setDefaultPickupDelay();
 				world.spawnEntityInWorld(item);
 			}
 			((EntityMob)target).setItemStackToSlot(EntityMob.getSlotForItemStack(stack), null);;

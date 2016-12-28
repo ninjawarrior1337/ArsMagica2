@@ -4,17 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.*;
 import java.security.CodeSource;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -128,42 +128,46 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
 	private static final String iconsPath = "/assets/arsmagica2/textures/items/spells/icons/";
 	private static final String iconsPrefix = "items/spells/icons/";
-	
-	private static List<ResourceLocation> getResourceListing() {
+
+	public static List<ResourceLocation> getResourceListing(){
+		ArrayList<ResourceLocation> toReturn = new ArrayList<>();
 		try {
-			CodeSource src = ArsMagica2.class.getProtectionDomain().getCodeSource();
-			ArrayList<ResourceLocation> toReturn = new ArrayList<ResourceLocation>();
-			if (src != null){
-				URL jar = src.getLocation();
-				if (jar.getProtocol() == "jar"){
-					String path = jar.toString().replace("jar:", "").replace("file:", "").replace("!/am2/ArsMagica2.class", "").replace('/', File.separatorChar);
-					path = URLDecoder.decode(path, "UTF-8");
-					JarFile jarFile = new JarFile(path);
-					Enumeration<JarEntry> entries = jarFile.entries();
-					while (entries.hasMoreElements()){
-						JarEntry entry = entries.nextElement();
-						if (entry.getName().startsWith("assets/arsmagica2/textures/items/spells/icons/")){
-							String name = entry.getName().replace("assets/arsmagica2/textures/items/spells/icons/", "");
-							if (name.equals("")) continue;
-							toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + name.replace(".png", "")));
-						}
-					}
-					jarFile.close();
-				}else if (jar.getProtocol() == "file"){
-					String path = jar.toURI().toString().replace("/am2/ArsMagica2.class", iconsPath).replace("file:/", "").replace("%20", " ").replace("/", "\\");
-					File file = new File(path);
-					if (file.exists() && file.isDirectory()){
-						for (File sub : file.listFiles()){
-							toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + sub.getName().replace(".png", "")));
-						}
-					}
-				}
+			URI uri = ArsMagica2.class.getResource(iconsPath).toURI();
+			Path myPath;
+			if (uri.getScheme().equals("jar")){
+				FileSystem fs = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
+				myPath = fs.getPath(iconsPath);
+				toReturn = processDirectory(myPath);
+				fs.close();
 				return toReturn;
 			}else{
+				myPath = Paths.get(uri);
+				toReturn = processDirectory(myPath);
 				return toReturn;
 			}
-		} catch (IOException | URISyntaxException e) {
-			return Lists.newArrayList();
+		} catch (URISyntaxException e){
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
+		return Lists.newArrayList();
+	}
+
+	private static ArrayList<ResourceLocation> processDirectory(Path dir){
+		ArrayList<ResourceLocation> toReturn = new ArrayList<>();
+		try {
+			Stream<Path> walk = Files.walk(dir, 1);
+			for(Iterator<Path> file = walk.iterator(); file.hasNext();){
+				String name = file.next().toString();
+				if (name.lastIndexOf(File.separatorChar) + 1 > name.length()) continue;
+				name = name.substring(name.lastIndexOf(File.separatorChar) + 1);
+				if (name.equals("")) continue;
+				toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + name.replace(".png", "")));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Collections.sort(toReturn, (o1, o2) -> o1.toString().compareTo(o2.toString()));
+		return toReturn;
 	}
 }

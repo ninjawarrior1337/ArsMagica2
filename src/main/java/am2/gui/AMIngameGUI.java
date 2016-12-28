@@ -3,7 +3,11 @@ package am2.gui;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import am2.blocks.BlockManaBattery;
 import am2.commands.ConfigureAMUICommand;
+import am2.defs.BlockDefs;
+import am2.power.PowerNodeRegistry;
+import am2.power.PowerTypes;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import am2.ArsMagica2;
@@ -35,12 +39,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -67,39 +73,45 @@ public class AMIngameGUI extends Gui {
 	}
 
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority= EventPriority.NORMAL)
-	public void renderGameOverlay(RenderGameOverlayEvent e){
+	@SubscribeEvent()
+	public void renderGameOverlay(RenderGameOverlayEvent.Post e){
 		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
 			return;
-		if (!mc.inGameHasFocus)
-			return;
-		ItemStack ci = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-		boolean drawAMHud = !ArsMagica2.config.showHudMinimally() || (ci != null && (ci.getItem() == ItemDefs.spellBook || ci.getItem() == ItemDefs.spell || ci.getItem() == ItemDefs.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
-		ScaledResolution scaledresolution = new ScaledResolution(mc);
-		int i = scaledresolution.getScaledWidth();
-		int j = scaledresolution.getScaledHeight();
-		GlStateManager.pushAttrib();
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-		GlStateManager.disableLighting();
-		GlStateManager.enableAlpha();
-		GlStateManager.enableBlend();
+		if (mc.currentScreen instanceof GuiHudCustomization || mc.inGameHasFocus) {
+			ItemStack ci = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
+			boolean drawAMHud = !ArsMagica2.config.showHudMinimally() || (ci != null && (ci.getItem() == ItemDefs.spellBook || ci.getItem() == ItemDefs.spell || ci.getItem() == ItemDefs.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
+			ScaledResolution scaledresolution = new ScaledResolution(mc);
+			int i = scaledresolution.getScaledWidth();
+			int j = scaledresolution.getScaledHeight();
+			GlStateManager.pushAttrib();
+			GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+			GlStateManager.disableLighting();
+			GlStateManager.enableAlpha();
+			GlStateManager.enableBlend();
 //		if (drawAMHud)
 //			RenderBuffs(i, j);
-		if (drawAMHud)
-			RenderContingency(i, j);
-		if (drawAMHud)
-			RenderArsMagicaGUIItems(i, j, mc.fontRendererObj);
-		if (drawAMHud)
-			RenderAffinity(i, j);
-		RenderArmorStatus(i, j, mc, mc.fontRendererObj);
-		if (drawAMHud)
-			RenderMagicXP(i, j);
-		ItemStack item = mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-		if (item != null && item.getItem() instanceof ItemSpellBook){
-			RenderSpellBookUI(i, j, mc.fontRendererObj, mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND));
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			if (drawAMHud)
+				RenderContingency(i, j);
+			if (drawAMHud)
+				RenderArsMagicaGUIItems(i, j, mc.fontRendererObj);
+			if (drawAMHud)
+				RenderAffinity(i, j);
+			RenderArmorStatus(i, j, mc, mc.fontRendererObj);
+			if (drawAMHud)
+				RenderMagicXP(i, j);
+			ItemStack item = mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
+			if (item != null && item.getItem() instanceof ItemSpellBook) {
+				RenderSpellBookUI(i, j, mc.fontRendererObj, mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND));
+			}
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			GlStateManager.popAttrib();
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.DST_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
+			GlStateManager.enableDepth();
+			GlStateManager.disableAlpha();
+			GlStateManager.resetColor();
+			ConfigureAMUICommand.showIfQueued();
 		}
-		GlStateManager.popAttrib();
-		ConfigureAMUICommand.showIfQueued();
 	}
 
 	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRenderer){
@@ -110,7 +122,6 @@ public class AMIngameGUI extends Gui {
 
 	private void RenderSpellBookUI(int i, int j, FontRenderer fontrenderer, ItemStack bookStack){
 		mc.renderEngine.bindTexture(spellbook_ui);
-		GlStateManager.disableBlend();
 
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -279,7 +290,7 @@ public class AMIngameGUI extends Gui {
 			fontRendererObj.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, hasBonusMana ? 0xeae31c : hasOverloadMana ? 0xFF2020 : 0x2080FF);
 			fontRendererObj.drawString(burnoutStr, burnoutNumericPos.iX + 25 - fontRendererObj.getStringWidth(burnoutStr), burnoutNumericPos.iY, 0xFF2020);
 		}
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		//Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}
 
 //	private ItemStack getSpellFromStack(ItemStack stack){
@@ -658,5 +669,18 @@ public class AMIngameGUI extends Gui {
 			else return 0;
 		}
 
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onItemTooltip(ItemTooltipEvent e){
+		if (e.getItemStack().getItem() instanceof ItemBlock){
+			if (((ItemBlock)e.getItemStack().getItem()).getBlock() instanceof BlockManaBattery)
+			if (e.getItemStack().getTagCompound() != null) {
+				float charge = e.getItemStack().getTagCompound().getFloat("mana_battery_charge");
+				PowerTypes powerType = PowerTypes.getByID(e.getItemStack().getTagCompound().getInteger("mana_battery_powertype"));
+				e.getToolTip().add(String.format("\u00A7r\u00A79Contains \u00A75%.2f %s%s \u00A79etherium", charge, powerType.getChatColor(), powerType.name()));
+			}
+		}
 	}
 }

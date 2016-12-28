@@ -96,7 +96,7 @@ public class MeteorSpawnHelper{
 		pos = correctYCoord(world, pos);
 		if (pos.getY() < 0) return false;
 
-		Biome biome = world.getBiomeGenForCoords(pos);
+		Biome biome = world.getBiome(pos);
 
 		Block block = world.getBlockState(pos).getBlock();
 		return (block == Blocks.OBSIDIAN || block == biome.topBlock.getBlock()) && world.canBlockSeeSky(pos.up());

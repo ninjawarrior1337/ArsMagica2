@@ -249,7 +249,7 @@ public class Appropriation extends SpellComponent{
 
 				if (world.getBlockState(blockPos).equals(Blocks.AIR.getDefaultState())) blockFace = null;
 				if (blockFace != null){
-					blockPos.add(blockFace.getOpposite().getDirectionVec());
+					blockPos = blockPos.add(blockFace.getDirectionVec());
 				}
 
 				if (world.isAirBlock(blockPos) || !world.getBlockState(blockPos).getMaterial().isSolid()){
@@ -257,7 +257,7 @@ public class Appropriation extends SpellComponent{
 					// save current spell
 					NBTTagCompound nbt = null;
 					if (stack.getTagCompound() != null){
-						nbt = (NBTTagCompound)stack.getTagCompound().copy();
+						nbt = stack.getTagCompound().copy();
 					}
 
 

@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
+import am2.api.ArsMagicaAPI;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
@@ -13,11 +14,15 @@ import am2.extensions.EntityExtension;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnchantmentUntouching;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,36 +47,20 @@ public class Dig extends SpellComponent {
 		if (!(caster instanceof EntityPlayer))
 			return false;
 		if (world.isRemote) return true;
+		if (SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)){
+			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0){
+				stack.addEnchantment(Enchantments.SILK_TOUCH, 1);
+			}
+		}
+
 		IBlockState state = world.getBlockState(blockPos);
 		float hardness = state.getBlockHardness(world, blockPos);
 		if (ForgeEventFactory.doPlayerHarvestCheck((EntityPlayer)caster, state, true) && state.getBlockHardness(world, blockPos) != -1 && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
-			IBlockState old = world.getBlockState(blockPos);
-			if (!SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)) {
-				BreakSequence(false, world, blockPos, stack, caster);
-			}else{
-				if (state.getBlock().canSilkHarvest(world, blockPos, state, (EntityPlayer)caster)) {
-					BreakSequence(true, world, blockPos, stack, caster);
-				}else{
-					BreakSequence(false, world, blockPos, stack, caster);
-				}
-			}
+			state.getBlock().harvestBlock(world, (EntityPlayer)caster, blockPos, state, null, stack);
+			world.destroyBlock(blockPos, false);
 			EntityExtension.For(caster).deductMana(hardness * 1.28f);
 		}
 		return true;
-	}
-
-	public void BreakSequence(boolean hasSilk, World world, BlockPos pos, ItemStack stack, EntityLivingBase caster){
-		IBlockState bState = world.getBlockState(pos);
-		if (hasSilk){
-			bState.getBlock().breakBlock(world, pos, bState);
-			world.destroyBlock(pos, false);
-			world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(bState.getBlock())));
-		}else{
-			bState.getBlock().breakBlock(world, pos, bState);
-			bState.getBlock().dropBlockAsItem(world, pos, world.getBlockState(pos), SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL));
-			world.destroyBlock(pos, true);
-			bState.getBlock().dropXpOnBlockBreak(world, pos, bState.getBlock().getExpDrop(bState, world, pos, SpellUtils.getModifiedInt_Add(0, stack, caster, null, world, SpellModifiers.FORTUNE_LEVEL)));
-		}
 	}
 
 	@Override

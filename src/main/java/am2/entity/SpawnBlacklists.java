@@ -45,7 +45,7 @@ public class SpawnBlacklists{
 	public static boolean entityCanSpawnHere(BlockPos pos, World world, EntityLivingBase entity){
 		if (blacklistedDimensionSpawns.containsEntry(world.provider.getDimension(), entity.getClass()))
 			return false;
-		Biome biome = world.getBiomeGenForCoords(pos);
+		Biome biome = world.getBiome(pos);
 		if (blacklistedBiomeSpawns.containsEntry(biome.getBiomeName(), entity.getClass()))
 			return false;
 

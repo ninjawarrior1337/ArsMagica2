@@ -26,7 +26,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
@@ -79,8 +81,9 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			wood = world.getBlockState(pos);
 		}
 
-		pos = pos.up();
+		tree = new HashSet<BlockPos>();
 
+		pos = pos.up();
 		wood = world.getBlockState(pos);
 		if (wood.getBlock().isWood(world, pos)){
 			height = pos.getY();
@@ -269,9 +272,9 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 		float augments = 1.0f;
 		for (Affinity aff : flickers){
 			if (aff == Affinity.LIGHTNING)
-				augments *= 0.5f;
+				base = (int)Math.ceil(base * 0.5f);
 		}
-		return (int)Math.ceil(base * augments);
+		return base;
 	}
 
 	@Override

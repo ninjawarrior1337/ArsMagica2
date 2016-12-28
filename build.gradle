@@ -9,9 +9,6 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
- 		maven {
-			url "http://dvs1.progwml6.com/files/maven"
-		}
 	}
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -36,14 +33,15 @@ version = "${config.version}-${config.build_number}"
 group= "am2" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ArsMagica2"
 
+
 minecraft {
-    version = "1.10.2-12.18.1.2084"
+    version = "1.10.2-12.18.3.2185"
     runDir = "run"
     replace 'GRADLE:BUILD', config.build_number
     replace 'GRADLE:VERSION', config.version
     replaceIn 'ArsMagica2.java'
 	//replace '${version}', project.version
-    mappings = "snapshot_20160518"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
+    mappings = "snapshot_20161111"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
 }
 
 jar {
@@ -54,7 +52,8 @@ jar {
 }
 
 dependencies {
-	deobfCompile "mezz.jei:jei_1.9.4:3.6.8.225"
+	deobfCompile "mezz.jei:jei_${config.mcversion}:${config.jei_version}:api"
+	runtime "mezz.jei:jei_${config.mcversion}:${config.jei_version}"
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
@@ -106,7 +105,7 @@ def parseConfig(File config) {
 }
 
 jar {
-	archiveName = "${baseName}_${version}.jar"
+	archiveName = "${baseName}-${config.mcversion}-${version}.jar"
 }
 
 defaultTasks 'clean', 'build', 'incrementBuildNumber'

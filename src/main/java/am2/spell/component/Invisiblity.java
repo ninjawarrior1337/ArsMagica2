@@ -50,9 +50,8 @@ public class Invisiblity extends SpellComponent implements IRitualInteraction{
 				duration += (3600 * (SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack) + 1));
 				RitualShapeHelper.instance.consumeReagents(this, world, target.getPosition());
 			}
-
 			if (!world.isRemote)
-				((EntityLivingBase)target).addPotionEffect(new PotionEffect(GameRegistry.findRegistry(Potion.class).getValue(new ResourceLocation("invisiblility")), duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+				((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation(new ResourceLocation("invisibility").toString()), duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
 			return true;
 		}
 		return false;

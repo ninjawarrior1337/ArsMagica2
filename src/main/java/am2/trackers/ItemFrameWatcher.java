@@ -69,39 +69,41 @@ public class ItemFrameWatcher{
 		int radius = 3;
 
 		boolean shouldRemove = true;
+		Integer time;
 
 		EntityItemFrame frame = frameComp.frame;
+		time = watchedFrames.get(frameComp);
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
 				for (int k = -radius; k <= radius; ++k){
 
 					if (frame.worldObj.getBlockState(frame.getPosition().add(i, j, k)).getBlock() == BlockDefs.liquid_essence.getBlock()){
-						Integer time = watchedFrames.get(frameComp);
 						if (time == null){
 							time = 0;
 						}
 						time++;
 
-						watchedFrames.put(frameComp, time);
+
 
 						if (time >= processTime){
 							if (!frame.worldObj.isRemote){
 								frame.setDisplayedItem(new ItemStack(ItemDefs.arcaneCompendium));
-								return true;
+								shouldRemove = true;
+								break;
 							}
 						}else{
 							shouldRemove = false;
-							if (frame.worldObj.isRemote){
+							if (frame.worldObj.isRemote && (time / 64) % 1 == 0){
 								spawnCompendiumProgressParticles(frame, frame.getPosition().add(i, j, k));
 							}
 						}
 					}
-
 				}
 			}
 		}
 
+		watchedFrames.put(frameComp, time);
 		return shouldRemove;
 	}
 

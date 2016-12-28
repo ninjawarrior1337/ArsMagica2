@@ -243,6 +243,17 @@ entity.arsmagica2.Broom.name=Broom
 entity.arsmagica2.Darkling.name=Darkling
 entity.arsmagica2.HellCow.name=Hell Cow
 
+entity.arsmagica2.WinterGuardian.name=Winter Guardian
+entity.arsmagica2.LightningGuardian.name=Lightning Guardian
+entity.arsmagica2.WaterGuardian.name=Water Guardian
+entity.arsmagica2.EarthGuardian.name=Earth Guardian
+entity.arsmagica2.LifeGuardian.name=Life Guardian
+entity.arsmagica2.ArcaneGuardian.name=Arcane Guardian
+entity.arsmagica2.EnderGuardian.name=Ender Guardian
+entity.arsmagica2.NatureGuardian.name=Nature Guardian
+entity.arsmagica2.FireGuardian.name=Fire Guardian
+entity.arsmagica2.AirGuardian.name=Air Guardian
+
 itemGroup.am2.blocks=Ars Magica 2 Blocks
 itemGroup.am2.items=Ars Magica 2 Items
 
@@ -464,7 +475,7 @@ skill.arsmagica2:invisibility.name=Invisibility
 skill.arsmagica2:random_teleport.name=Random Teleport
 skill.arsmagica2:attract.name=Attract
 skill.arsmagica2:telekinesis.name=Telekinesis
-skill.arsmagica2:blink.name=Blind
+skill.arsmagica2:blink.name=Blink
 skill.arsmagica2:range.name=Range
 skill.arsmagica2:channel.name=Channel
 skill.arsmagica2:radius.name=Radius
@@ -955,7 +966,7 @@ compendium.component.magic_damage.name=Magic Damage
 compendium.component.mana_drain.name=Mana Drain
 compendium.component.mana_link.name=Mana Link
 compendium.component.mana_shield.name=Mana Shield
-compendium.component.mana_shield.name=Mana Blast
+compendium.component.mana_blast.name=Mana Blast
 compendium.component.mark.name=Mark
 compendium.component.moonrise.name=Moonrise
 compendium.component.night_vision.name=Night Vision
@@ -1084,6 +1095,7 @@ compendium.shape.contingency_death.name=Contingency : Death
 compendium.shape.binding.name=Binding
 compendium.shape.wall.name=Wall
 compendium.shape.wave.name=Wave
+compendium.shape.toggle.name=Toggle
 
 compendium.projectile.page1=You are able to focus your will into a concentrated ball, which you can propel forwards away from you. The projectile will last for 5 seconds of flight, or until it strikes something. It will by default pass through water and non-collidable blocks unless you modify it with target non-solid blocks.
 compendium.channel.page1=Through intense concentration, a mage can maintain a flow of magic on themselves. This is useful for things like Telekinesis, Healing, Attract, and Storm.
@@ -1102,7 +1114,7 @@ compendium.contingency_death.page1=You may get me, but in those few seconds it t
 compendium.binding.page1=You can create solid objects out of nothing! The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability. Dropping the item with the drop hotkey (default 'q') will instead unbind it.
 compendium.wall.page1=You can manifest a wall in front of you. The wall will run perpendicular to your current direction. Walls function similarly to zones, but with a different form factor. Walls also apply their effects more rapidly.
 compendium.wave.page1=Project a wave of magic in front of you that rolls forward, applying its effect to everything in its path.
-
+compendium.toggle.page1=Modify your spell to be a continuous cast! While you may not be able to have multiple spells with this shape cast at once, sure there's some use for it...
 #Modifiers
 
 compendium.category.modifier.name=Modifiers
@@ -1212,6 +1224,9 @@ compendium.mechanic.affinity.lightning_affinity.name=Lightning Affinity
 compendium.mechanic.affinity.life_affinity.name=Life Affinity
 compendium.mechanic.affinity.arcane_affinity.name=Arcane Affinity
 compendium.mechanic.affinity.ender_affinity.name=Ender Affinity
+
+compendium.mechanic.enchants.magic_resist.name=Enchant: Magic Resist
+compendium.mechanic.enchants.soulbound.name=Enchant: Soulbound
 
 compendium.affinities.page1=#5Affinity#0 represents a bond to certain areas of magic. You start with no affinity. Your affinity is represented as a small chart on the HUD, and can be viewed in more detail at an Occulus (craftable Block). 
 compendium.affinities.page2=Your affinity will shift based on what spells you cast, meaning as you cast certain types of spells more often, you will get better at them. Casting spells of a differing affinity will shift you towards that affinity. Once you reach 100% in an affinity, you become locked to that affinity, and will need to read an opposing affinity tome to unlock your affinity, at which point normal progression will resume.
@@ -1330,7 +1345,7 @@ compendium.gateway.page2=Only then by activating another gateway with a matching
 compendium.category.block.name=Blocks
 compendium.category.block.illusionblocks.name=Illusion Blocks
 compendium.category.block.crystalmarker.name=Crystal Marker
-compendium.category.block.inlay.name=Inlays
+compendium.category.block.inlays.name=Inlays
 
 compendium.block.obelisk.name=Obelisk
 compendium.block.mana_drain_block.name=Draining Well
@@ -1372,7 +1387,8 @@ compendium.obelisk.page1=The Obelisk is a runed block that is used to generate #
 compendium.obelisk.page2=The Obelisk is somewhat of a magical furnace. It can generate Etherium by burning #5Vinteum Dust#0 or #5Liquid Etherium#0 out of a bucket. The Obelisk generates #5Neutral Etherium#0.
 compendium.obelisk.page3=The structure depicted here does not have to be built all at once; it can be built in sections. The #9Wizard's Chalk Circle#0 is a standalone upgrade that when completed, will increase the output of the Obelisk's burn capabilities. The #9Pillars#0 are another upgrade, and will further increase the output of the Obelisk. !d If space is a concern however, these upgrades are not required for the Obelisk to function.
 compendium.mana_drain_block.page1=The Draining Well is a way for mages to convert their mana into etherium, unfortunatly due to the nature of mana, only neutral etherium is produced. Using redstone it is possible to create mana out of etherium. !d The Draining Well requires a multiblock structure to function.
-compendium.essence_refiner.page1=The essence refiner takes everyday items and using #5Arcane Ash#0, refines them into a pure representation of their parts, known as #5essences#0. The recipes for specific essences can be found under #9Items -> Essences#0. The essence refiner also requires #2Etherium#0 to function. Neutral Etherium can be obtained from an #9Obelisk#0, which has no specific advantages or drawbacks. Finally, Dark Etherium can be used from a #9Black Aurem#0, which significantly reduces the amount of time it takes to refine the essence. The spinning ring on the UI will shift from blue to purple as the refinement process progresses and eventually completes. A flashing red ring means there is insufficient Etherium to continue, and the process has been paused.
+compendium.essence_refiner.page1=The essence refiner takes everyday items and using #5Arcane Ash#0, refines them into a pure representation of their parts, known as #5essences#0. The recipes for specific essences can be found under #9Items -> Essences#0. The essence refiner also requires #2Etherium#0 to function. Neutral Etherium can be obtained from an #9Obelisk#0, which has no specific advantages or drawbacks. Finally, Dark Etherium can be used from a #9Black Aurem#0, which significantly reduces the amount of time it takes to refine the essence.
+compendium.essence_refiner.page2=The spinning ring on the UI will shift from blue to purple as the refinement process progresses and eventually completes. A flashing red ring means there is insufficient Etherium to continue, and the process has been paused.
 compendium.essence_conduit.page1=Infused with dusts to direct Etherium through the air, the Etherium Conduit began seeing heavy use almost immediately after its invention. They can be used to transfer Etherium over longer distances than the direct range of Etherium generation apparatus. Each one has a range of 10 blocks, and can form chains to move Etherium up to 100 blocks away from the origin.
 compendium.seer_stone.page1=Operating on a similar principle as the Astral Barrier, the Seer Stone uses an Etherium aura projected through a spell focus to detect nearby objects. It can be controlled by focusing the Etherium to a particular type of object, and the resonant frequency of the Etherium can be dictated with the use of a rune combination. Without the use of a rune combination, the resonant frequency fluxuates unpredictably and cannot be avoided. The seer stone, however, is meant for a more subtle approach, letting the object continue, but emitting a small signal that often activates much more powerful defenses. By sneaking up and activating the stone, one can even (if he has the correct key of course) cause the stone to invert its detection methods, detecting those with the matching keystone combination. !d Different #5Foci#0 can be used in the Seer Stone. #5Lesser, Standard, and Greater foci#0 change the detection distance of the stone (5, 10, or 15 blocks respectively), while #5Item, Player, Monster, or Creature foci#0 can change what the seer stone is looking for. Without a target focus and a distance focus, the seer stone will not function. !d A keystone is searched for in the case of a player. If the player has a keystone in their inventory matching the rune combination in the seer stone, the seer stone will ignore them and will not trigger. 
 compendium.astral_barrier.page1=When walking the void, one must be aware of barriers. Projecting an Etherium aura through a spell focus, these barriers resonate at a specific magical frequency, dictated by a keytstone. Without the proper matching keystone, these barriers will destabilize your magics and force you out of the void. Should the astral barrier not have a keystone present, its magic frequency will fluxuate unpredictably, and no amount of Keystones can protect you from its effects. Several Dark Magi raids have been foiled and several Light Magi have been captured due to their failure to spot the barrier in time. !d Different #5Foci#0 can be used in the Astral Barrier. #5Lesser, Standard, and Greater foci#0 change the distance of the barrier, to 5, 10, or 15 blocks respectively. Without a distance focus, the barrier will not function. !d The barrier will stop teleportation into its radius, including ender pearls, blink, mark/recall, and endermen.

@@ -30,7 +30,7 @@ public class Toggle extends SpellShape {
 
 	@Override
 	public float manaCostMultiplier(ItemStack spellStack) {
-		return 0.1f;
+		return 0.7f;
 	}
 
 	@Override

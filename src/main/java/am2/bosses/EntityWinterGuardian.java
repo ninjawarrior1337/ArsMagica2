@@ -90,7 +90,7 @@ public class EntityWinterGuardian extends AM2Boss{
 
 	@Override
 	public void onUpdate(){
-		if (worldObj.getBiomeGenForCoords(getPosition()).getEnableSnow() && worldObj.getWorldInfo().isRaining()){
+		if (worldObj.getBiome(getPosition()).getEnableSnow() && worldObj.getWorldInfo().isRaining()){
 			if (worldObj.isRemote){
 				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", posX + (rand.nextFloat() * 6 - 3), posY + 2 + (rand.nextFloat() * 2 - 1), posZ + (rand.nextFloat() * 6 - 3));
 				if (particle != null){

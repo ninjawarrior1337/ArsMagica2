@@ -20,9 +20,7 @@ public class AMEnchantmentHelper implements IAMEnchantmentHelper{
 	}
 
 	public static ItemStack soulbindStack(ItemStack stack){
-		Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
-		map.put(AMEnchantments.soulbound, 1);
-		EnchantmentHelper.setEnchantments(map, stack);
+		stack.addEnchantment(AMEnchantments.soulbound, 1);
 		return stack;
 	}
 

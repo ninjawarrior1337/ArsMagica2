@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import am2.blocks.render.TileCraftingAltarRenderer;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
@@ -499,11 +500,7 @@ private IBlockState mimicState;
 	@Override
 	public void update(){
 		super.update();
-		this.ticksExisted++;
-
-		//this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
-		//if (this.ticksExisted%2 != 0)
-		//	return;
+		ticksExisted++;
 		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
@@ -516,7 +513,7 @@ private IBlockState mimicState;
 				return;
 			}
 			if (worldObj.isRemote && checkCounter == 1){
-				ArsMagica2.proxy.particleManager.RibbonFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() - 2, pos.getZ() + 0.5, pos.getX() + 0.5, pos.getY() - 3, pos.getZ() + 0.5);
+			ArsMagica2.proxy.particleManager.RibbonFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() - 2, pos.getZ() + 0.5, pos.getX() + 0.5, pos.getY() - 3, pos.getZ() + 0.5);
 			}
 			List<EntityItem> components = lookForValidItems();
 			ItemStack stack = getNextPlannedItem();
@@ -741,6 +738,8 @@ private IBlockState mimicState;
 
 	private void checkStructure(){
 		maxEffects = 0;
+		if (checkCounter++ > 50)
+			checkCounter = 0;
 		if (primary.matches(worldObj, pos)) {
 			for (MultiblockGroup matching : primary.getMatchingGroups(worldObj, pos)) {
 				for (IBlockState state : matching.getStates()) {

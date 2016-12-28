@@ -6,21 +6,16 @@ import java.util.Random;
 
 import am2.ArsMagica2;
 import am2.blocks.tileentity.TileEntityManaBattery;
-import am2.entity.EntityDummyCaster;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
-import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -28,7 +23,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,7 +40,7 @@ public class BlockManaBattery extends BlockAMPowered{
 		if (!super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ))
 			return true;
 
-		if (worldIn.isRemote){
+		if (!worldIn.isRemote){
 			TileEntityManaBattery te = getTileEntity(worldIn, pos);
 			if (te != null){
 				if (ArsMagica2.config.colourblindMode()){
@@ -91,7 +85,7 @@ public class BlockManaBattery extends BlockAMPowered{
 
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		List<ItemStack> drops = Lists.newArrayList();
+		List<ItemStack> drops = new ArrayList<ItemStack>();
 		Random rand = world instanceof World ? ((World)world).rand : RANDOM;
 
 		ItemStack stack = new ItemStack(this, 1);

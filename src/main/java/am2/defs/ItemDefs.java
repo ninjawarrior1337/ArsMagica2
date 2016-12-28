@@ -381,6 +381,11 @@ public class ItemDefs {
 		renderItem.getItemModelMesher().register(spell, new SpellRenderer());
 		
 		
+
+
+	}
+
+	public static void initEnchantedItems(){
 		natureScytheEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(natureScythe));
 		arcaneSpellBookEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(arcaneSpellbook));
 		winterArmEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(winterArm));
@@ -391,7 +396,6 @@ public class ItemDefs {
 		enderBootsEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(enderBoots));
 		lightningCharmEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(lightningCharm));
 		lifeWardEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(lifeWard));
-
 	}
 	
 	@SideOnly(Side.CLIENT)

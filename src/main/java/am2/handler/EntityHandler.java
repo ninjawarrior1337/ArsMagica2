@@ -1,7 +1,12 @@
 package am2.handler;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import am2.defs.PotionEffectsDefs;
+import am2.entity.EntitySpellProjectile;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.AxisAlignedBB;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
@@ -37,6 +42,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityItem;
@@ -116,8 +122,6 @@ public class EntityHandler {
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxBurnoutBonus);
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.maxManaBonus);
 			living.getAttributeMap().registerAttribute(ArsMagicaAPI.xpGainModifier);
-		}else if (event.getEntity() instanceof EntityItemFrame){
-			ArsMagica2.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.getEntity());
 		}
 	}
 	
@@ -200,7 +204,46 @@ public class EntityHandler {
 				}
 			}
 		}
-		
+
+		// Reflect Spell
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.spellReflect)){
+			int d0 = 3;
+			AxisAlignedBB bb = new AxisAlignedBB(event.getEntityLiving().posX - 0.5, event.getEntityLiving().posY - 0.5, event.getEntityLiving().posZ - 0.5, event.getEntityLiving().posX + 0.5, event.getEntityLiving().posY + 0.5, event.getEntityLiving().posZ + 0.5).expand(d0, d0, d0);
+			List entityList = event.getEntityLiving().getEntityWorld().getEntitiesWithinAABB(Entity.class, bb);
+
+            for (Object thing : entityList){
+                if (!(thing instanceof EntitySpellProjectile)) continue;
+                EntitySpellProjectile projectile = (EntitySpellProjectile)thing;
+                if (projectile.getShooter() == event.getEntityLiving()) continue;
+                double rX = projectile.posX - event.getEntityLiving().posX;
+                double rY = projectile.posY - event.getEntityLiving().posY;
+                double rZ = projectile.posZ - event.getEntityLiving().posZ;
+                System.out.println("Reflecting entity");
+                double angle = (rX * projectile.motionX + rZ * projectile.motionZ) / (Math.sqrt(rX * rX + rZ * rZ) * Math.sqrt(projectile.motionX * projectile.motionX + projectile.motionZ * projectile.motionZ));
+                angle = Math.acos(angle);
+
+                if (angle < 3 * (Math.PI / 4)) continue;
+                double curvVel = Math.sqrt(rX * rX + rY * rY + rZ * rZ);
+
+                rX /= curvVel;
+                rY /= curvVel;
+                rZ /= curvVel;
+
+                double newVel = Math.sqrt(projectile.motionX * projectile.motionX + projectile.motionY * projectile.motionY + projectile.motionZ * projectile.motionZ);
+
+                projectile.motionX = newVel * rX;
+                //projectile.motionY = newVel * rY;
+                projectile.motionZ = newVel * rZ;
+            }
+		}
+
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.wateryGrave) && event.getEntityLiving().isInWater())
+		    event.getEntityLiving().addVelocity(0, -0.1, 0);
+        else if(event.getEntityLiving().isPotionActive(PotionEffectsDefs.entangle)){
+            event.getEntityLiving().motionX = 0;
+            event.getEntityLiving().motionY = 0;
+            event.getEntityLiving().motionZ = 0;
+        }
 		//Contingency
 		ContingencyType type = ext.getContingencyType();
 		if (event.getEntityLiving().isBurning() && type == ContingencyType.FIRE) {

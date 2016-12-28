@@ -63,8 +63,7 @@ public class GuiBlockAccess implements IBlockAccess{
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public Biome getBiomeGenForCoords(BlockPos pos){
+	public Biome getBiome(BlockPos blockPos) {
 		return GameRegistry.findRegistry(Biome.class).getValue(new ResourceLocation("plains"));
 	}
 

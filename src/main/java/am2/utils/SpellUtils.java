@@ -76,10 +76,8 @@ public class SpellUtils {
 		NBTTagList stageTag = NBTUtils.addCompoundList(am2Tag, STAGE + stage);
 		String shapeName = "null";
 		for (int i = 0; i < stageTag.tagCount(); i++) {
-			System.out.println("Tag " + i + ": " + stageTag.getCompoundTagAt(i).getString(TYPE));
 			if (stageTag.getCompoundTagAt(i).getString(TYPE).equals(TYPE_SHAPE)) {
 				shapeName = stageTag.getCompoundTagAt(i).getString(ID);
-				System.out.println("Shape Name: " + shapeName);
 				break;
 			}
 		}
@@ -111,6 +109,8 @@ public class SpellUtils {
 	
 	public static boolean modifierIsPresent (SpellModifiers mod, ItemStack stack) {
 		ArrayList<SpellModifier> mods = getModifiersForStage(stack, -1);
+		if (mods.isEmpty())
+			return false;
 		for (SpellModifier m : mods) {
 			if (m.getAspectsModified().contains(mod)) 
 				return true;
@@ -207,7 +207,7 @@ public class SpellUtils {
 	
 	private static void dropHead(Entity target, World world){
 		if (target.getClass() == EntitySkeleton.class){
-			if (((EntitySkeleton)target).func_189771_df() == SkeletonType.WITHER){
+			if (((EntitySkeleton)target).getSkeletonType() == SkeletonType.WITHER){
 				dropHead_do(world, target.posX, target.posY, target.posZ, 1);
 			}else{
 				dropHead_do(world, target.posX, target.posY, target.posZ, 0);
@@ -650,6 +650,8 @@ public class SpellUtils {
 	
 	public static ArrayList<SpellModifier> getModifiersForStage (ItemStack stack, int stage) {
 		ArrayList<SpellModifier> mods = new ArrayList<SpellModifier>();
+		if (stack.getTagCompound() == null)
+			return mods;
 		if (stage != -1) {
 			NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + stage);
 			for (int i = 0; i < stageTag.tagCount(); i++) {
@@ -660,7 +662,8 @@ public class SpellUtils {
 				}
 			}
 		} else {
-			for (int j = 0; j <= NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) { 
+			for (int j = 0; j <= NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) {
+
 				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);

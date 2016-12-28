@@ -129,7 +129,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		ArrayList<ItemStack> recipeItems = new ArrayList<ItemStack>();
 		if (checkStack == null)
 			return false;
-		if (checkStack.getItem() == ItemDefs.spell){
+		if (checkStack.getItem()== ItemDefs.spell){
 			int numStages = SpellUtils.numStages(checkStack);
 
 			for (int i = 0; i < numStages; ++i){
@@ -179,7 +179,9 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 			for (int i = 0; i < numShapeGroups; ++i){
 				ArrayList<AbstractSpellPart> parts = SpellUtils.getShapeGroupParts(checkStack, i);
 				for (AbstractSpellPart entry : parts){
-					Object[] componentParts = ((AbstractSpellPart)entry).getRecipe();
+					Object[] componentParts = null;
+					if (entry != null)
+						componentParts = ((AbstractSpellPart)entry).getRecipe();
 					if (componentParts != null){
 						for (Object o : componentParts){
 							ItemStack stack = objectToItemStack(o);

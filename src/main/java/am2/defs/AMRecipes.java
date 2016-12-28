@@ -224,11 +224,11 @@ public class AMRecipes {
 				Character.valueOf('W'), "plankWood"
 		}));
 
-		GameRegistry.addRecipe(new ItemStack(Blocks.STONEBRICK, 1, 3), new Object[]{
-				"SS",
-				"SS",
-				Character.valueOf('S'), Blocks.STONEBRICK
-		});
+		//GameRegistry.addRecipe(new ItemStack(Blocks.STONEBRICK, 1, 3), new Object[]{
+		//		"SS",
+		//		"SS",
+		//		Character.valueOf('S'), Blocks.STONEBRICK
+		//});
 
 		//Inlays
 

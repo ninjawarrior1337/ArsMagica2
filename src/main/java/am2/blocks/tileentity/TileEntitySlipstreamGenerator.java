@@ -33,15 +33,17 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 
 	@Override
 	public void update(){
-		if (worldObj.isRemote)
-			return;
 		super.update();
-		if (updateTicks++ > 10){
+		updateTicks++;
+		if (updateTicks > 10){
 			refreshPlayerList();
 			updateTicks = 0;
 			if (worldObj.isRemote && levitatingEntities.size() > 0)
 				AMNetHandler.INSTANCE.sendPowerRequestToServer(new AMVector3(this).toVec3D());
 		}
+
+		if (levitatingEntities.isEmpty())
+			return;
 
 		Iterator<EntityPlayer> it = levitatingEntities.iterator();
 		while (it.hasNext()){
@@ -60,13 +62,11 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 				}else{
 					player.fallDistance--;
 				}
-
 				if (!player.isSneaking()){
-					float pitch = player.rotationPitch;
-					float factor = (pitch > 0 ? (pitch - 10) : (pitch + 10)) / -180.0f;
-
+                    float pitch = player.rotationPitch;
+                    float factor = (pitch > 0 ? (pitch - 10) : (pitch + 10)) / -180.0f;
 					if (Math.abs(pitch) > 10f){
-						player.moveEntity(0, factor, 0);
+						player.moveEntity(0, -factor, 0);
 					}
 				}
 

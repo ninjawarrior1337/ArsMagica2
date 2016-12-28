@@ -341,7 +341,7 @@ public class LoreDefs {
 				.addObject("compendium.mana_drain_block.page1")
 				.addObject(new ItemStack(BlockDefs.manaDrain))
 				.addObject(new TileEntityManaDrain().getDefinition()));
-		createItemEntry(BLOCK, "essence_refiner", new ItemStack (BlockDefs.essenceRefiner), 1);
+		createItemEntry(BLOCK, "essence_refiner", new ItemStack (BlockDefs.essenceRefiner), 2);
 		createItemEntry(BLOCK, "essence_conduit", new ItemStack (BlockDefs.essenceConduit), 1);
 		createItemEntry(BLOCK, "seer_stone", new ItemStack (BlockDefs.seerStone), 1);
 		createItemEntry(BLOCK, "astral_barrier", new ItemStack (BlockDefs.astralBarrier), 1);
@@ -419,6 +419,7 @@ public class LoreDefs {
 		createShapeEntry("binding", SpellRegistry.getShapeFromName("arsmagica2:binding"), 1);
 		createShapeEntry("wall", SpellRegistry.getShapeFromName("arsmagica2:wall"), 1);
 		createShapeEntry("wave", SpellRegistry.getShapeFromName("arsmagica2:wave"), 1);
+		createShapeEntry("toggle", SpellRegistry.getShapeFromName("arsmagica2:toggle"), 1);
 	}
 	
 	private static void initComponents() {
