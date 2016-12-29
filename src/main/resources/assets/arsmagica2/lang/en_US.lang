@@ -444,6 +444,7 @@ skill.arsmagica2:chrono_anchor.name=Chrono Anchor
 skill.arsmagica2:duration.name=Duration
 skill.arsmagica2:shrink.name=Shrink
 skill.arsmagica2:healing.name=Healing
+skill.arsmagica2:absorption.name=Absorption
 skill.arsmagica2:contingency_health.name=Contingency : Health
 skill.arsmagica2:contingency_damage.name=Contingency : Damage
 
@@ -919,6 +920,7 @@ am2.chat.ability_night_vision=§dDark Vision
 
 compendium.category.component.name=Components
 
+compendium.component.absorption.name=Absorption
 compendium.component.accelerate.name=Accelerate
 compendium.component.appropriation.name=Appropiation
 compendium.component.astral_distortion.name=Astral Distortion
@@ -995,6 +997,7 @@ compendium.component.water_breathing.name=Water Breathing
 compendium.component.watery_grave.name=Watery Grave
 compendium.component.wizards_autumn.name=Wizard's Autumn
 
+compendium.absorption.page1=As a faint light shimmered across his skin, the mage felt his resilience grow for a short while.
 compendium.accelerate.page1=This spell causes targeted blocks to tick faster. Note that it does not make tile entities any quicker. This spell is best used in a shape like beam, wall, or zone, due to its need to be cast multiple times to have any real effect.
 compendium.appropriation.page1=You can appropriate one block or entity into your spell. Casting the spell again will place a picked up entity or block at the targeted location.
 compendium.astral_distortion.page1=As I tried to step into the void, the warp shimmered and seemed to solidify. I walked face first into it, much to the amusement of my students. This effect seemed to prevent my teleportation abilities entirely. I had to turn this against Endermen as well.

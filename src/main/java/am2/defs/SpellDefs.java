@@ -3,6 +3,7 @@ package am2.defs;
 import am2.api.SpellRegistry;
 import am2.api.skill.SkillPoint;
 import am2.api.spell.SpellShape;
+import am2.spell.component.Absorption;
 import am2.spell.component.Accelerate;
 import am2.spell.component.Appropriation;
 import am2.spell.component.AstralDistortion;
@@ -237,6 +238,8 @@ public class SpellDefs {
 
 		SpellRegistry.registerSpellModifier("duration", getModifierTexture("Duration"), SkillPoint.SKILL_POINT_3, new Duration(), SkillDefs.TREE_DEFENSE, 312, 360, "arsmagica2:chrono_anchor");
 
+		SpellRegistry.registerSpellComponent("absorption", getComponentTexture("Absorption"), SkillPoint.SKILL_POINT_3, new Absorption(), SkillDefs.TREE_DEFENSE, 312, 270, "arsmagica2:shield");
+		
 		SpellRegistry.registerSpellComponent("mana_link", getComponentTexture("ManaLink"), SkillPoint.SILVER_POINT, new ManaLink(), SkillDefs.TREE_DEFENSE, 30, 45);
 		SpellRegistry.registerSpellComponent("mana_shield", getComponentTexture("ManaShield"), SkillPoint.SILVER_POINT, new ManaShield(), SkillDefs.TREE_DEFENSE, 30, 90);
 		SpellRegistry.registerSpellModifier("buff_power", getModifierTexture("BuffPower"), SkillPoint.SILVER_POINT, new BuffPower(), SkillDefs.TREE_DEFENSE, 30, 135);
