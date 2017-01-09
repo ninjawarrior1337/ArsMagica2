@@ -58,7 +58,7 @@ public class EntitySpellProjectile extends Entity {
 	@Override
 	protected void entityInit() {
 		this.getDataManager().register(DW_BOUNCE_COUNTER, 0);
-		this.getDataManager().register(DW_GRAVITY, 0F);
+		this.getDataManager().register(DW_GRAVITY, 0.f);
 		this.getDataManager().register(DW_EFFECT, Optional.<ItemStack>absent());
 		this.getDataManager().register(DW_ICON_NAME, "arcane");
 		this.getDataManager().register(DW_PIERCE_COUNT, 0);
@@ -159,7 +159,7 @@ public class EntitySpellProjectile extends Entity {
 						this.currentPierces++;
 				}
 			}
-			motionY += (float)this.getDataManager().get(DW_GRAVITY);
+			motionY += this.getDataManager().get(DW_GRAVITY);
 			setPosition(posX + motionX, posY + motionY, posZ + motionZ);
 		} catch (NullPointerException e) {
 			this.setDead();
