@@ -245,7 +245,7 @@ public class CommonProxy implements IGuiHandler{
 		
 		worldGen = new AM2WorldDecorator();
 		GameRegistry.registerWorldGenerator(worldGen, 0);
-		
+		GameRegistry.registerFuelHandler(new FuelHandler());
 		EntityManager.instance.registerEntities();
 		EntityManager.instance.initializeSpawns();
 		AMEnchantments.Init();
