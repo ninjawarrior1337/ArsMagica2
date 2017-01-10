@@ -236,13 +236,6 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntitySummoner.class, "TileEntitySummoner");
 		GameRegistry.registerTileEntity(TileEntityManaDrain.class, "TileEntityManaDrain");
 
-		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
-		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
-		CapabilityManager.INSTANCE.register(ISkillData.class, new ISkillData.Storage(), new ISkillData.Factory());
-		CapabilityManager.INSTANCE.register(IRiftStorage.class, new IRiftStorage.Storage(), new IRiftStorage.Factory());
-		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
-		CapabilityManager.INSTANCE.register(IDataSyncExtension.class, new IDataSyncExtension.Storage(), new IDataSyncExtension.Factory());
-		
 		worldGen = new AM2WorldDecorator();
 		GameRegistry.registerWorldGenerator(worldGen, 0);
 		GameRegistry.registerFuelHandler(new FuelHandler());
@@ -251,8 +244,8 @@ public class CommonProxy implements IGuiHandler{
 		AMEnchantments.Init();
 		SkillDefs.init();
 		SpellDefs.init();
-		NPCSpells.instance.toString();
 		PotionEffectsDefs.init();
+		NPCSpells.instance.toString();
 		items = new ItemDefs();
 		ItemDefs.initEnchantedItems();
 		blocks = new BlockDefs();
@@ -260,6 +253,13 @@ public class CommonProxy implements IGuiHandler{
 		new CreativeTabsDefs();
 		initOreDict();
 		new LootTablesArsMagica();
+
+		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
+		CapabilityManager.INSTANCE.register(IAffinityData.class, new IAffinityData.Storage(), new IAffinityData.Factory());
+		CapabilityManager.INSTANCE.register(ISkillData.class, new ISkillData.Storage(), new ISkillData.Factory());
+		CapabilityManager.INSTANCE.register(IRiftStorage.class, new IRiftStorage.Storage(), new IRiftStorage.Factory());
+		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
+		CapabilityManager.INSTANCE.register(IDataSyncExtension.class, new IDataSyncExtension.Storage(), new IDataSyncExtension.Factory());
 	}
 	
 	public void init() {
