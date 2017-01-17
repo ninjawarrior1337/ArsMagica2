@@ -447,6 +447,7 @@ public class AMRecipes {
 
 		//furnace recipes
 		GameRegistry.addSmelting(new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANECOMPOUND), new ItemStack(ItemDefs.itemOre, 2, ItemOre.META_ARCANEASH), 0);
+		GameRegistry.addSmelting(new ItemStack(BlockDefs.witchwoodLog, 1), new ItemStack(Items.COAL, 1, 1), 0.15f);
 
 		addMetaSmeltingRecipe(BlockDefs.ores, EnumOreType.VINTEUM.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM));
 		addMetaSmeltingRecipe(BlockDefs.ores, EnumOreType.SUNSTONE.ordinal(), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE));
