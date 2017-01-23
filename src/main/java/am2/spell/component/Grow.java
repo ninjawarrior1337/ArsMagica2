@@ -76,9 +76,8 @@ public class Grow extends SpellComponent{
 		//Grow huge mushrooms 10% of the time.
 		if (block.getBlock() instanceof BlockMushroom){
 			if (!world.isRemote && world.rand.nextInt(10) < 1){
-				((BlockMushroom)block).grow(world, world.rand, pos, block);
+				((BlockMushroom)block.getBlock()).grow(world, world.rand, pos, block);
 			}
-
 			return true;
 		}
 
