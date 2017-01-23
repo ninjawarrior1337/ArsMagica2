@@ -423,6 +423,7 @@ public class LoreDefs {
 	}
 	
 	private static void initComponents() {
+		createComponentEntry("absorption", SpellRegistry.getComponentFromName("arsmagica2:absorption"), 1);
 		createComponentEntry("accelerate", SpellRegistry.getComponentFromName("arsmagica2:accelerate"), 1);
 		createComponentEntry("appropriation", SpellRegistry.getComponentFromName("arsmagica2:appropriation"), 1);
 		createComponentEntry("astral_distortion", SpellRegistry.getComponentFromName("arsmagica2:astral_distortion"), 1);
