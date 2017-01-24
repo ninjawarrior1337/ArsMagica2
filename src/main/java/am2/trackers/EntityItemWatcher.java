@@ -1,7 +1,6 @@
 package am2.trackers;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import am2.bosses.BossSpawnHelper;
 import am2.defs.BlockDefs;
@@ -46,8 +45,7 @@ public class EntityItemWatcher{
 		watchedItems.removeAll(toRemove);
 		toRemove.clear();
 
-		for (Iterator<EntityItem> iterator = watchedItems.iterator(); iterator.hasNext();){
-			EntityItem item = iterator.next();
+		for (EntityItem item : watchedItems){
 			if (item.isDead){
 				removeWatchedItem(item);
 				continue;
