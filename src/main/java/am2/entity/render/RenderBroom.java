@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderBroom extends RenderLiving<EntityBroom> {
 
-    private static final ResourceLocation rLoc = new ResourceLocation("arsmagica2", "textures/mobs/Broom.png");
+    private static final ResourceLocation rLoc = new ResourceLocation("arsmagica2", "textures/mobs/broom.png");
     private ModelBroom model;
 
     public RenderBroom(RenderManager rendermanagerIn) {
