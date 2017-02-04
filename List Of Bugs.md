@@ -12,7 +12,6 @@ Bugs:
 	- Crafting altar missing texture
 	- the /am2 command to set magic level doesn't sync correctly
 	- Bosses sometime don't drop anything(there's a check that checks to see if YOU did the last hit, sometimes this check is false when it gets killed)
-	- Affinity has no effect on mana cost
 	- Air Guardian locking servers/clients up with spin attack(it locks the server side)
 	- Earth Armor breaks the hand positions
 	- Soulbound missing a texture in the Armor Imbuement Table
