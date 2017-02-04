@@ -52,10 +52,15 @@ public class Dig extends SpellComponent {
 		    return false;
 		}
         if (SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)) {
-            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0) {
-                stack.addEnchantment(Enchantments.SILK_TOUCH, 1);
-            }
-        }
+			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0) {
+				stack.addEnchantment(Enchantments.SILK_TOUCH, 1);
+			}
+		}else if (SpellUtils.modifierIsPresent(SpellModifiers.FORTUNE_LEVEL, stack)){
+
+			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack) <= 0){
+				stack.addEnchantment(Enchantments.FORTUNE, SpellUtils.countModifiers(SpellModifiers.FORTUNE_LEVEL, stack));
+			}
+		}
 
 		IBlockState state = world.getBlockState(blockPos);
 		float hardness = state.getBlockHardness(world, blockPos);
