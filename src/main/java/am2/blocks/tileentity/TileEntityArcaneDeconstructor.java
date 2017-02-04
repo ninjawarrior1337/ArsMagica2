@@ -229,8 +229,8 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 			output = new ItemStack((Item)o);
 		else if (o instanceof Block)
 			output = new ItemStack((Block)o);
-		else if (o instanceof ArrayList)
-			output = objectToItemStack(((ArrayList<Object>)o).get(0));
+		else if (o instanceof List)
+			output = objectToItemStack(((List) o).get(0));
 
 		if (output != null){
 			if (output.stackSize == 0)
