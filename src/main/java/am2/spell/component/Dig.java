@@ -51,6 +51,7 @@ public class Dig extends SpellComponent {
 		if (!ForgeHooks.canHarvestBlock(world.getBlockState(blockPos).getBlock(), (EntityPlayer)caster, world, blockPos)) {
 		    return false;
 		}
+
         if (SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)) {
 			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0) {
 				stack.addEnchantment(Enchantments.SILK_TOUCH, 1);
@@ -64,7 +65,8 @@ public class Dig extends SpellComponent {
 
 		IBlockState state = world.getBlockState(blockPos);
 		float hardness = state.getBlockHardness(world, blockPos);
-		if (state.getBlockHardness(world, blockPos) != -1 && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
+		if (hardness != -1 && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
+			stack.getTagCompound().setBoolean("ArsMagica2.harvestByProjectile", true);
 			state.getBlock().harvestBlock(world, (EntityPlayer)caster, blockPos, state, null, stack);
 			world.destroyBlock(blockPos, false);
 			EntityExtension.For(caster).deductMana(hardness * 1.28f);
@@ -112,7 +114,5 @@ public class Dig extends SpellComponent {
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
 	}
-
-
 
 }
