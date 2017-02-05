@@ -427,7 +427,7 @@ public class SpellUtils {
 			}
 			cost *= modMultiplier;
 			if (caster instanceof EntityPlayer) {
-                if (pAffinity.getAffinityDepth(Affinity.ARCANE) > 50) {
+                if (pAffinity.getAffinityDepth(Affinity.ARCANE) > 0.5f) {
                     float reduction = (float) (1 - (0.5 * pAffinity.getAffinityDepth(Affinity.ARCANE)));
                     cost *= reduction;
                 }
