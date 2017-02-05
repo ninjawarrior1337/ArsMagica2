@@ -6,7 +6,9 @@ import java.util.List;
 import am2.defs.PotionEffectsDefs;
 import am2.entity.EntitySpellProjectile;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
@@ -513,6 +515,20 @@ public class EntityHandler {
 	public void entityJoinWorldEvent(EntityJoinWorldEvent event) {
 		if (event.getEntity() instanceof EntityItem) {
 			EntityItemWatcher.instance.addWatchedItem((EntityItem) event.getEntity());
+		}
+	}
+
+	@SubscribeEvent
+	public void onBlockBreak(BlockEvent.BreakEvent event){
+		if (event.getPlayer().getHeldItemMainhand().getItem() instanceof SpellBase){
+			NBTTagCompound tag = event.getPlayer().getHeldItemMainhand().getTagCompound();
+			if (tag.hasKey("ArsMagica2.harvestByProjectile")){
+				if (tag.getBoolean("ArsMagica2.harvestByProjectile") != true){
+					event.setCanceled(true);
+				}
+			}else{
+				event.setCanceled(true);
+			}
 		}
 	}
 }
