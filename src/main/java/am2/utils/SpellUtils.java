@@ -385,6 +385,8 @@ public class SpellUtils {
 		if (stack.getTagCompound() == null)
 			return 0;
 		ItemStack mergedStack = merge(stack);
+		AffinityData pAffinity = AffinityData.For((EntityLivingBase)caster);
+		Affinity[] affinities = pAffinity.getHighestAffinities();
 		try {
 			float cost = 0;
 			float modMultiplier = 1.0F;
@@ -396,6 +398,16 @@ public class SpellUtils {
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
 						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID));
 						cost += component.manaCost(ArsMagica2.proxy.getLocalPlayer());
+						for (Affinity aff : affinities){
+						    for(Affinity aff2 : component.getAffinity()){
+						        if (aff == aff2 && pAffinity.getAffinityDepth(aff) > 0){
+						            cost = cost - (float)(cost * (0.5f * AffinityData.For((EntityLivingBase)caster).getAffinityDepth(aff)));
+						            break;
+                                }else{
+						            cost = cost + (float)(cost * (0.10f));
+                                }
+                            }
+                        }
 					}
 					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
 						SpellModifier mod = SpellRegistry.getModifierFromName(tmp.getString(ID));
@@ -408,9 +420,10 @@ public class SpellUtils {
 				}
 			}
 			cost *= modMultiplier;
-			float enderDepth = (float)AffinityData.For((EntityLivingBase)caster).getAffinityDepth(Affinity.ENDER);
-			float reduction = 1 - (0.75f * enderDepth);
-			cost = cost * reduction;
+			if (pAffinity.getAffinityDepth(Affinity.ARCANE) > 50){
+			    float reduction = (float)(1 - (0.5 * pAffinity.getAffinityDepth(Affinity.ARCANE)));
+			    cost *= reduction;
+            }
 			return cost;
 		} catch (Exception e) {
 			return 0;
