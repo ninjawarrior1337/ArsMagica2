@@ -1,5 +1,6 @@
 package am2.bosses.ai;
 
+import java.util.Iterator;
 import java.util.List;
 
 import am2.api.DamageSources;
@@ -63,7 +64,8 @@ public class EntityAIHurricane extends EntityAIBase{
 			}
 
 			List<EntityLivingBase> nearbyEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.getEntityBoundingBox().expand(2, 2, 2));
-			for (EntityLivingBase ent : nearbyEntities){
+			for (Iterator<EntityLivingBase> enti = nearbyEntities.iterator();enti.hasNext();){
+				EntityLivingBase ent = enti.next();
 				if (ent == host) continue;
 				AMVector3 movement = MathUtilities.GetMovementVectorBetweenPoints(new AMVector3(host), new AMVector3(ent));
 				float factor = 2.15f;
