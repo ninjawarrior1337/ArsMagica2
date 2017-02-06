@@ -181,6 +181,6 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	public int getHarvestLevel(ItemStack stack, String toolClass, @Nullable EntityPlayer player, @Nullable IBlockState blockState) {
-		return SpellUtils.getModifiedInt_Add(2, stack, (EntityLivingBase)player, (EntityLivingBase)player, player.getEntityWorld(), SpellModifiers.MINING_POWER);
+		return stack.getTagCompound().hasKey("ArsMagica2.harvestByProjectile") && stack.getTagCompound().getBoolean("ArsMagica2.harvestByProjectile") == true ? SpellUtils.getModifiedInt_Add(2, stack, (EntityLivingBase)player, (EntityLivingBase)player, player.getEntityWorld(), SpellModifiers.MINING_POWER) : -1;
 	}
 }

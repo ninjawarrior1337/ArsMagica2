@@ -517,18 +517,4 @@ public class EntityHandler {
 			EntityItemWatcher.instance.addWatchedItem((EntityItem) event.getEntity());
 		}
 	}
-
-	@SubscribeEvent
-	public void onBlockBreak(BlockEvent.BreakEvent event){
-		if (event.getPlayer().getHeldItemMainhand().getItem() instanceof SpellBase){
-			NBTTagCompound tag = event.getPlayer().getHeldItemMainhand().getTagCompound();
-			if (tag.hasKey("ArsMagica2.harvestByProjectile")){
-				if (tag.getBoolean("ArsMagica2.harvestByProjectile") != true){
-					event.setCanceled(true);
-				}
-			}else{
-				event.setCanceled(true);
-			}
-		}
-	}
 }
