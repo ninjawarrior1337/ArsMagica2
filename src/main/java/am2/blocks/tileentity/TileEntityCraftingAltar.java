@@ -769,7 +769,8 @@ private IBlockState mimicState;
 					Integer toAdd = capsPower.get(worldObj.getBlockState(pos.down(4)));
 					maxEffects += toAdd != null ? toAdd : 0;
 				}else if (matching == out || matching == out_alt) {
-					Integer toAdd = structurePower.get(worldObj.getBlockState(pos.down(4).east()));
+					mimicState = worldObj.getBlockState(pos.down(4).east());
+					Integer toAdd = structurePower.get(mimicState);
 					maxEffects += toAdd != null ? toAdd : 0;
 				}
 			}
