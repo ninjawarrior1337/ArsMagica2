@@ -19,6 +19,7 @@ import am2.buffs.BuffEffectAstralDistortion;
 import am2.buffs.BuffEffectManaRegen;
 import am2.defs.BlockDefs;
 import am2.defs.PotionEffectsDefs;
+import am2.entity.*;
 import am2.particles.AMLineArc;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
@@ -202,13 +203,15 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 		for (EntityLivingBase entity : nearbyEntities){
 			if (entity.isEntityInvulnerable(DamageSources.darkNexus) ||
 					!entity.isNonBoss() ||
-//					entity instanceof EntityDarkling ||
-					entity instanceof EntityPlayer// ||
-//					entity instanceof EntityAirSled ||
-//					entity instanceof EntityWinterGuardianArm ||
-//					entity instanceof EntityThrownSickle ||
-//					entity instanceof EntityFlicker ||
-//					entity instanceof EntityShadowHelper
+					entity instanceof EntityDarkling ||
+					entity instanceof EntityPlayer ||
+					entity instanceof EntityAirSled ||
+					entity instanceof EntityWinterGuardianArm ||
+					entity instanceof EntityThrownSickle ||
+					entity instanceof EntityFlicker ||
+					entity instanceof EntityShadowHelper||
+					entity instanceof EntityThrownRock||
+					entity instanceof EntityBroom
 					)
 				continue;
 			if (!cachedEntities.contains(entity))
