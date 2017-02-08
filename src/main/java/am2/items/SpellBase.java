@@ -3,12 +3,14 @@ package am2.items;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.defs.IDDefs;
 import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -21,6 +23,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -29,8 +32,9 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SpellBase extends ItemSpellBase{
+import javax.annotation.Nullable;
 
+public class SpellBase extends ItemSpellBase{
 	public SpellBase(){
 		super();
 		this.setMaxDamage(0);
@@ -62,8 +66,9 @@ public class SpellBase extends ItemSpellBase{
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4){
 		if (!stack.hasTagCompound()) return;
 		
-		float manaCost = SpellUtils.getManaCost(stack);
+		float manaCost = SpellUtils.getManaCost(stack, player);
 		manaCost *= 1F + (float)((float)EntityExtension.For(player).getCurrentBurnout() / (float)EntityExtension.For(player).getMaxBurnout());
+
 		list.add("Mana Cost : " + manaCost);
 	}
 
@@ -167,5 +172,15 @@ public class SpellBase extends ItemSpellBase{
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean onBlockStartBreak(ItemStack p_onBlockStartBreak_1_, BlockPos p_onBlockStartBreak_2_, EntityPlayer p_onBlockStartBreak_3_) {
+		return false;
+	}
+
+	@Override
+	public int getHarvestLevel(ItemStack stack, String toolClass, @Nullable EntityPlayer player, @Nullable IBlockState blockState) {
+		return stack.getTagCompound().hasKey("ArsMagica2.harvestByProjectile") && stack.getTagCompound().getBoolean("ArsMagica2.harvestByProjectile") == true ? SpellUtils.getModifiedInt_Add(2, stack, (EntityLivingBase)player, (EntityLivingBase)player, player.getEntityWorld(), SpellModifiers.MINING_POWER) : -1;
 	}
 }

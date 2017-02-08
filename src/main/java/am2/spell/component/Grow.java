@@ -57,8 +57,7 @@ public class Grow extends SpellComponent{
 		}
 
 		//EoD: Spawn AM2 flowers with 3% chance. This has to be the first one in the list to override all others
-		if (world.rand.nextInt(100) < 3 && block.isNormalCube() &&
-				(world.getBlockState(pos.down()).getBlock().isAir(world.getBlockState(pos.down()), world, pos.down()) || world.getBlockState(pos.up()).getBlock() == Blocks.TALLGRASS)){
+		if (world.rand.nextInt(100) < 3 && block.isNormalCube()){
 			// shuffle the flower list every time we want to try to find one.
 			Collections.shuffle(growableAMflowers);
 
@@ -76,9 +75,8 @@ public class Grow extends SpellComponent{
 		//Grow huge mushrooms 10% of the time.
 		if (block.getBlock() instanceof BlockMushroom){
 			if (!world.isRemote && world.rand.nextInt(10) < 1){
-				((BlockMushroom)block).grow(world, world.rand, pos, block);
+				((BlockMushroom)block.getBlock()).grow(world, world.rand, pos, block);
 			}
-
 			return true;
 		}
 
@@ -106,9 +104,9 @@ public class Grow extends SpellComponent{
 		//EoD: If there is already deadbush present, let's revitalize it 20% of the time.
 		//     This works only on podzol in vanilla MC.
 		if (block.getBlock() == Blocks.DEADBUSH){
-			if (Blocks.TALLGRASS.canBlockStay(world, pos, Blocks.TALLGRASS.getDefaultState())){
+			if (Blocks.DEADBUSH.canBlockStay(world, pos, Blocks.DEADBUSH.getDefaultState())){
 				if (!world.isRemote && world.rand.nextInt(10) < 2){
-					world.setBlockState(pos, Blocks.TALLGRASS.getDefaultState());
+					world.setBlockState(pos, Blocks.DEADBUSH.getDefaultState());
 				}
 				return true;
 			}

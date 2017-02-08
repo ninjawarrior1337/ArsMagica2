@@ -6,7 +6,9 @@ import java.util.List;
 import am2.defs.PotionEffectsDefs;
 import am2.entity.EntitySpellProjectile;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
@@ -377,7 +379,7 @@ public class EntityHandler {
 				if (EntityExtension.For(player).hasEnoughtMana(e.getAmount() * 10)) {
 					stack.getItem().onDroppedByPlayer(stack, player);
 					EntityExtension.For(player).deductMana(e.getAmount() * 10);
-				} else if (EntityExtension.For(player).hasEnoughtMana(SpellUtils.getManaCost(stack))) {
+				} else if (EntityExtension.For(player).hasEnoughtMana(SpellUtils.getManaCost(stack, e.getEntity()))) {
 					EntityLivingBase target = e.getSource().getEntity() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getEntity() : null;
 					double posX = target != null ? target.posX : player.posX;
 					double posY = target != null ? target.posY : player.posY;

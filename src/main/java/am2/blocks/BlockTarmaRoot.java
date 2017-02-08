@@ -55,6 +55,6 @@ public class BlockTarmaRoot extends BlockAMFlower{
 
 	@Override
 	public boolean canGrowOn(World worldIn, BlockPos pos) {
-		return canBlockStay(worldIn, pos, worldIn.getBlockState(pos)) && worldIn.getLight(pos) < 4;
+		return canPlaceBlockAt(worldIn, pos) && worldIn.getLight(pos) < 4;
 	}
 }

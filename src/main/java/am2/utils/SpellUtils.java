@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
+import am2.extensions.AffinityData;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
@@ -380,10 +381,16 @@ public class SpellUtils {
 		return NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum");
 	}
 	
-	public static float getManaCost(ItemStack stack) {
+	public static float getManaCost(ItemStack stack, Entity caster) {
 		if (stack.getTagCompound() == null)
 			return 0;
 		ItemStack mergedStack = merge(stack);
+		AffinityData pAffinity = null;
+		Affinity[] affinities = null;
+		if (caster instanceof EntityPlayer) {
+            pAffinity = AffinityData.For((EntityLivingBase) caster);
+            affinities = pAffinity.getHighestAffinities();
+        }
 		try {
 			float cost = 0;
 			float modMultiplier = 1.0F;
@@ -395,6 +402,18 @@ public class SpellUtils {
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
 						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID));
 						cost += component.manaCost(ArsMagica2.proxy.getLocalPlayer());
+						if (caster instanceof EntityPlayer) {
+                            for (Affinity aff : affinities) {
+                                for (Affinity aff2 : component.getAffinity()) {
+                                    if (aff == aff2 && pAffinity.getAffinityDepth(aff) > 0) {
+                                        cost = cost - (float) (cost * (0.5f * AffinityData.For((EntityLivingBase) caster).getAffinityDepth(aff)));
+                                        break;
+                                    } else {
+                                        cost = cost + (float) (cost * (0.10f));
+                                    }
+                                }
+                            }
+                        }
 					}
 					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
 						SpellModifier mod = SpellRegistry.getModifierFromName(tmp.getString(ID));
@@ -407,6 +426,12 @@ public class SpellUtils {
 				}
 			}
 			cost *= modMultiplier;
+			if (caster instanceof EntityPlayer) {
+                if (pAffinity.getAffinityDepth(Affinity.ARCANE) > 0.5f) {
+                    float reduction = (float) (1 - (0.5 * pAffinity.getAffinityDepth(Affinity.ARCANE)));
+                    cost *= reduction;
+                }
+            }
 			return cost;
 		} catch (Exception e) {
 			return 0;
@@ -451,7 +476,7 @@ public class SpellUtils {
 		if (shape instanceof MissingShape) {
 			return SpellCastResult.MALFORMED_SPELL_STACK;
 		}
-		float manaCost = getManaCost(stack);
+		float manaCost = getManaCost(stack, caster);
 		manaCost *= 1F + (float)((float)EntityExtension.For(caster).getCurrentBurnout() / (float)EntityExtension.For(caster).getMaxBurnout());
 		SpellCastEvent.Pre pre = new SpellCastEvent.Pre(caster, stack, manaCost);
 		MinecraftForge.EVENT_BUS.post(pre);
