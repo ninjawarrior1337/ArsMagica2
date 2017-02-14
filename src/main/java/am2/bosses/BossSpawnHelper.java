@@ -466,7 +466,7 @@ public class BossSpawnHelper{
 
 		for (int i = -1; i <= 1; ++i){
 			for (int j = -1; j <= 1; ++j){
-				hasStructure &= world.getBlockState(pos.add(i, -1, j)) == Blocks.COAL_BLOCK;
+				hasStructure &= world.getBlockState(pos.add(i, -1, j)).getBlock() == Blocks.COAL_BLOCK;
 			}
 		}
 
