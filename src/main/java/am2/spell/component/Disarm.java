@@ -18,6 +18,7 @@ import am2.entity.EntityLightMage;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleMoveOnHeading;
+import am2.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -40,27 +41,40 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class Disarm extends SpellComponent{
 
+public class Disarm extends SpellComponent{	
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+		Random rnd = new Random();
+		double damage = SpellUtils.getModifiedInt_Mul(1, stack, caster, target, world, SpellModifiers.DAMAGE);
 
 		if (target instanceof EntityLightMage || target instanceof EntityDarkMage)
 			return false;
 
 		if (target instanceof EntityPlayer && (!ArsMagica2.config.getDisarmAffectsPlayers() || (!world.isRemote && !FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled())))
 			return false;
-
-		if (target instanceof EntityPlayer && ((EntityPlayer)target).getActiveItemStack() != null && !target.worldObj.isRemote){
-			if (EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityPlayer)target).getActiveItemStack()) > 0)
+		
+		if (target instanceof EntityPlayer && ((EntityPlayer)target).getHeldItemOffhand() != null && !target.worldObj.isRemote && (rnd.nextInt(9) + 1 <= damage)
+			&& EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityPlayer)target).getHeldItemOffhand()) <= 0){
+			//Drop mainhand item? 1 line. You want to drop the offhand? You'd better like workarounds.
+			EntityItem item = new EntityItem(world);
+			ItemStack dropstack = ((EntityPlayer)target).getHeldItemOffhand().copy();
+			item.setEntityItemStack(dropstack);
+			item.setPosition(target.posX, target.posY, target.posZ);
+			item.setDefaultPickupDelay();
+			world.spawnEntityInWorld(item);
+			((EntityPlayer)target).inventory.offHandInventory[0] = null;
+		}
+		
+		if (target instanceof EntityPlayer && ((EntityPlayer)target).getHeldItemMainhand() != null && !target.worldObj.isRemote){
+			if (EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityPlayer)target).getHeldItemMainhand()) > 0)
 				return true;
 			((EntityPlayer)target).dropItem(true);
 			return true;
+			
 		}else if (target instanceof EntityMob && ((EntityMob)target).getHeldItemMainhand() != null){
-
 			if (EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityMob)target).getActiveItemStack()) > 0)
 				return true;
-
 			if (!world.isRemote){
 				EntityItem item = new EntityItem(world);
 				ItemStack dropstack = ((EntityMob)target).getHeldItemMainhand().copy();
@@ -108,7 +122,7 @@ public class Disarm extends SpellComponent{
 	
 	@Override
 	public EnumSet<SpellModifiers> getModifiers() {
-		return EnumSet.noneOf(SpellModifiers.class);
+		return EnumSet.of(SpellModifiers.DAMAGE);
 	}
 
 	@Override
