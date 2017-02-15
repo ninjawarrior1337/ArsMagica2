@@ -95,6 +95,8 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 			return;
 		}else if (source == DamageSource.magic){
 			stack.damageItem(damage * 7, entity);
+		}else if (source.isUnblockable()){
+			return;
 		}
 		else{
 			stack.damageItem(damage * 10, entity);
