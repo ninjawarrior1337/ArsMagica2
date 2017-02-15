@@ -48,8 +48,23 @@ public class Disarm extends SpellComponent{
 		Random rnd = new Random();
 		double damage = SpellUtils.getModifiedInt_Mul(1, stack, caster, target, world, SpellModifiers.DAMAGE);
 
-		if (target instanceof EntityLightMage || target instanceof EntityDarkMage)
+		if (target instanceof EntityLightMage)
 			return false;
+		
+		if (target instanceof EntityDarkMage && !world.isRemote){
+				EntityItem item = new EntityItem(world);
+				ItemStack dropstack = ((EntityMob)target).getHeldItemMainhand().copy();
+				if (dropstack.getMaxDamage() > 0)
+					dropstack.setItemDamage((int)Math.floor(dropstack.getMaxDamage() * (0.8f + (world.rand.nextFloat() * 0.19f))));
+				item.setEntityItemStack(dropstack);
+				item.setPosition(target.posX, target.posY, target.posZ);
+				item.setPickupDelay(15);
+				world.spawnEntityInWorld(item);
+				((EntityDarkMage)target).setItemStackToSlot(EntityMob.getSlotForItemStack(stack), null);
+				((EntityDarkMage)target).disarm();
+
+			return true;
+		}
 
 		if (target instanceof EntityPlayer && (!ArsMagica2.config.getDisarmAffectsPlayers() || (!world.isRemote && !FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled())))
 			return false;
@@ -71,6 +86,19 @@ public class Disarm extends SpellComponent{
 				return true;
 			((EntityPlayer)target).dropItem(true);
 			return true;
+			
+		}else if (target instanceof EntityEnderman){
+			IBlockState blockID = ((EntityEnderman)target).getHeldBlockState();
+
+			if (blockID != null){
+				((EntityEnderman)target).setHeldBlockState(null);
+				ItemStack dropstack = new ItemStack(blockID.getBlock(), 1, blockID.getBlock().getMetaFromState(blockID));
+				EntityItem item = new EntityItem(world);
+				item.setEntityItemStack(dropstack);
+				item.setPosition(target.posX, target.posY, target.posZ);
+				world.spawnEntityInWorld(item);
+			}
+			((EntityMob)target).setAttackTarget(caster);
 			
 		}else if (target instanceof EntityMob && ((EntityMob)target).getHeldItemMainhand() != null){
 			if (EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityMob)target).getActiveItemStack()) > 0)
@@ -104,18 +132,6 @@ public class Disarm extends SpellComponent{
 				((EntityMob)target).tasks.addTask(5, new EntityAIAttackMelee((EntityCreature)target, 0.5, true));
 				((EntityMob)target).setCanPickUpLoot(true);
 			}
-		}else if (target instanceof EntityEnderman){
-			IBlockState blockID = ((EntityEnderman)target).getHeldBlockState();
-
-			if (blockID != null){
-				((EntityEnderman)target).setHeldBlockState(null);
-				ItemStack dropstack = new ItemStack(blockID.getBlock(), 1, blockID.getBlock().getMetaFromState(blockID));
-				EntityItem item = new EntityItem(world);
-				item.setEntityItemStack(dropstack);
-				item.setPosition(target.posX, target.posY, target.posZ);
-				world.spawnEntityInWorld(item);
-			}
-			((EntityMob)target).setAttackTarget(caster);
 		}
 		return false;
 	}
